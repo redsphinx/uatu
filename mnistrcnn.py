@@ -28,10 +28,7 @@ EVAL_FREQUENCY = 100  # Number of steps between evaluations.
 
 FLAGS = None
 
-# rcnn stuff
-IMAGE_WIDTH = 0
-IMAGE_HEIGHT = 0
-NUM_FRAMES = 0
+
 
 
 def data_type():
