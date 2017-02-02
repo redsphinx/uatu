@@ -37,12 +37,16 @@ def create_data():
     labels = balance_data()
     print(labels[-1])
     train = labels[0:len(labels)-VALIDATION_SIZE]
-    validation = labels[len(labels)-VALIDATION_SIZE-1:len(labels)]
+    validation = labels[len(labels)-VALIDATION_SIZE:len(labels)]
     return [train, validation]
+
+
 
 
 def main():
     # extract data into numpy arrays
+
+
     pass
 
 create_data()
