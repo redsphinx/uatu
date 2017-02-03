@@ -137,14 +137,7 @@ def main(_):
         data_type(),
         shape=(EVAL_BATCH_SIZE, IMAGE_SIZE, IMAGE_SIZE, NUM_CHANNELS))
 
-    # rcnn stuff
-    rcnn_train_data_node = tf.placeholder(
-        data_type(),
-        shape=(BATCH_SIZE, NUM_FRAMES, IMAGE_WIDTH, IMAGE_HEIGHT, NUM_CHANNELS))
-    rcnn_train_labels_node = tf.placeholder(tf.int64, shape=(BATCH_SIZE,))
-    rcnn_eval_data = tf.placeholder(
-        data_type(),
-        shape=(EVAL_BATCH_SIZE, NUM_FRAMES, IMAGE_WIDTH, IMAGE_HEIGHT, NUM_CHANNELS))
+
 
     # The variables below hold all the trainable weights. They are passed an
     # initial value which will be assigned when we call:
