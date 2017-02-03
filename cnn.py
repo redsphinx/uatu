@@ -1,8 +1,11 @@
 import tensorflow as tf
-import numpy
+import numpy as np
 import time
 import sys
 import argparse
+import os
+import random as rd
+from PIL import Image
 
 
 IMAGE_HEIGHT = 128
@@ -15,20 +18,73 @@ NUM_LABELS = 2
 SEED = 42
 NUM_EPOCHS = 100
 EVAL_FREQUENCY = 100  # Number of steps between evaluations.
+PIXEL_DEPTH = 255
 
 
-LOCATION_DATA = '/home/gabi/Documents/datasets/MIT_pedestrians/'
+LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/MIT_pedestrian/'
+LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/not_human/'
+
+
+def create_not_humans(num_images):
+    for number in range(0, num_images):
+        imarray = np.random.rand(IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS) * 255
+        im = Image.fromarray(imarray.astype('uint8')).convert('RGBA')
+        im.save(LOCATION_DATA_NEGATIVE + 'not_human_' + str(number) + '.png')
+    pass
+
+
+def create_labels(number):
+    return [1]*number + [0]*number
+
 
 def do_things_data():
-    #TODO
-    pass
+    # split data into train and validation
+    pos_data = os.listdir(LOCATION_DATA_POSITIVE)
+    num_images = len(pos_data)
+
+    if os._exists(LOCATION_DATA_NEGATIVE):
+        if len(os.listdir(LOCATION_DATA_NEGATIVE)) != num_images:
+            print('creating negative instances')
+            create_not_humans(num_images)
+
+    all_data = os.listdir(LOCATION_DATA_POSITIVE) + os.listdir(LOCATION_DATA_NEGATIVE)
+    labels = create_labels(num_images)
+
+    # shuffle
+    data_and_labels = list(zip(all_data, labels))
+    rd.shuffle(data_and_labels)
+    all_data, labels = zip(*data_and_labels)
+
+    percentage_test = 0.2
+    split_here = int((1-percentage_test)*len(all_data))
+
+    train_data = all_data[0:split_here]
+    train_labels = labels[0:split_here]
+
+    validation_data = all_data[split_here:len(all_data)]
+    validation_labels = labels[split_here:len(all_data)]
+
+    train_data_file = 'train_data.csv'
+    train_labels_file = 'train_labels.csv'
+    validation_data_file = 'validation_data.csv'
+    validation_labels_file = 'validation_labels.csv'
+    with open(train_data_file, 'wr') as file:
+        file.write(str(train_data))
+    with open(train_labels_file, 'wr') as file:
+        file.write(str(train_labels))
+    with open(validation_data_file, 'wr') as file:
+        file.write(str(validation_data))
+    with open(validation_labels_file, 'wr') as file:
+        file.write(str(validation_labels))
+
+    return [train_data, train_labels, validation_data, validation_labels]
 
 
 def error_rate(predictions, labels):
     """Return the error rate based on dense predictions and sparse labels."""
     return 100.0 - (
         100.0 *
-        numpy.sum(numpy.argmax(predictions, 1) == labels) /
+        np.sum(np.argmax(predictions, 1) == labels) /
         predictions.shape[0])
 
 
@@ -137,7 +193,7 @@ def main():
         size = data.shape[0]
         if size < EVAL_BATCH_SIZE:
             raise ValueError("batch size for evals larger than dataset: %d" % size)
-        predictions = numpy.ndarray(shape=(size, NUM_LABELS), dtype=numpy.float32)
+        predictions = np.ndarray(shape=(size, NUM_LABELS), dtype=np.float32)
         for begin in range(0, size, EVAL_BATCH_SIZE):
             end = begin + EVAL_BATCH_SIZE
             if end <= size:
@@ -164,7 +220,7 @@ def main():
             offset = (step * BATCH_SIZE) % (train_size - BATCH_SIZE)
             batch_data = train_data[offset:(offset + BATCH_SIZE), ...]
             batch_labels = train_labels[offset:(offset + BATCH_SIZE)]
-            # This dictionary maps the batch data (as a numpy array) to the
+            # This dictionary maps the batch data (as a np array) to the
             # node in the graph it should be fed to.
             feed_dict = {train_data_node: batch_data,
                          train_labels_node: batch_labels}
@@ -189,20 +245,19 @@ def main():
         test_error = error_rate(eval_in_batches(test_data, sess), test_labels)
         print('Test error: %.1f%%' % test_error)
 
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '--use_fp16',
-        default=False,
-        help='Use half floats instead of full floats if True.',
-        action='store_true')
-    parser.add_argument(
-        '--self_test',
-        default=False,
-        action='store_true',
-        help='True if running a self test.')
-
-    FLAGS, unparsed = parser.parse_known_args()
-    tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
+do_things_data()
+# if __name__ == '__main__':
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument(
+#         '--use_fp16',
+#         default=False,
+#         help='Use half floats instead of full floats if True.',
+#         action='store_true')
+#     parser.add_argument(
+#         '--self_test',
+#         default=False,
+#         action='store_true',
+#         help='True if running a self test.')
+#
+#     FLAGS, unparsed = parser.parse_known_args()
+#     tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
