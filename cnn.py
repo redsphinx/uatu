@@ -77,6 +77,11 @@ def do_things_data():
     with open(validation_labels_file, 'wr') as file:
         file.write(str(validation_labels))
 
+    train_data = np.asarray(train_data)
+    train_labels = np.asarray(train_labels)
+    validation_data = np.asarray(validation_data)
+    validation_labels = np.asarray(validation_labels)
+
     return [train_data, train_labels, validation_data, validation_labels]
 
 
@@ -88,18 +93,13 @@ def error_rate(predictions, labels):
         predictions.shape[0])
 
 
-def main():
+def main(_):
     # data stuff
-    train_data = []
-    train_labels = []
     test_data = []
     test_labels = []
 
-    # Generate a validation set.
-    validation_data = []
-    validation_labels = []
-    train_data = []
-    train_labels = []
+    [train_data, train_labels, validation_data, validation_labels] = do_things_data()
+
     num_epochs = NUM_EPOCHS
 
     train_size = train_labels.shape[0]
@@ -242,22 +242,21 @@ def main():
                     eval_in_batches(validation_data, sess), validation_labels))
                 sys.stdout.flush()
         # Finally print the result!
-        test_error = error_rate(eval_in_batches(test_data, sess), test_labels)
-        print('Test error: %.1f%%' % test_error)
+        # test_error = error_rate(eval_in_batches(test_data, sess), test_labels)
+        # print('Test error: %.1f%%' % test_error)
 
-do_things_data()
-# if __name__ == '__main__':
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument(
-#         '--use_fp16',
-#         default=False,
-#         help='Use half floats instead of full floats if True.',
-#         action='store_true')
-#     parser.add_argument(
-#         '--self_test',
-#         default=False,
-#         action='store_true',
-#         help='True if running a self test.')
-#
-#     FLAGS, unparsed = parser.parse_known_args()
-#     tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--use_fp16',
+        default=False,
+        help='Use half floats instead of full floats if True.',
+        action='store_true')
+    parser.add_argument(
+        '--self_test',
+        default=False,
+        action='store_true',
+        help='True if running a self test.')
+
+    FLAGS, unparsed = parser.parse_known_args()
+    tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
