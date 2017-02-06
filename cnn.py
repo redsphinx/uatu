@@ -6,7 +6,7 @@ import argparse
 import os
 import random as rd
 from PIL import Image
-
+from scipy import ndimage
 
 IMAGE_HEIGHT = 128
 IMAGE_WIDTH = 64
@@ -18,11 +18,11 @@ NUM_LABELS = 2
 SEED = 42
 NUM_EPOCHS = 100
 EVAL_FREQUENCY = 100  # Number of steps between evaluations.
-PIXEL_DEPTH = 255
+# PIXEL_DEPTH = 255
 
 
-LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/MIT_pedestrian/'
-LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/not_human/'
+LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/humans/1/'
+LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/humans/0/'
 
 
 def create_not_humans(num_images):
@@ -37,6 +37,13 @@ def create_labels(number):
     return [1]*number + [0]*number
 
 
+def make_list_with_full_path(path, list):
+    list_with_full_path = []
+    for item in range(0, len(list)):
+        list_with_full_path.append(path + list[item])
+    return list_with_full_path
+
+
 def do_things_data():
     # split data into train and validation
     pos_data = os.listdir(LOCATION_DATA_POSITIVE)
@@ -47,7 +54,8 @@ def do_things_data():
             print('creating negative instances')
             create_not_humans(num_images)
 
-    all_data = os.listdir(LOCATION_DATA_POSITIVE) + os.listdir(LOCATION_DATA_NEGATIVE)
+    all_data = make_list_with_full_path(LOCATION_DATA_POSITIVE, os.listdir(LOCATION_DATA_POSITIVE)) \
+                + make_list_with_full_path(LOCATION_DATA_NEGATIVE, os.listdir(LOCATION_DATA_NEGATIVE))
     labels = create_labels(num_images)
 
     # shuffle
@@ -93,12 +101,30 @@ def error_rate(predictions, labels):
         predictions.shape[0])
 
 
+# LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/MIT_pedestrian/'
+# LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/not_human/'
+
+# load data from list into np.ndarray
+def load_data(filenames_list):
+    data = np.zeros(shape=(len(filenames_list), IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS))
+    for item in range(0, len(filenames_list)):
+        data[item] = ndimage.imread(filenames_list[item])
+    return data
+
+
 def main(_):
     # data stuff
     test_data = []
     test_labels = []
 
-    [train_data, train_labels, validation_data, validation_labels] = do_things_data()
+    [train_data_list, train_labels_list, validation_data_list, validation_labels_list] = do_things_data()
+
+    # ---load the images here
+    train_data = load_data(train_data_list)
+    train_labels = train_labels_list
+    validation_data = load_data(validation_data_list)
+    validation_labels = validation_labels_list
+    # ---
 
     num_epochs = NUM_EPOCHS
 
