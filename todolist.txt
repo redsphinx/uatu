@@ -1,0 +1,8 @@
+7 feb
+-----
+. research good architecture for person identification
+DONE . research gpu
+. make data pipeline
+. figure out why loss becomes NaN
+. monitoring with tensorboard
+. update data latex file with info about CASIA, HDA and hard negative mining

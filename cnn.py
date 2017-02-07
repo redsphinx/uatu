@@ -18,7 +18,6 @@ NUM_LABELS = 2
 SEED = 42
 NUM_EPOCHS = 100
 EVAL_FREQUENCY = 100  # Number of steps between evaluations.
-# PIXEL_DEPTH = 255
 
 
 LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/humans/1/'
@@ -77,13 +76,17 @@ def do_things_data():
     validation_data_file = 'validation_data.csv'
     validation_labels_file = 'validation_labels.csv'
     with open(train_data_file, 'wr') as file:
-        file.write(str(train_data))
+        for item in range(0, len(train_data)):
+            file.write(str(train_data[item]) + '\n')
     with open(train_labels_file, 'wr') as file:
-        file.write(str(train_labels))
+        for item in range(0, len(train_labels)):
+            file.write(str(train_labels[item]) + '\n')
     with open(validation_data_file, 'wr') as file:
-        file.write(str(validation_data))
+        for item in range(0, len(validation_data)):
+            file.write(str(validation_data[item]) + '\n')
     with open(validation_labels_file, 'wr') as file:
-        file.write(str(validation_labels))
+        for item in range(0, len(validation_labels)):
+            file.write(str(validation_labels[item]) + '\n')
 
     train_data = np.asarray(train_data)
     train_labels = np.asarray(train_labels)
@@ -100,9 +103,6 @@ def error_rate(predictions, labels):
         np.sum(np.argmax(predictions, 1) == labels) /
         predictions.shape[0])
 
-
-# LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/MIT_pedestrian/'
-# LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/not_human/'
 
 # load data from list into np.ndarray
 def load_data(filenames_list):
