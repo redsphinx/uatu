@@ -144,11 +144,28 @@ def main(_):
         tf.truncated_normal([3, 3, CHANNELS, 32],  # 5x5 filter, depth 32.
                             stddev=0.1,
                             seed=SEED, dtype=DATA_TYPE))
+
+    # conv1_weights = tf.get_variable('conv1_weights', shape=(3, 3, CHANNELS, 32),
+    #                                 initializer=tf.contrib.layers.xavier_initializer(),
+    #                                 dtype=DATA_TYPE, trainable=True)
+
     conv1_biases = tf.Variable(tf.zeros([32], dtype=DATA_TYPE))
+    # conv1_biases = tf.get_variable('conv1_biases', shape=(32), dtype=DATA_TYPE, trainable=True)
+
+
     conv2_weights = tf.Variable(tf.truncated_normal(
         [3, 3, 32, 64], stddev=0.1,
         seed=SEED, dtype=DATA_TYPE))
+
+    # conv2_weights = tf.get_variable('conv2_weights', shape=(3, 3, 32, 64),
+    #                                 initializer=tf.contrib.layers.xavier_initializer(),
+    #                                 dtype=DATA_TYPE, trainable=True)
+
     conv2_biases = tf.Variable(tf.constant(0.1, shape=[64], dtype=DATA_TYPE))
+    # conv2_biases = tf.get_variable('conv2_biases', shape=(64), dtype=DATA_TYPE, trainable=True)
+
+
+
     fc1_weights = tf.Variable(  # fully connected, depth 512.
         tf.truncated_normal([IMAGE_HEIGHT // 4 * IMAGE_WIDTH // 4 * 64, 512],
                             stddev=0.1,
@@ -202,7 +219,7 @@ def main(_):
 
     batch = tf.Variable(0, dtype=DATA_TYPE)
     learning_rate = tf.train.exponential_decay(
-        0.01,  # Base learning rate.
+        0.0001,  # Base learning rate.
         batch * BATCH_SIZE,  # Current index into the dataset.
         train_size,  # Decay step.
         0.95,  # Decay rate.

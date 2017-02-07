@@ -1,8 +1,18 @@
 7 feb
 -----
 . research good architecture for person identification
+
 DONE . research gpu
+
 . make data pipeline
+
 . figure out why loss becomes NaN
+-probably overfitting
+-hidden layers can make gradients unstable. use Xavier initialization to fix.
+-the variance of the initial values will tend to be too high, causing instability. Also, decreasing the learning rate may help
+--Decreasing the learning rate solved the issue
+--Xavier initialized: errors go to zero but only if I initialize the conv weights to xavier. initializing the conv biases to xavier leads to more normal errors. not true, the zero thing only happened once apparently...weird. Overall initialization with Xavier leads to lower minibatch loss at the start
+
+
 . monitoring with tensorboard
 . update data latex file with info about CASIA, HDA and hard negative mining
