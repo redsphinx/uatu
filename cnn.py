@@ -11,7 +11,7 @@ from scipy import ndimage
 IMAGE_HEIGHT = 128
 IMAGE_WIDTH = 64
 CHANNELS = 3
-BATCH_SIZE = 32
+BATCH_SIZE = 16
 EVAL_BATCH_SIZE = 32
 DATA_TYPE = tf.float32
 NUM_LABELS = 2
@@ -19,6 +19,8 @@ SEED = 42
 NUM_EPOCHS = 100
 EVAL_FREQUENCY = 100  # Number of steps between evaluations.
 
+# tensorboard
+LOG_DIR = '/tmp/TF'
 
 LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/humans/1/'
 LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/humans/0/'
@@ -113,6 +115,10 @@ def load_data(filenames_list):
 
 
 def main(_):
+    # tensorboard
+    if tf.gfile.Exists(LOG_DIR):
+        tf.gfile.DeleteRecursively(LOG_DIR)
+    tf.gfile.MakeDirs(LOG_DIR)
     # data stuff
     test_data = []
     test_labels = []
@@ -139,11 +145,28 @@ def main(_):
         DATA_TYPE,
         shape=(EVAL_BATCH_SIZE, IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS))
 
+    # tensorboard
+    image_shaped_input = tf.reshape(train_data_node, [BATCH_SIZE, IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS])
+    tf.summary.image('input', image_shaped_input, BATCH_SIZE)
+
+
+    # tensorboard
+    def variable_summaries(var):
+        mean = tf.reduce_mean(var)
+        tf.summary.scalar('mean', mean)
+        stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
+        tf.summary.scalar('stddev', stddev)
+        tf.summary.scalar('max', tf.reduce_max(var))
+        tf.summary.scalar('min', tf.reduce_min(var))
+        tf.summary.histogram('histogram', var)
+
+
     # weights and biases
     conv1_weights = tf.Variable(
         tf.truncated_normal([3, 3, CHANNELS, 32],  # 5x5 filter, depth 32.
                             stddev=0.1,
                             seed=SEED, dtype=DATA_TYPE))
+    variable_summaries(conv1_weights)
 
     # conv1_weights = tf.get_variable('conv1_weights', shape=(3, 3, CHANNELS, 32),
     #                                 initializer=tf.contrib.layers.xavier_initializer(),
@@ -151,11 +174,12 @@ def main(_):
 
     conv1_biases = tf.Variable(tf.zeros([32], dtype=DATA_TYPE))
     # conv1_biases = tf.get_variable('conv1_biases', shape=(32), dtype=DATA_TYPE, trainable=True)
-
+    variable_summaries(conv1_biases)
 
     conv2_weights = tf.Variable(tf.truncated_normal(
         [3, 3, 32, 64], stddev=0.1,
         seed=SEED, dtype=DATA_TYPE))
+    variable_summaries(conv2_weights)
 
     # conv2_weights = tf.get_variable('conv2_weights', shape=(3, 3, 32, 64),
     #                                 initializer=tf.contrib.layers.xavier_initializer(),
@@ -163,7 +187,7 @@ def main(_):
 
     conv2_biases = tf.Variable(tf.constant(0.1, shape=[64], dtype=DATA_TYPE))
     # conv2_biases = tf.get_variable('conv2_biases', shape=(64), dtype=DATA_TYPE, trainable=True)
-
+    variable_summaries(conv2_biases)
 
 
     fc1_weights = tf.Variable(  # fully connected, depth 512.
@@ -216,6 +240,8 @@ def main(_):
     regularizers = (tf.nn.l2_loss(fc1_weights) + tf.nn.l2_loss(fc1_biases) +
                     tf.nn.l2_loss(fc2_weights) + tf.nn.l2_loss(fc2_biases))
     loss += 5e-4 * regularizers
+    # tensorboard
+    tf.summary.scalar('loss', loss)
 
     batch = tf.Variable(0, dtype=DATA_TYPE)
     learning_rate = tf.train.exponential_decay(
@@ -224,6 +250,8 @@ def main(_):
         train_size,  # Decay step.
         0.95,  # Decay rate.
         staircase=True)
+    # tensorboard
+    tf.summary.scalar('learning rate', learning_rate)
     optimizer = tf.train.MomentumOptimizer(learning_rate,
                                            0.9).minimize(loss,
                                                          global_step=batch)
@@ -250,12 +278,23 @@ def main(_):
                 predictions[begin:, :] = batch_predictions[begin - size:, :]
         return predictions
 
+
+
     # Create a local session to run the training.
     start_time = time.time()
     with tf.Session() as sess:
+
+        # tensorboard
+        merged = tf.summary.merge_all()
+        train_writer = tf.summary.FileWriter(LOG_DIR + '/train', sess.graph)
+        test_writer = tf.summary.FileWriter(LOG_DIR + '/test')
+
         # Run all the initializers to prepare the trainable parameters.
         tf.global_variables_initializer().run()
         print('Initialized!')
+
+
+
         # Loop through training steps.
         for step in range(int(num_epochs * train_size) / BATCH_SIZE):
             # Compute the offset of the current minibatch in the data.
@@ -276,6 +315,12 @@ def main(_):
                                               feed_dict=feed_dict)
                 elapsed_time = time.time() - start_time
                 start_time = time.time()
+
+                # tensorboard
+                summary, ls = sess.run([merged, loss], feed_dict=feed_dict)
+                test_writer.add_summary(summary, step)
+
+
                 print('Step %d (epoch %.2f), %.1f ms' %
                       (step, float(step) * float(BATCH_SIZE) / train_size,
                        1000 * float(elapsed_time) / EVAL_FREQUENCY))
@@ -284,9 +329,14 @@ def main(_):
                 print('Validation error: %.1f%%' % error_rate(
                     eval_in_batches(validation_data, sess), validation_labels))
                 sys.stdout.flush()
+            else:
+                summary, _ = sess.run([merged, optimizer], feed_dict=feed_dict)
+                train_writer.add_summary(summary, step)
         # Finally print the result!
         # test_error = error_rate(eval_in_batches(test_data, sess), test_labels)
         # print('Test error: %.1f%%' % test_error)
+        train_writer.close()
+        test_writer.close()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
