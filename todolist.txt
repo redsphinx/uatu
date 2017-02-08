@@ -1,11 +1,24 @@
 8 feb
 -----
-. research good architecture for person identification
-. implement a different architecture
+implementation:
+
+. make the lstm part of the convolutional RNN
+
+. connect the cnn with the lstm
 . make data pipeline
+. implement a different architecture for both
+. make architecture work with continuous video stream
+
+research:
+. good architecture for person identification
+. GANs for re-id
+
+other:
+. update model latex file with progress on different parts of the model
 . update data latex file with info about CASIA
 
-
+notes:
+. 3D convolutions are computationally expensive but they are able to handle sequence of images
 
 7 feb
 -----
@@ -19,3 +32,5 @@ DONE . figure out why loss becomes NaN DONE
 --Xavier initialized: errors go to zero but only if I initialize the conv weights to xavier. initializing the conv biases to xavier leads to more normal errors. not true, the zero thing only happened once apparently...weird. Overall initialization with Xavier leads to lower minibatch loss at the start
 
 DONE . monitoring with tensorboard DONE
+
+DONE . update data latex with info about HDA and hard negative mining
