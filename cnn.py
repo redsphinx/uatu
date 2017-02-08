@@ -41,7 +41,7 @@ def create_labels(number):
 def make_list_with_full_path(path, list):
     list_with_full_path = []
     for item in range(0, len(list)):
-        list_with_full_path.append(path + list[item])
+        list_with_full_path.append(os.path.join(path, list[item]))
     return list_with_full_path
 
 
