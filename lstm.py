@@ -73,8 +73,15 @@ def load_data():
 
     if os.path.exists(the_noise_folder):
         print('loading data from files')
-        # TODO load data from files
+        train_data = np.genfromtxt(os.path.join(the_noise_folder, 'train_data.csv'))
+        train_labels = np.genfromtxt(os.path.join(the_noise_folder, 'train_labels.csv'))
+        validation_data = np.genfromtxt(os.path.join(the_noise_folder, 'validation_data.csv'))
+        validation_labels = np.genfromtxt(os.path.join(the_noise_folder, 'validation_labels.csv'))
+        testing_data = np.genfromtxt(os.path.join(the_noise_folder, 'testing_data.csv'))
+        testing_labels = np.genfromtxt(os.path.join(the_noise_folder, 'testing_labels.csv'))
+
     else:
+        print('creating files')
         os.mkdir(the_noise_folder)
         files_positive = make_list_with_full_path(LOCATION_DATA_POSITIVE, os.listdir(LOCATION_DATA_POSITIVE))
         files_negative = make_list_with_full_path(LOCATION_DATA_NEGATIVE, os.listdir(LOCATION_DATA_NEGATIVE))
@@ -96,15 +103,16 @@ def load_data():
         all_files, labels = zip(*everything)
 
         for sequence in range(0, len(all_files)):
-            data[sequence] = ndimage.imread(all_files[sequence])
+            for image in range(0, number_of_images_in_a_sequence):
+                data[sequence][image] = ndimage.imread(os.path.join(all_files[sequence], os.listdir(all_files[sequence])[image]))
 
         split_here_1 = int(len(all_files) * train_percentage)
         split_here_2 = int(len(all_files) * validation_percentage)
 
         train_data = all_files[0:split_here_1]
         train_labels = labels[0:split_here_1]
-        validation_data = all_files[split_here_1:split_here_2]
-        validation_labels = labels[split_here_1:split_here_2]
+        validation_data = all_files[split_here_1:split_here_1 + split_here_2]
+        validation_labels = labels[split_here_1:split_here_1 + split_here_2]
         testing_data = all_files[split_here_2:len(all_files)]
         testing_labels = labels[split_here_2:len(all_files)]
 
