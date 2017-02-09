@@ -22,6 +22,9 @@ data_paths = [LOCATION_DATA_POSITIVE, LOCATION_DATA_NEGATIVE]
 
 def create_random_sequences(data_paths, num_sequences, num_images):
     # TODO set flag to update the_noise_files in load_data()
+    FLAG_UPDATED= [0, 0]
+    count = 0
+
     for path_name in data_paths:
         FLAG_CORRUPTED = 0
         print('checking: ' + str(path_name))
@@ -30,7 +33,8 @@ def create_random_sequences(data_paths, num_sequences, num_images):
             for number in range(0, num_sequences):
                 if len(os.listdir(os.path.join(path_name, str(number)))) == num_images:
                     if number == num_images-1:
-                        print('everything looks ok')
+                        print('everything exists and looks ok')
+                        FLAG_UPDATED[count] = 0
                 else:
                     print('error in ' + str(path_name) + str(number))
                     FLAG_CORRUPTED = 1
@@ -40,6 +44,7 @@ def create_random_sequences(data_paths, num_sequences, num_images):
             FLAG_CORRUPTED = 1
 
         if FLAG_CORRUPTED:
+            FLAG_UPDATED[count] = 1
             print('removing corrupted folder ' + str(path_name) + ' and creating it again')
             shutil.rmtree(path_name)
             os.mkdir(path_name)
@@ -54,7 +59,8 @@ def create_random_sequences(data_paths, num_sequences, num_images):
                     im = Image.fromarray(imarray.astype('uint8')).convert('RGBA')
                     file = os.path.join(path, path_name.split('/')[-2] + str(number) + '.jpg')
                     im.save(file)
-
+        count = count + 1
+    return FLAG_UPDATED
 
 def create_labels(number):
     return [1]*number + [0]*number
@@ -68,10 +74,10 @@ def make_list_with_full_path(path, list):
 
 
 def load_data():
-    create_random_sequences(data_paths, 200, 5)
+    FLAG_UPDATED = create_random_sequences(data_paths, 200, 5)
     the_noise_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'noise_folder')
 
-    if os.path.exists(the_noise_folder):
+    if os.path.exists(the_noise_folder) and sum(FLAG_UPDATED) == 0:
         print('loading data from files')
         train_data = np.genfromtxt(os.path.join(the_noise_folder, 'train_data.csv'))
         train_labels = np.genfromtxt(os.path.join(the_noise_folder, 'train_labels.csv'))
@@ -81,7 +87,11 @@ def load_data():
         testing_labels = np.genfromtxt(os.path.join(the_noise_folder, 'testing_labels.csv'))
 
     else:
+        print('data files do not exist or are corrupted')
         print('creating files')
+        if os.path.exists(the_noise_folder):
+            shutil.rmtree(the_noise_folder)
+
         os.mkdir(the_noise_folder)
         files_positive = make_list_with_full_path(LOCATION_DATA_POSITIVE, os.listdir(LOCATION_DATA_POSITIVE))
         files_negative = make_list_with_full_path(LOCATION_DATA_NEGATIVE, os.listdir(LOCATION_DATA_NEGATIVE))
@@ -153,11 +163,14 @@ def load_data():
 
     return [train_data, train_labels, validation_data, validation_labels, testing_data, testing_labels]
 
-def main(_):
+def main():
+    # load the data
+    [train_data, train_labels, validation_data, validation_labels, testing_data, testing_labels] = load_data()
 
-    # do RNN stuff
+
+
 
     pass
 
 
-load_data()
+main()
