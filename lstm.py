@@ -5,7 +5,7 @@ from PIL import Image
 import shutil
 import random as rd
 from scipy import ndimage
-from tensorflow.python.ops.rnn_cell import GRUCell, DropoutWrapper, MultiRNNCell
+from tensorflow.python.ops.rnn_cell import LSTMCell, DropoutWrapper, MultiRNNCell
 
 IMAGE_HEIGHT = 20
 IMAGE_WIDTH = 10
@@ -13,12 +13,16 @@ CHANNELS = 3
 N_INPUT = IMAGE_HEIGHT*IMAGE_WIDTH*CHANNELS
 CLASSES = 2
 
-EPOCHS = 20
+NUM_NEURONS = 200
+NUM_LAYERS = 3
+
+TRAINING_ITERS = 1000
 DATA_TYPE = tf.float32
 NUM_SEQUENCES = 200
 NUM_IMAGES_IN_SEQUENCE = 5
 BATCH_SIZE = 1
 EVAL_BATCH_SIZE = 1
+LEARNING_RATE = 0.0001
 
 LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/noise/positive/'
 LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/noise/negative/'
@@ -202,7 +206,7 @@ def main():
         shape=(BATCH_SIZE, NUM_IMAGES_IN_SEQUENCE, N_INPUT)
     )
 
-    # reshape for some reason
+    # >transform the data into multiple tensors, 1 for each frame in the sequence
     # Permuting batch_size and n_steps
     train_data_node = tf.transpose(train_data_node, [1, 0, 2])
     # Reshaping to (n_steps*batch_size, n_input)
@@ -210,8 +214,6 @@ def main():
     # Split to get a list of 'n_steps' tensors of shape (batch_size, n_input)
     train_data_node = tf.split(0, NUM_IMAGES_IN_SEQUENCE, train_data_node)
 
-
-    # TODO: figure out the shape
     train_labels_node = tf.placeholder(
         DATA_TYPE,
         shape=(None, CLASSES)
@@ -221,27 +223,67 @@ def main():
         shape=(EVAL_BATCH_SIZE, NUM_IMAGES_IN_SEQUENCE, N_INPUT)
     )
 
-    NUM_NEURONS = 200
-    NUM_LAYERS = 3
-    DROPOUT = tf.placeholder(DATA_TYPE)
+    weights = {
+        'out': tf.Variable(tf.random_normal([NUM_NEURONS, CLASSES]))
+    }
+    biases = {
+        'out': tf.Variable(tf.random_normal([CLASSES]))
+    }
 
-    cell = GRUCell(NUM_NEURONS)  # Or LSTMCell(num_neurons)
-    cell = DropoutWrapper(cell, output_keep_prob=DROPOUT)
-    cell = MultiRNNCell([cell] * NUM_LAYERS)
+    def model(data, weights, biases):
+        cell = LSTMCell(NUM_NEURONS)  # Or LSTMCell(num_neurons)
+        cell = MultiRNNCell([cell] * NUM_LAYERS)
 
-    # in the future we want to use dynamic_rnn
-    output, state = tf.nn.rnn(cell, train_data_node, dtype=DATA_TYPE)
-    
+        output, _ = tf.nn.rnn(cell, train_data_node, dtype=DATA_TYPE)
+        output = tf.transpose(output, [1, 0, 2])
+        last = tf.gather(output, int(output.get_shape()[0]) - 1)
+        out_size = int(train_labels_node.get_shape()[1])
 
+        prediction = tf.nn.softmax(tf.matmul(last, weights['out']) + biases['out'])
+        # cross_entropy = -tf.reduce_sum(train_labels_node * tf.log(prediction))
+        return prediction
+
+
+    prediction = model(train_data_node, weights, biases)
+
+    # Define loss and optimizer
+    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=train_labels_node))
+    optimizer = tf.train.AdamOptimizer(learning_rate=LEARNING_RATE).minimize(cost)
+
+    # Evaluate model
+    correct_pred = tf.equal(tf.argmax(prediction, 1), tf.argmax(train_labels_node, 1))
+    accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
     # running everything
-    # init = tf.global_variables_initializer()
+    init = tf.global_variables_initializer()
+
     # with tf.Session() as sess:
     #     sess.run(init)
+    #     step = 1
+    #     # Keep training until reach max iterations
+    #     while step * BATCH_SIZE < TRAINING_ITERS:
+    #         batch_x, batch_y = mnist.train.next_batch(batch_size)
+    #         # Reshape data to get 28 seq of 28 elements
+    #         batch_x = batch_x.reshape((batch_size, n_steps, n_input))
+    #         # Run optimization op (backprop)
+    #         sess.run(optimizer, feed_dict={x: batch_x, y: batch_y})
+    #         if step % display_step == 0:
+    #             # Calculate batch accuracy
+    #             acc = sess.run(accuracy, feed_dict={x: batch_x, y: batch_y})
+    #             # Calculate batch loss
+    #             loss = sess.run(cost, feed_dict={x: batch_x, y: batch_y})
+    #             print("Iter " + str(step * batch_size) + ", Minibatch Loss= " + \
+    #                   "{:.6f}".format(loss) + ", Training Accuracy= " + \
+    #                   "{:.5f}".format(acc))
+    #         step += 1
+    #     print("Optimization Finished!")
     #
-    #
-    #
-    # pass
+    #     # Calculate accuracy for 128 mnist test images
+    #     test_len = 128
+    #     test_data = mnist.test.images[:test_len].reshape((-1, n_steps, n_input))
+    #     test_label = mnist.test.labels[:test_len]
+    #     print("Testing Accuracy:", \
+    #           sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
 
 
 main()
