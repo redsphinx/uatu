@@ -1,4 +1,4 @@
-8 feb
+Tasks:
 -----
 implementation:
 
@@ -16,6 +16,17 @@ research:
 other:
 . update model latex file with progress on different parts of the model
 . update data latex file with info about CASIA
+------------------------------------------------------------------------------------------------
+
+9 feb
+-----
+. finish the lstm part of the convolutional RNN
+
+
+8 feb
+-----
+. started with lstm part of the convolutional RNN
+. downloaded parts of CASIA
 
 notes:
 . 3D convolutions are computationally expensive but they are able to handle sequence of images
