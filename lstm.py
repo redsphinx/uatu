@@ -23,6 +23,7 @@ NUM_IMAGES_IN_SEQUENCE = 5
 BATCH_SIZE = 1
 EVAL_BATCH_SIZE = 1
 LEARNING_RATE = 0.0001
+DISPLAY_STEP = 1
 
 LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/noise/positive/'
 LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/noise/negative/'
@@ -55,8 +56,9 @@ def create_random_sequences(data_paths, num_sequences, num_images):
         if FLAG_CORRUPTED:
             FLAG_UPDATED[count] = 1
             print('removing corrupted folder ' + str(path_name) + ' and creating it again')
-            shutil.rmtree(path_name)
-            os.mkdir(path_name)
+            if os.path.exists(path_name):
+                os.rmdir(path_name)
+            os.makedirs(path_name)
             print('generating images')
             for number in range(0, num_sequences):
                 path = os.path.join(path_name, str(number))
@@ -74,7 +76,12 @@ def create_random_sequences(data_paths, num_sequences, num_images):
 
 # create the labels
 def create_labels(number):
-    return [1]*number + [0]*number
+    return [1] * number + [0] * number
+
+    # labels = np.zeros((number*2, 2))
+    # labels[:,0] = [0] * number + [1] * number
+    # labels[:,1] = [1]*number + [0]*number
+    # return labels
 
 
 # adds the full path to a file name
@@ -83,6 +90,13 @@ def make_list_with_full_path(path, list):
     for item in range(0, len(list)):
         list_with_full_path.append(os.path.join(path, list[item]))
     return list_with_full_path
+
+
+# create one hot encoding of a binary
+def ohe(old, new):
+    for item in range(0, len(old)):
+        new[item][old[item]] = 1
+    return new
 
 
 # loads the data into numpy arrays
@@ -94,11 +108,11 @@ def load_data():
         print('loading data from files')
         # load file names
         train_data_ = np.genfromtxt(os.path.join(the_noise_folder, 'train_data.csv'), dtype=None)
-        train_labels = np.genfromtxt(os.path.join(the_noise_folder, 'train_labels.csv'), dtype=None)
+        train_labels_ = np.genfromtxt(os.path.join(the_noise_folder, 'train_labels.csv'), dtype=None)
         validation_data_ = np.genfromtxt(os.path.join(the_noise_folder, 'validation_data.csv'), dtype=None)
-        validation_labels = np.genfromtxt(os.path.join(the_noise_folder, 'validation_labels.csv'), dtype=None)
+        validation_labels_ = np.genfromtxt(os.path.join(the_noise_folder, 'validation_labels.csv'), dtype=None)
         testing_data_ = np.genfromtxt(os.path.join(the_noise_folder, 'testing_data.csv'), dtype=None)
-        testing_labels = np.genfromtxt(os.path.join(the_noise_folder, 'testing_labels.csv'), dtype=None)
+        testing_labels_ = np.genfromtxt(os.path.join(the_noise_folder, 'testing_labels.csv'), dtype=None)
 
         train_data = np.zeros(shape=(len(train_data_), NUM_IMAGES_IN_SEQUENCE, IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS))
         validation_data = np.zeros(shape=(len(validation_data_), NUM_IMAGES_IN_SEQUENCE, IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS))
@@ -116,6 +130,16 @@ def load_data():
         for sequence in range(0, len(testing_data_)):
             for image in range(0, NUM_IMAGES_IN_SEQUENCE):
                 testing_data[sequence][image] = ndimage.imread(os.path.join(testing_data_[sequence], os.listdir(testing_data_[sequence])[image]))
+
+        train_labels = np.zeros(shape=(len(train_labels_), 2))
+        validation_labels = np.zeros(shape=(len(validation_labels_), 2))
+        testing_labels = np.zeros(shape=(len(testing_labels_), 2))
+
+        train_labels = ohe(train_labels_, train_labels)
+        validation_labels = ohe(validation_labels_, validation_labels)
+        testing_labels = ohe(testing_labels_, testing_labels)
+        print('sdf1')
+
 
     else:
         print('data files do not exist or are corrupted')
@@ -185,12 +209,21 @@ def load_data():
             for item in range(0, len(testing_labels)):
                 file.write(str(testing_labels[item]) + '\n')
 
-        train_data = np.asarray(train_data)
+        train_data = np.asarray(data[0:split_here_1])
         train_labels = np.asarray(train_labels)
-        validation_data = np.asarray(validation_data)
+        validation_data = np.asarray(data[split_here_1:split_here_1 + split_here_2])
         validation_labels = np.asarray(validation_labels)
-        testing_data = np.asarray(testing_data)
+        testing_data = np.asarray(data[split_here_2:len(all_files)])
         testing_labels = np.asarray(testing_labels)
+
+        train_labels_ = np.zeros(shape=(len(train_labels), 2))
+        validation_labels_ = np.zeros(shape=(len(validation_labels), 2))
+        testing_labels_ = np.zeros(shape=(len(testing_labels), 2))
+
+        train_labels = ohe(train_labels, train_labels_)
+        validation_labels = ohe(validation_labels, validation_labels_)
+        testing_labels = ohe(testing_labels, testing_labels_)
+        print('sdf2')
 
     return [train_data, train_labels, validation_data, validation_labels, testing_data, testing_labels]
 
@@ -199,6 +232,7 @@ def main():
     # load the data
     [train_data, train_labels, validation_data, validation_labels, testing_data, testing_labels] = load_data()
     print('shape train data: ' + str(np.shape(train_data)))
+    # shape train data: (200, 5, 20, 10, 3)
 
     # create placeholders
     train_data_node = tf.placeholder(
@@ -213,6 +247,8 @@ def main():
     train_data_node = tf.reshape(train_data_node, [-1, N_INPUT])
     # Split to get a list of 'n_steps' tensors of shape (batch_size, n_input)
     train_data_node = tf.split(0, NUM_IMAGES_IN_SEQUENCE, train_data_node)
+
+    print(train_data_node)
 
     train_labels_node = tf.placeholder(
         DATA_TYPE,
@@ -257,33 +293,53 @@ def main():
     # running everything
     init = tf.global_variables_initializer()
 
-    # with tf.Session() as sess:
-    #     sess.run(init)
-    #     step = 1
-    #     # Keep training until reach max iterations
-    #     while step * BATCH_SIZE < TRAINING_ITERS:
-    #         batch_x, batch_y = mnist.train.next_batch(batch_size)
-    #         # Reshape data to get 28 seq of 28 elements
-    #         batch_x = batch_x.reshape((batch_size, n_steps, n_input))
-    #         # Run optimization op (backprop)
-    #         sess.run(optimizer, feed_dict={x: batch_x, y: batch_y})
-    #         if step % display_step == 0:
-    #             # Calculate batch accuracy
-    #             acc = sess.run(accuracy, feed_dict={x: batch_x, y: batch_y})
-    #             # Calculate batch loss
-    #             loss = sess.run(cost, feed_dict={x: batch_x, y: batch_y})
-    #             print("Iter " + str(step * batch_size) + ", Minibatch Loss= " + \
-    #                   "{:.6f}".format(loss) + ", Training Accuracy= " + \
-    #                   "{:.5f}".format(acc))
-    #         step += 1
-    #     print("Optimization Finished!")
-    #
-    #     # Calculate accuracy for 128 mnist test images
-    #     test_len = 128
-    #     test_data = mnist.test.images[:test_len].reshape((-1, n_steps, n_input))
-    #     test_label = mnist.test.labels[:test_len]
-    #     print("Testing Accuracy:", \
-    #           sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
+    with tf.Session() as sess:
+        sess.run(init)
+        step = 1
+        # Keep training until reach max iterations
+        while step * BATCH_SIZE < TRAINING_ITERS:
+            print(step)
+            print(step * BATCH_SIZE )
+            # batch_x, batch_y = mnist.train.next_batch(batch_size)
+            batch_x = train_data[step-1]
+            print(np.shape(batch_x))
+            batch_x = batch_x.reshape((BATCH_SIZE, NUM_IMAGES_IN_SEQUENCE, N_INPUT))
+            print(np.shape(batch_x))
+            batch_y = train_labels[step-1, :]
+            batch_y = np.asarray([batch_y])
+            print(np.shape(batch_y))
+            ble = np.tile(batch_y, (NUM_IMAGES_IN_SEQUENCE, 1))
+            # shape train data: (200, 5, 20, 10, 3)
+            # [<tf.Tensor 'split:0' shape=(1, 600) dtype=float32>, <tf.Tensor 'split:1' shape=(1, 600) dtype=float32>,
+            #  <tf.Tensor 'split:2' shape=(1, 600) dtype=float32>, <tf.Tensor 'split:3' shape=(1, 600) dtype=float32>,
+            # <tf.Tensor 'split:4' shape=(1, 600) dtype=float32>]
+            # Run optimization op (backprop)
+            # TODO: fix
+            # " File "/home/gabi/PycharmProjects/uatu/lstm.py", line 321, in main
+            # sess.run(optimizer, feed_dict={train_data_node: batch_x, train_labels_node: batch_y})
+            # TypeError: unhashable type: 'list' "
+            # TODO: fix
+            sess.run(optimizer, feed_dict={train_data_node: batch_x,
+                                           train_labels_node: batch_y})
+            if step % DISPLAY_STEP == 0:
+
+                # Calculate batch accuracy
+                acc = sess.run(accuracy, feed_dict={train_data_node: batch_x,
+                                                    train_labels_node: batch_y})
+                # Calculate batch loss
+                loss = sess.run(cost, feed_dict={train_data_node: batch_x, train_labels_node: batch_y})
+                print("Iter " + str(step * BATCH_SIZE) + ", Minibatch Loss= " + \
+                      "{:.6f}".format(loss) + ", Training Accuracy= " + \
+                      "{:.5f}".format(acc))
+            step = step + 1
+        print("Optimization Finished!")
+
+        # # Calculate accuracy for 128 mnist test images
+        # test_len = 128
+        # test_data = mnist.test.images[:test_len].reshape((-1, n_steps, n_input))
+        # test_label = mnist.test.labels[:test_len]
+        # print("Testing Accuracy:", \
+        #       sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
 
 
 main()
