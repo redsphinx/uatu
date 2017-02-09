@@ -10,7 +10,9 @@ Project: https://github.com/aymericdamien/TensorFlow-Examples/
 from __future__ import print_function
 
 import tensorflow as tf
-from tensorflow.contrib import rnn
+# from tensorflow.contrib import rnn
+from tensorflow.python.ops.rnn_cell import LSTMCell, \
+    DropoutWrapper, MultiRNNCell, BasicLSTMCell
 
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
@@ -25,7 +27,7 @@ handle 28 sequences of 28 steps for every sample.
 # Parameters
 learning_rate = 0.001
 training_iters = 100000
-batch_size = 128
+batch_size = 2
 display_step = 10
 
 # Network Parameters
@@ -58,13 +60,14 @@ def RNN(x, weights, biases):
     # Reshaping to (n_steps*batch_size, n_input)
     x = tf.reshape(x, [-1, n_input])
     # Split to get a list of 'n_steps' tensors of shape (batch_size, n_input)
-    x = tf.split(x, n_steps, 0)
+    # x = tf.split(x, n_steps, 0)
+    x = tf.split(0, n_steps, x)
 
     # Define a lstm cell with tensorflow
-    lstm_cell = rnn.BasicLSTMCell(n_hidden, forget_bias=1.0)
+    lstm_cell = BasicLSTMCell(n_hidden, forget_bias=1.0)
 
     # Get lstm cell output
-    outputs, states = rnn.static_rnn(lstm_cell, x, dtype=tf.float32)
+    outputs, states = tf.nn.rnn(lstm_cell, x, dtype=tf.float32)
 
     # Linear activation, using rnn inner loop last output
     return tf.matmul(outputs[-1], weights['out']) + biases['out']
@@ -89,6 +92,8 @@ with tf.Session() as sess:
     # Keep training until reach max iterations
     while step * batch_size < training_iters:
         batch_x, batch_y = mnist.train.next_batch(batch_size)
+        print(tf.shape(batch_x))
+        print(tf.shape(batch_y))
         # Reshape data to get 28 seq of 28 elements
         batch_x = batch_x.reshape((batch_size, n_steps, n_input))
         # Run optimization op (backprop)
