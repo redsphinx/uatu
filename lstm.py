@@ -1,27 +1,32 @@
 import tensorflow as tf
 import numpy as np
-import sys
-import argparse
 import os
 from PIL import Image
 import shutil
 import random as rd
 from scipy import ndimage
-
+from tensorflow.python.ops.rnn_cell import GRUCell, DropoutWrapper, MultiRNNCell
 
 IMAGE_HEIGHT = 20
 IMAGE_WIDTH = 10
 CHANNELS = 3
+N_INPUT = IMAGE_HEIGHT*IMAGE_WIDTH*CHANNELS
+CLASSES = 2
 
+EPOCHS = 20
+DATA_TYPE = tf.float32
+NUM_SEQUENCES = 200
+NUM_IMAGES_IN_SEQUENCE = 5
+BATCH_SIZE = 1
+EVAL_BATCH_SIZE = 1
 
 LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/noise/positive/'
 LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/noise/negative/'
 
 data_paths = [LOCATION_DATA_POSITIVE, LOCATION_DATA_NEGATIVE]
 
-
+# creates random sequences of images
 def create_random_sequences(data_paths, num_sequences, num_images):
-    # TODO set flag to update the_noise_files in load_data()
     FLAG_UPDATED= [0, 0]
     count = 0
 
@@ -62,10 +67,13 @@ def create_random_sequences(data_paths, num_sequences, num_images):
         count = count + 1
     return FLAG_UPDATED
 
+
+# create the labels
 def create_labels(number):
     return [1]*number + [0]*number
 
 
+# adds the full path to a file name
 def make_list_with_full_path(path, list):
     list_with_full_path = []
     for item in range(0, len(list)):
@@ -73,18 +81,37 @@ def make_list_with_full_path(path, list):
     return list_with_full_path
 
 
+# loads the data into numpy arrays
 def load_data():
-    FLAG_UPDATED = create_random_sequences(data_paths, 200, 5)
+    FLAG_UPDATED = create_random_sequences(data_paths, NUM_SEQUENCES, NUM_IMAGES_IN_SEQUENCE)
     the_noise_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'noise_folder')
 
     if os.path.exists(the_noise_folder) and sum(FLAG_UPDATED) == 0:
         print('loading data from files')
-        train_data = np.genfromtxt(os.path.join(the_noise_folder, 'train_data.csv'))
-        train_labels = np.genfromtxt(os.path.join(the_noise_folder, 'train_labels.csv'))
-        validation_data = np.genfromtxt(os.path.join(the_noise_folder, 'validation_data.csv'))
-        validation_labels = np.genfromtxt(os.path.join(the_noise_folder, 'validation_labels.csv'))
-        testing_data = np.genfromtxt(os.path.join(the_noise_folder, 'testing_data.csv'))
-        testing_labels = np.genfromtxt(os.path.join(the_noise_folder, 'testing_labels.csv'))
+        # load file names
+        train_data_ = np.genfromtxt(os.path.join(the_noise_folder, 'train_data.csv'), dtype=None)
+        train_labels = np.genfromtxt(os.path.join(the_noise_folder, 'train_labels.csv'), dtype=None)
+        validation_data_ = np.genfromtxt(os.path.join(the_noise_folder, 'validation_data.csv'), dtype=None)
+        validation_labels = np.genfromtxt(os.path.join(the_noise_folder, 'validation_labels.csv'), dtype=None)
+        testing_data_ = np.genfromtxt(os.path.join(the_noise_folder, 'testing_data.csv'), dtype=None)
+        testing_labels = np.genfromtxt(os.path.join(the_noise_folder, 'testing_labels.csv'), dtype=None)
+
+        train_data = np.zeros(shape=(len(train_data_), NUM_IMAGES_IN_SEQUENCE, IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS))
+        validation_data = np.zeros(shape=(len(validation_data_), NUM_IMAGES_IN_SEQUENCE, IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS))
+        testing_data = np.zeros(shape=(len(testing_data_), NUM_IMAGES_IN_SEQUENCE, IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS))
+
+        # put them in ndarrays
+        for sequence in range(0, len(train_data_)):
+            for image in range(0, NUM_IMAGES_IN_SEQUENCE):
+                train_data[sequence][image] = ndimage.imread(os.path.join(train_data_[sequence], os.listdir(train_data_[sequence])[image]))
+
+        for sequence in range(0, len(validation_data_)):
+            for image in range(0, NUM_IMAGES_IN_SEQUENCE):
+                validation_data[sequence][image] = ndimage.imread(os.path.join(validation_data_[sequence], os.listdir(validation_data_[sequence])[image]))
+
+        for sequence in range(0, len(testing_data_)):
+            for image in range(0, NUM_IMAGES_IN_SEQUENCE):
+                testing_data[sequence][image] = ndimage.imread(os.path.join(testing_data_[sequence], os.listdir(testing_data_[sequence])[image]))
 
     else:
         print('data files do not exist or are corrupted')
@@ -163,14 +190,58 @@ def load_data():
 
     return [train_data, train_labels, validation_data, validation_labels, testing_data, testing_labels]
 
+
 def main():
     # load the data
     [train_data, train_labels, validation_data, validation_labels, testing_data, testing_labels] = load_data()
+    print('shape train data: ' + str(np.shape(train_data)))
+
+    # create placeholders
+    train_data_node = tf.placeholder(
+        DATA_TYPE,
+        shape=(BATCH_SIZE, NUM_IMAGES_IN_SEQUENCE, N_INPUT)
+    )
+
+    # reshape for some reason
+    # Permuting batch_size and n_steps
+    train_data_node = tf.transpose(train_data_node, [1, 0, 2])
+    # Reshaping to (n_steps*batch_size, n_input)
+    train_data_node = tf.reshape(train_data_node, [-1, N_INPUT])
+    # Split to get a list of 'n_steps' tensors of shape (batch_size, n_input)
+    train_data_node = tf.split(0, NUM_IMAGES_IN_SEQUENCE, train_data_node)
 
 
+    # TODO: figure out the shape
+    train_labels_node = tf.placeholder(
+        DATA_TYPE,
+        shape=(None, CLASSES)
+    )
+    eval_data_node = tf.placeholder(
+        DATA_TYPE,
+        shape=(EVAL_BATCH_SIZE, NUM_IMAGES_IN_SEQUENCE, N_INPUT)
+    )
+
+    NUM_NEURONS = 200
+    NUM_LAYERS = 3
+    DROPOUT = tf.placeholder(DATA_TYPE)
+
+    cell = GRUCell(NUM_NEURONS)  # Or LSTMCell(num_neurons)
+    cell = DropoutWrapper(cell, output_keep_prob=DROPOUT)
+    cell = MultiRNNCell([cell] * NUM_LAYERS)
+
+    # in the future we want to use dynamic_rnn
+    output, state = tf.nn.rnn(cell, train_data_node, dtype=DATA_TYPE)
+    
 
 
-    pass
+    # running everything
+    # init = tf.global_variables_initializer()
+    # with tf.Session() as sess:
+    #     sess.run(init)
+    #
+    #
+    #
+    # pass
 
 
 main()
