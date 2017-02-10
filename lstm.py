@@ -249,6 +249,9 @@ def main():
         DATA_TYPE,
         shape=(BATCH_SIZE, NUM_IMAGES_IN_SEQUENCE, N_INPUT)
     )
+    input_placeholder = train_data_node
+    # input_placeholder = tf.transpose(train_data_node, [1, 0, 2])
+
 
     # >transform the data into multiple tensors, 1 for each frame in the sequence
     # Permuting batch_size and n_steps
@@ -258,12 +261,14 @@ def main():
     # Split to get a list of 'n_steps' tensors of shape (batch_size, n_input)
     train_data_node = tf.split(0, NUM_IMAGES_IN_SEQUENCE, train_data_node)
 
+
+
     print(type(train_data_node))
     print(train_data_node)
 
     train_labels_node = tf.placeholder(
         DATA_TYPE,
-        shape=(None, CLASSES)
+        shape=(NUM_IMAGES_IN_SEQUENCE, CLASSES)
     )
     eval_data_node = tf.placeholder(
         DATA_TYPE,
@@ -326,6 +331,10 @@ def main():
             # print(np.shape(xx))
             # batch_x = xx
             batch_y = train_labels[step-1, :]
+            batch_y = np.tile(batch_y, (5, 1))
+            batch_y = tupconv(batch_y)
+            # batch_y = np.reshape(batch_y, (1,2))
+            # batch_y = np.transpose(batch_y)
             # batch_y = tuple(batch_y)
 
             # a = batch_x
@@ -335,17 +344,17 @@ def main():
             # a = a.astype(np.float)
 
             # TODO: fix "TypeError: unhashable type: 'list'"
-            sess.run(optimizer, feed_dict={train_data_node: batch_x,
+            sess.run(optimizer, feed_dict={input_placeholder: batch_x,
                                            train_labels_node: batch_y})
             # sess.run(optimizer, feed_dict={train_data_node: a})
             # sess.run(optimizer, feed_dict={train_labels_node: batch_y})
             if step % DISPLAY_STEP == 0:
 
                 # Calculate batch accuracy
-                acc = sess.run(accuracy, feed_dict={train_data_node: batch_x,
+                acc = sess.run(accuracy, feed_dict={input_placeholder: batch_x,
                                                     train_labels_node: batch_y})
                 # Calculate batch loss
-                loss = sess.run(cost, feed_dict={train_data_node: batch_x, train_labels_node: batch_y})
+                loss = sess.run(cost, feed_dict={input_placeholder: batch_x, train_labels_node: batch_y})
                 print("Iter " + str(step * BATCH_SIZE) + ", Minibatch Loss= " +
                       "{:.6f}".format(loss) + ", Training Accuracy= " +
                       "{:.5f}".format(acc))
