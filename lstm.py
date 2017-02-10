@@ -1,11 +1,12 @@
-import tensorflow as tf
-import numpy as np
 import os
-from PIL import Image
-import shutil
 import random as rd
+import shutil
+
+import numpy as np
+import tensorflow as tf
+from PIL import Image
 from scipy import ndimage
-from tensorflow.python.ops.rnn_cell import LSTMCell, DropoutWrapper, MultiRNNCell
+from tensorflow.python.ops.rnn_cell import LSTMCell, MultiRNNCell
 
 IMAGE_HEIGHT = 20
 IMAGE_WIDTH = 10
@@ -32,6 +33,7 @@ data_paths = [LOCATION_DATA_POSITIVE, LOCATION_DATA_NEGATIVE]
 
 # creates random sequences of images
 def create_random_sequences(data_paths, num_sequences, num_images):
+    # TODO find out if fixing number will break things
     FLAG_UPDATED= [0, 0]
     count = 0
 
@@ -78,18 +80,13 @@ def create_random_sequences(data_paths, num_sequences, num_images):
 def create_labels(number):
     return [1] * number + [0] * number
 
-    # labels = np.zeros((number*2, 2))
-    # labels[:,0] = [0] * number + [1] * number
-    # labels[:,1] = [1]*number + [0]*number
-    # return labels
-
 
 # adds the full path to a file name
-def make_list_with_full_path(path, list):
-    list_with_full_path = []
+def make_list_with_full_path(path, my_list):
+    my_list_with_full_path = []
     for item in range(0, len(list)):
-        list_with_full_path.append(os.path.join(path, list[item]))
-    return list_with_full_path
+        my_list_with_full_path.append(os.path.join(path, my_list[item]))
+    return my_list_with_full_path
 
 
 # create one hot encoding of a binary
@@ -188,26 +185,26 @@ def load_data():
         testing_data_file = os.path.join(the_noise_folder, 'testing_data.csv')
         testing_labels_file = os.path.join(the_noise_folder, 'testing_labels.csv')
 
-        with open(train_data_file, 'wr') as file:
+        with open(train_data_file, 'wr') as my_file:
             for item in range(0, len(train_data)):
-                file.write(str(train_data[item]) + '\n')
-        with open(train_labels_file, 'wr') as file:
+                my_file.write(str(train_data[item]) + '\n')
+        with open(train_labels_file, 'wr') as my_file:
             for item in range(0, len(train_labels)):
-                file.write(str(train_labels[item]) + '\n')
+                my_file.write(str(train_labels[item]) + '\n')
 
-        with open(validation_data_file, 'wr') as file:
+        with open(validation_data_file, 'wr') as my_file:
             for item in range(0, len(validation_data)):
-                file.write(str(validation_data[item]) + '\n')
-        with open(validation_labels_file, 'wr') as file:
+                my_file.write(str(validation_data[item]) + '\n')
+        with open(validation_labels_file, 'wr') as my_file:
             for item in range(0, len(validation_labels)):
-                file.write(str(validation_labels[item]) + '\n')
+                my_file.write(str(validation_labels[item]) + '\n')
 
-        with open(testing_data_file, 'wr') as file:
+        with open(testing_data_file, 'wr') as my_file:
             for item in range(0, len(testing_data)):
-                file.write(str(testing_data[item]) + '\n')
-        with open(testing_labels_file, 'wr') as file:
+                my_file.write(str(testing_data[item]) + '\n')
+        with open(testing_labels_file, 'wr') as my_file:
             for item in range(0, len(testing_labels)):
-                file.write(str(testing_labels[item]) + '\n')
+                my_file.write(str(testing_labels[item]) + '\n')
 
         train_data = np.asarray(data[0:split_here_1])
         train_labels = np.asarray(train_labels)
@@ -226,6 +223,19 @@ def load_data():
         print('sdf2')
 
     return [train_data, train_labels, validation_data, validation_labels, testing_data, testing_labels]
+
+
+# turns ndarray to a tuple all the way down
+def tupconv(lst):
+    tuplst = []
+    for x in lst:
+        if isinstance(x, np.ndarray):
+            tuplst.append(tupconv(x))
+        elif isinstance(x, list):
+            tuplst.append(tupconv(x))
+        else:
+            tuplst.append(x)
+    return tuple(tuplst)
 
 
 def main():
@@ -248,6 +258,7 @@ def main():
     # Split to get a list of 'n_steps' tensors of shape (batch_size, n_input)
     train_data_node = tf.split(0, NUM_IMAGES_IN_SEQUENCE, train_data_node)
 
+    print(type(train_data_node))
     print(train_data_node)
 
     train_labels_node = tf.placeholder(
@@ -280,14 +291,14 @@ def main():
         return prediction
 
 
-    prediction = model(train_data_node, weights, biases)
+    pred = model(train_data_node, weights, biases)
 
     # Define loss and optimizer
-    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=train_labels_node))
+    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=train_labels_node))
     optimizer = tf.train.AdamOptimizer(learning_rate=LEARNING_RATE).minimize(cost)
 
     # Evaluate model
-    correct_pred = tf.equal(tf.argmax(prediction, 1), tf.argmax(train_labels_node, 1))
+    correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(train_labels_node, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
     # running everything
@@ -300,27 +311,34 @@ def main():
         while step * BATCH_SIZE < TRAINING_ITERS:
             print(step)
             print(step * BATCH_SIZE )
-            # batch_x, batch_y = mnist.train.next_batch(batch_size)
-            batch_x = train_data[step-1]
+
+            batch_x = train_data[step-1, ...]
+            asdf = train_data[step-1]
             print(np.shape(batch_x))
             batch_x = batch_x.reshape((BATCH_SIZE, NUM_IMAGES_IN_SEQUENCE, N_INPUT))
             print(np.shape(batch_x))
+
+
+            batch_x = tupconv(batch_x)
+            # print(type(batch_x))
+            # print(np.shape(batch_x))
+            # xx = batch_x[0][0]
+            # print(np.shape(xx))
+            # batch_x = xx
             batch_y = train_labels[step-1, :]
-            batch_y = np.asarray([batch_y])
-            print(np.shape(batch_y))
-            ble = np.tile(batch_y, (NUM_IMAGES_IN_SEQUENCE, 1))
-            # shape train data: (200, 5, 20, 10, 3)
-            # [<tf.Tensor 'split:0' shape=(1, 600) dtype=float32>, <tf.Tensor 'split:1' shape=(1, 600) dtype=float32>,
-            #  <tf.Tensor 'split:2' shape=(1, 600) dtype=float32>, <tf.Tensor 'split:3' shape=(1, 600) dtype=float32>,
-            # <tf.Tensor 'split:4' shape=(1, 600) dtype=float32>]
-            # Run optimization op (backprop)
-            # TODO: fix
-            # " File "/home/gabi/PycharmProjects/uatu/lstm.py", line 321, in main
-            # sess.run(optimizer, feed_dict={train_data_node: batch_x, train_labels_node: batch_y})
-            # TypeError: unhashable type: 'list' "
-            # TODO: fix
+            # batch_y = tuple(batch_y)
+
+            # a = batch_x
+            # a = a[0][0]
+            # print('asdf')
+
+            # a = a.astype(np.float)
+
+            # TODO: fix "TypeError: unhashable type: 'list'"
             sess.run(optimizer, feed_dict={train_data_node: batch_x,
                                            train_labels_node: batch_y})
+            # sess.run(optimizer, feed_dict={train_data_node: a})
+            # sess.run(optimizer, feed_dict={train_labels_node: batch_y})
             if step % DISPLAY_STEP == 0:
 
                 # Calculate batch accuracy
@@ -328,8 +346,8 @@ def main():
                                                     train_labels_node: batch_y})
                 # Calculate batch loss
                 loss = sess.run(cost, feed_dict={train_data_node: batch_x, train_labels_node: batch_y})
-                print("Iter " + str(step * BATCH_SIZE) + ", Minibatch Loss= " + \
-                      "{:.6f}".format(loss) + ", Training Accuracy= " + \
+                print("Iter " + str(step * BATCH_SIZE) + ", Minibatch Loss= " +
+                      "{:.6f}".format(loss) + ", Training Accuracy= " +
                       "{:.5f}".format(acc))
             step = step + 1
         print("Optimization Finished!")
