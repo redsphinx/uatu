@@ -46,4 +46,14 @@ def test_reshape():
         print(tf.Tensor.eval(r_after))
 
 
-test_reshape()
+def tupconv(lst):
+    tuplst = []
+    for x in lst:
+        if isinstance(x, list):
+            tuplst.append(tupconv(x))
+        else:
+            tuplst.append(x)
+
+    return tuple(tuplst)
+
+
