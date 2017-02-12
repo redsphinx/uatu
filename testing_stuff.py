@@ -54,6 +54,13 @@ def tupconv(lst):
         else:
             tuplst.append(x)
 
-    return tuple(tuplst)
+
+def get_version():
+    ver = tf.__version__
+    print(type(ver))
+    print(tf.__version__)
+
+
+get_version()
 
 
