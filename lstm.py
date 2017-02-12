@@ -21,10 +21,11 @@ TRAINING_ITERS = 1000
 DATA_TYPE = tf.float32
 NUM_SEQUENCES = 200
 NUM_IMAGES_IN_SEQUENCE = 5
-BATCH_SIZE = 1
+BATCH_SIZE = 10
 EVAL_BATCH_SIZE = 1
 LEARNING_RATE = 0.0001
 DISPLAY_STEP = 1
+NUM_EPOCH = 100
 
 LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/noise/positive/'
 LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/noise/negative/'
@@ -67,10 +68,10 @@ def create_random_sequences(data_paths, num_sequences, num_images):
                 print('made: ' + str(path))
                 os.mkdir(path)
 
-                for number in range(0, num_images):
+                for num in range(0, num_images):
                     imarray = np.random.rand(IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS) * 255
                     im = Image.fromarray(imarray.astype('uint8')).convert('RGBA')
-                    file = os.path.join(path, path_name.split('/')[-2] + str(number) + '.jpg')
+                    file = os.path.join(path, path_name.split('/')[-2] + str(num) + '.jpg')
                     im.save(file)
         count = count + 1
     return FLAG_UPDATED
@@ -84,7 +85,7 @@ def create_labels(number):
 # adds the full path to a file name
 def make_list_with_full_path(path, my_list):
     my_list_with_full_path = []
-    for item in range(0, len(list)):
+    for item in range(0, len(my_list)):
         my_list_with_full_path.append(os.path.join(path, my_list[item]))
     return my_list_with_full_path
 
@@ -99,9 +100,9 @@ def ohe(old, new):
 # loads the data into numpy arrays
 def load_data():
     FLAG_UPDATED = create_random_sequences(data_paths, NUM_SEQUENCES, NUM_IMAGES_IN_SEQUENCE)
-    the_noise_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'noise_folder')
+    the_noise_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'the_noise_folder')
 
-    if os.path.exists(the_noise_folder) and sum(FLAG_UPDATED) == 0:
+    if os.path.exists(the_noise_folder) and sum(FLAG_UPDATED) == 0 and os.path.exists(os.path.join(the_noise_folder, 'train_data.csv')):
         print('loading data from files')
         # load file names
         train_data_ = np.genfromtxt(os.path.join(the_noise_folder, 'train_data.csv'), dtype=None)
@@ -307,66 +308,50 @@ def main():
     accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
     # running everything
-    init = tf.global_variables_initializer()
+    if tf.__version__ == '0.10.0':
+        init = tf.initialize_all_variables()
+    elif tf.__version__ == '0.12.0':
+        init = tf.global_variables_initializer()
 
     with tf.Session() as sess:
         sess.run(init)
-        step = 1
+        epoch = 0
         # Keep training until reach max iterations
-        while step * BATCH_SIZE < TRAINING_ITERS:
-            print(step)
-            print(step * BATCH_SIZE )
+        # while step * BATCH_SIZE < TRAINING_ITERS:
 
-            batch_x = train_data[step-1, ...]
-            asdf = train_data[step-1]
-            print(np.shape(batch_x))
-            batch_x = batch_x.reshape((BATCH_SIZE, NUM_IMAGES_IN_SEQUENCE, N_INPUT))
-            print(np.shape(batch_x))
+        STEPS = len(train_data) / BATCH_SIZE
 
+        while epoch < NUM_EPOCH:
+            print('epoch: ' + str(epoch))
+            for instance in range(0, STEPS):
+                # print('instance: ' + str(instance))
+                batch_x = train_data[instance*BATCH_SIZE:(instance+1)*BATCH_SIZE, ...]
+                batch_x = batch_x.reshape((BATCH_SIZE, NUM_IMAGES_IN_SEQUENCE, N_INPUT))
+                batch_x = tupconv(batch_x)
 
-            batch_x = tupconv(batch_x)
-            # print(type(batch_x))
-            # print(np.shape(batch_x))
-            # xx = batch_x[0][0]
-            # print(np.shape(xx))
-            # batch_x = xx
-            batch_y = train_labels[step-1, :]
-            batch_y = np.tile(batch_y, (5, 1))
-            batch_y = tupconv(batch_y)
-            # batch_y = np.reshape(batch_y, (1,2))
-            # batch_y = np.transpose(batch_y)
-            # batch_y = tuple(batch_y)
+                batch_y = train_labels[instance, :]
+                batch_y = np.tile(batch_y, (5, 1))
+                batch_y = tupconv(batch_y)
 
-            # a = batch_x
-            # a = a[0][0]
-            # print('asdf')
-
-            # a = a.astype(np.float)
-
-            # TODO: fix "TypeError: unhashable type: 'list'"
-            sess.run(optimizer, feed_dict={input_placeholder: batch_x,
-                                           train_labels_node: batch_y})
-            # sess.run(optimizer, feed_dict={train_data_node: a})
-            # sess.run(optimizer, feed_dict={train_labels_node: batch_y})
-            if step % DISPLAY_STEP == 0:
+                sess.run(optimizer, feed_dict={input_placeholder: batch_x,
+                                               train_labels_node: batch_y})
+            if epoch % DISPLAY_STEP == 0:
 
                 # Calculate batch accuracy
                 acc = sess.run(accuracy, feed_dict={input_placeholder: batch_x,
                                                     train_labels_node: batch_y})
                 # Calculate batch loss
                 loss = sess.run(cost, feed_dict={input_placeholder: batch_x, train_labels_node: batch_y})
-                print("Iter " + str(step * BATCH_SIZE) + ", Minibatch Loss= " +
+                print("Epoch " + str(epoch) + ", Minibatch Loss= " +
                       "{:.6f}".format(loss) + ", Training Accuracy= " +
                       "{:.5f}".format(acc))
-            step = step + 1
+            epoch = epoch + 1
         print("Optimization Finished!")
 
-        # # Calculate accuracy for 128 mnist test images
-        # test_len = 128
+        # Calculate accuracy for 128 mnist test images
+        test_len = 128
         # test_data = mnist.test.images[:test_len].reshape((-1, n_steps, n_input))
         # test_label = mnist.test.labels[:test_len]
-        # print("Testing Accuracy:", \
+        # print("Testing Accuracy:",
         #       sess.run(accuracy, feed_dict={x: test_data, y: test_label}))
-
-
 main()
