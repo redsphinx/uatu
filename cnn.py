@@ -163,7 +163,7 @@ def main(_):
 
     # weights and biases
     conv1_weights = tf.Variable(
-        tf.truncated_normal([3, 3, CHANNELS, 32],  # 5x5 filter, depth 32.
+        tf.truncated_normal([32, 32, CHANNELS, 32],  # 5x5 filter, depth 32.
                             stddev=0.1,
                             seed=SEED, dtype=DATA_TYPE))
     variable_summaries(conv1_weights)

@@ -18,15 +18,22 @@ other:
 . update data latex file with info about CASIA
 ------------------------------------------------------------------------------------------------
 
+15 feb
+------
+. install gpu ?
+. 
+
+
 14 feb
 ------
-. put lstm into the siamese cnn
+. install gpu ?
+. continue make the cnn into siamese cnn
+. make cnn accept sequences of images
 
 
 13 feb
 ------
-. make the cnn into siamese cnn
-. make cnn accept sequences of images
+. start make the cnn into siamese cnn
 
 
 10 feb
