@@ -18,9 +18,27 @@ other:
 . update data latex file with info about CASIA
 ------------------------------------------------------------------------------------------------
 
+14 feb
+------
+. put lstm into the siamese cnn
+
+
+13 feb
+------
+. make the cnn into siamese cnn
+. make cnn accept sequences of images
+
+
+10 feb
+------
+. fixed 'data must be of hashable type error'
+. made lstm that can accept sequence of images
+
+
 9 feb
 -----
 . finish the lstm part of the convolutional RNN
+. ran into 'data must be of hashable type error'
 
 notes:
 .tf.nn.rnn creates an unrolled graph for a fixed RNN length. That means, if you call tf.nn.rnn with inputs having 200 time steps you are creating a static graph with 200 RNN steps. First, graph creation is slow. Second, you’re unable to pass in longer sequences (> 200) than you’ve originally specified. tf.nn.dynamic_rnn solves this. It uses a tf.While loop to dynamically construct the graph when it is executed. That means graph creation is faster and you can feed batches of variable size.
@@ -48,3 +66,8 @@ DONE . figure out why loss becomes NaN DONE
 DONE . monitoring with tensorboard DONE
 
 DONE . update data latex with info about HDA and hard negative mining
+
+
+6 feb
+-----
+. made basic cnn that can distinguish between humans and non-humans
