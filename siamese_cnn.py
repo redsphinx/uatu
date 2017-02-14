@@ -1,86 +1,119 @@
 import tensorflow as tf
-import numpy as np
-import time
-import sys
-import argparse
-import os
-import random as rd
-from PIL import Image
-from scipy import ndimage
 import project_constants as pc
 
 
-def create_weights_biases(model_parameters, )
+
+def load_data():
+    pass
 
 
-def create_cnn(data, model_parameters, stream_num):
-    # should look like this, we comment this out in the end
-    stream = data[stream_num]
-
-    # should look like this, we comment this out in the end
-    model_parameters = {
-        'num_epochs': 100,
-        'batch_size': 1,
-        'num_tracklets': 100,
-        'num_frames': 3,
-        'image_height': 200,
-        'image_width': 100,
-        'num_channels': 3,
-        'num_labels': 2,
-        'start_learning_rate': 0.0001
-
-    }
-
-    # TODO: figure out the details of the input
-    # define placeholders
-    stream_node = tf.placeholder(
-        pc.DATA_TYPE,
-        shape=(model_parameters['batch_size'], model_parameters['num_frames'], model_parameters['image_height'],
-               model_parameters['image_width'], model_parameters['num_channels'])
+def build_cnn(data, dropout):
+    # define weights and biases
+    conv_1_weigths = tf.get_variable(
+        'weights',
+        shape=pc.KERNEL_SHAPE_1,
+        initializer=tf.contrib.layers.xavier_initializer(),
+        dtype=pc.DATA_TYPE
     )
 
-    # define weights using Xavier initialization
-    conv_1_weights = tf.get_variable('conv_1_weights', shape=(3, 3, model_parameters['num_channels'], 16),
-                                    initializer=tf.contrib.layers.xavier_initializer(),
-                                    dtype=pc.DATA_TYPE, trainable=True)
-    conv_2_weights = tf.get_variable('conv_2_weights', shape=(3, 3, 16, 32),
-                                    initializer=tf.contrib.layers.xavier_initializer(),
-                                    dtype=pc.DATA_TYPE, trainable=True)
-    conv_3_weights = tf.get_variable('conv_3_weights', shape=(3, 3, 32, 64),
-                                     initializer=tf.contrib.layers.xavier_initializer(),
-                                     dtype=pc.DATA_TYPE, trainable=True)
-    conv_4_weights = tf.get_variable('conv_4_weights', shape=(3, 3, 64, 128),
-                                     initializer=tf.contrib.layers.xavier_initializer(),
-                                     dtype=pc.DATA_TYPE, trainable=True)
-    conv_5_weights = tf.get_variable('conv_5_weights', shape=(3, 3, 128, 256),
-                                     initializer=tf.contrib.layers.xavier_initializer(),
-                                     dtype=pc.DATA_TYPE, trainable=True)
+    conv_2_weigths = tf.get_variable(
+        'weights',
+        shape=pc.KERNEL_SHAPE_2,
+        initializer=tf.contrib.layers.xavier_initializer(),
+        dtype=pc.DATA_TYPE,
+    )
 
-    # define biases with value of zero
-    conv_1_biases = tf.Variable(tf.zeros([16], dtype=pc.DATA_TYPE))
-    conv_2_biases = tf.Variable(tf.zeros([32], dtype=pc.DATA_TYPE))
-    conv_3_biases = tf.Variable(tf.zeros([64], dtype=pc.DATA_TYPE))
-    conv_4_biases = tf.Variable(tf.zeros([128], dtype=pc.DATA_TYPE))
-    conv_5_biases = tf.Variable(tf.zeros([256], dtype=pc.DATA_TYPE))
+    conv_3_weigths = tf.get_variable(
+        'weights',
+        shape=pc.KERNEL_SHAPE_3,
+        initializer=tf.contrib.layers.xavier_initializer(),
+        dtype=pc.DATA_TYPE,
+    )
 
-    # define fully connected weights
-    fc_1_weights = tf.get_variable('fc_1_weights', shape=(256, 512),
-                                     initializer=tf.contrib.layers.xavier_initializer(),
-                                     dtype=pc.DATA_TYPE, trainable=True)
-    fc_2_weights = tf.get_variable('fc_2_weights', shape=(512, model_parameters['num_labels']),
-                                   initializer=tf.contrib.layers.xavier_initializer(),
-                                   dtype=pc.DATA_TYPE, trainable=True)
+    conv_4_weigths = tf.get_variable(
+        'weights',
+        shape=pc.KERNEL_SHAPE_4,
+        initializer=tf.contrib.layers.xavier_initializer(),
+        dtype=pc.DATA_TYPE,
+    )
 
-    # define fully connected biases
-    fc_1_biases = tf.Variable(tf.zeros([512], dtype=pc.DATA_TYPE))
-    fc_2_biases = tf.Variable(tf.zeros([model_parameters['num_labels']], dtype=pc.DATA_TYPE))
+    conv_5_weigths = tf.get_variable(
+        'weights',
+        shape=pc.KERNEL_SHAPE_5,
+        initializer=tf.contrib.layers.xavier_initializer(),
+        dtype=pc.DATA_TYPE,
+    )
 
-    # define model architecture
+    conv_1_biases = tf.get_variable(
+        'biases',
+        shape=pc.BIAS_SHAPE_1,
+        initializer=tf.constant_initializer(0.01),
+        dtype=pc.DATA_TYPE
+    )
 
+    conv_2_biases = tf.get_variable(
+        'biases',
+        shape=pc.BIAS_SHAPE_2,
+        initializer=tf.constant_initializer(0.01),
+        dtype=pc.DATA_TYPE
+    )
+
+    conv_3_biases = tf.get_variable(
+        'biases',
+        shape=pc.BIAS_SHAPE_3,
+        initializer=tf.constant_initializer(0.01),
+        dtype=pc.DATA_TYPE
+    )
+
+    conv_4_biases = tf.get_variable(
+        'biases',
+        shape=pc.BIAS_SHAPE_4,
+        initializer=tf.constant_initializer(0.01),
+        dtype=pc.DATA_TYPE
+    )
+
+    conv_5_biases = tf.get_variable(
+        'biases',
+        shape=pc.BIAS_SHAPE_5,
+        initializer=tf.constant_initializer(0.01),
+        dtype=pc.DATA_TYPE
+    )
+
+
+    def conv_unit(input, weights, biases):
+        conv = tf.nn.conv2d(
+            input,
+            weights,
+            strides=[1, 1, 1, 1],
+            padding='SAME'
+        )
+        relu = tf.nn.relu(conv, biases)
+        pool = tf.nn.max_pool(
+            relu,
+            ksize=[1, 2, 2, 1],
+            strides=[1, 2, 2, 1],
+            padding='SAME'
+        )
+        return pool
+
+
+
+    # define model
+    def model(data):
+        conv_1_layer = conv_unit(data, conv_1_weigths, conv_1_biases)
+        conv_2_layer = conv_unit(conv_1_layer, conv_2_weigths, conv_2_biases)
+        conv_3_layer = conv_unit(conv_2_layer, conv_3_weigths, conv_3_biases)
+        conv_4_layer = conv_unit(conv_3_layer, conv_4_weigths, conv_4_biases)
+        conv_5_layer = conv_unit(conv_4_layer, conv_5_weigths, conv_5_biases)
+
+        
 
     pass
 
 
-def main():
+def build_model_siamese_cnn():
+    pass
 
+
+def main():
     pass
