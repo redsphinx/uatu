@@ -12,35 +12,35 @@ def load_data():
 
 def build_cnn(data, scope_name):
     # define weights and biases
-    conv_1_weigths = tf.get_variable(
+    conv_1_weights = tf.get_variable(
         'weights_1',
         shape=pc.KERNEL_SHAPE_1,
         initializer=tf.contrib.layers.xavier_initializer(),
         dtype=pc.DATA_TYPE
     )
 
-    conv_2_weigths = tf.get_variable(
+    conv_2_weights = tf.get_variable(
         'weights_2',
         shape=pc.KERNEL_SHAPE_2,
         initializer=tf.contrib.layers.xavier_initializer(),
         dtype=pc.DATA_TYPE,
     )
 
-    conv_3_weigths = tf.get_variable(
+    conv_3_weights = tf.get_variable(
         'weights_3',
         shape=pc.KERNEL_SHAPE_3,
         initializer=tf.contrib.layers.xavier_initializer(),
         dtype=pc.DATA_TYPE,
     )
 
-    conv_4_weigths = tf.get_variable(
+    conv_4_weights = tf.get_variable(
         'weights_4',
         shape=pc.KERNEL_SHAPE_4,
         initializer=tf.contrib.layers.xavier_initializer(),
         dtype=pc.DATA_TYPE,
     )
 
-    conv_5_weigths = tf.get_variable(
+    conv_5_weights = tf.get_variable(
         'weights_5',
         shape=pc.KERNEL_SHAPE_5,
         initializer=tf.contrib.layers.xavier_initializer(),
@@ -101,15 +101,15 @@ def build_cnn(data, scope_name):
     # define model
     with tf.variable_scope(scope_name):
         with tf.variable_scope('conv_1'):
-            conv_1_layer = conv_unit(data, conv_1_weigths, conv_1_biases)
+            conv_1_layer = conv_unit(data, conv_1_weights, conv_1_biases)
         with tf.variable_scope('conv_2'):
-            conv_2_layer = conv_unit(conv_1_layer, conv_2_weigths, conv_2_biases)
+            conv_2_layer = conv_unit(conv_1_layer, conv_2_weights, conv_2_biases)
         with tf.variable_scope('conv_3'):
-            conv_3_layer = conv_unit(conv_2_layer, conv_3_weigths, conv_3_biases)
+            conv_3_layer = conv_unit(conv_2_layer, conv_3_weights, conv_3_biases)
         with tf.variable_scope('conv_4'):
-            conv_4_layer = conv_unit(conv_3_layer, conv_4_weigths, conv_4_biases)
+            conv_4_layer = conv_unit(conv_3_layer, conv_4_weights, conv_4_biases)
         with tf.variable_scope('conv_5'):
-            conv_5_layer = conv_unit(conv_4_layer, conv_5_weigths, conv_5_biases)
+            conv_5_layer = conv_unit(conv_4_layer, conv_5_weights, conv_5_biases)
     return conv_5_layer
 
 
@@ -118,23 +118,48 @@ def build_model_siamese_cnn(data):
     train_node = tf.placeholder(pc.DATA_TYPE, shape=[1, 10, 5, 3])
 
     with tf.variable_scope('cnn_models') as scope:
-        model_1 = build_cnn(train_node, 'model_1')
+        model_1 = build_cnn(train_node, 'cnn_model_1')
         scope.reuse_variables()
-        model_2 = build_cnn(train_node, 'model_2')
+        model_2 = build_cnn(train_node, 'cnn_model_2')
 
 
+    # define fc layers
+    fc_1_weights = tf.get_variable(
+        'fc_1_weights',
+        shape=[256, 512],
+        initializer=tf.contrib.layers.xavier_initializer(),
+        dtype=pc.DATA_TYPE
+    )
 
-    # # define fc layers
-    # fc_1_weigths = tf.get_variable(
-    #     'fc_weights',
-    #     shape=[],
-    #     initializer=tf.contrib.layers.xavier_initializer(),
-    #     dtype=pc.DATA_TYPE
-    # )
+    fc_2_weights = tf.get_variable(
+        'fc_2_weights',
+        shape=[512, pc.NUM_CLASSES],
+        initializer=tf.contrib.layers.xavier_initializer(),
+        dtype=pc.DATA_TYPE
+    )
+    fc_1_biases = tf.get_variable(
+        'fc_1_bias',
+        shape=[512],
+        initializer=tf.constant_initializer(0.01),
+        dtype=pc.DATA_TYPE
+    )
 
+    fc_2_biases = tf.get_variable(
+        'fc_2_bias',
+        shape=[pc.NUM_CLASSES],
+        initializer=tf.constant_initializer(0.01),
+        dtype=pc.DATA_TYPE
+    )
 
+    # get the distance between the 2 features
+    distance = tf.sqrt(tf.reduce_sum(tf.pow(tf.sub(model_1, model_2), 2), 1, keep_dims=True))
+    print(tf.shape(distance))
+    distance = tf.reshape(distance, [1,256])
+    print(tf.shape(distance))
 
-    pass
+    fc_1 = tf.nn.relu(tf.matmul(distance, fc_1_weights) + fc_1_biases)
+    return tf.matmul(fc_1, fc_2_weights) + fc_2_biases
+
 
 
 data = np.asarray(load_data(), dtype=np.float32)
