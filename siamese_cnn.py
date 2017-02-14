@@ -2,14 +2,37 @@ import tensorflow as tf
 import project_constants as pc
 import numpy as np
 from PIL import Image
+import time
+import sys
 
 
 def load_data():
     imarray = np.random.rand(10, 5, 3) * 255
-    im1 = Image.fromarray(imarray.astype('uint8')).convert('RGB')
+    im1 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
     imarray = np.random.rand(10, 5, 3) * 255
-    im2 = Image.fromarray(imarray.astype('uint8')).convert('RGB')
-    return (im1, im2)
+    im2 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
+    imarray = np.random.rand(10, 5, 3) * 255
+    im3 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
+    imarray = np.random.rand(10, 5, 3) * 255
+    im4 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
+    train = [im1, im2]
+    test = [im3, im4]
+
+    return [train, test]
+
+
+def load_labels():
+    a = [1,0]
+    b = [0,1]
+    return [a, b]
+
+
+def error_rate(predictions, labels):
+    """Return the error rate based on dense predictions and sparse labels."""
+    return 100.0 - (
+        100.0 *
+        np.sum(np.argmax(predictions, 1) == labels) /
+        predictions.shape[0])
 
 
 def build_cnn(data, scope_name):
@@ -161,6 +184,11 @@ def build_model_siamese_cnn(train_node_1, train_node_2):
 def main():
     with tf.variable_scope('train-test') as scope:
         data = load_data()
+        labels = load_labels()
+        train_data = data[0]
+        train_labels = labels[0]
+        validation_data = data[1]
+        validation_labels = labels[1]
         # training
         train_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[1, 10, 5, 3])
         train_node_2 = tf.placeholder(pc.DATA_TYPE, shape=[1, 10, 5, 3])
@@ -169,7 +197,7 @@ def main():
         # validation
         validation_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[1, 10, 5, 3])
         validation_node_2 = tf.placeholder(pc.DATA_TYPE, shape=[1, 10, 5, 3])
-        validation_label_node = tf.placeholder(pc.DATA_TYPE, shape=[1])
+        validation_label_node = tf.placeholder(pc.DATA_TYPE, shape=[1, 2])
 
         logits = build_model_siamese_cnn(train_node_1, train_node_2)
         loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
@@ -206,13 +234,72 @@ def main():
             print('version not supported. add what to do manually.')
             init = tf.global_variables_initializer()
 
+        def eval_in_batches(data, sess):
+            """Get all predictions for a dataset by running it in small batches."""
+            # size = data.shape[0]
+            size = np.shape(data[0])
+            if size < pc.EVAL_BATCH_SIZE:
+                raise ValueError("batch size for evals larger than dataset: %d" % size)
+            predictions = np.ndarray(shape=(size, pc.NUM_CLASSES), dtype=np.float32)
+            for begin in range(0, size, pc.EVAL_BATCH_SIZE):
+                end = begin + pc.EVAL_BATCH_SIZE
+                if end <= size:
+                    predictions[begin:end, :] = sess.run(
+                        validation_prediction,
+                        feed_dict={validation_data: data[begin:end, ...]})
+                else:
+                    batch_predictions = sess.run(
+                        validation_prediction,
+                        feed_dict={validation_data: data[-pc.EVAL_BATCH_SIZE:, ...]})
+                    predictions[begin:, :] = batch_predictions[begin - size:, :]
+            return predictions
+
+
+        start_time = time.time()
         with tf.Session() as sess:
             sess.run(init)
             epoch = 0
-            print('yay gabi')
+            print('Initialized!')
+            # Loop through training steps.
+            for train_step in range(0, pc.NUM_EPOCHS):
+                # Compute the offset of the current minibatch in the data.
+                # Note that we could use better randomization across epochs.
+                # offset = (train_step * pc.BATCH_SIZE) % (pc.NUM_TRAIN - pc.BATCH_SIZE)
+                offset = 1
+                # batch_data = train_data[offset:(offset + pc.BATCH_SIZE), ...]
+                batch_data = train_data
+                # batch_labels = train_labels[offset:(offset + pc.BATCH_SIZE)]
+                batch_labels = train_labels
 
 
-    pass
+
+                # This dictionary maps the batch data (as a numpy array) to the
+                # node in the graph it should be fed to.
+                feed_dict = {train_node_1: [batch_data[0]],
+                             train_node_2: [batch_data[1]],
+                             train_label_node: [batch_labels]}
+                print(batch_labels)
+                # Run the optimizer to update weights.
+                sess.run(optimizer, feed_dict=feed_dict)
+                # print some extra information once reach the evaluation frequency
+                if train_step % pc.EVAL_FREQUENCY == 0:
+                    # fetch some extra nodes' data
+                    l, lr, predictions = sess.run([loss, learning_rate, train_prediction],
+                                                  feed_dict=feed_dict)
+                    elapsed_time = time.time() - start_time
+                    start_time = time.time()
+                    print('Step %d (epoch %.2f), %.1f ms' %
+                          (train_step, float(train_step) * pc.BATCH_SIZE / pc.NUM_TRAIN,
+                           1000 * elapsed_time / pc.EVAL_FREQUENCY))
+                    print('Minibatch loss: %.3f, learning rate: %.6f' % (l, lr))
+                    print('Minibatch error: %.1f%%' % error_rate(predictions, batch_labels))
+                    print('Validation error: %.1f%%' % error_rate(
+                        eval_in_batches(validation_data, sess), validation_labels))
+                    sys.stdout.flush()
+            # Finally print the result!
+            test_error = error_rate(eval_in_batches(validation_data, sess), validation_labels)
+            print('Test error: %.1f%%' % test_error)
+
 
 
 main()
