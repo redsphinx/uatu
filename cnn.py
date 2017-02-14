@@ -255,7 +255,7 @@ def main(_):
     optimizer = tf.train.MomentumOptimizer(learning_rate,
                                            0.9).minimize(loss,
                                                          global_step=batch)
-
+    # remember: logits = model(train_data_node, True)
     train_prediction = tf.nn.softmax(logits)
     eval_prediction = tf.nn.softmax(model(eval_data))
 
