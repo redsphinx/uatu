@@ -1,29 +1,43 @@
 import tensorflow as tf
-import project_constants as pc
 import numpy as np
 from PIL import Image
 import time
 import sys
 
+import project_constants as pc
+import project_utils as pu
+
+amount_data = 10
+
 
 def load_data():
-    imarray = np.random.rand(10, 5, 3) * 255
-    im1 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-    imarray = np.random.rand(10, 5, 3) * 255
-    im2 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-    imarray = np.random.rand(10, 5, 3) * 255
-    im3 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-    imarray = np.random.rand(10, 5, 3) * 255
-    im4 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-    train = [im1, im2]
-    test = [im3, im4]
+    train = np.array([])
+    validate = np.array([])
+    for num in range(0, amount_data):
+        imarray = np.random.rand(10, 5, 3) * 255
+        im_t_1 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
+        im_t_2 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
+        train = np.append(train, [im_t_1, im_t_2])
+        imarray = np.random.rand(10, 5, 3) * 255
+        im_v_1 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
+        im_v_2 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
+        validate = np.append(validate, [im_v_1, im_v_2])
 
-    return [train, test]
+    # TODO: fix reshaping of data
+    train = train.reshape([amount_data, 2, 10,5,3])
+    validate = validate.reshape([amount_data, 2, 10, 5, 3])
+    return [train, validate]
 
 
 def load_labels():
-    a = [1,0]
-    b = [0,1]
+    a = np.array([])
+    b = np.array([])
+    for num in range(0, amount_data):
+        a = np.append(a, [1,0])
+        b = np.append(b, [0,1])
+
+    a = a.reshape([amount_data, 2])
+    b = b.reshape([amount_data, 2])
     return [a, b]
 
 
@@ -185,6 +199,9 @@ def main():
     with tf.variable_scope('train-test') as scope:
         data = load_data()
         labels = load_labels()
+
+
+
         train_data = data[0]
         train_labels = labels[0]
         validation_data = data[1]
@@ -228,30 +245,47 @@ def main():
         # running everything
         if tf.__version__ == '0.10.0':
             init = tf.initialize_all_variables()
-        elif tf.__version__ == '0.12.0':
+        elif tf.__version__ == '0.12.0' or tf.__version__ == '0.12.1':
             init = tf.global_variables_initializer()
         else:
             print('version not supported. add what to do manually.')
             init = tf.global_variables_initializer()
+            print(tf.__version__)
 
         def eval_in_batches(data, sess):
             """Get all predictions for a dataset by running it in small batches."""
             # size = data.shape[0]
-            size = np.shape(data[0])
+            # data = pu.tupconv(data)
+            data = np.asarray(data)
+
+            size = np.shape(data)[0]
+            print(size)
+
+            # feed_dict = {
+            #     train_node_1: [batch_data[0]],
+            #     train_node_2: [batch_data[1]],
+            #     train_label_node: [batch_labels[0]]}
+
+
             if size < pc.EVAL_BATCH_SIZE:
                 raise ValueError("batch size for evals larger than dataset: %d" % size)
             predictions = np.ndarray(shape=(size, pc.NUM_CLASSES), dtype=np.float32)
             for begin in range(0, size, pc.EVAL_BATCH_SIZE):
                 end = begin + pc.EVAL_BATCH_SIZE
+                print(np.shape(data))
                 if end <= size:
                     predictions[begin:end, :] = sess.run(
                         validation_prediction,
-                        feed_dict={validation_data: data[begin:end, ...]})
+                        feed_dict={validation_node_1:[data[begin:end, 0]],
+                                   validation_node_2:[data[begin:end, 1]]
+                                   }
+                    )
+                        # feed_dict={validation_data: data[begin:end]})
                 else:
                     batch_predictions = sess.run(
                         validation_prediction,
-                        feed_dict={validation_data: data[-pc.EVAL_BATCH_SIZE:, ...]})
-                    predictions[begin:, :] = batch_predictions[begin - size:, :]
+                        feed_dict={validation_data: data[-pc.EVAL_BATCH_SIZE:]})
+                    predictions[begin:, :] = batch_predictions[begin - size:]
             return predictions
 
 
@@ -271,13 +305,17 @@ def main():
                 # batch_labels = train_labels[offset:(offset + pc.BATCH_SIZE)]
                 batch_labels = train_labels
 
+                batch_eval_data = validation_data
+
+                batch_eval_labels = validation_labels
 
 
                 # This dictionary maps the batch data (as a numpy array) to the
                 # node in the graph it should be fed to.
-                feed_dict = {train_node_1: [batch_data[0]],
-                             train_node_2: [batch_data[1]],
-                             train_label_node: [batch_labels]}
+                feed_dict = {
+                                train_node_1: [batch_data[0]],
+                                train_node_2: [batch_data[1]],
+                                train_label_node: [batch_labels[0]]}
                 print(batch_labels)
                 # Run the optimizer to update weights.
                 sess.run(optimizer, feed_dict=feed_dict)
@@ -301,5 +339,7 @@ def main():
             print('Test error: %.1f%%' % test_error)
 
 
-
-main()
+#
+# main()
+load_data()
+load_labels()

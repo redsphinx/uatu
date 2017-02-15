@@ -21,7 +21,8 @@ other:
 15 feb
 ------
 . install gpu ?
-. 
+. continue make the cnn into siamese cnn
+. make siamese cnn accept sequences of images
 
 
 14 feb
