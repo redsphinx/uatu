@@ -23,10 +23,10 @@ def load_data():
         im_v_2 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
         validate = np.append(validate, [im_v_1, im_v_2])
 
-    # TODO: fix reshaping of data
     train = train.reshape([amount_data, 2, 10,5,3])
     validate = validate.reshape([amount_data, 2, 10, 5, 3])
-    return [train, validate]
+    ans = [train, validate]
+    return ans
 
 
 def load_labels():
@@ -189,7 +189,7 @@ def build_model_siamese_cnn(train_node_1, train_node_2):
 
     # get the distance between the 2 features
     distance = tf.sqrt(tf.reduce_sum(tf.pow(tf.sub(model_1, model_2), 2), 1, keep_dims=True))
-    distance = tf.reshape(distance, [1,256])
+    distance = tf.reshape(distance, [pc.BATCH_SIZE,256])
 
     fc_1 = tf.nn.relu(tf.matmul(distance, fc_1_weights) + fc_1_biases)
     return tf.matmul(fc_1, fc_2_weights) + fc_2_biases
@@ -200,21 +200,19 @@ def main():
         data = load_data()
         labels = load_labels()
 
-
-
         train_data = data[0]
         train_labels = labels[0]
         validation_data = data[1]
         validation_labels = labels[1]
         # training
-        train_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[1, 10, 5, 3])
-        train_node_2 = tf.placeholder(pc.DATA_TYPE, shape=[1, 10, 5, 3])
-        train_label_node = tf.placeholder(pc.DATA_TYPE, shape=[1, 2]) # needs to be OHE
+        train_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, 10, 5, 3])
+        train_node_2 = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, 10, 5, 3])
+        train_label_node = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, 2]) # needs to be OHE
 
         # validation
-        validation_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[1, 10, 5, 3])
-        validation_node_2 = tf.placeholder(pc.DATA_TYPE, shape=[1, 10, 5, 3])
-        validation_label_node = tf.placeholder(pc.DATA_TYPE, shape=[1, 2])
+        validation_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[pc.EVAL_BATCH_SIZE, 10, 5, 3])
+        validation_node_2 = tf.placeholder(pc.DATA_TYPE, shape=[pc.EVAL_BATCH_SIZE, 10, 5, 3])
+        validation_label_node = tf.placeholder(pc.DATA_TYPE, shape=[pc.EVAL_BATCH_SIZE, 2])
 
         logits = build_model_siamese_cnn(train_node_1, train_node_2)
         loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
@@ -254,30 +252,20 @@ def main():
 
         def eval_in_batches(data, sess):
             """Get all predictions for a dataset by running it in small batches."""
-            # size = data.shape[0]
-            # data = pu.tupconv(data)
             data = np.asarray(data)
 
             size = np.shape(data)[0]
-            print(size)
-
-            # feed_dict = {
-            #     train_node_1: [batch_data[0]],
-            #     train_node_2: [batch_data[1]],
-            #     train_label_node: [batch_labels[0]]}
-
 
             if size < pc.EVAL_BATCH_SIZE:
                 raise ValueError("batch size for evals larger than dataset: %d" % size)
             predictions = np.ndarray(shape=(size, pc.NUM_CLASSES), dtype=np.float32)
             for begin in range(0, size, pc.EVAL_BATCH_SIZE):
                 end = begin + pc.EVAL_BATCH_SIZE
-                print(np.shape(data))
                 if end <= size:
                     predictions[begin:end, :] = sess.run(
                         validation_prediction,
-                        feed_dict={validation_node_1:[data[begin:end, 0]],
-                                   validation_node_2:[data[begin:end, 1]]
+                        feed_dict={validation_node_1:data[begin:end, 0, ...],
+                                   validation_node_2:data[begin:end, 1, ...]
                                    }
                     )
                         # feed_dict={validation_data: data[begin:end]})
@@ -298,25 +286,27 @@ def main():
             for train_step in range(0, pc.NUM_EPOCHS):
                 # Compute the offset of the current minibatch in the data.
                 # Note that we could use better randomization across epochs.
-                # offset = (train_step * pc.BATCH_SIZE) % (pc.NUM_TRAIN - pc.BATCH_SIZE)
-                offset = 1
-                # batch_data = train_data[offset:(offset + pc.BATCH_SIZE), ...]
-                batch_data = train_data
-                # batch_labels = train_labels[offset:(offset + pc.BATCH_SIZE)]
-                batch_labels = train_labels
+                offset = (train_step * pc.BATCH_SIZE) % (pc.NUM_TRAIN - pc.BATCH_SIZE)
+                # if offset == 0:
+                #     offset = 1
+                batch_data = train_data[offset:(offset + pc.BATCH_SIZE)]
+                # batch_data = train_data[offset:(offset + pc.BATCH_SIZE)]
+                batch_labels = train_labels[offset:(offset + pc.BATCH_SIZE)]
+                # batch_labels = train_labels
 
                 batch_eval_data = validation_data
-
                 batch_eval_labels = validation_labels
-
 
                 # This dictionary maps the batch data (as a numpy array) to the
                 # node in the graph it should be fed to.
+                train_batch_1 = batch_data[:, 0, ...]
+                train_batch_2 = batch_data[:, 1, ...]
+
                 feed_dict = {
-                                train_node_1: [batch_data[0]],
-                                train_node_2: [batch_data[1]],
-                                train_label_node: [batch_labels[0]]}
-                print(batch_labels)
+                                train_node_1: train_batch_1,
+                                train_node_2: train_batch_2,
+                                train_label_node: batch_labels}
+
                 # Run the optimizer to update weights.
                 sess.run(optimizer, feed_dict=feed_dict)
                 # print some extra information once reach the evaluation frequency
@@ -335,11 +325,12 @@ def main():
                         eval_in_batches(validation_data, sess), validation_labels))
                     sys.stdout.flush()
             # Finally print the result!
-            test_error = error_rate(eval_in_batches(validation_data, sess), validation_labels)
-            print('Test error: %.1f%%' % test_error)
+                    # TODO: make a test set
+            # test_error = error_rate(eval_in_batches(validation_data, sess), validation_labels)
+            # print('Test error: %.1f%%' % test_error)
 
 
-#
-# main()
-load_data()
-load_labels()
+
+main()
+# load_data()
+# load_labels()
