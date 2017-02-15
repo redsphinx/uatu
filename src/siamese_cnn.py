@@ -116,7 +116,6 @@ def build_cnn(data, scope_name):
     return conv_5_layer
 
 
-
 def build_model_siamese_cnn(train_node_1, train_node_2):
     with tf.variable_scope('cnn_models') as scope:
         model_1 = build_cnn(train_node_1, 'cnn_model_1')

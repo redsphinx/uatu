@@ -62,5 +62,9 @@ def error_rate(predictions, labels):
 # load a specific dataset
 def load_human_detection_data(name):
     location_path = ''
-
+    # load data
+    # crop
+    # generate labels
+    # split in train, validate and test
+    # save to text file
     pass
