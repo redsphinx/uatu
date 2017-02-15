@@ -18,17 +18,22 @@ other:
 . update data latex file with info about CASIA
 ------------------------------------------------------------------------------------------------
 
+16 feb
+------
+. make siamese cnn accept sequences of images
+
+
 15 feb
 ------
 . install gpu ?
-. continue make the cnn into siamese cnn
-. make siamese cnn accept sequences of images
+DONE . continue make the cnn into siamese cnn
+. load the CNN with pre-trained weights from human recognition
+. do person re-id with images 
 
 
 14 feb
 ------
 . continue make the cnn into siamese cnn
-. make siamese cnn accept sequences of images
 
 
 13 feb
