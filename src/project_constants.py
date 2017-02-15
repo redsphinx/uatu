@@ -2,6 +2,11 @@ import tensorflow as tf
 import numpy as np
 
 
+IMAGE_HEIGHT = 128
+IMAGE_WIDTH = 64
+SEED = 42
+AMOUNT_DATA = 10
+
 NUM_CHANNELS = 3
 DATA_TYPE = tf.float32
 NUM_CLASSES = 2

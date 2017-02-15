@@ -8,16 +8,10 @@ import random as rd
 from PIL import Image
 from scipy import ndimage
 
-IMAGE_HEIGHT = 128
-IMAGE_WIDTH = 64
-CHANNELS = 3
-BATCH_SIZE = 16
-EVAL_BATCH_SIZE = 32
-DATA_TYPE = tf.float32
-NUM_LABELS = 2
-SEED = 42
-NUM_EPOCHS = 100
-EVAL_FREQUENCY = 100  # Number of steps between evaluations.
+import project_constants as pc
+import project_utils as pu
+import siamese_cnn as scnn
+
 
 # tensorboard
 LOG_DIR = '/tmp/TF'

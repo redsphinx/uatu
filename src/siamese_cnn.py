@@ -7,47 +7,6 @@ import sys
 import project_constants as pc
 import project_utils as pu
 
-amount_data = 10
-
-
-def load_data():
-    train = np.array([])
-    validate = np.array([])
-    for num in range(0, amount_data):
-        imarray = np.random.rand(10, 5, 3) * 255
-        im_t_1 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-        im_t_2 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-        train = np.append(train, [im_t_1, im_t_2])
-        imarray = np.random.rand(10, 5, 3) * 255
-        im_v_1 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-        im_v_2 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-        validate = np.append(validate, [im_v_1, im_v_2])
-
-    train = train.reshape([amount_data, 2, 10,5,3])
-    validate = validate.reshape([amount_data, 2, 10, 5, 3])
-    ans = [train, validate]
-    return ans
-
-
-def load_labels():
-    a = np.array([])
-    b = np.array([])
-    for num in range(0, amount_data):
-        a = np.append(a, [1,0])
-        b = np.append(b, [0,1])
-
-    a = a.reshape([amount_data, 2])
-    b = b.reshape([amount_data, 2])
-    return [a, b]
-
-
-def error_rate(predictions, labels):
-    """Return the error rate based on dense predictions and sparse labels."""
-    return 100.0 - (
-        100.0 *
-        np.sum(np.argmax(predictions, 1) == labels) /
-        predictions.shape[0])
-
 
 def build_cnn(data, scope_name):
     # define weights and biases
@@ -197,8 +156,8 @@ def build_model_siamese_cnn(train_node_1, train_node_2):
 
 def main():
     with tf.variable_scope('train-test') as scope:
-        data = load_data()
-        labels = load_labels()
+        data = pu.load_data()
+        labels = pu.load_labels()
 
         train_data = data[0]
         train_labels = labels[0]
@@ -320,8 +279,8 @@ def main():
                           (train_step, float(train_step) * pc.BATCH_SIZE / pc.NUM_TRAIN,
                            1000 * elapsed_time / pc.EVAL_FREQUENCY))
                     print('Minibatch loss: %.3f, learning rate: %.6f' % (l, lr))
-                    print('Minibatch error: %.1f%%' % error_rate(predictions, batch_labels))
-                    print('Validation error: %.1f%%' % error_rate(
+                    print('Minibatch error: %.1f%%' % pu.error_rate(predictions, batch_labels))
+                    print('Validation error: %.1f%%' % pu.error_rate(
                         eval_in_batches(validation_data, sess), validation_labels))
                     sys.stdout.flush()
             # Finally print the result!
@@ -329,8 +288,4 @@ def main():
             # test_error = error_rate(eval_in_batches(validation_data, sess), validation_labels)
             # print('Test error: %.1f%%' % test_error)
 
-
-
 main()
-# load_data()
-# load_labels()
