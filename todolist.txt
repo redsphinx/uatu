@@ -25,10 +25,20 @@ other:
 
 15 feb
 ------
+
+. clean up the repo a bit
+
 . install gpu ?
 DONE . continue make the cnn into siamese cnn
+
 . load the CNN with pre-trained weights from human recognition
+.. train the CNN used for human recognition
+.. figure out how to store and reload weights
+.. figure out how to do it in the SCNN
+
 . do person re-id with images 
+.. choose a data-set
+.. prepare the data
 
 
 14 feb
