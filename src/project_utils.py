@@ -57,3 +57,10 @@ def error_rate(predictions, labels):
         100.0 *
         np.sum(np.argmax(predictions, 1) == labels) /
         predictions.shape[0])
+
+
+# load a specific dataset
+def load_human_detection_data(name):
+    location_path = ''
+
+    pass

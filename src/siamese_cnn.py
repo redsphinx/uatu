@@ -10,7 +10,7 @@ import project_utils as pu
 from tensorflow.contrib.layers import flatten
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
+# os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 
 def build_cnn(data, scope_name):
@@ -259,15 +259,8 @@ def main():
                 # Compute the offset of the current minibatch in the data.
                 # Note that we could use better randomization across epochs.
                 offset = (train_step * pc.BATCH_SIZE) % (pc.NUM_TRAIN - pc.BATCH_SIZE)
-                # if offset == 0:
-                #     offset = 1
                 batch_data = train_data[offset:(offset + pc.BATCH_SIZE)]
-                # batch_data = train_data[offset:(offset + pc.BATCH_SIZE)]
                 batch_labels = train_labels[offset:(offset + pc.BATCH_SIZE)]
-                # batch_labels = train_labels
-
-                batch_eval_data = validation_data
-                batch_eval_labels = validation_labels
 
                 # This dictionary maps the batch data (as a numpy array) to the
                 # node in the graph it should be fed to.
