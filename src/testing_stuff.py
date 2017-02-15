@@ -1,4 +1,6 @@
 import tensorflow as tf
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 
 def test_data_pipeline():
@@ -61,6 +63,5 @@ def get_version():
     print(tf.__version__)
 
 
-get_version()
-
+test_perm()
 

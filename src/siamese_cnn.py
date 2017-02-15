@@ -7,6 +7,11 @@ import sys
 import project_constants as pc
 import project_utils as pu
 
+from tensorflow.contrib.layers import flatten
+
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
+
 
 def build_cnn(data, scope_name):
     # define weights and biases
@@ -146,9 +151,17 @@ def build_model_siamese_cnn(train_node_1, train_node_2):
         dtype=pc.DATA_TYPE
     )
 
-    # get the distance between the 2 features
-    distance = tf.sqrt(tf.reduce_sum(tf.pow(tf.sub(model_1, model_2), 2), 1, keep_dims=True))
-    distance = tf.reshape(distance, [pc.BATCH_SIZE,256])
+    # get the distance between the 2 features (RMS)
+    subtract = tf.sub(model_1, model_2)
+    power = tf.pow(subtract, 2)
+    reduce_sum = tf.reduce_sum(power, [1,2], keep_dims=True)
+    square = tf.sqrt(reduce_sum)
+    flattenit = flatten(square)
+
+    distance = tf.sqrt(tf.reduce_sum(tf.pow(tf.sub(model_1, model_2), 2), [1,2], keep_dims=True))
+    the_rest = flatten(distance)
+    distance = the_rest
+    # distance = tf.reshape(distance, [pc.BATCH_SIZE, ])
 
     fc_1 = tf.nn.relu(tf.matmul(distance, fc_1_weights) + fc_1_biases)
     return tf.matmul(fc_1, fc_2_weights) + fc_2_biases
@@ -164,14 +177,14 @@ def main():
         validation_data = data[1]
         validation_labels = labels[1]
         # training
-        train_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, 10, 5, 3])
-        train_node_2 = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, 10, 5, 3])
-        train_label_node = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, 2]) # needs to be OHE
+        train_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS])
+        train_node_2 = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS])
+        train_label_node = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, pc.NUM_CLASSES]) # needs to be OHE
 
         # validation
-        validation_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[pc.EVAL_BATCH_SIZE, 10, 5, 3])
-        validation_node_2 = tf.placeholder(pc.DATA_TYPE, shape=[pc.EVAL_BATCH_SIZE, 10, 5, 3])
-        validation_label_node = tf.placeholder(pc.DATA_TYPE, shape=[pc.EVAL_BATCH_SIZE, 2])
+        validation_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[pc.EVAL_BATCH_SIZE, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS])
+        validation_node_2 = tf.placeholder(pc.DATA_TYPE, shape=[pc.EVAL_BATCH_SIZE, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS])
+        validation_label_node = tf.placeholder(pc.DATA_TYPE, shape=[pc.EVAL_BATCH_SIZE, pc.NUM_CLASSES])
 
         logits = build_model_siamese_cnn(train_node_1, train_node_2)
         loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(

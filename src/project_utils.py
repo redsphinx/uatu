@@ -17,9 +17,11 @@ def tupconv(lst):
 
 # generate noise to test if siamese_cnn pipeline is working
 def load_data():
+    print('loading data')
     train = np.array([])
     validate = np.array([])
     for num in range(0, pc.AMOUNT_DATA):
+        print(num)
         imarray = np.random.rand(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS) * 255
         im_t_1 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
         im_t_2 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
