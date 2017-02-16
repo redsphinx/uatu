@@ -146,6 +146,10 @@ def load_INRIA_data(path):
     train_labels = ohe(train_labels_, train_labels_array)
     validation_labels = ohe(validation_labels_, validation_labels_array)
 
+    # temp to test CNN
+    train_labels = train_labels_
+    validation_labels = validation_labels_
+
     return [train_data_array, train_labels, validation_data_array, validation_labels]
     pass
 
