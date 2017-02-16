@@ -151,7 +151,7 @@ def load_INRIA_data(path):
 
 
 # load a specific dataset
-def load_human_detection_data(name):
+def load_human_detection_data():
     # load data
     location_path = '/home/gabi/Documents/datasets/INRIAPerson'
     train_path = 'train_64x128_H96'
@@ -207,8 +207,3 @@ def load_human_detection_data(name):
 
     data = load_INRIA_data(data_list_folder)
     return data
-
-
-    pass
-
-load_human_detection_data('wer')

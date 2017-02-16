@@ -7,20 +7,26 @@ import os
 import random as rd
 from PIL import Image
 from scipy import ndimage
+from tensorflow.contrib.layers import flatten
+
 
 import project_constants as pc
 import project_utils as pu
-import siamese_cnn as scnn
+from siamese_cnn import build_cnn
+
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
+
 
 
 def make_model(data, name):
     # make cnn part
-    cnn_part = scnn.build_cnn(data, name)
+    cnn_part = build_cnn(data, name)
+    cnn_part = flatten(cnn_part)
 
     # define fc layers
     fc_1_weights = tf.get_variable(
         'fc_1_weights',
-        shape=[256, 512],
+        shape=[int(cnn_part.get_shape()[1]), 512],
         initializer=tf.contrib.layers.xavier_initializer(),
         dtype=pc.DATA_TYPE
     )
@@ -45,20 +51,30 @@ def make_model(data, name):
         dtype=pc.DATA_TYPE
     )
 
-    # TODO figure out the shape of cnn part
     fc_1 = tf.nn.relu(tf.matmul(cnn_part, fc_1_weights) + fc_1_biases)
     return tf.matmul(fc_1, fc_2_weights) + fc_2_biases
 
 
 def main():
-    train_node_1 = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS])
+    with tf.variable_scope('main') as scope:
+        train_node_1 = tf.placeholder(pc.DATA_TYPE,
+                                      shape=[pc.BATCH_SIZE, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS])
+
+        validation_node_1 = tf.placeholder(pc.DATA_TYPE,
+                                           shape=[pc.EVAL_BATCH_SIZE, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS])
+
+        logits = make_model(train_node_1, 'cnn_model')
+        # Predictions for the test and validation, which we'll compute less often.
+        scope.reuse_variables()
+        validation_prediction = tf.nn.softmax(make_model(validation_node_1, 'validate'))
+
+    [train_data, train_labels, validation_data, validation_labels] = pu.load_human_detection_data()
+
     train_label_node = tf.placeholder(pc.DATA_TYPE, shape=[pc.BATCH_SIZE, pc.NUM_CLASSES])
 
-    validation_node_1 = tf.placeholder(pc.DATA_TYPE,
-                                       shape=[pc.EVAL_BATCH_SIZE, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS])
+
     validation_label_node = tf.placeholder(pc.DATA_TYPE, shape=[pc.EVAL_BATCH_SIZE, pc.NUM_CLASSES])
 
-    logits = make_model(train_node_1, 'cnn_model')
     loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(
         logits, train_label_node))
 
@@ -68,7 +84,7 @@ def main():
     learning_rate = tf.train.exponential_decay(
         pc.START_LEARNING_RATE,
         step * pc.BATCH_SIZE,
-        pc.DECAY_STEP,
+        len(train_data),
         pc.DECAY_RATE,
         staircase=True)
     # Use simple momentum for the optimization.
@@ -78,9 +94,7 @@ def main():
     # Predictions for the current training minibatch.
     train_prediction = tf.nn.softmax(logits)
 
-    # Predictions for the test and validation, which we'll compute less often.
-    # scope.reuse_variables()
-    validation_prediction = tf.nn.softmax(make_model(validation_node_1, 'validate'))
+
 
     # running everything
     if tf.__version__ == '0.10.0':
@@ -106,23 +120,17 @@ def main():
             if end <= size:
                 predictions[begin:end, :] = sess.run(
                     validation_prediction,
-                    feed_dict={validation_node_1: data[begin:end, 0, ...]
+                    feed_dict={validation_node_1: data[begin:end]
                                }
                 )
                 # feed_dict={validation_data: data[begin:end]})
             else:
                 batch_predictions = sess.run(
                     validation_prediction,
-                    feed_dict={validation_data: data[-pc.EVAL_BATCH_SIZE:]})
+                    feed_dict={validation_node_1: data[-pc.EVAL_BATCH_SIZE:]})
                 predictions[begin:, :] = batch_predictions[begin - size:]
         return predictions
 
-    train_data = pu.load_human_detection_data('training_data')
-    train_labels = pu.load_human_detection_data('training_labels')
-    validation_data = pu.load_human_detection_data('validation_data')
-    validation_labels = pu.load_human_detection_data('validation_labels')
-    test_data = pu.load_human_detection_data('test_data')
-    test_labels = pu.load_human_detection_data('test_labels')
 
     start_time = time.time()
     with tf.Session() as sess:
@@ -130,11 +138,11 @@ def main():
         print('Initialized!')
 
         for train_step in range(0, pc.NUM_EPOCHS):
-            offset = (train_step * pc.BATCH_SIZE) % (pc.NUM_TRAIN - pc.BATCH_SIZE)
+            offset = (train_step * pc.BATCH_SIZE) % (len(train_data) - pc.BATCH_SIZE)
             batch_data = train_data[offset:(offset + pc.BATCH_SIZE)]
             batch_labels = train_labels[offset:(offset + pc.BATCH_SIZE)]
 
-            train_batch_1 = batch_data[:, 0, ...]
+            train_batch_1 = batch_data
 
             feed_dict = {
                 train_node_1: train_batch_1,
@@ -150,7 +158,7 @@ def main():
                 elapsed_time = time.time() - start_time
                 start_time = time.time()
                 print('Step %d (epoch %.2f), %.1f ms' %
-                      (train_step, float(train_step) * pc.BATCH_SIZE / pc.NUM_TRAIN,
+                      (train_step, float(train_step) * pc.BATCH_SIZE / len(train_data),
                        1000 * elapsed_time / pc.EVAL_FREQUENCY))
                 print('Minibatch loss: %.3f, learning rate: %.6f' % (l, lr))
                 print('Minibatch error: %.1f%%' % pu.error_rate(predictions, batch_labels))
@@ -161,3 +169,6 @@ def main():
                 # TODO: make a test set
                 # test_error = error_rate(eval_in_batches(validation_data, sess), validation_labels)
                 # print('Test error: %.1f%%' % test_error)
+
+
+main()

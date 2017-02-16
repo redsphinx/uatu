@@ -292,5 +292,3 @@ def main():
                     # TODO: make a test set
             # test_error = error_rate(eval_in_batches(validation_data, sess), validation_labels)
             # print('Test error: %.1f%%' % test_error)
-
-main()
