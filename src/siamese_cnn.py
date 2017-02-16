@@ -10,7 +10,7 @@ import project_utils as pu
 from tensorflow.contrib.layers import flatten
 
 import os
-# os.environ["CUDA_VISIBLE_DEVICES"]="0"
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 
 def build_cnn(data, scope_name):

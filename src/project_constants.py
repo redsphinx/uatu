@@ -2,10 +2,10 @@ import tensorflow as tf
 import numpy as np
 
 
-IMAGE_HEIGHT = 50
-IMAGE_WIDTH = 30
+IMAGE_HEIGHT = 128
+IMAGE_WIDTH = 64
 SEED = 42
-AMOUNT_DATA = 10
+AMOUNT_DATA = 10 # variable, TODO fix it
 
 NUM_CHANNELS = 3
 DATA_TYPE = tf.float32
