@@ -18,6 +18,7 @@ LOG_DIR = '/tmp/TF'
 
 LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/humans/1/'
 LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/humans/0/'
+log_file = 'predictions.txt'
 
 
 # def create_not_humans(num_images):
@@ -92,7 +93,14 @@ def make_list_with_full_path(path, list):
 #     return [train_data, train_labels, validation_data, validation_labels]
 
 
-def error_rate(predictions, labels):
+def error_rate(predictions, labels, step):
+    with open(log_file, 'wr') as my_file:
+        for line in range(0, len(labels)):
+            my_file.write('step: ' + str(step) + '\n' +
+                            'target: ' + str(labels[line]) + '\n' +
+                            ' prediction: ' + str(predictions[line]) + '\n')
+
+
     """Return the error rate based on dense predictions and sparse labels."""
     return 100.0 - (
         100.0 *
@@ -118,8 +126,19 @@ def main(_):
     test_data = []
     test_labels = []
 
-    [train_data, train_labels, validation_data, validation_labels] = pu.load_human_detection_data()
+    [train_data, train_labels, validation_data_, validation_labels_] = pu.load_human_detection_data()
 
+
+    test_data = validation_data_[len(validation_data_)/2:len(validation_data_)]
+    test_labels = validation_labels_[len(validation_labels_)/2:len(validation_labels_)]
+
+
+
+
+    validation_data = validation_data_[0:len(validation_data_)/2]
+    validation_labels = validation_labels_[0:len(validation_labels_)/2]
+
+    print('train: %d, validation: %d, test: %d)' % (len(train_data), len(validation_data), len(test_data)))
 
     num_epochs = pc.NUM_EPOCHS
 
@@ -220,10 +239,13 @@ def main(_):
     # conv2_biases = tf.get_variable('conv2_biases', shape=(64), dtype=DATA_TYPE, trainable=True)
     variable_summaries(conv6_biases)
 
-    # --
+    # # --
+    num_pools = 6
+    shape_last_cnn = [pc.BATCH_SIZE, pc.IMAGE_HEIGHT / (2**num_pools), pc.IMAGE_WIDTH / (2**num_pools), 1024]
+    input_to_fc = shape_last_cnn[1]*shape_last_cnn[2]*shape_last_cnn[3]
 
     fc1_weights = tf.Variable(  # fully connected, depth 512.
-        tf.truncated_normal([2048, 512],
+        tf.truncated_normal([input_to_fc, 512],
                             stddev=0.1,
                             seed=pc.SEED,
                             dtype=pc.DATA_TYPE))
@@ -317,7 +339,7 @@ def main(_):
 
     batch = tf.Variable(0, dtype=pc.DATA_TYPE)
     learning_rate = tf.train.exponential_decay(
-        0.0001,  # Base learning rate.
+        pc.START_LEARNING_RATE,  # Base learning rate.
         batch * pc.BATCH_SIZE,  # Current index into the dataset.
         train_size,  # Decay step.
         0.95,  # Decay rate.
@@ -348,8 +370,8 @@ def main(_):
                     eval_prediction,
                     feed_dict={eval_data: data[-pc.EVAL_BATCH_SIZE:, ...]})
                 predictions[begin:, :] = batch_predictions[begin - size:, :]
-        return predictions
 
+        return predictions
 
 
     # Create a local session to run the training.
@@ -364,9 +386,7 @@ def main(_):
         # Run all the initializers to prepare the trainable parameters.
         tf.global_variables_initializer().run()
         print('Initialized!')
-
-
-
+        tot_steps = int(num_epochs * train_size) / pc.BATCH_SIZE
         # Loop through training steps.
         for step in range(int(num_epochs * train_size) / pc.BATCH_SIZE):
             # Compute the offset of the current minibatch in the data.
@@ -388,22 +408,19 @@ def main(_):
                 elapsed_time = time.time() - start_time
                 start_time = time.time()
 
-
-
-
-                print('Step %d (epoch %.2f), %.1f ms' %
-                      (step, float(step) * float(pc.BATCH_SIZE) / train_size,
+                print('Step %d out of %d (epoch %.2f), %.1f ms' %
+                      (step, tot_steps, float(step) * float(pc.BATCH_SIZE) / train_size,
                        1000 * float(elapsed_time) / pc.EVAL_FREQUENCY))
                 print('Minibatch loss: %.3f, learning rate: %.6f' % (l, lr))
-                print('Minibatch error: %.1f%%' % error_rate(predictions, batch_labels))
+                print('Minibatch error: %.1f%%' % error_rate(predictions, batch_labels, step))
 
-                error = error_rate(predictions, batch_labels)
+                error = error_rate(predictions, batch_labels, step)
                 tf.summary.scalar('minibatch error', error)
 
                 print('Validation error: %.1f%%' % error_rate(
-                    eval_in_batches(validation_data, sess), validation_labels))
-
-                val_error = error_rate(eval_in_batches(validation_data, sess), validation_labels)
+                    eval_in_batches(validation_data, sess), validation_labels, step))
+                print('\n')
+                val_error = error_rate(eval_in_batches(validation_data, sess), validation_labels, step)
                 tf.summary.scalar('validation error', val_error)
 
                 # tensorboard
@@ -416,8 +433,8 @@ def main(_):
                 summary, _ = sess.run([merged, optimizer], feed_dict=feed_dict)
                 train_writer.add_summary(summary, step)
         # Finally print the result!
-        # test_error = error_rate(eval_in_batches(test_data, sess), test_labels)
-        # print('Test error: %.1f%%' % test_error)
+        test_error = error_rate(eval_in_batches(test_data, sess), test_labels, 'testing')
+        print('Test error: %.1f%%' % test_error)
         train_writer.close()
         test_writer.close()
 

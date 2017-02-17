@@ -127,6 +127,16 @@ def load_INRIA_data(path):
     rd.shuffle(everything)
     validation_data_, validation_labels_ = zip(*everything)
 
+    test_images_names = 'test_images.csv'
+    with open(test_images_names, 'wr') as my_file:
+        for line in range(len(validation_data_)/2, len(validation_data_)):
+            my_file.write(str(validation_data_[line]))
+
+    test_images_labels = 'test_images_labels.csv'
+    with open(test_images_labels, 'wr') as my_file:
+        for line in range(len(validation_labels_ )/2, len(validation_labels_)):
+            my_file.write(str(validation_labels_[line]))
+
     # create empty arrays
     train_data_array = np.zeros(shape=(len(train_data_), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
     train_labels_array = np.zeros(shape=(len(train_labels_), pc.NUM_CLASSES))
