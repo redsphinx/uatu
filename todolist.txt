@@ -18,9 +18,24 @@ other:
 . update data latex file with info about CASIA
 ------------------------------------------------------------------------------------------------
 
+
+20 feb
+------
+. added method to see wrong test classifications
+. added saving of weights and biases
+. attempting to restore with stored weights and biases: issues with the structure, referencing variables before they are created. think it is needed to create a better structured CNN to save and load.
+. start with creating a clean CNN
+
+
+17 feb
+------
+. trained a bit, added 6th conv layer
+
+
 16 feb
 ------
-. make siamese cnn accept sequences of images
+. issues with structuring; work with modded cnn instead
+
 
 
 15 feb

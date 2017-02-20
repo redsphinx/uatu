@@ -69,8 +69,6 @@ def main(_):
     test_labels = validation_labels_[len(validation_labels_)/2:len(validation_labels_)]
 
 
-
-
     validation_data = validation_data_[0:len(validation_data_)/2]
     validation_labels = validation_labels_[0:len(validation_labels_)/2]
 
@@ -106,76 +104,102 @@ def main(_):
         tf.summary.histogram('histogram', var)
 
 
-    conv1_weights = tf.get_variable('conv1_weights', shape=(3, 3, pc.NUM_CHANNELS, 32),
-                                    initializer=tf.contrib.layers.xavier_initializer(),
-                                    dtype=pc.DATA_TYPE, trainable=True)
+    # load saved weights if they exist and if the flag pc.LOAD_WEIGHTS is True
+    if pc.LOAD_WEIGHTS and os.path.exists(pc.CHECKPOINT):
+        print('loading the weights and biases later')
+    else:
+        conv1_weights = tf.get_variable('conv1_weights', shape=(3, 3, pc.NUM_CHANNELS, 32),
+                                        initializer=tf.contrib.layers.xavier_initializer(),
+                                        dtype=pc.DATA_TYPE, trainable=True)
 
-    conv1_biases = tf.Variable(tf.zeros([32], dtype=pc.DATA_TYPE))
-    variable_summaries(conv1_biases)
-
-
-    conv2_weights = tf.get_variable('conv2_weights', shape=(3, 3, 32, 64),
-                                    initializer=tf.contrib.layers.xavier_initializer(),
-                                    dtype=pc.DATA_TYPE, trainable=True)
-    variable_summaries(conv2_weights)
-
-    conv2_biases = tf.Variable(tf.constant(0.1, shape=[64], dtype=pc.DATA_TYPE))
-    variable_summaries(conv2_biases)
+        conv1_biases = tf.Variable(tf.zeros([32], dtype=pc.DATA_TYPE))
+        variable_summaries(conv1_biases)
 
 
-    conv3_weights = tf.get_variable('conv3_weights', shape=(3, 3, 64, 128),
-                                    initializer=tf.contrib.layers.xavier_initializer(),
-                                    dtype=pc.DATA_TYPE, trainable=True)
-    variable_summaries(conv3_weights)
+        conv2_weights = tf.get_variable('conv2_weights', shape=(3, 3, 32, 64),
+                                        initializer=tf.contrib.layers.xavier_initializer(),
+                                        dtype=pc.DATA_TYPE, trainable=True)
+        variable_summaries(conv2_weights)
 
-    conv3_biases = tf.Variable(tf.constant(0.1, shape=[128], dtype=pc.DATA_TYPE))
-    variable_summaries(conv3_biases)
-
-    conv4_weights = tf.get_variable('conv4_weights', shape=(3, 3, 128, 256),
-                                    initializer=tf.contrib.layers.xavier_initializer(),
-                                    dtype=pc.DATA_TYPE, trainable=True)
-    variable_summaries(conv4_weights)
-
-    conv4_biases = tf.Variable(tf.constant(0.1, shape=[256], dtype=pc.DATA_TYPE))
-    variable_summaries(conv4_biases)
+        conv2_biases = tf.Variable(tf.constant(0.1, shape=[64], dtype=pc.DATA_TYPE))
+        variable_summaries(conv2_biases)
 
 
-#--
-    conv5_weights = tf.get_variable('conv5_weights', shape=(3, 3, 256, 512),
-                                    initializer=tf.contrib.layers.xavier_initializer(),
-                                    dtype=pc.DATA_TYPE, trainable=True)
-    variable_summaries(conv5_weights)
+        conv3_weights = tf.get_variable('conv3_weights', shape=(3, 3, 64, 128),
+                                        initializer=tf.contrib.layers.xavier_initializer(),
+                                        dtype=pc.DATA_TYPE, trainable=True)
+        variable_summaries(conv3_weights)
 
-    conv5_biases = tf.Variable(tf.constant(0.1, shape=[512], dtype=pc.DATA_TYPE))
-    variable_summaries(conv5_biases)
+        conv3_biases = tf.Variable(tf.constant(0.1, shape=[128], dtype=pc.DATA_TYPE))
+        variable_summaries(conv3_biases)
 
-#--
-    # --
-    conv6_weights = tf.get_variable('conv6_weights', shape=(3, 3, 512, 1024),
-                                    initializer=tf.contrib.layers.xavier_initializer(),
-                                    dtype=pc.DATA_TYPE, trainable=True)
-    variable_summaries(conv6_weights)
+        conv4_weights = tf.get_variable('conv4_weights', shape=(3, 3, 128, 256),
+                                        initializer=tf.contrib.layers.xavier_initializer(),
+                                        dtype=pc.DATA_TYPE, trainable=True)
+        variable_summaries(conv4_weights)
 
-    conv6_biases = tf.Variable(tf.constant(0.1, shape=[1024], dtype=pc.DATA_TYPE))
-    variable_summaries(conv6_biases)
+        conv4_biases = tf.Variable(tf.constant(0.1, shape=[256], dtype=pc.DATA_TYPE))
+        variable_summaries(conv4_biases)
 
-    # # --
-    num_pools = 6
-    shape_last_cnn = [pc.BATCH_SIZE, pc.IMAGE_HEIGHT / (2**num_pools), pc.IMAGE_WIDTH / (2**num_pools), 1024]
-    input_to_fc = shape_last_cnn[1]*shape_last_cnn[2]*shape_last_cnn[3]
 
-    fc1_weights = tf.Variable(  # fully connected, depth 512.
-        tf.truncated_normal([input_to_fc, 512],
-                            stddev=0.1,
-                            seed=pc.SEED,
-                            dtype=pc.DATA_TYPE))
-    fc1_biases = tf.Variable(tf.constant(0.1, shape=[512], dtype=pc.DATA_TYPE))
-    fc2_weights = tf.Variable(tf.truncated_normal([512, pc.NUM_CLASSES],
-                                                  stddev=0.1,
-                                                  seed=pc.SEED,
-                                                  dtype=pc.DATA_TYPE))
-    fc2_biases = tf.Variable(tf.constant(
-        0.1, shape=[pc.NUM_CLASSES], dtype=pc.DATA_TYPE))
+    #--
+        conv5_weights = tf.get_variable('conv5_weights', shape=(3, 3, 256, 512),
+                                        initializer=tf.contrib.layers.xavier_initializer(),
+                                        dtype=pc.DATA_TYPE, trainable=True)
+        variable_summaries(conv5_weights)
+
+        conv5_biases = tf.Variable(tf.constant(0.1, shape=[512], dtype=pc.DATA_TYPE))
+        variable_summaries(conv5_biases)
+
+    #--
+        # --
+        conv6_weights = tf.get_variable('conv6_weights', shape=(3, 3, 512, 1024),
+                                        initializer=tf.contrib.layers.xavier_initializer(),
+                                        dtype=pc.DATA_TYPE, trainable=True)
+        variable_summaries(conv6_weights)
+
+        conv6_biases = tf.Variable(tf.constant(0.1, shape=[1024], dtype=pc.DATA_TYPE))
+        variable_summaries(conv6_biases)
+
+        # # --
+        num_pools = 6
+        shape_last_cnn = [pc.BATCH_SIZE, pc.IMAGE_HEIGHT / (2**num_pools), pc.IMAGE_WIDTH / (2**num_pools), 1024]
+        input_to_fc = shape_last_cnn[1]*shape_last_cnn[2]*shape_last_cnn[3]
+
+        fc1_weights = tf.Variable(  # fully connected, depth 512.
+            tf.truncated_normal([input_to_fc, 512],
+                                stddev=0.1,
+                                seed=pc.SEED,
+                                dtype=pc.DATA_TYPE))
+        fc1_biases = tf.Variable(tf.constant(0.1, shape=[512], dtype=pc.DATA_TYPE))
+        fc2_weights = tf.Variable(tf.truncated_normal([512, pc.NUM_CLASSES],
+                                                      stddev=0.1,
+                                                      seed=pc.SEED,
+                                                      dtype=pc.DATA_TYPE))
+        fc2_biases = tf.Variable(tf.constant(
+            0.1, shape=[pc.NUM_CLASSES], dtype=pc.DATA_TYPE))
+
+        tf.add_to_collection('variables', conv1_weights)
+        tf.add_to_collection('variables', conv1_biases)
+        tf.add_to_collection('variables', conv2_weights)
+        tf.add_to_collection('variables', conv2_biases)
+        tf.add_to_collection('variables', conv3_weights)
+        tf.add_to_collection('variables', conv3_biases)
+        tf.add_to_collection('variables', conv4_weights)
+        tf.add_to_collection('variables', conv4_biases)
+        tf.add_to_collection('variables', conv5_weights)
+        tf.add_to_collection('variables', conv5_biases)
+        tf.add_to_collection('variables', conv6_weights)
+        tf.add_to_collection('variables', conv6_biases)
+
+        tf.add_to_collection('variables', fc1_weights)
+        tf.add_to_collection('variables', fc1_biases)
+        tf.add_to_collection('variables', fc2_weights)
+        tf.add_to_collection('variables', fc2_biases)
+
+        saver = tf.train.Saver()
+
+
 
     # defining the model architecture
     def model(data, train=False):
@@ -248,9 +272,14 @@ def main(_):
             hidden = tf.nn.dropout(hidden, 0.5, seed=pc.SEED)
         return tf.matmul(hidden, fc2_weights) + fc2_biases
 
+
+    # TODO fix reference before assignment issue of the fc_weights
+
     logits = model(train_data_node, True)
     loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
         logits, train_labels_node))
+
+
     regularizers = (tf.nn.l2_loss(fc1_weights) + tf.nn.l2_loss(fc1_biases) +
                     tf.nn.l2_loss(fc2_weights) + tf.nn.l2_loss(fc2_biases))
     loss += 5e-4 * regularizers
@@ -297,7 +326,6 @@ def main(_):
     # Create a local session to run the training.
     start_time = time.time()
     with tf.Session() as sess:
-
         # tensorboard
         merged = tf.summary.merge_all()
         train_writer = tf.summary.FileWriter(LOG_DIR + '/train', sess.graph)
@@ -305,7 +333,32 @@ def main(_):
 
         # Run all the initializers to prepare the trainable parameters.
         tf.global_variables_initializer().run()
-        saver = tf.train.Saver()
+
+        # TODO load the stored weights
+        if pc.LOAD_WEIGHTS and os.path.exists(pc.CHECKPOINT):
+            print('loading weights and biases')
+            import_saver = tf.train.import_meta_graph(pc.CHECKPOINT)
+            import_saver.restore(sess, tf.train.latest_checkpoint('./'))
+            all_vars = tf.get_collection('variables')
+            conv1_weights = all_vars[0]
+            conv1_biases = all_vars[1]
+            conv2_weights = all_vars[2]
+            conv2_biases = all_vars[3]
+            conv3_weights = all_vars[4]
+            conv3_biases = all_vars[5]
+            conv4_weights = all_vars[6]
+            conv4_biases = all_vars[7]
+            conv5_weights = all_vars[8]
+            conv5_biases = all_vars[9]
+            conv6_weights = all_vars[10]
+            conv6_biases = all_vars[11]
+
+            fc1_weights = all_vars[12]
+            fc1_biases = all_vars[13]
+            fc2_weights = all_vars[14]
+            fc2_biases = all_vars[15]
+        else:
+            saver.save(sess, pc.CHECKPOINT.split('.')[0])
 
         print('Initialized!')
         tot_steps = int(num_epochs * train_size) / pc.BATCH_SIZE

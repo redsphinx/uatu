@@ -70,8 +70,6 @@ def test_saving():
     tf.add_to_collection('test', test_2)
 
     init = tf.global_variables_initializer()
-    # sess = tf.Session()
-    # sess.run(init)
     saver = tf.train.Saver()
 
     with tf.Session() as sess:
@@ -89,9 +87,7 @@ def test_restoring():
         new_saver = tf.train.import_meta_graph('my_test.meta')
         new_saver.restore(sess, tf.train.latest_checkpoint('./'))
         all_vars = tf.get_collection('test')
-        # for t in all_vars:
-        #     thing = sess.run(t)
-        #     print(thing)
+
         print(sess.run(test_))
         print('\n')
         test_1 = all_vars[0]
@@ -100,8 +96,6 @@ def test_restoring():
         print(sess.run(test_1))
         print(sess.run(test_2))
 
-        # print(sess.run(tf.assert_equal(test_1, test_)))
-        # print(sess.run(tf.assert_equal(test_2, all_vars[3])))
         try:
             print(sess.run(tf.assert_equal(test_2, all_vars[0])))
         except:
