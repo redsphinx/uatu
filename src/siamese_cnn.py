@@ -120,7 +120,7 @@ def build_model_siamese_cnn(train_node_1, train_node_2):
     with tf.variable_scope('cnn_models') as scope:
         model_1 = build_cnn(train_node_1, 'cnn_model_1')
         scope.reuse_variables()
-        model_2 = build_cnn(train_node_2, 'cnn_model_2')
+        model_2 = build_cnn(train_node_2, 'cnn_model_1')
 
     # define fc layers
     fc_1_weights = tf.get_variable(

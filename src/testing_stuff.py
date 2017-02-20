@@ -63,5 +63,53 @@ def get_version():
     print(tf.__version__)
 
 
-test_perm()
+def test_saving():
+    test_1 = tf.Variable(tf.constant(10, shape=[10]), name='test_1')
+    test_2 = tf.Variable(tf.constant(5, shape=[10]), name='test_2')
+    tf.add_to_collection('test', test_1)
+    tf.add_to_collection('test', test_2)
 
+    init = tf.global_variables_initializer()
+    # sess = tf.Session()
+    # sess.run(init)
+    saver = tf.train.Saver()
+
+    with tf.Session() as sess:
+        sess.run(init)
+        print(sess.run(test_1))
+        print(sess.run(test_2))
+        saver.save(sess, 'my_test')
+
+
+def test_restoring():
+    test_ = tf.Variable(tf.constant(10, shape=[10]), name='test_')
+    init = tf.global_variables_initializer()
+    with tf.Session() as sess:
+        sess.run(init)
+        new_saver = tf.train.import_meta_graph('my_test.meta')
+        new_saver.restore(sess, tf.train.latest_checkpoint('./'))
+        all_vars = tf.get_collection('test')
+        # for t in all_vars:
+        #     thing = sess.run(t)
+        #     print(thing)
+        print(sess.run(test_))
+        print('\n')
+        test_1 = all_vars[0]
+        test_2 = all_vars[1]
+        print('\n')
+        print(sess.run(test_1))
+        print(sess.run(test_2))
+
+        # print(sess.run(tf.assert_equal(test_1, test_)))
+        # print(sess.run(tf.assert_equal(test_2, all_vars[3])))
+        try:
+            print(sess.run(tf.assert_equal(test_2, all_vars[0])))
+        except:
+            print('NOT THE SAME')
+
+
+        print('done')
+
+
+test_saving()
+test_restoring()

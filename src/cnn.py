@@ -18,15 +18,6 @@ LOG_DIR = '/tmp/TF'
 
 LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/humans/1/'
 LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/humans/0/'
-log_file = 'predictions.txt'
-
-
-# def create_not_humans(num_images):
-#     for number in range(0, num_images):
-#         imarray = np.random.rand(IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS) * 255
-#         im = Image.fromarray(imarray.astype('uint8')).convert('RGBA')
-#         im.save(LOCATION_DATA_NEGATIVE + 'not_human_' + str(number) + '.png')
-#     pass
 
 
 def create_labels(number):
@@ -40,66 +31,14 @@ def make_list_with_full_path(path, list):
     return list_with_full_path
 
 
-# def do_things_data():
-#     # split data into train and validation
-#     pos_data = os.listdir(LOCATION_DATA_POSITIVE)
-#     num_images = len(pos_data)
-#
-#     if os._exists(LOCATION_DATA_NEGATIVE):
-#         if len(os.listdir(LOCATION_DATA_NEGATIVE)) != num_images:
-#             print('creating negative instances')
-#             create_not_humans(num_images)
-#
-#     all_data = make_list_with_full_path(LOCATION_DATA_POSITIVE, os.listdir(LOCATION_DATA_POSITIVE)) \
-#                 + make_list_with_full_path(LOCATION_DATA_NEGATIVE, os.listdir(LOCATION_DATA_NEGATIVE))
-#     labels = create_labels(num_images)
-#
-#     # shuffle
-#     data_and_labels = list(zip(all_data, labels))
-#     rd.shuffle(data_and_labels)
-#     all_data, labels = zip(*data_and_labels)
-#
-#     percentage_test = 0.2
-#     split_here = int((1-percentage_test)*len(all_data))
-#
-#     train_data = all_data[0:split_here]
-#     train_labels = labels[0:split_here]
-#
-#     validation_data = all_data[split_here:len(all_data)]
-#     validation_labels = labels[split_here:len(all_data)]
-#
-#     train_data_file = 'train_data.csv'
-#     train_labels_file = 'train_labels.csv'
-#     validation_data_file = 'validation_data.csv'
-#     validation_labels_file = 'validation_labels.csv'
-#     with open(train_data_file, 'wr') as file:
-#         for item in range(0, len(train_data)):
-#             file.write(str(train_data[item]) + '\n')
-#     with open(train_labels_file, 'wr') as file:
-#         for item in range(0, len(train_labels)):
-#             file.write(str(train_labels[item]) + '\n')
-#     with open(validation_data_file, 'wr') as file:
-#         for item in range(0, len(validation_data)):
-#             file.write(str(validation_data[item]) + '\n')
-#     with open(validation_labels_file, 'wr') as file:
-#         for item in range(0, len(validation_labels)):
-#             file.write(str(validation_labels[item]) + '\n')
-#
-#     train_data = np.asarray(train_data)
-#     train_labels = np.asarray(train_labels)
-#     validation_data = np.asarray(validation_data)
-#     validation_labels = np.asarray(validation_labels)
-#
-#     return [train_data, train_labels, validation_data, validation_labels]
-
-
-def error_rate(predictions, labels, step):
-    with open(log_file, 'wr') as my_file:
-        for line in range(0, len(labels)):
-            my_file.write('step: ' + str(step) + '\n' +
-                            'target: ' + str(labels[line]) + '\n' +
-                            ' prediction: ' + str(predictions[line]) + '\n')
-
+def error_rate(predictions, labels, step, log_file):
+    if step == 'testing':
+        with open(log_file, 'a') as my_file:
+            for line in range(0, len(labels)):
+                predict = np.argmax(predictions[line])
+                target = labels[line]
+                my_file.write('step,' + str(step) + ',target,' + str(target) + ',' +
+                                'prediction,' + str(predict) + ',' + '\n')
 
     """Return the error rate based on dense predictions and sparse labels."""
     return 100.0 - (
@@ -108,20 +47,17 @@ def error_rate(predictions, labels, step):
         predictions.shape[0])
 
 
-# load data from list into np.ndarray
-# def load_data(filenames_list):
-#     data = np.zeros(shape=(len(filenames_list), IMAGE_HEIGHT, IMAGE_WIDTH, CHANNELS))
-#     for item in range(0, len(filenames_list)):
-#         data[item] = ndimage.imread(filenames_list[item])
-#     return data
-
-
-
 def main(_):
     # tensorboard
     if tf.gfile.Exists(LOG_DIR):
         tf.gfile.DeleteRecursively(LOG_DIR)
     tf.gfile.MakeDirs(LOG_DIR)
+
+    log_file = 'wrong_predictions.txt'
+    with open(log_file, 'w') as my_file:
+        print('new log file made')
+
+
     # data stuff
     test_data = []
     test_labels = []
@@ -170,24 +106,13 @@ def main(_):
         tf.summary.histogram('histogram', var)
 
 
-    # weights and biases
-    # conv1_weights = tf.Variable(
-    #     tf.truncated_normal([32, 32, pc.NUM_CHANNELS, 32],  # 5x5 filter, depth 32.
-    #                         stddev=0.1,
-    #                         seed=pc.SEED, dtype=pc.DATA_TYPE))
-    # variable_summaries(conv1_weights)
-
     conv1_weights = tf.get_variable('conv1_weights', shape=(3, 3, pc.NUM_CHANNELS, 32),
                                     initializer=tf.contrib.layers.xavier_initializer(),
                                     dtype=pc.DATA_TYPE, trainable=True)
 
     conv1_biases = tf.Variable(tf.zeros([32], dtype=pc.DATA_TYPE))
-    # conv1_biases = tf.get_variable('conv1_biases', shape=(32), dtype=DATA_TYPE, trainable=True)
     variable_summaries(conv1_biases)
 
-    # conv2_weights = tf.Variable(tf.truncated_normal(
-    #     [3, 3, 32, 64], stddev=0.1,
-    #     seed=pc.SEED, dtype=pc.DATA_TYPE))
 
     conv2_weights = tf.get_variable('conv2_weights', shape=(3, 3, 32, 64),
                                     initializer=tf.contrib.layers.xavier_initializer(),
@@ -195,7 +120,6 @@ def main(_):
     variable_summaries(conv2_weights)
 
     conv2_biases = tf.Variable(tf.constant(0.1, shape=[64], dtype=pc.DATA_TYPE))
-    # conv2_biases = tf.get_variable('conv2_biases', shape=(64), dtype=DATA_TYPE, trainable=True)
     variable_summaries(conv2_biases)
 
 
@@ -205,7 +129,6 @@ def main(_):
     variable_summaries(conv3_weights)
 
     conv3_biases = tf.Variable(tf.constant(0.1, shape=[128], dtype=pc.DATA_TYPE))
-    # conv2_biases = tf.get_variable('conv2_biases', shape=(64), dtype=DATA_TYPE, trainable=True)
     variable_summaries(conv3_biases)
 
     conv4_weights = tf.get_variable('conv4_weights', shape=(3, 3, 128, 256),
@@ -214,7 +137,6 @@ def main(_):
     variable_summaries(conv4_weights)
 
     conv4_biases = tf.Variable(tf.constant(0.1, shape=[256], dtype=pc.DATA_TYPE))
-    # conv2_biases = tf.get_variable('conv2_biases', shape=(64), dtype=DATA_TYPE, trainable=True)
     variable_summaries(conv4_biases)
 
 
@@ -225,7 +147,6 @@ def main(_):
     variable_summaries(conv5_weights)
 
     conv5_biases = tf.Variable(tf.constant(0.1, shape=[512], dtype=pc.DATA_TYPE))
-    # conv2_biases = tf.get_variable('conv2_biases', shape=(64), dtype=DATA_TYPE, trainable=True)
     variable_summaries(conv5_biases)
 
 #--
@@ -236,7 +157,6 @@ def main(_):
     variable_summaries(conv6_weights)
 
     conv6_biases = tf.Variable(tf.constant(0.1, shape=[1024], dtype=pc.DATA_TYPE))
-    # conv2_biases = tf.get_variable('conv2_biases', shape=(64), dtype=DATA_TYPE, trainable=True)
     variable_summaries(conv6_biases)
 
     # # --
@@ -347,7 +267,7 @@ def main(_):
     # tensorboard
     tf.summary.scalar('learning rate', learning_rate)
     optimizer = tf.train.MomentumOptimizer(learning_rate,
-                                           0.9).minimize(loss,
+                                           0.9, use_nesterov=True).minimize(loss,
                                                          global_step=batch)
     # remember: logits = model(train_data_node, True)
     train_prediction = tf.nn.softmax(logits)
@@ -385,6 +305,8 @@ def main(_):
 
         # Run all the initializers to prepare the trainable parameters.
         tf.global_variables_initializer().run()
+        saver = tf.train.Saver()
+
         print('Initialized!')
         tot_steps = int(num_epochs * train_size) / pc.BATCH_SIZE
         # Loop through training steps.
@@ -412,15 +334,15 @@ def main(_):
                       (step, tot_steps, float(step) * float(pc.BATCH_SIZE) / train_size,
                        1000 * float(elapsed_time) / pc.EVAL_FREQUENCY))
                 print('Minibatch loss: %.3f, learning rate: %.6f' % (l, lr))
-                print('Minibatch error: %.1f%%' % error_rate(predictions, batch_labels, step))
+                print('Minibatch error: %.1f%%' % error_rate(predictions, batch_labels, step, log_file))
 
-                error = error_rate(predictions, batch_labels, step)
+                error = error_rate(predictions, batch_labels, step, log_file)
                 tf.summary.scalar('minibatch error', error)
 
                 print('Validation error: %.1f%%' % error_rate(
-                    eval_in_batches(validation_data, sess), validation_labels, step))
+                    eval_in_batches(validation_data, sess), validation_labels, step, log_file))
                 print('\n')
-                val_error = error_rate(eval_in_batches(validation_data, sess), validation_labels, step)
+                val_error = error_rate(eval_in_batches(validation_data, sess), validation_labels, step, log_file)
                 tf.summary.scalar('validation error', val_error)
 
                 # tensorboard
@@ -433,10 +355,12 @@ def main(_):
                 summary, _ = sess.run([merged, optimizer], feed_dict=feed_dict)
                 train_writer.add_summary(summary, step)
         # Finally print the result!
-        test_error = error_rate(eval_in_batches(test_data, sess), test_labels, 'testing')
+        test_error = error_rate(eval_in_batches(test_data, sess), test_labels, 'testing', log_file)
         print('Test error: %.1f%%' % test_error)
         train_writer.close()
         test_writer.close()
+    pu.get_wrong_predictions()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

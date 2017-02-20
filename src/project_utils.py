@@ -4,6 +4,8 @@ from PIL import Image
 import os
 import random as rd
 from scipy import ndimage
+from shutil import copyfile
+import shutil
 
 
 def tupconv(lst):
@@ -130,12 +132,12 @@ def load_INRIA_data(path):
     test_images_names = 'test_images.csv'
     with open(test_images_names, 'wr') as my_file:
         for line in range(len(validation_data_)/2, len(validation_data_)):
-            my_file.write(str(validation_data_[line]))
+            my_file.write(str(validation_data_[line]) + '\n')
 
     test_images_labels = 'test_images_labels.csv'
     with open(test_images_labels, 'wr') as my_file:
         for line in range(len(validation_labels_ )/2, len(validation_labels_)):
-            my_file.write(str(validation_labels_[line]))
+            my_file.write(str(validation_labels_[line]) + '\n')
 
     # create empty arrays
     train_data_array = np.zeros(shape=(len(train_data_), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
@@ -221,3 +223,26 @@ def load_human_detection_data():
 
     data = load_INRIA_data(data_list_folder)
     return data
+
+
+def get_wrong_predictions():
+    folder = 'wrong_predictions'
+
+    paths = np.genfromtxt('test_images.csv', dtype=None).tolist()
+    ans = np.genfromtxt('wrong_predictions.txt', dtype=None).tolist()
+
+    if os.path.exists(folder):
+        shutil.rmtree(folder)
+
+    os.mkdir(folder)
+
+
+    for line in range(0, len(ans)):
+        step = ans[line].split(',')[1]
+        if step == 'testing':
+            target = ans[line].split(',')[3]
+            prediction = ans[line].split(',')[5]
+            if not target == prediction:
+                bla = paths[line].split('/')
+                thing = paths[line].split('/')[-1]
+                copyfile(paths[line], os.path.join(folder, thing))
