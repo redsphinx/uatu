@@ -66,6 +66,7 @@ def get_version():
 def test_saving():
     test_1 = tf.Variable(tf.constant(10, shape=[10]), name='test_1')
     test_2 = tf.Variable(tf.constant(5, shape=[10]), name='test_2')
+
     tf.add_to_collection('test', test_1)
     tf.add_to_collection('test', test_2)
 

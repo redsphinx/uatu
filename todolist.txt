@@ -2,6 +2,8 @@ Tasks:
 -----
 implementation:
 
+. person re-id benchmark
+
 . make the lstm part of the convolutional RNN
 
 . connect the cnn with the lstm
@@ -17,6 +19,23 @@ other:
 . update model latex file with progress on different parts of the model
 . update data latex file with info about CASIA
 ------------------------------------------------------------------------------------------------
+
+30 march
+------
+. continue creating clean CNN
+. then make the siamese model work 
+
+
+
+29 march
+------
+. attempt to figure out what's wrong with cnn.py
+.. stuff going wrong with the loading of data from checkpoint
+.. creating checkpoint works, but loading does not
+.. NameError: free variable 'conv1_weights' referenced before assignment in enclosing scope
+.. ad hoc fix: load the variables earlier
+. new problem: not sure if the variables loaded are the ones that have been trained.
+. start again with creating a clean CNN
 
 
 20 feb

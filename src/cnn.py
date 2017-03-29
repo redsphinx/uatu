@@ -12,6 +12,7 @@ import project_constants as pc
 import project_utils as pu
 import siamese_cnn as scnn
 
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 # tensorboard
 LOG_DIR = '/tmp/TF'
@@ -107,6 +108,27 @@ def main(_):
     # load saved weights if they exist and if the flag pc.LOAD_WEIGHTS is True
     if pc.LOAD_WEIGHTS and os.path.exists(pc.CHECKPOINT):
         print('loading the weights and biases later')
+        import_saver = tf.train.import_meta_graph(pc.CHECKPOINT)
+        all_vars = tf.get_collection('variables')
+        conv1_weights = all_vars[0]
+        conv1_biases = all_vars[1]
+        conv2_weights = all_vars[2]
+        conv2_biases = all_vars[3]
+        conv3_weights = all_vars[4]
+        conv3_biases = all_vars[5]
+        conv4_weights = all_vars[6]
+        conv4_biases = all_vars[7]
+        conv5_weights = all_vars[8]
+        conv5_biases = all_vars[9]
+        conv6_weights = all_vars[10]
+        conv6_biases = all_vars[11]
+
+        fc1_weights = all_vars[12]
+        fc1_biases = all_vars[13]
+        fc2_weights = all_vars[14]
+        fc2_biases = all_vars[15]
+        # gabi = all_vars[16]
+        # print('gabi: %d' %gabi)
     else:
         conv1_weights = tf.get_variable('conv1_weights', shape=(3, 3, pc.NUM_CHANNELS, 32),
                                         initializer=tf.contrib.layers.xavier_initializer(),
@@ -196,6 +218,8 @@ def main(_):
         tf.add_to_collection('variables', fc1_biases)
         tf.add_to_collection('variables', fc2_weights)
         tf.add_to_collection('variables', fc2_biases)
+        # gabi = tf.Variable(666)
+        # tf.add_to_collection('variables', gabi)
 
         saver = tf.train.Saver()
 
@@ -272,9 +296,6 @@ def main(_):
             hidden = tf.nn.dropout(hidden, 0.5, seed=pc.SEED)
         return tf.matmul(hidden, fc2_weights) + fc2_biases
 
-
-    # TODO fix reference before assignment issue of the fc_weights
-
     logits = model(train_data_node, True)
     loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
         logits, train_labels_node))
@@ -334,29 +355,28 @@ def main(_):
         # Run all the initializers to prepare the trainable parameters.
         tf.global_variables_initializer().run()
 
-        # TODO load the stored weights
         if pc.LOAD_WEIGHTS and os.path.exists(pc.CHECKPOINT):
             print('loading weights and biases')
-            import_saver = tf.train.import_meta_graph(pc.CHECKPOINT)
+            # import_saver = tf.train.import_meta_graph(pc.CHECKPOINT)
             import_saver.restore(sess, tf.train.latest_checkpoint('./'))
-            all_vars = tf.get_collection('variables')
-            conv1_weights = all_vars[0]
-            conv1_biases = all_vars[1]
-            conv2_weights = all_vars[2]
-            conv2_biases = all_vars[3]
-            conv3_weights = all_vars[4]
-            conv3_biases = all_vars[5]
-            conv4_weights = all_vars[6]
-            conv4_biases = all_vars[7]
-            conv5_weights = all_vars[8]
-            conv5_biases = all_vars[9]
-            conv6_weights = all_vars[10]
-            conv6_biases = all_vars[11]
-
-            fc1_weights = all_vars[12]
-            fc1_biases = all_vars[13]
-            fc2_weights = all_vars[14]
-            fc2_biases = all_vars[15]
+            # all_vars = tf.get_collection('variables')
+            # conv1_weights = all_vars[0]
+            # conv1_biases = all_vars[1]
+            # conv2_weights = all_vars[2]
+            # conv2_biases = all_vars[3]
+            # conv3_weights = all_vars[4]
+            # conv3_biases = all_vars[5]
+            # conv4_weights = all_vars[6]
+            # conv4_biases = all_vars[7]
+            # conv5_weights = all_vars[8]
+            # conv5_biases = all_vars[9]
+            # conv6_weights = all_vars[10]
+            # conv6_biases = all_vars[11]
+            #
+            # fc1_weights = all_vars[12]
+            # fc1_biases = all_vars[13]
+            # fc2_weights = all_vars[14]
+            # fc2_biases = all_vars[15]
         else:
             saver.save(sess, pc.CHECKPOINT.split('.')[0])
 
@@ -399,14 +419,16 @@ def main(_):
                 tf.summary.scalar('validation error', val_error)
 
                 # tensorboard
-                summary, ls = sess.run([merged, loss], feed_dict=feed_dict)
-                test_writer.add_summary(summary, step)
+                # TODO error here
+                # summary, ls = sess.run([merged, loss], feed_dict=feed_dict)
+                # test_writer.add_summary(summary, step)
 
 
                 sys.stdout.flush()
             else:
-                summary, _ = sess.run([merged, optimizer], feed_dict=feed_dict)
-                train_writer.add_summary(summary, step)
+                pass
+                # summary, _ = sess.run([merged, optimizer], feed_dict=feed_dict)
+                # train_writer.add_summary(summary, step)
         # Finally print the result!
         test_error = error_rate(eval_in_batches(test_data, sess), test_labels, 'testing', log_file)
         print('Test error: %.1f%%' % test_error)
