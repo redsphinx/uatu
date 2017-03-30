@@ -2,6 +2,8 @@ Tasks:
 -----
 implementation:
 
+. implement cyclical learning rate: https://arxiv.org/pdf/1506.01186.pdf
+
 . person re-id benchmark
 
 . make the lstm part of the convolutional RNN
@@ -20,11 +22,18 @@ other:
 . update data latex file with info about CASIA
 ------------------------------------------------------------------------------------------------
 
-30 march
+31 march
 ------
-. continue creating clean CNN
+. continue creating a clean CNN
 . then make the siamese model work 
 
+
+30 march
+------
+. start again with creating a clean CNN
+. work with tflearn or keras? let's try keras!
+. note: I upgraded to cudnn v6 but then things don't work. downgraded back to v5.1 which fixed the problem
+. learned the habit of moving files to /tmp instead of using rm
 
 
 29 march
@@ -35,7 +44,6 @@ other:
 .. NameError: free variable 'conv1_weights' referenced before assignment in enclosing scope
 .. ad hoc fix: load the variables earlier
 . new problem: not sure if the variables loaded are the ones that have been trained.
-. start again with creating a clean CNN
 
 
 20 feb

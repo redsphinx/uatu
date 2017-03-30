@@ -308,6 +308,9 @@ def main(_):
     tf.summary.scalar('loss', loss)
 
     batch = tf.Variable(0, dtype=pc.DATA_TYPE)
+
+    # TODO: implement cyclical learning rate
+
     learning_rate = tf.train.exponential_decay(
         pc.START_LEARNING_RATE,  # Base learning rate.
         batch * pc.BATCH_SIZE,  # Current index into the dataset.

@@ -34,5 +34,7 @@ MOMENTUM = 0.9
 NUM_EPOCHS = 10
 EVAL_FREQUENCY = 50
 
-LOAD_WEIGHTS = True
+LOAD_WEIGHTS = False
 CHECKPOINT = 'cnn_model_10_epochs.meta'
+
+DROPOUT = 0.5

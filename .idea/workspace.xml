@@ -2,44 +2,49 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/checkpoint" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/cnn_model_10_epochs.data-00000-of-00001" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/cnn_model_10_epochs.index" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/cnn_model_10_epochs.meta" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/00001147.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/00001192.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/00001301.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/00001422.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/00001459.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-05-12_18h05m32s.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-06-28_00h53m14s.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-07-06_13h56m23s.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-07-06_14h59m24s.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-08-22_12h05m47s.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-08-23_12h38m23s.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-09-18_17h24m23s.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001533j.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001555i.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001590a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_006.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_021.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_027.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_045.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_048.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_160.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_163.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_263.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/person_115a.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/person_207l.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/person_265d.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/person_265f.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/person_and_bike_091b.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/00001181.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/00001325.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/00001378.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/00001417.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/00001418.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-01-03_17h26m13s.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-05-16_19h11m16s.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-07-18_15h56m59s.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-08-21_10h49m39s.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-08-21_10h59m45s.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/D2004-11-07_18h37m53s.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001501d.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001555j.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001607o.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001664f.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001664g.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001664h.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001704b.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop001722c.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/crop_000008a.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_003.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_060.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_154.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_197.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_233.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_245.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_248.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/no_person__no_bike_266.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/person_029b.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/person_207k.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/person_216c.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/person_280c.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/wrong_predictions/person_280d.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cnn_model_10_epochs.data-00000-of-00001" afterPath="$PROJECT_DIR$/src/cnn_model_10_epochs.data-00000-of-00001" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cnn_model_10_epochs.index" afterPath="$PROJECT_DIR$/src/cnn_model_10_epochs.index" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cnn.py" afterPath="$PROJECT_DIR$/src/cnn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn.py" afterPath="$PROJECT_DIR$/src/siamese_cnn.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/cnn_clean.py" afterPath="$PROJECT_DIR$/src/cnn_clean.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_constants.py" afterPath="$PROJECT_DIR$/src/project_constants.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test_images.csv" afterPath="$PROJECT_DIR$/src/test_images.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test_images_labels.csv" afterPath="$PROJECT_DIR$/src/test_images_labels.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/testing_stuff.py" afterPath="$PROJECT_DIR$/src/testing_stuff.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/wrong_predictions.txt" afterPath="$PROJECT_DIR$/src/wrong_predictions.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
     </list>
     <ignored path="uatu.iws" />
@@ -55,10 +60,11 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/uatu$project_utils.coverage" NAME="project_utils Coverage Results" MODIFIED="1487592481248" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$project_constants.coverage" NAME="project_constants Coverage Results" MODIFIED="1490784549091" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/uatu$cnn_clean.coverage" NAME="cnn_clean Coverage Results" MODIFIED="1490780824260" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/uatu$cnn.coverage" NAME="cnn Coverage Results" MODIFIED="1490798758533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/uatu$testing_keras.coverage" NAME="testing_keras Coverage Results" MODIFIED="1490885046200" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples_src" />
+    <SUITE FILE_PATH="coverage/uatu$cnn.coverage" NAME="cnn Coverage Results" MODIFIED="1490872067235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/uatu$cnn_clean.coverage" NAME="cnn_clean Coverage Results" MODIFIED="1490886411182" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$siamese_cnn.coverage" NAME="siamese_cnn Coverage Results" MODIFIED="1490780987613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/uatu$testing_stuff.coverage" NAME="testing_stuff Coverage Results" MODIFIED="1490797673069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/uatu$testing_stuff.coverage" NAME="testing_stuff Coverage Results" MODIFIED="1490877157028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$lstm.coverage" NAME="lstm Coverage Results" MODIFIED="1486921325814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -69,13 +75,13 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.48367593">
+    <splitter split-orientation="horizontal" split-proportion="0.4019449">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="project_utils.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/project_utils.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="320">
+                <state relative-caret-position="15">
                   <caret line="25" column="24" lean-forward="false" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
@@ -84,11 +90,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="project_constants.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="project_constants.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_constants.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="540">
-                  <caret line="36" column="19" lean-forward="false" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
+                <state relative-caret-position="405">
+                  <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
                   <folding>
                     <element signature="e#0#23#0" expanded="true" />
                   </folding>
@@ -96,11 +102,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="cnn.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="cnn.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/cnn.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="182">
-                  <caret line="359" column="26" lean-forward="false" selection-start-line="359" selection-start-column="21" selection-end-line="359" selection-end-column="26" />
+                <state relative-caret-position="169">
+                  <caret line="301" column="0" lean-forward="true" selection-start-line="301" selection-start-column="0" selection-end-line="301" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#23#0" expanded="true" />
                   </folding>
@@ -108,33 +114,13 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
-            <entry file="file://$USER_HOME$/tensorflow/local/lib/python2.7/site-packages/tensorflow/python/platform/app.py">
+          <file leaf-file-name="testing_keras.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/examples_src/testing_keras.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="540">
-                  <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="saver.py" pinned="false" current-in-tab="false">
-            <entry file="file://$USER_HOME$/tensorflow/local/lib/python2.7/site-packages/tensorflow/python/training/saver.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="154">
-                  <caret line="1450" column="4" lean-forward="false" selection-start-line="1450" selection-start-column="4" selection-end-line="1450" selection-end-column="4" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="siamese_cnn.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/siamese_cnn.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
-                  <caret line="18" column="20" lean-forward="false" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
+                <state relative-caret-position="108">
+                  <caret line="72" column="13" lean-forward="true" selection-start-line="72" selection-start-column="13" selection-end-line="72" selection-end-column="13" />
                   <folding>
-                    <element signature="e#0#23#0" expanded="true" />
+                    <element signature="e#367#404#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -144,36 +130,44 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="cnn_clean.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="cnn_clean.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/cnn_clean.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="195">
-                  <caret line="13" column="26" lean-forward="false" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
+                <state relative-caret-position="317">
+                  <caret line="71" column="36" lean-forward="true" selection-start-line="71" selection-start-column="36" selection-end-line="71" selection-end-column="36" />
+                  <folding>
+                    <element signature="e#0#23#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="tensorflow_backend.py" pinned="false" current-in-tab="false">
+            <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/backend/tensorflow_backend.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="446">
+                  <caret line="2614" column="0" lean-forward="false" selection-start-line="2614" selection-start-column="0" selection-end-line="2614" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="lstm.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/lstm.py">
+          <file leaf-file-name="training.py" pinned="false" current-in-tab="false">
+            <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/engine/training.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="745">
-                  <caret line="221" column="70" lean-forward="false" selection-start-line="220" selection-start-column="8" selection-end-line="221" selection-end-column="70" />
-                  <folding>
-                    <element signature="e#0#9#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="1350">
+                  <caret line="120" column="0" lean-forward="false" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+                  <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="testing_stuff.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="testing_stuff.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/testing_stuff.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="758">
-                  <caret line="109" column="16" lean-forward="true" selection-start-line="109" selection-start-column="16" selection-end-line="109" selection-end-column="16" />
-                  <folding>
-                    <element signature="e#0#23#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="-912">
+                  <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="51" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -191,9 +185,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>the_noise_folder</find>
-      <find>validation_data</find>
-      <find>spli</find>
       <find>NUM_TRA</find>
       <find>DECAY_STE</find>
       <find>load</find>
@@ -202,10 +193,8 @@
       <find>get_variable</find>
       <find>NUM_LABELS</find>
       <find>train_labels_node</find>
-      <find>drop</find>
       <find>std</find>
       <find>num_epochs</find>
-      <find>learning</find>
       <find>train_size</find>
       <find>test_ima</find>
       <find>error_rate</find>
@@ -213,7 +202,6 @@
       <find>opti</find>
       <find>add</find>
       <find>sum</find>
-      <find>loss</find>
       <find>wrong</find>
       <find>get_wrong</find>
       <find>meta</find>
@@ -221,6 +209,12 @@
       <find>eval_da</find>
       <find>gabi</find>
       <find>saver</find>
+      <find>learning</find>
+      <find>lr</find>
+      <find>learning_rate</find>
+      <find>drop</find>
+      <find>loss</find>
+      <find>NUM</find>
     </findStrings>
     <replaceStrings>
       <replace>path</replace>
@@ -240,14 +234,15 @@
         <option value="$PROJECT_DIR$/testing_stuff.py" />
         <option value="$PROJECT_DIR$/lstm.py" />
         <option value="$PROJECT_DIR$/data/INRIA/train_data_names_pos.csv" />
-        <option value="$PROJECT_DIR$/src/cnn_clean.py" />
         <option value="$PROJECT_DIR$/src/thingy.py" />
         <option value="$PROJECT_DIR$/src/predictions.txt" />
         <option value="$PROJECT_DIR$/src/project_utils.py" />
         <option value="$PROJECT_DIR$/src/siamese_cnn.py" />
-        <option value="$PROJECT_DIR$/src/project_constants.py" />
         <option value="$PROJECT_DIR$/src/cnn.py" />
         <option value="$PROJECT_DIR$/src/testing_stuff.py" />
+        <option value="$PROJECT_DIR$/examples_src/testing_keras.py" />
+        <option value="$PROJECT_DIR$/src/cnn_clean.py" />
+        <option value="$PROJECT_DIR$/src/project_constants.py" />
       </list>
     </option>
   </component>
@@ -280,7 +275,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -307,9 +301,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uatu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uatu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="examples_src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -317,43 +326,7 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="js.eslint.eslintPackage" value="" />
   </component>
-  <component name="RunManager" selected="Python.cnn">
-    <configuration default="false" name="siamese_cnn" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="uatu" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/siamese_cnn.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="cnn_clean" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="uatu" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/cnn_clean.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.cnn_clean">
     <configuration default="false" name="cnn" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -404,6 +377,42 @@
       <module name="uatu" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/project_constants.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="testing_keras" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples_src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="uatu" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples_src/testing_keras.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="cnn_clean" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="uatu" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/cnn_clean.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -623,19 +632,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.siamese_cnn" />
-      <item index="1" class="java.lang.String" itemvalue="Python.cnn_clean" />
-      <item index="2" class="java.lang.String" itemvalue="Python.cnn" />
-      <item index="3" class="java.lang.String" itemvalue="Python.testing_stuff" />
-      <item index="4" class="java.lang.String" itemvalue="Python.project_constants" />
+      <item index="0" class="java.lang.String" itemvalue="Python.cnn" />
+      <item index="1" class="java.lang.String" itemvalue="Python.testing_stuff" />
+      <item index="2" class="java.lang.String" itemvalue="Python.project_constants" />
+      <item index="3" class="java.lang.String" itemvalue="Python.testing_keras" />
+      <item index="4" class="java.lang.String" itemvalue="Python.cnn_clean" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.cnn" />
-        <item index="1" class="java.lang.String" itemvalue="Python.testing_stuff" />
-        <item index="2" class="java.lang.String" itemvalue="Python.project_constants" />
-        <item index="3" class="java.lang.String" itemvalue="Python.siamese_cnn" />
-        <item index="4" class="java.lang.String" itemvalue="Python.cnn_clean" />
+        <item index="0" class="java.lang.String" itemvalue="Python.cnn_clean" />
+        <item index="1" class="java.lang.String" itemvalue="Python.testing_keras" />
+        <item index="2" class="java.lang.String" itemvalue="Python.testing_stuff" />
+        <item index="3" class="java.lang.String" itemvalue="Python.cnn" />
+        <item index="4" class="java.lang.String" itemvalue="Python.project_constants" />
       </list>
     </recent_temporary>
   </component>
@@ -668,23 +677,23 @@
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.117395945" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.012273212" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3497217" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31632653" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18552876" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35714287" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -706,25 +715,30 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/testing_stuff.py</url>
-          <line>66</line>
-          <option name="timeStamp" value="105" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/testing_stuff.py</url>
-          <line>83</line>
-          <option name="timeStamp" value="106" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/cnn.py</url>
           <line>111</line>
           <option name="timeStamp" value="107" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/examples_src/testing_keras.py</url>
+          <line>31</line>
+          <option name="timeStamp" value="113" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/examples_src/testing_keras.py</url>
+          <line>37</line>
+          <option name="timeStamp" value="117" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/cnn_clean.py</url>
+          <line>89</line>
+          <option name="timeStamp" value="122" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="109" />
+      <option name="time" value="123" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -737,70 +751,12 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/tensorflow/local/lib/python2.7/site-packages/tensorflow/python/client/session.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15240">
-          <caret line="1033" column="0" lean-forward="false" selection-start-line="1033" selection-start-column="0" selection-end-line="1033" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2130">
-          <caret line="153" column="19" lean-forward="false" selection-start-line="153" selection-start-column="19" selection-end-line="153" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_constants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="33" column="15" lean-forward="false" selection-start-line="33" selection-start-column="15" selection-end-line="33" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="115" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2805">
           <caret line="187" column="0" lean-forward="false" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -839,7 +795,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1011,39 +969,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/lstm.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="745">
-          <caret line="221" column="70" lean-forward="false" selection-start-line="220" selection-start-column="8" selection-end-line="221" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/wrong_predictions.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/cnn_clean.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="26" lean-forward="false" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="20" lean-forward="false" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1059,13 +988,98 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
           <caret line="1033" column="0" lean-forward="false" selection-start-line="1033" selection-start-column="0" selection-end-line="1033" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/layers/core.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="283" column="8" lean-forward="false" selection-start-line="283" selection-start-column="8" selection-end-line="283" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-201">
+          <caret line="728" column="8" lean-forward="false" selection-start-line="728" selection-start-column="8" selection-end-line="728" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/layers/embeddings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="10" column="6" lean-forward="false" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lstm.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="606">
+          <caret line="221" column="70" lean-forward="false" selection-start-line="220" selection-start-column="8" selection-end-line="221" selection-end-column="70" />
+          <folding>
+            <element signature="e#0#9#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/siamese_cnn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="33" column="32" lean-forward="false" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#23#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/tensorflow/local/lib/python2.7/site-packages/tensorflow/python/training/saver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="543">
+          <caret line="1450" column="4" lean-forward="false" selection-start-line="1450" selection-start-column="4" selection-end-line="1450" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cnn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="301" column="0" lean-forward="true" selection-start-line="301" selection-start-column="0" selection-end-line="301" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/engine/training.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1350">
+          <caret line="120" column="0" lean-forward="false" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/backend/tensorflow_backend.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="2614" column="0" lean-forward="false" selection-start-line="2614" selection-start-column="0" selection-end-line="2614" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/testing_stuff.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-912">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="4" selection-end-column="51" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/project_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
+        <state relative-caret-position="15">
           <caret line="25" column="24" lean-forward="false" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -1073,38 +1087,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/tensorflow/local/lib/python2.7/site-packages/tensorflow/python/training/saver.py">
+    <entry file="file://$PROJECT_DIR$/examples_src/testing_keras.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="1450" column="4" lean-forward="false" selection-start-line="1450" selection-start-column="4" selection-end-line="1450" selection-end-column="4" />
-          <folding />
+        <state relative-caret-position="108">
+          <caret line="72" column="13" lean-forward="true" selection-start-line="72" selection-start-column="13" selection-end-line="72" selection-end-column="13" />
+          <folding>
+            <element signature="e#367#404#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/project_constants.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" column="19" lean-forward="false" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
+        <state relative-caret-position="405">
+          <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cnn.py">
+    <entry file="file://$PROJECT_DIR$/src/cnn_clean.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="359" column="26" lean-forward="false" selection-start-line="359" selection-start-column="21" selection-end-line="359" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/testing_stuff.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="758">
-          <caret line="109" column="16" lean-forward="true" selection-start-line="109" selection-start-column="16" selection-end-line="109" selection-end-column="16" />
+        <state relative-caret-position="317">
+          <caret line="71" column="36" lean-forward="true" selection-start-line="71" selection-start-column="36" selection-end-line="71" selection-end-column="36" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>

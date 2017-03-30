@@ -1,5 +1,9 @@
 import tensorflow as tf
 import os
+import keras
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation
+from keras.layers import Embedding
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 
@@ -61,6 +65,7 @@ def get_version():
     ver = tf.__version__
     print(type(ver))
     print(tf.__version__)
+    print keras.__version__
 
 
 def test_saving():
@@ -106,5 +111,32 @@ def test_restoring():
         print('done')
 
 
-test_saving()
-test_restoring()
+def test_keras():
+    keras.backend.backend()
+
+
+def test_my_first_keras_model():
+    x_train = [1,2,3,4,5,6,7,8,9,0]
+    y_train = [0,1,0,1,0,1,0,1,0,1]
+
+    x_test = [3,4,5,6,7]
+    y_test = [0,1,0,1,0]
+
+    input_shape = (1,1,10)
+
+    model = Sequential()
+    model.add(Dense(1, input_shape=(1,), activation='relu'))
+    # model.add(Activation('relu'))
+    model.compile(loss='mean_squared_error',
+                  optimizer='adam',
+                  metrics=['accuracy'])
+    model.fit(x_train, y_train,
+              batch_size=1,
+              epochs=2,
+              validation_data=(x_test, y_test))
+    score, acc = model.evaluate(x_test, y_test, batch_size=1)
+    print('Test score:', score)
+    print('Test accuracy:', acc)
+
+test_my_first_keras_model()
+# get_version()
