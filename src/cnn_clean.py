@@ -1,21 +1,11 @@
-import tensorflow as tf
 import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten
 from keras import optimizers
-
-import numpy as np
-import time
-import sys
-import argparse
-import os
-import random as rd
-from PIL import Image
-from scipy import ndimage
-
 import project_constants as pc
 import project_utils as pu
 
+import os
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/humans/1/'
@@ -90,5 +80,9 @@ def main():
     score = model.evaluate(test_data, test_labels)
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
+
+    # save model
+    model.save('cnn_model.h5')
+    model.save_weights('cnn_model_weights.h5')
 
 main()

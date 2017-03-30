@@ -24,16 +24,17 @@ other:
 
 31 march
 ------
-. continue creating a clean CNN
-. then make the siamese model work 
+. continue making the siamese model work 
 
 
 30 march
 ------
-. start again with creating a clean CNN
+. DONE start again with creating a clean CNN
+. start making the siamese model in keras
 . work with tflearn or keras? let's try keras!
 . note: I upgraded to cudnn v6 but then things don't work. downgraded back to v5.1 which fixed the problem
 . learned the habit of moving files to /tmp instead of using rm
+. keras is super useful. sucks to debug though
 
 
 29 march
