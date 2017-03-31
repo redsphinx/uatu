@@ -246,3 +246,47 @@ def get_wrong_predictions():
                 bla = paths[line].split('/')
                 thing = paths[line].split('/')[-1]
                 copyfile(paths[line], os.path.join(folder, thing))
+
+
+# image has to be 64x128
+def fix_viper():
+    original_folder_path = '/home/gabi/Documents/datasets/VIPeR'
+    # cam_a_o = '/home/gabi/Documents/datasets/VIPeR/cam_a'
+    # cam_b_o = '/home/gabi/Documents/datasets/VIPeR/cam_b'
+    padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
+    cam_a_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_a'
+    cam_b_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_b'
+
+
+    # # assuming they don't exist yet
+    # os.mkdir(padded_folder_path)
+    # os.mkdir(cam_a_p)
+    # os.mkdir(cam_b_p)
+
+    for folder in os.listdir(original_folder_path):
+        cam_path = os.path.join(original_folder_path, str(folder))
+        padded_cam_path = os.path.join(padded_folder_path, str(folder))
+        for file in os.listdir(cam_path):
+            img = Image.open(os.path.join(cam_path, file))
+            new_img = Image.new('RGB', (pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), (255,255,255))
+
+            img_width, img_height = img.size
+            new_img_width, new_img_height = new_img.size
+            padding_width = (new_img_width-img_width)/2
+            padding_height = (new_img_height-img_height)/2
+
+            new_img.paste(img, box=(padding_width, padding_height))
+            new_img.save(os.path.join(padded_cam_path, file))
+
+    # it throws an error but it does the job
+
+# make matching and non-matching pairs
+def make_pairs_viper():
+    padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
+    matching_file_name = 'matching.txt'
+    different_file_name = 'different.txt'
+    
+
+# loads the viper dataset for use in a person re-id setting in a siamese network
+def load_viper():
+    pass
