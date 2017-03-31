@@ -6,6 +6,8 @@ import random as rd
 from scipy import ndimage
 from shutil import copyfile
 import shutil
+from itertools import combinations
+
 
 
 def tupconv(lst):
@@ -283,10 +285,36 @@ def fix_viper():
 # make matching and non-matching pairs
 def make_pairs_viper():
     padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
-    matching_file_name = 'matching.txt'
-    different_file_name = 'different.txt'
-    
+    pairings_neg_name = 'pairings_neg.txt'
+    pairings_pos_name = 'pairings_pos.txt'
+
+    pairings_neg = open(os.path.join(padded_folder_path, pairings_neg_name), "wr")
+    pairings_pos = open(os.path.join(padded_folder_path, pairings_pos_name), "wr")
+
+    list_ids = os.listdir(os.path.join(padded_folder_path, 'cam_a'))
+    combos = combinations(list_ids, 2)
+
+    for comb in combos:
+        a = comb[0]
+        b = comb[1]
+        if comb[0] == comb[1]:
+            pass
+        else:
+            pairings_neg.write(str(comb[0] + ',' + comb[1] + ',0\n'))
+
+    pairings_neg.close()
+
+    for id in list_ids:
+        pairings_pos.write(str(id + ',' + id + ',1\n'))
+
+    pairings_pos.close()
+
 
 # loads the viper dataset for use in a person re-id setting in a siamese network
 def load_viper():
+
+
     pass
+
+
+make_pairs_viper()

@@ -82,7 +82,7 @@ def main():
     print('Test accuracy:', score[1])
 
     # save model
-    model.save('cnn_model.h5')
-    model.save_weights('cnn_model_weights.h5')
+    # model.save('cnn_model.h5')
+    # model.save_weights('cnn_model_weights.h5')
 
 main()
