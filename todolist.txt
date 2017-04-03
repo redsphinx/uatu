@@ -22,10 +22,16 @@ other:
 . update data latex file with info about CASIA
 ------------------------------------------------------------------------------------------------
 
+4 april 
+------
+. solve the data issue
+. continue making the siamese model work 
+
 
 3 april 
 ------
 . continue making the siamese model work 
+. issue with displaying the data after loading into memory
 
 
 31 march
