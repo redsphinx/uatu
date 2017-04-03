@@ -22,6 +22,12 @@ other:
 . update data latex file with info about CASIA
 ------------------------------------------------------------------------------------------------
 
+
+3 april 
+------
+. continue making the siamese model work 
+
+
 31 march
 ------
 . continue making the siamese model work 

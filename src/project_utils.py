@@ -7,7 +7,7 @@ from scipy import ndimage
 from shutil import copyfile
 import shutil
 from itertools import combinations
-
+import random
 
 
 def tupconv(lst):
@@ -312,9 +312,51 @@ def make_pairs_viper():
 
 # loads the viper dataset for use in a person re-id setting in a siamese network
 def load_viper():
+    path_validation = 'validation_data_viper.txt'
+    path_test = 'test_data_viper.txt'
+    path_train = 'train_data_viper.txt'
 
+    # if validation file doesn't exist assume the other files don't exist either
+    if os.path.exists(path_validation):
+        print('loading viper data from files')
+        #piemel
+    else:
+        print('creating viper data')
+        positive_combo_list = np.genfromtxt('/home/gabi/Documents/datasets/VIPeR/padded/pairings_pos.txt', dtype=None).tolist()
+        negative_combo_list = np.genfromtxt('/home/gabi/Documents/datasets/VIPeR/padded/pairings_neg.txt', dtype=None).tolist()
+
+        random.shuffle(negative_combo_list)
+        random.shuffle(positive_combo_list)
+        negative_combo_list_ = []
+
+        for pick in range(0, len(positive_combo_list)):
+            negative_combo_list_.append(negative_combo_list[pick])
+
+        all_list = positive_combo_list + negative_combo_list_
+        random.shuffle(all_list)
+
+        validation_data = all_list[0:50]
+        test_data = all_list[50:100]
+        train_data = all_list[100:]
+
+        validation_data_text = 'validation_data_viper.txt'
+        with open(validation_data_text, 'wr') as my_file:
+            for line in range(0, len(validation_data_text)):
+                my_file.write(str(validation_data_text[line]) + '\n')
+
+        test_data_text = 'test_data_viper.txt'
+        with open(test_data_text, 'wr') as my_file:
+            for line in range(0, len(test_data_text)):
+                my_file.write(str(test_data_text[line]) + '\n')
+
+        train_data_text = 'train_data_viper.txt'
+        with open(train_data_text, 'wr') as my_file:
+            for line in range(0, len(train_data_text)):
+                my_file.write(str(train_data_text[line]) + '\n')
+
+        load_viper()
 
     pass
 
 
-make_pairs_viper()
+load_viper()
