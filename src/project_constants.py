@@ -38,3 +38,5 @@ LOAD_WEIGHTS = False
 CHECKPOINT = 'cnn_model_10_epochs.meta'
 
 DROPOUT = 0.5
+
+NUM_CAMERAS = 2

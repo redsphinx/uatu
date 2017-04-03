@@ -8,6 +8,7 @@ from shutil import copyfile
 import shutil
 from itertools import combinations
 import random
+import csv
 
 
 def tupconv(lst):
@@ -250,7 +251,7 @@ def get_wrong_predictions():
                 copyfile(paths[line], os.path.join(folder, thing))
 
 
-# image has to be 64x128
+# image has to be 64x128, this adds padding
 def fix_viper():
     original_folder_path = '/home/gabi/Documents/datasets/VIPeR'
     # cam_a_o = '/home/gabi/Documents/datasets/VIPeR/cam_a'
@@ -261,11 +262,12 @@ def fix_viper():
 
 
     # # assuming they don't exist yet
-    # os.mkdir(padded_folder_path)
-    # os.mkdir(cam_a_p)
-    # os.mkdir(cam_b_p)
+    os.mkdir(padded_folder_path)
+    os.mkdir(cam_a_p)
+    os.mkdir(cam_b_p)
 
-    for folder in os.listdir(original_folder_path):
+    cams = ['cam_a', 'cam_b']
+    for folder in cams:
         cam_path = os.path.join(original_folder_path, str(folder))
         padded_cam_path = os.path.join(padded_folder_path, str(folder))
         for file in os.listdir(cam_path):
@@ -278,7 +280,10 @@ def fix_viper():
             padding_height = (new_img_height-img_height)/2
 
             new_img.paste(img, box=(padding_width, padding_height))
-            new_img.save(os.path.join(padded_cam_path, file))
+
+            filename = file.split('_')[0] + '.bmp'
+            filename = os.path.join(padded_cam_path, filename)
+            new_img.save(filename)
 
     # it throws an error but it does the job
 
@@ -310,6 +315,46 @@ def make_pairs_viper():
     pairings_pos.close()
 
 
+def make_labels_viper(data_file):
+    data = np.reshape(data_file, (len(data_file), 3))
+    labels = data[:, -1]
+    return labels
+
+
+def load_data_in_array(data):
+    nla = data
+    data_array = np.zeros(shape=(len(data), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    for pair in range(0, len(data)):
+        for image in range(0,1):
+            if image == 0:
+                cam = 'cam_a'
+            else:
+                cam = 'cam_b'
+
+            path = os.path.join('/home/gabi/Documents/datasets/VIPeR/padded', cam, data[pair][image])
+
+            # otherimg = Image.open(path)
+            # otherimg.show()
+            # otherimg = list(otherimg.getdata())
+
+            # data_array[pair, image] = otherimg
+            data_array[pair] = ndimage.imread(path)
+
+            thing1 = data_array[0]
+            # np.transpose(thing)
+            # thing1 = tupconv(thing1)
+            # thing2 = np.reshape(thing1, (3, 128, 64))
+            img = Image.fromarray(thing1, mode='RGB')
+            img.show()
+
+            # otherimg = Image.open(path)
+            # otherimg.show()
+            # otherimg = list(otherimg.getdata())
+
+            print('asfd')
+    pass
+
+
 # loads the viper dataset for use in a person re-id setting in a siamese network
 def load_viper():
     path_validation = 'validation_data_viper.txt'
@@ -319,7 +364,28 @@ def load_viper():
     # if validation file doesn't exist assume the other files don't exist either
     if os.path.exists(path_validation):
         print('loading viper data from files')
-        #piemel
+
+        train_data = list(csv.reader(np.genfromtxt(path_train, dtype=None)))
+        validation_data = list(csv.reader(np.genfromtxt(path_validation, dtype=None)))
+        test_data = list(csv.reader(np.genfromtxt(path_test, dtype=None)))
+
+        train_labels = make_labels_viper(train_data)
+        validation_labels = make_labels_viper(validation_data)
+        test_labels = make_labels_viper(test_data)
+
+        # train_data_array = load_data_in_array(train_data)
+        validation_data_array = load_data_in_array(validation_data)
+        test_data_array = load_data_in_array(test_data)
+
+
+        # train_data_array = np.zeros(shape=(len(train_data_), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+        # train_labels_array = np.zeros(shape=(len(train_labels_), pc.NUM_CLASSES))
+        # validation_data_array = np.zeros(shape=(len(validation_data_), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+        # validation_labels_array = np.zeros(shape=(len(validation_labels_), pc.NUM_CLASSES))
+
+        print('asdf')
+
+
     else:
         print('creating viper data')
         positive_combo_list = np.genfromtxt('/home/gabi/Documents/datasets/VIPeR/padded/pairings_pos.txt', dtype=None).tolist()
@@ -341,22 +407,32 @@ def load_viper():
 
         validation_data_text = 'validation_data_viper.txt'
         with open(validation_data_text, 'wr') as my_file:
-            for line in range(0, len(validation_data_text)):
-                my_file.write(str(validation_data_text[line]) + '\n')
+            for line in range(0, len(validation_data)):
+                my_file.write(str(validation_data[line]) + '\n')
 
         test_data_text = 'test_data_viper.txt'
         with open(test_data_text, 'wr') as my_file:
-            for line in range(0, len(test_data_text)):
-                my_file.write(str(test_data_text[line]) + '\n')
+            for line in range(0, len(test_data)):
+                my_file.write(str(test_data[line]) + '\n')
 
         train_data_text = 'train_data_viper.txt'
         with open(train_data_text, 'wr') as my_file:
-            for line in range(0, len(train_data_text)):
-                my_file.write(str(train_data_text[line]) + '\n')
+            for line in range(0, len(train_data)):
+                my_file.write(str(train_data[line]) + '\n')
 
         load_viper()
 
     pass
 
 
+def viper_from_raw():
+    # add padding and save in new folder
+    fix_viper()
+    # make a text list with pairings in the new folder
+    make_pairs_viper()
+
+
 load_viper()
+
+
+
