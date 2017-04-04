@@ -2,6 +2,8 @@ Tasks:
 -----
 implementation:
 
+. make a testing interface
+
 . implement cyclical learning rate: https://arxiv.org/pdf/1506.01186.pdf
 
 . person re-id benchmark

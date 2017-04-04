@@ -414,7 +414,7 @@ def viper_from_raw():
     make_pairs_viper()
 
 
-load_viper()
+# load_viper()
 
 
 

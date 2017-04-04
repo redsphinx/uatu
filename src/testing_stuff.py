@@ -154,4 +154,4 @@ def test_making_images():
 
 
 
-test_making_images()
+# test_making_images()
