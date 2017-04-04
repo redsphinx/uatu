@@ -143,13 +143,15 @@ def test_my_first_keras_model():
 def test_making_images():
     thing1 = np.random.rand(200, 100, 3) * 255
     thing2 = np.random.rand(200, 100, 3) * 0
-    thing3 = np.random.uniform(low=10, high=30, size=(200,100,3)) *0
+    thing3 = np.random.uniform(low=10, high=10, size=(200,100,3)) *0
     thing4 = np.random.rand(200, 100, 3) * 2
     hor1 = [thing1, thing2]
     hor2 = [thing3, thing4]
     mor = [hor1, hor2]
     img = Image.fromarray(mor[1][0], mode='RGB')
     img.show()
+
+
 
 
 test_making_images()

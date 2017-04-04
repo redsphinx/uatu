@@ -24,8 +24,10 @@ other:
 
 4 april 
 ------
-. solve the data issue
 . continue making the siamese model work 
+. DONE solve the data issue
+.. the issue was with displaying the image. fixed with:
+    img = Image.fromarray(thing1.astype('uint8')).convert('RGB')
 
 
 3 april 

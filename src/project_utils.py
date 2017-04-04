@@ -321,38 +321,25 @@ def make_labels_viper(data_file):
     return labels
 
 
+# takes a image name pair file and loads the images into an ndarray
 def load_data_in_array(data):
-    nla = data
-    data_array = np.zeros(shape=(len(data), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    data_array = np.zeros(shape=(len(data), pc.NUM_CAMERAS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
     for pair in range(0, len(data)):
-        for image in range(0,1):
+        for image in range(0,2):
             if image == 0:
                 cam = 'cam_a'
             else:
                 cam = 'cam_b'
 
+            # change the specific path to your data here
             path = os.path.join('/home/gabi/Documents/datasets/VIPeR/padded', cam, data[pair][image])
+            data_array[pair][image] = ndimage.imread(path)
 
-            # otherimg = Image.open(path)
-            # otherimg.show()
-            # otherimg = list(otherimg.getdata())
-
-            # data_array[pair, image] = otherimg
-            data_array[pair] = ndimage.imread(path)
-
-            thing1 = data_array[0]
-            # np.transpose(thing)
-            # thing1 = tupconv(thing1)
-            # thing2 = np.reshape(thing1, (3, 128, 64))
-            img = Image.fromarray(thing1, mode='RGB')
-            img.show()
-
-            # otherimg = Image.open(path)
-            # otherimg.show()
-            # otherimg = list(otherimg.getdata())
-
-            print('asfd')
-    pass
+            ## uncomment to display images
+            # thing1 = data_array[pair][image]
+            # img = Image.fromarray(thing1.astype('uint8')).convert('RGB')
+            # img.show()
+    return data_array
 
 
 # loads the viper dataset for use in a person re-id setting in a siamese network
@@ -373,17 +360,12 @@ def load_viper():
         validation_labels = make_labels_viper(validation_data)
         test_labels = make_labels_viper(test_data)
 
-        # train_data_array = load_data_in_array(train_data)
+        train_data_array = load_data_in_array(train_data)
         validation_data_array = load_data_in_array(validation_data)
         test_data_array = load_data_in_array(test_data)
 
-
-        # train_data_array = np.zeros(shape=(len(train_data_), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-        # train_labels_array = np.zeros(shape=(len(train_labels_), pc.NUM_CLASSES))
-        # validation_data_array = np.zeros(shape=(len(validation_data_), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-        # validation_labels_array = np.zeros(shape=(len(validation_labels_), pc.NUM_CLASSES))
-
-        print('asdf')
+        return [train_data_array, train_labels, validation_data_array, validation_labels,
+                test_data_array, test_labels]
 
 
     else:
