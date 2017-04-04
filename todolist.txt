@@ -23,10 +23,16 @@ other:
 . update model latex file with progress on different parts of the model
 . update data latex file with info about CASIA
 ------------------------------------------------------------------------------------------------
+5 april
+------
+. continue making the siamese model work 
+. fix issue with loss and accuracy
+
 
 4 april 
 ------
 . continue making the siamese model work 
+.. there is an issue with the loss and accuracy
 . DONE solve the data issue
 .. the issue was with displaying the image. fixed with:
     img = Image.fromarray(thing1.astype('uint8')).convert('RGB')

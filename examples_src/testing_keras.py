@@ -115,6 +115,8 @@ distance = Lambda(euclidean_distance,
                   output_shape=eucl_dist_output_shape)([processed_a, processed_b])
 
 model = Model([input_a, input_b], distance)
+# plot_model(model, to_file='model.png')
+# print(model.summary())
 
 # train
 rms = RMSprop()
@@ -133,4 +135,3 @@ te_acc = compute_accuracy(pred, te_y)
 print('* Accuracy on training set: %0.2f%%' % (100 * tr_acc))
 print('* Accuracy on test set: %0.2f%%' % (100 * te_acc))
 
-# plot_model(model, to_file='model.png')
