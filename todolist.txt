@@ -1,34 +1,45 @@
 Tasks:
 -----
-implementation:
 
+. clean repository
+. figure out a way to document experiments
+. add extra convolutional layers in the human detection CNN
+. validate idea to use fc layers instead of distance function to compute the similarity metric
+.. compare with euclidean distance
+. freeze CNN layers
 . make a testing interface
-
-. implement cyclical learning rate: https://arxiv.org/pdf/1506.01186.pdf
-
 . person re-id benchmark
-
-. make the lstm part of the convolutional RNN
-
-. connect the cnn with the lstm
-. make data pipeline
-. implement a different architecture for both
-. make architecture work with continuous video stream
-
-research:
-. good architecture for person identification
+. implement minibatch balancing
+. gather more training data
+. method to get wrong prediction images
+. read paper about deformable convolutional networks
+. implement cyclical learning rate: https://arxiv.org/pdf/1506.01186.pdf
 . GANs for re-id
 
 other:
+. write thesis
 . update model latex file with progress on different parts of the model
 . update data latex file with info about CASIA
 ------------------------------------------------------------------------------------------------
+
+===============================================================================================
+Second phase: Improve the prototype in experiment cycles
+===============================================================================================
+
 5 april
 ------
-. continue making the siamese model work 
-.. try running without the loading of weights
-. fix issue with loss and accuracy
+. start clean repository
+. start figure out a way to document experiments
 
+===============================================================================================
+First phase: Created basic person re-id prototype
+===============================================================================================
+
+5 april
+------
+. DONE continue making the siamese model work 
+. DONE fix issue with loss and accuracy
+.. I found out it works with built in keras optimizer, loss and metrics. The 'contrastive loss' as was used in the mnist_siamese example was not appropriate for this problem
 
 4 april 
 ------

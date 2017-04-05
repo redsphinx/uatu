@@ -57,8 +57,8 @@ def alt_create_fc(inputs):
     dense_layer = Dense(512, activation='relu') (inputs)
     dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
     dense_layer = Dense(1024, activation='relu')(dropout_layer)
-    dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
-    dense_layer = Dense(2048, activation='relu')(dropout_layer)
+    # dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
+    # dense_layer = Dense(2048, activation='relu')(dropout_layer)
     # dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
     # dense_layer = Dense(4096, activation='relu')(dropout_layer)
     # dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
@@ -221,11 +221,23 @@ def main():
     va_acc = calculate_accuracy(pred, validation_labels)
     pred = model.predict([test_data[:, 0], test_data[:, 1]])
     te_acc = calculate_accuracy(pred, test_labels)
-    print(pred[0:20])
-
-
+    # print(pred[0:20])
+    #
+    #
     print('* Accuracy on training set: %0.2f%%' % (100 * tr_acc))
     print('* Accuracy on validation set: %0.2f%%' % (100 * va_acc))
     print('* Accuracy on test set: %0.2f%%' % (100 * te_acc))
+    print([tr_acc, va_acc, te_acc])
+    # return [tr_acc, va_acc, te_acc]
+
+def super_main():
+    accs = np.zeros((10, 3))
+    for iter in range(0, 10):
+        accs[iter] = main()
+
+    print(accs)
+
+
+# super_main()
 
 main()
