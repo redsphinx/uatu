@@ -1,8 +1,6 @@
 Tasks:
 -----
 
-. clean repository
-. figure out a way to document experiments
 . add extra convolutional layers in the human detection CNN
 . validate idea to use fc layers instead of distance function to compute the similarity metric
 .. compare with euclidean distance
@@ -26,10 +24,20 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+6 april
+------
+. start add extra convolutional layers in the human detection CNN
+. start validate idea to use fc layers instead of distance function to compute the similarity metric
+.. compare with euclidean distance
+. start freeze CNN layers
+
+
 5 april
 ------
-. start clean repository
-. start figure out a way to document experiments
+. DONE start clean repository
+. DONE start figure out a way to document experiments
+.. make local storage system version controlled by github
+.. later build a testing interface on top 
 
 ===============================================================================================
 First phase: Created basic person re-id prototype
