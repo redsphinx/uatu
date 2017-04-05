@@ -26,6 +26,7 @@ other:
 5 april
 ------
 . continue making the siamese model work 
+.. try running without the loading of weights
 . fix issue with loss and accuracy
 
 

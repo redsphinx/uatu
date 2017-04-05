@@ -417,4 +417,14 @@ def viper_from_raw():
 # load_viper()
 
 
+def flip_labels(labels):
+    labels = map(int, labels)
+    new_labels = []
 
+    for item in range(0, len(labels)):
+        if labels[item] == 1:
+            new_labels.append(0)
+        else:
+            new_labels.append(1)
+
+    return new_labels
