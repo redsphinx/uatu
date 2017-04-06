@@ -29,8 +29,9 @@ Second phase: Improve the prototype in experiment cycles
 . DONE start add extra convolutional layers in the human detection CNN
 . DONE start freeze CNN layers
 . DONE start make method confusion matrix for the siamese results
-. start make method for logging experiments
-. start compare freezing vs not freezing
+. DONE start make method for logging experiments
+. DONE start compare freezing vs not freezing
+.. freezing acc: 0.44, not freezing acc: 0.536
 . start validate idea to use fc layers instead of distance function to compute the similarity metric
 .. compare with euclidean distance
 . write thesis

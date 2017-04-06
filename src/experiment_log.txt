@@ -1,0 +1,34 @@
+
+name_of_experiment:         does freezing cnn layers help
+file_name:                  siamese_cnn_clean.py
+date:                       06/04/2017   14:11:41
+data_set:                   VIPeR
+iterations:                 10
+start_learning_rate:        0.000010
+batch_size:                 32
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  6.    3.8  16.2  24. ]
+
+
+name_of_experiment:         does freezing cnn layers help
+file_name:                  siamese_cnn_clean.py
+date:                       06/04/2017   14:25:55
+data_set:                   VIPeR
+iterations:                 10
+start_learning_rate:        0.000010
+batch_size:                 32
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  True
+mean_tp_fp_tn_fn:           [ 18.3  11.5   8.5  11.7]
+

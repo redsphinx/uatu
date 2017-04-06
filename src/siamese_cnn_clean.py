@@ -169,7 +169,7 @@ def main():
     return (tr_matrix, va_matrix, te_matrix)
 
 def super_main():
-    iterations = 2
+    iterations = 10
     accs = np.zeros((iterations, 3, 4))
 
     for iter in range(0, iterations):
@@ -186,6 +186,12 @@ def super_main():
     mean = np.mean(test_mat, axis=0)
     print(mean)
 
+    # TODO: TURN ON if you want to log results!!
+    if pc.LOGGING:
+        file_name = os.path.basename(__file__)
+        experiment_name = 'does freezing cnn layers help'
+        dataset_name = 'VIPeR'
+        pu.enter_in_log(experiment_name, file_name, iterations, str(mean), dataset_name)
 
 
 super_main()

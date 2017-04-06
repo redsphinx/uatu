@@ -9,6 +9,7 @@ import shutil
 from itertools import combinations
 import random
 import csv
+import time
 
 
 def tupconv(lst):
@@ -493,8 +494,31 @@ def print_confusion_matrix(name, confusion_matrix):
           %(name, confusion_matrix[0], confusion_matrix[1], confusion_matrix[2], confusion_matrix[3]))
 
 
-def enter_in_log(name_of_experiment, file_name, super_main_iterations, confusion_matrix):
-    with open(pc.LOG_FILE_PATH, 'a') as my_file:
-        
+def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusion_matrix, dataset_name):
+# def enter_in_log(name):
+    if not os.path.exists(pc.LOG_FILE_PATH):
+        with open(pc.LOG_FILE_PATH, 'w') as my_file:
+            print('new log file made')
 
-            # my_file.write(str(validation_data_[line]) + '\n')
+
+    with open(pc.LOG_FILE_PATH, 'a') as log_file:
+        date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
+        log_file.write('\n')
+        log_file.write('name_of_experiment:         %s\n' %experiment_name)
+        log_file.write('file_name:                  %s\n' %file_name)
+        log_file.write('date:                       %s\n' %date)
+        log_file.write('data_set:                   %s\n' %dataset_name)
+        log_file.write('iterations:                 %d\n' %super_main_iterations)
+        log_file.write('start_learning_rate:        %f\n' %pc.START_LEARNING_RATE)
+        log_file.write('batch_size:                 %d\n' %pc.BATCH_SIZE)
+        log_file.write('decay_rate:                 %f\n' %pc.DECAY_RATE)
+        log_file.write('momentum:                   %f\n' %pc.MOMENTUM)
+        log_file.write('epochs:                     %d\n' %pc.NUM_EPOCHS)
+        log_file.write('number_of_cameras:          %d\n' %pc.NUM_CAMERAS)
+        log_file.write('dropout:                    %f\n' %pc.DROPOUT)
+        log_file.write('transfer_learning:          %s\n' %pc.TRANSFER_LEARNING)
+        log_file.write('train_cnn:                  %s\n' %pc.TRAIN_CNN)
+        log_file.write('mean_tp_fp_tn_fn:           %s\n' %test_confusion_matrix)
+
+        log_file.write('\n')
+
