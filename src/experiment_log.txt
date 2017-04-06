@@ -14,6 +14,7 @@ dropout:                    0.500000
 transfer_learning:          True
 train_cnn:                  False
 mean_tp_fp_tn_fn:           [  6.    3.8  16.2  24. ]
+mean_accuracy:              0.444
 
 
 name_of_experiment:         does freezing cnn layers help
@@ -31,4 +32,5 @@ dropout:                    0.500000
 transfer_learning:          True
 train_cnn:                  True
 mean_tp_fp_tn_fn:           [ 18.3  11.5   8.5  11.7]
+mean_accuracy:              0.536
 

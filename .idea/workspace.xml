@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_constants.py" afterPath="$PROJECT_DIR$/src/project_constants.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/experiment_log.txt" afterPath="$PROJECT_DIR$/src/experiment_log.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_utils.py" afterPath="$PROJECT_DIR$/src/project_utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_clean.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
     </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,7 +34,7 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.54441774">
+    <splitter split-orientation="horizontal" split-proportion="0.39435774">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="project_constants.py" pinned="false" current-in-tab="false">
@@ -63,11 +61,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="project_utils.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="project_utils.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_utils.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="466">
-                  <caret line="524" column="0" lean-forward="true" selection-start-line="524" selection-start-column="0" selection-end-line="524" selection-end-column="0" />
+                <state relative-caret-position="436">
+                  <caret line="522" column="38" lean-forward="false" selection-start-line="522" selection-start-column="38" selection-end-line="522" selection-end-column="38" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
                   </folding>
@@ -75,11 +73,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="experiment_log.txt" pinned="false" current-in-tab="true">
+          <file leaf-file-name="experiment_log.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/experiment_log.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="0">
-                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                <state relative-caret-position="15">
+                  <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -92,8 +90,8 @@
           <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="264">
-                  <caret line="183" column="0" lean-forward="true" selection-start-line="183" selection-start-column="0" selection-end-line="183" selection-end-column="0" />
+                <state relative-caret-position="384">
+                  <caret line="191" column="27" lean-forward="true" selection-start-line="191" selection-start-column="27" selection-end-line="191" selection-end-column="56" />
                   <folding>
                     <element signature="e#0#23#0" expanded="true" />
                   </folding>
@@ -183,10 +181,10 @@
         <option value="$PROJECT_DIR$/src/testing_stuff.py" />
         <option value="$PROJECT_DIR$/examples_src/testing_keras.py" />
         <option value="$PROJECT_DIR$/src/cnn_clean.py" />
-        <option value="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
+        <option value="$PROJECT_DIR$/src/project_constants.py" />
         <option value="$PROJECT_DIR$/src/project_utils.py" />
         <option value="$PROJECT_DIR$/src/experiment_log.txt" />
-        <option value="$PROJECT_DIR$/src/project_constants.py" />
+        <option value="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
       </list>
     </option>
   </component>
@@ -1027,26 +1025,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="183" column="0" lean-forward="true" selection-start-line="183" selection-start-column="0" selection-end-line="183" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="524" column="0" lean-forward="true" selection-start-line="524" selection-start-column="0" selection-end-line="524" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_constants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="466">
@@ -1059,9 +1037,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/experiment_log.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="15">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="436">
+          <caret line="522" column="38" lean-forward="false" selection-start-line="522" selection-start-column="38" selection-end-line="522" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="191" column="27" lean-forward="true" selection-start-line="191" selection-start-column="27" selection-end-line="191" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
