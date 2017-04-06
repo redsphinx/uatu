@@ -1,10 +1,8 @@
 Tasks:
 -----
 
-. add extra convolutional layers in the human detection CNN
 . validate idea to use fc layers instead of distance function to compute the similarity metric
 .. compare with euclidean distance
-. freeze CNN layers
 . make a testing interface
 . person re-id benchmark
 . implement minibatch balancing

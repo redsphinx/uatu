@@ -503,7 +503,8 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
 
     with open(pc.LOG_FILE_PATH, 'a') as log_file:
         date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
-        accuracy = (test_confusion_matrix[0] + test_confusion_matrix[2]) / 2
+        accuracy = (test_confusion_matrix[0] + test_confusion_matrix[2]) / 50
+        confusion_matrix = str(test_confusion_matrix)
         log_file.write('\n')
         log_file.write('name_of_experiment:         %s\n' %experiment_name)
         log_file.write('file_name:                  %s\n' %file_name)
@@ -512,6 +513,7 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
         log_file.write('iterations:                 %d\n' %super_main_iterations)
         log_file.write('start_learning_rate:        %f\n' %pc.START_LEARNING_RATE)
         log_file.write('batch_size:                 %d\n' %pc.BATCH_SIZE)
+        log_file.write('similarity_metric           %s\n' %pc.SIMILARITY_METRIC)
         log_file.write('decay_rate:                 %f\n' %pc.DECAY_RATE)
         log_file.write('momentum:                   %f\n' %pc.MOMENTUM)
         log_file.write('epochs:                     %d\n' %pc.NUM_EPOCHS)
@@ -519,7 +521,7 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
         log_file.write('dropout:                    %f\n' %pc.DROPOUT)
         log_file.write('transfer_learning:          %s\n' %pc.TRANSFER_LEARNING)
         log_file.write('train_cnn:                  %s\n' %pc.TRAIN_CNN)
-        log_file.write('mean_tp_fp_tn_fn:           %s\n' %test_confusion_matrix)
+        log_file.write('mean_tp_fp_tn_fn:           %s\n' %confusion_matrix)
         log_file.write('mean_accuracy:              %f\n' %accuracy)
 
         log_file.write('\n')

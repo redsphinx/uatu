@@ -50,7 +50,7 @@ def add_activation_and_relu(model):
 
 def create_base_network():
     model = Sequential()
-    model.add(Conv2D(32, kernel_size=(3, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1', trainable=False))
+    model.add(Conv2D(32, kernel_size=(3, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
     model.add(Conv2D(64, kernel_size=(3, 3), padding='same', name='conv_2', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
@@ -93,6 +93,12 @@ def contrastive_loss(y_true, y_pred):
                   (1 - y_true) * K.square(K.maximum(margin - y_pred, 0)))
 
 
+def compute_accuracy(predictions, labels):
+    '''Compute classification accuracy with a fixed threshold on distances.
+    '''
+    return labels[predictions.ravel() < 0.5].mean()
+
+
 def create_siamese():
     input_a = Input(shape=(train_data_.shape[1:]))
     input_b = Input(shape=(train_data_.shape[1:]))
@@ -101,25 +107,18 @@ def create_siamese():
     processed_a = base_network(input_a)
     processed_b = base_network(input_b)
 
-    merged_processed = keras.layers.concatenate([processed_a, processed_b])
-
-    # use a fc to come up with a metric
-    distance = alt_create_fc(merged_processed)
-
-    # useful to show drawback of euclidean distance as a metric
-    # distance = Lambda(euclidean_distance,
-    #                   output_shape=eucl_dist_output_shape)([processed_a, processed_b])
-
-    model = Model([input_a, input_b], distance)
-    # plot_model(model, to_file='model.png')
+    if pc.SIMILARITY_METRIC == 'fc_layers':
+        # use a fc to come up with a metric
+        merged_processed = keras.layers.concatenate([processed_a, processed_b])
+        distance = alt_create_fc(merged_processed)
+        model = Model([input_a, input_b], distance)
+    elif pc.SIMILARITY_METRIC == 'euclid':
+        # useful to show drawback of euclidean distance as a metric
+        distance = Lambda(euclidean_distance,
+                          output_shape=eucl_dist_output_shape)([processed_a, processed_b])
+        model = Model([input_a, input_b], distance)
 
     return model
-
-
-def compute_accuracy(predictions, labels):
-    '''Compute classification accuracy with a fixed threshold on distances.
-    '''
-    return labels[predictions.ravel() < 0.5].mean()
 
 
 def confusion_matrix(name, predictions, labels, verbose=False):
@@ -130,42 +129,32 @@ def confusion_matrix(name, predictions, labels, verbose=False):
 
 
 def main():
-
     model = create_siamese()
 
-    # train
-    rms = RMSprop()
-    nadam = optimizers.Nadam(lr=pc.START_LEARNING_RATE, schedule_decay=pc.DECAY_RATE)
-    model.compile(loss='categorical_crossentropy', optimizer=nadam, metrics=['accuracy'])
-    model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-              batch_size=pc.BATCH_SIZE,
-              epochs=pc.NUM_EPOCHS,
-              validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels))
-
-    # prediction = model.predict([test_data[:,0], test_data[:,1]], batch_size=32, verbose=1)
-    # print(prediction[0:20])
-
-    # accuracy = calculate_accuracy(prediction, test_labels)
-    # print('accuracy: %f' %accuracy)
-    # score = model.evaluate([test_data[:,0], test_data[:,1]], test_labels)
-    # print(score)
+    if pc.SIMILARITY_METRIC == 'fc_layers':
+        nadam = optimizers.Nadam(lr=pc.START_LEARNING_RATE, schedule_decay=pc.DECAY_RATE)
+        model.compile(loss='categorical_crossentropy', optimizer=nadam, metrics=['accuracy'])
+        model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
+                  batch_size=pc.BATCH_SIZE,
+                  epochs=pc.NUM_EPOCHS,
+                  validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels))
+    elif pc.SIMILARITY_METRIC == 'euclid':
+        rms = RMSprop()
+        model.compile(loss=contrastive_loss, optimizer=rms)
+        model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
+                  batch_size=pc.BATCH_SIZE,
+                  epochs=pc.NUM_EPOCHS,
+                  validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels))
 
     tr_pred = model.predict([train_data[:, 0], train_data[:, 1]])
     tr_matrix = confusion_matrix('Training', tr_pred, train_labels)
-    tr_acc = pu.calculate_accuracy(tr_pred, train_labels)
 
     va_pred = model.predict([validation_data[:, 0], validation_data[:, 1]])
     va_matrix = confusion_matrix('Validation', va_pred, validation_labels)
-    va_acc = pu.calculate_accuracy(va_pred, validation_labels)
 
     te_pred = model.predict([test_data[:, 0], test_data[:, 1]])
     te_matrix = confusion_matrix('Testing', te_pred, test_labels)
-    te_acc = pu.calculate_accuracy(te_pred, test_labels)
 
-
-    print('* Accuracy on training set: %0.2f%%' % (100 * tr_acc))
-    print('* Accuracy on validation set: %0.2f%%' % (100 * va_acc))
-    print('* Accuracy on test set: %0.2f%%' % (100 * te_acc))
     return (tr_matrix, va_matrix, te_matrix)
 
 def super_main():
@@ -191,7 +180,7 @@ def super_main():
         file_name = os.path.basename(__file__)
         experiment_name = 'does freezing cnn layers help'
         dataset_name = 'VIPeR'
-        pu.enter_in_log(experiment_name, file_name, iterations, str(mean), dataset_name)
+        pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name)
 
 
 super_main()

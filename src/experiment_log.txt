@@ -6,6 +6,7 @@ data_set:                   VIPeR
 iterations:                 10
 start_learning_rate:        0.000010
 batch_size:                 32
+similarity_metric           fc_layers
 decay_rate:                 0.950000
 momentum:                   0.900000
 epochs:                     10
@@ -24,6 +25,7 @@ data_set:                   VIPeR
 iterations:                 10
 start_learning_rate:        0.000010
 batch_size:                 32
+similarity_metric           fc_layers
 decay_rate:                 0.950000
 momentum:                   0.900000
 epochs:                     10
@@ -33,4 +35,23 @@ transfer_learning:          True
 train_cnn:                  True
 mean_tp_fp_tn_fn:           [ 18.3  11.5   8.5  11.7]
 mean_accuracy:              0.536
+
+
+name_of_experiment:         euclidean distance as similarity metric
+file_name:                  siamese_cnn_clean.py
+date:                       06/04/2017   15:18:33
+data_set:                   VIPeR
+iterations:                 10
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           euclid
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  True
+mean_tp_fp_tn_fn:           [  0.   0.  20.  30.]
+mean_accuracy:              0.400000
 
