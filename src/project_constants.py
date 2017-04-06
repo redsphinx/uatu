@@ -45,4 +45,4 @@ TRANSFER_LEARNING = True
 TRAIN_CNN = False
 LOG_FILE_PATH = 'experiment_log.txt'
 LOGGING = True
-SIMILARITY_METRIC = 'fc_layers'
+SIMILARITY_METRIC = 'euclid'

@@ -155,6 +155,10 @@ def main():
     te_pred = model.predict([test_data[:, 0], test_data[:, 1]])
     te_matrix = confusion_matrix('Testing', te_pred, test_labels)
 
+    # delete objects else we run out of memory
+    del model
+
+
     return (tr_matrix, va_matrix, te_matrix)
 
 def super_main():
@@ -178,7 +182,7 @@ def super_main():
     # TODO: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)
-        experiment_name = 'does freezing cnn layers help'
+        experiment_name = 'euclidean distance as similarity metric'
         dataset_name = 'VIPeR'
         pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name)
 

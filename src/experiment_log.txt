@@ -1,7 +1,7 @@
 
 name_of_experiment:         does freezing cnn layers help
 file_name:                  siamese_cnn_clean.py
-date:                       06/04/2017   14:11:41
+date:                       06/04/2017   15:28:11
 data_set:                   VIPeR
 iterations:                 10
 start_learning_rate:        0.000010
@@ -14,13 +14,13 @@ number_of_cameras:          2
 dropout:                    0.500000
 transfer_learning:          True
 train_cnn:                  False
-mean_tp_fp_tn_fn:           [  6.    3.8  16.2  24. ]
-mean_accuracy:              0.444
+mean_tp_fp_tn_fn:           [ 13.3   8.8  11.2  16.7]
+mean_accuracy:              0.490000
 
 
 name_of_experiment:         does freezing cnn layers help
 file_name:                  siamese_cnn_clean.py
-date:                       06/04/2017   14:25:55
+date:                       06/04/2017   15:42:23
 data_set:                   VIPeR
 iterations:                 10
 start_learning_rate:        0.000010
@@ -33,13 +33,51 @@ number_of_cameras:          2
 dropout:                    0.500000
 transfer_learning:          True
 train_cnn:                  True
-mean_tp_fp_tn_fn:           [ 18.3  11.5   8.5  11.7]
-mean_accuracy:              0.536
+mean_tp_fp_tn_fn:           [  6.4   4.1  15.9  23.6]
+mean_accuracy:              0.446000
+
+
+name_of_experiment:         does freezing cnn layers help
+file_name:                  siamese_cnn_clean.py
+date:                       06/04/2017   15:54:00
+data_set:                   VIPeR
+iterations:                 20
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 10.85   7.7   12.3   19.15]
+mean_accuracy:              0.463000
+
+
+name_of_experiment:         does freezing cnn layers help
+file_name:                  siamese_cnn_clean.py
+date:                       06/04/2017   16:50:28
+data_set:                   VIPeR
+iterations:                 10
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  True
+mean_tp_fp_tn_fn:           [  9.2   6.6  13.4  20.8]
+mean_accuracy:              0.452000
 
 
 name_of_experiment:         euclidean distance as similarity metric
 file_name:                  siamese_cnn_clean.py
-date:                       06/04/2017   15:18:33
+date:                       06/04/2017   16:56:54
 data_set:                   VIPeR
 iterations:                 10
 start_learning_rate:        0.000010
@@ -51,7 +89,7 @@ epochs:                     10
 number_of_cameras:          2
 dropout:                    0.500000
 transfer_learning:          True
-train_cnn:                  True
+train_cnn:                  False
 mean_tp_fp_tn_fn:           [  0.   0.  20.  30.]
 mean_accuracy:              0.400000
 
