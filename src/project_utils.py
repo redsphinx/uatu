@@ -428,3 +428,73 @@ def flip_labels(labels):
             new_labels.append(1)
 
     return new_labels
+
+def threshold_predictions(predictions):
+    new_predictions = np.zeros((len(predictions), 2))
+    for item in range(0, len(predictions)):
+        new_predictions[item, np.argmax(predictions[item])] = 1
+
+    return new_predictions
+
+
+def calculate_accuracy(predictions, labels):
+    predictions = threshold_predictions(predictions)
+    good = 0.0
+    total = len(predictions) * 1.0
+
+    if len(np.shape(labels)) > 1:
+        for pred in range(0, len(predictions)):
+            if predictions[pred][0] == labels[pred][0]:
+                good += 1
+    else:
+        for pred in range(0, len(predictions)):
+            if predictions[pred] == labels[pred]:
+                good += 1
+
+    acc = good / total
+    return acc
+
+
+def make_confusion_matrix(predictions, labels):
+    predictions = threshold_predictions(predictions)
+    tp, fp, tn, fn = 0, 0, 0, 0
+
+    if len(np.shape(labels)) > 1:
+        for lab in range(0, len(labels)):
+            if labels[lab][0] == 0:
+                if predictions[lab][0] == 0:
+                    tp += 1
+                else:
+                    fn += 1
+            elif labels[lab][0] == 1:
+                if predictions[lab][0] == 1:
+                    tn += 1
+                else:
+                    fp += 1
+        pass
+    else:
+        for lab in range(0, len(labels)):
+            if labels[lab] == 1:
+                if predictions[lab] == 1:
+                    tp += 1  # t=1, p=1
+                else:
+                    fn += 1  # t=1, p=0
+            elif labels[lab] == 0:
+                if predictions[lab] == 0:
+                    tn += 1
+                else:
+                    fp += 1
+
+    return [tp, fp, tn, fn]
+
+
+def print_confusion_matrix(name, confusion_matrix):
+    print('%s \n True positive  = %0.2f \n False positive = %0.2f \n True negative  = %0.2f \n False negative = %0.2f \n'
+          %(name, confusion_matrix[0], confusion_matrix[1], confusion_matrix[2], confusion_matrix[3]))
+
+
+def enter_in_log(name_of_experiment, file_name, super_main_iterations, confusion_matrix):
+    with open(pc.LOG_FILE_PATH, 'a') as my_file:
+        
+
+            # my_file.write(str(validation_data_[line]) + '\n')

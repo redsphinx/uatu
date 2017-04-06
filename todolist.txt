@@ -26,16 +26,21 @@ Second phase: Improve the prototype in experiment cycles
 
 6 april
 ------
-. start add extra convolutional layers in the human detection CNN
+. DONE start add extra convolutional layers in the human detection CNN
+. DONE start freeze CNN layers
+. DONE start make method confusion matrix for the siamese results
+. start make method for logging experiments
+. start compare freezing vs not freezing
 . start validate idea to use fc layers instead of distance function to compute the similarity metric
 .. compare with euclidean distance
-. start freeze CNN layers
+. write thesis
 
 
 5 april
 ------
 . DONE start clean repository
 . DONE start figure out a way to document experiments
+.. ideas:
 .. make local storage system version controlled by github
 .. later build a testing interface on top 
 
