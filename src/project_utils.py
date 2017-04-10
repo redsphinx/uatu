@@ -82,7 +82,7 @@ def crop_images(folder_path, width, height):
 
     list_images = os.listdir(folder_path)
     name_folder = folder_path.split('/')[-num]
-    new_folder_path = os.path.join(new_path, 'real_cropped_images_' + str(name_folder))
+    new_folder_path = os.path.join(new_path, 'cropped_' + str(name_folder))
     new_folder_path = '/' + new_folder_path
     if not os.path.exists(new_folder_path):
         print('asdf')
@@ -525,4 +525,155 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
         log_file.write('mean_accuracy:              %f\n' %accuracy)
 
         log_file.write('\n')
+
+
+def fix_cuhk1():
+    folder_path = original_folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK1'
+    num = 1
+    if folder_path.endswith('/'):
+        num = 2
+
+    parts = folder_path.split('/')
+    new_path = ''
+    for i in range(0, len(parts)-num):
+        new_path = os.path.join(new_path, parts[i])
+
+
+    list_images = os.listdir(folder_path)
+    name_folder = folder_path.split('/')[-num]
+    new_folder_path = os.path.join(new_path, 'cropped_' + str(name_folder))
+    new_folder_path = '/' + new_folder_path
+    if not os.path.exists(new_folder_path):
+        print('asdf')
+        os.makedirs(new_folder_path)
+
+    for image_path in list_images:
+        img = Image.open(os.path.join(folder_path, image_path))
+
+        img = img.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+        img.save(os.path.join(new_folder_path, image_path))
+
+
+def match(one, two):
+    one = list(one)
+    two = list(two)
+    if one[0:4] == two[0:4]:
+        return True
+
+
+def make_pairs_cuhk1():
+    folder_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/'
+    images_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images'
+    pairings_neg_name = 'pairings_neg.txt'
+    pairings_pos_name = 'pairings_pos.txt'
+    pairings_neg = open(os.path.join(folder_path, pairings_neg_name), "wr")
+    pairings_pos = open(os.path.join(folder_path, pairings_pos_name), "wr")
+    list_ids = os.listdir(images_path)
+    combos = combinations(list_ids, 2)
+    for comb in combos:
+        if match(comb[0], comb[1]):
+            if comb[0] == comb[1]:
+                pass
+            else:
+                pairings_pos.write(str(comb[0] + ',' + comb[1] + ',1\n'))
+        else:
+            pairings_neg.write(str(comb[0] + ',' + comb[1] + ',0\n'))
+
+    pairings_neg.close()
+    pairings_pos.close()
+
+
+def make_labels_cuhk1(data_file):
+    data = np.reshape(data_file, (len(data_file), 3))
+    labels = data[:, -1]
+    return labels
+
+
+def load_cuhk1_data_in_array(data):
+    data_array = np.zeros(shape=(len(data), pc.NUM_CAMERAS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    for pair in range(0, len(data)):
+        print(pair)
+        for image in range(0,2):
+            # if image == 0:
+            #     cam = 'cam_a'
+            # else:
+            #     cam = 'cam_b'
+
+            # change the specific path to your data here
+            path = os.path.join('/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images', data[pair][image])
+            data_array[pair][image] = ndimage.imread(path)
+
+            ## uncomment to display images
+            # thing1 = data_array[pair][image]
+            # img = Image.fromarray(thing1.astype('uint8')).convert('RGB')
+            # img.show()
+    return data_array
+
+
+def load_cuhk1():
+    path_validation = 'validation_data_cuhk1.txt'
+    path_test = 'test_data_cuhk1.txt'
+    path_train = 'train_data_cuhk1.txt'
+
+    # if validation file doesn't exist assume the other files don't exist either
+    if os.path.exists(path_validation):
+        print('loading cuhk1 data from files')
+
+        train_data = list(csv.reader(np.genfromtxt(path_train, dtype=None)))
+        validation_data = list(csv.reader(np.genfromtxt(path_validation, dtype=None)))
+        test_data = list(csv.reader(np.genfromtxt(path_test, dtype=None)))
+
+        train_labels = make_labels_cuhk1(train_data)
+        validation_labels = make_labels_cuhk1(validation_data)
+        test_labels = make_labels_cuhk1(test_data)
+
+        train_data_array = load_cuhk1_data_in_array(train_data)
+        validation_data_array = load_cuhk1_data_in_array(validation_data)
+        test_data_array = load_cuhk1_data_in_array(test_data)
+
+        return [train_data_array, train_labels, validation_data_array, validation_labels,
+                test_data_array, test_labels]
+
+
+    else:
+        print('creating cuhk1 data')
+        positive_combo_list = np.genfromtxt('/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/pairings_pos.txt',
+                                            dtype=None).tolist()
+        negative_combo_list = np.genfromtxt('/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/pairings_neg.txt',
+                                            dtype=None).tolist()
+
+        print('shuffling')
+        random.shuffle(negative_combo_list)
+        random.shuffle(positive_combo_list)
+        negative_combo_list_ = []
+
+        for pick in range(0, len(positive_combo_list)):
+            negative_combo_list_.append(negative_combo_list[pick])
+
+        all_list = positive_combo_list + negative_combo_list_
+        random.shuffle(all_list)
+
+        validation_data = all_list[0:100]
+        test_data = all_list[100:200]
+        train_data = all_list[200:]
+
+        print('writing cuhk1 names to file')
+
+        validation_data_text = 'validation_data_cuhk1.txt'
+        with open(validation_data_text, 'wr') as my_file:
+            for line in range(0, len(validation_data)):
+                my_file.write(str(validation_data[line]) + '\n')
+
+        test_data_text = 'test_data_cuhk1.txt'
+        with open(test_data_text, 'wr') as my_file:
+            for line in range(0, len(test_data)):
+                my_file.write(str(test_data[line]) + '\n')
+
+        train_data_text = 'train_data_cuhk1.txt'
+        with open(train_data_text, 'wr') as my_file:
+            for line in range(0, len(train_data)):
+                my_file.write(str(train_data[line]) + '\n')
+
+        load_cuhk1()
+
 

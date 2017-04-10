@@ -8,6 +8,7 @@ Tasks:
 . implement minibatch balancing
 . gather more training data
 . method to get wrong prediction images
+. look at the best DL re-id papers and try to recreate them in keras
 . read paper about deformable convolutional networks
 . implement cyclical learning rate: https://arxiv.org/pdf/1506.01186.pdf
 . GANs for re-id
@@ -22,6 +23,11 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+7 april
+------
+. continue writing thesis
+
+
 6 april
 ------
 . DONE start add extra convolutional layers in the human detection CNN
@@ -29,10 +35,10 @@ Second phase: Improve the prototype in experiment cycles
 . DONE start make method confusion matrix for the siamese results
 . DONE start make method for logging experiments
 . DONE start compare freezing vs not freezing
-.. freezing acc: 0.44, not freezing acc: 0.536
-. start validate idea to use fc layers instead of distance function to compute the similarity metric
-.. compare with euclidean distance
-. write thesis
+.. freezing is slightly better
+. DONE start validate idea to use fc layers instead of distance function to compute the similarity metric
+.. compare with euclidean distance: euclidean makes it predict everything is negative
+. start write thesis
 
 
 5 april

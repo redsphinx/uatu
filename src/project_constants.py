@@ -44,5 +44,5 @@ VERBOSE = False
 TRANSFER_LEARNING = True
 TRAIN_CNN = False
 LOG_FILE_PATH = 'experiment_log.txt'
-LOGGING = True
+LOGGING = False
 SIMILARITY_METRIC = 'euclid'
