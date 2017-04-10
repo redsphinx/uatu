@@ -93,3 +93,22 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [  0.   0.  20.  30.]
 mean_accuracy:              0.400000
 
+
+name_of_experiment:         euclidean distance as similarity metric
+file_name:                  siamese_cnn_clean.py
+date:                       10/04/2017   18:21:49
+data_set:                   VIPeR
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 68.  32.  28.  22.]
+mean_accuracy:              0.640000
+

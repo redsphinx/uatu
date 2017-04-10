@@ -18,7 +18,14 @@ from keras.utils import plot_model
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 # load the data
-train_data, train_labels, validation_data, validation_labels, test_data, test_labels = pu.load_viper()
+train_data, train_labels, validation_data, validation_labels, test_data, test_labels = pu.load_viper_cuhk1()
+
+train_data = np.asarray(train_data)
+train_labels = np.asarray(train_labels)
+test_data = np.asarray(test_data)
+test_labels = np.asarray(test_labels)
+validation_data = np.asarray(validation_data)
+validation_labels = np.asarray(validation_labels)
 
 train_labels = train_labels.astype(np.int64)
 validation_labels = validation_labels.astype(np.int64)
@@ -162,7 +169,7 @@ def main():
     return (tr_matrix, va_matrix, te_matrix)
 
 def super_main():
-    iterations = 10
+    iterations = 1
     accs = np.zeros((iterations, 3, 4))
 
     for iter in range(0, iterations):

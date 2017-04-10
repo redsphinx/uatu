@@ -503,7 +503,7 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
 
     with open(pc.LOG_FILE_PATH, 'a') as log_file:
         date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
-        accuracy = (test_confusion_matrix[0] + test_confusion_matrix[2]) / 50
+        accuracy = (test_confusion_matrix[0] + test_confusion_matrix[2]) / pc.TEST_DATA_SIZE
         confusion_matrix = str(test_confusion_matrix)
         log_file.write('\n')
         log_file.write('name_of_experiment:         %s\n' %experiment_name)
@@ -676,4 +676,51 @@ def load_cuhk1():
 
         load_cuhk1()
 
+def load_viper_cuhk1():
+    train_data_v, train_labels_v, validation_data_v, validation_labels_v, test_data_v, test_labels_v = load_viper()
+    train_data_c, train_labels_c, validation_data_c, validation_labels_c, test_data_c, test_labels_c = load_cuhk1()
+
+    # test
+    test_labels = np.zeros(len(test_labels_v) + len(test_labels_c))
+    test_labels[0:len(test_labels_v)] = test_labels_v
+    test_labels[len(test_labels_v):] = test_labels_c
+
+    test_data_array = np.zeros(shape=(len(test_data_v) + len(test_data_c), pc.NUM_CAMERAS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    test_data_array[0:len(test_data_v)] = test_data_v
+    test_data_array[len(test_data_v):] = test_data_c
+
+    test = list(zip(test_labels, test_data_array))
+    rd.shuffle(test)
+    test_labels, test_data_array = zip(*test)
+
+    # train
+    train_labels = np.zeros(len(train_labels_v) + len(train_labels_c))
+    train_labels[0:len(train_labels_v)] = train_labels_v
+    train_labels[len(train_labels_v):] = train_labels_c
+
+    train_data_array = np.zeros(
+        shape=(len(train_data_v) + len(train_data_c), pc.NUM_CAMERAS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    train_data_array[0:len(train_data_v)] = train_data_v
+    train_data_array[len(train_data_v):] = train_data_c
+
+    train = list(zip(train_labels, train_data_array))
+    rd.shuffle(train)
+    train_labels, train_data_array = zip(*train)
+    
+    # validation
+    validation_labels = np.zeros(len(validation_labels_v) + len(validation_labels_c))
+    validation_labels[0:len(validation_labels_v)] = validation_labels_v
+    validation_labels[len(validation_labels_v):] = validation_labels_c
+
+    validation_data_array = np.zeros(
+        shape=(len(validation_data_v) + len(validation_data_c), pc.NUM_CAMERAS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    validation_data_array[0:len(validation_data_v)] = validation_data_v
+    validation_data_array[len(validation_data_v):] = validation_data_c
+
+    validation = list(zip(validation_labels, validation_data_array))
+    rd.shuffle(validation)
+    validation_labels, validation_data_array = zip(*validation)
+    
+    
+    return [train_data_array, train_labels, validation_data_array, validation_labels, test_data_array, test_labels]
 
