@@ -29,7 +29,7 @@ Second phase: Improve the prototype in experiment cycles
 . try out bottlenecks
 . clean project utils
 . DONE  make a realistic dataset
-. check if everything is happening correct
+. DONE check if everything is happening correct
 . gather more training data
 .. training with VIPeR + CUHK1 now: acc=0.64
 

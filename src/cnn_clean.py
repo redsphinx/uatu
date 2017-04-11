@@ -6,6 +6,7 @@ import project_constants as pc
 import project_utils as pu
 
 import os
+import numpy as np
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 # LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/humans/1/'
@@ -22,6 +23,10 @@ test_labels = validation_labels_[len(validation_labels_) / 2:len(validation_labe
 
 validation_data = validation_data_[0:len(validation_data_) / 2]
 validation_labels = validation_labels_[0:len(validation_labels_) / 2]
+
+train_data = np.reshape(train_data, (len(train_data), pc.IMAGE_HEIGHT*pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+test_data = np.reshape(test_data, (len(test_data), pc.IMAGE_HEIGHT*pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+validation_data = np.reshape(validation_data, (len(validation_data), pc.IMAGE_HEIGHT*pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
 
 print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
 
@@ -72,32 +77,35 @@ def add_activation_and_relu_1Dconv(model):
 def cnn_model_1d_conv():
     model = Sequential()
     bla = train_data.shape[1:]
-    model.add(Conv1D(32, kernel_size=3, padding='same', input_dim=pc.FEATURES, name='conv_1_1'))
-    model.add(Conv1D(32, kernel_size=3, padding='same', name='conv_1_2'))
+    model.add(Conv1D(16, kernel_size=3, padding='same', input_shape=train_data.shape[1:], name='conv_1_1'))
+
+    # TODO transpose maybe?
+
+    model.add(Conv1D(16, kernel_size=3, padding='same', name='conv_1_2'))
     model = add_activation_and_relu_1Dconv(model)
 
-    model.add(Conv1D(64, kernel_size=3, padding='same', name='conv_2_1'))
-    model.add(Conv1D(64, kernel_size=3, padding='same', name='conv_2_2'))
+    model.add(Conv1D(32, kernel_size=3, padding='same', name='conv_2_1'))
+    model.add(Conv1D(32, kernel_size=3, padding='same', name='conv_2_2'))
     model = add_activation_and_relu_1Dconv(model)
 
-    model.add(Conv1D(128, kernel_size=3, padding='same', name='conv_3_1'))
-    model.add(Conv1D(128, kernel_size=3, padding='same', name='conv_3_2'))
+    model.add(Conv1D(64, kernel_size=3, padding='same', name='conv_3_1'))
+    model.add(Conv1D(64, kernel_size=3, padding='same', name='conv_3_2'))
     model = add_activation_and_relu_1Dconv(model)
 
-    model.add(Conv1D(256, kernel_size=3, padding='same', name='conv_4_1'))
-    model.add(Conv1D(256, kernel_size=3, padding='same', name='conv_4_2'))
+    model.add(Conv1D(128, kernel_size=3, padding='same', name='conv_4_1'))
+    model.add(Conv1D(128, kernel_size=3, padding='same', name='conv_4_2'))
     model = add_activation_and_relu_1Dconv(model)
 
-    model.add(Conv1D(512, kernel_size=3, padding='same', name='conv_5_1'))
-    model.add(Conv1D(512, kernel_size=3, padding='same', name='conv_5_2'))
+    model.add(Conv1D(256, kernel_size=3, padding='same', name='conv_5_1'))
+    model.add(Conv1D(256, kernel_size=3, padding='same', name='conv_5_2'))
     model = add_activation_and_relu_1Dconv(model)
 
-    model.add(Conv1D(1024, kernel_size=3, padding='same', name='conv_6_1'))
-    model.add(Conv1D(1024, kernel_size=3, padding='same', name='conv_6_2'))
+    model.add(Conv1D(512, kernel_size=3, padding='same', name='conv_6_1'))
+    model.add(Conv1D(512, kernel_size=3, padding='same', name='conv_6_2'))
     model = add_activation_and_relu_1Dconv(model)
 
-    model.add(Conv1D(2048, kernel_size=3, padding='same', name='conv_7_1'))
-    model.add(Conv1D(2048, kernel_size=3, padding='same', name='conv_7_2'))
+    model.add(Conv1D(1024, kernel_size=3, padding='same', name='conv_7_1'))
+    model.add(Conv1D(1024, kernel_size=3, padding='same', name='conv_7_2'))
     model.add(Activation('relu'))
 
     model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
