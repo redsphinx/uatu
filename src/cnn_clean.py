@@ -1,6 +1,6 @@
 import keras
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Conv1D
+from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Conv1D, MaxPool1D
 from keras import optimizers
 import project_constants as pc
 import project_utils as pu
@@ -62,8 +62,59 @@ def cnn_model():
     return model
 
 
+def add_activation_and_relu_1Dconv(model):
+    model.add(Activation('relu'))
+    model.add(MaxPool1D(pool_size=2))
+    # model.add(MaxPool1D(pool_size=2))
+    return model
+
+
+def cnn_model_1d_conv():
+    model = Sequential()
+    bla = train_data.shape[1:]
+    model.add(Conv1D(32, kernel_size=3, padding='same', input_dim=pc.FEATURES, name='conv_1_1'))
+    model.add(Conv1D(32, kernel_size=3, padding='same', name='conv_1_2'))
+    model = add_activation_and_relu_1Dconv(model)
+
+    model.add(Conv1D(64, kernel_size=3, padding='same', name='conv_2_1'))
+    model.add(Conv1D(64, kernel_size=3, padding='same', name='conv_2_2'))
+    model = add_activation_and_relu_1Dconv(model)
+
+    model.add(Conv1D(128, kernel_size=3, padding='same', name='conv_3_1'))
+    model.add(Conv1D(128, kernel_size=3, padding='same', name='conv_3_2'))
+    model = add_activation_and_relu_1Dconv(model)
+
+    model.add(Conv1D(256, kernel_size=3, padding='same', name='conv_4_1'))
+    model.add(Conv1D(256, kernel_size=3, padding='same', name='conv_4_2'))
+    model = add_activation_and_relu_1Dconv(model)
+
+    model.add(Conv1D(512, kernel_size=3, padding='same', name='conv_5_1'))
+    model.add(Conv1D(512, kernel_size=3, padding='same', name='conv_5_2'))
+    model = add_activation_and_relu_1Dconv(model)
+
+    model.add(Conv1D(1024, kernel_size=3, padding='same', name='conv_6_1'))
+    model.add(Conv1D(1024, kernel_size=3, padding='same', name='conv_6_2'))
+    model = add_activation_and_relu_1Dconv(model)
+
+    model.add(Conv1D(2048, kernel_size=3, padding='same', name='conv_7_1'))
+    model.add(Conv1D(2048, kernel_size=3, padding='same', name='conv_7_2'))
+    model.add(Activation('relu'))
+
+    model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
+
+    model.add(Flatten(name='cnn_flat'))
+
+    model.add(Dense(512))
+    model.add(Dense(pc.NUM_CLASSES))
+
+    model.add(Activation('softmax'))
+
+    return model
+
+
 def main():
-    model = cnn_model()
+    # model = cnn_model()
+    model = cnn_model_1d_conv()
     if pc.VERBOSE:
         print(model.summary())
 
@@ -81,8 +132,18 @@ def main():
     print('Test accuracy:', score[1])
 
     # save model
-    model.save('cnn_model_7.h5')
-    model.save_weights('cnn_model_weights_7.h5')
+    if pc.SAVE_CNN:
+        model.save('cnn_model_1Dconv.h5')
+        model.save_weights('cnn_model_weights_1Dconv.h5')
+
+    if pc.LOGGING:
+        predictions = model.predict(test_data, test_labels)
+        mean = pu.make_confusion_matrix(predictions, test_labels)
+        iterations = 1
+        file_name = os.path.basename(__file__)
+        experiment_name = 'trying out 2x1D conv'
+        dataset_name = 'INRIA'
+        pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name)
 
 main()
 
