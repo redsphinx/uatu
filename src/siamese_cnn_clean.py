@@ -18,7 +18,7 @@ from keras.utils import plot_model
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 # load the data
-train_data, train_labels, validation_data, validation_labels, test_data, test_labels = pu.load_viper_cuhk1()
+[train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_viper_cuhk1()
 
 train_data = np.asarray(train_data)
 train_labels = np.asarray(train_labels)
@@ -169,7 +169,7 @@ def main():
     return (tr_matrix, va_matrix, te_matrix)
 
 def super_main():
-    iterations = 3
+    iterations = 5
     accs = np.zeros((iterations, 3, 4))
 
     for iter in range(0, iterations):
@@ -189,7 +189,7 @@ def super_main():
     # TODO: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)
-        experiment_name = 'training with more data'
+        experiment_name = 'trying out data files that got acc of 0.72'
         dataset_name = 'VIPeR, CUHK1'
         pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name)
 

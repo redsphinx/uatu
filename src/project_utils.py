@@ -373,7 +373,7 @@ def make_specific_balanced_set(dataset, positives_percentage, set_size):
 
 
 # loads the viper dataset for use in a person re-id setting in a siamese network
-def load_viper():
+def load_viper(val_pos, test_pos):
     path_validation = 'validation_data_viper.txt'
     path_test = 'test_data_viper.txt'
     path_train = 'train_data_viper.txt'
@@ -413,8 +413,8 @@ def load_viper():
         all_list = positive_combo_list + negative_combo_list_
         random.shuffle(all_list)
 
-        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=0.1, set_size=50)
-        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=0.3, set_size=50)
+        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=50)
+        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=50)
         train_data = all_list
 
         random.shuffle(test_data)
@@ -440,7 +440,7 @@ def load_viper():
             for line in range(0, len(train_data)):
                 my_file.write(str(train_data[line]) + '\n')
 
-        load_viper()
+        load_viper(val_pos, test_pos)
 
     pass
 
@@ -637,7 +637,7 @@ def load_cuhk1_data_in_array(data):
 
 
 
-def load_cuhk1():
+def load_cuhk1(val_pos, test_pos):
     path_validation = 'validation_data_cuhk1.txt'
     path_test = 'test_data_cuhk1.txt'
     path_train = 'train_data_cuhk1.txt'
@@ -680,8 +680,8 @@ def load_cuhk1():
         all_list = positive_combo_list + negative_combo_list_
         random.shuffle(all_list)
 
-        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=0.1, set_size=100)
-        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=0.3, set_size=100)
+        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=100)
+        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=100)
         train_data = all_list
 
         random.shuffle(test_data)
@@ -709,13 +709,12 @@ def load_cuhk1():
             for line in range(0, len(train_data)):
                 my_file.write(str(train_data[line]) + '\n')
 
-        load_cuhk1()
+        load_cuhk1(val_pos, test_pos)
 
 
 def load_viper_cuhk1():
-    # TODO fix the nonetype error
-    train_data_v, train_labels_v, validation_data_v, validation_labels_v, test_data_v, test_labels_v = load_viper()
-    train_data_c, train_labels_c, validation_data_c, validation_labels_c, test_data_c, test_labels_c = load_cuhk1()
+    train_data_v, train_labels_v, validation_data_v, validation_labels_v, test_data_v, test_labels_v = load_viper(val_pos=0.3, test_pos=0.1)
+    train_data_c, train_labels_c, validation_data_c, validation_labels_c, test_data_c, test_labels_c = load_cuhk1(val_pos=0.3, test_pos=0.1)
 
     print('asf')
     # test

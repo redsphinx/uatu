@@ -1,6 +1,6 @@
 import keras
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten
+from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Conv1D
 from keras import optimizers
 import project_constants as pc
 import project_utils as pu
@@ -60,6 +60,7 @@ def cnn_model():
     model.add(Activation('softmax'))
 
     return model
+
 
 def main():
     model = cnn_model()
