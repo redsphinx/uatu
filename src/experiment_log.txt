@@ -94,10 +94,10 @@ mean_tp_fp_tn_fn:           [  0.   0.  20.  30.]
 mean_accuracy:              0.400000
 
 
-name_of_experiment:         euclidean distance as similarity metric
+name_of_experiment:         training with more data
 file_name:                  siamese_cnn_clean.py
 date:                       10/04/2017   18:21:49
-data_set:                   VIPeR
+data_set:                   VIPeR, CUHK1
 iterations:                 1
 start_learning_rate:        0.000010
 batch_size:                 32
@@ -111,4 +111,62 @@ transfer_learning:          True
 train_cnn:                  False
 mean_tp_fp_tn_fn:           [ 68.  32.  28.  22.]
 mean_accuracy:              0.640000
+
+
+name_of_experiment:         training with more data
+file_name:                  siamese_cnn_clean.py
+date:                       11/04/2017   10:17:10
+data_set:                   VIPeR, CUHK1
+iterations:                 3
+start_learning_rate:        0.000010
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 45.33333333  26.          34.          44.66666667]
+mean_accuracy:              0.528889
+
+
+name_of_experiment:         training with more data
+file_name:                  siamese_cnn_clean.py
+date:                       11/04/2017   10:27:09
+data_set:                   VIPeR, CUHK1
+iterations:                 3
+start_learning_rate:        0.000010
+batch_size:                 256
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 49.66666667  27.          33.          40.33333333]
+mean_accuracy:              0.551111
+
+
+name_of_experiment:         training with more data
+file_name:                  siamese_cnn_clean.py
+date:                       11/04/2017   14:13:05
+data_set:                   VIPeR, CUHK1
+iterations:                 3
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [   5.           31.33333333  103.66666667   10.        ]
+mean_accuracy:              0.724444
 

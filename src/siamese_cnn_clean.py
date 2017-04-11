@@ -169,7 +169,7 @@ def main():
     return (tr_matrix, va_matrix, te_matrix)
 
 def super_main():
-    iterations = 1
+    iterations = 3
     accs = np.zeros((iterations, 3, 4))
 
     for iter in range(0, iterations):
@@ -189,8 +189,8 @@ def super_main():
     # TODO: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)
-        experiment_name = 'euclidean distance as similarity metric'
-        dataset_name = 'VIPeR'
+        experiment_name = 'training with more data'
+        dataset_name = 'VIPeR, CUHK1'
         pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name)
 
 

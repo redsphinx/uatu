@@ -23,6 +23,24 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+11 april
+------
+. try using 2 1D convolutions
+. try out bottlenecks
+. clean project utils
+. DONE  make a realistic dataset
+. check if everything is happening correct
+. gather more training data
+.. training with VIPeR + CUHK1 now: acc=0.64
+
+
+10 april
+------
+. DONE continue writing thesis
+. gather more training data
+.. training with VIPeR + CUHK1 now: acc=0.64
+
+
 7 april
 ------
 . continue writing thesis

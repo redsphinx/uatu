@@ -343,6 +343,35 @@ def load_data_in_array(data):
     return data_array
 
 
+def analyze_data_set(dataset):
+    data_list = list(csv.reader(np.genfromtxt(dataset, dtype=None)))
+    labels = np.asarray([data_list[row][2] for row in range(0, len(data_list))], dtype=int)
+    positives_percentage = np.sum(labels) * 1.0 / len(labels)
+    negatives_percentage = 1.0 - positives_percentage
+    # print('positives: %0.2f  negatives: %0.2f' % (positives_percentage, negatives_percentage))
+    return [positives_percentage, negatives_percentage]
+
+
+def make_specific_balanced_set(dataset, positives_percentage, set_size):
+    data_list = np.asarray(dataset)
+    labels = np.asarray([dataset[row].split(',')[2] for row in range(0, len(dataset))])
+    num_of_positives = positives_percentage * set_size
+    test_data = []
+    new_data_list = []
+    count_pos = 0
+    count_neg = 0
+    for row in range(0, len(data_list)):
+        if labels[row] == '1' and count_pos < num_of_positives:
+            test_data.append(dataset[row])
+            count_pos += 1
+        elif labels[row] == '0' and count_neg < set_size - num_of_positives:
+            test_data.append(dataset[row])
+            count_neg += 1
+        else:
+            new_data_list.append(dataset[row])
+    return test_data, new_data_list
+
+
 # loads the viper dataset for use in a person re-id setting in a siamese network
 def load_viper():
     path_validation = 'validation_data_viper.txt'
@@ -384,9 +413,17 @@ def load_viper():
         all_list = positive_combo_list + negative_combo_list_
         random.shuffle(all_list)
 
-        validation_data = all_list[0:50]
-        test_data = all_list[50:100]
-        train_data = all_list[100:]
+        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=0.1, set_size=50)
+        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=0.3, set_size=50)
+        train_data = all_list
+
+        random.shuffle(test_data)
+        random.shuffle(validation_data)
+        random.shuffle(train_data)
+
+        print('test: ' + str(analyze_data_set(test_data)))
+        print('validation: ' + str(analyze_data_set(validation_data)))
+        print('train: ' + str(analyze_data_set(train_data)))
 
         validation_data_text = 'validation_data_viper.txt'
         with open(validation_data_text, 'wr') as my_file:
@@ -518,6 +555,7 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
         log_file.write('momentum:                   %f\n' %pc.MOMENTUM)
         log_file.write('epochs:                     %d\n' %pc.NUM_EPOCHS)
         log_file.write('number_of_cameras:          %d\n' %pc.NUM_CAMERAS)
+        log_file.write('number_of_siamese_heads:    %d\n' % pc.NUM_SIAMESE_HEADS)
         log_file.write('dropout:                    %f\n' %pc.DROPOUT)
         log_file.write('transfer_learning:          %s\n' %pc.TRANSFER_LEARNING)
         log_file.write('train_cnn:                  %s\n' %pc.TRAIN_CNN)
@@ -528,7 +566,7 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
 
 
 def fix_cuhk1():
-    folder_path = original_folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK1'
+    folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK1'
     num = 1
     if folder_path.endswith('/'):
         num = 2
@@ -537,7 +575,6 @@ def fix_cuhk1():
     new_path = ''
     for i in range(0, len(parts)-num):
         new_path = os.path.join(new_path, parts[i])
-
 
     list_images = os.listdir(folder_path)
     name_folder = folder_path.split('/')[-num]
@@ -555,10 +592,7 @@ def fix_cuhk1():
 
 
 def match(one, two):
-    one = list(one)
-    two = list(two)
-    if one[0:4] == two[0:4]:
-        return True
+    return list(one)[0:4] == list(two)[0:4]
 
 
 def make_pairs_cuhk1():
@@ -590,24 +624,17 @@ def make_labels_cuhk1(data_file):
 
 
 def load_cuhk1_data_in_array(data):
-    data_array = np.zeros(shape=(len(data), pc.NUM_CAMERAS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    data_array = np.zeros(shape=(len(data), pc.NUM_SIAMESE_HEADS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
     for pair in range(0, len(data)):
         print(pair)
         for image in range(0,2):
-            # if image == 0:
-            #     cam = 'cam_a'
-            # else:
-            #     cam = 'cam_b'
 
             # change the specific path to your data here
             path = os.path.join('/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images', data[pair][image])
             data_array[pair][image] = ndimage.imread(path)
-
-            ## uncomment to display images
-            # thing1 = data_array[pair][image]
-            # img = Image.fromarray(thing1.astype('uint8')).convert('RGB')
-            # img.show()
     return data_array
+
+
 
 
 def load_cuhk1():
@@ -653,9 +680,17 @@ def load_cuhk1():
         all_list = positive_combo_list + negative_combo_list_
         random.shuffle(all_list)
 
-        validation_data = all_list[0:100]
-        test_data = all_list[100:200]
-        train_data = all_list[200:]
+        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=0.1, set_size=100)
+        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=0.3, set_size=100)
+        train_data = all_list
+
+        random.shuffle(test_data)
+        random.shuffle(validation_data)
+        random.shuffle(train_data)
+
+        print('test: ' + str(analyze_data_set(test_data)))
+        print('validation: ' + str(analyze_data_set(validation_data)))
+        print('train: ' + str(analyze_data_set(train_data)))
 
         print('writing cuhk1 names to file')
 
@@ -676,10 +711,13 @@ def load_cuhk1():
 
         load_cuhk1()
 
+
 def load_viper_cuhk1():
+    # TODO fix the nonetype error
     train_data_v, train_labels_v, validation_data_v, validation_labels_v, test_data_v, test_labels_v = load_viper()
     train_data_c, train_labels_c, validation_data_c, validation_labels_c, test_data_c, test_labels_c = load_cuhk1()
 
+    print('asf')
     # test
     test_labels = np.zeros(len(test_labels_v) + len(test_labels_c))
     test_labels[0:len(test_labels_v)] = test_labels_v
@@ -723,4 +761,5 @@ def load_viper_cuhk1():
     
     
     return [train_data_array, train_labels, validation_data_array, validation_labels, test_data_array, test_labels]
+
 
