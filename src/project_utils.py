@@ -764,34 +764,40 @@ def load_viper_cuhk1():
 
 
 def fix_NICTA():
-    original_folder_path = '/home/gabi/Documents/datasets/VIPeR'
-    # cam_a_o = '/home/gabi/Documents/datasets/VIPeR/cam_a'
-    # cam_b_o = '/home/gabi/Documents/datasets/VIPeR/cam_b'
-    padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
-    cam_a_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_a'
-    cam_b_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_b'
+    original_folder_path = '/home/gabi/Documents/datasets/NICTAPedestrians/positives/64x80'
+    padded_positives_path = '/home/gabi/Documents/datasets/NICTAPedestrians/padded_positives'
 
+    # assuming they don't exist yet
+    if not os.path.exists(padded_positives_path):
+        os.mkdir(padded_positives_path)
 
-    # # assuming they don't exist yet
-    os.mkdir(padded_folder_path)
-    os.mkdir(cam_a_p)
-    os.mkdir(cam_b_p)
+    folder_list_level_1 = os.listdir(original_folder_path)
+    for item_level_1 in folder_list_level_1:
+        path_1 = os.path.join(original_folder_path, item_level_1)
+        folder_list_level_2 = os.listdir(path_1)
+        for item_level_2 in folder_list_level_2:
+            path_2 = os.path.join(path_1, item_level_2)
+            image_list = os.listdir(path_2)
 
-    cams = ['cam_a', 'cam_b']
-    for folder in cams:
-        cam_path = os.path.join(original_folder_path, str(folder))
-        padded_cam_path = os.path.join(padded_folder_path, str(folder))
-        for file in os.listdir(cam_path):
-            img = Image.open(os.path.join(cam_path, file))
-            new_img = Image.new('RGB', (pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), (255,255,255))
+            pad_path_1 = os.path.join(padded_positives_path, item_level_1, item_level_2)
 
-            img_width, img_height = img.size
-            new_img_width, new_img_height = new_img.size
-            padding_width = (new_img_width-img_width)/2
-            padding_height = (new_img_height-img_height)/2
+            if not os.path.exists(pad_path_1):
+                os.makedirs(pad_path_1)
 
-            new_img.paste(img, box=(padding_width, padding_height))
+            for image in image_list:
+                image_path = os.path.join(path_2, image)
 
-            filename = file.split('_')[0] + '.bmp'
-            filename = os.path.join(padded_cam_path, filename)
-            new_img.save(filename)
+                img = Image.open(image_path)
+                new_img = Image.new('RGB', (pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), (255, 255, 255))
+
+                img_width, img_height = img.size
+                new_img_width, new_img_height = new_img.size
+                padding_width = (new_img_width - img_width) / 2
+                padding_height = (new_img_height - img_height) / 2
+
+                new_img.paste(img, box=(padding_width, padding_height))
+
+                name = image.split('.')[0]
+                filename = os.path.join(pad_path_1, str(name)+'.jpg')
+                new_img.save(filename)
+
