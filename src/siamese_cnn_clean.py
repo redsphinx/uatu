@@ -164,6 +164,18 @@ def main():
     if pc.SIMILARITY_METRIC == 'fc_layers':
         nadam = optimizers.Nadam(lr=pc.START_LEARNING_RATE, schedule_decay=pc.DECAY_RATE)
         model.compile(loss='categorical_crossentropy', optimizer=nadam, metrics=['accuracy'])
+
+        #TODO implement dynamic loading of data
+        '''
+
+        total_data = len(train_labels) / batch_size
+        for epoch in range(pc.NUM_EPOCHS):
+            for step in range(0, total_data):
+                [train_images_1, train_images_2, train_labels] = pu.generate_data_batch_siamese(
+                train_data_list, step, batch_size)
+                model.fit()
+        '''
+
         model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
                   batch_size=pc.BATCH_SIZE,
                   epochs=pc.NUM_EPOCHS,

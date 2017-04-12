@@ -801,3 +801,24 @@ def fix_NICTA():
                 filename = os.path.join(pad_path_1, str(name)+'.jpg')
                 new_img.save(filename)
 
+
+
+# todo IMPORTANT: loaded_data_list has to contain the full path to the image
+def dynamically_load(loaded_data_list, step, batch_size):
+    data_array = np.zeros((((step + 1) * batch_size) - (step * batch_size),
+                           pc.NUM_SIAMESE_HEADS, pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT, pc.NUM_CHANNELS))
+
+    labels = []
+
+
+
+    return data_array
+
+    pass
+
+
+def generate_data_batch_siamese(step, batch_size, loaded_data_list):
+    data_array, labels = dynamically_load(loaded_data_list, step, batch_size)
+    images_1 = data_array[:, 0]
+    images_2 = data_array[:, 1]
+    return [images_1, images_2, labels]
