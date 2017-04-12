@@ -17,11 +17,25 @@ other:
 . write thesis
 . update model latex file with progress on different parts of the model
 . update data latex file with info about CASIA
+. add noise to gradients: https://arxiv.org/pdf/1511.06807.pdf
+. look into different CNN models: https://arxiv.org/pdf/1605.07678.pdf
+. look into morphing conv layers: https://arxiv.org/pdf/1701.03281.pdf
+. look into dataset augmentation in feature space: https://arxiv.org/pdf/1702.05538.pdf
+. look into updating loss function: https://arxiv.org/pdf/1606.09202.pdf
+. look into steerable CNN: https://arxiv.org/pdf/1612.08498.pdf
+. look into remembering rare events: https://arxiv.org/pdf/1703.03129.pdf
+. look into PixelCNN to generate images: https://arxiv.org/pdf/1606.05328.pdf
+. look into filter pruning for CNN: https://arxiv.org/pdf/1608.08710.pdf
+. look into how LSTMs work
 ------------------------------------------------------------------------------------------------
 
 ===============================================================================================
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
+
+12 april
+------
+
 
 11 april
 ------
@@ -37,7 +51,7 @@ Second phase: Improve the prototype in experiment cycles
 10 april
 ------
 . DONE continue writing thesis
-. gather more training data
+. DONE gather more training data
 .. training with VIPeR + CUHK1 now: acc=0.64
 
 

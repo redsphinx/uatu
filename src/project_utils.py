@@ -531,7 +531,7 @@ def print_confusion_matrix(name, confusion_matrix):
           %(name, confusion_matrix[0], confusion_matrix[1], confusion_matrix[2], confusion_matrix[3]))
 
 
-def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusion_matrix, dataset_name):
+def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusion_matrix, dataset_name, total_time):
 # def enter_in_log(name):
     if not os.path.exists(pc.LOG_FILE_PATH):
         with open(pc.LOG_FILE_PATH, 'w') as my_file:
@@ -546,6 +546,7 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
         log_file.write('name_of_experiment:         %s\n' %experiment_name)
         log_file.write('file_name:                  %s\n' %file_name)
         log_file.write('date:                       %s\n' %date)
+        log_file.write('duration:                   %f\n' %total_time)
         log_file.write('data_set:                   %s\n' %dataset_name)
         log_file.write('iterations:                 %d\n' %super_main_iterations)
         log_file.write('start_learning_rate:        %f\n' %pc.START_LEARNING_RATE)
@@ -762,3 +763,35 @@ def load_viper_cuhk1():
     return [train_data_array, train_labels, validation_data_array, validation_labels, test_data_array, test_labels]
 
 
+def fix_NICTA():
+    original_folder_path = '/home/gabi/Documents/datasets/VIPeR'
+    # cam_a_o = '/home/gabi/Documents/datasets/VIPeR/cam_a'
+    # cam_b_o = '/home/gabi/Documents/datasets/VIPeR/cam_b'
+    padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
+    cam_a_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_a'
+    cam_b_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_b'
+
+
+    # # assuming they don't exist yet
+    os.mkdir(padded_folder_path)
+    os.mkdir(cam_a_p)
+    os.mkdir(cam_b_p)
+
+    cams = ['cam_a', 'cam_b']
+    for folder in cams:
+        cam_path = os.path.join(original_folder_path, str(folder))
+        padded_cam_path = os.path.join(padded_folder_path, str(folder))
+        for file in os.listdir(cam_path):
+            img = Image.open(os.path.join(cam_path, file))
+            new_img = Image.new('RGB', (pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), (255,255,255))
+
+            img_width, img_height = img.size
+            new_img_width, new_img_height = new_img.size
+            padding_width = (new_img_width-img_width)/2
+            padding_height = (new_img_height-img_height)/2
+
+            new_img.paste(img, box=(padding_width, padding_height))
+
+            filename = file.split('_')[0] + '.bmp'
+            filename = os.path.join(padded_cam_path, filename)
+            new_img.save(filename)

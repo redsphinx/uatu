@@ -13,12 +13,14 @@ import project_utils as pu
 import os
 import numpy as np
 from keras.utils import plot_model
+import time
 
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 # load the data
 [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_viper_cuhk1()
+# [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_viper(val_pos=0.3, test_pos=0.1)
 
 train_data = np.asarray(train_data)
 train_labels = np.asarray(train_labels)
@@ -57,26 +59,47 @@ def add_activation_and_relu(model):
 
 def create_base_network():
     model = Sequential()
-    model.add(Conv2D(32, kernel_size=(3, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1', trainable=pc.TRAIN_CNN))
+
+    model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(64, kernel_size=(3, 3), padding='same', name='conv_2', trainable=pc.TRAIN_CNN))
+
+    model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(128, kernel_size=(3, 3), padding='same', name='conv_3', trainable=pc.TRAIN_CNN))
+
+    model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(256, kernel_size=(3, 3), padding='same', name='conv_4', trainable=pc.TRAIN_CNN))
+
+    model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(512, kernel_size=(3, 3), padding='same', name='conv_5', trainable=pc.TRAIN_CNN))
+
+    model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(1024, kernel_size=(3, 3), padding='same', name='conv_6', trainable=pc.TRAIN_CNN))
+
+    model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(2048, kernel_size=(3, 3), padding='same', name='conv_7', trainable=pc.TRAIN_CNN))
+
+    model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2'))
+
     model.add(Activation('relu'))
 
-    # model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
     model.add(Flatten(name='cnn_flat'))
 
     if pc.TRANSFER_LEARNING:
-        model.load_weights('cnn_model_weights_7.h5', by_name=True)
+        model.load_weights('cnn_model_weights_1D_filters_1-2.h5', by_name=True)
 
     return model
 
@@ -172,8 +195,12 @@ def super_main():
     iterations = 5
     accs = np.zeros((iterations, 3, 4))
 
+    start = time.time()
     for iter in range(0, iterations):
         accs[iter] = main()
+    stop = time.time()
+
+    total_time = stop - start
 
     test_mat = np.zeros((iterations, 4))
 
@@ -189,9 +216,9 @@ def super_main():
     # TODO: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)
-        experiment_name = 'trying out data files that got acc of 0.72'
+        experiment_name = '1D filters and 1/2 the number of filters in each conv layer'
         dataset_name = 'VIPeR, CUHK1'
-        pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name)
+        pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name, total_time)
 
 
 super_main()

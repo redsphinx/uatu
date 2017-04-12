@@ -250,3 +250,86 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [  9.4  52.4  82.6   5.6]
 mean_accuracy:              0.613333
 
+
+name_of_experiment:         1D filters and 1/4 the number of filters in each conv layer
+file_name:                  siamese_cnn_clean.py
+date:                       12/04/2017   15:58:22
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  9.2  80.4  54.6   5.8]
+mean_accuracy:              0.425333
+
+
+name_of_experiment:         new set of 1D filters and 1/4 the number of filters in each conv layer
+file_name:                  siamese_cnn_clean.py
+date:                       12/04/2017   16:16:02
+duration:                   600.406515
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  9.2  74.4  60.6   5.8]
+mean_accuracy:              0.465333
+
+
+name_of_experiment:         1D filters and 1/2 the number of filters in each conv layer
+file_name:                  siamese_cnn_clean.py
+date:                       12/04/2017   16:53:08
+duration:                   1698.134572
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 12.6  46.6  88.4   2.4]
+mean_accuracy:              0.673333
+
+
+name_of_experiment:         1D filters and 1/2 the number of filters in each conv layer
+file_name:                  siamese_cnn_clean.py
+date:                       12/04/2017   17:17:32
+duration:                   1222.893179
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+start_learning_rate:        0.000010
+batch_size:                 128
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 13.   54.8  80.2   2. ]
+mean_accuracy:              0.621333
+
