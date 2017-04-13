@@ -12,6 +12,7 @@ import csv
 import time
 
 
+# recursively transform list into tuple
 def tupconv(lst):
     tuplst = []
     for x in lst:
@@ -24,41 +25,6 @@ def tupconv(lst):
     return tuple(tuplst)
 
 
-# generate noise to test if siamese_cnn pipeline is working
-def load_data():
-    print('loading data')
-    train = np.array([])
-    validate = np.array([])
-    for num in range(0, pc.AMOUNT_DATA):
-        print(num)
-        imarray = np.random.rand(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS) * 255
-        im_t_1 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-        im_t_2 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-        train = np.append(train, [im_t_1, im_t_2])
-        imarray = np.random.rand(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS) * 255
-        im_v_1 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-        im_v_2 = np.asarray(Image.fromarray(imarray.astype('uint8')).convert('RGB'))
-        validate = np.append(validate, [im_v_1, im_v_2])
-
-    train = train.reshape([pc.AMOUNT_DATA, pc.NUM_CLASSES, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS])
-    validate = validate.reshape([pc.AMOUNT_DATA, pc.NUM_CLASSES, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS])
-    ans = [train, validate]
-    return ans
-
-
-# generate shitty labels to test if the siamese_cnn is working
-def load_labels():
-    a = np.array([])
-    b = np.array([])
-    for num in range(0, pc.AMOUNT_DATA):
-        a = np.append(a, [1,0])
-        b = np.append(b, [0,1])
-
-    a = a.reshape([pc.AMOUNT_DATA, pc.NUM_CLASSES])
-    b = b.reshape([pc.AMOUNT_DATA, pc.NUM_CLASSES])
-    return [a, b]
-
-
 # used to calculate error
 def error_rate(predictions, labels):
     """Return the error rate based on dense predictions and sparse labels."""
@@ -69,7 +35,7 @@ def error_rate(predictions, labels):
 
 
 # crop images in center
-def crop_images(folder_path, width, height):
+def crop_INRIA_images(folder_path, width, height):
     num = 1
     if folder_path.endswith('/'):
         num = 2
@@ -79,13 +45,11 @@ def crop_images(folder_path, width, height):
     for i in range(0, len(parts)-num):
         new_path = os.path.join(new_path, parts[i])
 
-
     list_images = os.listdir(folder_path)
     name_folder = folder_path.split('/')[-num]
     new_folder_path = os.path.join(new_path, 'cropped_' + str(name_folder))
     new_folder_path = '/' + new_folder_path
     if not os.path.exists(new_folder_path):
-        print('asdf')
         os.makedirs(new_folder_path)
 
     for image_path in list_images:
@@ -100,133 +64,72 @@ def crop_images(folder_path, width, height):
         img2 = img.crop((start_x, start_y, start_x + width, start_y + height))
         img2.save(os.path.join(new_folder_path, image_path))
 
-    pass
 
+# one method to load INRIA
+def load_INRIA():
+    print('Loading INRIA person dataset')
+    original_data_path = '/home/gabi/Documents/datasets/INRIAPerson'
+    data_list_path = '/home/gabi/PycharmProjects/uatu/data/INRIA'
 
-def load_INRIA_data(path):
+    if not os.path.exists(data_list_path):
+        os.mkdir(data_list_path)
 
-    print('loading data')
-    # load into lists
-    train_data_names_pos_ = np.genfromtxt(os.path.join(path, 'train_data_names_pos.csv'), dtype=None).tolist()
-    train_data_names_neg_ = np.genfromtxt(os.path.join(path, 'train_data_names_neg.csv'), dtype=None).tolist()
-    train_data_labels_pos_ = np.genfromtxt(os.path.join(path, 'train_data_labels_pos.csv'), dtype=None).tolist()
-    train_data_labels_neg_ = np.genfromtxt(os.path.join(path, 'train_data_labels_neg.csv'), dtype=None).tolist()
-    validation_data_names_pos_ = np.genfromtxt(os.path.join(path, 'validation_data_names_pos.csv'), dtype=None).tolist()
-    validation_data_names_neg_ = np.genfromtxt(os.path.join(path, 'validation_data_names_neg.csv'), dtype=None).tolist()
-    validation_data_labels_pos_ = np.genfromtxt(os.path.join(path, 'validation_data_labels_pos.csv'), dtype=None).tolist()
-    validation_data_labels_neg_ = np.genfromtxt(os.path.join(path, 'validation_data_labels_neg.csv'), dtype=None).tolist()
+        def load_data_into_list(train_or_validate):
+            labels = ['pos', 'neg']
+            procedure = 'train_64x128_H96' if train_or_validate == 'train' else 'test_64x128_H96'
+            data_list_file = os.path.join(data_list_path, '%s.txt' % train_or_validate)
+            with open(data_list_file, 'wr') as myFile:
+                for label in labels:
+                    storage_path = os.path.join(original_data_path, procedure, 'real_cropped_images_' + label)
+                    all_items = os.listdir(storage_path)
+                    for item in all_items:
+                        lab = 1 if label == 'pos' else 0
+                        file_name = os.path.join(storage_path, item)
+                        myFile.write(file_name + ',%d\n' % lab)
 
-    # TODO (optional) if images need cropping, use the 'crop_images()' function above separately
+        load_data_into_list('train')
+        load_data_into_list('validate')
 
-    # shuffle
-    train_data_ = train_data_names_pos_ + train_data_names_neg_
-    train_labels_ = train_data_labels_pos_ + train_data_labels_neg_
+        # create test dataset
+        test_list_path = os.path.join(data_list_path, 'test.txt')
+        validation_list_path = os.path.join(data_list_path, 'validate.txt')
+        validation_list = np.genfromtxt(validation_list_path, dtype=None).tolist()
 
-    validation_data_ = validation_data_names_pos_ + validation_data_names_neg_
-    validation_labels_ = validation_data_labels_pos_ + validation_data_labels_neg_
+        rd.shuffle(validation_list)
+        validation_data = validation_list[0:len(validation_list) / 2]
+        test_data = validation_list[len(validation_list) / 2:len(validation_list)]
 
-    everything = list(zip(train_data_, train_labels_))
-    rd.shuffle(everything)
-    train_data_, train_labels_ = zip(*everything)
+        with open(test_list_path, 'wr') as myFile:
+            for item in test_data:
+                myFile.write(item + '\n')
 
-    everything = list(zip(validation_data_, validation_labels_))
-    rd.shuffle(everything)
-    validation_data_, validation_labels_ = zip(*everything)
+        with open(validation_list_path, 'wr') as myFile:
+            for item in validation_data:
+                myFile.write(item + '\n')
 
-    test_images_names = 'test_images.csv'
-    with open(test_images_names, 'wr') as my_file:
-        for line in range(len(validation_data_)/2, len(validation_data_)):
-            my_file.write(str(validation_data_[line]) + '\n')
+    def load_INRIA_data_in_array(data):
+        data_array = np.zeros(shape=(len(data), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+        for image in range(0, len(data)):
+            name = data[image].split(',')[0]
+            data_array[image] = ndimage.imread(name)[:, :, 0:3]
+        return data_array
 
-    test_images_labels = 'test_images_labels.csv'
-    with open(test_images_labels, 'wr') as my_file:
-        for line in range(len(validation_labels_ )/2, len(validation_labels_)):
-            my_file.write(str(validation_labels_[line]) + '\n')
+    train_data = np.genfromtxt(os.path.join(data_list_path, 'train.txt'), dtype=None).tolist()
+    rd.shuffle(train_data)
+    train_data_array = load_INRIA_data_in_array(train_data)
+    train_labels = np.asarray([train_data[row].split(',')[1] for row in range(0, len(train_data))])
 
-    # create empty arrays
-    train_data_array = np.zeros(shape=(len(train_data_), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-    train_labels_array = np.zeros(shape=(len(train_labels_), pc.NUM_CLASSES))
-    validation_data_array = np.zeros(shape=(len(validation_data_), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-    validation_labels_array = np.zeros(shape=(len(validation_labels_), pc.NUM_CLASSES))
+    test_data = np.genfromtxt(os.path.join(data_list_path, 'test.txt'), dtype=None).tolist()
+    rd.shuffle(test_data)
+    test_data_array = load_INRIA_data_in_array(test_data)
+    test_labels = np.asarray([test_data[row].split(',')[1] for row in range(0, len(test_data))])
 
-    def ohe(old, new):
-        for item in range(0, len(old)):
-            new[item][old[item]] = 1
-        return new
+    validation_data = np.genfromtxt(os.path.join(data_list_path, 'validate.txt'), dtype=None).tolist()
+    rd.shuffle(validation_data)
+    validation_data_array = load_INRIA_data_in_array(validation_data)
+    validation_labels = np.asarray([validation_data[row].split(',')[1] for row in range(0, len(validation_data))])
 
-    for image in range(0, len(train_data_)):
-        train_data_array[image] = ndimage.imread(train_data_[image])[:, :, 0:3]
-    for image in range(0, len(validation_data_)):
-        validation_data_array[image] = ndimage.imread(validation_data_[image])[:, :, 0:3]
-
-    train_labels = ohe(train_labels_, train_labels_array)
-    validation_labels = ohe(validation_labels_, validation_labels_array)
-
-    # temp to test CNN
-    train_labels = train_labels_
-    validation_labels = validation_labels_
-
-    return [train_data_array, train_labels, validation_data_array, validation_labels]
-    pass
-
-
-# load a specific dataset
-def load_human_detection_data():
-    # load data
-    location_path = '/home/gabi/Documents/datasets/INRIAPerson'
-    train_path = 'train_64x128_H96'
-    validation_path = 'test_64x128_H96'
-
-    data_list_folder = '/home/gabi/PycharmProjects/uatu/data/INRIA'
-
-    if not os.path.exists(data_list_folder):
-        print('folder does not exist, made it')
-        os.makedirs(data_list_folder)
-    if len(os.listdir(data_list_folder)) <= 0:
-        print('folder empty, making files')
-        # write list then load data
-        train_data_path_pos = os.path.join(location_path, train_path, 'real_cropped_images_pos')
-        train_data_names_pos = os.listdir(train_data_path_pos)
-        with open(os.path.join(data_list_folder, 'train_data_names_pos.csv'), 'wr') as my_file:
-            for item in train_data_names_pos:
-                my_file.write(str(os.path.join(train_data_path_pos, item)) + '\n')
-        # make the labels
-        with open(os.path.join(data_list_folder, 'train_data_labels_pos.csv'), 'wr') as my_file:
-            for item in train_data_names_pos:
-                my_file.write(str(1) + '\n')
-
-        train_data_path_neg = os.path.join(location_path, train_path, 'real_cropped_images_neg')
-        train_data_names_neg = os.listdir(train_data_path_neg)
-        with open(os.path.join(data_list_folder, 'train_data_names_neg.csv'), 'wr') as my_file:
-            for item in train_data_names_neg:
-                my_file.write(str(os.path.join(train_data_path_neg, item)) + '\n')
-        # make the labels
-        with open(os.path.join(data_list_folder, 'train_data_labels_neg.csv'), 'wr') as my_file:
-            for item in train_data_names_neg:
-                my_file.write(str(0) + '\n')
-
-        validation_data_path_pos = os.path.join(location_path, validation_path, 'real_cropped_images_pos')
-        validation_data_names_pos = os.listdir(validation_data_path_pos)
-        with open(os.path.join(data_list_folder, 'validation_data_names_pos.csv'), 'wr') as my_file:
-            for item in validation_data_names_pos:
-                my_file.write(str(os.path.join(validation_data_path_pos, item)) + '\n')
-        # make the labels
-        with open(os.path.join(data_list_folder, 'validation_data_labels_pos.csv'), 'wr') as my_file:
-            for item in validation_data_names_pos:
-                my_file.write(str(1) + '\n')
-
-        validation_data_path_neg = os.path.join(location_path, validation_path, 'real_cropped_images_neg')
-        validation_data_names_neg = os.listdir(validation_data_path_neg)
-        with open(os.path.join(data_list_folder, 'validation_data_names_neg.csv'), 'wr') as my_file:
-            for item in validation_data_names_neg:
-                my_file.write(str(os.path.join(validation_data_path_neg, item)) + '\n')
-        # make the labels
-        with open(os.path.join(data_list_folder, 'validation_data_labels_neg.csv'), 'wr') as my_file:
-            for item in validation_data_names_neg:
-                my_file.write(str(0) + '\n')
-
-    data = load_INRIA_data(data_list_folder)
-    return data
+    return train_data_array, train_labels, validation_data_array, validation_labels, test_data_array, test_labels
 
 
 def get_wrong_predictions():
@@ -240,7 +143,6 @@ def get_wrong_predictions():
 
     os.mkdir(folder)
 
-
     for line in range(0, len(ans)):
         step = ans[line].split(',')[1]
         if step == 'testing':
@@ -252,11 +154,37 @@ def get_wrong_predictions():
                 copyfile(paths[line], os.path.join(folder, thing))
 
 
+def analyze_data_set(dataset):
+    data_list = list(csv.reader(np.genfromtxt(dataset, dtype=None)))
+    labels = np.asarray([data_list[row][2] for row in range(0, len(data_list))], dtype=int)
+    positives_percentage = np.sum(labels) * 1.0 / len(labels)
+    negatives_percentage = 1.0 - positives_percentage
+    return [positives_percentage, negatives_percentage]
+
+
+def make_specific_balanced_set(dataset, positives_percentage, set_size):
+    data_list = np.asarray(dataset)
+    labels = np.asarray([dataset[row].split(',')[2] for row in range(0, len(dataset))])
+    num_of_positives = positives_percentage * set_size
+    test_data = []
+    new_data_list = []
+    count_pos = 0
+    count_neg = 0
+    for row in range(0, len(data_list)):
+        if labels[row] == '1' and count_pos < num_of_positives:
+            test_data.append(dataset[row])
+            count_pos += 1
+        elif labels[row] == '0' and count_neg < set_size - num_of_positives:
+            test_data.append(dataset[row])
+            count_neg += 1
+        else:
+            new_data_list.append(dataset[row])
+    return test_data, new_data_list
+
+
 # image has to be 64x128, this adds padding
 def fix_viper():
     original_folder_path = '/home/gabi/Documents/datasets/VIPeR'
-    # cam_a_o = '/home/gabi/Documents/datasets/VIPeR/cam_a'
-    # cam_b_o = '/home/gabi/Documents/datasets/VIPeR/cam_b'
     padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
     cam_a_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_a'
     cam_b_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_b'
@@ -323,7 +251,7 @@ def make_labels_viper(data_file):
 
 
 # takes a image name pair file and loads the images into an ndarray
-def load_data_in_array(data):
+def load_viper_data_in_array(data):
     data_array = np.zeros(shape=(len(data), pc.NUM_CAMERAS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
     for pair in range(0, len(data)):
         for image in range(0,2):
@@ -343,33 +271,6 @@ def load_data_in_array(data):
     return data_array
 
 
-def analyze_data_set(dataset):
-    data_list = list(csv.reader(np.genfromtxt(dataset, dtype=None)))
-    labels = np.asarray([data_list[row][2] for row in range(0, len(data_list))], dtype=int)
-    positives_percentage = np.sum(labels) * 1.0 / len(labels)
-    negatives_percentage = 1.0 - positives_percentage
-    # print('positives: %0.2f  negatives: %0.2f' % (positives_percentage, negatives_percentage))
-    return [positives_percentage, negatives_percentage]
-
-
-def make_specific_balanced_set(dataset, positives_percentage, set_size):
-    data_list = np.asarray(dataset)
-    labels = np.asarray([dataset[row].split(',')[2] for row in range(0, len(dataset))])
-    num_of_positives = positives_percentage * set_size
-    test_data = []
-    new_data_list = []
-    count_pos = 0
-    count_neg = 0
-    for row in range(0, len(data_list)):
-        if labels[row] == '1' and count_pos < num_of_positives:
-            test_data.append(dataset[row])
-            count_pos += 1
-        elif labels[row] == '0' and count_neg < set_size - num_of_positives:
-            test_data.append(dataset[row])
-            count_neg += 1
-        else:
-            new_data_list.append(dataset[row])
-    return test_data, new_data_list
 
 
 # loads the viper dataset for use in a person re-id setting in a siamese network
@@ -390,9 +291,9 @@ def load_viper(val_pos, test_pos):
         validation_labels = make_labels_viper(validation_data)
         test_labels = make_labels_viper(test_data)
 
-        train_data_array = load_data_in_array(train_data)
-        validation_data_array = load_data_in_array(validation_data)
-        test_data_array = load_data_in_array(test_data)
+        train_data_array = load_viper_data_in_array(train_data)
+        validation_data_array = load_viper_data_in_array(validation_data)
+        test_data_array = load_viper_data_in_array(test_data)
 
         return [train_data_array, train_labels, validation_data_array, validation_labels,
                 test_data_array, test_labels]
@@ -443,16 +344,6 @@ def load_viper(val_pos, test_pos):
         load_viper(val_pos, test_pos)
 
     pass
-
-
-def viper_from_raw():
-    # add padding and save in new folder
-    fix_viper()
-    # make a text list with pairings in the new folder
-    make_pairs_viper()
-
-
-# load_viper()
 
 
 def flip_labels(labels):
@@ -636,8 +527,6 @@ def load_cuhk1_data_in_array(data):
     return data_array
 
 
-
-
 def load_cuhk1(val_pos, test_pos):
     path_validation = 'validation_data_cuhk1.txt'
     path_test = 'test_data_cuhk1.txt'
@@ -763,13 +652,13 @@ def load_viper_cuhk1():
     return [train_data_array, train_labels, validation_data_array, validation_labels, test_data_array, test_labels]
 
 
-def fix_NICTA():
-    original_folder_path = '/home/gabi/Documents/datasets/NICTAPedestrians/positives/64x80'
-    padded_positives_path = '/home/gabi/Documents/datasets/NICTAPedestrians/padded_positives'
+def fix_NICTA(name):
+    original_folder_path = '/home/gabi/Documents/datasets/NICTAPedestrians/' + str(name) + '/64x80'
+    padded_path = '/home/gabi/Documents/datasets/NICTAPedestrians/padded_' + str(name)
 
     # assuming they don't exist yet
-    if not os.path.exists(padded_positives_path):
-        os.mkdir(padded_positives_path)
+    if not os.path.exists(padded_path):
+        os.mkdir(padded_path)
 
     folder_list_level_1 = os.listdir(original_folder_path)
     for item_level_1 in folder_list_level_1:
@@ -779,7 +668,7 @@ def fix_NICTA():
             path_2 = os.path.join(path_1, item_level_2)
             image_list = os.listdir(path_2)
 
-            pad_path_1 = os.path.join(padded_positives_path, item_level_1, item_level_2)
+            pad_path_1 = os.path.join(padded_path, item_level_1, item_level_2)
 
             if not os.path.exists(pad_path_1):
                 os.makedirs(pad_path_1)
@@ -802,15 +691,12 @@ def fix_NICTA():
                 new_img.save(filename)
 
 
-
 # todo IMPORTANT: loaded_data_list has to contain the full path to the image
 def dynamically_load(loaded_data_list, step, batch_size):
     data_array = np.zeros((((step + 1) * batch_size) - (step * batch_size),
                            pc.NUM_SIAMESE_HEADS, pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT, pc.NUM_CHANNELS))
 
     labels = []
-
-
 
     return data_array
 

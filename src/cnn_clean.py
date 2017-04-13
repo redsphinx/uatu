@@ -9,26 +9,10 @@ import os
 import numpy as np
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
-# LOCATION_DATA_POSITIVE = '/home/gabi/Documents/datasets/humans/1/'
-# LOCATION_DATA_NEGATIVE = '/home/gabi/Documents/datasets/humans/0/'
-
-[train_data, train_labels, validation_data_, validation_labels_] = pu.load_human_detection_data()
+[train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_INRIA()
 train_labels = keras.utils.to_categorical(train_labels, pc.NUM_CLASSES)
-validation_labels_ = keras.utils.to_categorical(validation_labels_, pc.NUM_CLASSES)
-
-print(str(train_data.shape))
-
-test_data = validation_data_[len(validation_data_) / 2:len(validation_data_)]
-test_labels = validation_labels_[len(validation_labels_) / 2:len(validation_labels_)]
-
-validation_data = validation_data_[0:len(validation_data_) / 2]
-validation_labels = validation_labels_[0:len(validation_labels_) / 2]
-
-# reshape data to be processed through 1D conv
-# train_data = np.reshape(train_data, (len(train_data), pc.IMAGE_HEIGHT*pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-# test_data = np.reshape(test_data, (len(test_data), pc.IMAGE_HEIGHT*pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-# validation_data = np.reshape(validation_data, (len(validation_data), pc.IMAGE_HEIGHT*pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-
+validation_labels = keras.utils.to_categorical(validation_labels, pc.NUM_CLASSES)
+test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
 print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
 
 
@@ -56,13 +40,9 @@ def cnn_model():
     model.add(Activation('relu'))
 
     model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
-
     model.add(Flatten(name='cnn_flat'))
-
-
     model.add(Dense(512))
     model.add(Dense(pc.NUM_CLASSES))
-
     model.add(Activation('softmax'))
 
     return model
@@ -107,13 +87,9 @@ def cnn_model_2d_conv_1d_filters():
     model.add(Activation('relu'))
 
     model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
-
     model.add(Flatten(name='cnn_flat'))
-
-
     model.add(Dense(512))
     model.add(Dense(pc.NUM_CLASSES))
-
     model.add(Activation('softmax'))
 
     return model
@@ -131,6 +107,17 @@ def main():
                   optimizer=nadam,
                   metrics=['accuracy'])
 
+    # TODO implement dynamic loading of data
+    '''
+
+    total_data = len(train_labels) / batch_size
+    for epoch in range(pc.NUM_EPOCHS):
+        for step in range(0, total_data):
+            [train_images_1, train_images_2, train_labels] = pu.generate_data_batch_siamese(
+            train_data_list, step, batch_size)
+            model.fit()
+    '''
+
     model.fit(train_data, train_labels, batch_size=pc.BATCH_SIZE, epochs=pc.NUM_EPOCHS,
               validation_data=(validation_data, validation_labels))
 
@@ -142,15 +129,6 @@ def main():
     if pc.SAVE_CNN:
         model.save('cnn_model_1D_filters_1-2.h5')
         model.save_weights('cnn_model_weights_1D_filters_1-2.h5')
-
-    # if pc.LOGGING:
-    #     predictions = model.predict(test_data, test_labels)
-    #     mean = pu.make_confusion_matrix(predictions, test_labels)
-    #     iterations = 1
-    #     file_name = os.path.basename(__file__)
-    #     experiment_name = 'trying out 1D filters'
-    #     dataset_name = 'INRIA'
-    #     pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name)
 
 main()
 
