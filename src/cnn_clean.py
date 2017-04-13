@@ -9,7 +9,12 @@ import os
 import numpy as np
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
-[train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_INRIA()
+[train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_inria_nicta()
+
+train_data = np.asarray(train_data)
+validation_data = np.asarray(validation_data)
+test_data = np.asarray(test_data)
+
 train_labels = keras.utils.to_categorical(train_labels, pc.NUM_CLASSES)
 validation_labels = keras.utils.to_categorical(validation_labels, pc.NUM_CLASSES)
 test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
@@ -127,8 +132,8 @@ def main():
 
     # save model
     if pc.SAVE_CNN:
-        model.save('cnn_model_1D_filters_1-2.h5')
-        model.save_weights('cnn_model_weights_1D_filters_1-2.h5')
+        model.save('cnn_model_1D_filters_1-2_extra.h5')
+        model.save_weights('cnn_model_weights_1D_filters_1-2_extra.h5')
 
 main()
 

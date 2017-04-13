@@ -99,7 +99,7 @@ def create_base_network():
     model.add(Flatten(name='cnn_flat'))
 
     if pc.TRANSFER_LEARNING:
-        model.load_weights('cnn_model_weights_1D_filters_1-2.h5', by_name=True)
+        model.load_weights('cnn_model_weights_1D_filters_1-2_extra.h5', by_name=True)
 
     return model
 
@@ -228,7 +228,7 @@ def super_main():
     # TODO: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)
-        experiment_name = '1D filters and 1/2 the number of filters in each conv layer'
+        experiment_name = 'CNN weights trained with more data'
         dataset_name = 'VIPeR, CUHK1'
         pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name, total_time)
 

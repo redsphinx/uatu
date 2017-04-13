@@ -333,3 +333,24 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [ 13.   54.8  80.2   2. ]
 mean_accuracy:              0.621333
 
+
+name_of_experiment:         CNN weights trained with more data
+file_name:                  siamese_cnn_clean.py
+date:                       13/04/2017   19:16:21
+duration:                   1353.436511
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+start_learning_rate:        0.000010
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 12.4  54.2  80.8   2.6]
+mean_accuracy:              0.621333
+

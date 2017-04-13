@@ -708,3 +708,155 @@ def generate_data_batch_siamese(step, batch_size, loaded_data_list):
     images_1 = data_array[:, 0]
     images_2 = data_array[:, 1]
     return [images_1, images_2, labels]
+
+
+def load_NICTA():
+    print('Loading NICTA pedestrian dataset')
+    base_path = '/home/gabi/Documents/datasets/NICTAPedestrians/'
+    data_list_path = '/home/gabi/PycharmProjects/uatu/data/NICTA'
+
+    if not os.path.exists(data_list_path):
+        os.mkdir(data_list_path)
+
+        tr_pos_data_path_0 = os.path.join(base_path, 'padded_positives/NICTA_Pedestrian_Positive_Train_Set_A/00000000')
+        tr_pos_data_path_1 = os.path.join(base_path, 'padded_positives/NICTA_Pedestrian_Positive_Train_Set_A/00000001')
+        tr_pos_data_path_2 = os.path.join(base_path, 'padded_positives/NICTA_Pedestrian_Positive_Train_Set_A/00000002')
+
+        tr_neg_data_path_0 = os.path.join(base_path, 'padded_negatives/NICTA_Pedestrian_Negative_Train_Set_A/00000000')
+        tr_neg_data_path_1 = os.path.join(base_path, 'padded_negatives/NICTA_Pedestrian_Negative_Train_Set_A/00000001')
+        tr_neg_data_path_2 = os.path.join(base_path, 'padded_negatives/NICTA_Pedestrian_Negative_Train_Set_A/00000002')
+        tr_neg_data_path_3 = os.path.join(base_path, 'padded_negatives/NICTA_Pedestrian_Negative_Train_Set_A/00000003')
+        tr_neg_data_path_4 = os.path.join(base_path, 'padded_negatives/NICTA_Pedestrian_Negative_Train_Set_A/00000004')
+
+
+        te_pos_data_path_0 = os.path.join(base_path, 'padded_positives/NICTA_Pedestrian_Positive_Valid_Set_A/00000000')
+        te_pos_data_path_1 = os.path.join(base_path, 'padded_positives/NICTA_Pedestrian_Positive_Valid_Set_A/00000001')
+
+        te_neg_data_path_0 = os.path.join(base_path, 'padded_negatives/NICTA_Pedestrian_Negative_Valid_Set_A/00000000')
+        te_neg_data_path_1 = os.path.join(base_path, 'padded_negatives/NICTA_Pedestrian_Negative_Valid_Set_A/00000001')
+        te_neg_data_path_2 = os.path.join(base_path, 'padded_negatives/NICTA_Pedestrian_Negative_Valid_Set_A/00000002')
+
+        tr_pos_list = [tr_pos_data_path_0, tr_pos_data_path_1, tr_pos_data_path_2]
+        tr_neg_list = [tr_neg_data_path_0, tr_neg_data_path_1, tr_neg_data_path_2, tr_neg_data_path_3, tr_neg_data_path_4]
+        te_pos_list = [te_pos_data_path_0, te_pos_data_path_1]
+        te_neg_list = [te_neg_data_path_0, te_neg_data_path_1, te_neg_data_path_2]
+
+        list_of_list = [tr_pos_list, tr_neg_list, te_pos_list, te_neg_list]
+        # tr_pos, tr_neg, te_pos, te_neg
+        numbers = [2416, 4105, 1132, 2244]
+
+        train_data_path = os.path.join(data_list_path, 'train.txt')
+        test_data_path = os.path.join(data_list_path, 'test.txt')
+
+        def load_data_into_list(train_or_validate, b, e):
+            which_path = train_data_path if train_or_validate == 'train' else test_data_path
+            with open(which_path, 'wr') as myFile:
+                for item in range(b, e):
+                    the_list = list_of_list[item]
+                    counter = 0
+                    max_files = numbers[item]
+                    for sub_list in range(len(the_list)):
+                        files_in_dir = os.listdir(the_list[sub_list])
+                        for image in files_in_dir:
+                            path = os.path.join(the_list[sub_list], image)
+                            lab = 1 if item%2 == 0 else 0
+                            if counter < max_files:
+                                myFile.write(path + ',%d\n' %lab)
+                                counter += 1
+                            else:
+                                break
+
+        load_data_into_list('train', 0, 2)
+        load_data_into_list('test', 2, 4)
+
+        # create validation dataset
+        test_list_path = os.path.join(data_list_path, 'test.txt')
+        validation_list_path = os.path.join(data_list_path, 'validate.txt')
+        test_list = np.genfromtxt(test_list_path, dtype=None).tolist()
+
+        rd.shuffle(test_list)
+        validation_data = test_list[0:len(test_list) / 2]
+        test_data = test_list[len(test_list) / 2:len(test_list)]
+
+        with open(test_list_path, 'wr') as myFile:
+            for item in test_data:
+                myFile.write(item + '\n')
+
+        with open(validation_list_path, 'wr') as myFile:
+            for item in validation_data:
+                myFile.write(item + '\n')
+
+    def load_NICTA_data_in_array(data):
+        data_array = np.zeros(shape=(len(data), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+        for image in range(0, len(data)):
+            name = data[image].split(',')[0]
+            data_array[image] = ndimage.imread(name)[:, :, 0:3]
+        return data_array
+
+    train_data = np.genfromtxt(os.path.join(data_list_path, 'train.txt'), dtype=None).tolist()
+    rd.shuffle(train_data)
+    train_data_array = load_NICTA_data_in_array(train_data)
+    train_labels = np.asarray([train_data[row].split(',')[1] for row in range(0, len(train_data))])
+
+    test_data = np.genfromtxt(os.path.join(data_list_path, 'test.txt'), dtype=None).tolist()
+    rd.shuffle(test_data)
+    test_data_array = load_NICTA_data_in_array(test_data)
+    test_labels = np.asarray([test_data[row].split(',')[1] for row in range(0, len(test_data))])
+
+    validation_data = np.genfromtxt(os.path.join(data_list_path, 'validate.txt'), dtype=None).tolist()
+    rd.shuffle(validation_data)
+    validation_data_array = load_NICTA_data_in_array(validation_data)
+    validation_labels = np.asarray([validation_data[row].split(',')[1] for row in range(0, len(validation_data))])
+
+    return train_data_array, train_labels, validation_data_array, validation_labels, test_data_array, test_labels
+
+
+def load_inria_nicta():
+    train_data_v, train_labels_v, validation_data_v, validation_labels_v, test_data_v, test_labels_v = load_INRIA()
+    train_data_c, train_labels_c, validation_data_c, validation_labels_c, test_data_c, test_labels_c = load_NICTA()
+
+    print('asf')
+    # test
+    test_labels = np.zeros(len(test_labels_v) + len(test_labels_c))
+    test_labels[0:len(test_labels_v)] = test_labels_v
+    test_labels[len(test_labels_v):] = test_labels_c
+
+    test_data_array = np.zeros(
+        shape=(len(test_data_v) + len(test_data_c), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    test_data_array[0:len(test_data_v)] = test_data_v
+    test_data_array[len(test_data_v):] = test_data_c
+
+    test = list(zip(test_labels, test_data_array))
+    rd.shuffle(test)
+    test_labels, test_data_array = zip(*test)
+
+    # train
+    train_labels = np.zeros(len(train_labels_v) + len(train_labels_c))
+    train_labels[0:len(train_labels_v)] = train_labels_v
+    train_labels[len(train_labels_v):] = train_labels_c
+
+    train_data_array = np.zeros(
+        shape=(len(train_data_v) + len(train_data_c), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    train_data_array[0:len(train_data_v)] = train_data_v
+    train_data_array[len(train_data_v):] = train_data_c
+
+    train = list(zip(train_labels, train_data_array))
+    rd.shuffle(train)
+    train_labels, train_data_array = zip(*train)
+
+    # validation
+    validation_labels = np.zeros(len(validation_labels_v) + len(validation_labels_c))
+    validation_labels[0:len(validation_labels_v)] = validation_labels_v
+    validation_labels[len(validation_labels_v):] = validation_labels_c
+
+    validation_data_array = np.zeros(
+        shape=(len(validation_data_v) + len(validation_data_c), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
+               pc.NUM_CHANNELS))
+    validation_data_array[0:len(validation_data_v)] = validation_data_v
+    validation_data_array[len(validation_data_v):] = validation_data_c
+
+    validation = list(zip(validation_labels, validation_data_array))
+    rd.shuffle(validation)
+    validation_labels, validation_data_array = zip(*validation)
+
+    return [train_data_array, train_labels, validation_data_array, validation_labels, test_data_array, test_labels]
