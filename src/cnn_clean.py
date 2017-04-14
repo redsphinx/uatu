@@ -4,21 +4,24 @@ from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten,
 from keras import optimizers
 import project_constants as pc
 import project_utils as pu
-
+import time
 import os
 import numpy as np
 
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
-[train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_inria_nicta()
 
-train_data = np.asarray(train_data)
-validation_data = np.asarray(validation_data)
-test_data = np.asarray(test_data)
+def initialize():
+    os.environ["CUDA_VISIBLE_DEVICES"]="0"
+    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_inria_nicta()
 
-train_labels = keras.utils.to_categorical(train_labels, pc.NUM_CLASSES)
-validation_labels = keras.utils.to_categorical(validation_labels, pc.NUM_CLASSES)
-test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
-print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
+    train_data = np.asarray(train_data)
+    validation_data = np.asarray(validation_data)
+    test_data = np.asarray(test_data)
+
+    train_labels = keras.utils.to_categorical(train_labels, pc.NUM_CLASSES)
+    validation_labels = keras.utils.to_categorical(validation_labels, pc.NUM_CLASSES)
+    test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
+    print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
+    return [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
 
 
 def add_activation_and_relu(model):
@@ -27,7 +30,7 @@ def add_activation_and_relu(model):
     return model
 
 
-def cnn_model():
+def cnn_model(train_data):
     model = Sequential()
     model.add(Conv2D(32, kernel_size=(3, 3), padding='same', input_shape=train_data.shape[1:], name='conv_1'))
     model = add_activation_and_relu(model)
@@ -53,7 +56,7 @@ def cnn_model():
     return model
 
 
-def cnn_model_2d_conv_1d_filters():
+def cnn_model_2d_conv_1d_filters(train_data):
     # figure out how the number of filters change
     model = Sequential()
     model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data.shape[1:], name='conv_1_1'))
@@ -100,9 +103,12 @@ def cnn_model_2d_conv_1d_filters():
     return model
 
 
-def main():
+def main(experiment_name):
     # model = cnn_model()
-    model = cnn_model_2d_conv_1d_filters()
+    start = time.time()
+    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = initialize()
+
+    model = cnn_model_2d_conv_1d_filters(train_data)
     if pc.VERBOSE:
         print(model.summary())
 
@@ -123,17 +129,30 @@ def main():
             model.fit()
     '''
 
-    model.fit(train_data, train_labels, batch_size=pc.BATCH_SIZE, epochs=pc.NUM_EPOCHS,
-              validation_data=(validation_data, validation_labels))
-
+    model.fit(train_data,
+              train_labels,
+              batch_size=pc.BATCH_SIZE,
+              epochs=pc.NUM_EPOCHS,
+              validation_data=(validation_data, validation_labels),
+              verbose=2)
+    stop = time.time()
     score = model.evaluate(test_data, test_labels)
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
 
+
     # save model
     if pc.SAVE_CNN:
-        model.save('cnn_model_1D_filters_1-2_extra.h5')
-        model.save_weights('cnn_model_weights_1D_filters_1-2_extra.h5')
+        name_weights = 'cnn_model_weights_1D_filters_1-2_extra.h5'
+        model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, name_weights))
 
-main()
+    if pc.LOGGING:
+        iterations = 1
+        test_confusion_matrix = pu.make_confusion_matrix(model.predict(test_data), test_labels)
+        file_name = os.path.basename(__file__)
+        # experiment_name = 'CNN weights trained with more data'
+        dataset_name = 'INRIA, NICTA'
+        pu.enter_in_log(experiment_name, file_name, iterations, test_confusion_matrix, dataset_name, stop-start)
+
+# main()
 

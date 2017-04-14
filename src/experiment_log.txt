@@ -354,3 +354,45 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [ 12.4  54.2  80.8   2.6]
 mean_accuracy:              0.621333
 
+
+name_of_experiment:         running the CNN
+file_name:                  cnn_clean.py
+date:                       14/04/2017   13:24:02
+duration:                   140.439958
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1080, 51, 1300, 50]
+mean_accuracy:              0.959291
+
+
+name_of_experiment:         running the CNN on 10 epochs batchsize 128
+file_name:                  cnn_clean.py
+date:                       14/04/2017   13:28:20
+duration:                   120.942663
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 128
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1008, 42, 1309, 122]
+mean_accuracy:              0.933898
+

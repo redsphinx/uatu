@@ -431,7 +431,7 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
 
     with open(pc.LOG_FILE_PATH, 'a') as log_file:
         date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
-        accuracy = (test_confusion_matrix[0] + test_confusion_matrix[2]) / pc.TEST_DATA_SIZE
+        accuracy = (test_confusion_matrix[0] + test_confusion_matrix[2])*1.0 / (sum(test_confusion_matrix)*1.0)
         confusion_matrix = str(test_confusion_matrix)
         log_file.write('\n')
         log_file.write('name_of_experiment:         %s\n' %experiment_name)
@@ -447,7 +447,7 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
         log_file.write('momentum:                   %f\n' %pc.MOMENTUM)
         log_file.write('epochs:                     %d\n' %pc.NUM_EPOCHS)
         log_file.write('number_of_cameras:          %d\n' %pc.NUM_CAMERAS)
-        log_file.write('number_of_siamese_heads:    %d\n' % pc.NUM_SIAMESE_HEADS)
+        log_file.write('number_of_siamese_heads:    %d\n' %pc.NUM_SIAMESE_HEADS)
         log_file.write('dropout:                    %f\n' %pc.DROPOUT)
         log_file.write('transfer_learning:          %s\n' %pc.TRANSFER_LEARNING)
         log_file.write('train_cnn:                  %s\n' %pc.TRAIN_CNN)
@@ -815,7 +815,7 @@ def load_inria_nicta():
     train_data_v, train_labels_v, validation_data_v, validation_labels_v, test_data_v, test_labels_v = load_INRIA()
     train_data_c, train_labels_c, validation_data_c, validation_labels_c, test_data_c, test_labels_c = load_NICTA()
 
-    print('asf')
+    # print('asf')
     # test
     test_labels = np.zeros(len(test_labels_v) + len(test_labels_c))
     test_labels[0:len(test_labels_v)] = test_labels_v

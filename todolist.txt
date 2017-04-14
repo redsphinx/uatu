@@ -39,6 +39,7 @@ Second phase: Improve the prototype in experiment cycles
 . continue make method for dynamically loading data 
 . try out bottlenecks
 . do a better cleanup of utils when there's time
+. do setup experiments batch that send emails
 
 
 13 april
