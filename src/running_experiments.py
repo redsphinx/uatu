@@ -5,25 +5,71 @@ from keras import backend as K
 import project_constants as pc
 import project_utils as pu
 import cnn_clean as cnn
-# import siamese_cnn_clean as scnn
+import preprocessing as pre
 
 import os
 import numpy as np
 import time
 
 
-def experiment_0():
+def experiment_0(data):
     # testing stuff
-    experiment_name = 'running the CNN on 20 epochs batchsize 128'
-    cnn.main(experiment_name)
+    experiment_name = 'running the CNN on raw images'
+    print('experiment: %s' %experiment_name)
+    cnn.main(experiment_name, data)
 
 
-def experiment_1():
-    experiment_name = 'normalizing the image to be between [0, 1]'
+def experiment_1(data):
+    experiment_name = 'subtracting the mean image'
+    print('experiment: %s' %experiment_name)
+    cnn.main(experiment_name, data)
 
+
+def experiment_2(data):
+    experiment_name = 'subtracting mean image + normalizing'
+    print('experiment: %s' %experiment_name)
+    cnn.main(experiment_name, data)
+    
+
+def experiment_3(data):
+    experiment_name = 'subtracting mean image + PCA whitening'
+    print('experiment: %s' %experiment_name)
+    # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
+    # train_data = pre.PCA_whiten(pre.center(train_data))
+    # test_data = pre.PCA_whiten(pre.center(test_data))
+    # validation_data = pre.PCA_whiten(pre.center(validation_data))
+    # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
+    cnn.main(experiment_name, data)
+
+
+def experiment_4(data):
+    experiment_name = 'normalizing the image'
+    print('experiment: %s' %experiment_name)
+    cnn.main(experiment_name, data)
 
 def main():
-    experiment_0()
+    # data loading, so it happens only once
+    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
+    # centered_train_data = pre.center(train_data)
+    # centered_test_data = pre.center(test_data)
+    # centered_validation_data = pre.center(validation_data)
+    #
+    # normalized_centered_train_data = pre.normalize(centered_train_data)
+    # normalized_centered_test_data = pre.normalize(centered_test_data)
+    # normalized_centered_validation_data = pre.normalize(centered_validation_data)
+    #
+    normalized_train_data = pre.normalize(train_data)
+    normalized_test_data = pre.normalize(test_data)
+    normalized_validation_data = pre.normalize(validation_data)
+    #
+    # centered_data = [centered_train_data, train_labels, centered_validation_data, validation_labels, centered_test_data, test_labels]
+    # normalized_centered_data = [normalized_centered_train_data, train_labels, normalized_centered_validation_data, validation_labels, normalized_centered_test_data, test_labels]
+    normalized_data = [normalized_train_data, train_labels, normalized_validation_data, validation_labels, normalized_test_data, test_labels]
 
+    # running the experiments
+    # experiment_0(pu.initialize_cnn_data())
+    # experiment_1(centered_data)
+    # experiment_2(normalized_centered_data)
+    experiment_4(normalized_data)
 
 main()

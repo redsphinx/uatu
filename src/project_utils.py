@@ -10,7 +10,7 @@ from itertools import combinations
 import random
 import csv
 import time
-
+import keras
 
 # recursively transform list into tuple
 def tupconv(lst):
@@ -860,3 +860,17 @@ def load_inria_nicta():
     validation_labels, validation_data_array = zip(*validation)
 
     return [train_data_array, train_labels, validation_data_array, validation_labels, test_data_array, test_labels]
+
+
+def initialize_cnn_data():
+    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = load_inria_nicta()
+
+    train_data = np.asarray(train_data)
+    validation_data = np.asarray(validation_data)
+    test_data = np.asarray(test_data)
+
+    train_labels = keras.utils.to_categorical(train_labels, pc.NUM_CLASSES)
+    validation_labels = keras.utils.to_categorical(validation_labels, pc.NUM_CLASSES)
+    test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
+    print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
+    return [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]

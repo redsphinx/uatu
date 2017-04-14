@@ -396,3 +396,192 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [1008, 42, 1309, 122]
 mean_accuracy:              0.933898
 
+
+name_of_experiment:         subtracting the mean image
+file_name:                  cnn_clean.pyc
+date:                       14/04/2017   14:58:11
+duration:                   108.238026
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 128
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1077, 71, 1280, 53]
+mean_accuracy:              0.950020
+
+
+name_of_experiment:         subtracting mean image + normalizing
+file_name:                  cnn_clean.pyc
+date:                       14/04/2017   15:04:36
+duration:                   109.751845
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 128
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1075, 63, 1288, 55]
+mean_accuracy:              0.952439
+
+
+name_of_experiment:         subtracting mean image + PCA whitening
+file_name:                  cnn_clean.pyc
+date:                       14/04/2017   15:11:36
+duration:                   105.707288
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 128
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1017, 187, 1164, 113]
+mean_accuracy:              0.879081
+
+
+name_of_experiment:         subtracting mean image + PCA whitening
+file_name:                  cnn_clean.pyc
+date:                       14/04/2017   15:19:29
+duration:                   110.129986
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 128
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [866, 99, 1252, 264]
+mean_accuracy:              0.853688
+
+
+name_of_experiment:         subtracting the mean image
+file_name:                  cnn_clean.pyc
+date:                       14/04/2017   15:34:09
+duration:                   322.043010
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1115, 79, 1272, 15]
+mean_accuracy:              0.962112
+
+
+name_of_experiment:         subtracting mean image + normalizing
+file_name:                  cnn_clean.pyc
+date:                       14/04/2017   15:39:32
+duration:                   320.493549
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1115, 95, 1256, 15]
+mean_accuracy:              0.955663
+
+
+name_of_experiment:         normalizing the image
+file_name:                  cnn_clean.pyc
+date:                       14/04/2017   15:44:59
+duration:                   324.460351
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1094, 45, 1306, 36]
+mean_accuracy:              0.967352
+
+
+name_of_experiment:         running the CNN on raw images
+file_name:                  cnn_clean.pyc
+date:                       14/04/2017   15:52:23
+duration:                   323.472051
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1092, 58, 1293, 38]
+mean_accuracy:              0.961306
+
+
+name_of_experiment:         normalizing the image
+file_name:                  cnn_clean.pyc
+date:                       14/04/2017   16:01:47
+duration:                   324.423293
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1078, 30, 1321, 52]
+mean_accuracy:              0.966949
+

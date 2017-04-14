@@ -15,6 +15,7 @@ import time
 
 # do this operation after image has been loaded into memory
 def center(data):
+    print('centering the data by subtracting the mean per channel')
     data_shape = np.shape(data)
     centered_data = np.zeros(data_shape)
     mean_data = np.zeros((3, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH))
@@ -32,6 +33,7 @@ def center(data):
 
 
 def normalize(data):
+    print('normalizing the data by dividing by the std')
     data_shape = np.shape(data)
     normalized_data = np.zeros(data_shape)
     std_data = np.zeros((3, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH))
@@ -49,6 +51,8 @@ def normalize(data):
 
 
 def PCA_whiten(data):
+    print('PCA whitening the data: take dataset with subtracted mean, calculate the covariance matrix, '
+          'decorrelate the data, divide by eigenvalues')
     data_shape = np.shape(data)
     whitened_data = np.zeros((data_shape[0], data_shape[1], data_shape[2], data_shape[-1]))
     cov_data = np.zeros((data_shape[-1], data_shape[2], data_shape[2]))

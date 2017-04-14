@@ -7,22 +7,22 @@ import project_utils as pu
 import time
 import os
 import numpy as np
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 
-def initialize():
-    os.environ["CUDA_VISIBLE_DEVICES"]="0"
-    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_inria_nicta()
-
-    train_data = np.asarray(train_data)
-    validation_data = np.asarray(validation_data)
-    test_data = np.asarray(test_data)
-
-    train_labels = keras.utils.to_categorical(train_labels, pc.NUM_CLASSES)
-    validation_labels = keras.utils.to_categorical(validation_labels, pc.NUM_CLASSES)
-    test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
-    print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
-    return [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
-
+# def initialize():
+#     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_inria_nicta()
+#
+#     train_data = np.asarray(train_data)
+#     validation_data = np.asarray(validation_data)
+#     test_data = np.asarray(test_data)
+#
+#     train_labels = keras.utils.to_categorical(train_labels, pc.NUM_CLASSES)
+#     validation_labels = keras.utils.to_categorical(validation_labels, pc.NUM_CLASSES)
+#     test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
+#     print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
+#     return [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
+#
 
 def add_activation_and_relu(model):
     model.add(Activation('relu'))
@@ -103,10 +103,10 @@ def cnn_model_2d_conv_1d_filters(train_data):
     return model
 
 
-def main(experiment_name):
+def main(experiment_name, data):
     # model = cnn_model()
     start = time.time()
-    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = initialize()
+    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
 
     model = cnn_model_2d_conv_1d_filters(train_data)
     if pc.VERBOSE:
