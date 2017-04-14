@@ -6,7 +6,6 @@ Tasks:
 . make a testing interface
 . person re-id benchmark
 . implement minibatch balancing
-. gather more training data
 . method to get wrong prediction images
 . look at the best DL re-id papers and try to recreate them in keras
 . read paper about deformable convolutional networks: https://arxiv.org/pdf/1703.06211.pdf
@@ -33,19 +32,27 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
-12 april
+14 april
 ------
+. do batch normalization
+. implement cyclical learning rate: https://arxiv.org/pdf/1506.01186.pdf
 . continue make method for dynamically loading data 
-. get new CNN weights by training CNN on NICTA data
-. experiment with the new CNN weights in the SCN
 . try out bottlenecks
-. clean project utils
+. do a better cleanup of utils when there's time
+
+
+13 april
+------
+. DONE get new CNN weights by training CNN on NICTA data
+. DONE experiment with the new CNN weights in the SCN
+. DONE clean project utils
 
 
 12 april
 ------
 . DONE continue try using 2 1D convolutions
 . start make method for dynamically loading data 
+
 
 11 april
 ------
