@@ -32,14 +32,19 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
-14 april
+18 april
 ------
-. do batch normalization
+. DONE do batch normalization
 . implement cyclical learning rate: https://arxiv.org/pdf/1506.01186.pdf
 . continue make method for dynamically loading data 
 . try out bottlenecks
 . do a better cleanup of utils when there's time
 . do setup experiments batch that send emails
+
+
+14 april
+------
+. DONE do different normilazation techniques
 
 
 13 april

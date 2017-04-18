@@ -585,3 +585,297 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [1078, 30, 1321, 52]
 mean_accuracy:              0.966949
 
+
+name_of_experiment:         batch normalization, after some activations
+file_name:                  cnn_clean.py
+date:                       18/04/2017   11:31:14
+duration:                   426.581903
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1093, 92, 1259, 37]
+mean_accuracy:              0.948005
+
+
+name_of_experiment:         batch normalization, after some activations, different learning rate
+file_name:                  cnn_clean.pyc
+date:                       18/04/2017   11:39:09
+duration:                   416.365215
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000100
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1084, 24, 1327, 46]
+mean_accuracy:              0.971786
+
+
+name_of_experiment:         batch normalization, after some activations, different learning rate
+file_name:                  cnn_clean.pyc
+date:                       18/04/2017   11:46:48
+duration:                   417.052254
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.001000
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1104, 23, 1328, 26]
+mean_accuracy:              0.980250
+
+
+name_of_experiment:         batch normalization, after some activations, 10 epochs
+file_name:                  cnn_clean.pyc
+date:                       18/04/2017   11:51:53
+duration:                   215.764730
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.001000
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1114, 44, 1307, 16]
+mean_accuracy:              0.975816
+
+
+name_of_experiment:         batch normalization, after ALL activations, no dropout
+file_name:                  cnn_clean.py
+date:                       18/04/2017   12:04:33
+duration:                   327.689830
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.001000
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1101, 26, 1325, 29]
+mean_accuracy:              0.977832
+
+
+name_of_experiment:         batch normalization, after ALL activations, with dropout
+file_name:                  cnn_clean.py
+date:                       18/04/2017   12:10:47
+duration:                   326.261142
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.001000
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1114, 37, 1314, 16]
+mean_accuracy:              0.978638
+
+
+name_of_experiment:         batch normalization, after ALL activations, no dropout, different batch size
+file_name:                  cnn_clean.pyc
+date:                       18/04/2017   12:18:46
+duration:                   190.035498
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.001000
+batch_size:                 128
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [1108, 46, 1305, 22]
+mean_accuracy:              0.972592
+
+
+name_of_experiment:         batch normalization, after ALL activations, no dropout, different batch size
+file_name:                  cnn_clean.py
+date:                       18/04/2017   13:15:22
+duration:                   2360.518836
+data_set:                   INRIA, NICTA
+iterations:                 10
+start_learning_rate:        0.001000
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1106.6    55.2  1295.8    23.4]
+mean_accuracy:              0.968319
+
+
+name_of_experiment:         batch normalization, after ALL activations, WITH dropout, different batch size
+file_name:                  cnn_clean.py
+date:                       18/04/2017   13:56:44
+duration:                   2482.234445
+data_set:                   INRIA, NICTA
+iterations:                 10
+start_learning_rate:        0.001000
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1098.7    46.7  1304.3    31.3]
+mean_accuracy:              0.968561
+
+
+name_of_experiment:         batch normalization, after ALL activations, no dropout, different batch size
+file_name:                  cnn_clean.py
+date:                       18/04/2017   14:11:58
+duration:                   617.888920
+data_set:                   INRIA, NICTA
+iterations:                 3
+start_learning_rate:        0.001000
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1092.66666667    43.66666667  1307.33333333    37.33333333]
+mean_accuracy:              0.967352
+
+
+name_of_experiment:         batch normalization, after ALL activations, WITH dropout, different batch size
+file_name:                  cnn_clean.py
+date:                       18/04/2017   14:22:27
+duration:                   629.400872
+data_set:                   INRIA, NICTA
+iterations:                 3
+start_learning_rate:        0.001000
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1093.33333333    41.          1310.            36.66666667]
+mean_accuracy:              0.968695
+
+
+name_of_experiment:         batch normalization, before ReLU, biases removed
+file_name:                  cnn_clean.py
+date:                       18/04/2017   14:56:58
+duration:                   1061.331771
+data_set:                   INRIA, NICTA
+iterations:                 5
+start_learning_rate:        0.001000
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1104.     35.6  1315.4    26. ]
+mean_accuracy:              0.975171
+
+
+name_of_experiment:         batch normalization, before ReLU, biases removed, higher learning rate
+file_name:                  cnn_clean.pyc
+date:                       18/04/2017   15:16:25
+duration:                   1070.878438
+data_set:                   INRIA, NICTA
+iterations:                 5
+start_learning_rate:        0.010000
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1108.8   106.4  1244.6    21.2]
+mean_accuracy:              0.948569
+
+
+name_of_experiment:         batch normalization, cyclical learning rate, default everything
+file_name:                  cnn_clean.pyc
+date:                       18/04/2017   15:55:53
+duration:                   2050.414194
+data_set:                   INRIA, NICTA
+iterations:                 5
+start_learning_rate:        0.001000
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1111.2    26.6  1324.4    18.8]
+mean_accuracy:              0.981701
+

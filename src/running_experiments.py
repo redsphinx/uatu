@@ -47,9 +47,25 @@ def experiment_4(data):
     print('experiment: %s' %experiment_name)
     cnn.main(experiment_name, data)
 
+
+def experiment_5(data):
+    experiment_name = 'batch normalization '
+    print('experiment: %s' % experiment_name)
+    iterations = 3
+    cnn.super_main(experiment_name, data, iterations, do_dropout=False)
+
+
+def experiment_6(data):
+    experiment_name = 'batch normalization, cyclical learning rate, mode=triangular2'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    cnn.super_main(experiment_name, data, iterations, do_dropout=False)
+
+
 def main():
     # data loading, so it happens only once
     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
+    data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
     # centered_train_data = pre.center(train_data)
     # centered_test_data = pre.center(test_data)
     # centered_validation_data = pre.center(validation_data)
@@ -58,18 +74,20 @@ def main():
     # normalized_centered_test_data = pre.normalize(centered_test_data)
     # normalized_centered_validation_data = pre.normalize(centered_validation_data)
     #
-    normalized_train_data = pre.normalize(train_data)
-    normalized_test_data = pre.normalize(test_data)
-    normalized_validation_data = pre.normalize(validation_data)
+    # normalized_train_data = pre.normalize(train_data)
+    # normalized_test_data = pre.normalize(test_data)
+    # normalized_validation_data = pre.normalize(validation_data)
     #
     # centered_data = [centered_train_data, train_labels, centered_validation_data, validation_labels, centered_test_data, test_labels]
     # normalized_centered_data = [normalized_centered_train_data, train_labels, normalized_centered_validation_data, validation_labels, normalized_centered_test_data, test_labels]
-    normalized_data = [normalized_train_data, train_labels, normalized_validation_data, validation_labels, normalized_test_data, test_labels]
+    # normalized_data = [normalized_train_data, train_labels, normalized_validation_data, validation_labels, normalized_test_data, test_labels]
 
     # running the experiments
     # experiment_0(pu.initialize_cnn_data())
     # experiment_1(centered_data)
     # experiment_2(normalized_centered_data)
-    experiment_4(normalized_data)
+
+    # experiment_5(data)
+    experiment_6(data)
 
 main()
