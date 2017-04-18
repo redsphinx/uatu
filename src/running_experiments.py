@@ -5,6 +5,7 @@ from keras import backend as K
 import project_constants as pc
 import project_utils as pu
 import cnn_clean as cnn
+import siamese_cnn_clean as scn
 import preprocessing as pre
 
 import os
@@ -56,16 +57,49 @@ def experiment_5(data):
 
 
 def experiment_6(data):
-    experiment_name = 'batch normalization, cyclical learning rate, mode=triangular2'
+    experiment_name = 'saving model: batch normalization, cyclical learning rate, mode=exp_range'
     print('experiment: %s' % experiment_name)
-    iterations = 5
+    iterations = 1
     cnn.super_main(experiment_name, data, iterations, do_dropout=False)
+
+#triangular, triangular2, exp_range
+
+def experiment_7(data):
+    experiment_name = 'training SCN network on the new CNN weights, clr mode=triangular'
+    print('experiment: %s' % experiment_name)
+    clr_mode = 'triangular'
+    iterations = 10
+    scn.super_main(experiment_name, data, iterations, clr_mode)
+
+
+def experiment_8(data):
+    experiment_name = 'training SCN network on the new CNN weights, clr mode=triangular2'
+    print('experiment: %s' % experiment_name)
+    clr_mode = 'triangular2'
+    iterations = 10
+    scn.super_main(experiment_name, data, iterations, clr_mode)
+
+
+def experiment_9(data):
+    experiment_name = 'training SCN network on the new CNN weights, clr mode=exp_range'
+    print('experiment: %s' % experiment_name)
+    clr_mode = 'exp_range'
+    iterations = 10
+    scn.super_main(experiment_name, data, iterations, clr_mode)
 
 
 def main():
     # data loading, so it happens only once
-    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
+    # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
+    # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
+    # experiment_6(data)
+
+    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_scn_data()
     data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
+    experiment_7(data)
+    experiment_8(data)
+    experiment_9(data)
+
     # centered_train_data = pre.center(train_data)
     # centered_test_data = pre.center(test_data)
     # centered_validation_data = pre.center(validation_data)
@@ -88,6 +122,6 @@ def main():
     # experiment_2(normalized_centered_data)
 
     # experiment_5(data)
-    experiment_6(data)
+    # experiment_6(data)
 
 main()

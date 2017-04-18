@@ -879,3 +879,66 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [ 1111.2    26.6  1324.4    18.8]
 mean_accuracy:              0.981701
 
+
+name_of_experiment:         batch normalization, cyclical learning rate, mode=triangular2
+file_name:                  cnn_clean.py
+date:                       18/04/2017   16:34:29
+duration:                   2063.875025
+data_set:                   INRIA, NICTA
+iterations:                 5
+start_learning_rate:        0.001000
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1107.8    15.8  1335.2    22.2]
+mean_accuracy:              0.984684
+
+
+name_of_experiment:         batch normalization, cyclical learning rate, mode=exp_range
+file_name:                  cnn_clean.py
+date:                       18/04/2017   18:20:52
+duration:                   2068.726285
+data_set:                   INRIA, NICTA
+iterations:                 5
+start_learning_rate:        0.001000
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1114.    16.  1335.    16.]
+mean_accuracy:              0.987102
+
+
+name_of_experiment:         saving model: batch normalization, cyclical learning rate, mode=exp_range
+file_name:                  cnn_clean.py
+date:                       18/04/2017   18:39:28
+duration:                   539.691840
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.001000
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1118.    49.  1302.    12.]
+mean_accuracy:              0.975413
+

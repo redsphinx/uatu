@@ -874,3 +874,17 @@ def initialize_cnn_data():
     test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
     print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
     return [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
+
+
+def initialize_scn_data():
+    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = load_viper_cuhk1()
+
+    train_data = np.asarray(train_data)
+    validation_data = np.asarray(validation_data)
+    test_data = np.asarray(test_data)
+
+    train_labels = keras.utils.to_categorical(train_labels, pc.NUM_CLASSES)
+    validation_labels = keras.utils.to_categorical(validation_labels, pc.NUM_CLASSES)
+    test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
+    print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
+    return [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]

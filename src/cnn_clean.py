@@ -60,63 +60,62 @@ def cnn_model(train_data):
 
 
 def cnn_model_2d_conv_1d_filters(train_data, do_dropout):
-    # figure out how the number of filters change
     model = Sequential()
     model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data.shape[1:], name='conv_1_1', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_1'))
     model.add(Activation('relu'))
     model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_2'))
     model = add_activation_and_relu(model)
 
 
     model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_3'))
     model.add(Activation('relu'))
     model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_4'))
     model = add_activation_and_relu(model)
 
     model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_5'))
     model.add(Activation('relu'))
     model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_6'))
     model = add_activation_and_relu(model)
 
     model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_7'))
     model.add(Activation('relu'))
     model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_8'))
     model = add_activation_and_relu(model)
 
     model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_9'))
     model.add(Activation('relu'))
     model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_10'))
     model = add_activation_and_relu(model)
 
     model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_11'))
     model.add(Activation('relu'))
     model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_12'))
     model = add_activation_and_relu(model)
 
     model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_13'))
     model.add(Activation('relu'))
     model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2', use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_14'))
     model.add(Activation('relu'))
 
     if do_dropout:
         model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
     model.add(Flatten(name='cnn_flat'))
     model.add(Dense(512, use_bias=False))
-    model.add(BatchNormalization())
+    model.add(BatchNormalization(name='bn_15'))
     model.add(Dense(pc.NUM_CLASSES, use_bias=False))
     model.add(Activation('softmax'))
 
@@ -149,7 +148,7 @@ def main(experiment_name, data, do_dropout):
             model.fit()
     '''
 
-    clr_triangular = CyclicLR(mode='triangular2')
+    clr_triangular = CyclicLR(mode='exp_range')
 
     model.fit(train_data,
               train_labels,
@@ -167,15 +166,14 @@ def main(experiment_name, data, do_dropout):
     # save model
     # TODO change the saved weights names !!
     if pc.SAVE_CNN_WEIGHTS:
-        shit_name = 'shit_weight_name.h5'
+        shit_name = 'cnn_model_weights_bn_clr_0.h5'
         name_weights = shit_name
         model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, name_weights))
 
     if pc.SAVE_CNN_MODEL:
-        shit_name = 'shit_model_name.h5'
+        shit_name = 'cnn_model_bn_clr_0.h5'
         name_model = shit_name
         model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, name_model))
-
 
     del model
     return test_confusion_matrix

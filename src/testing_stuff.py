@@ -6,6 +6,8 @@ from keras.layers import Dense, Dropout, Activation, LSTM, Embedding, Input
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 import numpy as np
 from PIL import Image
+from keras.models import load_model
+import project_constants as pc
 
 
 def test_data_pipeline():
@@ -180,5 +182,13 @@ def test_multiple_inputs():
 
     model = Model(inputs=[main_input, auxiliary_input], outputs=[main_output, auxiliary_output])
 
-# get_version()
-test_multiple_inputs()
+
+def test_load_model():
+    model_location = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, 'cnn_model.h5')
+    model = load_model(model_location)
+    print('Model loaded.')
+
+    model.summary()
+
+
+test_load_model()
