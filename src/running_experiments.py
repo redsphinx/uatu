@@ -96,10 +96,10 @@ def experiment_10(data):
 
 
 def experiment_11(data):
-    experiment_name = 'simple CNN, no BN, no CLR. start with 32 filters. test to see if we can decrease number of filters.'
+    experiment_name = 'save simple CNN with 1D filters, no BN, no CLR. start with 32 filters. test to see if we can decrease number of filters.'
     print('experiment: %s' % experiment_name)
-    iterations = 5
-    cnn.super_main(experiment_name, data, iterations, do_dropout=False)
+    iterations = 1
+    cnn.super_main(experiment_name, data, iterations)
 
 
 def main():

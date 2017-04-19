@@ -66,6 +66,51 @@ def create_base_network_simple(train_data_):
     return model
 
 
+def create_base_network_1d_filter(train_data_):
+    model = Sequential()
+    model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1_1',
+                     trainable=pc.TRAIN_CNN))
+    model.add(Activation('relu'))
+    model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1', trainable=pc.TRAIN_CNN))
+    model.add(Activation('relu'))
+    model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1', trainable=pc.TRAIN_CNN))
+    model.add(Activation('relu'))
+    model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1', trainable=pc.TRAIN_CNN))
+    model.add(Activation('relu'))
+    model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1', trainable=pc.TRAIN_CNN))
+    model.add(Activation('relu'))
+    model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1', trainable=pc.TRAIN_CNN))
+    model.add(Activation('relu'))
+    model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1', trainable=pc.TRAIN_CNN))
+    model.add(Activation('relu'))
+    model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2', trainable=pc.TRAIN_CNN))
+    model.add(Activation('relu'))
+
+    if pc.TRANSFER_LEARNING:
+        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, 'cnn_model_weights_simple_1D_filters_16.h5'),
+                           by_name=True)
+
+    return model
+
+
 def create_base_network_with_BN(train_data_):
     model = Sequential()
     model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1_1', 

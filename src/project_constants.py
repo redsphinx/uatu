@@ -48,8 +48,8 @@ LOGGING = True
 SIMILARITY_METRIC = 'fc_layers'
 TEST_DATA_SIZE = 150
 NUM_SIAMESE_HEADS = 2
-SAVE_CNN_WEIGHTS = False
-SAVE_CNN_MODEL = False
+SAVE_CNN_WEIGHTS = True
+SAVE_CNN_MODEL = True
 
 SAVE_LOCATION_MODEL_WEIGHTS = '/home/gabi/PycharmProjects/uatu/model_weights'
 

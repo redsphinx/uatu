@@ -687,23 +687,34 @@ def fix_NICTA(name):
                 new_img.save(filename)
 
 
+def make_batch_queue(data_size, batch_size):
+    if not data_size > batch_size:
+        print('Error: train_size smaller than batch_size')
+        return
+
+    rest = data_size
+    queue = []
+    while rest > batch_size:
+        queue.append(batch_size)
+        rest = rest - batch_size
+    queue.append(rest)
+    return queue
+
+
 # todo IMPORTANT: loaded_data_list has to contain the full path to the image
-def dynamically_load(loaded_data_list, step, batch_size):
-    data_array = np.zeros((((step + 1) * batch_size) - (step * batch_size),
-                           pc.NUM_SIAMESE_HEADS, pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT, pc.NUM_CHANNELS))
+def dynamic_data_load(total_data_list_pos, total_data_list_neg, batch_size, val_percent, test_percent, epochs):
+    total = len(total_data_list_pos)*2
+    test_size = total * test_percent
+    val_size = total * val_percent
+    train_size = total - test_size - val_size
+    batch_queue = make_batch_queue(train_size, batch_size)
 
-    labels = []
+    total_neg = len(total_data_list_neg)
 
-    return data_array
 
+def generate_batches(total_data_list_pos, total_data_list_neg, batch_size, val_percent, test_percent, epochs):
     pass
 
-
-def generate_data_batch_siamese(step, batch_size, loaded_data_list):
-    data_array, labels = dynamically_load(loaded_data_list, step, batch_size)
-    images_1 = data_array[:, 0]
-    images_2 = data_array[:, 1]
-    return [images_1, images_2, labels]
 
 
 def load_NICTA():

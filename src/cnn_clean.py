@@ -44,7 +44,53 @@ def cnn_model(train_data):
     return model
 
 
-def cnn_model_2d_conv_1d_filters(train_data, do_dropout):
+def cnn_model_2d_conv_1d_filters(train_data):
+    model = Sequential()
+    model.add(Conv2D(16*2, kernel_size=(1, 3), padding='same', input_shape=train_data.shape[1:], name='conv_1_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(16*2, kernel_size=(3, 1), padding='same', name='conv_1_2'))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(32*2, kernel_size=(1, 3), padding='same', name='conv_2_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(32*2, kernel_size=(3, 1), padding='same', name='conv_2_2'))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(64*2, kernel_size=(1, 3), padding='same', name='conv_3_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(64*2, kernel_size=(3, 1), padding='same', name='conv_3_2'))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(128*2, kernel_size=(1, 3), padding='same', name='conv_4_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(128*2, kernel_size=(3, 1), padding='same', name='conv_4_2'))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(256*2, kernel_size=(1, 3), padding='same', name='conv_5_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(256*2, kernel_size=(3, 1), padding='same', name='conv_5_2'))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(512*2, kernel_size=(1, 3), padding='same', name='conv_6_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(512*2, kernel_size=(3, 1), padding='same', name='conv_6_2'))
+    model = add_activation_and_relu(model)
+
+    model.add(Conv2D(1024*2, kernel_size=(1, 3), padding='same', name='conv_7_1'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(1024*2, kernel_size=(3, 1), padding='same', name='conv_7_2'))
+    model.add(Activation('relu'))
+
+    model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
+    model.add(Flatten(name='cnn_flat'))
+    model.add(Dense(512))
+    model.add(Dense(pc.NUM_CLASSES))
+    model.add(Activation('softmax'))
+
+    return model
+
+
+def cnn_model_2d_conv_1d_filters_BN(train_data, do_dropout):
     model = Sequential()
     model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data.shape[1:], name='conv_1_1', use_bias=pc.USE_BIAS))
     model.add(Activation('relu'))
@@ -106,11 +152,11 @@ def cnn_model_2d_conv_1d_filters(train_data, do_dropout):
     return model
 
 
-def main(experiment_name, data, do_dropout):
+def main(experiment_name, data):
     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
 
     # model = cnn_model_2d_conv_1d_filters(train_data, do_dropout)
-    model = cnn_model(train_data)
+    model = cnn_model_2d_conv_1d_filters(train_data)
 
     if pc.VERBOSE:
         print(model.summary())
@@ -122,17 +168,20 @@ def main(experiment_name, data, do_dropout):
                   metrics=['accuracy'])
 
     # TODO implement dynamic loading of data
-    '''
 
-    total_data = len(train_labels) / batch_size
-    for epoch in range(pc.NUM_EPOCHS):
-        for step in range(0, total_data):
-            [train_images_1, train_images_2, train_labels] = pu.generate_data_batch_siamese(
-            train_data_list, step, batch_size)
-            model.fit()
-    '''
 
-    clr_triangular = CyclicLR(mode='exp_range', step_size=(np.shape(train_data)[0]/pc.BATCH_SIZE)*8)
+    # create a validation and test set outside of the epochs
+    # for epoch in range(pc.NUM_EPOCHS):
+    #     train_data_batch, train_label_batch, validation_data_batch, validation_label_batch = pu.generate_batches(pc.BATCH_SIZE)
+    #     model.fit(train_data_batch,
+    #               train_label_batch,
+    #               batch_size=pc.BATCH_SIZE,
+    #               epochs=1,
+    #               validation_data=(validation_data_batch, validation_label_batch))
+    #
+
+
+    # clr_triangular = CyclicLR(mode='exp_range', step_size=(np.shape(train_data)[0]/pc.BATCH_SIZE)*8)
 
     model.fit(train_data,
               train_labels,
@@ -148,12 +197,12 @@ def main(experiment_name, data, do_dropout):
     # save model
     # TODO change the saved weights names !!
     if pc.SAVE_CNN_WEIGHTS:
-        shit_name = 'cnn_model_weights_simple.h5'
+        shit_name = 'cnn_model_weights_simple_1D_filters_32.h5'
         name_weights = shit_name
         model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, name_weights))
 
     if pc.SAVE_CNN_MODEL:
-        shit_name = 'cnn_model_simple.h5'
+        shit_name = 'cnn_model_simple_1D_filters_32.h5'
         name_model = shit_name
         model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, name_model))
 
@@ -161,12 +210,12 @@ def main(experiment_name, data, do_dropout):
     return test_confusion_matrix
 
 
-def super_main(experiment_name, data, iterations, do_dropout):
+def super_main(experiment_name, data, iterations):
     accs = np.zeros((iterations, 4))
 
     start = time.time()
     for iter in range(0, iterations):
-        accs[iter] = main(experiment_name, data, do_dropout)
+        accs[iter] = main(experiment_name, data)
     stop = time.time()
 
     total_time = stop - start
