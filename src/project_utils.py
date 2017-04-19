@@ -275,31 +275,12 @@ def load_viper_data_in_array(data):
 
 # loads the viper dataset for use in a person re-id setting in a siamese network
 def load_viper(val_pos, test_pos):
-    path_validation = 'validation_data_viper.txt'
-    path_test = 'test_data_viper.txt'
-    path_train = 'train_data_viper.txt'
+    path_validation = os.path.join(pc.SAVE_LOCATION_VIPER_CUHK, 'validation_data_viper.txt')
+    path_test = os.path.join(pc.SAVE_LOCATION_VIPER_CUHK,'test_data_viper.txt')
+    path_train = os.path.join(pc.SAVE_LOCATION_VIPER_CUHK,'train_data_viper.txt')
 
     # if validation file doesn't exist assume the other files don't exist either
-    if os.path.exists(path_validation):
-        print('loading viper data from files')
-
-        train_data = list(csv.reader(np.genfromtxt(path_train, dtype=None)))
-        validation_data = list(csv.reader(np.genfromtxt(path_validation, dtype=None)))
-        test_data = list(csv.reader(np.genfromtxt(path_test, dtype=None)))
-
-        train_labels = make_labels_viper(train_data)
-        validation_labels = make_labels_viper(validation_data)
-        test_labels = make_labels_viper(test_data)
-
-        train_data_array = load_viper_data_in_array(train_data)
-        validation_data_array = load_viper_data_in_array(validation_data)
-        test_data_array = load_viper_data_in_array(test_data)
-
-        return [train_data_array, train_labels, validation_data_array, validation_labels,
-                test_data_array, test_labels]
-
-
-    else:
+    if not os.path.exists(path_validation):
         print('creating viper data')
         positive_combo_list = np.genfromtxt('/home/gabi/Documents/datasets/VIPeR/padded/pairings_pos.txt', dtype=None).tolist()
         negative_combo_list = np.genfromtxt('/home/gabi/Documents/datasets/VIPeR/padded/pairings_neg.txt', dtype=None).tolist()
@@ -314,8 +295,8 @@ def load_viper(val_pos, test_pos):
         all_list = positive_combo_list + negative_combo_list_
         random.shuffle(all_list)
 
-        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=50)
-        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=50)
+        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=100)
+        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=100)
         train_data = all_list
 
         random.shuffle(test_data)
@@ -326,24 +307,39 @@ def load_viper(val_pos, test_pos):
         print('validation: ' + str(analyze_data_set(validation_data)))
         print('train: ' + str(analyze_data_set(train_data)))
 
-        validation_data_text = 'validation_data_viper.txt'
+        validation_data_text = path_validation
         with open(validation_data_text, 'wr') as my_file:
             for line in range(0, len(validation_data)):
                 my_file.write(str(validation_data[line]) + '\n')
 
-        test_data_text = 'test_data_viper.txt'
+        test_data_text = path_test
         with open(test_data_text, 'wr') as my_file:
             for line in range(0, len(test_data)):
                 my_file.write(str(test_data[line]) + '\n')
 
-        train_data_text = 'train_data_viper.txt'
+        train_data_text = path_train
         with open(train_data_text, 'wr') as my_file:
             for line in range(0, len(train_data)):
                 my_file.write(str(train_data[line]) + '\n')
 
-        load_viper(val_pos, test_pos)
+        del train_data, test_data, validation_data, positive_combo_list, negative_combo_list, all_list
 
-    pass
+    print('loading viper data from files')
+
+    train_data = list(csv.reader(np.genfromtxt(path_train, dtype=None)))
+    validation_data = list(csv.reader(np.genfromtxt(path_validation, dtype=None)))
+    test_data = list(csv.reader(np.genfromtxt(path_test, dtype=None)))
+
+    train_labels = make_labels_viper(train_data)
+    validation_labels = make_labels_viper(validation_data)
+    test_labels = make_labels_viper(test_data)
+
+    train_data_array = load_viper_data_in_array(train_data)
+    validation_data_array = load_viper_data_in_array(validation_data)
+    test_data_array = load_viper_data_in_array(test_data)
+
+    return [train_data_array, train_labels, validation_data_array, validation_labels,
+            test_data_array, test_labels]
 
 
 def flip_labels(labels):
@@ -528,31 +524,12 @@ def load_cuhk1_data_in_array(data):
 
 
 def load_cuhk1(val_pos, test_pos):
-    path_validation = 'validation_data_cuhk1.txt'
-    path_test = 'test_data_cuhk1.txt'
-    path_train = 'train_data_cuhk1.txt'
-
-    # if validation file doesn't exist assume the other files don't exist either
-    if os.path.exists(path_validation):
-        print('loading cuhk1 data from files')
-
-        train_data = list(csv.reader(np.genfromtxt(path_train, dtype=None)))
-        validation_data = list(csv.reader(np.genfromtxt(path_validation, dtype=None)))
-        test_data = list(csv.reader(np.genfromtxt(path_test, dtype=None)))
-
-        train_labels = make_labels_cuhk1(train_data)
-        validation_labels = make_labels_cuhk1(validation_data)
-        test_labels = make_labels_cuhk1(test_data)
-
-        train_data_array = load_cuhk1_data_in_array(train_data)
-        validation_data_array = load_cuhk1_data_in_array(validation_data)
-        test_data_array = load_cuhk1_data_in_array(test_data)
-
-        return [train_data_array, train_labels, validation_data_array, validation_labels,
-                test_data_array, test_labels]
+    path_validation = os.path.join(pc.SAVE_LOCATION_VIPER_CUHK,'validation_data_cuhk1.txt')
+    path_test = os.path.join(pc.SAVE_LOCATION_VIPER_CUHK,'test_data_cuhk1.txt')
+    path_train = os.path.join(pc.SAVE_LOCATION_VIPER_CUHK,'train_data_cuhk1.txt')
 
 
-    else:
+    if not os.path.exists(path_validation):
         print('creating cuhk1 data')
         positive_combo_list = np.genfromtxt('/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/pairings_pos.txt',
                                             dtype=None).tolist()
@@ -570,8 +547,8 @@ def load_cuhk1(val_pos, test_pos):
         all_list = positive_combo_list + negative_combo_list_
         random.shuffle(all_list)
 
-        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=100)
-        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=100)
+        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=200)
+        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=200)
         train_data = all_list
 
         random.shuffle(test_data)
@@ -584,22 +561,41 @@ def load_cuhk1(val_pos, test_pos):
 
         print('writing cuhk1 names to file')
 
-        validation_data_text = 'validation_data_cuhk1.txt'
+        validation_data_text = path_validation
         with open(validation_data_text, 'wr') as my_file:
             for line in range(0, len(validation_data)):
                 my_file.write(str(validation_data[line]) + '\n')
 
-        test_data_text = 'test_data_cuhk1.txt'
+        test_data_text = path_test
         with open(test_data_text, 'wr') as my_file:
             for line in range(0, len(test_data)):
                 my_file.write(str(test_data[line]) + '\n')
 
-        train_data_text = 'train_data_cuhk1.txt'
+        train_data_text = path_train
         with open(train_data_text, 'wr') as my_file:
             for line in range(0, len(train_data)):
                 my_file.write(str(train_data[line]) + '\n')
 
-        load_cuhk1(val_pos, test_pos)
+        del train_data, test_data, validation_data, positive_combo_list, negative_combo_list, all_list
+
+    # if validation file doesn't exist assume the other files don't exist either
+
+    print('loading cuhk1 data from files')
+
+    train_data = list(csv.reader(np.genfromtxt(path_train, dtype=None)))
+    validation_data = list(csv.reader(np.genfromtxt(path_validation, dtype=None)))
+    test_data = list(csv.reader(np.genfromtxt(path_test, dtype=None)))
+
+    train_labels = make_labels_cuhk1(train_data)
+    validation_labels = make_labels_cuhk1(validation_data)
+    test_labels = make_labels_cuhk1(test_data)
+
+    train_data_array = load_cuhk1_data_in_array(train_data)
+    validation_data_array = load_cuhk1_data_in_array(validation_data)
+    test_data_array = load_cuhk1_data_in_array(test_data)
+
+    return [train_data_array, train_labels, validation_data_array, validation_labels,
+            test_data_array, test_labels]
 
 
 def load_viper_cuhk1():

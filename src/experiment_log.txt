@@ -942,3 +942,171 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [ 1118.    49.  1302.    12.]
 mean_accuracy:              0.975413
 
+
+name_of_experiment:         training SCN network on the new CNN weights, clr mode=triangular
+file_name:                  siamese_cnn_clean.pyc
+date:                       18/04/2017   21:51:28
+duration:                   9452.867188
+data_set:                   VIPeR, CUHK1
+iterations:                 10
+start_learning_rate:        0.001000
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     40
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  13.   115.9   19.1    2. ]
+mean_accuracy:              0.214000
+
+
+name_of_experiment:         training SCN network on the new CNN weights, clr mode=triangular2
+file_name:                  siamese_cnn_clean.pyc
+date:                       19/04/2017   00:32:52
+duration:                   9684.125397
+data_set:                   VIPeR, CUHK1
+iterations:                 10
+start_learning_rate:        0.001000
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     40
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  7.5  72.9  62.1   7.5]
+mean_accuracy:              0.464000
+
+
+name_of_experiment:         training SCN network on the new CNN weights, clr mode=exp_range
+file_name:                  siamese_cnn_clean.pyc
+date:                       19/04/2017   03:18:00
+duration:                   9907.885412
+data_set:                   VIPeR, CUHK1
+iterations:                 10
+start_learning_rate:        0.001000
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     40
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  13.4  123.1   11.9    1.6]
+mean_accuracy:              0.168667
+
+
+name_of_experiment:         training SCN network on the new CNN weights, no clr, high LR
+file_name:                  siamese_cnn_clean.pyc
+date:                       19/04/2017   10:27:04
+duration:                   1768.007850
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+start_learning_rate:        0.001000
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     15
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  8.8  74.6  60.4   6.2]
+mean_accuracy:              0.461333
+
+
+name_of_experiment:         training SCN network on the new CNN weights, no clr, lower LR
+file_name:                  siamese_cnn_clean.pyc
+date:                       19/04/2017   10:45:43
+duration:                   1056.903044
+data_set:                   VIPeR, CUHK1
+iterations:                 3
+start_learning_rate:        0.000100
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     15
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  9.          70.33333333  64.66666667   6.        ]
+mean_accuracy:              0.491111
+
+
+name_of_experiment:         training SCN network on the new CNN weights, no clr, more lower LR
+file_name:                  siamese_cnn_clean.py
+date:                       19/04/2017   11:11:55
+duration:                   1066.799229
+data_set:                   VIPeR, CUHK1
+iterations:                 3
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     15
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  6.  53.  82.   9.]
+mean_accuracy:              0.586667
+
+
+name_of_experiment:         training SCN network on the new CNN weights, no clr, even lower LR
+file_name:                  siamese_cnn_clean.pyc
+date:                       19/04/2017   11:32:05
+duration:                   1058.108354
+data_set:                   VIPeR, CUHK1
+iterations:                 3
+start_learning_rate:        0.000005
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     15
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  11.33333333  104.66666667   30.33333333    3.66666667]
+mean_accuracy:              0.277778
+
+
+name_of_experiment:         training SCN, clr triangular2 with adapted parameters, no batchnorm, new data partitions, 0.45 - 0.1 pos
+file_name:                  siamese_cnn_clean.pyc
+date:                       19/04/2017   13:12:09
+duration:                   1482.302400
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  12.   108.4  161.6   18. ]
+mean_accuracy:              0.578667
+

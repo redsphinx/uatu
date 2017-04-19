@@ -43,21 +43,20 @@ os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 
 def alt_create_fc(inputs):
-    dense_layer = Dense(512)(inputs)
-    norm = BatchNormalization()(dense_layer)
-    dense_layer = Dense(1024)(norm)
-    norm = BatchNormalization()(dense_layer)
-    output_layer = Dense(pc.NUM_CLASSES)(norm)
-    softmax = Activation('softmax')(output_layer)
-    return softmax
-
-    # dense_layer = Dense(512, activation='relu') (inputs)
-    # dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
-    # dense_layer = Dense(1024, activation='relu')(dropout_layer)
-    # dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
-    # output_layer = Dense(pc.NUM_CLASSES) (dropout_layer)
+    # dense_layer = Dense(512)(inputs)
+    # norm = BatchNormalization()(dense_layer)
+    # dense_layer = Dense(1024)(norm)
+    # norm = BatchNormalization()(dense_layer)
+    # output_layer = Dense(pc.NUM_CLASSES)(norm)
     # softmax = Activation('softmax')(output_layer)
-    # return  softmax
+    # return softmax
+    dense_layer = Dense(512, activation='relu') (inputs)
+    dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
+    dense_layer = Dense(1024, activation='relu')(dropout_layer)
+    dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
+    output_layer = Dense(pc.NUM_CLASSES) (dropout_layer)
+    softmax = Activation('softmax')(output_layer)
+    return  softmax
 
 
 def add_activation_and_relu(model):
@@ -68,54 +67,55 @@ def add_activation_and_relu(model):
 
 def create_base_network(train_data_):
     model = Sequential()
-    model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1_1', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_1', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1_1', 
+                     use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_1', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_2', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_2', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
 
-    model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_3', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_3', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_4', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_4', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_5', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_5', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_6', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_6', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_7', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_7', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_8', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_8', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_9', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_9', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_10', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_10', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_11', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_11', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_12', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_12', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_13', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_13', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2', use_bias=False, trainable=pc.TRAIN_CNN))
-    model.add(BatchNormalization(name='bn_14', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
+    # model.add(BatchNormalization(name='bn_14', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
 
     model.add(Flatten(name='cnn_flat'))
@@ -180,14 +180,14 @@ def confusion_matrix(name, predictions, labels, verbose=False):
     return matrix
 
 
-def main(data, clr_mode):
+def main(data):
     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
 
     train_data_ = train_data[:, 0, ...]
 
     model = create_siamese(train_data_)
 
-    clr_triangular = CyclicLR(mode=clr_mode)
+    clr_triangular = CyclicLR(mode='triangular2', base_lr=0.00001, max_lr=0.00005, step_size=(np.shape(train_data)[0]/pc.BATCH_SIZE)*8)
 
     if pc.SIMILARITY_METRIC == 'fc_layers':
         nadam = optimizers.Nadam(lr=pc.START_LEARNING_RATE, schedule_decay=pc.DECAY_RATE)
@@ -195,7 +195,6 @@ def main(data, clr_mode):
 
         #TODO implement dynamic loading of data
         '''
-
         total_data = len(train_labels) / batch_size
         for epoch in range(pc.NUM_EPOCHS):
             for step in range(0, total_data):
@@ -208,16 +207,15 @@ def main(data, clr_mode):
                   batch_size=pc.BATCH_SIZE,
                   epochs=pc.NUM_EPOCHS,
                   validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
-                  callbacks=[clr_triangular],
-                  verbose=2)
+                  verbose=2,
+                  callbacks=[clr_triangular])
     elif pc.SIMILARITY_METRIC == 'euclid':
         rms = RMSprop()
         model.compile(loss=contrastive_loss, optimizer=rms)
         model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
                   batch_size=pc.BATCH_SIZE,
                   epochs=pc.NUM_EPOCHS,
-                  validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
-                  callbacks=[clr_triangular])
+                  validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels))
 
     tr_pred = model.predict([train_data[:, 0], train_data[:, 1]])
     tr_matrix = confusion_matrix('Training', tr_pred, train_labels)
@@ -230,28 +228,26 @@ def main(data, clr_mode):
 
     # delete objects else we run out of memory
     del model
-    return (tr_matrix, va_matrix, te_matrix)
+    accuracy = (te_matrix[0] + te_matrix[2]) * 1.0 / (sum(te_matrix) * 1.0)
+    print('accuracy = %0.2f, confusion matrix = %s' %(accuracy, str(te_matrix)))
+    return te_matrix
 
 
-def super_main(experiment_name, data, iterations, clr_mode):
-    accs = np.zeros((iterations, 3, 4))
+def super_main(experiment_name, data, iterations):
+    accs = np.zeros((iterations, 4))
 
     start = time.time()
     for iter in range(0, iterations):
-        accs[iter] = main(data, clr_mode)
+        accs[iter] = main(data)
     stop = time.time()
 
     total_time = stop - start
 
-    test_mat = np.zeros((iterations, 4))
-
     print('\nTP    FP    TN    FN')
-    for item in range(0, len(accs)):
-        test_mat[item] = accs[item, 2]
-        print(test_mat[item])
+    print(accs)
 
     print('mean values:')
-    mean = np.mean(test_mat, axis=0)
+    mean = np.mean(accs, axis=0)
     print(mean)
 
     # TODO: TURN ON if you want to log results!!

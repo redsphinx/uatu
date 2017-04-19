@@ -88,6 +88,13 @@ def experiment_9(data):
     scn.super_main(experiment_name, data, iterations, clr_mode)
 
 
+def experiment_10(data):
+    experiment_name = 'training SCN, clr triangular2 with blr=0.00001,mlr=0.00005, no batchnorm, new data partitions, 0.3 - 0.1 pos'
+    print('experiment: %s' % experiment_name)
+    iterations = 2
+    scn.super_main(experiment_name, data, iterations)
+
+
 def main():
     # data loading, so it happens only once
     # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
@@ -96,9 +103,7 @@ def main():
 
     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_scn_data()
     data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
-    experiment_7(data)
-    experiment_8(data)
-    experiment_9(data)
+    experiment_10(data)
 
     # centered_train_data = pre.center(train_data)
     # centered_test_data = pre.center(test_data)
