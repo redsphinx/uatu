@@ -295,8 +295,8 @@ def load_viper(val_pos, test_pos):
         all_list = positive_combo_list + negative_combo_list_
         random.shuffle(all_list)
 
-        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=100)
-        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=100)
+        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=200)
+        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=200)
         train_data = all_list
 
         random.shuffle(test_data)
@@ -547,8 +547,8 @@ def load_cuhk1(val_pos, test_pos):
         all_list = positive_combo_list + negative_combo_list_
         random.shuffle(all_list)
 
-        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=200)
-        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=200)
+        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=400)
+        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=400)
         train_data = all_list
 
         random.shuffle(test_data)

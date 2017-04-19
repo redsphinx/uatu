@@ -19,29 +19,6 @@ import time
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
-# load the data
-# [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_viper_cuhk1()
-# # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_viper(val_pos=0.3, test_pos=0.1)
-#
-# train_data = np.asarray(train_data)
-# train_labels = np.asarray(train_labels)
-# test_data = np.asarray(test_data)
-# test_labels = np.asarray(test_labels)
-# validation_data = np.asarray(validation_data)
-# validation_labels = np.asarray(validation_labels)
-#
-# train_labels = train_labels.astype(np.int64)
-# validation_labels = validation_labels.astype(np.int64)
-# test_labels = test_labels.astype(np.int64)
-#
-# train_labels = keras.utils.to_categorical(train_labels, pc.NUM_CLASSES)
-# validation_labels = keras.utils.to_categorical(validation_labels, pc.NUM_CLASSES)
-# test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
-#
-# # to use as the input shape later on
-# train_data_ = train_data[:, 0, ...]
-
-
 def alt_create_fc(inputs):
     # dense_layer = Dense(512)(inputs)
     # norm = BatchNormalization()(dense_layer)
@@ -65,63 +42,86 @@ def add_activation_and_relu(model):
     return model
 
 
-def create_base_network(train_data_):
+def create_base_network_simple(train_data_):
+    model = Sequential()
+    model.add(Conv2D(32, kernel_size=(3, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(Conv2D(64, kernel_size=(3, 3), padding='same', name='conv_2', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(Conv2D(128, kernel_size=(3, 3), padding='same', name='conv_3', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(Conv2D(256, kernel_size=(3, 3), padding='same', name='conv_4', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(Conv2D(512, kernel_size=(3, 3), padding='same', name='conv_5', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(Conv2D(1024, kernel_size=(3, 3), padding='same', name='conv_6', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(Conv2D(2048, kernel_size=(3, 3), padding='same', name='conv_7', trainable=pc.TRAIN_CNN))
+    model.add(Activation('relu'))
+    model.add(Flatten(name='cnn_flat'))
+
+    if pc.TRANSFER_LEARNING:
+        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, 'cnn_model_weights_simple.h5'), by_name=True)
+
+    return model
+
+
+def create_base_network_with_BN(train_data_):
     model = Sequential()
     model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1_1', 
                      use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_1', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_1', trainable=pc.TRAIN_CNN))
     model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_2', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
-
+    model.add(BatchNormalization(name='bn_2', trainable=pc.TRAIN_CNN))
 
     model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_3', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_3', trainable=pc.TRAIN_CNN))
     model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_4', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_4', trainable=pc.TRAIN_CNN))
 
     model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_5', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_5', trainable=pc.TRAIN_CNN))
     model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_6', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_6', trainable=pc.TRAIN_CNN))
 
     model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_7', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_7', trainable=pc.TRAIN_CNN))
     model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_8', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_8', trainable=pc.TRAIN_CNN))
 
     model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_9', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_9', trainable=pc.TRAIN_CNN))
     model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_10', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_10', trainable=pc.TRAIN_CNN))
 
     model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_11', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_11', trainable=pc.TRAIN_CNN))
     model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_12', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_12', trainable=pc.TRAIN_CNN))
 
     model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_13', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_13', trainable=pc.TRAIN_CNN))
     model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    # model.add(BatchNormalization(name='bn_14', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_14', trainable=pc.TRAIN_CNN))
 
     model.add(Flatten(name='cnn_flat'))
 
     if pc.TRANSFER_LEARNING:
-        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, 'cnn_model_weights_bn_clr_0.h5'), by_name=True)
+        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, 'cnn_model_weights_bn_clr_1_bias.h5'), by_name=True)
 
     return model
 
@@ -154,7 +154,7 @@ def compute_accuracy(predictions, labels):
 def create_siamese(train_data_):
     input_a = Input(shape=(train_data_.shape[1:]))
     input_b = Input(shape=(train_data_.shape[1:]))
-    base_network = create_base_network(train_data_)
+    base_network = create_base_network_simple(train_data_)
 
     processed_a = base_network(input_a)
     processed_b = base_network(input_b)
@@ -187,7 +187,7 @@ def main(data):
 
     model = create_siamese(train_data_)
 
-    clr_triangular = CyclicLR(mode='triangular2', base_lr=0.00001, max_lr=0.00005, step_size=(np.shape(train_data)[0]/pc.BATCH_SIZE)*8)
+    # clr_triangular = CyclicLR(mode='triangular2', base_lr=0.00001, max_lr=0.00002, step_size=(np.shape(train_data)[0]/pc.BATCH_SIZE)*8)
 
     if pc.SIMILARITY_METRIC == 'fc_layers':
         nadam = optimizers.Nadam(lr=pc.START_LEARNING_RATE, schedule_decay=pc.DECAY_RATE)
@@ -207,8 +207,7 @@ def main(data):
                   batch_size=pc.BATCH_SIZE,
                   epochs=pc.NUM_EPOCHS,
                   validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
-                  verbose=2,
-                  callbacks=[clr_triangular])
+                  verbose=2)
     elif pc.SIMILARITY_METRIC == 'euclid':
         rms = RMSprop()
         model.compile(loss=contrastive_loss, optimizer=rms)
@@ -216,12 +215,6 @@ def main(data):
                   batch_size=pc.BATCH_SIZE,
                   epochs=pc.NUM_EPOCHS,
                   validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels))
-
-    tr_pred = model.predict([train_data[:, 0], train_data[:, 1]])
-    tr_matrix = confusion_matrix('Training', tr_pred, train_labels)
-
-    va_pred = model.predict([validation_data[:, 0], validation_data[:, 1]])
-    va_matrix = confusion_matrix('Validation', va_pred, validation_labels)
 
     te_pred = model.predict([test_data[:, 0], test_data[:, 1]])
     te_matrix = confusion_matrix('Testing', te_pred, test_labels)
@@ -253,9 +246,7 @@ def super_main(experiment_name, data, iterations):
     # TODO: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)
-        # experiment_name = 'CNN weights trained with more data'
         dataset_name = 'VIPeR, CUHK1'
         pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name, total_time)
 
 
-# super_main()

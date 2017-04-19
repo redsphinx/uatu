@@ -12,24 +12,9 @@ import numpy as np
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 
-# def initialize():
-#     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.load_inria_nicta()
-#
-#     train_data = np.asarray(train_data)
-#     validation_data = np.asarray(validation_data)
-#     test_data = np.asarray(test_data)
-#
-#     train_labels = keras.utils.to_categorical(train_labels, pc.NUM_CLASSES)
-#     validation_labels = keras.utils.to_categorical(validation_labels, pc.NUM_CLASSES)
-#     test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
-#     print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
-#     return [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
-#
-
 def add_activation_and_relu(model):
     model.add(Activation('relu'))
     model.add(MaxPool2D(pool_size=(2, 2)))
-    # model.add(BatchNormalization())
     return model
 
 
@@ -61,73 +46,72 @@ def cnn_model(train_data):
 
 def cnn_model_2d_conv_1d_filters(train_data, do_dropout):
     model = Sequential()
-    model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data.shape[1:], name='conv_1_1', use_bias=False))
+    model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data.shape[1:], name='conv_1_1', use_bias=pc.USE_BIAS))
+    model.add(Activation('relu'))
     model.add(BatchNormalization(name='bn_1'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2', use_bias=False))
+    model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2', use_bias=pc.USE_BIAS))
+    model = add_activation_and_relu(model)
     model.add(BatchNormalization(name='bn_2'))
-    model = add_activation_and_relu(model)
 
-
-    model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1', use_bias=False))
+    model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1', use_bias=pc.USE_BIAS))
+    model.add(Activation('relu'))
     model.add(BatchNormalization(name='bn_3'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2', use_bias=False))
+    model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2', use_bias=pc.USE_BIAS))
+    model = add_activation_and_relu(model)
     model.add(BatchNormalization(name='bn_4'))
-    model = add_activation_and_relu(model)
 
-    model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1', use_bias=False))
+    model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1', use_bias=pc.USE_BIAS))
+    model.add(Activation('relu'))
     model.add(BatchNormalization(name='bn_5'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2', use_bias=False))
+    model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2', use_bias=pc.USE_BIAS))
+    model = add_activation_and_relu(model)
     model.add(BatchNormalization(name='bn_6'))
-    model = add_activation_and_relu(model)
 
-    model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1', use_bias=False))
+    model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1', use_bias=pc.USE_BIAS))
+    model.add(Activation('relu'))
     model.add(BatchNormalization(name='bn_7'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2', use_bias=False))
+    model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2', use_bias=pc.USE_BIAS))
+    model = add_activation_and_relu(model)
     model.add(BatchNormalization(name='bn_8'))
-    model = add_activation_and_relu(model)
 
-    model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1', use_bias=False))
+    model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1', use_bias=pc.USE_BIAS))
+    model.add(Activation('relu'))
     model.add(BatchNormalization(name='bn_9'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2', use_bias=False))
+    model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2', use_bias=pc.USE_BIAS))
+    model = add_activation_and_relu(model)
     model.add(BatchNormalization(name='bn_10'))
-    model = add_activation_and_relu(model)
 
-    model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1', use_bias=False))
+    model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1', use_bias=pc.USE_BIAS))
+    model.add(Activation('relu'))
     model.add(BatchNormalization(name='bn_11'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2', use_bias=False))
-    model.add(BatchNormalization(name='bn_12'))
+    model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2', use_bias=pc.USE_BIAS))
     model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_12'))
 
-    model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1', use_bias=False))
+    model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1', use_bias=pc.USE_BIAS))
+    model.add(Activation('relu'))
     model.add(BatchNormalization(name='bn_13'))
+    model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2', use_bias=pc.USE_BIAS))
     model.add(Activation('relu'))
-    model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2', use_bias=False))
     model.add(BatchNormalization(name='bn_14'))
-    model.add(Activation('relu'))
 
     if do_dropout:
         model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
     model.add(Flatten(name='cnn_flat'))
-    model.add(Dense(512, use_bias=False))
+    model.add(Dense(512, use_bias=pc.USE_BIAS))
     model.add(BatchNormalization(name='bn_15'))
-    model.add(Dense(pc.NUM_CLASSES, use_bias=False))
+    model.add(Dense(pc.NUM_CLASSES, use_bias=pc.USE_BIAS))
     model.add(Activation('softmax'))
 
     return model
 
 
 def main(experiment_name, data, do_dropout):
-    # model = cnn_model()
-    start = time.time()
     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
 
-    model = cnn_model_2d_conv_1d_filters(train_data, do_dropout)
+    # model = cnn_model_2d_conv_1d_filters(train_data, do_dropout)
+    model = cnn_model(train_data)
+
     if pc.VERBOSE:
         print(model.summary())
 
@@ -148,16 +132,14 @@ def main(experiment_name, data, do_dropout):
             model.fit()
     '''
 
-    clr_triangular = CyclicLR(mode='exp_range')
+    clr_triangular = CyclicLR(mode='exp_range', step_size=(np.shape(train_data)[0]/pc.BATCH_SIZE)*8)
 
     model.fit(train_data,
               train_labels,
               batch_size=pc.BATCH_SIZE,
               epochs=pc.NUM_EPOCHS,
               validation_data=(validation_data, validation_labels),
-              verbose=2,
-              callbacks=[clr_triangular])
-    stop = time.time()
+              verbose=2)
     score = model.evaluate(test_data, test_labels)
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
@@ -166,12 +148,12 @@ def main(experiment_name, data, do_dropout):
     # save model
     # TODO change the saved weights names !!
     if pc.SAVE_CNN_WEIGHTS:
-        shit_name = 'cnn_model_weights_bn_clr_0.h5'
+        shit_name = 'cnn_model_weights_simple.h5'
         name_weights = shit_name
         model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, name_weights))
 
     if pc.SAVE_CNN_MODEL:
-        shit_name = 'cnn_model_bn_clr_0.h5'
+        shit_name = 'cnn_model_simple.h5'
         name_model = shit_name
         model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, name_model))
 

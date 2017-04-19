@@ -57,7 +57,7 @@ def experiment_5(data):
 
 
 def experiment_6(data):
-    experiment_name = 'saving model: batch normalization, cyclical learning rate, mode=exp_range'
+    experiment_name = 'saving model: batch normalization after relu with bias, cyclical learning rate, mode=exp_range'
     print('experiment: %s' % experiment_name)
     iterations = 1
     cnn.super_main(experiment_name, data, iterations, do_dropout=False)
@@ -89,10 +89,17 @@ def experiment_9(data):
 
 
 def experiment_10(data):
-    experiment_name = 'training SCN, clr triangular2 with blr=0.00001,mlr=0.00005, no batchnorm, new data partitions, 0.3 - 0.1 pos'
+    experiment_name = 'training SCN, no clr, batchnorm on but not trainable'
     print('experiment: %s' % experiment_name)
     iterations = 2
     scn.super_main(experiment_name, data, iterations)
+
+
+def experiment_11(data):
+    experiment_name = 'simple CNN, no BN, no CLR. start with 32 filters. test to see if we can decrease number of filters.'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    cnn.super_main(experiment_name, data, iterations, do_dropout=False)
 
 
 def main():
@@ -101,9 +108,9 @@ def main():
     # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
     # experiment_6(data)
 
-    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_scn_data()
+    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
     data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
-    experiment_10(data)
+    experiment_11(data)
 
     # centered_train_data = pre.center(train_data)
     # centered_test_data = pre.center(test_data)

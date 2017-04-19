@@ -32,14 +32,24 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
-18 april
+19 april
 ------
-. DONE do batch normalization
-. implement cyclical learning rate: https://arxiv.org/pdf/1506.01186.pdf
+. remove CLR, BN and make the model simple again
+. fix issues
+.. when there is no batchnorm in the body, the val_acc and val_loss is the same over all epochs, with or without CLR in the SCN
+.. when CLR is too big the performance of the SCN is horrible ~0.2
+.. figure out the relationships between BN + CLR + optimizer
+.. so far I have trained the CNN using BN + CLR, with and without bias, doing BN after and before relu respectively. I save these weights and init the heads in the SCN with them. Because of a keras issue the BN layers cannot be made 'untrainable'. Or so I thought. It seemed that I was wrong
 . continue make method for dynamically loading data 
 . try out bottlenecks
 . do a better cleanup of utils when there's time
 . do setup experiments batch that send emails
+
+
+18 april
+------
+. DONE do batch normalization
+. DONE implement cyclical learning rate: https://arxiv.org/pdf/1506.01186.pdf
 
 
 14 april

@@ -1110,3 +1110,87 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [  12.   108.4  161.6   18. ]
 mean_accuracy:              0.578667
 
+
+name_of_experiment:         saving model: batch normalization after relu with bias, cyclical learning rate, mode=exp_range
+file_name:                  cnn_clean.py
+date:                       19/04/2017   13:49:16
+duration:                   552.678744
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1083.    25.  1326.    47.]
+mean_accuracy:              0.970979
+
+
+name_of_experiment:         training SCN, clr triangular2 with blr=0.00001,mlr=0.00005, no batchnorm, new data partitions, 0.3 - 0.1 pos
+file_name:                  siamese_cnn_clean.py
+date:                       19/04/2017   14:02:49
+duration:                   326.234641
+data_set:                   VIPeR, CUHK1
+iterations:                 2
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  14.5  159.5  110.5   15.5]
+mean_accuracy:              0.416667
+
+
+name_of_experiment:         training SCN, no clr, batchnorm in the body, new data partitions
+file_name:                  siamese_cnn_clean.py
+date:                       19/04/2017   14:25:25
+duration:                   338.050123
+data_set:                   VIPeR, CUHK1
+iterations:                 2
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  52.  457.   83.    8.]
+mean_accuracy:              0.225000
+
+
+name_of_experiment:         training SCN, no clr, batchnorm on but not trainable
+file_name:                  siamese_cnn_clean.py
+date:                       19/04/2017   14:42:38
+duration:                   462.637300
+data_set:                   VIPeR, CUHK1
+iterations:                 2
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     10
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  45.   401.5  138.5   15. ]
+mean_accuracy:              0.305833
+
