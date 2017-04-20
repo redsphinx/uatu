@@ -1,5 +1,6 @@
 import numpy as np
 import project_constants as pc
+import dynamic_data_loading as ddl
 from PIL import Image
 import os
 import random as rd
@@ -11,6 +12,7 @@ import random
 import csv
 import time
 import keras
+
 
 # recursively transform list into tuple
 def tupconv(lst):
@@ -56,7 +58,6 @@ def crop_INRIA_images(folder_path, width, height):
         img = Image.open(os.path.join(folder_path, image_path))
         img_width, img_height = img.size
 
-
         center_x = img_width / 2
         center_y = img_height / 2
         start_x = center_x - width / 2
@@ -78,14 +79,14 @@ def load_INRIA():
             labels = ['pos', 'neg']
             procedure = 'train_64x128_H96' if train_or_validate == 'train' else 'test_64x128_H96'
             data_list_file = os.path.join(data_list_path, '%s.txt' % train_or_validate)
-            with open(data_list_file, 'wr') as myFile:
+            with open(data_list_file, 'wr') as the_myFile:
                 for label in labels:
                     storage_path = os.path.join(original_data_path, procedure, 'real_cropped_images_' + label)
                     all_items = os.listdir(storage_path)
-                    for item in all_items:
+                    for the_item in all_items:
                         lab = 1 if label == 'pos' else 0
-                        file_name = os.path.join(storage_path, item)
-                        myFile.write(file_name + ',%d\n' % lab)
+                        file_name = os.path.join(storage_path, the_item)
+                        the_myFile.write(file_name + ',%d\n' % lab)
 
         load_data_into_list('train')
         load_data_into_list('validate')
@@ -96,8 +97,8 @@ def load_INRIA():
         validation_list = np.genfromtxt(validation_list_path, dtype=None).tolist()
 
         rd.shuffle(validation_list)
-        validation_data = validation_list[0:len(validation_list) / 2]
-        test_data = validation_list[len(validation_list) / 2:len(validation_list)]
+        validation_data = validation_list[0:np.shape(validation_list)[0] / 2]
+        test_data = validation_list[np.shape(validation_list)[0] / 2:np.shape(validation_list)[0]]
 
         with open(test_list_path, 'wr') as myFile:
             for item in test_data:
@@ -149,37 +150,8 @@ def get_wrong_predictions():
             target = ans[line].split(',')[3]
             prediction = ans[line].split(',')[5]
             if not target == prediction:
-                bla = paths[line].split('/')
                 thing = paths[line].split('/')[-1]
                 copyfile(paths[line], os.path.join(folder, thing))
-
-
-def analyze_data_set(dataset):
-    data_list = list(csv.reader(np.genfromtxt(dataset, dtype=None)))
-    labels = np.asarray([data_list[row][2] for row in range(0, len(data_list))], dtype=int)
-    positives_percentage = np.sum(labels) * 1.0 / len(labels)
-    negatives_percentage = 1.0 - positives_percentage
-    return [positives_percentage, negatives_percentage]
-
-
-def make_specific_balanced_set(dataset, positives_percentage, set_size):
-    data_list = np.asarray(dataset)
-    labels = np.asarray([dataset[row].split(',')[2] for row in range(0, len(dataset))])
-    num_of_positives = positives_percentage * set_size
-    test_data = []
-    new_data_list = []
-    count_pos = 0
-    count_neg = 0
-    for row in range(0, len(data_list)):
-        if labels[row] == '1' and count_pos < num_of_positives:
-            test_data.append(dataset[row])
-            count_pos += 1
-        elif labels[row] == '0' and count_neg < set_size - num_of_positives:
-            test_data.append(dataset[row])
-            count_neg += 1
-        else:
-            new_data_list.append(dataset[row])
-    return test_data, new_data_list
 
 
 # image has to be 64x128, this adds padding
@@ -199,9 +171,9 @@ def fix_viper():
     for folder in cams:
         cam_path = os.path.join(original_folder_path, str(folder))
         padded_cam_path = os.path.join(padded_folder_path, str(folder))
-        for file in os.listdir(cam_path):
-            img = Image.open(os.path.join(cam_path, file))
-            new_img = Image.new('RGB', (pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), (255,255,255))
+        for the_file in os.listdir(cam_path):
+            img = Image.open(os.path.join(cam_path, the_file))
+            new_img = Image.new('RGB', (pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), (255, 255, 255))
 
             img_width, img_height = img.size
             new_img_width, new_img_height = new_img.size
@@ -210,7 +182,7 @@ def fix_viper():
 
             new_img.paste(img, box=(padding_width, padding_height))
 
-            filename = file.split('_')[0] + '.bmp'
+            filename = the_file.split('_')[0] + '.bmp'
             filename = os.path.join(padded_cam_path, filename)
             new_img.save(filename)
 
@@ -271,8 +243,6 @@ def load_viper_data_in_array(data):
     return data_array
 
 
-
-
 # loads the viper dataset for use in a person re-id setting in a siamese network
 def load_viper(val_pos, test_pos):
     path_validation = os.path.join(pc.SAVE_LOCATION_VIPER_CUHK, 'validation_data_viper.txt')
@@ -295,17 +265,17 @@ def load_viper(val_pos, test_pos):
         all_list = positive_combo_list + negative_combo_list_
         random.shuffle(all_list)
 
-        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=200)
-        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=200)
+        test_data, all_list = ddl.make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=200)
+        validation_data, all_list = ddl.make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=200)
         train_data = all_list
 
         random.shuffle(test_data)
         random.shuffle(validation_data)
         random.shuffle(train_data)
 
-        print('test: ' + str(analyze_data_set(test_data)))
-        print('validation: ' + str(analyze_data_set(validation_data)))
-        print('train: ' + str(analyze_data_set(train_data)))
+        print('test: ' + str(ddl.analyze_data_set(test_data)))
+        print('validation: ' + str(ddl.analyze_data_set(validation_data)))
+        print('train: ' + str(ddl.analyze_data_set(train_data)))
 
         validation_data_text = path_validation
         with open(validation_data_text, 'wr') as my_file:
@@ -430,25 +400,25 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
         accuracy = (test_confusion_matrix[0] + test_confusion_matrix[2])*1.0 / (sum(test_confusion_matrix)*1.0)
         confusion_matrix = str(test_confusion_matrix)
         log_file.write('\n')
-        log_file.write('name_of_experiment:         %s\n' %experiment_name)
-        log_file.write('file_name:                  %s\n' %file_name)
-        log_file.write('date:                       %s\n' %date)
-        log_file.write('duration:                   %f\n' %total_time)
-        log_file.write('data_set:                   %s\n' %dataset_name)
-        log_file.write('iterations:                 %d\n' %super_main_iterations)
-        log_file.write('start_learning_rate:        %f\n' %pc.START_LEARNING_RATE)
-        log_file.write('batch_size:                 %d\n' %pc.BATCH_SIZE)
-        log_file.write('similarity_metric           %s\n' %pc.SIMILARITY_METRIC)
-        log_file.write('decay_rate:                 %f\n' %pc.DECAY_RATE)
-        log_file.write('momentum:                   %f\n' %pc.MOMENTUM)
-        log_file.write('epochs:                     %d\n' %pc.NUM_EPOCHS)
-        log_file.write('number_of_cameras:          %d\n' %pc.NUM_CAMERAS)
-        log_file.write('number_of_siamese_heads:    %d\n' %pc.NUM_SIAMESE_HEADS)
-        log_file.write('dropout:                    %f\n' %pc.DROPOUT)
-        log_file.write('transfer_learning:          %s\n' %pc.TRANSFER_LEARNING)
-        log_file.write('train_cnn:                  %s\n' %pc.TRAIN_CNN)
-        log_file.write('mean_tp_fp_tn_fn:           %s\n' %confusion_matrix)
-        log_file.write('mean_accuracy:              %f\n' %accuracy)
+        log_file.write('name_of_experiment:         %s\n' % experiment_name)
+        log_file.write('file_name:                  %s\n' % file_name)
+        log_file.write('date:                       %s\n' % date)
+        log_file.write('duration:                   %f\n' % total_time)
+        log_file.write('data_set:                   %s\n' % dataset_name)
+        log_file.write('iterations:                 %d\n' % super_main_iterations)
+        log_file.write('start_learning_rate:        %f\n' % pc.START_LEARNING_RATE)
+        log_file.write('batch_size:                 %d\n' % pc.BATCH_SIZE)
+        log_file.write('similarity_metric           %s\n' % pc.SIMILARITY_METRIC)
+        log_file.write('decay_rate:                 %f\n' % pc.DECAY_RATE)
+        log_file.write('momentum:                   %f\n' % pc.MOMENTUM)
+        log_file.write('epochs:                     %d\n' % pc.NUM_EPOCHS)
+        log_file.write('number_of_cameras:          %d\n' % pc.NUM_CAMERAS)
+        log_file.write('number_of_siamese_heads:    %d\n' % pc.NUM_SIAMESE_HEADS)
+        log_file.write('dropout:                    %f\n' % pc.DROPOUT)
+        log_file.write('transfer_learning:          %s\n' % pc.TRANSFER_LEARNING)
+        log_file.write('train_cnn:                  %s\n' % pc.TRAIN_CNN)
+        log_file.write('mean_tp_fp_tn_fn:           %s\n' % confusion_matrix)
+        log_file.write('mean_accuracy:              %f\n' % accuracy)
 
         log_file.write('\n')
 
@@ -515,7 +485,7 @@ def load_cuhk1_data_in_array(data):
     data_array = np.zeros(shape=(len(data), pc.NUM_SIAMESE_HEADS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
     for pair in range(0, len(data)):
         print(pair)
-        for image in range(0,2):
+        for image in range(0, 2):
 
             # change the specific path to your data here
             path = os.path.join('/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images', data[pair][image])
@@ -547,17 +517,17 @@ def load_cuhk1(val_pos, test_pos):
         all_list = positive_combo_list + negative_combo_list_
         random.shuffle(all_list)
 
-        test_data, all_list = make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=400)
-        validation_data, all_list = make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=400)
+        test_data, all_list = ddl.make_specific_balanced_set(all_list, positives_percentage=test_pos, set_size=400)
+        validation_data, all_list = ddl.make_specific_balanced_set(all_list, positives_percentage=val_pos, set_size=400)
         train_data = all_list
 
         random.shuffle(test_data)
         random.shuffle(validation_data)
         random.shuffle(train_data)
 
-        print('test: ' + str(analyze_data_set(test_data)))
-        print('validation: ' + str(analyze_data_set(validation_data)))
-        print('train: ' + str(analyze_data_set(train_data)))
+        print('test: ' + str(ddl.analyze_data_set(test_data)))
+        print('validation: ' + str(ddl.analyze_data_set(validation_data)))
+        print('train: ' + str(ddl.analyze_data_set(train_data)))
 
         print('writing cuhk1 names to file')
 
@@ -685,36 +655,6 @@ def fix_NICTA(name):
                 name = image.split('.')[0]
                 filename = os.path.join(pad_path_1, str(name)+'.jpg')
                 new_img.save(filename)
-
-
-def make_batch_queue(data_size, batch_size):
-    if not data_size > batch_size:
-        print('Error: train_size smaller than batch_size')
-        return
-
-    rest = data_size
-    queue = []
-    while rest > batch_size:
-        queue.append(batch_size)
-        rest = rest - batch_size
-    queue.append(rest)
-    return queue
-
-
-# todo IMPORTANT: loaded_data_list has to contain the full path to the image
-def dynamic_data_load(total_data_list_pos, total_data_list_neg, batch_size, val_percent, test_percent, epochs):
-    total = len(total_data_list_pos)*2
-    test_size = total * test_percent
-    val_size = total * val_percent
-    train_size = total - test_size - val_size
-    batch_queue = make_batch_queue(train_size, batch_size)
-
-    total_neg = len(total_data_list_neg)
-
-
-def generate_batches(total_data_list_pos, total_data_list_neg, batch_size, val_percent, test_percent, epochs):
-    pass
-
 
 
 def load_NICTA():

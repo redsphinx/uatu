@@ -1236,3 +1236,87 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [ 1091.8    32.4  1318.6    38.2]
 mean_accuracy:              0.971544
 
+
+name_of_experiment:         save simple CNN with 1D filters, no BN, no CLR. start with 16 filters.
+file_name:                  cnn_clean.py
+date:                       19/04/2017   18:11:33
+duration:                   325.975557
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1050.    30.  1321.    80.]
+mean_accuracy:              0.955663
+
+
+name_of_experiment:         save simple CNN with 1D filters, no BN, no CLR. start with 32 filters.
+file_name:                  cnn_clean.py
+date:                       19/04/2017   18:24:03
+duration:                   749.556348
+data_set:                   INRIA, NICTA
+iterations:                 1
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 1099.    41.  1310.    31.]
+mean_accuracy:              0.970979
+
+
+name_of_experiment:         training SCN with 1D filters 16
+file_name:                  siamese_cnn_clean.py
+date:                       20/04/2017   11:45:25
+duration:                   2793.748310
+data_set:                   VIPeR, CUHK1
+iterations:                 10
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  43.6  390.4  149.6   16.4]
+mean_accuracy:              0.322000
+
+
+name_of_experiment:         training SCN with 1D filters 32
+file_name:                  siamese_cnn_clean.py
+date:                       20/04/2017   12:24:34
+duration:                   2349.621436
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+start_learning_rate:        0.000010
+batch_size:                 32
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     20
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  44.4  391.8  148.2   15.6]
+mean_accuracy:              0.321000
+

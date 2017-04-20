@@ -28,9 +28,11 @@ def alt_create_fc(inputs):
     # softmax = Activation('softmax')(output_layer)
     # return softmax
     dense_layer = Dense(512, activation='relu') (inputs)
-    dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
+    activation = Activation('relu') (dense_layer)
+    dropout_layer = Dropout(pc.DROPOUT)(activation)
     dense_layer = Dense(1024, activation='relu')(dropout_layer)
-    dropout_layer = Dropout(pc.DROPOUT)(dense_layer)
+    activation = Activation('relu')(dense_layer)
+    dropout_layer = Dropout(pc.DROPOUT)(activation)
     output_layer = Dense(pc.NUM_CLASSES) (dropout_layer)
     softmax = Activation('softmax')(output_layer)
     return  softmax
@@ -66,46 +68,48 @@ def create_base_network_simple(train_data_):
     return model
 
 
-def create_base_network_1d_filter(train_data_):
+def create_base_network_1d_filter(train_data_, numfil, weights_name):
     model = Sequential()
-    model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1_1',
+    model.add(Conv2D(16*numfil, kernel_size=(1, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1_1',
                      trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(16*numfil, kernel_size=(3, 1), padding='same', name='conv_1_2', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(32*numfil, kernel_size=(1, 3), padding='same', name='conv_2_1', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(32*numfil, kernel_size=(3, 1), padding='same', name='conv_2_2', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(64*numfil, kernel_size=(1, 3), padding='same', name='conv_3_1', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(64*numfil, kernel_size=(3, 1), padding='same', name='conv_3_2', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(128*numfil, kernel_size=(1, 3), padding='same', name='conv_4_1', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(128*numfil, kernel_size=(3, 1), padding='same', name='conv_4_2', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(256*numfil, kernel_size=(1, 3), padding='same', name='conv_5_1', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(256*numfil, kernel_size=(3, 1), padding='same', name='conv_5_2', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(512*numfil, kernel_size=(1, 3), padding='same', name='conv_6_1', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(512*numfil, kernel_size=(3, 1), padding='same', name='conv_6_2', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
 
-    model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(1024*numfil, kernel_size=(1, 3), padding='same', name='conv_7_1', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
-    model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(1024*numfil, kernel_size=(3, 1), padding='same', name='conv_7_2', trainable=pc.TRAIN_CNN))
     model.add(Activation('relu'))
+
+    model.add(Flatten(name='cnn_flat'))
 
     if pc.TRANSFER_LEARNING:
-        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, 'cnn_model_weights_simple_1D_filters_16.h5'),
+        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name),
                            by_name=True)
 
     return model
@@ -196,10 +200,10 @@ def compute_accuracy(predictions, labels):
     return labels[predictions.ravel() < 0.5].mean()
 
 
-def create_siamese(train_data_):
+def create_siamese(train_data_, numfil, weights_name):
     input_a = Input(shape=(train_data_.shape[1:]))
     input_b = Input(shape=(train_data_.shape[1:]))
-    base_network = create_base_network_simple(train_data_)
+    base_network = create_base_network_1d_filter(train_data_, numfil, weights_name)
 
     processed_a = base_network(input_a)
     processed_b = base_network(input_b)
@@ -225,28 +229,18 @@ def confusion_matrix(name, predictions, labels, verbose=False):
     return matrix
 
 
-def main(data):
+def main(data, numfil, weights_name):
     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
 
     train_data_ = train_data[:, 0, ...]
 
-    model = create_siamese(train_data_)
+    model = create_siamese(train_data_, numfil, weights_name)
 
     # clr_triangular = CyclicLR(mode='triangular2', base_lr=0.00001, max_lr=0.00002, step_size=(np.shape(train_data)[0]/pc.BATCH_SIZE)*8)
 
     if pc.SIMILARITY_METRIC == 'fc_layers':
         nadam = optimizers.Nadam(lr=pc.START_LEARNING_RATE, schedule_decay=pc.DECAY_RATE)
         model.compile(loss='categorical_crossentropy', optimizer=nadam, metrics=['accuracy'])
-
-        #TODO implement dynamic loading of data
-        '''
-        total_data = len(train_labels) / batch_size
-        for epoch in range(pc.NUM_EPOCHS):
-            for step in range(0, total_data):
-                [train_images_1, train_images_2, train_labels] = pu.generate_data_batch_siamese(
-                train_data_list, step, batch_size)
-                model.fit()
-        '''
 
         model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
                   batch_size=pc.BATCH_SIZE,
@@ -271,12 +265,13 @@ def main(data):
     return te_matrix
 
 
-def super_main(experiment_name, data, iterations):
+def super_main(experiment_name, data, iterations, numfil, weights_name):
     accs = np.zeros((iterations, 4))
 
     start = time.time()
     for iter in range(0, iterations):
-        accs[iter] = main(data)
+        print('-----ITERATION %d' % iter)
+        accs[iter] = main(data, numfil, weights_name)
     stop = time.time()
 
     total_time = stop - start

@@ -96,10 +96,39 @@ def experiment_10(data):
 
 
 def experiment_11(data):
-    experiment_name = 'save simple CNN with 1D filters, no BN, no CLR. start with 32 filters. test to see if we can decrease number of filters.'
+    experiment_name = 'save simple CNN with 1D filters, no BN, no CLR. start with 16 filters.'
     print('experiment: %s' % experiment_name)
     iterations = 1
-    cnn.super_main(experiment_name, data, iterations)
+    numfil = 1
+    weights_name = 'cnn_1D_filters_16.h5'
+    cnn.super_main(experiment_name, data, iterations, numfil, weights_name)
+
+
+def experiment_12(data):
+    experiment_name = 'save simple CNN with 1D filters, no BN, no CLR. start with 32 filters.'
+    print('experiment: %s' % experiment_name)
+    iterations = 1
+    numfil = 2
+    weights_name = 'cnn_1D_filters_32.h5'
+    cnn.super_main(experiment_name, data, iterations, numfil, weights_name)
+
+
+def experiment_13(data):
+    experiment_name = 'training SCN with 1D filters 16'
+    print('experiment: %s' % experiment_name)
+    iterations = 10
+    numfil = 1
+    weights_name = 'cnn_1D_filters_16.h5'
+    scn.super_main(experiment_name, data, iterations, numfil, weights_name)
+
+
+def experiment_14(data):
+    experiment_name = 'training SCN with 1D filters 32'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    weights_name = 'cnn_1D_filters_32.h5'
+    scn.super_main(experiment_name, data, iterations, numfil, weights_name)
 
 
 def main():
@@ -108,9 +137,19 @@ def main():
     # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
     # experiment_6(data)
 
-    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
+    # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
+    # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
+    # experiment_11(data)
+    # experiment_12(data)
+    #
+    # # wait a bit to make sure the weights are saved to file
+    # time.sleep(1200)
+    # del train_data, train_labels, validation_data, validation_labels, test_data, test_labels
+
+    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_scn_data()
     data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
-    experiment_11(data)
+    experiment_13(data)
+    experiment_14(data)
 
     # centered_train_data = pre.center(train_data)
     # centered_test_data = pre.center(test_data)
