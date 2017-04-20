@@ -132,11 +132,21 @@ def experiment_14(data):
 
 
 def experiment_15():
-    experiment_name = 'save simple CNN with 1D filters, start 16 filters, DDL!'
+    experiment_name = 'simple CNN with 1D filters, start 16 filters, DDL'
     print('experiment: %s' % experiment_name)
-    iterations = 1
+    iterations = 5
     weights_name = 'cnn_1D_filters_ddl.h5'
-    cnn.super_main(experiment_name, iterations, weights_name)
+    numfil=1
+    cnn.super_main(experiment_name, iterations, weights_name, numfil)
+
+
+def experiment_16():
+    experiment_name = 'simple CNN with 1D filters, start 32 filters, DDL'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    weights_name = 'cnn_1D_filters_ddl.h5'
+    numfil=2
+    cnn.super_main(experiment_name, iterations, weights_name, numfil)
 
 
 def main():
@@ -160,6 +170,7 @@ def main():
     # experiment_14(data)
     #
     experiment_15()
+    experiment_16()
 
     # centered_train_data = pre.center(train_data)
     # centered_test_data = pre.center(test_data)
