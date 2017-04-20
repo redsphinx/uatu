@@ -66,7 +66,6 @@ def crop_INRIA_images(folder_path, width, height):
         img2.save(os.path.join(new_folder_path, image_path))
 
 
-# one method to load INRIA
 def load_INRIA():
     print('Loading INRIA person dataset')
     original_data_path = '/home/gabi/Documents/datasets/INRIAPerson'
@@ -835,3 +834,70 @@ def initialize_scn_data():
     test_labels = keras.utils.to_categorical(test_labels, pc.NUM_CLASSES)
     print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
     return [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
+
+
+def create_pos_neg_nicta():
+    start = time.time()
+    print('Create pos neg list from NICTA pedestrian')
+    base_path_pos = '/home/gabi/Documents/datasets/NICTAPedestrians/padded_positives'
+    base_path_neg = '/home/gabi/Documents/datasets/NICTAPedestrians/padded_negatives'
+    data_list_path = '/home/gabi/PycharmProjects/uatu/data/NICTA'
+
+    positives_list = os.path.join(data_list_path, 'positives.txt')
+    negatives_list = os.path.join(data_list_path, 'negatives.txt')
+
+    def make_list(data_list, base_path):
+        count = 0
+        if os.path.exists(data_list):
+            print('%s exists already. aborting.' % data_list)
+        else:
+            with open(data_list, 'wr') as myFile:
+                for dir_1 in os.listdir(base_path):
+                    dir_1_path = os.path.join(base_path, dir_1)
+                    for dir_2 in os.listdir(dir_1_path):
+                        dir_2_path = os.path.join(dir_1_path, dir_2)
+                        for image in os.listdir(dir_2_path):
+                            image_path = os.path.join(dir_2_path, image)
+                            myFile.write(str(image_path) + ',1\n')
+                            count += 1
+            print('Created list. Size: %d' % count)
+
+    make_list(positives_list, base_path_pos)
+    make_list(negatives_list, base_path_neg)
+
+    total_time = time.time() - start
+    print('total time: %0.2f' % (total_time))
+
+
+def create_pos_neg_inria():
+    start = time.time()
+    original_data_path = '/home/gabi/Documents/datasets/INRIAPerson'
+    data_list_path = '/home/gabi/PycharmProjects/uatu/data/INRIA'
+    sub_dirs_pos = ['train_64x128_H96/real_cropped_images_pos', 'test_64x128_H96/real_cropped_images_pos']
+    sub_dirs_neg = ['train_64x128_H96/real_cropped_images_neg', 'test_64x128_H96/real_cropped_images_neg']
+
+    positives_list = os.path.join(data_list_path, 'positives.txt')
+    negatives_list = os.path.join(data_list_path, 'negatives.txt')
+
+    def make_list(data_list, sub_dirs):
+        count = 0
+        if os.path.exists(data_list):
+            print('%s exists already. aborting.' % data_list)
+        else:
+            with open(data_list, 'wr') as myFile:
+                for dir_1 in sub_dirs:
+                    dir_1_path = os.path.join(original_data_path, dir_1)
+                    for image in os.listdir(dir_1_path):
+                        image_path = os.path.join(dir_1_path, image)
+                        myFile.write(str(image_path) + ',1\n')
+                        count += 1
+            print('Created list. Size: %d' % count)
+
+    make_list(positives_list, sub_dirs_pos)
+    make_list(negatives_list, sub_dirs_neg)
+
+    total_time = time.time() - start
+    print('total time: %0.2f' % (total_time))
+
+
+create_pos_neg_inria()

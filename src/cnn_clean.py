@@ -157,7 +157,10 @@ def cnn_model_2d_conv_1d_filters_BN(train_data, do_dropout):
 def main(experiment_name, data, numfil, weights_name):
     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
 
-    val_list, test_list, total_data_list_pos, total_data_list_neg = ddl.make_validation_test_list(total_data_list_pos, total_data_list_neg)
+    val_list, test_list, total_data_list_pos, total_data_list_neg = ddl.make_validation_test_list(total_data_list_pos,
+                                                                                                  total_data_list_neg,
+                                                                                                  val_pos_percent=0.5,
+                                                                                                  test_pos_percent=0.5)
 
     # model = cnn_model_2d_conv_1d_filters(train_data, do_dropout)
     model = cnn_model_2d_conv_1d_filters(train_data, numfil)
@@ -185,7 +188,6 @@ def main(experiment_name, data, numfil, weights_name):
         for step in range(num_steps):
             train_data_list = total_train_data_list[step * batch_size : step * batch_size + batch_size_queue[step]]
             train_data, train_labels = ddl.load_in_array(train_data_list)
-
 
             model.fit(train_data,
                       train_labels,

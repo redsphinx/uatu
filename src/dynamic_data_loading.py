@@ -76,12 +76,19 @@ def make_batch_queue(data_size, batch_size):
     return queue
 
 
+'''
+ASSUMPTION: there is a positive and negative list in each dataset
+if there are no positives or negatives in the dataset, then merge the set with another set that contains these
+'''
 # todo IMPORTANT: data_list has to contain the full path to the image
 def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.1, test_percent=0.1,
           val_pos_percent=0.3, test_pos_percent=0.1):
 
     num_pos = len(total_data_list_pos)
-    balanced_total = 2 * num_pos
+    num_neg = len(total_data_list_neg)
+
+    max = np.max(num_pos, num_neg)
+    balanced_total = 2 * max
 
     val_size = np.floor(val_percent * balanced_total).astype(int)
     test_size = np.floor(test_percent * balanced_total).astype(int)
