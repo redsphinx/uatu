@@ -46,9 +46,11 @@ def cnn_model(train_data):
     return model
 
 
-def cnn_model_2d_conv_1d_filters(train_data, numfil):
+def cnn_model_2d_conv_1d_filters():
+    numfil = 1
     model = Sequential()
-    model.add(Conv2D(16*numfil, kernel_size=(1, 3), padding='same', input_shape=train_data.shape[1:], name='conv_1_1'))
+    model.add(Conv2D(16*numfil, kernel_size=(1, 3), padding='same', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
+                                                                                 pc.NUM_CHANNELS), name='conv_1_1'))
     model.add(Activation('relu'))
     model.add(Conv2D(16*numfil, kernel_size=(3, 1), padding='same', name='conv_1_2'))
     model = add_activation_and_relu(model)
@@ -154,16 +156,14 @@ def cnn_model_2d_conv_1d_filters_BN(train_data, do_dropout):
     return model
 
 
-def main(experiment_name, data, numfil, weights_name):
-    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
-
+def main(experiment_name, weights_name):
+    # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
+    total_data_list_pos, total_data_list_neg = pu.merge_pedestrian_sets()
     val_list, test_list, total_data_list_pos, total_data_list_neg = ddl.make_validation_test_list(total_data_list_pos,
                                                                                                   total_data_list_neg,
                                                                                                   val_pos_percent=0.5,
                                                                                                   test_pos_percent=0.5)
-
-    # model = cnn_model_2d_conv_1d_filters(train_data, do_dropout)
-    model = cnn_model_2d_conv_1d_filters(train_data, numfil)
+    model = cnn_model_2d_conv_1d_filters()
 
     if pc.VERBOSE:
         print(model.summary())
@@ -174,28 +174,36 @@ def main(experiment_name, data, numfil, weights_name):
                   optimizer=nadam,
                   metrics=['accuracy'])
 
-
-    train_data_size = 2*len(total_data_list_pos)
-    num_steps = np.ceil(train_data_size / pc.BATCH_SIZE).astype(int)
+    batch_size = pc.BATCH_SIZE * 20
+    train_data_size = 2*min(len(total_data_list_pos), len(total_data_list_neg))
+    num_steps = np.ceil(train_data_size*1.0 / batch_size).astype(int)
 
     # in each epoch the training data gets partitioned into different batches. This way we break correlations between
     # instances and we can see many more negative examples
     val_data, val_labels = ddl.load_in_array(val_list)
     for epoch in range(pc.NUM_EPOCHS):
-        batch_size = pc.BATCH_SIZE
         batch_size_queue = ddl.make_batch_queue(train_data_size, batch_size)
         total_train_data_list = ddl.make_train_batches(total_data_list_pos, total_data_list_neg)
         for step in range(num_steps):
+            start = time.time()
             train_data_list = total_train_data_list[step * batch_size : step * batch_size + batch_size_queue[step]]
             train_data, train_labels = ddl.load_in_array(train_data_list)
 
             model.fit(train_data,
                       train_labels,
-                      batch_size=batch_size_queue[step],
+                      # batch_size=batch_size_queue[step],
+                      batch_size=pc.BATCH_SIZE*2,
                       epochs=1,
                       validation_data=(val_data, val_labels),
                       verbose=2)
-
+            stop = time.time()
+            the_time = stop - start
+            total_steps = pc.NUM_EPOCHS * num_steps
+            have_been = (epoch * num_steps) + step
+            remaining = (total_steps - have_been) * the_time
+            print('Epoch: %d / %d   Step: %d / %d  time: %0.2f s  remaining: %0.2f s' % (epoch, pc.NUM_EPOCHS, step,
+                                                                                       int(num_steps), the_time,
+                                                                                       remaining))
     # clr_triangular = CyclicLR(mode='exp_range', step_size=(np.shape(train_data)[0]/pc.BATCH_SIZE)*8)
 
     # model.fit(train_data,
@@ -227,12 +235,12 @@ def main(experiment_name, data, numfil, weights_name):
     return test_confusion_matrix
 
 
-def super_main(experiment_name, data, iterations, numfil, weights_name):
+def super_main(experiment_name, iterations, weights_name):
     accs = np.zeros((iterations, 4))
 
     start = time.time()
     for iter in range(0, iterations):
-        accs[iter] = main(experiment_name, data, numfil, weights_name)
+        accs[iter] = main(experiment_name, weights_name)
     stop = time.time()
 
     total_time = stop - start

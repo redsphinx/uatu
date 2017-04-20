@@ -131,6 +131,14 @@ def experiment_14(data):
     scn.super_main(experiment_name, data, iterations, numfil, weights_name)
 
 
+def experiment_15():
+    experiment_name = 'save simple CNN with 1D filters, start 16 filters, DDL!'
+    print('experiment: %s' % experiment_name)
+    iterations = 1
+    weights_name = 'cnn_1D_filters_ddl.h5'
+    cnn.super_main(experiment_name, iterations, weights_name)
+
+
 def main():
     # data loading, so it happens only once
     # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
@@ -146,10 +154,12 @@ def main():
     # time.sleep(1200)
     # del train_data, train_labels, validation_data, validation_labels, test_data, test_labels
 
-    [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_scn_data()
-    data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
-    experiment_13(data)
-    experiment_14(data)
+    # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_scn_data()
+    # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
+    # experiment_13(data)
+    # experiment_14(data)
+    #
+    experiment_15()
 
     # centered_train_data = pre.center(train_data)
     # centered_test_data = pre.center(test_data)

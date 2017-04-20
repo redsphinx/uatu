@@ -52,9 +52,10 @@ def make_specific_balanced_set_given_pos_neg(dataset_pos, dataset_neg, positives
     num_of_pos = np.floor(positives_percentage * set_size).astype(int)
     num_of_neg = set_size - num_of_pos
 
-    balanced_data = np.zeros((set_size))
-    balanced_data[0:num_of_pos] = data_list_pos[0:num_of_pos]
-    balanced_data[num_of_pos:] = data_list_neg[0:num_of_neg]
+
+    pos = data_list_pos[0:num_of_pos]
+    neg = data_list_neg[0:num_of_neg]
+    balanced_data = np.concatenate((pos, neg))
     random.shuffle(balanced_data)
 
     new_data_list_pos = data_list_pos[num_of_pos:]
@@ -81,14 +82,14 @@ ASSUMPTION: there is a positive and negative list in each dataset
 if there are no positives or negatives in the dataset, then merge the set with another set that contains these
 '''
 # todo IMPORTANT: data_list has to contain the full path to the image
-def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.1, test_percent=0.1,
+def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.05, test_percent=0.05,
           val_pos_percent=0.3, test_pos_percent=0.1):
 
     num_pos = len(total_data_list_pos)
     num_neg = len(total_data_list_neg)
 
-    max = np.max(num_pos, num_neg)
-    balanced_total = 2 * max
+    min_num = min(num_pos, num_neg)
+    balanced_total = 2 * min_num
 
     val_size = np.floor(val_percent * balanced_total).astype(int)
     test_size = np.floor(test_percent * balanced_total).astype(int)
@@ -105,9 +106,8 @@ def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_perc
 def make_train_batches(total_data_list_pos, total_data_list_neg):
     random.shuffle(total_data_list_pos)
     random.shuffle(total_data_list_neg)
-    total_len = 2*total_data_list_pos
-    total_data_list_neg = total_data_list_neg[0:total_len]
-    total_data_list = total_data_list_pos + total_data_list_neg
+    total_len_half = min(len(total_data_list_neg), len(total_data_list_pos))
+    total_data_list = np.concatenate((total_data_list_pos[0:total_len_half], total_data_list_neg[0:total_len_half]))
     random.shuffle(total_data_list)
     return total_data_list
 

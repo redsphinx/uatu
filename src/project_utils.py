@@ -846,7 +846,7 @@ def create_pos_neg_nicta():
     positives_list = os.path.join(data_list_path, 'positives.txt')
     negatives_list = os.path.join(data_list_path, 'negatives.txt')
 
-    def make_list(data_list, base_path):
+    def make_list(data_list, base_path, lab):
         count = 0
         if os.path.exists(data_list):
             print('%s exists already. aborting.' % data_list)
@@ -858,12 +858,12 @@ def create_pos_neg_nicta():
                         dir_2_path = os.path.join(dir_1_path, dir_2)
                         for image in os.listdir(dir_2_path):
                             image_path = os.path.join(dir_2_path, image)
-                            myFile.write(str(image_path) + ',1\n')
+                            myFile.write(str(image_path) + ',%d\n' % lab)
                             count += 1
             print('Created list. Size: %d' % count)
 
-    make_list(positives_list, base_path_pos)
-    make_list(negatives_list, base_path_neg)
+    make_list(positives_list, base_path_pos, 1)
+    make_list(negatives_list, base_path_neg, 0)
 
     total_time = time.time() - start
     print('total time: %0.2f' % (total_time))
@@ -871,6 +871,7 @@ def create_pos_neg_nicta():
 
 def create_pos_neg_inria():
     start = time.time()
+    print('Create pos neg list from INRIA humans')
     original_data_path = '/home/gabi/Documents/datasets/INRIAPerson'
     data_list_path = '/home/gabi/PycharmProjects/uatu/data/INRIA'
     sub_dirs_pos = ['train_64x128_H96/real_cropped_images_pos', 'test_64x128_H96/real_cropped_images_pos']
@@ -879,7 +880,7 @@ def create_pos_neg_inria():
     positives_list = os.path.join(data_list_path, 'positives.txt')
     negatives_list = os.path.join(data_list_path, 'negatives.txt')
 
-    def make_list(data_list, sub_dirs):
+    def make_list(data_list, sub_dirs, lab):
         count = 0
         if os.path.exists(data_list):
             print('%s exists already. aborting.' % data_list)
@@ -889,15 +890,55 @@ def create_pos_neg_inria():
                     dir_1_path = os.path.join(original_data_path, dir_1)
                     for image in os.listdir(dir_1_path):
                         image_path = os.path.join(dir_1_path, image)
-                        myFile.write(str(image_path) + ',1\n')
+                        myFile.write(str(image_path) + ',%d\n' % lab)
                         count += 1
             print('Created list. Size: %d' % count)
 
-    make_list(positives_list, sub_dirs_pos)
-    make_list(negatives_list, sub_dirs_neg)
+    make_list(positives_list, sub_dirs_pos, 1)
+    make_list(negatives_list, sub_dirs_neg, 0)
 
     total_time = time.time() - start
     print('total time: %0.2f' % (total_time))
 
 
-create_pos_neg_inria()
+def create_pos_cbcl():
+    start = time.time()
+    print('Create pos list from CBCL pedestrian')
+    original_data_path = '/home/gabi/Documents/datasets/CBCL_PEDESTRIAN_DATABASE/images'
+    data_list_path = '/home/gabi/PycharmProjects/uatu/data/CBCL'
+
+    if not os.path.exists(data_list_path):
+        os.mkdir(data_list_path)
+
+    positives_list = positives_list = os.path.join(data_list_path, 'positives.txt')
+
+    if os.path.exists(positives_list):
+        print('%s exists already. aborting.' % positives_list)
+    else:
+        count = 0
+        with open(positives_list, 'wr') as myFile:
+            for image in os.listdir(original_data_path):
+                image_path = os.path.join(original_data_path, image)
+                myFile.write(str(image_path) + ',1\n')
+                count += 1
+        print('Created list. Size: %d' % count)
+
+    total_time = time.time() - start
+    print('total time: %0.2f' % (total_time))
+
+
+def merge_pedestrian_sets():
+    data_location = '/home/gabi/PycharmProjects/uatu/data'
+    pos = 'positives.txt'
+    neg = 'negatives.txt'
+    cbcl_pos = np.genfromtxt(os.path.join(data_location, 'CBCL', pos), dtype=None).tolist()
+    inria_pos = np.genfromtxt(os.path.join(data_location, 'INRIA', pos), dtype=None).tolist()
+    inria_neg = np.genfromtxt(os.path.join(data_location, 'INRIA', neg), dtype=None).tolist()
+    nicta_pos = np.genfromtxt(os.path.join(data_location, 'NICTA', pos), dtype=None).tolist()
+    nicta_neg = np.genfromtxt(os.path.join(data_location, 'NICTA', neg), dtype=None).tolist()
+
+    pos_list = cbcl_pos + inria_pos + nicta_pos
+    neg_list = inria_neg + nicta_neg
+
+    return pos_list, neg_list
+
