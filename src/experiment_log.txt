@@ -1341,3 +1341,24 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [ 2325.   220.  2215.   109.]
 mean_accuracy:              0.932430
 
+
+name_of_experiment:         simple CNN with 1D filters, start 16 filters, DDL
+file_name:                  cnn_clean.py
+date:                       20/04/2017   21:22:37
+duration:                   7324.079404
+data_set:                   INRIA, NICTA
+iterations:                 5
+start_learning_rate:        0.000010
+batch_size:                 64
+similarity_metric           fc_layers
+decay_rate:                 0.950000
+momentum:                   0.900000
+epochs:                     5
+number_of_cameras:          2
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 2372.8    98.   2337.     61.2]
+mean_accuracy:              0.967303
+

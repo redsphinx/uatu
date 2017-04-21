@@ -41,7 +41,7 @@ def make_specific_balanced_set(dataset, positives_percentage, set_size):
             new_data_list.append(dataset[row])
     return balanced_data, new_data_list
 
-
+@profile
 def make_specific_balanced_set_given_pos_neg(dataset_pos, dataset_neg, positives_percentage, set_size):
     data_list_pos = np.asarray(dataset_pos)
     data_list_neg = np.asarray(dataset_neg)
@@ -62,7 +62,7 @@ def make_specific_balanced_set_given_pos_neg(dataset_pos, dataset_neg, positives
     new_data_list_neg = data_list_neg[num_of_neg:]
     return  balanced_data, new_data_list_pos, new_data_list_neg
 
-
+@profile
 def make_batch_queue(data_size, batch_size):
     if not data_size > batch_size:
         print('Error: train_size smaller than batch_size')
@@ -82,7 +82,8 @@ ASSUMPTION: there is a positive and negative list in each dataset
 if there are no positives or negatives in the dataset, then merge the set with another set that contains these
 '''
 # todo IMPORTANT: data_list has to contain the full path to the image
-def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.05, test_percent=0.05,
+@profile
+def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.01, test_percent=0.01,
           val_pos_percent=0.3, test_pos_percent=0.1):
 
     num_pos = len(total_data_list_pos)
@@ -102,7 +103,7 @@ def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_perc
 
     return val_list, test_list, total_data_list_pos, total_data_list_neg
 
-
+@profile
 def make_train_batches(total_data_list_pos, total_data_list_neg):
     random.shuffle(total_data_list_pos)
     random.shuffle(total_data_list_neg)
@@ -111,13 +112,13 @@ def make_train_batches(total_data_list_pos, total_data_list_neg):
     random.shuffle(total_data_list)
     return total_data_list
 
-
+@profile
 def load_in_array(data_list, heads=1):
     # return data array and labels list which have been categorical
     if heads == 1:
         data_array = np.zeros(shape=(len(data_list), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
         labels = np.zeros(len(data_list))
-        for image in range(0, len(data_list)):
+        for image in xrange(0, len(data_list)):
             name = data_list[image].split(',')[0]
             data_array[image] = ndimage.imread(name)[:, :, 0:3]
             labels[image] = int(data_list[image].split(',')[1])

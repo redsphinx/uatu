@@ -13,7 +13,7 @@ import os
 import numpy as np
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
-
+@profile
 def add_activation_and_relu(model):
     model.add(Activation('relu'))
     model.add(MaxPool2D(pool_size=(2, 2)))
@@ -45,7 +45,7 @@ def cnn_model(train_data):
 
     return model
 
-
+@profile
 def cnn_model_2d_conv_1d_filters(numfil):
     model = Sequential()
     model.add(Conv2D(16*numfil, kernel_size=(1, 3), padding='same', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
@@ -154,7 +154,7 @@ def cnn_model_2d_conv_1d_filters_BN(train_data, do_dropout):
 
     return model
 
-
+@profile
 def main(experiment_name, weights_name, numfil):
     # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
     total_data_list_pos, total_data_list_neg = pu.merge_pedestrian_sets()
@@ -180,10 +180,10 @@ def main(experiment_name, weights_name, numfil):
     # in each epoch the training data gets partitioned into different batches. This way we break correlations between
     # instances and we can see many more negative examples
     val_data, val_labels = ddl.load_in_array(val_list)
-    for epoch in range(pc.NUM_EPOCHS):
+    for epoch in xrange(pc.NUM_EPOCHS):
         batch_size_queue = ddl.make_batch_queue(train_data_size, batch_size)
         total_train_data_list = ddl.make_train_batches(total_data_list_pos, total_data_list_neg)
-        for step in range(num_steps):
+        for step in xrange(num_steps):
             # start = time.time()
             train_data_list = total_train_data_list[step * batch_size : step * batch_size + batch_size_queue[step]]
             train_data, train_labels = ddl.load_in_array(train_data_list)
@@ -233,7 +233,7 @@ def main(experiment_name, weights_name, numfil):
     del model
     return test_confusion_matrix
 
-
+@profile
 def super_main(experiment_name, iterations, weights_name, numfil):
     accs = np.zeros((iterations, 4))
 

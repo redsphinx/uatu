@@ -8,6 +8,9 @@ import numpy as np
 from PIL import Image
 from keras.models import load_model
 import project_constants as pc
+import sys
+import time
+from scipy import ndimage
 
 
 def test_data_pipeline():
@@ -191,4 +194,30 @@ def test_load_model():
     model.summary()
 
 
-test_load_model()
+# @profile
+def test_arr_vs_list():
+    arr = np.zeros((9,9,9,9))
+    a = range(9)
+    b = a
+    for i in range(8):
+        b = [b, a]
+    c = b
+    for i in range(8):
+        c = [c, b]
+
+    lsit = [c,c,c,c,c,c,c,c,c]
+    thingy1 = arr[0,0,0,0]
+    arr = np.append(arr, 1)
+
+    asd = np.array([])
+    asd = np.append(asd, 1)
+
+    qwe = []
+    qwe.append(1)
+    thingy2 = lsit[0][0][0][0]
+
+    lsit.append(1)
+
+    del arr
+    del lsit
+

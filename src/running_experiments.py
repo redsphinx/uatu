@@ -170,7 +170,7 @@ def main():
     # experiment_14(data)
     #
     experiment_15()
-    experiment_16()
+    # experiment_16()
 
     # centered_train_data = pre.center(train_data)
     # centered_test_data = pre.center(test_data)

@@ -32,6 +32,16 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+20 april
+------
+. continue make method for dynamically loading data 
+.. done for the CNN but it's slow and still lots of data needs to be loaded into memory for it to be faster. A big issue is the validation at the end of each epoch. this costs a lot of time.
+.. implement with fit_generator
+. try out bottlenecks
+. do a better cleanup of utils when there's time
+. do setup experiments batch that send emails
+
+
 19 april
 ------
 . remove CLR, BN and make the model simple again
@@ -40,10 +50,6 @@ Second phase: Improve the prototype in experiment cycles
 .. when CLR is too big the performance of the SCN is horrible ~0.2
 .. figure out the relationships between BN + CLR + optimizer
 .. so far I have trained the CNN using BN + CLR, with and without bias, doing BN after and before relu respectively. I save these weights and init the heads in the SCN with them. Because of a keras issue the BN layers cannot be made 'untrainable'. Or so I thought. It seemed that I was wrong
-. continue make method for dynamically loading data 
-. try out bottlenecks
-. do a better cleanup of utils when there's time
-. do setup experiments batch that send emails
 
 
 18 april
