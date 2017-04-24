@@ -6,7 +6,7 @@ import project_constants as pc
 import project_utils as pu
 import dynamic_data_loading as ddl
 from clr_callback import *
-
+import h5py
 
 import time
 import os
@@ -155,11 +155,16 @@ def cnn_model_2d_conv_1d_filters_BN(train_data, do_dropout):
     return model
 
 
-def main(experiment_name, weights_name, numfil):
+def main(experiment_name, weights_name, numfil, data_type='hdf5'):
     # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
-    total_data_list_pos, total_data_list_neg = pu.merge_pedestrian_sets()
+    hdf5_file_path = '/home/gabi/PycharmProjects/uatu/data/all_data_uncompressed.h5'
+    hdf5_file = h5py.File(hdf5_file_path, 'r')
+    if data_type=='hdf5':
+        total_data_list_pos = np.array(xrange(hdf5_file['positives'].shape[0]))
+        total_data_list_neg = np.array(xrange(hdf5_file['negatives'].shape[0]))
+    else:
+        total_data_list_pos, total_data_list_neg = pu.merge_pedestrian_sets()
 
-    # FIXME modify 'make_validation_test_list' to make it output pos and neg lists for val and test
     # val_list, test_list, total_data_list_pos, total_data_list_neg = ddl.make_validation_test_list(total_data_list_pos,
     #                                                                                               total_data_list_neg,
     #                                                                                               val_pos_percent=0.5,
@@ -184,43 +189,49 @@ def main(experiment_name, weights_name, numfil):
 
     # in each epoch the training data gets partitioned into different batches. This way we break correlations between
     # instances and we can see many more negative examples
-    # FIXME modify 'load_in_array' to accept 2 lists, a pos and a neg indices list. Shuffle data after loading
-    val_data, val_labels = ddl.load_in_array(val_list_pos, val_list_neg)
+    start = time.time()
+    val_data, val_labels = ddl.load_in_array(val_list_pos, val_list_neg, hdf5_file=hdf5_file)
+    print('Time loading validation data: %0.3f seconds' % (time.time() - start))
+
     # have 10 validation procedures take place per epoch
-    num_validations = 10
+    num_validations = 5
+    if num_validations > num_steps_per_epoch: num_validations = num_steps_per_epoch
     validation_interval = np.floor(num_steps_per_epoch / num_validations).astype(int)
-    print('validation happens every %d steps' % validation_interval)
+    print('validation happens every %d step(s)' % validation_interval)
 
     for epoch in xrange(pc.NUM_EPOCHS):
+        print('epoch: %d' % epoch)
         slice_size_queue = ddl.make_slice_queue(train_data_size, slice_size)
-        # FIXME modify 'make_train_batches' to output a pos and neg list of indices
-        total_train_data_list = ddl.make_train_batches(total_data_list_pos, total_data_list_neg)
+        total_train_data_list_pos, total_train_data_list_neg = \
+                                                    ddl.make_train_batches(total_data_list_pos, total_data_list_neg)
         for step in xrange(num_steps_per_epoch):
+            print('step: %d out of %d' % (step, num_steps_per_epoch))
             # start = time.time()
             class_slice = np.floor(slice_size_queue[step] / 2).astype(int)
-            # FIXME modify 'load_in_array' to accept 2 lists, a pos and a neg indices list. Shuffle data after loading
             # train_data_list = total_train_data_list[step * batch_size : step * batch_size + slice_size_queue[step]]
-            train_data_list_pos = total_train_data_list[step * class_slice: step * class_slice + class_slice]
-            train_data_list_neg = total_train_data_list[step * class_slice: step * class_slice + class_slice]
+            train_data_list_pos = total_train_data_list_pos[step * class_slice: step * class_slice + class_slice]
+            train_data_list_neg = total_train_data_list_neg[step * class_slice: step * class_slice + class_slice]
 
             # train_data, train_labels = ddl.load_in_array(train_data_list)
-            train_data, train_labels = ddl.load_in_array(train_data_list_pos, train_data_list_neg)
+            start = time.time()
+            train_data, train_labels = ddl.load_in_array(train_data_list_pos, train_data_list_neg, hdf5_file=hdf5_file)
+            print('Time loading training data: %0.3f seconds' % (time.time()-start))
             # let validation happen every x steps
             if step % validation_interval == 0:
                 model.fit(train_data,
                           train_labels,
                           # batch_size=batch_size_queue[step],
-                          batch_size=pc.BATCH_SIZE*10,
+                          batch_size=pc.BATCH_SIZE,
                           epochs=1,
                           validation_data=(val_data, val_labels),
-                          verbose=2)
+                          verbose=0)
             else:
                 model.fit(train_data,
                           train_labels,
                           # batch_size=batch_size_queue[step],
-                          batch_size=pc.BATCH_SIZE * 10,
+                          batch_size=pc.BATCH_SIZE,
                           epochs=1,
-                          verbose=2)
+                          verbose=0)
             # stop = time.time()
             # the_time = stop - start
             # total_steps = pc.NUM_EPOCHS * num_steps
@@ -238,16 +249,20 @@ def main(experiment_name, weights_name, numfil):
     #           validation_data=(validation_data, validation_labels),
     #           verbose=2)
 
-    # FIXME modify 'load_in_array' to accept 2 lists, a pos and a neg indices list. Shuffle data after loading
     # test_data, test_labels = ddl.load_in_array(test_list)
-    test_data, test_labels = ddl.load_in_array(test_list_pos, test_list_neg)
+    start = time.time()
+    test_data, test_labels = ddl.load_in_array(test_list_pos, test_list_neg, hdf5_file=hdf5_file)
+    print('Time loading testing data: %0.3f seconds' % (time.time() - start))
+
+    hdf5_file.close()
+
     score = model.evaluate(test_data, test_labels)
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
     test_confusion_matrix = pu.make_confusion_matrix(model.predict(test_data), test_labels)
 
     # save model
-    # TODO change the saved weights names !!
+    # note: change the saved weights names !!
     if pc.SAVE_CNN_WEIGHTS:
         shit_name = weights_name
         name_weights = shit_name

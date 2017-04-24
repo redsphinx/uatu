@@ -36,25 +36,43 @@ def make_specific_balanced_set(dataset, positives_percentage, set_size):
             new_data_list.append(dataset[row])
     return balanced_data, new_data_list
 
-def make_specific_balanced_set_given_pos_neg(dataset_pos, dataset_neg, positives_percentage, set_size):
-    data_list_pos = np.asarray(dataset_pos)
-    data_list_neg = np.asarray(dataset_neg)
 
-    random.shuffle(data_list_pos)
-    random.shuffle(data_list_neg)
+def make_specific_balanced_set_given_pos_neg(dataset_pos, dataset_neg, positives_percentage, set_size, data_type='hdf5'):
 
-    num_of_pos = np.floor(positives_percentage * set_size).astype(int)
-    num_of_neg = set_size - num_of_pos
+    if data_type == 'hdf5':
+        random.shuffle(dataset_pos)
+        random.shuffle(dataset_neg)
+
+        num_of_pos = np.floor(positives_percentage * set_size).astype(int)
+        num_of_neg = set_size - num_of_pos
+
+        pos_data = dataset_pos[0:num_of_pos]
+        neg_data = dataset_neg[0:num_of_neg]
+
+        new_data_list_pos = dataset_pos[num_of_pos:]
+        new_data_list_neg = dataset_neg[num_of_neg:]
+
+        return pos_data, neg_data, new_data_list_pos, new_data_list_neg
+    else:
+        data_list_pos = np.asarray(dataset_pos)
+        data_list_neg = np.asarray(dataset_neg)
+
+        random.shuffle(data_list_pos)
+        random.shuffle(data_list_neg)
+
+        num_of_pos = np.floor(positives_percentage * set_size).astype(int)
+        num_of_neg = set_size - num_of_pos
 
 
-    pos = data_list_pos[0:num_of_pos]
-    neg = data_list_neg[0:num_of_neg]
-    balanced_data = np.concatenate((pos, neg))
-    random.shuffle(balanced_data)
+        pos = data_list_pos[0:num_of_pos]
+        neg = data_list_neg[0:num_of_neg]
+        balanced_data = np.concatenate((pos, neg))
+        random.shuffle(balanced_data)
 
-    new_data_list_pos = data_list_pos[num_of_pos:]
-    new_data_list_neg = data_list_neg[num_of_neg:]
-    return  balanced_data, new_data_list_pos, new_data_list_neg
+        new_data_list_pos = data_list_pos[num_of_pos:]
+        new_data_list_neg = data_list_neg[num_of_neg:]
+        return  balanced_data, new_data_list_pos, new_data_list_neg
+
 
 def make_slice_queue(data_size, batch_size):
     if not data_size > batch_size:
@@ -74,11 +92,10 @@ def make_slice_queue(data_size, batch_size):
 ASSUMPTION: there is a positive and negative list in each dataset
 if there are no positives or negatives in the dataset, then merge the set with another set that contains these
 '''
-# FIXME modify 'make_validation_test_list' to make it output pos and neg lists for val and test
-# todo IMPORTANT: data_list has to contain the full path to the image
+# note: if data_type == 'image', total_data_list has to contain the full path to the image
+# note: if data_type == 'hdf5', total_data_list has to contain indices according to the saved hdf5 file
 def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.001, test_percent=0.001,
-          val_pos_percent=0.3, test_pos_percent=0.1):
-
+          val_pos_percent=0.3, test_pos_percent=0.1, data_type='hdf5'):
     num_pos = len(total_data_list_pos)
     num_neg = len(total_data_list_neg)
 
@@ -88,41 +105,81 @@ def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_perc
     val_size = np.floor(val_percent * balanced_total).astype(int)
     test_size = np.floor(test_percent * balanced_total).astype(int)
 
-    val_list, total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(total_data_list_pos,
-                                                        total_data_list_neg, val_pos_percent, val_size)
+    if data_type == 'hdf5':
+        val_list_pos, val_list_neg, \
+        total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(total_data_list_pos,
+                                                                                            total_data_list_neg,
+                                                                                            val_pos_percent, val_size,
+                                                                                            data_type=data_type)
 
-    test_list, total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(total_data_list_pos,
-                                                        total_data_list_neg, test_pos_percent, test_size)
+        test_list_pos, test_list_neg, \
+        total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(total_data_list_pos,
+                                                                                            total_data_list_neg,
+                                                                                            val_pos_percent, test_size,
+                                                                                            data_type=data_type)
 
-    return val_list, test_list, total_data_list_pos, total_data_list_neg
+        return val_list_pos, val_list_neg, test_list_pos, test_list_neg, total_data_list_pos, total_data_list_neg
+
+    else:
+        val_list, total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(
+            total_data_list_pos, total_data_list_neg, val_pos_percent, val_size, data_type=data_type)
+
+        test_list, total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(
+            total_data_list_pos, total_data_list_neg, test_pos_percent, test_size, data_type=data_type)
+
+        return val_list, test_list, total_data_list_pos, total_data_list_neg
 
 
-# FIXME modify 'make_train_batches' to output a pos and neg list of indices
-def make_train_batches(total_data_list_pos, total_data_list_neg):
+def make_train_batches(total_data_list_pos, total_data_list_neg, data_type='hdf5'):
     random.shuffle(total_data_list_pos)
     random.shuffle(total_data_list_neg)
     total_len_half = min(len(total_data_list_neg), len(total_data_list_pos))
-    total_data_list = np.concatenate((total_data_list_pos[0:total_len_half], total_data_list_neg[0:total_len_half]))
-    random.shuffle(total_data_list)
-    return total_data_list
-
-
-# FIXME modify 'load_in_array' to accept 2 lists, a pos and a neg indices list. Shuffle data after loading
-def load_in_array(data_list, heads=1):
-    # return data array and labels list which have been categorical
-    if heads == 1:
-        data_array = np.zeros(shape=(len(data_list), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-        labels = np.zeros(len(data_list))
-        for image in xrange(0, len(data_list)):
-            name = data_list[image].split(',')[0]
-            data_array[image] = ndimage.imread(name)[:, :, 0:3]
-            labels[image] = int(data_list[image].split(',')[1])
+    
+    if data_type == 'hdf5':
+        total_data_list_pos = total_data_list_pos[0:total_len_half]
+        total_data_list_neg = total_data_list_neg[0:total_len_half]
+        return total_data_list_pos, total_data_list_neg
     else:
-        # do siamese loading
+        
+        total_data_list = np.concatenate((total_data_list_pos[0:total_len_half], total_data_list_neg[0:total_len_half]))
+        random.shuffle(total_data_list)
+        return total_data_list
+
+
+def load_in_array(data_pos, data_neg, hdf5_file=None, data_list=None, heads=1, data_type='hdf5'):
+    if heads == 1:
+        if data_type == 'hdf5':
+
+            data_array = np.zeros(shape=(len(data_pos)+len(data_neg), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+
+            for image_1 in xrange(len(data_pos)):
+                data_array[image_1] = hdf5_file['positives'][data_pos[image_1]]
+            for image_2 in xrange(len(data_neg)):
+                data_array[len(data_pos) + image_2] = hdf5_file['negatives'][data_neg[image_2]]
+
+            labels = np.append(np.ones(len(data_pos)), np.zeros(len(data_neg)))
+
+            everything = zip(data_array, labels)
+            random.shuffle(everything)
+            data_array, labels = zip(*everything)
+            labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
+            return np.asarray(data_array), labels
+
+        else:
+            data_array = np.zeros(shape=(len(data_list), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+            labels = np.zeros(len(data_list))
+            for image in xrange(0, len(data_list)):
+                name = data_list[image].split(',')[0]
+                data_array[image] = ndimage.imread(name)[:, :, 0:3]
+                labels[image] = int(data_list[image].split(',')[1])
+                labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
+                return data_array, labels
+    else:
+        if data_type == 'hdf5':
+            
         pass
 
-    labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
-    return [data_array, labels]
+
 
 
 def fetch_dummy_data():

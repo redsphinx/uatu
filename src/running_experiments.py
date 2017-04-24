@@ -132,7 +132,7 @@ def experiment_14(data):
 
 
 def experiment_15():
-    experiment_name = 'simple CNN with 1D filters, start 16 filters, DDL'
+    experiment_name = 'simple CNN with 1D filters, start 16 filters, DDL using HDF5, 5 validation steps per epoch'
     print('experiment: %s' % experiment_name)
     iterations = 5
     weights_name = 'cnn_1D_filters_ddl.h5'
