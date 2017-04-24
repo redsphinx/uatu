@@ -13,7 +13,7 @@ import os
 import numpy as np
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
-@profile
+
 def add_activation_and_relu(model):
     model.add(Activation('relu'))
     model.add(MaxPool2D(pool_size=(2, 2)))
@@ -45,7 +45,7 @@ def cnn_model(train_data):
 
     return model
 
-@profile
+
 def cnn_model_2d_conv_1d_filters(numfil):
     model = Sequential()
     model.add(Conv2D(16*numfil, kernel_size=(1, 3), padding='same', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
@@ -154,14 +154,19 @@ def cnn_model_2d_conv_1d_filters_BN(train_data, do_dropout):
 
     return model
 
-@profile
+
 def main(experiment_name, weights_name, numfil):
     # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
     total_data_list_pos, total_data_list_neg = pu.merge_pedestrian_sets()
-    val_list, test_list, total_data_list_pos, total_data_list_neg = ddl.make_validation_test_list(total_data_list_pos,
-                                                                                                  total_data_list_neg,
-                                                                                                  val_pos_percent=0.5,
-                                                                                                  test_pos_percent=0.5)
+
+    # FIXME modify 'make_validation_test_list' to make it output pos and neg lists for val and test
+    # val_list, test_list, total_data_list_pos, total_data_list_neg = ddl.make_validation_test_list(total_data_list_pos,
+    #                                                                                               total_data_list_neg,
+    #                                                                                               val_pos_percent=0.5,
+    #                                                                                               test_pos_percent=0.5)
+    val_list_pos, val_list_neg, test_list_pos, test_list_neg, total_data_list_pos, total_data_list_neg = \
+    ddl.make_validation_test_list(total_data_list_pos, total_data_list_neg, val_pos_percent=0.5, test_pos_percent=0.5)
+
     model = cnn_model_2d_conv_1d_filters(numfil)
 
     if pc.VERBOSE:
@@ -173,28 +178,49 @@ def main(experiment_name, weights_name, numfil):
                   optimizer=nadam,
                   metrics=['accuracy'])
 
-    batch_size = pc.BATCH_SIZE * 30
+    slice_size = 10000
     train_data_size = 2*min(len(total_data_list_pos), len(total_data_list_neg))
-    num_steps = np.ceil(train_data_size*1.0 / batch_size).astype(int)
+    num_steps_per_epoch = np.ceil(train_data_size*1.0 / slice_size).astype(int)
 
     # in each epoch the training data gets partitioned into different batches. This way we break correlations between
     # instances and we can see many more negative examples
-    val_data, val_labels = ddl.load_in_array(val_list)
-    for epoch in xrange(pc.NUM_EPOCHS):
-        batch_size_queue = ddl.make_batch_queue(train_data_size, batch_size)
-        total_train_data_list = ddl.make_train_batches(total_data_list_pos, total_data_list_neg)
-        for step in xrange(num_steps):
-            # start = time.time()
-            train_data_list = total_train_data_list[step * batch_size : step * batch_size + batch_size_queue[step]]
-            train_data, train_labels = ddl.load_in_array(train_data_list)
+    # FIXME modify 'load_in_array' to accept 2 lists, a pos and a neg indices list. Shuffle data after loading
+    val_data, val_labels = ddl.load_in_array(val_list_pos, val_list_neg)
+    # have 10 validation procedures take place per epoch
+    num_validations = 10
+    validation_interval = np.floor(num_steps_per_epoch / num_validations).astype(int)
+    print('validation happens every %d steps' % validation_interval)
 
-            model.fit(train_data,
-                      train_labels,
-                      # batch_size=batch_size_queue[step],
-                      batch_size=pc.BATCH_SIZE*10,
-                      epochs=1,
-                      validation_data=(val_data, val_labels),
-                      verbose=2)
+    for epoch in xrange(pc.NUM_EPOCHS):
+        slice_size_queue = ddl.make_slice_queue(train_data_size, slice_size)
+        # FIXME modify 'make_train_batches' to output a pos and neg list of indices
+        total_train_data_list = ddl.make_train_batches(total_data_list_pos, total_data_list_neg)
+        for step in xrange(num_steps_per_epoch):
+            # start = time.time()
+            class_slice = np.floor(slice_size_queue[step] / 2).astype(int)
+            # FIXME modify 'load_in_array' to accept 2 lists, a pos and a neg indices list. Shuffle data after loading
+            # train_data_list = total_train_data_list[step * batch_size : step * batch_size + slice_size_queue[step]]
+            train_data_list_pos = total_train_data_list[step * class_slice: step * class_slice + class_slice]
+            train_data_list_neg = total_train_data_list[step * class_slice: step * class_slice + class_slice]
+
+            # train_data, train_labels = ddl.load_in_array(train_data_list)
+            train_data, train_labels = ddl.load_in_array(train_data_list_pos, train_data_list_neg)
+            # let validation happen every x steps
+            if step % validation_interval == 0:
+                model.fit(train_data,
+                          train_labels,
+                          # batch_size=batch_size_queue[step],
+                          batch_size=pc.BATCH_SIZE*10,
+                          epochs=1,
+                          validation_data=(val_data, val_labels),
+                          verbose=2)
+            else:
+                model.fit(train_data,
+                          train_labels,
+                          # batch_size=batch_size_queue[step],
+                          batch_size=pc.BATCH_SIZE * 10,
+                          epochs=1,
+                          verbose=2)
             # stop = time.time()
             # the_time = stop - start
             # total_steps = pc.NUM_EPOCHS * num_steps
@@ -212,7 +238,9 @@ def main(experiment_name, weights_name, numfil):
     #           validation_data=(validation_data, validation_labels),
     #           verbose=2)
 
-    test_data, test_labels = ddl.load_in_array(test_list)
+    # FIXME modify 'load_in_array' to accept 2 lists, a pos and a neg indices list. Shuffle data after loading
+    # test_data, test_labels = ddl.load_in_array(test_list)
+    test_data, test_labels = ddl.load_in_array(test_list_pos, test_list_neg)
     score = model.evaluate(test_data, test_labels)
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
@@ -233,7 +261,7 @@ def main(experiment_name, weights_name, numfil):
     del model
     return test_confusion_matrix
 
-@profile
+
 def super_main(experiment_name, iterations, weights_name, numfil):
     accs = np.zeros((iterations, 4))
 

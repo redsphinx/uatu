@@ -1,16 +1,11 @@
 import numpy as np
 import project_constants as pc
-from PIL import Image
-import os
-import random as rd
 from scipy import ndimage
-from shutil import copyfile
-import shutil
-from itertools import combinations
 import random
 import csv
-import time
 import keras
+import h5py
+import time
 
 
 def analyze_data_set(dataset):
@@ -41,7 +36,6 @@ def make_specific_balanced_set(dataset, positives_percentage, set_size):
             new_data_list.append(dataset[row])
     return balanced_data, new_data_list
 
-@profile
 def make_specific_balanced_set_given_pos_neg(dataset_pos, dataset_neg, positives_percentage, set_size):
     data_list_pos = np.asarray(dataset_pos)
     data_list_neg = np.asarray(dataset_neg)
@@ -62,8 +56,7 @@ def make_specific_balanced_set_given_pos_neg(dataset_pos, dataset_neg, positives
     new_data_list_neg = data_list_neg[num_of_neg:]
     return  balanced_data, new_data_list_pos, new_data_list_neg
 
-@profile
-def make_batch_queue(data_size, batch_size):
+def make_slice_queue(data_size, batch_size):
     if not data_size > batch_size:
         print('Error: train_size smaller than batch_size')
         return
@@ -81,9 +74,9 @@ def make_batch_queue(data_size, batch_size):
 ASSUMPTION: there is a positive and negative list in each dataset
 if there are no positives or negatives in the dataset, then merge the set with another set that contains these
 '''
+# FIXME modify 'make_validation_test_list' to make it output pos and neg lists for val and test
 # todo IMPORTANT: data_list has to contain the full path to the image
-@profile
-def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.01, test_percent=0.01,
+def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.001, test_percent=0.001,
           val_pos_percent=0.3, test_pos_percent=0.1):
 
     num_pos = len(total_data_list_pos)
@@ -103,7 +96,8 @@ def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_perc
 
     return val_list, test_list, total_data_list_pos, total_data_list_neg
 
-@profile
+
+# FIXME modify 'make_train_batches' to output a pos and neg list of indices
 def make_train_batches(total_data_list_pos, total_data_list_neg):
     random.shuffle(total_data_list_pos)
     random.shuffle(total_data_list_neg)
@@ -112,7 +106,8 @@ def make_train_batches(total_data_list_pos, total_data_list_neg):
     random.shuffle(total_data_list)
     return total_data_list
 
-@profile
+
+# FIXME modify 'load_in_array' to accept 2 lists, a pos and a neg indices list. Shuffle data after loading
 def load_in_array(data_list, heads=1):
     # return data array and labels list which have been categorical
     if heads == 1:
@@ -128,3 +123,70 @@ def load_in_array(data_list, heads=1):
 
     labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
     return [data_array, labels]
+
+
+def fetch_dummy_data():
+    print('fetching data')
+    path_pos = '/home/gabi/PycharmProjects/uatu/data/all_positives.txt'
+    path_neg = '/home/gabi/PycharmProjects/uatu/data/all_negatives.txt'
+
+    list_pos = np.genfromtxt(path_pos, dtype=None).tolist()
+    list_neg = np.genfromtxt(path_neg, dtype=None).tolist()
+
+    return list_pos, list_neg
+
+
+def data_pos_to_hdf5():
+    data_pos, data_neg = fetch_dummy_data()
+    # amount = 40000
+    h5_path = '/home/gabi/PycharmProjects/uatu/data/all_data_uncompressed.h5'
+
+    print('loading positive data into array')
+    start = time.time()
+    pos, lab_pos = load_in_array(data_pos)
+    time_loading_pos = time.time() - start
+    print('time loading pos: %0.2f' %time_loading_pos)
+
+    with h5py.File(h5_path, 'a') as myFile:
+        print('loading pos array into hdf5')
+        start = time.time()
+        pos_data = myFile.create_dataset(name='positives', data=pos)
+        time_loading = time.time() - start
+        print('time loading: %0.2f' % time_loading)
+
+
+def data_neg_to_hdf5():
+    data_pos, data_neg = fetch_dummy_data()
+    # amount = 40000
+    h5_path = '/home/gabi/PycharmProjects/uatu/data/all_data_uncompressed.h5'
+
+    print('loading negative data into array')
+    start = time.time()
+    neg, lab_neg = load_in_array(data_neg)
+    time_loading_neg = time.time() - start
+
+    print('time loading neg: %0.2f' %time_loading_neg)
+
+    with h5py.File(h5_path, 'w') as myFile:
+        print('loading neg array into hdf5')
+        start = time.time()
+        neg_data = myFile.create_dataset(name='negatives', data=neg)
+        time_loading = time.time() - start
+        print('time loading: %0.2f' % time_loading)
+
+
+def load_from_hdf5():
+    h5_path = '/home/gabi/PycharmProjects/uatu/data/all_data_uncompressed.h5'
+
+
+    with h5py.File(h5_path, 'r') as hf:
+        start = time.time()
+        data_pos = hf['positives'][0:10000]
+        total = time.time() - start
+        print('total time loading all pos: %0.2f' % total)
+
+        start = time.time()
+        data_neg = hf['negatives'][0:10000]
+        total = time.time() - start
+        print('total time loading all neg: %0.2f' % total)
+

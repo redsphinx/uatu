@@ -927,7 +927,7 @@ def create_pos_cbcl():
     print('total time: %0.2f' % (total_time))
 
 
-def merge_pedestrian_sets():
+def merge_pedestrian_sets(save=False):
     data_location = '/home/gabi/PycharmProjects/uatu/data'
     pos = 'positives.txt'
     neg = 'negatives.txt'
@@ -939,6 +939,18 @@ def merge_pedestrian_sets():
 
     pos_list = cbcl_pos + inria_pos + nicta_pos
     neg_list = inria_neg + nicta_neg
+
+    if save:
+        all_pos_list = os.path.join(data_location, 'all_positives.txt')
+        all_neg_list = os.path.join(data_location, 'all_negatives.txt')
+
+        with open(all_pos_list, 'wr') as myFile:
+            for line in pos_list:
+                myFile.write(str(line) + '\n')
+
+        with open(all_neg_list, 'wr') as myFile:
+            for line in neg_list:
+                myFile.write(str(line) + '\n')
 
     return pos_list, neg_list
 
