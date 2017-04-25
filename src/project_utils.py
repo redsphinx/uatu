@@ -199,8 +199,8 @@ def make_pairs_viper():
 
     with open(pairings_pos_name, 'wr') as myFile:
         for id in list_ids:
-            path_1 = os.path.join(padded_folder_path, id)
-            path_2 = os.path.join(padded_folder_path, id)
+            path_1 = os.path.join(padded_folder_path, 'cam_a', id)
+            path_2 = os.path.join(padded_folder_path, 'cam_b', id)
             myFile.write(str(path_1 + ',' + path_2 + ',1\n'))
 
     with open(pairings_neg_name, 'wr') as myFile:
@@ -210,8 +210,8 @@ def make_pairs_viper():
             if comb[0] == comb[1]:
                 pass
             else:
-                path_1 = os.path.join(padded_folder_path, comb[0])
-                path_2 = os.path.join(padded_folder_path, comb[1])
+                path_1 = os.path.join(padded_folder_path, 'cam_a', comb[0])
+                path_2 = os.path.join(padded_folder_path, 'cam_b', comb[1])
                 myFile.write(str(path_1 + ',' + path_2 + ',0\n'))
 
 
@@ -405,13 +405,13 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
         log_file.write('duration:                   %f\n' % total_time)
         log_file.write('data_set:                   %s\n' % dataset_name)
         log_file.write('iterations:                 %d\n' % super_main_iterations)
-        log_file.write('start_learning_rate:        %f\n' % pc.START_LEARNING_RATE)
-        log_file.write('batch_size:                 %d\n' % pc.BATCH_SIZE)
-        log_file.write('similarity_metric           %s\n' % pc.SIMILARITY_METRIC)
-        log_file.write('decay_rate:                 %f\n' % pc.DECAY_RATE)
-        log_file.write('momentum:                   %f\n' % pc.MOMENTUM)
-        log_file.write('epochs:                     %d\n' % pc.NUM_EPOCHS)
-        log_file.write('number_of_cameras:          %d\n' % pc.NUM_CAMERAS)
+        # log_file.write('start_learning_rate:        %f\n' % pc.START_LEARNING_RATE)
+        # log_file.write('batch_size:                 %d\n' % pc.BATCH_SIZE)
+        # log_file.write('similarity_metric           %s\n' % pc.SIMILARITY_METRIC)
+        # log_file.write('decay_rate:                 %f\n' % pc.DECAY_RATE)
+        # log_file.write('momentum:                   %f\n' % pc.MOMENTUM)
+        # log_file.write('epochs:                     %d\n' % pc.NUM_EPOCHS)
+        # log_file.write('number_of_cameras:          %d\n' % pc.NUM_CAMERAS)
         log_file.write('number_of_siamese_heads:    %d\n' % pc.NUM_SIAMESE_HEADS)
         log_file.write('dropout:                    %f\n' % pc.DROPOUT)
         log_file.write('transfer_learning:          %s\n' % pc.TRANSFER_LEARNING)
@@ -462,13 +462,15 @@ def make_pairs_cuhk1():
     with open(pairings_pos_name, 'wr') as posFile:
         with open(pairings_neg_name, 'wr') as negFile:
             for comb in combos:
+                pic_1 = os.path.join(images_path, comb[0])
+                pic_2 = os.path.join(images_path, comb[1])
                 if match(comb[0], comb[1]):
                     if comb[0] == comb[1]:
                         pass
                     else:
-                        posFile.write(str(comb[0] + ',' + comb[1] + ',1\n'))
+                        posFile.write(str(pic_1 + ',' + pic_2 + ',1\n'))
                 else:
-                    negFile.write(str(comb[0] + ',' + comb[1] + ',0\n'))
+                    negFile.write(str(pic_1 + ',' + pic_2 + ',0\n'))
 
 
 def make_labels_cuhk1(data_file):
@@ -978,4 +980,4 @@ def merge_reid_sets(save=False):
 
     return pos_list, neg_list
 
-a,b = merge_reid_sets(save=True)
+# merge_reid_sets(save=True)

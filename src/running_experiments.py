@@ -1,15 +1,5 @@
-import tensorflow as tf
-import keras
-from keras import backend as K
-
-import project_constants as pc
-import project_utils as pu
 import cnn_clean as cnn
 import siamese_cnn_clean as scn
-import preprocessing as pre
-
-import os
-import numpy as np
 import time
 
 
@@ -141,59 +131,270 @@ def experiment_15():
 
 
 def experiment_16():
-    experiment_name = 'saving weights simple CNN with 2D filters, start 16 filters, DDLwith HDF5'
+    experiment_name = 'saving weights simple CNN with 2D filters, start 32 filters, DDL with HDF5'
     print('experiment: %s' % experiment_name)
     iterations = 1
-    weights_name = 'cnn_2D_16_filter_ddl_hdf5.h5'
-    numfil = 1
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5.h5'
+    numfil = 2
     cnn.super_main(experiment_name, iterations, weights_name, numfil)
 
 
+def experiment_17():
+    experiment_name = 'training SCN with 2D filters 32 with DDL images'
+    print('experiment: %s' % experiment_name)
+    iterations = 3
+    numfil = 2
+    epochs = 5
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5.h5'
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size)
+# ----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
+
+def experiment_18():
+    experiment_name = '18:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.01'
+    print('experiment: %s' % experiment_name)
+    iterations = 1
+    save_weights = True
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-01.h5'
+    numfil = 2
+    epochs = 10
+    batch_size = 128
+    lr = 0.01
+    cnn.super_main(experiment_name, iterations, weights_name, numfil, epochs, batch_size, lr, save_weights=save_weights)
+
+def experiment_19():
+    experiment_name = '19:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.001'
+    print('experiment: %s' % experiment_name)
+    iterations = 1
+    save_weights = True
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-001.h5'
+    numfil = 2
+    epochs = 10
+    batch_size = 128
+    lr = 0.001
+    cnn.super_main(experiment_name, iterations, weights_name, numfil, epochs, batch_size, lr, save_weights=save_weights)
+
+def experiment_20():
+    experiment_name = '20:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 1
+    save_weights = True
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
+    numfil = 2
+    epochs = 10
+    batch_size = 128
+    lr = 0.0001
+    cnn.super_main(experiment_name, iterations, weights_name, numfil, epochs, batch_size, lr, save_weights=save_weights)
+
+# ---
+# ---
+
+def experiment_21():
+    experiment_name = '21:training SCN with CNN weights: 2D filters 32, BN_lr_0-01. lr=0.01'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-01.h5'
+    lr = 0.01
+    cl = False
+    cl_max = None
+    cl_min = None
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_max, cl_min, bn)
+
+def experiment_22():
+    experiment_name = '22:training SCN with CNN weights: 2D filters 32, BN_lr_0-001. lr=0.001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-001.h5'
+    lr = 0.001
+    cl = False
+    cl_max = None
+    cl_min = None
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+def experiment_23():
+    experiment_name = '23:training SCN with CNN weights: 2D filters 32, BN_lr_0-0001. lr=0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
+    lr = 0.0001
+    cl = False
+    cl_max = None
+    cl_min = None
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+# ---
+# ---
+
+def experiment_24():
+    experiment_name = '24:training SCN with CNN weights: 2D filters 32, BN_lr_0-01. use CL 0.001-0.01'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-01.h5'
+    lr = 0.001
+    cl = True
+    cl_min = 0.001
+    cl_max = 0.01
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+def experiment_25():
+    experiment_name = '25:training SCN with CNN weights: 2D filters 32, BN_lr_0-01. use CL 0.0001-0.01'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-01.h5'
+    lr = 0.0001
+    cl = True
+    cl_min = 0.0001
+    cl_max = 0.01
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+# ---
+# ---
+
+def experiment_26():
+    experiment_name = '26:training SCN with CNN weights: 2D filters 32, BN_lr_0-001. use CL 0.0001-0.001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-001.h5'
+    lr = 0.0001
+    cl = True
+    cl_min = 0.0001
+    cl_max = 0.001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+def experiment_27():
+    experiment_name = '27:training SCN with CNN weights: 2D filters 32, BN_lr_0-001. use CL 0.00001-0.001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-001.h5'
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+# ---
+# ---
+
+def experiment_28():
+    experiment_name = '28:training SCN with CNN weights: 2D filters 32, BN_lr_0-0001. use CL 0.00001-0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+# ---
+# ---
+
+def experiment_29():
+    experiment_name = '29:training SCN with CNN weights: 2D filters 32, no BN. use CL 0.00001-0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5.h5'
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = False
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+def experiment_30():
+    experiment_name = '30:training SCN with CNN weights: 2D filters 32, no BN. use CL 0.00001-0.00005'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5.h5'
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.00005
+    bn = False
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+
+
 def main():
-    # data loading, so it happens only once
-    # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
-    # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
-    # experiment_6(data)
+    experiment_21()
+    try: experiment_18()
+    except: print('fuck 18')
 
-    # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
-    # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
-    # experiment_11(data)
-    # experiment_12(data)
-    #
-    # # wait a bit to make sure the weights are saved to file
-    # time.sleep(1200)
-    # del train_data, train_labels, validation_data, validation_labels, test_data, test_labels
+    try: experiment_19()
+    except: print('fuck 19')
 
-    # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_scn_data()
-    # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
-    # experiment_13(data)
-    # experiment_14(data)
-    #
-    experiment_16()
-    # experiment_16()
+    try: experiment_20()
+    except: print('fuck 20')
 
-    # centered_train_data = pre.center(train_data)
-    # centered_test_data = pre.center(test_data)
-    # centered_validation_data = pre.center(validation_data)
-    #
-    # normalized_centered_train_data = pre.normalize(centered_train_data)
-    # normalized_centered_test_data = pre.normalize(centered_test_data)
-    # normalized_centered_validation_data = pre.normalize(centered_validation_data)
-    #
-    # normalized_train_data = pre.normalize(train_data)
-    # normalized_test_data = pre.normalize(test_data)
-    # normalized_validation_data = pre.normalize(validation_data)
-    #
-    # centered_data = [centered_train_data, train_labels, centered_validation_data, validation_labels, centered_test_data, test_labels]
-    # normalized_centered_data = [normalized_centered_train_data, train_labels, normalized_centered_validation_data, validation_labels, normalized_centered_test_data, test_labels]
-    # normalized_data = [normalized_train_data, train_labels, normalized_validation_data, validation_labels, normalized_test_data, test_labels]
+    time.sleep(600)
 
-    # running the experiments
-    # experiment_0(pu.initialize_cnn_data())
-    # experiment_1(centered_data)
-    # experiment_2(normalized_centered_data)
+    try: experiment_21()
+    except: print('fuck 21')
 
-    # experiment_5(data)
-    # experiment_6(data)
+    try: experiment_22()
+    except: print('fuck 22')
+
+    try: experiment_23()
+    except: print('fuck 23')
+
+    try: experiment_24()
+    except: print('fuck 24')
+
+    try: experiment_25()
+    except: print('fuck 25')
+
+    try: experiment_26()
+    except: print('fuck 26')
+
+    try: experiment_27()
+    except: print('fuck 27')
+
+    try: experiment_28()
+    except: print('fuck 28')
+
+    try: experiment_29()
+    except: print('fuck 29')
+
+    try: experiment_30()
+    except: print('fuck 30')
 
 main()

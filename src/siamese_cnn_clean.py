@@ -1,23 +1,16 @@
-import tensorflow as tf
 import keras
-from keras.models import load_model
 from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Input, Lambda, BatchNormalization
-from keras.optimizers import RMSprop
 from keras import optimizers
-from clr_callback import *
 import dynamic_data_loading as ddl
-
-
 from keras import backend as K
-
 import project_constants as pc
 import project_utils as pu
 import os
 import numpy as np
-from keras.utils import plot_model
 import time
-
+import h5py
+from clr_callback import *
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
@@ -49,7 +42,7 @@ def add_activation_and_relu(model):
 def create_base_network_simple(numfil, weights_name):
     model = Sequential()
     model.add(Conv2D(16 * numfil, kernel_size=(3, 3), padding='same',
-                     input_shape=(pc.NUM_SIAMESE_HEADS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
+                     input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
                                   pc.NUM_CHANNELS), name='conv_1', trainable=pc.TRAIN_CNN))
     model = add_activation_and_relu(model)
     model.add(Conv2D(32*numfil, kernel_size=(3, 3), padding='same', name='conv_2', trainable=pc.TRAIN_CNN))
@@ -70,6 +63,40 @@ def create_base_network_simple(numfil, weights_name):
         model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name), by_name=True)
 
     return model
+
+
+def create_base_network_simple_BN(numfil, weights_name):
+    model = Sequential()
+    model.add(Conv2D(16 * numfil, kernel_size=(3, 3), padding='same',
+                     input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
+                                  pc.NUM_CHANNELS), name='conv_1', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_1', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(32*numfil, kernel_size=(3, 3), padding='same', name='conv_2', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_2', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(64*numfil, kernel_size=(3, 3), padding='same', name='conv_3', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_3', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(128*numfil, kernel_size=(3, 3), padding='same', name='conv_4', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_4', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(256*numfil, kernel_size=(3, 3), padding='same', name='conv_5', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_5', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(512*numfil, kernel_size=(3, 3), padding='same', name='conv_6', trainable=pc.TRAIN_CNN))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_6', trainable=pc.TRAIN_CNN))
+    model.add(Conv2D(1024*numfil, kernel_size=(3, 3), padding='same', name='conv_7', trainable=pc.TRAIN_CNN))
+    model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_7', trainable=pc.TRAIN_CNN))
+    model.add(Flatten(name='cnn_flat'))
+
+    if pc.TRANSFER_LEARNING:
+        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name), by_name=True)
+
+    return model
+
 
 
 def create_base_network_1d_filter(train_data_, numfil, weights_name):
@@ -204,10 +231,13 @@ def compute_accuracy(predictions, labels):
     return labels[predictions.ravel() < 0.5].mean()
 
 
-def create_siamese(numfil, weights_name, similarity_metric='fc_layers'):
+def create_siamese(numfil, weights_name, bn, similarity_metric='fc_layers'):
     input_a = Input(shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
     input_b = Input(shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-    base_network = create_base_network_simple(numfil, weights_name)
+    if bn:
+        base_network = create_base_network_simple_BN(numfil, weights_name)
+    else:
+        base_network = create_base_network_simple(numfil, weights_name)
 
     processed_a = base_network(input_a)
     processed_b = base_network(input_b)
@@ -233,10 +263,14 @@ def confusion_matrix(name, predictions, labels, verbose=False):
     return matrix
 
 
-def main(experiment_name, weights_name, numfil, similarity_metric='fc_layers'):
+def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn, similarity_metric='fc_layers'):
 
     total_data_list_pos = '/home/gabi/PycharmProjects/uatu/data/reid_all_positives.txt'
-    total_data_list_neg = '/home/gabi/PycharmProjects/uatu/data/reid_all_negatives.txt'
+    file_data_list_neg = '/home/gabi/PycharmProjects/uatu/data/reid_all_negatives_uncompressed.h5'
+
+    total_data_list_pos = np.genfromtxt(total_data_list_pos, dtype=None)
+    with h5py.File(file_data_list_neg, 'r') as hf:
+        total_data_list_neg = hf['data'][()]
 
     val_list, test_list, total_data_list_pos, total_data_list_neg = ddl.make_validation_test_list(total_data_list_pos,
                                                                                                   total_data_list_neg,
@@ -244,7 +278,7 @@ def main(experiment_name, weights_name, numfil, similarity_metric='fc_layers'):
                                                                                                   test_pos_percent=0.1,
                                                                                                   data_type='images')
 
-    model = create_siamese(numfil, weights_name)
+    model = create_siamese(numfil, weights_name, bn)
     start = time.time()
     validation_data, validation_labels = ddl.load_in_array(data_list=val_list,
                                                            data_type='images',
@@ -266,7 +300,7 @@ def main(experiment_name, weights_name, numfil, similarity_metric='fc_layers'):
     print('validation happens every %d step(s)' % validation_interval)
 
     if similarity_metric == 'fc_layers':
-        nadam = optimizers.Nadam(lr=pc.START_LEARNING_RATE, schedule_decay=pc.DECAY_RATE)
+        nadam = optimizers.Nadam(lr=lr, schedule_decay=pc.DECAY_RATE)
         model.compile(loss='categorical_crossentropy', optimizer=nadam, metrics=['accuracy'])
 
         # model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
@@ -275,7 +309,7 @@ def main(experiment_name, weights_name, numfil, similarity_metric='fc_layers'):
         #           validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
         #           verbose=2)
 
-        for epoch in xrange(pc.NUM_EPOCHS):
+        for epoch in xrange(epochs):
             print('epoch: %d' % epoch)
             slice_size_queue = ddl.make_slice_queue(train_data_size, slice_size)
 
@@ -290,17 +324,36 @@ def main(experiment_name, weights_name, numfil, similarity_metric='fc_layers'):
                                                              data_type='images')
                 print('Time loading training data: %0.3f seconds' % (time.time() - start))
                 # let validation happen every x steps
-                if step % validation_interval == 0:
-                    model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-                              batch_size=pc.BATCH_SIZE,
-                              epochs=1,
-                              validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
-                              verbose=0)
+
+                if cl:
+                    clr = CyclicLR(step_size=(np.shape(train_data)[0]/batch_size)*8, base_lr=cl_min,
+                                              max_lr=cl_max)
+                    if step % validation_interval == 0:
+                        model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
+                                  batch_size=batch_size,
+                                  epochs=1,
+                                  validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
+                                  verbose=2,
+                                  callbacks=[clr])
+                    else:
+                        model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
+                                  batch_size=batch_size,
+                                  epochs=1,
+                                  verbose=0,
+                                  callbacks=[clr])
                 else:
-                    model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-                              batch_size=pc.BATCH_SIZE,
-                              epochs=1,
-                              verbose=0)
+                    if step % validation_interval == 0:
+                        model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
+                                  batch_size=batch_size,
+                                  epochs=1,
+                                  validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
+                                  verbose=2)
+                    else:
+                        model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
+                                  batch_size=batch_size,
+                                  epochs=1,
+                                  verbose=0)
+
 
 
 
@@ -324,13 +377,13 @@ def main(experiment_name, weights_name, numfil, similarity_metric='fc_layers'):
     return te_matrix
 
 
-def super_main(experiment_name, iterations, numfil, weights_name):
+def super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_max, cl_min, bn):
     accs = np.zeros((iterations, 4))
 
     start = time.time()
     for iter in range(0, iterations):
         print('-----ITERATION %d' % iter)
-        accs[iter] = main(experiment_name, weights_name, numfil)
+        accs[iter] = main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn)
     stop = time.time()
 
     total_time = stop - start

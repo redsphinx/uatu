@@ -6,7 +6,7 @@ import csv
 import keras
 import h5py
 import time
-
+import os
 
 def analyze_data_set(dataset):
     data_list = list(csv.reader(np.genfromtxt(dataset, dtype=None)))
@@ -94,7 +94,7 @@ if there are no positives or negatives in the dataset, then merge the set with a
 '''
 # note: if data_type == 'image', total_data_list has to contain the full path to the image
 # note: if data_type == 'hdf5', total_data_list has to contain indices according to the saved hdf5 file
-def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.001, test_percent=0.001,
+def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.01, test_percent=0.01,
           val_pos_percent=0.3, test_pos_percent=0.1, data_type='hdf5'):
     num_pos = len(total_data_list_pos)
     num_neg = len(total_data_list_neg)
@@ -255,3 +255,19 @@ def load_from_hdf5():
         total = time.time() - start
         print('total time loading all neg: %0.2f' % total)
 
+
+def txt_to_hdf5(text_file, hdf5_file_name):
+    h5_path = os.path.join('/home/gabi/PycharmProjects/uatu/data/', hdf5_file_name)
+
+    data_list = np.genfromtxt(text_file, dtype=None)
+    with h5py.File(h5_path, 'w') as myFile:
+        print('loading data into hdf5')
+        start = time.time()
+        data = myFile.create_dataset(name='data', data=data_list)
+        time_loading = time.time() - start
+        print('time loading: %0.2f' % time_loading)
+
+
+# text_file = '/home/gabi/PycharmProjects/uatu/data/reid_all_negatives.txt'
+# h5_name = 'reid_all_negatives_uncompressed.h5'
+# txt_to_hdf5(text_file, h5_name)

@@ -8,6 +8,7 @@ import numpy as np
 from PIL import Image
 from keras.models import load_model
 import project_constants as pc
+from imblearn.datasets import make_imbalance
 import sys
 import time
 from scipy import ndimage
@@ -221,3 +222,26 @@ def test_arr_vs_list():
     del arr
     del lsit
 
+
+def test():
+
+    def pr1():
+        print('1')
+
+    def pr2():
+        print('2')
+
+    def pr3():
+        print('3')
+
+
+    try:
+        a = pr2() -9
+    except:
+        print('shit')
+
+    pr1()
+    pr2()
+
+
+test()

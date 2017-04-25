@@ -47,6 +47,41 @@ def cnn_model(numfil):
     return model
 
 
+def cnn_model_2D_BN(numfil):
+    model = Sequential()
+    model.add(Conv2D(16*numfil, kernel_size=(3, 3), padding='same', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
+                                                                                 pc.NUM_CHANNELS), name='conv_1'))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_1'))
+    model.add(Conv2D(32*numfil, kernel_size=(3, 3), padding='same', name='conv_2'))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_2'))
+    model.add(Conv2D(64*numfil, kernel_size=(3, 3), padding='same', name='conv_3'))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_3'))
+    model.add(Conv2D(128*numfil, kernel_size=(3, 3), padding='same', name='conv_4'))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_4'))
+    model.add(Conv2D(256*numfil, kernel_size=(3, 3), padding='same', name='conv_5'))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_5'))
+    model.add(Conv2D(512*numfil, kernel_size=(3, 3), padding='same', name='conv_6'))
+    model = add_activation_and_relu(model)
+    model.add(BatchNormalization(name='bn_6'))
+    model.add(Conv2D(1024*numfil, kernel_size=(3, 3), padding='same', name='conv_7'))
+    model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_7'))
+
+    model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
+    model.add(Flatten(name='cnn_flat'))
+    model.add(Dense(512))
+    model.add(Activation('relu'))
+    model.add(BatchNormalization(name='bn_8'))
+    model.add(Dense(pc.NUM_CLASSES))
+    model.add(Activation('softmax'))
+    return model
+
+
 def cnn_model_2d_conv_1d_filters(numfil):
     model = Sequential()
     model.add(Conv2D(16*numfil, kernel_size=(1, 3), padding='same', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
@@ -156,7 +191,7 @@ def cnn_model_2d_conv_1d_filters_BN(train_data, do_dropout):
     return model
 
 
-def main(experiment_name, weights_name, numfil, data_type='hdf5'):
+def main(experiment_name, weights_name, numfil, save_weights, epochs, batch_size, lr, data_type='hdf5'):
     # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
     hdf5_file_path = '/home/gabi/PycharmProjects/uatu/data/pedestrian_all_data_uncompressed.h5'
     hdf5_file = h5py.File(hdf5_file_path, 'r')
@@ -174,12 +209,13 @@ def main(experiment_name, weights_name, numfil, data_type='hdf5'):
     ddl.make_validation_test_list(total_data_list_pos, total_data_list_neg, val_pos_percent=0.5, test_pos_percent=0.5)
 
     # model = cnn_model_2d_conv_1d_filters(numfil)
-    model = cnn_model(numfil)
+    # model = cnn_model(numfil)
+    model = cnn_model_2D_BN(numfil)
 
     if pc.VERBOSE:
         print(model.summary())
 
-    nadam = optimizers.Nadam(lr=pc.START_LEARNING_RATE, schedule_decay=pc.DECAY_RATE)
+    nadam = optimizers.Nadam(lr=lr, schedule_decay=pc.DECAY_RATE)
 
     model.compile(loss='categorical_crossentropy',
                   optimizer=nadam,
@@ -195,13 +231,13 @@ def main(experiment_name, weights_name, numfil, data_type='hdf5'):
     val_data, val_labels = ddl.load_in_array(val_list_pos, val_list_neg, hdf5_file=hdf5_file)
     print('Time loading validation data: %0.3f seconds' % (time.time() - start))
 
-    # have 10 validation procedures take place per epoch
+    # note: minimal requirement that num_validations = 1
     num_validations = 5
     if num_validations > num_steps_per_epoch: num_validations = num_steps_per_epoch
     validation_interval = np.floor(num_steps_per_epoch / num_validations).astype(int)
     print('validation happens every %d step(s)' % validation_interval)
 
-    for epoch in xrange(pc.NUM_EPOCHS):
+    for epoch in xrange(epochs):
         print('epoch: %d' % epoch)
         slice_size_queue = ddl.make_slice_queue(train_data_size, slice_size)
         total_train_data_list_pos, total_train_data_list_neg = \
@@ -219,19 +255,20 @@ def main(experiment_name, weights_name, numfil, data_type='hdf5'):
             train_data, train_labels = ddl.load_in_array(train_data_list_pos, train_data_list_neg, hdf5_file=hdf5_file)
             print('Time loading training data: %0.3f seconds' % (time.time()-start))
             # let validation happen every x steps
+
             if step % validation_interval == 0:
                 model.fit(train_data,
                           train_labels,
                           # batch_size=batch_size_queue[step],
-                          batch_size=pc.BATCH_SIZE,
+                          batch_size=batch_size,
                           epochs=1,
                           validation_data=(val_data, val_labels),
-                          verbose=0)
+                          verbose=2)
             else:
                 model.fit(train_data,
                           train_labels,
                           # batch_size=batch_size_queue[step],
-                          batch_size=pc.BATCH_SIZE,
+                          batch_size=batch_size,
                           epochs=1,
                           verbose=0)
             # stop = time.time()
@@ -265,7 +302,7 @@ def main(experiment_name, weights_name, numfil, data_type='hdf5'):
 
     # save model
     # note: change the saved weights names !!
-    if pc.SAVE_CNN_WEIGHTS:
+    if save_weights:
         shit_name = weights_name
         name_weights = shit_name
         model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, name_weights))
@@ -279,12 +316,12 @@ def main(experiment_name, weights_name, numfil, data_type='hdf5'):
     return test_confusion_matrix
 
 
-def super_main(experiment_name, iterations, weights_name, numfil):
+def super_main(experiment_name, iterations, weights_name, numfil, epochs, batch_size, lr, save_weights=False):
     accs = np.zeros((iterations, 4))
 
     start = time.time()
     for iter in range(0, iterations):
-        accs[iter] = main(experiment_name, weights_name, numfil)
+        accs[iter] = main(experiment_name, weights_name, numfil, save_weights, epochs, batch_size, lr)
     stop = time.time()
 
     total_time = stop - start
