@@ -20,29 +20,30 @@ def add_activation_and_relu(model):
     return model
 
 
-def cnn_model(train_data):
+def cnn_model(numfil):
     model = Sequential()
-    model.add(Conv2D(32, kernel_size=(3, 3), padding='same', input_shape=train_data.shape[1:], name='conv_1'))
+    model.add(Conv2D(16*numfil, kernel_size=(3, 3), padding='same', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
+                                                                                 pc.NUM_CHANNELS), name='conv_1'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(64, kernel_size=(3, 3), padding='same', name='conv_2'))
+    model.add(Conv2D(32*numfil, kernel_size=(3, 3), padding='same', name='conv_2'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(128, kernel_size=(3, 3), padding='same', name='conv_3'))
+    model.add(Conv2D(64*numfil, kernel_size=(3, 3), padding='same', name='conv_3'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(256, kernel_size=(3, 3), padding='same', name='conv_4'))
+    model.add(Conv2D(128*numfil, kernel_size=(3, 3), padding='same', name='conv_4'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(512, kernel_size=(3, 3), padding='same', name='conv_5'))
+    model.add(Conv2D(256*numfil, kernel_size=(3, 3), padding='same', name='conv_5'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(1024, kernel_size=(3, 3), padding='same', name='conv_6'))
+    model.add(Conv2D(512*numfil, kernel_size=(3, 3), padding='same', name='conv_6'))
     model = add_activation_and_relu(model)
-    model.add(Conv2D(2048, kernel_size=(3, 3), padding='same', name='conv_7'))
+    model.add(Conv2D(1024*numfil, kernel_size=(3, 3), padding='same', name='conv_7'))
     model.add(Activation('relu'))
 
-    # model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
+    model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
     model.add(Flatten(name='cnn_flat'))
     model.add(Dense(512))
+    model.add(Activation('relu'))
     model.add(Dense(pc.NUM_CLASSES))
     model.add(Activation('softmax'))
-
     return model
 
 
@@ -172,7 +173,8 @@ def main(experiment_name, weights_name, numfil, data_type='hdf5'):
     val_list_pos, val_list_neg, test_list_pos, test_list_neg, total_data_list_pos, total_data_list_neg = \
     ddl.make_validation_test_list(total_data_list_pos, total_data_list_neg, val_pos_percent=0.5, test_pos_percent=0.5)
 
-    model = cnn_model_2d_conv_1d_filters(numfil)
+    # model = cnn_model_2d_conv_1d_filters(numfil)
+    model = cnn_model(numfil)
 
     if pc.VERBOSE:
         print(model.summary())

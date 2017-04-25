@@ -134,18 +134,18 @@ def experiment_14(data):
 def experiment_15():
     experiment_name = 'simple CNN with 1D filters, start 16 filters, DDL using HDF5, 5 validation steps per epoch'
     print('experiment: %s' % experiment_name)
-    iterations = 5
+    iterations = 1
     weights_name = 'cnn_1D_filters_ddl.h5'
     numfil=1
     cnn.super_main(experiment_name, iterations, weights_name, numfil)
 
 
 def experiment_16():
-    experiment_name = 'simple CNN with 1D filters, start 32 filters, DDL'
+    experiment_name = 'saving weights simple CNN with 2D filters, start 16 filters, DDLwith HDF5'
     print('experiment: %s' % experiment_name)
-    iterations = 5
-    weights_name = 'cnn_1D_filters_ddl.h5'
-    numfil=2
+    iterations = 1
+    weights_name = 'cnn_2D_16_filter_ddl_hdf5.h5'
+    numfil = 1
     cnn.super_main(experiment_name, iterations, weights_name, numfil)
 
 
@@ -169,7 +169,7 @@ def main():
     # experiment_13(data)
     # experiment_14(data)
     #
-    experiment_15()
+    experiment_16()
     # experiment_16()
 
     # centered_train_data = pre.center(train_data)

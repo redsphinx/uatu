@@ -140,13 +140,12 @@ def make_train_batches(total_data_list_pos, total_data_list_neg, data_type='hdf5
         total_data_list_neg = total_data_list_neg[0:total_len_half]
         return total_data_list_pos, total_data_list_neg
     else:
-        
         total_data_list = np.concatenate((total_data_list_pos[0:total_len_half], total_data_list_neg[0:total_len_half]))
         random.shuffle(total_data_list)
         return total_data_list
 
 
-def load_in_array(data_pos, data_neg, hdf5_file=None, data_list=None, heads=1, data_type='hdf5'):
+def load_in_array(data_pos=None, data_neg=None, hdf5_file=None, data_list=None, heads=1, data_type='hdf5'):
     if heads == 1:
         if data_type == 'hdf5':
 
@@ -175,13 +174,21 @@ def load_in_array(data_pos, data_neg, hdf5_file=None, data_list=None, heads=1, d
                 labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
                 return data_array, labels
     else:
-        if data_type == 'hdf5':
+        if data_type == 'images':
+            data_array = np.zeros(shape=(len(data_list),  pc.NUM_SIAMESE_HEADS, pc.IMAGE_HEIGHT,
+                                         pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+            labels = np.zeros(len(data_list))
+            for pair in xrange(0, len(data_list)):
+                for image in range(0,2):
+                    name = data_list[pair].split(',')[image]
+                    data_array[pair][image] = ndimage.imread(name)[:, :, 0:3]
+                    labels[pair] = int(data_list[pair].split(',')[2])
 
-            pass
+            labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
+            return data_array, labels
+
         else:
             pass
-
-
 
 
 def fetch_dummy_data():
