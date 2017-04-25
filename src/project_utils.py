@@ -184,35 +184,35 @@ def fix_viper():
             filename = the_file.split('_')[0] + '.bmp'
             filename = os.path.join(padded_cam_path, filename)
             new_img.save(filename)
-
     # it throws an error but it does the job
+
 
 # make matching and non-matching pairs
 def make_pairs_viper():
     padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
-    pairings_neg_name = 'pairings_neg.txt'
-    pairings_pos_name = 'pairings_pos.txt'
-
-    pairings_neg = open(os.path.join(padded_folder_path, pairings_neg_name), "wr")
-    pairings_pos = open(os.path.join(padded_folder_path, pairings_pos_name), "wr")
+    # store_folder_path = '/home/gabi/PycharmProjects/uatu/data/VIPeR_CUHK'
+    pairings_pos_name = '/home/gabi/PycharmProjects/uatu/data/VIPER/positives.txt'
+    pairings_neg_name = '/home/gabi/PycharmProjects/uatu/data/VIPER/negatives.txt'
 
     list_ids = os.listdir(os.path.join(padded_folder_path, 'cam_a'))
     combos = combinations(list_ids, 2)
 
-    for comb in combos:
-        a = comb[0]
-        b = comb[1]
-        if comb[0] == comb[1]:
-            pass
-        else:
-            pairings_neg.write(str(comb[0] + ',' + comb[1] + ',0\n'))
+    with open(pairings_pos_name, 'wr') as myFile:
+        for id in list_ids:
+            path_1 = os.path.join(padded_folder_path, id)
+            path_2 = os.path.join(padded_folder_path, id)
+            myFile.write(str(path_1 + ',' + path_2 + ',1\n'))
 
-    pairings_neg.close()
-
-    for id in list_ids:
-        pairings_pos.write(str(id + ',' + id + ',1\n'))
-
-    pairings_pos.close()
+    with open(pairings_neg_name, 'wr') as myFile:
+        for comb in combos:
+            a = comb[0]
+            b = comb[1]
+            if comb[0] == comb[1]:
+                pass
+            else:
+                path_1 = os.path.join(padded_folder_path, comb[0])
+                path_2 = os.path.join(padded_folder_path, comb[1])
+                myFile.write(str(path_1 + ',' + path_2 + ',0\n'))
 
 
 def make_labels_viper(data_file):
@@ -448,30 +448,27 @@ def fix_cuhk1():
         img.save(os.path.join(new_folder_path, image_path))
 
 
-def match(one, two):
-    return list(one)[0:4] == list(two)[0:4]
-
-
 def make_pairs_cuhk1():
-    folder_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/'
+    def match(one, two):
+        return list(one)[0:4] == list(two)[0:4]
+
     images_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images'
-    pairings_neg_name = 'pairings_neg.txt'
-    pairings_pos_name = 'pairings_pos.txt'
-    pairings_neg = open(os.path.join(folder_path, pairings_neg_name), "wr")
-    pairings_pos = open(os.path.join(folder_path, pairings_pos_name), "wr")
+    pairings_pos_name = '/home/gabi/PycharmProjects/uatu/data/CUHK/positives.txt'
+    pairings_neg_name = '/home/gabi/PycharmProjects/uatu/data/CUHK/negatives.txt'
+
     list_ids = os.listdir(images_path)
     combos = combinations(list_ids, 2)
-    for comb in combos:
-        if match(comb[0], comb[1]):
-            if comb[0] == comb[1]:
-                pass
-            else:
-                pairings_pos.write(str(comb[0] + ',' + comb[1] + ',1\n'))
-        else:
-            pairings_neg.write(str(comb[0] + ',' + comb[1] + ',0\n'))
 
-    pairings_neg.close()
-    pairings_pos.close()
+    with open(pairings_pos_name, 'wr') as posFile:
+        with open(pairings_neg_name, 'wr') as negFile:
+            for comb in combos:
+                if match(comb[0], comb[1]):
+                    if comb[0] == comb[1]:
+                        pass
+                    else:
+                        posFile.write(str(comb[0] + ',' + comb[1] + ',1\n'))
+                else:
+                    negFile.write(str(comb[0] + ',' + comb[1] + ',0\n'))
 
 
 def make_labels_cuhk1(data_file):
@@ -954,3 +951,31 @@ def merge_pedestrian_sets(save=False):
 
     return pos_list, neg_list
 
+
+def merge_reid_sets(save=False):
+    data_location = '/home/gabi/PycharmProjects/uatu/data'
+    pos = 'positives.txt'
+    neg = 'negatives.txt'
+    viper_pos = np.genfromtxt(os.path.join(data_location, 'VIPER', pos), dtype=None).tolist()
+    viper_neg = np.genfromtxt(os.path.join(data_location, 'VIPER', neg), dtype=None).tolist()
+    cuhk_pos = np.genfromtxt(os.path.join(data_location, 'CUHK', pos), dtype=None).tolist()
+    cuhk_neg = np.genfromtxt(os.path.join(data_location, 'CUHK', neg), dtype=None).tolist()
+
+    pos_list = viper_pos + cuhk_pos
+    neg_list = viper_neg + cuhk_neg
+
+    if save:
+        all_pos_list = os.path.join(data_location, 'reid_all_positives.txt')
+        all_neg_list = os.path.join(data_location, 'reid_all_negatives.txt')
+
+        with open(all_pos_list, 'wr') as myFile:
+            for line in pos_list:
+                myFile.write(str(line) + '\n')
+
+        with open(all_neg_list, 'wr') as myFile:
+            for line in neg_list:
+                myFile.write(str(line) + '\n')
+
+    return pos_list, neg_list
+
+a,b = merge_reid_sets(save=True)

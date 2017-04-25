@@ -236,8 +236,6 @@ def main(data, numfil, weights_name):
 
     model = create_siamese(train_data_, numfil, weights_name)
 
-    # clr_triangular = CyclicLR(mode='triangular2', base_lr=0.00001, max_lr=0.00002, step_size=(np.shape(train_data)[0]/pc.BATCH_SIZE)*8)
-
     if pc.SIMILARITY_METRIC == 'fc_layers':
         nadam = optimizers.Nadam(lr=pc.START_LEARNING_RATE, schedule_decay=pc.DECAY_RATE)
         model.compile(loss='categorical_crossentropy', optimizer=nadam, metrics=['accuracy'])
@@ -283,7 +281,7 @@ def super_main(experiment_name, data, iterations, numfil, weights_name):
     mean = np.mean(accs, axis=0)
     print(mean)
 
-    # TODO: TURN ON if you want to log results!!
+    # note: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)
         dataset_name = 'VIPeR, CUHK1'

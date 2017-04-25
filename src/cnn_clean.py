@@ -157,7 +157,7 @@ def cnn_model_2d_conv_1d_filters_BN(train_data, do_dropout):
 
 def main(experiment_name, weights_name, numfil, data_type='hdf5'):
     # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = data
-    hdf5_file_path = '/home/gabi/PycharmProjects/uatu/data/all_data_uncompressed.h5'
+    hdf5_file_path = '/home/gabi/PycharmProjects/uatu/data/pedestrian_all_data_uncompressed.h5'
     hdf5_file = h5py.File(hdf5_file_path, 'r')
     if data_type=='hdf5':
         total_data_list_pos = np.array(xrange(hdf5_file['positives'].shape[0]))
@@ -291,7 +291,7 @@ def super_main(experiment_name, iterations, weights_name, numfil):
     mean = np.mean(accs, axis=0)
     print(mean)
 
-    # TODO: TURN ON if you want to log results!!
+    # note: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)
         dataset_name = 'INRIA, NICTA'

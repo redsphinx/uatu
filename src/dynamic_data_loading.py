@@ -176,8 +176,10 @@ def load_in_array(data_pos, data_neg, hdf5_file=None, data_list=None, heads=1, d
                 return data_array, labels
     else:
         if data_type == 'hdf5':
-            
-        pass
+
+            pass
+        else:
+            pass
 
 
 
@@ -234,7 +236,6 @@ def data_neg_to_hdf5():
 
 def load_from_hdf5():
     h5_path = '/home/gabi/PycharmProjects/uatu/data/all_data_uncompressed.h5'
-
 
     with h5py.File(h5_path, 'r') as hf:
         start = time.time()
