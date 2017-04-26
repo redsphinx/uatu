@@ -3,16 +3,41 @@ from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Input, Lambda, BatchNormalization
 from keras import optimizers
 import dynamic_data_loading as ddl
-from keras import backend as K
+# from keras import backend as K
 import project_constants as pc
 import project_utils as pu
-import os
-import numpy as np
-import time
+# import os
+# import numpy as np
+# import time
 import h5py
 from clr_callback import *
+import matplotlib.pyplot as plt
+from numba import cuda
+from numba.cuda.cudadrv.driver import Device
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+
+config = tf.ConfigProto()
+# config.gpu_options.per_process_gpu_memory_fraction = 0.3
+# set_session(tf.Session(config=config))
+
+# config.gpu_options.allow_growth=True
+# sess = tf.Session(config=config)
+
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
+
+def gpu_memory():
+    out = os.popen("nvidia-smi").read()
+    ret = '0MiB'
+    for item in out.split("\n"):
+        if str(os.getpid()) in item and 'python' in item:
+            ret = item.strip().split(' ')[-2]
+    return float(ret[:-3])
+
+# gpu_mem = []
+# gpu_mem.append(gpu_memory())
+
 
 def alt_create_fc(inputs):
     # dense_layer = Dense(512)(inputs)
@@ -95,6 +120,7 @@ def create_base_network_simple_BN(numfil, weights_name):
     if pc.TRANSFER_LEARNING:
         model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name), by_name=True)
 
+    # gpu_mem.append(gpu_memory())
     return model
 
 
@@ -299,10 +325,12 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
     validation_interval = np.floor(num_steps_per_epoch / num_validations).astype(int)
     print('validation happens every %d step(s)' % validation_interval)
 
+
+
     if similarity_metric == 'fc_layers':
         nadam = optimizers.Nadam(lr=lr, schedule_decay=pc.DECAY_RATE)
         model.compile(loss='categorical_crossentropy', optimizer=nadam, metrics=['accuracy'])
-
+        # print('---!!!--- %s' % (str(cuda.detect())))
         # model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
         #           batch_size=pc.BATCH_SIZE,
         #           epochs=pc.NUM_EPOCHS,
@@ -374,6 +402,7 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
     del model
     accuracy = (te_matrix[0] + te_matrix[2]) * 1.0 / (sum(te_matrix) * 1.0)
     print('accuracy = %0.2f, confusion matrix = %s' %(accuracy, str(te_matrix)))
+    # gpu_mem.append(gpu_memory())
     return te_matrix
 
 
@@ -401,4 +430,12 @@ def super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_
         dataset_name = 'VIPeR, CUHK1'
         pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name, total_time)
 
+    del accs, start, stop, total_time, mean
+    # Device.release_primary_context(cuda.get_current_device())
+
+    # gpu_mem.append(gpu_memory())
+    #
+    # fig = plt.figure()
+    # plt.plot(gpu_mem)
+    # plt.show()
 

@@ -12,6 +12,7 @@ from imblearn.datasets import make_imbalance
 import sys
 import time
 from scipy import ndimage
+from pympler.tracker import SummaryTracker
 
 
 def test_data_pipeline():
@@ -224,24 +225,24 @@ def test_arr_vs_list():
 
 
 def test():
-
-    def pr1():
-        print('1')
-
-    def pr2():
-        print('2')
-
-    def pr3():
-        print('3')
+    c = 0
+    for a in range(100):
+        c += 1
+    return c
 
 
-    try:
-        a = pr2() -9
-    except:
-        print('shit')
-
-    pr1()
-    pr2()
+def test_2(a=True):
+    d = 4 if a else 5
+    return d
 
 
-test()
+def thing():
+    a=test()
+    c=test_2()
+    return a*c
+
+
+tracker = SummaryTracker()
+a = test()
+b = test_2()
+tracker.print_diff()

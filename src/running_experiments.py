@@ -1,7 +1,10 @@
 import cnn_clean as cnn
 import siamese_cnn_clean as scn
-import time
-
+# import time
+from pympler.tracker import SummaryTracker
+from numba import cuda
+from numba.cuda.cudadrv.driver import Device
+from numba.cuda.cudadrv.devices import reset
 
 def experiment_0(data):
     # testing stuff
@@ -353,24 +356,53 @@ def experiment_30():
     scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
 
 
+# ----
+# ----
+
+def experiment_31():
+    experiment_name = ''
+    print('experiment: %s' % experiment_name)
+    iterations = 3
+    numfil = 1
+    epochs = 1
+    batch_size = 64
+    weights_name = 'cnn_2D_16_filter_ddl_hdf5.h5'
+    lr = 0.001
+    cl = False
+    cl_min = 0.00001
+    cl_max = 0.00005
+    bn = False
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+    del experiment_name, iterations, numfil, epochs, batch_size, weights_name, lr, cl, cl_min, cl_max, bn
+
 
 def main():
+# TODO run these experiments
     try: experiment_25()
     except: print('fuck 25')
+
+    Device.release_primary_context(cuda.get_current_device())
 
     try: experiment_26()
     except: print('fuck 26')
 
+    Device.release_primary_context(cuda.get_current_device())
+
     try: experiment_27()
     except: print('fuck 27')
+
+    Device.release_primary_context(cuda.get_current_device())
 
     try: experiment_28()
     except: print('fuck 28')
 
+    Device.release_primary_context(cuda.get_current_device())
+
     try: experiment_29()
     except: print('fuck 29')
+
+    Device.release_primary_context(cuda.get_current_device())
 
     try: experiment_30()
     except: print('fuck 30')
 
-main()
