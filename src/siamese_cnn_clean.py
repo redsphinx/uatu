@@ -294,7 +294,7 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
     train_data_size = 2 * min(len(total_data_list_pos), len(total_data_list_neg))
     num_steps_per_epoch = np.ceil(train_data_size * 1.0 / slice_size).astype(int)
 
-    num_validations = 5
+    num_validations = 1
     if num_validations > num_steps_per_epoch: num_validations = num_steps_per_epoch
     validation_interval = np.floor(num_steps_per_epoch / num_validations).astype(int)
     print('validation happens every %d step(s)' % validation_interval)

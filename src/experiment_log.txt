@@ -1530,3 +1530,101 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [  5.33333333  30.33333333  86.66666667   6.66666667]
 mean_accuracy:              0.713178
 
+
+name_of_experiment:         18:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.01
+file_name:                  cnn_clean.py
+date:                       25/04/2017   19:56:46
+duration:                   2796.243788
+data_set:                   INRIA, NICTA
+iterations:                 1
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 485.    8.  479.    1.]
+mean_accuracy:              0.990750
+
+
+name_of_experiment:         19:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.001
+file_name:                  cnn_clean.py
+date:                       25/04/2017   20:37:29
+duration:                   2443.235413
+data_set:                   INRIA, NICTA
+iterations:                 1
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 480.    1.  486.    6.]
+mean_accuracy:              0.992806
+
+
+name_of_experiment:         20:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.0001
+file_name:                  cnn_clean.py
+date:                       25/04/2017   21:16:43
+duration:                   2354.255321
+data_set:                   INRIA, NICTA
+iterations:                 1
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 486.    2.  485.    0.]
+mean_accuracy:              0.997945
+
+
+name_of_experiment:         21:training SCN with CNN weights: 2D filters 32, BN_lr_0-01. lr=0.01
+file_name:                  siamese_cnn_clean.py
+date:                       25/04/2017   23:43:06
+duration:                   8182.821946
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  9.6  93.6  23.4   2.4]
+mean_accuracy:              0.255814
+
+
+name_of_experiment:         22:training SCN with CNN weights: 2D filters 32, BN_lr_0-001. lr=0.001
+file_name:                  siamese_cnn_clean.py
+date:                       26/04/2017   01:53:02
+duration:                   7795.399490
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  8.8  73.4  43.6   3.2]
+mean_accuracy:              0.406202
+
+
+name_of_experiment:         23:training SCN with CNN weights: 2D filters 32, BN_lr_0-0001. lr=0.0001
+file_name:                  siamese_cnn_clean.py
+date:                       26/04/2017   03:59:08
+duration:                   7566.659923
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 11.   31.4  85.6   1. ]
+mean_accuracy:              0.748837
+
+
+name_of_experiment:         24:training SCN with CNN weights: 2D filters 32, BN_lr_0-01. use CL 0.001-0.01
+file_name:                  siamese_cnn_clean.py
+date:                       26/04/2017   06:00:23
+duration:                   7274.427529
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [  7.2  70.2  46.8   4.8]
+mean_accuracy:              0.418605
+

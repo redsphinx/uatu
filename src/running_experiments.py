@@ -355,30 +355,6 @@ def experiment_30():
 
 
 def main():
-    experiment_21()
-    try: experiment_18()
-    except: print('fuck 18')
-
-    try: experiment_19()
-    except: print('fuck 19')
-
-    try: experiment_20()
-    except: print('fuck 20')
-
-    time.sleep(600)
-
-    try: experiment_21()
-    except: print('fuck 21')
-
-    try: experiment_22()
-    except: print('fuck 22')
-
-    try: experiment_23()
-    except: print('fuck 23')
-
-    try: experiment_24()
-    except: print('fuck 24')
-
     try: experiment_25()
     except: print('fuck 25')
 

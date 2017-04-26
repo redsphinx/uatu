@@ -232,7 +232,7 @@ def main(experiment_name, weights_name, numfil, save_weights, epochs, batch_size
     print('Time loading validation data: %0.3f seconds' % (time.time() - start))
 
     # note: minimal requirement that num_validations = 1
-    num_validations = 5
+    num_validations = 1
     if num_validations > num_steps_per_epoch: num_validations = num_steps_per_epoch
     validation_interval = np.floor(num_steps_per_epoch / num_validations).astype(int)
     print('validation happens every %d step(s)' % validation_interval)
