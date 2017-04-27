@@ -45,7 +45,7 @@ TRANSFER_LEARNING = True
 TRAIN_CNN = False
 LOG_FILE_PATH = 'experiment_log.txt'
 
-LOGGING = False
+LOGGING = True
 SIMILARITY_METRIC = 'fc_layers'
 TEST_DATA_SIZE = 150
 NUM_SIAMESE_HEADS = 2

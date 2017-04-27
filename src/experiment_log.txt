@@ -1628,3 +1628,17 @@ train_cnn:                  False
 mean_tp_fp_tn_fn:           [  7.2  70.2  46.8   4.8]
 mean_accuracy:              0.418605
 
+
+name_of_experiment:         30:training SCN with CNN weights: 2D filters 32, no BN. use CL 0.00001-0.00005
+file_name:                  siamese_cnn_clean.pyc
+date:                       27/04/2017   13:37:57
+duration:                   6807.920005
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          True
+train_cnn:                  False
+mean_tp_fp_tn_fn:           [ 10.  31.  86.   2.]
+mean_accuracy:              0.744186
+

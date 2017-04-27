@@ -378,31 +378,35 @@ def experiment_31():
 
 def main():
 # TODO run these experiments
-    try: experiment_25()
-    except: print('fuck 25')
+#     try: experiment_21()
+#     except: print('fuck 21')
 
-    Device.release_primary_context(cuda.get_current_device())
+    # try: experiment_25()
+    # except: print('fuck 25')
 
-    try: experiment_26()
-    except: print('fuck 26')
+    # Device.release_primary_context(cuda.get_current_device())
 
-    Device.release_primary_context(cuda.get_current_device())
+    # try: experiment_26()
+    # except: print('fuck 26')
 
-    try: experiment_27()
-    except: print('fuck 27')
+    # Device.release_primary_context(cuda.get_current_device())
 
-    Device.release_primary_context(cuda.get_current_device())
+    # try: experiment_27()
+    # except: print('fuck 27')
 
-    try: experiment_28()
-    except: print('fuck 28')
+    # Device.release_primary_context(cuda.get_current_device())
 
-    Device.release_primary_context(cuda.get_current_device())
+    # try: experiment_28()
+    # except: print('fuck 28')
 
-    try: experiment_29()
-    except: print('fuck 29')
+    # Device.release_primary_context(cuda.get_current_device())
 
-    Device.release_primary_context(cuda.get_current_device())
+    # try: experiment_29()
+    # except: print('fuck 29')
+
+    # Device.release_primary_context(cuda.get_current_device())
 
     try: experiment_30()
     except: print('fuck 30')
 
+main()

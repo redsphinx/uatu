@@ -3,7 +3,7 @@ from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Input, Lambda, BatchNormalization
 from keras import optimizers
 import dynamic_data_loading as ddl
-# from keras import backend as K
+from keras import backend as K
 import project_constants as pc
 import project_utils as pu
 # import os
@@ -14,10 +14,10 @@ from clr_callback import *
 import matplotlib.pyplot as plt
 from numba import cuda
 from numba.cuda.cudadrv.driver import Device
-import tensorflow as tf
-from keras.backend.tensorflow_backend import set_session
-
-config = tf.ConfigProto()
+# import tensorflow as tf
+# from keras.backend.tensorflow_backend import set_session
+# #
+# config = tf.ConfigProto()
 # config.gpu_options.per_process_gpu_memory_fraction = 0.3
 # set_session(tf.Session(config=config))
 
