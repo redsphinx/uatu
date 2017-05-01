@@ -375,7 +375,7 @@ def experiment_30():
 
 
 def experiment_30_1():
-    experiment_name = '30:training SCN with CNN weights: 2D filters 32, no BN. no CL. lr=0.00001'
+    experiment_name = '30_1:training SCN with CNN weights: 2D filters 32, no BN. no CL. lr=0.00001'
     print('experiment: %s' % experiment_name)
     iterations = 5
     numfil = 2

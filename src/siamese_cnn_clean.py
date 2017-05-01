@@ -387,8 +387,6 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
                                   verbose=0)
 
 
-
-
     elif similarity_metric == 'euclid':
         # rms = RMSprop()
         # model.compile(loss=contrastive_loss, optimizer=rms)
