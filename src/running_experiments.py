@@ -555,7 +555,7 @@ def experiment_40():
 
 
 def experiment_41():
-    experiment_name = '41.SCNN: RIW, BN, CL, using settings from 28'
+    experiment_name = '41.SCNN: RIW, BN, CL, lr=0.01-0.1'
     print('experiment: %s' % experiment_name)
     iterations = 5
     numfil = 2
@@ -574,11 +574,11 @@ def experiment_41():
 # -- -- --
 
 def experiment_42():
-    experiment_name = '41.SCNN: RIW, BN, CL, lr=0.01-0.1'
+    experiment_name = '42.ranking training SCN with CNN weights: 2D filters 32, BN_lr_0-0001. use CL 0.00001-0.0001'
     print('experiment: %s' % experiment_name)
     iterations = 1
     numfil = 2
-    epochs = 10
+    epochs = 1
     batch_size = 64
     weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
     lr = 0.00001
@@ -590,10 +590,10 @@ def experiment_42():
 
 
 def main():
-    num = sys.argv[1]
-    print(sys.argv)
-    
-    if num == "42":
-        experiment_42()
+    # num = sys.argv[1]
+    # print(sys.argv)
+    #
+    # if num == "42":
+    experiment_42()
 
 main()
