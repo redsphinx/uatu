@@ -291,7 +291,7 @@ def confusion_matrix(name, predictions, labels, verbose=False):
     return matrix
 
 
-def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn,
+def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn, save_weights_name,
          similarity_metric='fc_layers', ranking=True):
 
     total_data_list_pos = '/home/gabi/PycharmProjects/uatu/data/reid_all_positives.txt'
@@ -429,16 +429,22 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
         print('FINAL RANKING: ')
         print(final_ranking)
 
+
+    if not save_weights_name == None:
+        model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, save_weights_name))
+
     return te_matrix
 
 
-def super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_max, cl_min, bn):
+def super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_max, cl_min, bn,
+               save_weights_name):
     accs = np.zeros((iterations, 4))
 
     start = time.time()
     for iter in range(0, iterations):
         print('-----ITERATION %d' % iter)
-        accs[iter] = main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn)
+        accs[iter] = main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn,
+                          save_weights_name)
     stop = time.time()
 
     total_time = stop - start

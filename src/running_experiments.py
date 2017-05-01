@@ -578,7 +578,7 @@ def experiment_42():
     print('experiment: %s' % experiment_name)
     iterations = 1
     numfil = 2
-    epochs = 1
+    epochs = 30
     batch_size = 64
     weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
     lr = 0.00001
@@ -586,14 +586,16 @@ def experiment_42():
     cl_min = 0.00001
     cl_max = 0.0001
     bn = True
-    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+    save_weights_name = 'scnn_settings_exp_28.h5'
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn,
+                   save_weights_name)
 
 
 def main():
-    # num = sys.argv[1]
-    # print(sys.argv)
-    #
-    # if num == "42":
-    experiment_42()
+    num = sys.argv[1]
+    print(sys.argv)
+
+    if num == "42":
+        experiment_42()
 
 main()
