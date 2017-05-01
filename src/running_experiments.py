@@ -5,6 +5,8 @@ from pympler.tracker import SummaryTracker
 from numba import cuda
 from numba.cuda.cudadrv.driver import Device
 from numba.cuda.cudadrv.devices import reset
+import sys
+
 
 def experiment_0(data):
     # testing stuff
@@ -238,6 +240,22 @@ def experiment_23():
     bn = True
     scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
 
+
+def experiment_23_1():
+    experiment_name = '23_1:training SCN with CNN weights: 2D filters 32, BN_lr_0-00001. lr=0.00001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
+    lr = 0.00001
+    cl = False
+    cl_max = None
+    cl_min = None
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
 # ---
 # ---
 
@@ -356,57 +374,210 @@ def experiment_30():
     scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
 
 
-# ----
-# ----
-
-def experiment_31():
-    experiment_name = ''
+def experiment_30_1():
+    experiment_name = '30:training SCN with CNN weights: 2D filters 32, no BN. no CL. lr=0.00001'
     print('experiment: %s' % experiment_name)
-    iterations = 3
-    numfil = 1
-    epochs = 1
+    iterations = 5
+    numfil = 2
+    epochs = 30
     batch_size = 64
-    weights_name = 'cnn_2D_16_filter_ddl_hdf5.h5'
-    lr = 0.001
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5.h5'
+    lr = 0.00001
     cl = False
     cl_min = 0.00001
     cl_max = 0.00005
     bn = False
     scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
-    del experiment_name, iterations, numfil, epochs, batch_size, weights_name, lr, cl, cl_min, cl_max, bn
+
+# ----
+# ----
+
+def experiment_31():
+    experiment_name = '31.SCNN: random weight initialization'
+    print('experiment: %s' % experiment_name)
+    iterations = 1
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+# ---
+# ---
+
+def experiment_32():
+    experiment_name = '32.SCNN: RIW, no BN, no CL'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.00001
+    cl = False
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = False
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+
+def experiment_33():
+    experiment_name = '33.SCNN: RIW, BN, no CL, lr=0.00001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.00001
+    cl = False
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+
+def experiment_34():
+    experiment_name = '34.SCNN: RIW, BN, no CL, lr=0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.0001
+    cl = False
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+
+def experiment_35():
+    experiment_name = '35.SCNN: RIW, BN, no CL, lr=0.001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.001
+    cl = False
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+
+def experiment_36():
+    experiment_name = '36.SCNN: RIW, BN, no CL, lr=0.01'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.01
+    cl = False
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+
+def experiment_37():
+    experiment_name = '37.SCNN: RIW, BN, no CL, lr=0.1'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.1
+    cl = False
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+
+def experiment_38():
+    experiment_name = '38.SCNN: RIW, BN, CL, lr=0.00001-0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+
+def experiment_39():
+    experiment_name = '39.SCNN: RIW, BN, CL, lr=0.0001-0.001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.0001
+    cl = True
+    cl_min = 0.0001
+    cl_max = 0.001
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+
+def experiment_40():
+    experiment_name = '40.SCNN: RIW, BN, CL, lr=0.001-0.01'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.001
+    cl = True
+    cl_min = 0.001
+    cl_max = 0.01
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
+
+
+def experiment_41():
+    experiment_name = '41.SCNN: RIW, BN, CL, lr=0.01-0.1'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = ''
+    lr = 0.01
+    cl = True
+    cl_min = 0.01
+    cl_max = 0.1
+    bn = True
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn)
 
 
 def main():
-# TODO run these experiments
-#     try: experiment_21()
-#     except: print('fuck 21')
+    num = sys.argv[1]
+    print(sys.argv)
+    
+    if num == "23_1":
+        experiment_23_1()
 
-    # try: experiment_25()
-    # except: print('fuck 25')
-
-    # Device.release_primary_context(cuda.get_current_device())
-
-    # try: experiment_26()
-    # except: print('fuck 26')
-
-    # Device.release_primary_context(cuda.get_current_device())
-
-    # try: experiment_27()
-    # except: print('fuck 27')
-
-    # Device.release_primary_context(cuda.get_current_device())
-
-    # try: experiment_28()
-    # except: print('fuck 28')
-
-    # Device.release_primary_context(cuda.get_current_device())
-
-    # try: experiment_29()
-    # except: print('fuck 29')
-
-    # Device.release_primary_context(cuda.get_current_device())
-
-    try: experiment_30()
-    except: print('fuck 30')
+    if num == "30_1":
+        experiment_30_1()
 
 main()

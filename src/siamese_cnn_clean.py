@@ -47,10 +47,10 @@ def alt_create_fc(inputs):
     # output_layer = Dense(pc.NUM_CLASSES)(norm)
     # softmax = Activation('softmax')(output_layer)
     # return softmax
-    dense_layer = Dense(512, activation='relu') (inputs)
+    dense_layer = Dense(512) (inputs)
     activation = Activation('relu') (dense_layer)
     dropout_layer = Dropout(pc.DROPOUT)(activation)
-    dense_layer = Dense(1024, activation='relu')(dropout_layer)
+    dense_layer = Dense(1024)(dropout_layer)
     activation = Activation('relu')(dense_layer)
     dropout_layer = Dropout(pc.DROPOUT)(activation)
     output_layer = Dense(pc.NUM_CLASSES) (dropout_layer)
@@ -91,30 +91,34 @@ def create_base_network_simple(numfil, weights_name):
 
 
 def create_base_network_simple_BN(numfil, weights_name):
+    if pc.TRANSFER_LEARNING:
+        train = False
+    else:
+        train = True
     model = Sequential()
     model.add(Conv2D(16 * numfil, kernel_size=(3, 3), padding='same',
                      input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
-                                  pc.NUM_CHANNELS), name='conv_1', trainable=pc.TRAIN_CNN))
+                                  pc.NUM_CHANNELS), name='conv_1', trainable=train))
     model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_1', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(32*numfil, kernel_size=(3, 3), padding='same', name='conv_2', trainable=pc.TRAIN_CNN))
+    model.add(BatchNormalization(name='bn_1', trainable=train))
+    model.add(Conv2D(32*numfil, kernel_size=(3, 3), padding='same', name='conv_2', trainable=train))
     model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_2', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(64*numfil, kernel_size=(3, 3), padding='same', name='conv_3', trainable=pc.TRAIN_CNN))
+    model.add(BatchNormalization(name='bn_2', trainable=train))
+    model.add(Conv2D(64*numfil, kernel_size=(3, 3), padding='same', name='conv_3', trainable=train))
     model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_3', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(128*numfil, kernel_size=(3, 3), padding='same', name='conv_4', trainable=pc.TRAIN_CNN))
+    model.add(BatchNormalization(name='bn_3', trainable=train))
+    model.add(Conv2D(128*numfil, kernel_size=(3, 3), padding='same', name='conv_4', trainable=train))
     model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_4', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(256*numfil, kernel_size=(3, 3), padding='same', name='conv_5', trainable=pc.TRAIN_CNN))
+    model.add(BatchNormalization(name='bn_4', trainable=train))
+    model.add(Conv2D(256*numfil, kernel_size=(3, 3), padding='same', name='conv_5', trainable=train))
     model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_5', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(512*numfil, kernel_size=(3, 3), padding='same', name='conv_6', trainable=pc.TRAIN_CNN))
+    model.add(BatchNormalization(name='bn_5', trainable=train))
+    model.add(Conv2D(512*numfil, kernel_size=(3, 3), padding='same', name='conv_6', trainable=train))
     model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_6', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(1024*numfil, kernel_size=(3, 3), padding='same', name='conv_7', trainable=pc.TRAIN_CNN))
+    model.add(BatchNormalization(name='bn_6', trainable=train))
+    model.add(Conv2D(1024*numfil, kernel_size=(3, 3), padding='same', name='conv_7', trainable=train))
     model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_7', trainable=pc.TRAIN_CNN))
+    model.add(BatchNormalization(name='bn_7', trainable=train))
     model.add(Flatten(name='cnn_flat'))
 
     if pc.TRANSFER_LEARNING:
@@ -338,19 +342,19 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
         #           verbose=2)
 
         for epoch in xrange(epochs):
-            print('epoch: %d' % epoch)
+            print('------EPOCH: %d' % epoch)
             slice_size_queue = ddl.make_slice_queue(train_data_size, slice_size)
 
             total_train_data_list = ddl.make_train_batches(total_data_list_pos, total_data_list_neg, data_type='images')
             for step in xrange(num_steps_per_epoch):
-                print('step: %d out of %d' % (step, num_steps_per_epoch))
+                # print('..epoch %d step: %d out of %d' % (epoch, step, num_steps_per_epoch))
                 train_data_list = total_train_data_list[step * slice_size : step * slice_size + slice_size_queue[step]]
 
                 start = time.time()
                 train_data, train_labels = ddl.load_in_array(data_list=train_data_list,
                                                              heads=2,
                                                              data_type='images')
-                print('Time loading training data: %0.3f seconds' % (time.time() - start))
+                # print('Time loading training data: %0.3f seconds' % (time.time() - start))
                 # let validation happen every x steps
 
                 if cl:

@@ -1,0 +1,60 @@
+experiment: 25:training SCN with CNN weights: 2D filters 32, BN_lr_0-01. use CL 0.0001-0.01
+--
+TP    FP    TN    FN
+[[   0.    0.  117.   12.]
+ [   0.    0.  117.   12.]
+ [   0.    0.  117.   12.]
+ [  12.  117.    0.    0.]
+ [   0.    0.  117.   12.]]
+mean values:
+[  2.4  23.4  93.6   9.6]
+accuracy: 0.744186046512 
+
+experiment: 26:training SCN with CNN weights: 2D filters 32, BN_lr_0-001. use CL 0.0001-0.001
+--
+TP    FP    TN    FN
+[[ 10.  61.  56.   2.]
+ [ 10.  77.  40.   2.]
+ [  8.  63.  54.   4.]
+ [  9.  86.  31.   3.]
+ [  9.  72.  45.   3.]]
+mean values:
+[  9.2  71.8  45.2   2.8]
+accuracy: 0.421705426357
+
+experiment: 27:training SCN with CNN weights: 2D filters 32, BN_lr_0-001. use CL 0.00001-0.001
+--
+TP    FP    TN    FN
+[[  6.  72.  45.   6.]
+ [  9.  72.  45.   3.]
+ [  8.  80.  37.   4.]
+ [ 10.  78.  39.   2.]
+ [ 10.  77.  40.   2.]]
+mean values:
+[  8.6  75.8  41.2   3.4]
+accuracy: 0.386046511628
+
+experiment: 28:training SCN with CNN weights: 2D filters 32, BN_lr_0-0001. use CL 0.00001-0.0001
+--
+TP    FP    TN    FN
+[[ 10.  22.  95.   2.]
+ [ 10.  27.  90.   2.]
+ [  9.  25.  92.   3.]
+ [ 10.  33.  84.   2.]
+ [  7.  28.  89.   5.]]
+mean values:
+[  9.2  27.   90.    2.8]
+accuracy: 0.768992248062
+
+experiment: 29:training SCN with CNN weights: 2D filters 32, no BN. use CL 0.00001-0.0001
+--
+TP    FP    TN    FN
+[[ 10.  38.  79.   2.]
+ [  8.  45.  72.   4.]
+ [ 10.  38.  79.   2.]
+ [ 10.  31.  86.   2.]
+ [ 10.  38.  79.   2.]]
+mean values:
+[  9.6  38.   79.    2.4]
+accuracy: 0.686821705426
+
