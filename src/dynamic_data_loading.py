@@ -88,6 +88,31 @@ def make_slice_queue(data_size, batch_size):
     return queue
 
 
+# NOTE: assume a 20 ranking
+def make_ranking_test_given_pos_neg(total_data_list_pos, test_size=pc.RANKING_NUMBER):
+    # get 20 matching pairs
+    data_list_pos = np.asarray(total_data_list_pos)
+    random.shuffle(data_list_pos)
+    ranking_before = data_list_pos[0:test_size]
+    new_data_list_pos = data_list_pos[test_size:]
+
+    # create a combination from all the matches for ranking + save to file
+    list_0 = [ranking_before[index].split(',')[0] for index in range(len(ranking_before))]
+    list_1 = [ranking_before[index].split(',')[1] for index in range(len(ranking_before))]
+
+    ranking_test_file = '/home/gabi/PycharmProjects/uatu/data/ranking_test.txt'
+    with open(ranking_test_file, 'wr') as myFile:
+        for img0 in range(len(list_0)):
+            for img1 in range(len(list_1)):
+                num = 1 if img0 == img1 else 0
+                line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
+                myFile.write(line)
+
+    ranking_test = np.genfromtxt(ranking_test_file, dtype=None).tolist()
+
+    return ranking_test, new_data_list_pos
+
+
 '''
 ASSUMPTION: there is a positive and negative list in each dataset
 if there are no positives or negatives in the dataset, then merge the set with another set that contains these
@@ -95,7 +120,7 @@ if there are no positives or negatives in the dataset, then merge the set with a
 # note: if data_type == 'image', total_data_list has to contain the full path to the image
 # note: if data_type == 'hdf5', total_data_list has to contain indices according to the saved hdf5 file
 def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_percent=0.01, test_percent=0.01,
-          val_pos_percent=0.3, test_pos_percent=0.1, data_type='hdf5'):
+          val_pos_percent=0.3, test_pos_percent=0.1, data_type='hdf5', ranking=False):
     num_pos = len(total_data_list_pos)
     num_neg = len(total_data_list_neg)
 
@@ -121,11 +146,15 @@ def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_perc
         return val_list_pos, val_list_neg, test_list_pos, test_list_neg, total_data_list_pos, total_data_list_neg
 
     else:
+
         val_list, total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(
             total_data_list_pos, total_data_list_neg, val_pos_percent, val_size, data_type=data_type)
 
-        test_list, total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(
-            total_data_list_pos, total_data_list_neg, test_pos_percent, test_size, data_type=data_type)
+        if ranking:
+            test_list, total_data_list_pos = make_ranking_test_given_pos_neg(total_data_list_pos)
+        else:
+            test_list, total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(
+                total_data_list_pos, total_data_list_neg, test_pos_percent, test_size, data_type=data_type)
 
         return val_list, test_list, total_data_list_pos, total_data_list_neg
 

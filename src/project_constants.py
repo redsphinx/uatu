@@ -41,7 +41,8 @@ DROPOUT = 0.5
 NUM_CAMERAS = 2
 FEATURES = IMAGE_HEIGHT * IMAGE_WIDTH * NUM_CHANNELS
 VERBOSE = False
-TRANSFER_LEARNING = True
+
+TRANSFER_LEARNING = False
 TRAIN_CNN = False
 LOG_FILE_PATH = 'experiment_log.txt'
 
@@ -57,3 +58,4 @@ SAVE_LOCATION_MODEL_WEIGHTS = '/home/gabi/PycharmProjects/uatu/model_weights'
 SAVE_LOCATION_VIPER_CUHK = '/home/gabi/PycharmProjects/uatu/data/VIPeR_CUHK'
 
 USE_BIAS = True
+RANKING_NUMBER = 20

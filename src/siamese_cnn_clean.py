@@ -12,8 +12,6 @@ import project_utils as pu
 import h5py
 from clr_callback import *
 import matplotlib.pyplot as plt
-from numba import cuda
-from numba.cuda.cudadrv.driver import Device
 # import tensorflow as tf
 # from keras.backend.tensorflow_backend import set_session
 # #
@@ -293,7 +291,8 @@ def confusion_matrix(name, predictions, labels, verbose=False):
     return matrix
 
 
-def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn, similarity_metric='fc_layers'):
+def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn,
+         similarity_metric='fc_layers', ranking=False):
 
     total_data_list_pos = '/home/gabi/PycharmProjects/uatu/data/reid_all_positives.txt'
     file_data_list_neg = '/home/gabi/PycharmProjects/uatu/data/reid_all_negatives_uncompressed.h5'
@@ -306,7 +305,8 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
                                                                                                   total_data_list_neg,
                                                                                                   val_pos_percent=0.1,
                                                                                                   test_pos_percent=0.1,
-                                                                                                  data_type='images')
+                                                                                                  data_type='images',
+                                                                                                  ranking=True)
 
     model = create_siamese(numfil, weights_name, bn)
     start = time.time()
@@ -397,14 +397,35 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
         pass
 
 
+
     te_pred = model.predict([test_data[:, 0], test_data[:, 1]])
     te_matrix = confusion_matrix('Testing', te_pred, test_labels)
 
     # delete objects else we run out of memory
     del model
     accuracy = (te_matrix[0] + te_matrix[2]) * 1.0 / (sum(te_matrix) * 1.0)
-    print('accuracy = %0.2f, confusion matrix = %s' %(accuracy, str(te_matrix)))
-    # gpu_mem.append(gpu_memory())
+    precision = (te_matrix[0] * 1.0 / (te_matrix[0]+te_matrix[1] * 1.0))
+    print('accuracy = %0.2f, precision = %0.2f, confusion matrix = %s' %(accuracy, precision, str(te_matrix)))
+
+
+    if ranking:
+        ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+        ranking_matrix_probs = np.reshape(te_matrix[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+        # rank_labels = np.reshape(test_labels, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+        rank_range = np.zeros(pc.RANKING_NUMBER)
+        for row in range(len(ranking_matrix_probs)):
+            ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(ranking_matrix_probs[row]), key=lambda x:x[1],
+                                                            reverse=True)]
+            num = ranking_matrix_abs[row].index[row]
+            rank_range[num] += 1
+
+        final_ranking = []
+        for tallies in range(len(rank_range)-1):
+            percentage = sum(rank_range[1:tallies+1])*1.0 / sum(rank_range)*1.0
+            final_ranking.append(percentage)
+        print('FINAL RANKING: ')
+        print(final_ranking)
+
     return te_matrix
 
 
