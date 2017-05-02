@@ -105,7 +105,7 @@ def make_ranking_test(rank_list_pos, data):
             if i1 == i2:
                 if i1 not in pos_tally:
                     pos_tally.append(i1)
-                    rank_pos.append(item)
+                    rank_pos.append(rank_list_pos[item])
 
         rank_list_pos = rank_pos
 
@@ -164,8 +164,10 @@ def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_perc
         if ranking:
             rank_list_viper_pos = np.genfromtxt('/home/gabi/PycharmProjects/uatu/data/VIPER/ranking_pos.txt',
                                                 dtype=None).tolist()
+
             test_list_viper = make_ranking_test(rank_list_viper_pos, data='viper')
 
+            # FIXME
             rank_list_cuhk_pos = np.genfromtxt('/home/gabi/PycharmProjects/uatu/data/CUHK/ranking_pos.txt',
                                                 dtype=None).tolist()
             test_list_cuhk = make_ranking_test(rank_list_cuhk_pos, data='cuhk')

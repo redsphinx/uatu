@@ -1035,4 +1035,4 @@ def merge_reid_sets(save=False):
 
     return pos_list, neg_list
 
-merge_reid_sets(save=True)
+# merge_reid_sets(save=True)

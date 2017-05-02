@@ -442,7 +442,7 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
             
             final_ranking = []
             for tallies in range(len(rank_range)):
-                print(tallies)
+                # print(tallies)
                 percentage = sum(rank_range[0:tallies+1])*1.0 / sum(rank_range)*1.0
                 final_ranking.append(percentage)
             print('FINAL RANKING %s: ' % item)
