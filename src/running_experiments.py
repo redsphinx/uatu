@@ -653,9 +653,9 @@ def experiment_45():
 def experiment_46():
     experiment_name = '46.ranking training SCN: 2D filters 32, use BN. use CL 0.00001-0.0001'
     print('experiment: %s' % experiment_name)
-    iterations = 1
+    iterations = 5
     numfil = 2
-    epochs = 1
+    epochs = 15
     batch_size = 64
     weights_name = None
     lr = 0.00001
@@ -669,9 +669,81 @@ def experiment_46():
                    save_weights_name)
 
 
+def experiment_47():
+    experiment_name = '47.ranking training SCN: 2D filters 32, use BN. use CL 0.00001-0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 10
+    numfil = 2
+    epochs = 20
+    batch_size = 64
+    weights_name = None
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    # save_weights_name = 'scnn_settings_exp_28_42_2.h5'
+    save_weights_name = None
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn,
+                   save_weights_name)
+
+
+def experiment_48():
+    experiment_name = '48.ranking training SCN: 2D filters 32, use BN. use CL 0.00001-0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 3
+    numfil = 2
+    epochs = 25
+    batch_size = 64
+    weights_name = None
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    # save_weights_name = 'scnn_settings_exp_28_42_2.h5'
+    save_weights_name = None
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn,
+                   save_weights_name)
+
+
+def experiment_49():
+    experiment_name = '48.ranking training SCN: 2D filters 32, use BN. use CL 0.00001-0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 5
+    numfil = 2
+    epochs = 40
+    batch_size = 64
+    weights_name = None
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    # save_weights_name = 'scnn_settings_exp_28_42_2.h5'
+    save_weights_name = None
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn,
+                   save_weights_name)
 
 def main():
-    # num = sys.argv[1]
-    # print(sys.argv)
-    experiment_46()
+    num = sys.argv[1]
+    print(sys.argv)
+
+    if num == '46_1':
+        experiment_46()
+
+    if num == '46_2':
+        experiment_46()
+    #
+    # if num == '47':
+    #     experiment_47()
+    #
+    # if num == '48':
+    #     experiment_48()
+    #
+    if num == '49_1':
+        experiment_49()
+
+    if num == '49_2':
+        experiment_49()
 main()

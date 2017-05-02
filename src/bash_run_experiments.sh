@@ -6,7 +6,10 @@
 #python running_experiments.py 39
 #python running_experiments.py 40 guesses everything negative
 #python running_experiments.py 23_1
-python running_experiments.py 43
-python running_experiments.py 44
-python running_experiments.py 45
+python running_experiments.py 46_1
+python running_experiments.py 46_2
+#python running_experiments.py 47
+#python running_experiments.py 48
+python running_experiments.py 49_1
+python running_experiments.py 49_2
 
