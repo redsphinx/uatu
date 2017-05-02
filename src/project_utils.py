@@ -190,11 +190,35 @@ def fix_viper():
 # make matching and non-matching pairs
 def make_pairs_viper():
     padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
-    # store_folder_path = '/home/gabi/PycharmProjects/uatu/data/VIPeR_CUHK'
     pairings_pos_name = '/home/gabi/PycharmProjects/uatu/data/VIPER/positives.txt'
     pairings_neg_name = '/home/gabi/PycharmProjects/uatu/data/VIPER/negatives.txt'
+    ranking_pos_name = '/home/gabi/PycharmProjects/uatu/data/VIPER/ranking_pos.txt'
+    ranking_neg_name = '/home/gabi/PycharmProjects/uatu/data/VIPER/ranking_neg.txt'
 
     list_ids = os.listdir(os.path.join(padded_folder_path, 'cam_a'))
+
+    ranking_ids = list_ids[0:pc.RANKING_NUMBER]
+    list_ids = list_ids[pc.RANKING_NUMBER:]
+
+    ranking_combos = combinations(ranking_ids, 2)
+
+    with open(ranking_pos_name, 'wr') as myFile:
+        for id in ranking_ids:
+            path_1 = os.path.join(padded_folder_path, 'cam_a', id)
+            path_2 = os.path.join(padded_folder_path, 'cam_b', id)
+            myFile.write(str(path_1 + ',' + path_2 + ',1\n'))
+
+    with open(ranking_neg_name, 'wr') as myFile:
+        for comb in ranking_combos:
+            a = comb[0]
+            b = comb[1]
+            if comb[0] == comb[1]:
+                pass
+            else:
+                path_1 = os.path.join(padded_folder_path, 'cam_a', comb[0])
+                path_2 = os.path.join(padded_folder_path, 'cam_b', comb[1])
+                myFile.write(str(path_1 + ',' + path_2 + ',0\n'))
+
     combos = combinations(list_ids, 2)
 
     with open(pairings_pos_name, 'wr') as myFile:
@@ -387,7 +411,7 @@ def print_confusion_matrix(name, confusion_matrix):
           %(name, confusion_matrix[0], confusion_matrix[1], confusion_matrix[2], confusion_matrix[3]))
 
 
-def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusion_matrix, dataset_name, total_time):
+def enter_in_log(experiment_name, file_name, super_main_iterations, confusion_matrix, dataset_name, total_time):
 # def enter_in_log(name):
     if not os.path.exists(pc.LOG_FILE_PATH):
         with open(pc.LOG_FILE_PATH, 'w') as my_file:
@@ -396,8 +420,13 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
 
     with open(pc.LOG_FILE_PATH, 'a') as log_file:
         date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
-        accuracy = (test_confusion_matrix[0] + test_confusion_matrix[2])*1.0 / (sum(test_confusion_matrix)*1.0)
-        confusion_matrix = str(test_confusion_matrix)
+        # accuracy = (test_confusion_matrix[0] + test_confusion_matrix[2])*1.0 / (sum(test_confusion_matrix)*1.0)
+        # confusion_matrix = str(test_confusion_matrix)
+        viper_matrix_mean = str(confusion_matrix[0])
+        viper_ranking_mean = str(confusion_matrix[1])
+        cuhk_matrix_mean = str(confusion_matrix[2])
+        cuhk_ranking_mean = str(confusion_matrix[3])
+        
         log_file.write('\n')
         log_file.write('name_of_experiment:         %s\n' % experiment_name)
         log_file.write('file_name:                  %s\n' % file_name)
@@ -416,8 +445,12 @@ def enter_in_log(experiment_name, file_name, super_main_iterations, test_confusi
         log_file.write('dropout:                    %f\n' % pc.DROPOUT)
         log_file.write('transfer_learning:          %s\n' % pc.TRANSFER_LEARNING)
         log_file.write('train_cnn:                  %s\n' % pc.TRAIN_CNN)
-        log_file.write('mean_tp_fp_tn_fn:           %s\n' % confusion_matrix)
-        log_file.write('mean_accuracy:              %f\n' % accuracy)
+        log_file.write('mean_viper_tp_fp_tn_fn:     %s\n' % viper_matrix_mean)
+        log_file.write('mean_viper_ranking:         %s\n' % viper_ranking_mean)
+        log_file.write('mean_cuhk_tp_fp_tn_fn:      %s\n' % cuhk_matrix_mean)
+        log_file.write('mean_cuhk_ranking:          %s\n' % cuhk_ranking_mean)
+
+        # log_file.write('mean_accuracy:              %f\n' % accuracy)
 
         log_file.write('\n')
 
@@ -455,8 +488,29 @@ def make_pairs_cuhk1():
     images_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images'
     pairings_pos_name = '/home/gabi/PycharmProjects/uatu/data/CUHK/positives.txt'
     pairings_neg_name = '/home/gabi/PycharmProjects/uatu/data/CUHK/negatives.txt'
+    ranking_pos_name = '/home/gabi/PycharmProjects/uatu/data/CUHK/ranking_pos.txt'
+    ranking_neg_name = '/home/gabi/PycharmProjects/uatu/data/CUHK/ranking_neg.txt'
 
-    list_ids = os.listdir(images_path)
+    list_ids = sorted(os.listdir(images_path))
+
+    ranking_ids = list_ids[0:pc.RANKING_NUMBER*4]
+    list_ids = list_ids[pc.RANKING_NUMBER*4:]
+
+    ranking_combos = combinations(ranking_ids, 2)
+
+    with open(ranking_pos_name, 'wr') as rankFilePos:
+        with open(ranking_neg_name, 'wr') as rankFileNeg:
+            for comb in ranking_combos:
+                pic_1 = os.path.join(images_path, comb[0])
+                pic_2 = os.path.join(images_path, comb[1])
+                if match(comb[0], comb[1]):
+                    if comb[0] == comb[1]:
+                        pass
+                    else:
+                        rankFilePos.write(str(pic_1 + ',' + pic_2 + ',1\n'))
+                else:
+                    rankFileNeg.write(str(pic_1 + ',' + pic_2 + ',0\n'))
+
     combos = combinations(list_ids, 2)
 
     with open(pairings_pos_name, 'wr') as posFile:
@@ -471,6 +525,7 @@ def make_pairs_cuhk1():
                         posFile.write(str(pic_1 + ',' + pic_2 + ',1\n'))
                 else:
                     negFile.write(str(pic_1 + ',' + pic_2 + ',0\n'))
+
 
 
 def make_labels_cuhk1(data_file):
@@ -980,4 +1035,4 @@ def merge_reid_sets(save=False):
 
     return pos_list, neg_list
 
-# merge_reid_sets(save=True)
+merge_reid_sets(save=True)

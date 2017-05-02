@@ -89,45 +89,28 @@ def make_slice_queue(data_size, batch_size):
 
 
 # NOTE: assume a 20 ranking
-def make_ranking_test_given_pos_neg(total_data_list_pos, test_size=pc.RANKING_NUMBER):
-    # get 20 matching pairs
-    data_list_pos = np.asarray(total_data_list_pos)
-    random.shuffle(data_list_pos)
-    ranking_before = data_list_pos[0:test_size]
-    new_data_list_pos = data_list_pos[test_size:]
+def make_ranking_test(rank_list_pos, data):
+    if data == 'cuhk':
+        def match(one, two):
+            return list(one)[0:4] == list(two)[0:4]
 
-    new_data_list_pos = new_data_list_pos.tolist()
-    print('len before popping: %d' % len(new_data_list_pos))
+        random.shuffle(rank_list_pos)
 
-    ranking_as_list = []
-    for item in range(len(ranking_before)):
-        i0 = ranking_before[item].split(',')[0]
-        i1 = ranking_before[item].split(',')[1]
-        ranking_as_list.append(i0)
-        ranking_as_list.append(i1)
+        rank_pos = []
+        pos_tally = []
+        #select 20 unique pairs
+        for item in range(len(rank_list_pos)):
+            i1 = rank_list_pos[item].split(',')[0].split('/')[-1][0:4]
+            i2 = rank_list_pos[item].split(',')[1].split('/')[-1][0:4]
+            if i1 == i2:
+                if i1 not in pos_tally:
+                    pos_tally.append(i1)
+                    rank_pos.append(item)
 
-    new_new_data_list_pos = []
-    to_be_removed = []
-    # remove related data from all_pos dataset
-    for item1 in range(len(ranking_as_list)):
-        for item2 in range(len(new_data_list_pos)):
-            first_item = new_data_list_pos[item2].split(',')[0]
-            second_item = new_data_list_pos[item2].split(',')[1]
-            if ranking_as_list[item1] == first_item or ranking_as_list[item1] == second_item:
-                # new_data_list_pos.pop(item2)
-                # new_new_data_list_pos.append(new_data_list_pos[item2])
-                to_be_removed.append(item2)
+        rank_list_pos = rank_pos
 
-    for item in range(len(new_data_list_pos)):
-        if item not in to_be_removed:
-            new_new_data_list_pos.append(new_data_list_pos[item])
-
-    new_new_data_list_pos = np.asarray(new_new_data_list_pos)
-    print('len after popping: %d' % len(new_new_data_list_pos))
-
-    # create a combination from all the matches for ranking + save to file
-    list_0 = [ranking_before[index].split(',')[0] for index in range(len(ranking_before))]
-    list_1 = [ranking_before[index].split(',')[1] for index in range(len(ranking_before))]
+    list_0 = [rank_list_pos[index].split(',')[0] for index in range(len(rank_list_pos))]
+    list_1 = [rank_list_pos[index].split(',')[1] for index in range(len(rank_list_pos))]
 
     ranking_test_file = '/home/gabi/PycharmProjects/uatu/data/ranking_test.txt'
     with open(ranking_test_file, 'wr') as myFile:
@@ -139,7 +122,7 @@ def make_ranking_test_given_pos_neg(total_data_list_pos, test_size=pc.RANKING_NU
 
     ranking_test = np.genfromtxt(ranking_test_file, dtype=None).tolist()
 
-    return ranking_test, new_data_list_pos
+    return ranking_test
 
 
 '''
@@ -175,16 +158,25 @@ def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_perc
         return val_list_pos, val_list_neg, test_list_pos, test_list_neg, total_data_list_pos, total_data_list_neg
 
     else:
+        val_list, total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(
+            total_data_list_pos, total_data_list_neg, val_pos_percent, val_size, data_type=data_type)
+
         if ranking:
-            test_list, total_data_list_pos = make_ranking_test_given_pos_neg(total_data_list_pos)
+            rank_list_viper_pos = np.genfromtxt('/home/gabi/PycharmProjects/uatu/data/VIPER/ranking_pos.txt',
+                                                dtype=None).tolist()
+            test_list_viper = make_ranking_test(rank_list_viper_pos, data='viper')
+
+            rank_list_cuhk_pos = np.genfromtxt('/home/gabi/PycharmProjects/uatu/data/CUHK/ranking_pos.txt',
+                                                dtype=None).tolist()
+            test_list_cuhk = make_ranking_test(rank_list_cuhk_pos, data='cuhk')
+
+            return val_list, test_list_viper, test_list_cuhk, total_data_list_pos, total_data_list_neg
+
         else:
             test_list, total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(
                 total_data_list_pos, total_data_list_neg, test_pos_percent, test_size, data_type=data_type)
 
-        val_list, total_data_list_pos, total_data_list_neg = make_specific_balanced_set_given_pos_neg(
-            total_data_list_pos, total_data_list_neg, val_pos_percent, val_size, data_type=data_type)
-
-        return val_list, test_list, total_data_list_pos, total_data_list_neg
+            return val_list, test_list, total_data_list_pos, total_data_list_neg
 
 
 def make_train_batches(total_data_list_pos, total_data_list_neg, data_type='hdf5'):

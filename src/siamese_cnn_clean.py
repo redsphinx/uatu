@@ -301,7 +301,7 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
     with h5py.File(file_data_list_neg, 'r') as hf:
         total_data_list_neg = hf['data'][()]
 
-    val_list, test_list, total_data_list_pos, total_data_list_neg = ddl.make_validation_test_list(total_data_list_pos,
+    val_list, test_list_viper, test_list_cuhk, total_data_list_pos, total_data_list_neg = ddl.make_validation_test_list(total_data_list_pos,
                                                                                                   total_data_list_neg,
                                                                                                   val_pos_percent=0.1,
                                                                                                   test_pos_percent=0.1,
@@ -315,9 +315,14 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
                                                            heads=2)
     print('Time loading validation data: %0.3f seconds' % (time.time() - start))
     start = time.time()
-    test_data, test_labels = ddl.load_in_array(data_list=test_list,
+    test_data_viper, test_labels_viper = ddl.load_in_array(data_list=test_list_viper,
                                                            data_type='images',
                                                            heads=2)
+
+    test_data_cuhk, test_labels_cuhk = ddl.load_in_array(data_list=test_list_cuhk,
+                                                           data_type='images',
+                                                           heads=2)
+    
     print('Time loading test data: %0.3f seconds' % (time.time() - start))
 
     slice_size = 5000
@@ -397,64 +402,113 @@ def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_m
         pass
 
 
-
-    te_pred = model.predict([test_data[:, 0], test_data[:, 1]])
-    te_matrix = confusion_matrix('Testing', te_pred, test_labels)
+    
+    te_pred_viper = model.predict([test_data_viper[:, 0], test_data_viper[:, 1]])
+    te_pred_cuhk = model.predict([test_data_cuhk[:, 0], test_data_cuhk[:, 1]])
+    
+    te_matrix_viper = confusion_matrix('Testing', te_pred_viper, test_labels_viper)
+    te_matrix_cuhk = confusion_matrix('Testing', te_pred_cuhk, test_labels_cuhk)
 
     # delete objects else we run out of memory
-    del model
-    accuracy = (te_matrix[0] + te_matrix[2]) * 1.0 / (sum(te_matrix) * 1.0)
-    precision = (te_matrix[0] * 1.0 / (te_matrix[0]+te_matrix[1] * 1.0))
-    print('accuracy = %0.2f, precision = %0.2f, confusion matrix = %s' %(accuracy, precision, str(te_matrix)))
+    accuracy_viper = (te_matrix_viper[0] + te_matrix_viper[2]) * 1.0 / (sum(te_matrix_viper) * 1.0)
+    precision_viper = (te_matrix_viper[0] * 1.0 / (te_matrix_viper[0]+te_matrix_viper[1] * 1.0))
 
+    accuracy_cuhk = (te_matrix_cuhk[0] + te_matrix_cuhk[2]) * 1.0 / (sum(te_matrix_cuhk) * 1.0)
+    precision_cuhk = (te_matrix_cuhk[0] * 1.0 / (te_matrix_cuhk[0] + te_matrix_cuhk[1] * 1.0))
+    
+    
+    print('VIPeR: accuracy = %0.2f, precision = %0.2f, confusion matrix = %s' %(accuracy_viper, precision_viper, 
+                                                                                str(te_matrix_viper)))
+    print('CUHK: accuracy = %0.2f, precision = %0.2f, confusion matrix = %s' % (accuracy_cuhk, precision_cuhk,
+                                                                                 str(te_matrix_cuhk)))
+    te_matrix = [te_matrix_viper, te_matrix_cuhk]
 
     if ranking:
-        ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-        tmp = te_pred[:, 1]
-        ranking_matrix_probs = np.reshape(tmp, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-        # rank_labels = np.reshape(test_labels, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-        rank_range = np.zeros(pc.RANKING_NUMBER)
-        for row in range(len(ranking_matrix_probs)):
-            ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(ranking_matrix_probs[row]), key=lambda x:x[1],
-                                                            reverse=True)]
-            list_form = ranking_matrix_abs[row].tolist()
-            num = list_form.index(row)
-            rank_range[num] += 1
+        datasets = ['viper', 'cuhk']
+        rankings = []
+        for item in datasets:
+            ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
 
-        final_ranking = []
-        for tallies in range(len(rank_range)-1):
-            percentage = sum(rank_range[1:tallies+1])*1.0 / sum(rank_range)*1.0
-            final_ranking.append(percentage)
-        final_ranking.append(sum(rank_range)*1.0 / sum(rank_range))
-        print('FINAL RANKING: ')
-        print(final_ranking)
+            tmp = te_pred_viper[:, 1] if item == 'viper' else te_pred_cuhk[:, 1]
+            
+            ranking_matrix_probs = np.reshape(tmp, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+            rank_range = np.zeros(pc.RANKING_NUMBER)
+            for row in range(len(ranking_matrix_probs)):
+                ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(ranking_matrix_probs[row]), key=lambda x:x[1],
+                                                                reverse=True)]
+                list_form = ranking_matrix_abs[row].tolist()
+                num = list_form.index(row)
+                rank_range[num] += 1
+            
+            final_ranking = []
+            for tallies in range(len(rank_range)):
+                print(tallies)
+                percentage = sum(rank_range[0:tallies+1])*1.0 / sum(rank_range)*1.0
+                final_ranking.append(percentage)
+            print('FINAL RANKING %s: ' % item)
+            print(final_ranking)
+            rankings.append(final_ranking)
+    else:
+        rankings = None
 
 
     if not save_weights_name == None:
         model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, save_weights_name))
 
-    return te_matrix
+    del model
+    return te_matrix, rankings
 
 
 def super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_max, cl_min, bn,
                save_weights_name):
-    accs = np.zeros((iterations, 4))
-
+    
+    viper_matrix = np.zeros((iterations, 4))
+    viper_ranking = np.zeros((iterations, pc.RANKING_NUMBER))
+    cuhk_matrix = np.zeros((iterations, 4))
+    cuhk_ranking = np.zeros((iterations, pc.RANKING_NUMBER))
+    
     start = time.time()
     for iter in range(0, iterations):
         print('-----ITERATION %d' % iter)
-        accs[iter] = main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn,
+        matrix, ranking = main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn,
                           save_weights_name)
+        
+        viper_matrix[iter] = matrix[0]
+        viper_ranking[iter] = ranking[0]
+        cuhk_matrix[iter] = matrix[1]
+        cuhk_ranking[iter] = ranking[1]
+        
     stop = time.time()
 
     total_time = stop - start
 
-    print('\nTP    FP    TN    FN')
-    print(accs)
+    print('viper\nTP    FP    TN    FN')
+    print(viper_matrix)
+    
+    print('viper\nRANKING')
+    print(viper_ranking)
+    
+    print('cuhk\nTP    FP    TN    FN')
+    print(cuhk_matrix)
 
-    print('mean values:')
-    mean = np.mean(accs, axis=0)
-    print(mean)
+    print('cuhk\nRANKING')
+    print(cuhk_ranking)
+
+    viper_matrix_mean = np.mean(viper_matrix, axis=0)
+    print('viper matrix mean values:' + str(viper_matrix_mean))
+    
+    viper_ranking_mean = np.mean(viper_ranking, axis=0)
+    print('viper ranking mean values:' + str(viper_ranking_mean))
+
+    cuhk_matrix_mean = np.mean(cuhk_matrix, axis=0)
+    print('cuhk matrix mean values:' + str(cuhk_matrix_mean))
+
+    cuhk_ranking_mean = np.mean(cuhk_ranking, axis=0)
+    print('cuhk ranking mean values:' + str(cuhk_ranking_mean))
+    
+
+    mean = [str(viper_matrix_mean), str(viper_ranking_mean), str(cuhk_matrix_mean), str(cuhk_ranking_mean)]
+
 
     # note: TURN ON if you want to log results!!
     if pc.LOGGING:
@@ -462,12 +516,4 @@ def super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_
         dataset_name = 'VIPeR, CUHK1'
         pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name, total_time)
 
-    del accs, start, stop, total_time, mean
-    # Device.release_primary_context(cuda.get_current_device())
-
-    # gpu_mem.append(gpu_memory())
-    #
-    # fig = plt.figure()
-    # plt.plot(gpu_mem)
-    # plt.show()
 

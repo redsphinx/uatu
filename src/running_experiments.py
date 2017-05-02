@@ -586,16 +586,92 @@ def experiment_42():
     cl_min = 0.00001
     cl_max = 0.0001
     bn = True
-    save_weights_name = 'scnn_settings_exp_28.h5'
+    # save_weights_name = 'scnn_settings_exp_28_42_2.h5'
+    save_weights_name = None
     scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn,
                    save_weights_name)
 
 
+
+def experiment_43():
+    experiment_name = '43.ranking training SCN with CNN weights: 2D filters 32, BN_lr_0-0001. use CL 0.00001-0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 3
+    numfil = 2
+    epochs = 15
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    # save_weights_name = 'scnn_settings_exp_28_42_2.h5'
+    save_weights_name = None
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn,
+                   save_weights_name)
+
+
+def experiment_44():
+    experiment_name = '44.ranking training SCN: 2D filters 32, BN_lr_0-0001. use CL 0.00001-0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 3
+    numfil = 2
+    epochs = 20
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    # save_weights_name = 'scnn_settings_exp_28_42_2.h5'
+    save_weights_name = None
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn,
+                   save_weights_name)
+
+
+def experiment_45():
+    experiment_name = '45.ranking training SCN: 2D filters 32, BN_lr_0-0001. use CL 0.00001-0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 3
+    numfil = 2
+    epochs = 30
+    batch_size = 64
+    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    # save_weights_name = 'scnn_settings_exp_28_42_2.h5'
+    save_weights_name = None
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn,
+                   save_weights_name)
+
+
+def experiment_46():
+    experiment_name = '46.ranking training SCN: 2D filters 32, use BN. use CL 0.00001-0.0001'
+    print('experiment: %s' % experiment_name)
+    iterations = 1
+    numfil = 2
+    epochs = 1
+    batch_size = 64
+    weights_name = None
+    lr = 0.00001
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    bn = True
+    # save_weights_name = 'scnn_settings_exp_28_42_2.h5'
+    save_weights_name = None
+    scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn,
+                   save_weights_name)
+
+
+
 def main():
-    num = sys.argv[1]
-    print(sys.argv)
-
-    if num == "42":
-        experiment_42()
-
+    # num = sys.argv[1]
+    # print(sys.argv)
+    experiment_46()
 main()
