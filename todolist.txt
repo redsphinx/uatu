@@ -32,6 +32,25 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+3 may
+------
+. set up better experiment logging
+. remove unused methods from 1) project_utils.py and 2) dynamic_data_loading.py
+. make that I can get and set variables in project_constants.py
+. remove scripts we don't use
+
+
+between 20 april and 3 may
+------
+. I have VPN access to my Thales machine
+. NOT using pre-trained weights works really really good.
+. Discovered and fixed huge bug: in the train and test set there are multiple images of the same ID. During training the NN learns these. As a result, during testing it performs really well, because even though it hasn't seen the exact pair before, it has seen a veryvery similar pair before and it remembers.
+. Realized that this bug implies that in a realistic use case, if you can obtain images of the probe and train the network on them you will bias the network, and as a result achieve better matching and ranking performance. This is pretty awesome.
+. Implemented Cumulative Match Characteristic as evaluation metric. Part of this implementation led us to find the bug as described above.
+. Now we create a completely isolated test set and remove all related instances from the list of positive instances. This way we have a clean test set and the network is solely tested on its ability to identify a match/mismatch.
+. The network trains on a mix of VIPeR and CUHK01 and tests on separate VIPeR and CUHK01 datasets
+
+
 20 april
 ------
 . continue make method for dynamically loading data 
