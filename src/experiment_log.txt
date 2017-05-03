@@ -2071,3 +2071,74 @@ mean_viper_ranking:         [ 0.65        0.91666667  0.96666667  0.98333333  0.
 mean_cuhk_tp_fp_tn_fn:      [  18.66666667   75.66666667  304.33333333    1.33333333]
 mean_cuhk_ranking:          [ 0.53333333  0.65        0.8         0.85        0.91666667  0.95   0.96666667  0.98333333  0.98333333  0.98333333  0.98333333  0.98333333   1. 1. 1. 1. 1. 1. 1. 1.]
 
+
+name_of_experiment:         46.ranking training SCN: 2D filters 32, use BN. use CL 0.00001-0.0001
+file_name:                  siamese_cnn_clean.pyc
+date:                       02/05/2017   20:14:44
+duration:                   6325.344674
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          False
+train_cnn:                  False
+mean_viper_tp_fp_tn_fn:     [  19.2   82.4  297.6    0.8]
+mean_viper_ranking:         [ 0.59  0.82  0.89  0.94  0.97  0.97  0.99  0.99  0.99  0.99  1.    1.    1.
+  1.    1.    1.    1.    1.    1.    1.  ]
+mean_cuhk_tp_fp_tn_fn:      [  18.2   68.   312.     1.8]
+mean_cuhk_ranking:          [ 0.41  0.65  0.77  0.91  0.94  0.98  0.98  0.99  0.99  1.    1.    1.    1.
+  1.    1.    1.    1.    1.    1.    1.  ]
+
+
+name_of_experiment:         46.ranking training SCN: 2D filters 32, use BN. use CL 0.00001-0.0001
+file_name:                  siamese_cnn_clean.pyc
+date:                       02/05/2017   21:59:04
+duration:                   6255.986301
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          False
+train_cnn:                  False
+mean_viper_tp_fp_tn_fn:     [  19.2   78.   302.     0.8]
+mean_viper_ranking:         [ 0.5   0.77  0.92  0.97  0.98  0.99  0.99  0.99  0.99  0.99  1.    1.    1.
+  1.    1.    1.    1.    1.    1.    1.  ]
+mean_cuhk_tp_fp_tn_fn:      [  18.8   82.   298.     1.2]
+mean_cuhk_ranking:          [ 0.43  0.65  0.8   0.89  0.89  0.95  0.97  1.    1.    1.    1.    1.    1.   1.    1.    1.    1.    1.    1.    1.  ]
+
+
+name_of_experiment:         48.ranking training SCN: 2D filters 32, use BN. use CL 0.00001-0.0001
+file_name:                  siamese_cnn_clean.pyc
+date:                       03/05/2017   02:35:15
+duration:                   16567.750936
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          False
+train_cnn:                  False
+mean_viper_tp_fp_tn_fn:     [  18.    35.6  344.4    2. ]
+mean_viper_ranking:         [ 0.72  0.93  0.96  0.97  0.98  1.    1.    1.    1.    1.    1.    1.    1.
+  1.    1.    1.    1.    1.    1.    1.  ]
+mean_cuhk_tp_fp_tn_fn:      [  17.6   46.4  333.6    2.4]
+mean_cuhk_ranking:          [ 0.62  0.77  0.87  0.92  0.98  0.99  1.    1.    1.    1.    1.    1.    1.
+  1.    1.    1.    1.    1.    1.    1.  ]
+
+
+name_of_experiment:         48.ranking training SCN: 2D filters 32, use BN. use CL 0.00001-0.0001
+file_name:                  siamese_cnn_clean.pyc
+date:                       03/05/2017   07:08:17
+duration:                   16378.167832
+data_set:                   VIPeR, CUHK1
+iterations:                 5
+number_of_siamese_heads:    2
+dropout:                    0.500000
+transfer_learning:          False
+train_cnn:                  False
+mean_viper_tp_fp_tn_fn:     [  18.6   36.   344.     1.4]
+mean_viper_ranking:         [ 0.69  0.9   0.95  0.97  0.99  0.99  0.99  0.99  1.    1.    1.    1.    1.
+  1.    1.    1.    1.    1.    1.    1.  ]
+mean_cuhk_tp_fp_tn_fn:      [  17.6   37.6  342.4    2.4]
+mean_cuhk_ranking:          [ 0.59  0.78  0.89  0.96  0.96  0.99  0.99  0.99  1.    1.    1.    1.    1.
+  1.    1.    1.    1.    1.    1.    1.  ]
+
