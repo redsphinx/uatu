@@ -8,8 +8,8 @@ import random as rd
 from PIL import Image
 from scipy import ndimage
 
-import project_constants as pc
-import project_utils as pu
+import src.project_constants as pc
+import src.project_utils as pu
 import siamese_cnn as scnn
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"

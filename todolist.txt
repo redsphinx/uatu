@@ -38,7 +38,7 @@ Second phase: Improve the prototype in experiment cycles
 . remove unused methods from 1) project_utils.py and 2) dynamic_data_loading.py
 . make that I can get and set variables in project_constants.py
 . remove scripts we don't use
-
+. add comments to scripts
 
 between 20 april and 3 may
 ------

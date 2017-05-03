@@ -167,7 +167,6 @@ def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_perc
 
             test_list_viper = make_ranking_test(rank_list_viper_pos, data='viper')
 
-            # FIXME
             rank_list_cuhk_pos = np.genfromtxt('/home/gabi/PycharmProjects/uatu/data/CUHK/ranking_pos.txt',
                                                 dtype=None).tolist()
             test_list_cuhk = make_ranking_test(rank_list_cuhk_pos, data='cuhk')
