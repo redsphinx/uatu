@@ -373,11 +373,11 @@ def calculate_accuracy(predictions, labels):
     return acc
 
 
+# FIXME make it euclidean distance compatible
 def make_confusion_matrix(predictions, labels):
-    predictions = threshold_predictions(predictions)
-    tp, fp, tn, fn = 0, 0, 0, 0
-
     if len(np.shape(labels)) > 1:
+        predictions = threshold_predictions(predictions)
+        tp, fp, tn, fn = 0, 0, 0, 0
         for lab in range(0, len(labels)):
             if labels[lab][0] == 0:
                 if predictions[lab][0] == 0:
@@ -391,6 +391,8 @@ def make_confusion_matrix(predictions, labels):
                     fp += 1
         pass
     else:
+        predictions = threshold_predictions(predictions)
+        tp, fp, tn, fn = 0, 0, 0, 0
         for lab in range(0, len(labels)):
             if labels[lab] == 1:
                 if predictions[lab] == 1:
@@ -1016,6 +1018,7 @@ def merge_reid_sets(save=False):
 # merge_reid_sets(save=True)
 
 
+# FIXME make comptible with euclidean distance
 def calculate_CMC(predictions):
     ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
     predictions = np.reshape(predictions[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))

@@ -2,14 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples_src/example_siamese.py" afterPath="$PROJECT_DIR$/examples_src/example_siamese.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic_data_loading.py" afterPath="$PROJECT_DIR$/src/dynamic_data_loading.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/experiment_log.txt" afterPath="$PROJECT_DIR$/src/experiment_log.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_constants.py" afterPath="$PROJECT_DIR$/src/project_constants.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_utils.py" afterPath="$PROJECT_DIR$/src/project_utils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_variables.py" afterPath="$PROJECT_DIR$/src/project_variables.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments.py" afterPath="$PROJECT_DIR$/src/running_experiments.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_clean.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
     </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,7 +28,7 @@
     <SUITE FILE_PATH="coverage/uatu$temp.coverage" NAME="temp Coverage Results" MODIFIED="1493830660785" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$siamese_cnn.coverage" NAME="siamese_cnn Coverage Results" MODIFIED="1490780987613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$testing_stuff.coverage" NAME="testing_stuff Coverage Results" MODIFIED="1493209445138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/uatu$running_experiments.coverage" NAME="running_experiments Coverage Results" MODIFIED="1493908870247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/uatu$running_experiments.coverage" NAME="running_experiments Coverage Results" MODIFIED="1493918079324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$siamese_cnn_clean.coverage" NAME="siamese_cnn_clean Coverage Results" MODIFIED="1493657176250" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$example_siamese.coverage" NAME="example_siamese Coverage Results" MODIFIED="1493909539391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples_src" />
     <SUITE FILE_PATH="coverage/uatu$lstm.coverage" NAME="lstm Coverage Results" MODIFIED="1486921325814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -55,7 +54,7 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4967983">
+    <splitter split-orientation="horizontal" split-proportion="0.4316969">
       <split-first>
         <leaf>
           <file leaf-file-name="project_constants.py" pinned="false" current-in-tab="false">
@@ -71,40 +70,30 @@
           <file leaf-file-name="running_experiments.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="508">
-                  <caret line="754" column="0" lean-forward="false" selection-start-line="754" selection-start-column="0" selection-end-line="754" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="experiment_log.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/experiment_log.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="544">
-                  <caret line="2209" column="52" lean-forward="true" selection-start-line="2209" selection-start-column="52" selection-end-line="2209" selection-end-column="52" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="704">
-                  <caret line="251" column="71" lean-forward="true" selection-start-line="251" selection-start-column="71" selection-end-line="251" selection-end-column="71" />
+                <state relative-caret-position="559">
+                  <caret line="753" column="21" lean-forward="true" selection-start-line="753" selection-start-column="21" selection-end-line="753" selection-end-column="21" />
                   <folding>
-                    <element signature="e#0#12#0" expanded="true" />
+                    <element signature="e#0#23#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="experiment_log.txt" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/experiment_log.txt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="304">
+                  <caret line="2249" column="16" lean-forward="false" selection-start-line="2249" selection-start-column="0" selection-end-line="2250" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/project_variables.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="405">
-                  <caret line="27" column="38" lean-forward="true" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -117,8 +106,8 @@
           <file leaf-file-name="project_utils.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_utils.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="484">
-                  <caret line="375" column="4" lean-forward="false" selection-start-line="375" selection-start-column="4" selection-end-line="375" selection-end-column="4" />
+                <state relative-caret-position="257">
+                  <caret line="406" column="0" lean-forward="true" selection-start-line="406" selection-start-column="0" selection-end-line="406" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
                   </folding>
@@ -129,10 +118,22 @@
           <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="874">
-                  <caret line="349" column="53" lean-forward="false" selection-start-line="349" selection-start-column="53" selection-end-line="349" selection-end-column="53" />
+                <state relative-caret-position="861">
+                  <caret line="357" column="0" lean-forward="true" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#18#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="344">
+                  <caret line="235" column="31" lean-forward="false" selection-start-line="235" selection-start-column="31" selection-end-line="235" selection-end-column="31" />
+                  <folding>
+                    <element signature="e#0#12#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -141,8 +142,8 @@
           <file leaf-file-name="example_siamese.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/examples_src/example_siamese.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="163">
-                  <caret line="80" column="51" lean-forward="true" selection-start-line="80" selection-start-column="51" selection-end-line="80" selection-end-column="51" />
+                <state relative-caret-position="423">
+                  <caret line="93" column="0" lean-forward="true" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
                   <folding>
                     <element signature="e#463#501#0" expanded="true" />
                   </folding>
@@ -163,18 +164,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>gpu_mem.append(gpu_memory())</find>
-      <find>append</find>
-      <find>Device</find>
-      <find>gpu_mem</find>
-      <find>transfer</find>
-      <find>make_ra</find>
-      <find>gen</find>
-      <find>VIPER</find>
-      <find>shu</find>
-      <find>match</find>
-      <find>.</find>
-      <find />
       <find>cuhk</find>
       <find>viper</find>
       <find>deca</find>
@@ -193,22 +182,20 @@
       <find>,</find>
       <find>enter</find>
       <find>enter_in</find>
+      <find>neural_distance</find>
+      <find>trainable</find>
+      <find>neural</find>
+      <find>trainable)</find>
+      <find>numfil</find>
+      <find>batch_size,</find>
+      <find>experiment_name</find>
+      <find>cost_module</find>
+      <find>pv</find>
+      <find>pv.</find>
+      <find>adjustable</find>
+      <find>adjustable.use</find>
     </findStrings>
     <replaceStrings>
-      <replace>train</replace>
-      <replace>validation</replace>
-      <replace>3</replace>
-      <replace>(1, 3)</replace>
-      <replace>data_shape</replace>
-      <replace>PCA_whiten</replace>
-      <replace>normalized</replace>
-      <replace>te</replace>
-      <replace>pc.USE_BIAS</replace>
-      <replace>*numfil</replace>
-      <replace>balanced_data</replace>
-      <replace>c</replace>
-      <replace>num_steps_per_epoch</replace>
-      <replace>slice_size_queue</replace>
       <replace>neg</replace>
       <replace>random</replace>
       <replace>CUHK</replace>
@@ -225,6 +212,20 @@
       <replace>matrix</replace>
       <replace>ranking</replace>
       <replace>=\n</replace>
+      <replace>use_bat</replace>
+      <replace>transfer_weights</replace>
+      <replace>cl_max</replace>
+      <replace>experiment_name</replace>
+      <replace>pv.neural</replace>
+      <replace>pv.trainable)</replace>
+      <replace>pv.numfil</replace>
+      <replace>pv.cl_min</replace>
+      <replace>pv.cl</replace>
+      <replace>pv.batch_size,</replace>
+      <replace>learning_rate</replace>
+      <replace>adjustable</replace>
+      <replace>adjustable.</replace>
+      <replace>a</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -250,14 +251,14 @@
         <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
         <option value="$PROJECT_DIR$/src/cnn_clean.py" />
         <option value="$PROJECT_DIR$/src/temp.py" />
-        <option value="$PROJECT_DIR$/src/project_variables.py" />
         <option value="$PROJECT_DIR$/src/project_constants.py" />
         <option value="$PROJECT_DIR$/src/experiment_log.txt" />
-        <option value="$PROJECT_DIR$/src/project_utils.py" />
-        <option value="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
-        <option value="$PROJECT_DIR$/src/running_experiments.py" />
         <option value="$PROJECT_DIR$/examples_src/example_siamese.py" />
+        <option value="$PROJECT_DIR$/src/project_variables.py" />
         <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
+        <option value="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
+        <option value="$PROJECT_DIR$/src/project_utils.py" />
+        <option value="$PROJECT_DIR$/src/running_experiments.py" />
       </list>
     </option>
   </component>
@@ -348,7 +349,7 @@
       <recent name="$PROJECT_DIR$/images" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.example_siamese">
+  <component name="RunManager" selected="Python.running_experiments">
     <configuration default="false" name="running_experiments" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -673,8 +674,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.example_siamese" />
-        <item index="1" class="java.lang.String" itemvalue="Python.running_experiments" />
+        <item index="0" class="java.lang.String" itemvalue="Python.running_experiments" />
+        <item index="1" class="java.lang.String" itemvalue="Python.example_siamese" />
         <item index="2" class="java.lang.String" itemvalue="Python.temp" />
         <item index="3" class="java.lang.String" itemvalue="Python.fun_plotting" />
         <item index="4" class="java.lang.String" itemvalue="Python.dynamic_data_loading" />
@@ -716,11 +717,11 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3153989" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3153989" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20704375" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40352505" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34044528" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -764,23 +765,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/project_utils.py</url>
-          <line>415</line>
+          <line>417</line>
           <option name="timeStamp" value="488" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/project_utils.py</url>
-          <line>1038</line>
-          <option name="timeStamp" value="489" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/siamese_cnn_clean.py</url>
-          <line>314</line>
-          <option name="timeStamp" value="491" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/examples_src/example_siamese.py</url>
           <line>127</line>
-          <option name="timeStamp" value="492" />
+          <option name="timeStamp" value="493" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/project_utils.py</url>
+          <line>392</line>
+          <option name="timeStamp" value="496" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/project_utils.py</url>
+          <line>350</line>
+          <option name="timeStamp" value="498" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -793,7 +794,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="493" />
+      <option name="time" value="499" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -1081,14 +1082,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/optimizers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-56">
-          <caret line="103" column="6" lean-forward="false" selection-start-line="103" selection-start-column="6" selection-end-line="103" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/callbacks.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-6994">
@@ -1115,22 +1108,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_constants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/experiment_log.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="2209" column="52" lean-forward="true" selection-start-line="2209" selection-start-column="52" selection-end-line="2209" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/layers/core.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="99">
@@ -1147,24 +1124,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="754" column="0" lean-forward="false" selection-start-line="754" selection-start-column="0" selection-end-line="754" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples_src/example_siamese.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="80" column="51" lean-forward="true" selection-start-line="80" selection-start-column="51" selection-end-line="80" selection-end-column="51" />
-          <folding>
-            <element signature="e#463#501#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/engine/topology.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="414">
@@ -1173,41 +1132,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/keras/optimizers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="874">
-          <caret line="349" column="53" lean-forward="false" selection-start-line="349" selection-start-column="53" selection-end-line="349" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="236">
+          <caret line="519" column="0" lean-forward="false" selection-start-line="519" selection-start-column="0" selection-end-line="519" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_utils.py">
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="375" column="4" lean-forward="false" selection-start-line="375" selection-start-column="4" selection-end-line="375" selection-end-column="4" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples_src/example_siamese.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="93" column="0" lean-forward="true" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#463#501#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="704">
-          <caret line="251" column="71" lean-forward="true" selection-start-line="251" selection-start-column="71" selection-end-line="251" selection-end-column="71" />
+        <state relative-caret-position="344">
+          <caret line="235" column="31" lean-forward="false" selection-start-line="235" selection-start-column="31" selection-end-line="235" selection-end-column="31" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="38" lean-forward="true" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
+        <state relative-caret-position="861">
+          <caret line="357" column="0" lean-forward="true" selection-start-line="357" selection-start-column="0" selection-end-line="357" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="559">
+          <caret line="753" column="21" lean-forward="true" selection-start-line="753" selection-start-column="21" selection-end-line="753" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/experiment_log.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="2249" column="16" lean-forward="false" selection-start-line="2249" selection-start-column="0" selection-end-line="2250" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="257">
+          <caret line="406" column="0" lean-forward="true" selection-start-line="406" selection-start-column="0" selection-end-line="406" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

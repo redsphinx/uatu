@@ -7,6 +7,7 @@ import keras
 import h5py
 import time
 import os
+from project_variables import ProjectVariable as pv
 
 def analyze_data_set(dataset):
     data_list = list(csv.reader(np.genfromtxt(dataset, dtype=None)))
@@ -196,7 +197,7 @@ def make_train_batches(total_data_list_pos, total_data_list_neg, data_type='hdf5
         return total_data_list
 
 
-def load_in_array(cost_module_type, data_pos=None, data_neg=None, hdf5_file=None, data_list=None, heads=1,
+def load_in_array(adjustable, data_pos=None, data_neg=None, hdf5_file=None, data_list=None, heads=1,
                   data_type='hdf5'):
     if heads == 1:
         if data_type == 'hdf5':
@@ -213,7 +214,7 @@ def load_in_array(cost_module_type, data_pos=None, data_neg=None, hdf5_file=None
             everything = zip(data_array, labels)
             random.shuffle(everything)
             data_array, labels = zip(*everything)
-            if cost_module_type == 'euclidean':
+            if adjustable.cost_module_type == 'neural_network':
                 labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
             return np.asarray(data_array), labels
 
@@ -224,7 +225,7 @@ def load_in_array(cost_module_type, data_pos=None, data_neg=None, hdf5_file=None
                 name = data_list[image].split(',')[0]
                 data_array[image] = ndimage.imread(name)[:, :, 0:3]
                 labels[image] = int(data_list[image].split(',')[1])
-                if cost_module_type == 'euclidean':
+                if adjustable.cost_module_type == 'neural_network':
                     labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
                 return data_array, labels
     else:
@@ -238,7 +239,7 @@ def load_in_array(cost_module_type, data_pos=None, data_neg=None, hdf5_file=None
                     data_array[pair][image] = ndimage.imread(name)[:, :, 0:3]
                     labels[pair] = int(data_list[pair].split(',')[2])
 
-            if cost_module_type == 'euclidean':
+            if adjustable.cost_module_type == 'neural_network':
                 labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
             return data_array, labels
 
@@ -323,7 +324,7 @@ def txt_to_hdf5(text_file, hdf5_file_name):
         print('time loading: %0.2f' % time_loading)
 
 
-def get_data_scnn(cost_module_type):
+def get_data_scnn(adjustable):
     total_data_list_pos = np.genfromtxt(pc.POSITIVE_DATA, dtype=None)
     with h5py.File(pc.NEGATIVE_DATA, 'r') as hf:
         total_data_list_neg = hf['data'][()]
@@ -332,17 +333,14 @@ def get_data_scnn(cost_module_type):
         total_data_list_pos, total_data_list_neg, val_pos_percent=0.1, test_pos_percent=0.1, data_type='images',
         ranking=True)
 
-    validation_data, validation_labels = load_in_array(cost_module_type=cost_module_type,
-                                                        data_list=val_list,
+    validation_data, validation_labels = load_in_array(adjustable, data_list=val_list,
                                                         data_type='images',
                                                         heads=2)
-    test_data_viper, test_labels_viper = load_in_array(cost_module_type=cost_module_type,
-                                                        data_list=test_list_viper,
+    test_data_viper, test_labels_viper = load_in_array(adjustable, data_list=test_list_viper,
                                                         data_type='images',
                                                         heads=2)
 
-    test_data_cuhk, test_labels_cuhk = load_in_array(cost_module_type=cost_module_type,
-                                                        data_list=test_list_cuhk,
+    test_data_cuhk, test_labels_cuhk = load_in_array(adjustable, data_list=test_list_cuhk,
                                                         data_type='images',
                                                         heads=2)
 

@@ -32,6 +32,28 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+5 may
+------
+. create Docker instance with evertyhing
+. add CUHK02 to the datasets
+. make list of experiments that are possible with current settings
+. figure out how to make euclidean distance work
+.. also with calculate_CMC(). the ranking should be reversed: sort on smallest first
+.. also with make_confusion_matrix() decide good distance to set as threshold
+. remove unused methods from 1) project_utils.py and 2) dynamic_data_loading.py
+. add comments to scripts
+.. DONE for siamese_cnn_clean.py
+
+4 may
+------
+. DONE set up better experiment logging
+. remove unused methods from 1) project_utils.py and 2) dynamic_data_loading.py
+. DONE make that I can get and set variables in project_constants.py
+. DONE remove scripts we don't use
+. add comments to scripts
+.. DONE for siamese_cnn_clean.py
+
+
 3 may
 ------
 . set up better experiment logging

@@ -6,6 +6,7 @@ from numba import cuda
 from numba.cuda.cudadrv.driver import Device
 from numba.cuda.cudadrv.devices import reset
 import sys
+from project_variables import ProjectVariable
 
 
 def experiment_0(data):
@@ -727,24 +728,24 @@ def experiment_49():
 
 
 def experiment_50():
-    iterations = 2
-    experiment_name = '50. debugging code restructuring'
-    numfil = 1
-    head_type = 'simple'
-    cost_module_type = 'euclidean'
-    neural_distance = 'add'
-    trainable = False
-    transfer_weights = False
-    cnn_weights_name = None
-    lr = 0.00001
-    epochs = 1
-    cl = True
-    cl_min = 0.00001
-    cl_max = 0.0001
-    batch_size = 128
-    scnn_save_weights_name = None
-    scn.super_main(iterations, experiment_name, numfil, head_type, cost_module_type, neural_distance, trainable,
-               transfer_weights, cnn_weights_name, lr, epochs, cl, cl_min, cl_max, batch_size, scnn_save_weights_name)
+    a = ProjectVariable()
+    a.iterations = 1
+    a.experiment_name = '50. debugging code restructuring'
+    a.numfil = 2
+    a.head_type = 'batch_normalized'
+    a.cost_module_type = 'neural_network'  # 'euclidean' not implemented yet
+    a.neural_distance = 'concatenate'
+    a.trainable = True
+    a.transfer_weights = False
+    a.cnn_weights_name = None
+    a.learning_rate = 0.00001
+    a.epochs = 10
+    a.use_cyclical_learning_rate = True
+    a.cl_min = 0.00001
+    a.cl_max = 0.0001
+    a.batch_size = 64
+    a.scnn_save_weights_name = None
+    scn.super_main(a)
 
 def main():
     # num = sys.argv[1]
