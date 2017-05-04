@@ -411,47 +411,25 @@ def print_confusion_matrix(name, confusion_matrix):
           %(name, confusion_matrix[0], confusion_matrix[1], confusion_matrix[2], confusion_matrix[3]))
 
 
-def enter_in_log(experiment_name, file_name, super_main_iterations, confusion_matrix, dataset_name, total_time):
-# def enter_in_log(name):
+def enter_in_log(experiment_name, file_name, data_names, matrix_means, matrix_std, ranking_means, ranking_std, total_time):
+    decimals = '.2f'
     if not os.path.exists(pc.LOG_FILE_PATH):
         with open(pc.LOG_FILE_PATH, 'w') as my_file:
             print('new log file made')
 
-
     with open(pc.LOG_FILE_PATH, 'a') as log_file:
         date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
-        # accuracy = (test_confusion_matrix[0] + test_confusion_matrix[2])*1.0 / (sum(test_confusion_matrix)*1.0)
-        # confusion_matrix = str(test_confusion_matrix)
-        viper_matrix_mean = str(confusion_matrix[0])
-        viper_ranking_mean = str(confusion_matrix[1])
-        cuhk_matrix_mean = str(confusion_matrix[2])
-        cuhk_ranking_mean = str(confusion_matrix[3])
-        
         log_file.write('\n')
         log_file.write('name_of_experiment:         %s\n' % experiment_name)
         log_file.write('file_name:                  %s\n' % file_name)
         log_file.write('date:                       %s\n' % date)
         log_file.write('duration:                   %f\n' % total_time)
-        log_file.write('data_set:                   %s\n' % dataset_name)
-        log_file.write('iterations:                 %d\n' % super_main_iterations)
-        # log_file.write('start_learning_rate:        %f\n' % pc.START_LEARNING_RATE)
-        # log_file.write('batch_size:                 %d\n' % pc.BATCH_SIZE)
-        # log_file.write('similarity_metric           %s\n' % pc.SIMILARITY_METRIC)
-        # log_file.write('decay_rate:                 %f\n' % pc.DECAY_RATE)
-        # log_file.write('momentum:                   %f\n' % pc.MOMENTUM)
-        # log_file.write('epochs:                     %d\n' % pc.NUM_EPOCHS)
-        # log_file.write('number_of_cameras:          %d\n' % pc.NUM_CAMERAS)
-        log_file.write('number_of_siamese_heads:    %d\n' % pc.NUM_SIAMESE_HEADS)
-        log_file.write('dropout:                    %f\n' % pc.DROPOUT)
-        log_file.write('transfer_learning:          %s\n' % pc.TRANSFER_LEARNING)
-        log_file.write('train_cnn:                  %s\n' % pc.TRAIN_CNN)
-        log_file.write('mean_viper_tp_fp_tn_fn:     %s\n' % viper_matrix_mean)
-        log_file.write('mean_viper_ranking:         %s\n' % viper_ranking_mean)
-        log_file.write('mean_cuhk_tp_fp_tn_fn:      %s\n' % cuhk_matrix_mean)
-        log_file.write('mean_cuhk_ranking:          %s\n' % cuhk_ranking_mean)
-
-        # log_file.write('mean_accuracy:              %f\n' % accuracy)
-
+        for dataset in range(len(data_names)):
+            name = data_names[dataset]
+            log_file.write('%s mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(matrix_means[dataset].tolist(), decimals))))
+            log_file.write('%s std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(matrix_std[dataset].tolist(), decimals))))
+            log_file.write('%s mean ranking:        %s\n' % (name, str(reduce_float_length(ranking_means[dataset].tolist(), decimals))))
+            log_file.write('%s std ranking:         %s\n' % (name, str(reduce_float_length(ranking_std[dataset].tolist(), decimals))))
         log_file.write('\n')
 
 
@@ -1036,3 +1014,28 @@ def merge_reid_sets(save=False):
     return pos_list, neg_list
 
 # merge_reid_sets(save=True)
+
+
+def calculate_CMC(predictions):
+    ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+    predictions = np.reshape(predictions[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+    tallies = np.zeros(pc.RANKING_NUMBER)
+    final_ranking = []
+
+    for row in range(len(predictions)):
+        ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
+                                                        reverse=True)]
+        list_form = ranking_matrix_abs[row].tolist()
+        num = list_form.index(row)
+        tallies[num] += 1
+
+    for tally in range(len(tallies)):
+        percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
+        final_ranking.append(float('%0.2f' % percentage))
+    return final_ranking
+
+
+def reduce_float_length(a_list, decimals):
+    for i in range(len(a_list)):
+        a_list[i] = float(format(a_list[i], decimals))
+    return a_list

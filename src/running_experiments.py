@@ -725,25 +725,31 @@ def experiment_49():
     scn.super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_min, cl_max, bn,
                    save_weights_name)
 
+
+def experiment_50():
+    iterations = 2
+    experiment_name = '50. debugging code restructuring'
+    numfil = 1
+    head_type = 'simple'
+    cost_module_type = 'euclidean'
+    neural_distance = 'add'
+    trainable = False
+    transfer_weights = False
+    cnn_weights_name = None
+    lr = 0.00001
+    epochs = 1
+    cl = True
+    cl_min = 0.00001
+    cl_max = 0.0001
+    batch_size = 128
+    scnn_save_weights_name = None
+    scn.super_main(iterations, experiment_name, numfil, head_type, cost_module_type, neural_distance, trainable,
+               transfer_weights, cnn_weights_name, lr, epochs, cl, cl_min, cl_max, batch_size, scnn_save_weights_name)
+
 def main():
-    num = sys.argv[1]
-    print(sys.argv)
-
-    if num == '46_1':
-        experiment_46()
-
-    if num == '46_2':
-        experiment_46()
+    # num = sys.argv[1]
+    # print(sys.argv)
     #
-    # if num == '47':
-    #     experiment_47()
-    #
-    # if num == '48':
-    #     experiment_48()
-    #
-    if num == '49_1':
-        experiment_49()
-
-    if num == '49_2':
-        experiment_49()
+    # if num == '50':
+    experiment_50()
 main()

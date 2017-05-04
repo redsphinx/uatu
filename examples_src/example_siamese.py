@@ -1,15 +1,49 @@
-import random
+'''Train a Siamese MLP on pairs of digits from the MNIST dataset.
+
+It follows Hadsell-et-al.'06 [1] by computing the Euclidean distance on the
+output of the shared network and by optimizing the contrastive loss (see paper
+for mode details).
+
+[1] "Dimensionality Reduction by Learning an Invariant Mapping"
+    http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+
+Gets to 99.5% test accuracy after 20 epochs.
+3 seconds per epoch on a Titan X GPU
+'''
+from __future__ import absolute_import
+from __future__ import print_function
 import numpy as np
-import time
-import tensorflow as tf
-import input_data
-import math
 
-image_size = 28
+import random
+from keras.datasets import mnist
+from keras.models import Sequential, Model
+from keras.layers import Dense, Dropout, Input, Lambda
+from keras.optimizers import RMSprop
+from keras import backend as K
+import os
 
-mnist = input_data.read_data_sets("data2", image_size, one_hot=False)
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
-import pdb
+
+def euclidean_distance(vects):
+    x, y = vects
+    return K.sqrt(K.maximum(K.sum(K.square(x - y), axis=1, keepdims=True), K.epsilon()))
+
+
+def eucl_dist_output_shape(shapes):
+    shape1, shape2 = shapes
+    return (shape1[0], 1)
+
+
+def contrastive_loss(y_true, y_pred):
+    '''Contrastive loss from Hadsell-et-al.'06
+    http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+    '''
+    margin = 1
+    return K.mean(y_true * K.square(y_pred) +
+                  (1 - y_true) * K.square(K.maximum(margin - y_pred, 0)))
+
+
 def create_pairs(x, digit_indices):
     '''Positive and negative pair creation.
     Alternates between positive and negative pairs.
@@ -19,7 +53,7 @@ def create_pairs(x, digit_indices):
     n = min([len(digit_indices[d]) for d in range(10)]) - 1
     for d in range(10):
         for i in range(n):
-            z1, z2 = digit_indices[d][i], digit_indices[d][i+1]
+            z1, z2 = digit_indices[d][i], digit_indices[d][i + 1]
             pairs += [[x[z1], x[z2]]]
             inc = random.randrange(1, 10)
             dn = (d + inc) % 10
@@ -29,118 +63,72 @@ def create_pairs(x, digit_indices):
     return np.array(pairs), np.array(labels)
 
 
-def mlp(input_,input_dim,output_dim,name="mlp"):
-    with tf.variable_scope(name):
-        w = tf.get_variable('w',[input_dim,output_dim],initializer=tf.contrib.layers.xavier_initializer())
-        return tf.nn.relu(tf.matmul(input_,w))
+def create_base_network(input_dim):
+    '''Base network to be shared (eq. to feature extraction).
+    '''
+    seq = Sequential()
+    seq.add(Dense(128, input_shape=(input_dim,), activation='relu'))
+    seq.add(Dropout(0.1))
+    seq.add(Dense(128, activation='relu'))
+    seq.add(Dropout(0.1))
+    seq.add(Dense(128, activation='relu'))
+    return seq
 
 
-def build_model_mlp(X_,_dropout):
-
-    model = mlpnet(X_,_dropout)
-    return model
-
-
-def mlpnet(image,_dropout):
-    l1 = mlp(image,784,128,name='l1')
-    l1 = tf.nn.dropout(l1,_dropout)
-    l2 = mlp(l1,128,128,name='l2')
-    l2 = tf.nn.dropout(l2,_dropout)
-    l3 = mlp(l2,128,128,name='l3')
-    l3 = tf.nn.dropout(l3,_dropout)
-    l4 = mlp(l3, 128, 128, name='l4')
-    l4 = tf.nn.dropout(l4, _dropout)
-    l5 = mlp(l4, 128, 128, name='l5')
-    return l5
+def compute_accuracy(predictions, labels):
+    '''Compute classification accuracy with a fixed threshold on distances.
+    '''
+    return labels[predictions.ravel() < 0.5].mean()
 
 
-def contrastive_loss(y,d):
-    tmp= y *tf.square(d)
-    #tmp= tf.mul(y,tf.square(d))
-    tmp2 = (1-y) *tf.square(tf.maximum((1 - d),0))
-    return tf.reduce_sum(tmp +tmp2)/batch_size/2
-
-def compute_accuracy(prediction,labels):
-    return labels[prediction.ravel() < 0.5].mean()
-    #return tf.reduce_mean(labels[prediction.ravel() < 0.5])
-def next_batch(s,e,inputs,labels):
-    input1 = inputs[s:e,0]
-    input2 = inputs[s:e,1]
-    y= np.reshape(labels[s:e],(len(range(s,e)),1))
-    return input1,input2,y
-
-# Initializing the variables
 # the data, shuffled and split between train and test sets
-X_train = mnist.train._images
-y_train = mnist.train._labels
-X_test = mnist.test._images
-y_test = mnist.test._labels
-batch_size =128
-global_step = tf.Variable(0,trainable=False)
-starter_learning_rate = 0.0005
-learning_rate = tf.train.exponential_decay(starter_learning_rate,global_step,10,0.1,staircase=True)
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+x_train = x_train.reshape(60000, 784)
+x_test = x_test.reshape(10000, 784)
+x_train = x_train.astype('float32')
+x_test = x_test.astype('float32')
+x_train /= 255
+x_test /= 255
+input_dim = 784
+epochs = 1
+
 # create training+test positive and negative pairs
 digit_indices = [np.where(y_train == i)[0] for i in range(10)]
-tr_pairs, tr_y = create_pairs(X_train, digit_indices)
+tr_pairs, tr_y = create_pairs(x_train, digit_indices)
+
 digit_indices = [np.where(y_test == i)[0] for i in range(10)]
-te_pairs, te_y = create_pairs(X_test, digit_indices)
+te_pairs, te_y = create_pairs(x_test, digit_indices)
 
-images_L = tf.placeholder(tf.float32,shape=([None,784]),name='L')
-images_R = tf.placeholder(tf.float32,shape=([None,784]),name='R')
-labels = tf.placeholder(tf.float32,shape=([None,1]),name='gt')
-dropout_f = tf.placeholder("float")
+# network definition
+base_network = create_base_network(input_dim)
 
-with tf.variable_scope("siamese") as scope:
-    model1= build_model_mlp(images_L,dropout_f)
-    scope.reuse_variables()
-    model2 = build_model_mlp(images_R,dropout_f)
+input_a = Input(shape=(input_dim,))
+input_b = Input(shape=(input_dim,))
 
-distance  = tf.sqrt(tf.reduce_sum(tf.pow(tf.sub(model1,model2),2),1,keep_dims=True))
-loss = contrastive_loss(labels,distance)
-#contrastice loss
-t_vars = tf.trainable_variables()
-d_vars  = [var for var in t_vars if 'l' in var.name]
-batch = tf.Variable(0)
-optimizer = tf.train.AdamOptimizer(learning_rate = 0.0001).minimize(loss)
-#optimizer = tf.train.RMSPropOptimizer(0.0001,momentum=0.9,epsilon=1e-6).minimize(loss)
-# Launch the graph
-init = tf.global_variables_initializer()
+# because we re-use the same instance `base_network`,
+# the weights of the network
+# will be shared across the two branches
+processed_a = base_network(input_a)
+processed_b = base_network(input_b)
 
-with tf.Session() as sess:
-    #sess.run(init)
+distance = Lambda(euclidean_distance,
+                  output_shape=eucl_dist_output_shape)([processed_a, processed_b])
 
-    sess.run(init)
-    # Training cycle
-    for epoch in range(200):
-        avg_loss = 0.
-        avg_acc = 0.
-        total_batch = int(X_train.shape[0]/batch_size)
-        start_time = time.time()
-        # Loop over all batches
-        for i in range(total_batch):
-            s  = i * batch_size
-            e = (i+1) *batch_size
-            # Fit training using batch data
-            input1,input2,y =next_batch(s,e,tr_pairs,tr_y)
-            _,loss_value,predict=sess.run([optimizer,loss,distance], feed_dict={images_L:input1,images_R:input2 ,labels:y,dropout_f:0.9})
-            feature1=model1.eval(feed_dict={images_L:input1,dropout_f:0.9})
-            feature2=model2.eval(feed_dict={images_R:input2,dropout_f:0.9})
-            tr_acc = compute_accuracy(predict,y)
-            if math.isnan(tr_acc) and epoch != 0:
-                print('tr_acc %0.2f' % tr_acc)
-                pdb.set_trace()
-            avg_loss += loss_value
-            avg_acc +=tr_acc*100
-        #print('epoch %d loss %0.2f' %(epoch,avg_loss/total_batch))
-        duration = time.time() - start_time
-        print('epoch %d  time: %f loss %0.5f acc %0.2f' %(epoch,duration,avg_loss/(total_batch),avg_acc/total_batch))
-    y = np.reshape(tr_y,(tr_y.shape[0],1))
-    predict=distance.eval(feed_dict={images_L:tr_pairs[:,0],images_R:tr_pairs[:,1],labels:y,dropout_f:1.0})
-    tr_acc = compute_accuracy(predict,y)
-    print('Accuract training set %0.2f' % (100 * tr_acc))
+model = Model([input_a, input_b], distance)
 
-    # Test model
-    predict=distance.eval(feed_dict={images_L:te_pairs[:,0],images_R:te_pairs[:,1],labels:y,dropout_f:1.0})
-    y = np.reshape(te_y,(te_y.shape[0],1))
-    te_acc = compute_accuracy(predict,y)
-    print('Accuract test set %0.2f' % (100 * te_acc))
+# train
+rms = RMSprop()
+model.compile(loss=contrastive_loss, optimizer=rms)
+model.fit([tr_pairs[:, 0], tr_pairs[:, 1]], tr_y,
+          batch_size=128,
+          epochs=epochs,
+          validation_data=([te_pairs[:, 0], te_pairs[:, 1]], te_y))
+
+# compute final accuracy on training and test sets
+pred = model.predict([tr_pairs[:, 0], tr_pairs[:, 1]])
+tr_acc = compute_accuracy(pred, tr_y)
+pred = model.predict([te_pairs[:, 0], te_pairs[:, 1]])
+te_acc = compute_accuracy(pred, te_y)
+
+print('* Accuracy on training set: %0.2f%%' % (100 * tr_acc))
+print('* Accuracy on test set: %0.2f%%' % (100 * te_acc))

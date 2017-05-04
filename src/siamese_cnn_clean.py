@@ -6,232 +6,13 @@ import dynamic_data_loading as ddl
 from keras import backend as K
 import project_constants as pc
 import project_utils as pu
-# import os
-# import numpy as np
-# import time
+import os
+import numpy as np
+import time
 import h5py
 from clr_callback import *
-import matplotlib.pyplot as plt
-# import tensorflow as tf
-# from keras.backend.tensorflow_backend import set_session
-# #
-# config = tf.ConfigProto()
-# config.gpu_options.per_process_gpu_memory_fraction = 0.3
-# set_session(tf.Session(config=config))
 
-# config.gpu_options.allow_growth=True
-# sess = tf.Session(config=config)
-
-
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
-
-def gpu_memory():
-    out = os.popen("nvidia-smi").read()
-    ret = '0MiB'
-    for item in out.split("\n"):
-        if str(os.getpid()) in item and 'python' in item:
-            ret = item.strip().split(' ')[-2]
-    return float(ret[:-3])
-
-# gpu_mem = []
-# gpu_mem.append(gpu_memory())
-
-
-def alt_create_fc(inputs):
-    # dense_layer = Dense(512)(inputs)
-    # norm = BatchNormalization()(dense_layer)
-    # dense_layer = Dense(1024)(norm)
-    # norm = BatchNormalization()(dense_layer)
-    # output_layer = Dense(pc.NUM_CLASSES)(norm)
-    # softmax = Activation('softmax')(output_layer)
-    # return softmax
-    dense_layer = Dense(512) (inputs)
-    activation = Activation('relu') (dense_layer)
-    dropout_layer = Dropout(pc.DROPOUT)(activation)
-    dense_layer = Dense(1024)(dropout_layer)
-    activation = Activation('relu')(dense_layer)
-    dropout_layer = Dropout(pc.DROPOUT)(activation)
-    output_layer = Dense(pc.NUM_CLASSES) (dropout_layer)
-    softmax = Activation('softmax')(output_layer)
-    return  softmax
-
-
-def add_activation_and_relu(model):
-    model.add(Activation('relu'))
-    model.add(MaxPool2D(pool_size=(2, 2)))
-    return model
-
-
-def create_base_network_simple(numfil, weights_name):
-    model = Sequential()
-    model.add(Conv2D(16 * numfil, kernel_size=(3, 3), padding='same',
-                     input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
-                                  pc.NUM_CHANNELS), name='conv_1', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(32*numfil, kernel_size=(3, 3), padding='same', name='conv_2', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(64*numfil, kernel_size=(3, 3), padding='same', name='conv_3', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(128*numfil, kernel_size=(3, 3), padding='same', name='conv_4', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(256*numfil, kernel_size=(3, 3), padding='same', name='conv_5', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(512*numfil, kernel_size=(3, 3), padding='same', name='conv_6', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(1024*numfil, kernel_size=(3, 3), padding='same', name='conv_7', trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(Flatten(name='cnn_flat'))
-
-    if pc.TRANSFER_LEARNING:
-        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name), by_name=True)
-
-    return model
-
-
-def create_base_network_simple_BN(numfil, weights_name):
-    if pc.TRANSFER_LEARNING:
-        train = False
-    else:
-        train = True
-    model = Sequential()
-    model.add(Conv2D(16 * numfil, kernel_size=(3, 3), padding='same',
-                     input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
-                                  pc.NUM_CHANNELS), name='conv_1', trainable=train))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_1', trainable=train))
-    model.add(Conv2D(32*numfil, kernel_size=(3, 3), padding='same', name='conv_2', trainable=train))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_2', trainable=train))
-    model.add(Conv2D(64*numfil, kernel_size=(3, 3), padding='same', name='conv_3', trainable=train))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_3', trainable=train))
-    model.add(Conv2D(128*numfil, kernel_size=(3, 3), padding='same', name='conv_4', trainable=train))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_4', trainable=train))
-    model.add(Conv2D(256*numfil, kernel_size=(3, 3), padding='same', name='conv_5', trainable=train))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_5', trainable=train))
-    model.add(Conv2D(512*numfil, kernel_size=(3, 3), padding='same', name='conv_6', trainable=train))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_6', trainable=train))
-    model.add(Conv2D(1024*numfil, kernel_size=(3, 3), padding='same', name='conv_7', trainable=train))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_7', trainable=train))
-    model.add(Flatten(name='cnn_flat'))
-
-    if pc.TRANSFER_LEARNING:
-        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name), by_name=True)
-
-    # gpu_mem.append(gpu_memory())
-    return model
-
-
-
-def create_base_network_1d_filter(train_data_, numfil, weights_name):
-    model = Sequential()
-    model.add(Conv2D(16*numfil, kernel_size=(1, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1_1',
-                     trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(Conv2D(16*numfil, kernel_size=(3, 1), padding='same', name='conv_1_2', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(32*numfil, kernel_size=(1, 3), padding='same', name='conv_2_1', trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(Conv2D(32*numfil, kernel_size=(3, 1), padding='same', name='conv_2_2', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(64*numfil, kernel_size=(1, 3), padding='same', name='conv_3_1', trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(Conv2D(64*numfil, kernel_size=(3, 1), padding='same', name='conv_3_2', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(128*numfil, kernel_size=(1, 3), padding='same', name='conv_4_1', trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(Conv2D(128*numfil, kernel_size=(3, 1), padding='same', name='conv_4_2', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(256*numfil, kernel_size=(1, 3), padding='same', name='conv_5_1', trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(Conv2D(256*numfil, kernel_size=(3, 1), padding='same', name='conv_5_2', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(512*numfil, kernel_size=(1, 3), padding='same', name='conv_6_1', trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(Conv2D(512*numfil, kernel_size=(3, 1), padding='same', name='conv_6_2', trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(1024*numfil, kernel_size=(1, 3), padding='same', name='conv_7_1', trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(Conv2D(1024*numfil, kernel_size=(3, 1), padding='same', name='conv_7_2', trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-
-    model.add(Flatten(name='cnn_flat'))
-
-    if pc.TRANSFER_LEARNING:
-        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name),
-                           by_name=True)
-
-    return model
-
-
-def create_base_network_with_BN(train_data_):
-    model = Sequential()
-    model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data_.shape[1:], name='conv_1_1', 
-                     use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_1', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_2', trainable=pc.TRAIN_CNN))
-
-    model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_3', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_4', trainable=pc.TRAIN_CNN))
-
-    model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_5', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_6', trainable=pc.TRAIN_CNN))
-
-    model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_7', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_8', trainable=pc.TRAIN_CNN))
-
-    model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_9', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_10', trainable=pc.TRAIN_CNN))
-
-    model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_11', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_12', trainable=pc.TRAIN_CNN))
-
-    model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_13', trainable=pc.TRAIN_CNN))
-    model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2', use_bias=pc.USE_BIAS, trainable=pc.TRAIN_CNN))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_14', trainable=pc.TRAIN_CNN))
-
-    model.add(Flatten(name='cnn_flat'))
-
-    if pc.TRANSFER_LEARNING:
-        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, 'cnn_model_weights_bn_clr_1_bias.h5'), by_name=True)
-
-    return model
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 def euclidean_distance(vects):
@@ -259,261 +40,279 @@ def compute_accuracy(predictions, labels):
     return labels[predictions.ravel() < 0.5].mean()
 
 
-def create_siamese(numfil, weights_name, bn, similarity_metric='fc_layers'):
-    input_a = Input(shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-    input_b = Input(shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-    if bn:
-        base_network = create_base_network_simple_BN(numfil, weights_name)
+# FIXME use pv for module_type and neural_distance
+def create_cost_module(inputs, module_type, neural_distance):
+    """Implements the cost module of the siamese network.
+    :param inputs:          list containing feature tensor from each siamese head
+    :param module_type:     the type of cost module.
+                            choice of: 'neural_network', 'euclidean'
+    :param neural_distance: the operation to perform with the siamese head features.
+                            choice of: 'concatenate', 'add', 'multiply'
+    :return:                some type of distance
+    """
+    if module_type == 'neural_network':
+        if neural_distance == 'concatenate':
+            features = keras.layers.concatenate(inputs)
+        elif neural_distance == 'add':
+            features = keras.layers.add(inputs)
+        elif neural_distance == 'multiply':
+            features = keras.layers.multiply(inputs)
+        else:
+            features = None
+
+        dense_layer = Dense(512)(features)
+        activation = Activation('relu')(dense_layer)
+        dropout_layer = Dropout(pc.DROPOUT)(activation)
+        dense_layer = Dense(1024)(dropout_layer)
+        activation = Activation('relu')(dense_layer)
+        dropout_layer = Dropout(pc.DROPOUT)(activation)
+        output_layer = Dense(pc.NUM_CLASSES)(dropout_layer)
+        softmax = Activation('softmax')(output_layer)
+        return softmax
+
+    elif module_type == 'euclidean':
+        distance = Lambda(euclidean_distance, output_shape=eucl_dist_output_shape)(inputs)
+        return distance
+
     else:
-        base_network = create_base_network_simple(numfil, weights_name)
+        return None
 
-    processed_a = base_network(input_a)
-    processed_b = base_network(input_b)
 
-    if similarity_metric == 'fc_layers':
-        # use a fc to come up with a metric
-        merged_processed = keras.layers.concatenate([processed_a, processed_b])
-        distance = alt_create_fc(merged_processed)
-        model = Model([input_a, input_b], distance)
-    elif similarity_metric == 'euclid':
-        # useful to show drawback of euclidean distance as a metric
-        distance = Lambda(euclidean_distance,
-                          output_shape=eucl_dist_output_shape)([processed_a, processed_b])
-        model = Model([input_a, input_b], distance)
+def add_activation_and_max_pooling(model, use_batch_norm, batch_norm_name, trainable):
+    """One-liner for adding activation and max pooling
+    :param model:       the model to add to
+    :return:            the model with added activation and max pooling
+    :param trainable:   boolean indicating if layer is trainable
+    """
+    model.add(Activation('relu'))
+    model.add(MaxPool2D(pool_size=(2, 2)))
+    if use_batch_norm:
+        model.add(BatchNormalization(name=batch_norm_name, trainable=trainable))
+    return model
+
+
+def create_siamese_head(numfil, head_type, transfer_weights, weights_name, trainable):
+    """Implements 1 head of the siamese network.
+    :param numfil:              multiply the number of convolutional filters with this number
+    :param head_type:                the type of head for the siamese network. choice of 'simple', 'batch_normalized'
+    :param transfer_weights:    use trained weights from h5 file
+    :param weights_name:        h5 file to load weights from
+    :param trainable:           boolean indicating if layer is trainable
+    :return:                    a keras Sequential model
+    """
+    use_batch_norm = True if head_type == 'batch_normalized' else False
+
+    model = Sequential()
+    model.add(Conv2D(16 * numfil, kernel_size=(3, 3), padding='same',
+                     input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
+                     name='conv_1',
+                     trainable=trainable))
+    model = add_activation_and_max_pooling(model, use_batch_norm, batch_norm_name='bn_1', trainable=trainable)
+    model.add(Conv2D(32 * numfil, kernel_size=(3, 3), padding='same', name='conv_2', trainable=trainable))
+    model = add_activation_and_max_pooling(model, use_batch_norm, batch_norm_name='bn_2', trainable=trainable)
+    model.add(Conv2D(64 * numfil, kernel_size=(3, 3), padding='same', name='conv_3', trainable=trainable))
+    model = add_activation_and_max_pooling(model, use_batch_norm, batch_norm_name='bn_3', trainable=trainable)
+    model.add(Conv2D(128 * numfil, kernel_size=(3, 3), padding='same', name='conv_4', trainable=trainable))
+    model = add_activation_and_max_pooling(model, use_batch_norm, batch_norm_name='bn_4', trainable=trainable)
+    model.add(Conv2D(256 * numfil, kernel_size=(3, 3), padding='same', name='conv_5', trainable=trainable))
+    model = add_activation_and_max_pooling(model, use_batch_norm, batch_norm_name='bn_5', trainable=trainable)
+    model.add(Conv2D(512 * numfil, kernel_size=(3, 3), padding='same', name='conv_6', trainable=trainable))
+    model = add_activation_and_max_pooling(model, use_batch_norm, batch_norm_name='bn_6', trainable=trainable)
+    model.add(Conv2D(1024 * numfil, kernel_size=(3, 3), padding='same', name='conv_7', trainable=trainable))
+    model.add(Activation('relu'))
+    if use_batch_norm == True:
+        model.add(BatchNormalization(name='bn_7', trainable=trainable))
+    model.add(Flatten(name='cnn_flat'))
+
+    if transfer_weights == True:
+        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name), by_name=True)
 
     return model
 
 
-def confusion_matrix(name, predictions, labels, verbose=False):
-    matrix = pu.make_confusion_matrix(predictions, labels)
-    if verbose:
-        pu.print_confusion_matrix(name, matrix)
-    return matrix
+def create_siamese_network(numfil, head_type, cost_module_type, neural_distance, trainable, transfer_weights,
+                           weights_name):
+    """Creates the siamese network.
+
+    :param numfil:              multiply the number of convolutional filters with this number
+    :param transfer_weights:    boolean indicating use trained weights from h5 file
+    :param weights_name:        h5 file to load weights from
+    :param head_type:           the type of head for the siamese network.
+                                choice of 'simple', 'batch_normalized'
+    :param cost_module_type:    the type of cost module.
+                                choice of: 'neural_network', 'euclidean'
+    :param neural_distance:     the operation to perform with the siamese head features.
+                                choice of: 'concatenate', 'add', 'multiply'
+    :param trainable:           boolean indicating if layer is trainable
+    :return:
+    """
+    input_a = Input(shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    input_b = Input(shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+
+    siamese_head = create_siamese_head(numfil=numfil, head_type=head_type, transfer_weights=transfer_weights,
+                                       weights_name=weights_name, trainable=trainable)
+
+    processed_a = siamese_head(input_a)
+    processed_b = siamese_head(input_b)
+
+    distance = create_cost_module([processed_a, processed_b], module_type=cost_module_type,
+                                  neural_distance=neural_distance)
+    model = Model([input_a, input_b], distance)
+    return model
 
 
-def main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn, save_weights_name,
-         similarity_metric='fc_layers', ranking=True):
+def train_network(model, step, validation_interval, cl, cl_min, cl_max, batch_size, train_data, train_labels,
+                  validation_data, validation_labels):
+    if cl:
+        clr = CyclicLR(step_size=(np.shape(train_data)[0] / batch_size) * 8, base_lr=cl_min,
+                       max_lr=cl_max)
+        if step % validation_interval == 0:
+            model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
+                      batch_size=batch_size,
+                      epochs=1,
+                      validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
+                      verbose=2,
+                      callbacks=[clr])
+        else:
+            model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
+                      batch_size=batch_size,
+                      epochs=1,
+                      verbose=0,
+                      callbacks=[clr])
+    else:
+        if step % validation_interval == 0:
+            model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
+                      batch_size=batch_size,
+                      epochs=1,
+                      validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
+                      verbose=2)
+        else:
+            model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
+                      batch_size=batch_size,
+                      epochs=1,
+                      verbose=0)
 
-    total_data_list_pos = '/home/gabi/PycharmProjects/uatu/data/reid_all_positives.txt'
-    file_data_list_neg = '/home/gabi/PycharmProjects/uatu/data/reid_all_negatives_uncompressed.h5'
 
-    total_data_list_pos = np.genfromtxt(total_data_list_pos, dtype=None)
-    with h5py.File(file_data_list_neg, 'r') as hf:
-        total_data_list_neg = hf['data'][()]
+def main(numfil, head_type, cost_module_type, neural_distance, trainable, transfer_weights, cnn_weights_name, lr,
+         epochs, cl, cl_min, cl_max, batch_size, scnn_save_weights_name):
+    total_data_list, validation, test = ddl.get_data_scnn()
+    total_data_list_pos, total_data_list_neg = total_data_list
+    validation_data, validation_labels = validation
 
-    val_list, test_list_viper, test_list_cuhk, total_data_list_pos, total_data_list_neg = ddl.make_validation_test_list(total_data_list_pos,
-                                                                                                  total_data_list_neg,
-                                                                                                  val_pos_percent=0.1,
-                                                                                                  test_pos_percent=0.1,
-                                                                                                  data_type='images',
-                                                                                                  ranking=True)
-
-    model = create_siamese(numfil, weights_name, bn)
-    start = time.time()
-    validation_data, validation_labels = ddl.load_in_array(data_list=val_list,
-                                                           data_type='images',
-                                                           heads=2)
-    print('Time loading validation data: %0.3f seconds' % (time.time() - start))
-    start = time.time()
-    test_data_viper, test_labels_viper = ddl.load_in_array(data_list=test_list_viper,
-                                                           data_type='images',
-                                                           heads=2)
-
-    test_data_cuhk, test_labels_cuhk = ddl.load_in_array(data_list=test_list_cuhk,
-                                                           data_type='images',
-                                                           heads=2)
-    
-    print('Time loading test data: %0.3f seconds' % (time.time() - start))
+    model = create_siamese_network(numfil=numfil,
+                                   head_type=head_type,
+                                   cost_module_type=cost_module_type,
+                                   neural_distance=neural_distance,
+                                   trainable=trainable,
+                                   transfer_weights=transfer_weights,
+                                   weights_name=cnn_weights_name)
 
     slice_size = 5000
     train_data_size = 2 * min(len(total_data_list_pos), len(total_data_list_neg))
     num_steps_per_epoch = np.ceil(train_data_size * 1.0 / slice_size).astype(int)
 
-    num_validations = 1
-    if num_validations > num_steps_per_epoch: num_validations = num_steps_per_epoch
-    validation_interval = np.floor(num_steps_per_epoch / num_validations).astype(int)
-    print('validation happens every %d step(s)' % validation_interval)
+    num_validations_per_epoch = 1  # note: must be at least 1
+    if num_validations_per_epoch > num_steps_per_epoch: num_validations_per_epoch = num_steps_per_epoch
+    validation_interval = np.floor(num_steps_per_epoch / num_validations_per_epoch).astype(int)
 
-
-
-    if similarity_metric == 'fc_layers':
+    if cost_module_type == 'neural_network':
         nadam = optimizers.Nadam(lr=lr, schedule_decay=pc.DECAY_RATE)
         model.compile(loss='categorical_crossentropy', optimizer=nadam, metrics=['accuracy'])
-        # print('---!!!--- %s' % (str(cuda.detect())))
-        # model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-        #           batch_size=pc.BATCH_SIZE,
-        #           epochs=pc.NUM_EPOCHS,
-        #           validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
-        #           verbose=2)
+    elif cost_module_type == 'euclidean':
+        rms = keras.optimizers.RMSprop()
+        model.compile(loss=contrastive_loss, optimizer=rms)
 
-        for epoch in xrange(epochs):
-            print('------EPOCH: %d' % epoch)
-            slice_size_queue = ddl.make_slice_queue(train_data_size, slice_size)
+    for epoch in range(epochs):
+        print('------EPOCH: %d' % epoch)
+        slice_size_queue = ddl.make_slice_queue(train_data_size, slice_size)
+        total_train_data_list = ddl.make_train_batches(total_data_list_pos, total_data_list_neg, data_type='images')
+        for step in range(num_steps_per_epoch):
+            train_data_list = total_train_data_list[step * slice_size: step * slice_size + slice_size_queue[step]]
 
-            total_train_data_list = ddl.make_train_batches(total_data_list_pos, total_data_list_neg, data_type='images')
-            for step in xrange(num_steps_per_epoch):
-                # print('..epoch %d step: %d out of %d' % (epoch, step, num_steps_per_epoch))
-                train_data_list = total_train_data_list[step * slice_size : step * slice_size + slice_size_queue[step]]
+            train_data, train_labels = ddl.load_in_array(data_list=train_data_list,
+                                                         heads=2,
+                                                         data_type='images')
 
-                start = time.time()
-                train_data, train_labels = ddl.load_in_array(data_list=train_data_list,
-                                                             heads=2,
-                                                             data_type='images')
-                # print('Time loading training data: %0.3f seconds' % (time.time() - start))
-                # let validation happen every x steps
+            train_network(model=model, step=step, validation_interval=validation_interval, cl=cl, cl_min=cl_min,
+                          cl_max=cl_max, batch_size=batch_size, train_data=train_data, train_labels=train_labels,
+                          validation_data=validation_data, validation_labels=validation_labels)
 
-                if cl:
-                    clr = CyclicLR(step_size=(np.shape(train_data)[0]/batch_size)*8, base_lr=cl_min,
-                                              max_lr=cl_max)
-                    if step % validation_interval == 0:
-                        model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-                                  batch_size=batch_size,
-                                  epochs=1,
-                                  validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
-                                  verbose=2,
-                                  callbacks=[clr])
-                    else:
-                        model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-                                  batch_size=batch_size,
-                                  epochs=1,
-                                  verbose=0,
-                                  callbacks=[clr])
-                else:
-                    if step % validation_interval == 0:
-                        model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-                                  batch_size=batch_size,
-                                  epochs=1,
-                                  validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
-                                  verbose=2)
-                    else:
-                        model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-                                  batch_size=batch_size,
-                                  epochs=1,
-                                  verbose=0)
+    test_sets = len(test) / 3
+    confusion_matrices = []
+    ranking_matrices = []
+    names = []
 
+    for test_set in range(test_sets):
+        name = test[test_set * 3]
+        names.append(name)
 
-    elif similarity_metric == 'euclid':
-        # rms = RMSprop()
-        # model.compile(loss=contrastive_loss, optimizer=rms)
-        # model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-        #           batch_size=pc.BATCH_SIZE,
-        #           epochs=pc.NUM_EPOCHS,
-        #           validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels))
-        pass
+        test_data = test[(test_set * 3) + 1]
+        test_labels = test[(test_set * 3) + 2]
 
+        predictions = model.predict([test_data[:, 0], test_data[:, 1]])
+        matrix = pu.make_confusion_matrix(predictions, test_labels)
+        accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
+        if not matrix[0] == 0:
+            precision = (matrix[0] * 1.0 / (matrix[0] + matrix[1] * 1.0))
+        else:
+            precision = 0
+        confusion_matrices.append(matrix)
 
-    
-    te_pred_viper = model.predict([test_data_viper[:, 0], test_data_viper[:, 1]])
-    te_pred_cuhk = model.predict([test_data_cuhk[:, 0], test_data_cuhk[:, 1]])
-    
-    te_matrix_viper = confusion_matrix('Testing', te_pred_viper, test_labels_viper)
-    te_matrix_cuhk = confusion_matrix('Testing', te_pred_cuhk, test_labels_cuhk)
+        ranking = pu.calculate_CMC(predictions)
+        ranking_matrices.append(ranking)
 
-    # delete objects else we run out of memory
-    accuracy_viper = (te_matrix_viper[0] + te_matrix_viper[2]) * 1.0 / (sum(te_matrix_viper) * 1.0)
-    precision_viper = (te_matrix_viper[0] * 1.0 / (te_matrix_viper[0]+te_matrix_viper[1] * 1.0))
+        print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \n CMC: \n %s'
+              % (name, accuracy, precision, str(matrix), str(ranking)))
 
-    accuracy_cuhk = (te_matrix_cuhk[0] + te_matrix_cuhk[2]) * 1.0 / (sum(te_matrix_cuhk) * 1.0)
-    precision_cuhk = (te_matrix_cuhk[0] * 1.0 / (te_matrix_cuhk[0] + te_matrix_cuhk[1] * 1.0))
-    
-    
-    print('VIPeR: accuracy = %0.2f, precision = %0.2f, confusion matrix = %s' %(accuracy_viper, precision_viper, 
-                                                                                str(te_matrix_viper)))
-    print('CUHK: accuracy = %0.2f, precision = %0.2f, confusion matrix = %s' % (accuracy_cuhk, precision_cuhk,
-                                                                                 str(te_matrix_cuhk)))
-    te_matrix = [te_matrix_viper, te_matrix_cuhk]
-
-    if ranking:
-        datasets = ['viper', 'cuhk']
-        rankings = []
-        for item in datasets:
-            ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-
-            tmp = te_pred_viper[:, 1] if item == 'viper' else te_pred_cuhk[:, 1]
-            
-            ranking_matrix_probs = np.reshape(tmp, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-            rank_range = np.zeros(pc.RANKING_NUMBER)
-            for row in range(len(ranking_matrix_probs)):
-                ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(ranking_matrix_probs[row]), key=lambda x:x[1],
-                                                                reverse=True)]
-                list_form = ranking_matrix_abs[row].tolist()
-                num = list_form.index(row)
-                rank_range[num] += 1
-            
-            final_ranking = []
-            for tallies in range(len(rank_range)):
-                # print(tallies)
-                percentage = sum(rank_range[0:tallies+1])*1.0 / sum(rank_range)*1.0
-                final_ranking.append(percentage)
-            print('FINAL RANKING %s: ' % item)
-            print(final_ranking)
-            rankings.append(final_ranking)
-    else:
-        rankings = None
-
-
-    if not save_weights_name == None:
-        model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, save_weights_name))
+    if not scnn_save_weights_name == None:
+        model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, scnn_save_weights_name))
 
     del model
-    return te_matrix, rankings
+    return names, confusion_matrices, ranking_matrices
 
 
-def super_main(experiment_name, iterations, numfil, weights_name, epochs, batch_size, lr, cl, cl_max, cl_min, bn,
-               save_weights_name):
-    
-    viper_matrix = np.zeros((iterations, 4))
-    viper_ranking = np.zeros((iterations, pc.RANKING_NUMBER))
-    cuhk_matrix = np.zeros((iterations, 4))
-    cuhk_ranking = np.zeros((iterations, pc.RANKING_NUMBER))
-    
+def super_main(iterations, experiment_name, numfil, head_type, cost_module_type, neural_distance, trainable,
+               transfer_weights, cnn_weights_name, lr, epochs, cl, cl_min, cl_max, batch_size, scnn_save_weights_name):
+    number_of_datasets = 2
+    name = np.zeros(number_of_datasets)
+    confusion_matrices = np.zeros((iterations, number_of_datasets, 4))
+    ranking_matrices = np.zeros((iterations, number_of_datasets, pc.RANKING_NUMBER))
+
     start = time.time()
     for iter in range(0, iterations):
         print('-----ITERATION %d' % iter)
-        matrix, ranking = main(experiment_name, weights_name, numfil, epochs, batch_size, lr, cl, cl_max, cl_min, bn,
-                          save_weights_name)
-        
-        viper_matrix[iter] = matrix[0]
-        viper_ranking[iter] = ranking[0]
-        cuhk_matrix[iter] = matrix[1]
-        cuhk_ranking[iter] = ranking[1]
-        
-    stop = time.time()
 
+        name, confusion_matrix, ranking_matrix = main(numfil, head_type, cost_module_type, neural_distance,
+                                                      trainable, transfer_weights, cnn_weights_name, lr,
+                                                      epochs, cl, cl_min, cl_max, batch_size,
+                                                      scnn_save_weights_name)
+
+        confusion_matrices[iter] = confusion_matrix
+        ranking_matrices[iter] = ranking_matrix
+
+    stop = time.time()
     total_time = stop - start
 
-    print('viper\nTP    FP    TN    FN')
-    print(viper_matrix)
-    
-    print('viper\nRANKING')
-    print(viper_ranking)
-    
-    print('cuhk\nTP    FP    TN    FN')
-    print(cuhk_matrix)
+    matrix_means = np.zeros((number_of_datasets, 4))
+    matrix_std = np.zeros((number_of_datasets, 4))
+    ranking_means = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
+    ranking_std = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
 
-    print('cuhk\nRANKING')
-    print(cuhk_ranking)
+    for dataset in range(number_of_datasets):
+        matrices = np.zeros((iterations, 4))
+        rankings = np.zeros((iterations, pc.RANKING_NUMBER))
 
-    viper_matrix_mean = np.mean(viper_matrix, axis=0)
-    print('viper matrix mean values:' + str(viper_matrix_mean))
-    
-    viper_ranking_mean = np.mean(viper_ranking, axis=0)
-    print('viper ranking mean values:' + str(viper_ranking_mean))
+        for iter in range(iterations):
+            matrices[iter] = confusion_matrices[iter][dataset]
+            rankings[iter] = ranking_matrices[iter][dataset]
 
-    cuhk_matrix_mean = np.mean(cuhk_matrix, axis=0)
-    print('cuhk matrix mean values:' + str(cuhk_matrix_mean))
-
-    cuhk_ranking_mean = np.mean(cuhk_ranking, axis=0)
-    print('cuhk ranking mean values:' + str(cuhk_ranking_mean))
-    
-
-    mean = [str(viper_matrix_mean), str(viper_ranking_mean), str(cuhk_matrix_mean), str(cuhk_ranking_mean)]
-
+        matrix_means[dataset] = np.mean(matrices, axis=0)
+        matrix_std[dataset] = np.std(matrices, axis=0)
+        ranking_means[dataset] = np.mean(rankings, axis=0)
+        ranking_std[dataset] = np.std(rankings, axis=0)
 
     # note: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)
-        dataset_name = 'VIPeR, CUHK1'
-        pu.enter_in_log(experiment_name, file_name, iterations, mean, dataset_name, total_time)
-
+        pu.enter_in_log(experiment_name, file_name, name, matrix_means, matrix_std, ranking_means, ranking_std, total_time)
 
