@@ -729,8 +729,8 @@ def experiment_49():
 
 def experiment_50():
     a = ProjectVariable()
-    a.iterations = 1
-    a.experiment_name = '50. debugging code restructuring'
+    a.iterations = 5
+    a.experiment_name = '50. experimenting with batch_size=64 vs 256'
     a.numfil = 2
     a.head_type = 'batch_normalized'
     a.cost_module_type = 'neural_network'  # 'euclidean' not implemented yet
@@ -739,7 +739,7 @@ def experiment_50():
     a.transfer_weights = False
     a.cnn_weights_name = None
     a.learning_rate = 0.00001
-    a.epochs = 10
+    a.epochs = 60
     a.use_cyclical_learning_rate = True
     a.cl_min = 0.00001
     a.cl_max = 0.0001
@@ -747,10 +747,40 @@ def experiment_50():
     a.scnn_save_weights_name = None
     scn.super_main(a)
 
+
+def experiment_51():
+    a = ProjectVariable()
+    a.iterations = 1
+    a.experiment_name = '51. debugging'
+    a.numfil = 2
+    a.head_type = 'batch_normalized'
+    a.cost_module_type = 'neural_network'  # 'euclidean' not implemented yet
+    a.neural_distance = 'concatenate'
+    a.trainable = True
+    a.transfer_weights = False
+    a.cnn_weights_name = None
+    a.learning_rate = 0.00001
+    a.epochs = 1
+    a.use_cyclical_learning_rate = True
+    a.cl_min = 0.00001
+    a.cl_max = 0.0001
+    a.batch_size = 256
+    a.scnn_save_weights_name = None
+    scn.super_main(a)
+
 def main():
+    experiment_51()
     # num = sys.argv[1]
     # print(sys.argv)
     #
-    # if num == '50':
-    experiment_50()
+    # if num == '50_1':
+    #     experiment_50()
+    # if num == '50_2':
+    #     experiment_50()
+    #
+    # if num == '51_1':
+    #     experiment_51()
+    # if num == '51_2':
+    #     experiment_51()
+
 main()

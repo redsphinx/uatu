@@ -65,7 +65,7 @@ def crop_INRIA_images(folder_path, width, height):
         img2 = img.crop((start_x, start_y, start_x + width, start_y + height))
         img2.save(os.path.join(new_folder_path, image_path))
 
-
+# FIXME remove
 def load_INRIA():
     print('Loading INRIA person dataset')
     original_data_path = '/home/gabi/Documents/datasets/INRIAPerson'
@@ -238,13 +238,13 @@ def make_pairs_viper():
                 path_2 = os.path.join(padded_folder_path, 'cam_b', comb[1])
                 myFile.write(str(path_1 + ',' + path_2 + ',0\n'))
 
-
+# FIXME remove
 def make_labels_viper(data_file):
     data = np.reshape(data_file, (len(data_file), 3))
     labels = data[:, -1]
     return labels
 
-
+# FIXME remove
 # takes a image name pair file and loads the images into an ndarray
 def load_viper_data_in_array(data):
     data_array = np.zeros(shape=(len(data), pc.NUM_CAMERAS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
@@ -265,7 +265,7 @@ def load_viper_data_in_array(data):
             # img.show()
     return data_array
 
-
+# FIXME remove
 # loads the viper dataset for use in a person re-id setting in a siamese network
 def load_viper(val_pos, test_pos):
     path_validation = os.path.join(pc.SAVE_LOCATION_VIPER_CUHK, 'validation_data_viper.txt')
@@ -507,13 +507,13 @@ def make_pairs_cuhk1():
                     negFile.write(str(pic_1 + ',' + pic_2 + ',0\n'))
 
 
-
+# FIXME remove
 def make_labels_cuhk1(data_file):
     data = np.reshape(data_file, (len(data_file), 3))
     labels = data[:, -1]
     return labels
 
-
+# FIXME remove
 def load_cuhk1_data_in_array(data):
     data_array = np.zeros(shape=(len(data), pc.NUM_SIAMESE_HEADS, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
     for pair in range(0, len(data)):
@@ -525,7 +525,7 @@ def load_cuhk1_data_in_array(data):
             data_array[pair][image] = ndimage.imread(path)
     return data_array
 
-
+# FIXME remove
 def load_cuhk1(val_pos, test_pos):
     path_validation = os.path.join(pc.SAVE_LOCATION_VIPER_CUHK,'validation_data_cuhk1.txt')
     path_test = os.path.join(pc.SAVE_LOCATION_VIPER_CUHK,'test_data_cuhk1.txt')
@@ -600,7 +600,7 @@ def load_cuhk1(val_pos, test_pos):
     return [train_data_array, train_labels, validation_data_array, validation_labels,
             test_data_array, test_labels]
 
-
+# FIXME remove
 def load_viper_cuhk1():
     train_data_v, train_labels_v, validation_data_v, validation_labels_v, test_data_v, test_labels_v = load_viper(val_pos=0.3, test_pos=0.1)
     train_data_c, train_labels_c, validation_data_c, validation_labels_c, test_data_c, test_labels_c = load_cuhk1(val_pos=0.3, test_pos=0.1)
@@ -689,7 +689,7 @@ def fix_NICTA(name):
                 filename = os.path.join(pad_path_1, str(name)+'.jpg')
                 new_img.save(filename)
 
-
+# FIXME remove
 def load_NICTA():
     print('Loading NICTA pedestrian dataset')
     base_path = '/home/gabi/Documents/datasets/NICTAPedestrians/'
@@ -790,7 +790,7 @@ def load_NICTA():
 
     return train_data_array, train_labels, validation_data_array, validation_labels, test_data_array, test_labels
 
-
+# FIXME remove
 def load_inria_nicta():
     train_data_v, train_labels_v, validation_data_v, validation_labels_v, test_data_v, test_labels_v = load_INRIA()
     train_data_c, train_labels_c, validation_data_c, validation_labels_c, test_data_c, test_labels_c = load_NICTA()
@@ -841,7 +841,7 @@ def load_inria_nicta():
 
     return [train_data_array, train_labels, validation_data_array, validation_labels, test_data_array, test_labels]
 
-
+# FIXME remove
 def initialize_cnn_data():
     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = load_inria_nicta()
 
@@ -855,7 +855,7 @@ def initialize_cnn_data():
     print('train: %d, validation: %d, test: %d' % (len(train_data), len(validation_data), len(test_data)))
     return [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
 
-
+# FIXME remove
 def initialize_scn_data():
     [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = load_viper_cuhk1()
 
