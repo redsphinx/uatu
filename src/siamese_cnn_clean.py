@@ -55,6 +55,7 @@ def create_cost_module(inputs, adjustable):
         else:
             features = None
 
+        # FIXME think of a better classifier
         dense_layer = Dense(512)(features)
         activation = Activation('relu')(dense_layer)
         dropout_layer = Dropout(pc.DROPOUT)(activation)

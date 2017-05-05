@@ -19,6 +19,13 @@ class ProjectVariable(object):
         self._experiment_name = None  # string
         self._learning_rate = None # float
 
+        self._number_of_conv_layers = None # int
+        self._neural_distance_layers = None # array
+        self._max_pooling_size = None # int
+        self._activation_function = None # string
+        self._loss_function = None # string
+
+
 
     @property
     def cost_module_type(self):

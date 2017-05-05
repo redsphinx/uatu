@@ -112,8 +112,8 @@ def make_ranking_test(rank_list_pos, data):
 
     list_0 = [rank_list_pos[index].split(',')[0] for index in range(len(rank_list_pos))]
     list_1 = [rank_list_pos[index].split(',')[1] for index in range(len(rank_list_pos))]
-
     ranking_test_file = '/home/gabi/PycharmProjects/uatu/data/ranking_test.txt'
+
     with open(ranking_test_file, 'wr') as myFile:
         for img0 in range(len(list_0)):
             for img1 in range(len(list_1)):
