@@ -313,7 +313,7 @@ def load_from_hdf5():
 
 
 def txt_to_hdf5(text_file, hdf5_file_name):
-    h5_path = os.path.join('/home/gabi/PycharmProjects/uatu/data/', hdf5_file_name)
+    h5_path = os.path.join('../data/', hdf5_file_name)
 
     data_list = np.genfromtxt(text_file, dtype=None)
     with h5py.File(h5_path, 'w') as myFile:
@@ -352,6 +352,6 @@ def get_data_scnn(adjustable):
     return total_data_list, validation, test
 
 
-# text_file = '/home/gabi/PycharmProjects/uatu/data/reid_all_negatives.txt'
+# text_file = '../data/reid_all_negatives.txt'
 # h5_name = 'reid_all_negatives_uncompressed.h5'
 # txt_to_hdf5(text_file, h5_name)

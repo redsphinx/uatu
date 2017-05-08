@@ -242,7 +242,8 @@ def thing():
     return a*c
 
 
-tracker = SummaryTracker()
-a = test()
-b = test_2()
-tracker.print_diff()
+def test_path():
+    path = pc.LOCATION_RAW_CUHK01
+    the_list = os.listdir(path)
+    print(len(the_list))
+

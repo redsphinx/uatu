@@ -35,6 +35,7 @@ Second phase: Improve the prototype in experiment cycles
 8 may
 ------
 . create Docker instance with evertyhing
+. fix the paths to the data
 . DONE add more hyperparameters to the experiments
 .. add number_of_conv_layers
 .. add neural_distance_layers

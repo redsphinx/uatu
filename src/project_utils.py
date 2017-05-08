@@ -123,11 +123,11 @@ def fix_viper():
 
 # make matching and non-matching pairs
 def make_pairs_viper():
-    padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
-    pairings_pos_name = '/home/gabi/PycharmProjects/uatu/data/VIPER/positives.txt'
-    pairings_neg_name = '/home/gabi/PycharmProjects/uatu/data/VIPER/negatives.txt'
-    ranking_pos_name = '/home/gabi/PycharmProjects/uatu/data/VIPER/ranking_pos.txt'
-    ranking_neg_name = '/home/gabi/PycharmProjects/uatu/data/VIPER/ranking_neg.txt'
+    padded_folder_path = pc.LOCATION_RAW_VIPER
+    pairings_pos_name = '../data/VIPER/positives.txt'
+    pairings_neg_name = '../data/VIPER/negatives.txt'
+    ranking_pos_name =  '../data/VIPER/ranking_pos.txt'
+    ranking_neg_name =  '../data/VIPER/ranking_neg.txt'
 
     list_ids = os.listdir(os.path.join(padded_folder_path, 'cam_a'))
 
@@ -303,11 +303,11 @@ def make_pairs_cuhk1():
     def match(one, two):
         return list(one)[0:4] == list(two)[0:4]
 
-    images_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images'
-    pairings_pos_name = '/home/gabi/PycharmProjects/uatu/data/CUHK/positives.txt'
-    pairings_neg_name = '/home/gabi/PycharmProjects/uatu/data/CUHK/negatives.txt'
-    ranking_pos_name = '/home/gabi/PycharmProjects/uatu/data/CUHK/ranking_pos.txt'
-    ranking_neg_name = '/home/gabi/PycharmProjects/uatu/data/CUHK/ranking_neg.txt'
+    images_path = pc.LOCATION_RAW_CUHK01
+    pairings_pos_name = '../data/CUHK/positives.txt'
+    pairings_neg_name = '../data/CUHK/negatives.txt'
+    ranking_pos_name =  '../data/CUHK/ranking_pos.txt'
+    ranking_neg_name =  '../data/CUHK/ranking_neg.txt'
 
     list_ids = sorted(os.listdir(images_path))
 
@@ -504,7 +504,7 @@ def merge_pedestrian_sets(save=False):
 
 
 def merge_reid_sets(save=False):
-    data_location = '/home/gabi/PycharmProjects/uatu/data'
+    data_location = '../data'
     pos = 'positives.txt'
     neg = 'negatives.txt'
     viper_pos = np.genfromtxt(os.path.join(data_location, 'VIPER', pos), dtype=None).tolist()

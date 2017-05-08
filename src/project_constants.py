@@ -26,10 +26,14 @@ NUM_SIAMESE_HEADS = 2
 SAVE_CNN_WEIGHTS = True
 SAVE_CNN_MODEL = False
 
-SAVE_LOCATION_MODEL_WEIGHTS = '/home/gabi/PycharmProjects/uatu/model_weights'
-SAVE_LOCATION_VIPER_CUHK = '/home/gabi/PycharmProjects/uatu/data/VIPeR_CUHK'
-POSITIVE_DATA = '/home/gabi/PycharmProjects/uatu/data/reid_all_positives.txt'
-NEGATIVE_DATA = '/home/gabi/PycharmProjects/uatu/data/reid_all_negatives_uncompressed.h5'
+SAVE_LOCATION_MODEL_WEIGHTS = '../model_weights'
+SAVE_LOCATION_VIPER_CUHK = '../data/VIPeR_CUHK'
+
+POSITIVE_DATA = '../data/reid_all_positives.txt'
+NEGATIVE_DATA = '../data/reid_all_negatives_uncompressed.h5'
+
+LOCATION_RAW_VIPER = '../raw_data/VIPER'
+LOCATION_RAW_CUHK01 = '../raw_data/CUHK01'
 
 USE_BIAS = True
 RANKING_NUMBER = 20
