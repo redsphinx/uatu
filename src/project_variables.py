@@ -1,48 +1,51 @@
 class ProjectVariable(object):
     def __init__(self):
+        """
+        Default values for all the experimental variables.
+        """
         # the type of cost module. choice of: 'neural_network', 'euclidean'
-        self._cost_module_type = None  # string
+        self._cost_module_type = 'neural_network'  # string
         # the operation to perform with the siamese head features. choice of: 'concatenate', 'add', 'multiply'
-        self._neural_distance = None  # string
+        self._neural_distance = 'concatenate'  # string
         # make layers trainable. choice of: True, False
-        self._trainable = None  # bool
+        self._trainable = True  # bool
         # the number of filters in the convolutional layers. choice of: 1, 2
-        self._numfil = None  # int
+        self._numfil = 2  # int
         # the type of siamese head to implement. choice of: 'simple', 'batch_normalized'
-        self._head_type = None  # string
+        self._head_type = 'batch_normalized'# string
         # use weights transferred from pre-trained CNN. choice of: True, False
-        self._transfer_weights = None  # bool
+        self._transfer_weights = False  # bool
         # the names of the weights to use for transfer
         self._cnn_weights_name = None  # string
         # use cyclical learning rate. choice of: True, False
-        self._use_cyclical_learning_rate = None  # bool
+        self._use_cyclical_learning_rate = True  # bool
         # the lower bound for the CLR
-        self._cl_min = None  # float
+        self._cl_min = 0.00001  # float
         # the upper bound for the CLR
-        self._cl_max = None  # float
+        self._cl_max = 0.0001  # float
         # the batch size
-        self._batch_size = None  # int
+        self._batch_size = 64  # int
         # the number of epochs
-        self._epochs = None  # int
+        self._epochs = 40  # int
         # save the weights of the scnn. choice of: True, False
         self._scnn_save_weights_name = None  # string
         # number of times to repeat experiment
-        self._iterations = None  # int
+        self._iterations = 10  # int
         # the experiment name
         self._experiment_name = None  # string
         # the base learning rate
-        self._learning_rate = None # float
+        self._learning_rate = 0.00001 # float
         # the number of convolutional layers in the siamese head
         self._number_of_conv_layers = None # int
         # the number of units in each dense layer for the 'neural_network' type of cost module
-        self._neural_distance_layers = None # array
-        # (horizontal, vertical) for downscaling with max-pooling
-        self._max_pooling_size = None # tuple
+        self._neural_distance_layers = (512, 1024) # tuple
+        # (horizontal, vertical) for downscaling with max-pooling. remember shape=(height,width)
+        self._max_pooling_size = [[2, 2], [2, 2]] # list
         # the activation function. choice of: 'relu', 'elu'
-        self._activation_function = None # string
+        self._activation_function = 'relu' # string
         # the loss function. choice of: 'categorical_crossentropy', 'kullback_leibler_divergence', 'mean_squared_error',
         # 'mean_absolute_error'
-        self._loss_function = None # string
+        self._loss_function = 'categorical_crossentropy' # string
 
 
     @property

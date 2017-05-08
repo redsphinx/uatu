@@ -872,24 +872,127 @@ def experiment_56():
     a.batch_size = 16
     a.scnn_save_weights_name = None
     scn.super_main(a)
+
+# base experiment: all other experiments will be compared to this one
+def experiment_57():
+    a = ProjectVariable()
+    a.experiment_name = '57. baseline'
+    scn.super_main(a)
+
+# neural distance
+def experiment_58():
+    a = ProjectVariable()
+    a.experiment_name = '58. neural distance: add'
+    a.neural_distance = 'add'
+    scn.super_main(a)
+
+
+def experiment_59():
+    a = ProjectVariable()
+    a.experiment_name = '59. neural distance: multiply'
+    a.neural_distance = 'multiply'
+    scn.super_main(a)
+
+# neural distance layers
+def experiment_60():
+    a = ProjectVariable()
+    a.experiment_name = '60. neural distance layer: (8192, 1024)'
+    a.neural_distance_layers = (8192, 1024)
+    scn.super_main(a)
+
+
+def experiment_61():
+    a = ProjectVariable()
+    a.experiment_name = '61. neural distance layer: (4096, 1024)'
+    a.neural_distance_layers = (4096, 1024)
+    scn.super_main(a)
+
+
+def experiment_62():
+    a = ProjectVariable()
+    a.experiment_name = '62. neural distance layer: (1024, 512)'
+    a.neural_distance_layers = (1024, 512)
+    scn.super_main(a)
+
+def experiment_63():
+    a = ProjectVariable()
+    a.experiment_name = '63. neural distance layer: (8192, 128)'
+    a.neural_distance_layers = (8192, 128)
+    scn.super_main(a)
+
+
+def experiment_64():
+    a = ProjectVariable()
+    a.experiment_name = '64. neural distance layer: (8192, 4096)'
+    a.neural_distance_layers = (8192, 4096)
+    scn.super_main(a)
+
+# max pool
+def experiment_65():
+    a = ProjectVariable()
+    a.experiment_name = '65. max pooling size: [[4,2], [2,2]]'
+    a.max_pooling_size = [[4,2], [2,2]]
+    scn.super_main(a)
+
+# activation type
+def experiment_66():
+    a = ProjectVariable()
+    a.experiment_name = '66. activation type: elu'
+    a.activation_function = 'elu'
+    scn.super_main(a)
+
+# loss function
+def experiment_67():
+    a = ProjectVariable()
+    a.experiment_name = '67. loss function: kullback_leibler_divergence'
+    a.loss_function = 'kullback_leibler_divergence'
+    scn.super_main(a)
+
+
+def experiment_68():
+    a = ProjectVariable()
+    a.experiment_name = '68. loss function: mean_squared_error'
+    a.loss_function = 'mean_squared_error'
+    scn.super_main(a)
+
+
+def experiment_69():
+    a = ProjectVariable()
+    a.experiment_name = '69. loss function: mean_absolute_error'
+    a.loss_function = 'mean_absolute_error'
+    scn.super_main(a)
+
+
 def main():
     num = sys.argv[1]
     print(sys.argv)
     
-    if num == '52':
-        experiment_52()
-    if num == '53':
-        experiment_53()
-    if num == '54':
-        experiment_54()
-    if num == '55':
-        experiment_55()
-    if num == '56':
-        experiment_56()
-    #
-    # if num == '51_1':
-    #     experiment_51()
-    # if num == '51_2':
-    #     experiment_51()
+    if num == '57':
+        experiment_57()
+    if num == '58':
+        experiment_58()
+    if num == '59':
+        experiment_59()
+    if num == '60':
+        experiment_60()
+    if num == '61':
+        experiment_61()
+    if num == '62':
+        experiment_62()
+    if num == '63':
+        experiment_63()
+    if num == '64':
+        experiment_64()
+    if num == '65':
+        experiment_65()
+    if num == '66':
+        experiment_66()
+    if num == '67':
+        experiment_67()
+    if num == '68':
+        experiment_68()
+    if num == '69':
+        experiment_69()
+
 
 main()

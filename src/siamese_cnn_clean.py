@@ -55,12 +55,11 @@ def create_cost_module(inputs, adjustable):
         else:
             features = None
 
-        # FIXME think of a better classifier
-        dense_layer = Dense(512)(features)
-        activation = Activation('relu')(dense_layer)
+        dense_layer = Dense(adjustable.neural_distance_layers[0])(features)
+        activation = Activation(adjustable.activation_function)(dense_layer)
         dropout_layer = Dropout(pc.DROPOUT)(activation)
-        dense_layer = Dense(1024)(dropout_layer)
-        activation = Activation('relu')(dense_layer)
+        dense_layer = Dense(adjustable.neural_distance_layers[1])(dropout_layer)
+        activation = Activation(adjustable.activation_function)(dense_layer)
         dropout_layer = Dropout(pc.DROPOUT)(activation)
         output_layer = Dense(pc.NUM_CLASSES)(dropout_layer)
         softmax = Activation('softmax')(output_layer)
@@ -74,14 +73,17 @@ def create_cost_module(inputs, adjustable):
         return None
 
 
-def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name):
+def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name, first_layer=False):
     """One-liner for adding activation and max pooling
     :param model:       the model to add to
     :return:            the model with added activation and max pooling
     :param trainable:   boolean indicating if layer is trainable
     """
-    model.add(Activation('relu'))
-    model.add(MaxPool2D(pool_size=(2, 2)))
+    model.add(Activation(adjustable.activation_function))
+    if first_layer:
+        model.add(MaxPool2D(pool_size=(adjustable.max_pooling_size[0][0], adjustable.max_pooling_size[0][1])))
+    else:
+        model.add(MaxPool2D(pool_size=(adjustable.max_pooling_size[1][0], adjustable.max_pooling_size[1][1])))
     if use_batch_norm:
         model.add(BatchNormalization(name=batch_norm_name, trainable=adjustable.trainable))
     return model
@@ -98,7 +100,7 @@ def create_siamese_head(adjustable):
                      input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
                      name='conv_1',
                      trainable=adjustable.trainable))
-    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_1')
+    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_1', first_layer=True)
     model.add(Conv2D(32 * adjustable.numfil, kernel_size=(3, 3), padding='same', name='conv_2', trainable=adjustable.trainable))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2')
     model.add(Conv2D(64 * adjustable.numfil, kernel_size=(3, 3), padding='same', name='conv_3', trainable=adjustable.trainable))
@@ -110,7 +112,7 @@ def create_siamese_head(adjustable):
     model.add(Conv2D(512 * adjustable.numfil, kernel_size=(3, 3), padding='same', name='conv_6', trainable=adjustable.trainable))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_6')
     model.add(Conv2D(1024 * adjustable.numfil, kernel_size=(3, 3), padding='same', name='conv_7', trainable=adjustable.trainable))
-    model.add(Activation('relu'))
+    model.add(Activation(adjustable.activation_function))
     if use_batch_norm == True:
         model.add(BatchNormalization(name='bn_7', trainable=adjustable.trainable))
     model.add(Flatten(name='cnn_flat'))
