@@ -4,27 +4,45 @@ class ProjectVariable(object):
         self._cost_module_type = None  # string
         # the operation to perform with the siamese head features. choice of: 'concatenate', 'add', 'multiply'
         self._neural_distance = None  # string
+        # make layers trainable. choice of: True, False
         self._trainable = None  # bool
+        # the number of filters in the convolutional layers. choice of: 1, 2
         self._numfil = None  # int
+        # the type of siamese head to implement. choice of: 'simple', 'batch_normalized'
         self._head_type = None  # string
+        # use weights transferred from pre-trained CNN. choice of: True, False
         self._transfer_weights = None  # bool
+        # the names of the weights to use for transfer
         self._cnn_weights_name = None  # string
+        # use cyclical learning rate. choice of: True, False
         self._use_cyclical_learning_rate = None  # bool
+        # the lower bound for the CLR
         self._cl_min = None  # float
+        # the upper bound for the CLR
         self._cl_max = None  # float
+        # the batch size
         self._batch_size = None  # int
+        # the number of epochs
         self._epochs = None  # int
+        # save the weights of the scnn. choice of: True, False
         self._scnn_save_weights_name = None  # string
+        # number of times to repeat experiment
         self._iterations = None  # int
+        # the experiment name
         self._experiment_name = None  # string
+        # the base learning rate
         self._learning_rate = None # float
-
+        # the number of convolutional layers in the siamese head
         self._number_of_conv_layers = None # int
+        # the number of units in each dense layer for the 'neural_network' type of cost module
         self._neural_distance_layers = None # array
-        self._max_pooling_size = None # int
+        # (horizontal, vertical) for downscaling with max-pooling
+        self._max_pooling_size = None # tuple
+        # the activation function. choice of: 'relu', 'elu'
         self._activation_function = None # string
+        # the loss function. choice of: 'categorical_crossentropy', 'kullback_leibler_divergence', 'mean_squared_error',
+        # 'mean_absolute_error'
         self._loss_function = None # string
-
 
 
     @property
@@ -169,3 +187,48 @@ class ProjectVariable(object):
     @learning_rate.setter
     def learning_rate(self, value):
         self._learning_rate = value
+
+    # self._number_of_conv_layers = None  # int
+    @property
+    def number_of_conv_layers(self):
+        return self._number_of_conv_layers
+
+    @number_of_conv_layers.setter
+    def number_of_conv_layers(self, value):
+        self._number_of_conv_layers = value
+        
+    # self._neural_distance_layers = None  # array
+    @property
+    def neural_distance_layers(self):
+        return self._neural_distance_layers
+
+    @neural_distance_layers.setter
+    def neural_distance_layers(self, value):
+        self._neural_distance_layers = value
+        
+    # self._max_pooling_size = None  # int
+    @property
+    def max_pooling_size(self):
+        return self._max_pooling_size
+
+    @max_pooling_size.setter
+    def max_pooling_size(self, value):
+        self._max_pooling_size = value
+        
+    # self._activation_function = None  # string
+    @property
+    def activation_function(self):
+        return self._activation_function
+
+    @activation_function.setter
+    def activation_function(self, value):
+        self._activation_function = value
+        
+    # self._loss_function = None  # string
+    @property
+    def loss_function(self):
+        return self._loss_function
+
+    @loss_function.setter
+    def loss_function(self, value):
+        self._loss_function = value

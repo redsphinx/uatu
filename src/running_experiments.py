@@ -768,15 +768,124 @@ def experiment_51():
     a.scnn_save_weights_name = None
     scn.super_main(a)
 
+
+def experiment_52():
+    a = ProjectVariable()
+    a.iterations = 1
+    a.experiment_name = '52. testing with 40 epochs, batchsize 256'
+    a.numfil = 2
+    a.head_type = 'batch_normalized'
+    a.cost_module_type = 'neural_network'  # 'euclidean' not implemented yet
+    a.neural_distance = 'concatenate'
+    a.trainable = True
+    a.transfer_weights = False
+    a.cnn_weights_name = None
+    a.learning_rate = 0.00001
+    a.epochs = 40
+    a.use_cyclical_learning_rate = True
+    a.cl_min = 0.00001
+    a.cl_max = 0.0001
+    a.batch_size = 256
+    a.scnn_save_weights_name = None
+    scn.super_main(a)
+
+
+def experiment_53():
+    a = ProjectVariable()
+    a.iterations = 1
+    a.experiment_name = '53. testing with 40 epochs,batchsize 128'
+    a.numfil = 2
+    a.head_type = 'batch_normalized'
+    a.cost_module_type = 'neural_network'  # 'euclidean' not implemented yet
+    a.neural_distance = 'concatenate'
+    a.trainable = True
+    a.transfer_weights = False
+    a.cnn_weights_name = None
+    a.learning_rate = 0.00001
+    a.epochs = 40
+    a.use_cyclical_learning_rate = True
+    a.cl_min = 0.00001
+    a.cl_max = 0.0001
+    a.batch_size = 128
+    a.scnn_save_weights_name = None
+    scn.super_main(a)
+
+
+def experiment_54():
+    a = ProjectVariable()
+    a.iterations = 1
+    a.experiment_name = '54. testing with 40 epochs,batchsize 64'
+    a.numfil = 2
+    a.head_type = 'batch_normalized'
+    a.cost_module_type = 'neural_network'  # 'euclidean' not implemented yet
+    a.neural_distance = 'concatenate'
+    a.trainable = True
+    a.transfer_weights = False
+    a.cnn_weights_name = None
+    a.learning_rate = 0.00001
+    a.epochs = 40
+    a.use_cyclical_learning_rate = True
+    a.cl_min = 0.00001
+    a.cl_max = 0.0001
+    a.batch_size = 64
+    a.scnn_save_weights_name = None
+    scn.super_main(a)
+
+
+def experiment_55():
+    a = ProjectVariable()
+    a.iterations = 1
+    a.experiment_name = '55. testing with 40 epochs,batchsize 32'
+    a.numfil = 2
+    a.head_type = 'batch_normalized'
+    a.cost_module_type = 'neural_network'  # 'euclidean' not implemented yet
+    a.neural_distance = 'concatenate'
+    a.trainable = True
+    a.transfer_weights = False
+    a.cnn_weights_name = None
+    a.learning_rate = 0.00001
+    a.epochs = 40
+    a.use_cyclical_learning_rate = True
+    a.cl_min = 0.00001
+    a.cl_max = 0.0001
+    a.batch_size = 32
+    a.scnn_save_weights_name = None
+    scn.super_main(a)
+
+
+def experiment_56():
+    a = ProjectVariable()
+    a.iterations = 1
+    a.experiment_name = '56. testing with 40 epochs,batchsize 16'
+    a.numfil = 2
+    a.head_type = 'batch_normalized'
+    a.cost_module_type = 'neural_network'  # 'euclidean' not implemented yet
+    a.neural_distance = 'concatenate'
+    a.trainable = True
+    a.transfer_weights = False
+    a.cnn_weights_name = None
+    a.learning_rate = 0.00001
+    a.epochs = 40
+    a.use_cyclical_learning_rate = True
+    a.cl_min = 0.00001
+    a.cl_max = 0.0001
+    a.batch_size = 16
+    a.scnn_save_weights_name = None
+    scn.super_main(a)
 def main():
-    experiment_51()
-    # num = sys.argv[1]
-    # print(sys.argv)
-    #
-    # if num == '50_1':
-    #     experiment_50()
-    # if num == '50_2':
-    #     experiment_50()
+    num = sys.argv[1]
+    print(sys.argv)
+    
+    if num == '52':
+        experiment_52()
+    if num == '53':
+        experiment_53()
+    if num == '54':
+        experiment_54()
+    if num == '55':
+        experiment_55()
+    if num == '56':
+        experiment_56()
     #
     # if num == '51_1':
     #     experiment_51()
