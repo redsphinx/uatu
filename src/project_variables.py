@@ -3,6 +3,8 @@ class ProjectVariable(object):
         """
         Default values for all the experimental variables.
         """
+        # which gpu to use
+        self._use_gpu = "0" # string
         # the type of cost module. choice of: 'neural_network', 'euclidean'
         self._cost_module_type = 'neural_network'  # string
         # the operation to perform with the siamese head features. choice of: 'concatenate', 'add', 'multiply'
@@ -46,6 +48,15 @@ class ProjectVariable(object):
         # the loss function. choice of: 'categorical_crossentropy', 'kullback_leibler_divergence', 'mean_squared_error',
         # 'mean_absolute_error'
         self._loss_function = 'categorical_crossentropy' # string
+
+
+    @property
+    def use_gpu(self):
+        return self._use_gpu
+
+    @use_gpu.setter
+    def use_gpu(self, value):
+        self._use_gpu = value
 
 
     @property

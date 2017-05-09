@@ -8,11 +8,14 @@ import numpy as np
 from PIL import Image
 from keras.models import load_model
 import project_constants as pc
+import os
+from tensorflow.python.client import device_lib
+
+
 from imblearn.datasets import make_imbalance
 import sys
 import time
 from scipy import ndimage
-from pympler.tracker import SummaryTracker
 
 
 def test_data_pipeline():
@@ -247,3 +250,21 @@ def test_path():
     the_list = os.listdir(path)
     print(len(the_list))
 
+
+def assign_experiments():
+    import nvidia_bash_utils as bu
+    import running_experiments as re
+    # list_of_experiments = []
+    list_of_experiments = ['experishit']
+    # for i in range(57, 69 + 1):
+    #     list_of_experiments.append('experiment_%d' % i)
+    gpu_number = 0
+    # +1 because there's a difference in CUDA_VISIBLE_DEVICES and the numbering of GPUs in nvidia-smi
+    if bu.is_gpu_busy(gpu_number + 1) == False:
+        print(list_of_experiments)
+        the_experiment = getattr(re, list_of_experiments.pop(0))
+        print(list_of_experiments)
+        the_experiment(gpu_number)
+
+
+# assign_experiments()

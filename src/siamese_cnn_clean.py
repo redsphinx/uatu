@@ -12,7 +12,6 @@ import time
 import h5py
 from clr_callback import *
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 def euclidean_distance(vects):
@@ -262,6 +261,8 @@ def super_main(adjustable):
     """Runs main for a specified iterations. Useful for experiment running.
     Note: set iterations to 1 if you want to save weights
     """
+    os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
+
     number_of_datasets = 2
     name = np.zeros(number_of_datasets)
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))

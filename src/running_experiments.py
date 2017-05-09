@@ -1,62 +1,58 @@
-import cnn_clean as cnn
+# import cnn_clean as cnn
 import siamese_cnn_clean as scn
-# import time
-from pympler.tracker import SummaryTracker
-from numba import cuda
-from numba.cuda.cudadrv.driver import Device
-from numba.cuda.cudadrv.devices import reset
 import sys
 from project_variables import ProjectVariable
+import os
 
-
-def experiment_0(data):
-    # testing stuff
-    experiment_name = 'running the CNN on raw images'
-    print('experiment: %s' %experiment_name)
-    cnn.main(experiment_name, data)
-
-
-def experiment_1(data):
-    experiment_name = 'subtracting the mean image'
-    print('experiment: %s' %experiment_name)
-    cnn.main(experiment_name, data)
-
-
-def experiment_2(data):
-    experiment_name = 'subtracting mean image + normalizing'
-    print('experiment: %s' %experiment_name)
-    cnn.main(experiment_name, data)
-    
-
-def experiment_3(data):
-    experiment_name = 'subtracting mean image + PCA whitening'
-    print('experiment: %s' %experiment_name)
-    # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
-    # train_data = pre.PCA_whiten(pre.center(train_data))
-    # test_data = pre.PCA_whiten(pre.center(test_data))
-    # validation_data = pre.PCA_whiten(pre.center(validation_data))
-    # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
-    cnn.main(experiment_name, data)
-
-
-def experiment_4(data):
-    experiment_name = 'normalizing the image'
-    print('experiment: %s' %experiment_name)
-    cnn.main(experiment_name, data)
-
-
-def experiment_5(data):
-    experiment_name = 'batch normalization '
-    print('experiment: %s' % experiment_name)
-    iterations = 3
-    cnn.super_main(experiment_name, data, iterations, do_dropout=False)
-
-
-def experiment_6(data):
-    experiment_name = 'saving model: batch normalization after relu with bias, cyclical learning rate, mode=exp_range'
-    print('experiment: %s' % experiment_name)
-    iterations = 1
-    cnn.super_main(experiment_name, data, iterations, do_dropout=False)
+#
+# def experiment_0(data):
+#     # testing stuff
+#     experiment_name = 'running the CNN on raw images'
+#     print('experiment: %s' %experiment_name)
+#     cnn.main(experiment_name, data)
+#
+#
+# def experiment_1(data):
+#     experiment_name = 'subtracting the mean image'
+#     print('experiment: %s' %experiment_name)
+#     cnn.main(experiment_name, data)
+#
+#
+# def experiment_2(data):
+#     experiment_name = 'subtracting mean image + normalizing'
+#     print('experiment: %s' %experiment_name)
+#     cnn.main(experiment_name, data)
+#
+#
+# def experiment_3(data):
+#     experiment_name = 'subtracting mean image + PCA whitening'
+#     print('experiment: %s' %experiment_name)
+#     # [train_data, train_labels, validation_data, validation_labels, test_data, test_labels] = pu.initialize_cnn_data()
+#     # train_data = pre.PCA_whiten(pre.center(train_data))
+#     # test_data = pre.PCA_whiten(pre.center(test_data))
+#     # validation_data = pre.PCA_whiten(pre.center(validation_data))
+#     # data = [train_data, train_labels, validation_data, validation_labels, test_data, test_labels]
+#     cnn.main(experiment_name, data)
+#
+#
+# def experiment_4(data):
+#     experiment_name = 'normalizing the image'
+#     print('experiment: %s' %experiment_name)
+#     cnn.main(experiment_name, data)
+#
+#
+# def experiment_5(data):
+#     experiment_name = 'batch normalization '
+#     print('experiment: %s' % experiment_name)
+#     iterations = 3
+#     cnn.super_main(experiment_name, data, iterations, do_dropout=False)
+#
+#
+# def experiment_6(data):
+#     experiment_name = 'saving model: batch normalization after relu with bias, cyclical learning rate, mode=exp_range'
+#     print('experiment: %s' % experiment_name)
+#     iterations = 1
+#     cnn.super_main(experiment_name, data, iterations, do_dropout=False)
 
 #triangular, triangular2, exp_range
 
@@ -91,22 +87,22 @@ def experiment_10(data):
     scn.super_main(experiment_name, data, iterations)
 
 
-def experiment_11(data):
-    experiment_name = 'save simple CNN with 1D filters, no BN, no CLR. start with 16 filters.'
-    print('experiment: %s' % experiment_name)
-    iterations = 1
-    numfil = 1
-    weights_name = 'cnn_1D_filters_16.h5'
-    cnn.super_main(experiment_name, data, iterations, numfil, weights_name)
-
-
-def experiment_12(data):
-    experiment_name = 'save simple CNN with 1D filters, no BN, no CLR. start with 32 filters.'
-    print('experiment: %s' % experiment_name)
-    iterations = 1
-    numfil = 2
-    weights_name = 'cnn_1D_filters_32.h5'
-    cnn.super_main(experiment_name, data, iterations, numfil, weights_name)
+# def experiment_11(data):
+#     experiment_name = 'save simple CNN with 1D filters, no BN, no CLR. start with 16 filters.'
+#     print('experiment: %s' % experiment_name)
+#     iterations = 1
+#     numfil = 1
+#     weights_name = 'cnn_1D_filters_16.h5'
+#     cnn.super_main(experiment_name, data, iterations, numfil, weights_name)
+#
+#
+# def experiment_12(data):
+#     experiment_name = 'save simple CNN with 1D filters, no BN, no CLR. start with 32 filters.'
+#     print('experiment: %s' % experiment_name)
+#     iterations = 1
+#     numfil = 2
+#     weights_name = 'cnn_1D_filters_32.h5'
+#     cnn.super_main(experiment_name, data, iterations, numfil, weights_name)
 
 
 def experiment_13(data):
@@ -127,22 +123,22 @@ def experiment_14(data):
     scn.super_main(experiment_name, data, iterations, numfil, weights_name)
 
 
-def experiment_15():
-    experiment_name = 'simple CNN with 1D filters, start 16 filters, DDL using HDF5, 5 validation steps per epoch'
-    print('experiment: %s' % experiment_name)
-    iterations = 1
-    weights_name = 'cnn_1D_filters_ddl.h5'
-    numfil=1
-    cnn.super_main(experiment_name, iterations, weights_name, numfil)
-
-
-def experiment_16():
-    experiment_name = 'saving weights simple CNN with 2D filters, start 32 filters, DDL with HDF5'
-    print('experiment: %s' % experiment_name)
-    iterations = 1
-    weights_name = 'cnn_2D_32_filter_ddl_hdf5.h5'
-    numfil = 2
-    cnn.super_main(experiment_name, iterations, weights_name, numfil)
+# def experiment_15():
+#     experiment_name = 'simple CNN with 1D filters, start 16 filters, DDL using HDF5, 5 validation steps per epoch'
+#     print('experiment: %s' % experiment_name)
+#     iterations = 1
+#     weights_name = 'cnn_1D_filters_ddl.h5'
+#     numfil=1
+#     cnn.super_main(experiment_name, iterations, weights_name, numfil)
+#
+#
+# def experiment_16():
+#     experiment_name = 'saving weights simple CNN with 2D filters, start 32 filters, DDL with HDF5'
+#     print('experiment: %s' % experiment_name)
+#     iterations = 1
+#     weights_name = 'cnn_2D_32_filter_ddl_hdf5.h5'
+#     numfil = 2
+#     cnn.super_main(experiment_name, iterations, weights_name, numfil)
 
 
 def experiment_17():
@@ -157,41 +153,41 @@ def experiment_17():
 # ----------------------------------------------------------------------------
 # ----------------------------------------------------------------------------
 
-def experiment_18():
-    experiment_name = '18:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.01'
-    print('experiment: %s' % experiment_name)
-    iterations = 1
-    save_weights = True
-    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-01.h5'
-    numfil = 2
-    epochs = 10
-    batch_size = 128
-    lr = 0.01
-    cnn.super_main(experiment_name, iterations, weights_name, numfil, epochs, batch_size, lr, save_weights=save_weights)
-
-def experiment_19():
-    experiment_name = '19:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.001'
-    print('experiment: %s' % experiment_name)
-    iterations = 1
-    save_weights = True
-    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-001.h5'
-    numfil = 2
-    epochs = 10
-    batch_size = 128
-    lr = 0.001
-    cnn.super_main(experiment_name, iterations, weights_name, numfil, epochs, batch_size, lr, save_weights=save_weights)
-
-def experiment_20():
-    experiment_name = '20:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.0001'
-    print('experiment: %s' % experiment_name)
-    iterations = 1
-    save_weights = True
-    weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
-    numfil = 2
-    epochs = 10
-    batch_size = 128
-    lr = 0.0001
-    cnn.super_main(experiment_name, iterations, weights_name, numfil, epochs, batch_size, lr, save_weights=save_weights)
+# def experiment_18():
+#     experiment_name = '18:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.01'
+#     print('experiment: %s' % experiment_name)
+#     iterations = 1
+#     save_weights = True
+#     weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-01.h5'
+#     numfil = 2
+#     epochs = 10
+#     batch_size = 128
+#     lr = 0.01
+#     cnn.super_main(experiment_name, iterations, weights_name, numfil, epochs, batch_size, lr, save_weights=save_weights)
+#
+# def experiment_19():
+#     experiment_name = '19:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.001'
+#     print('experiment: %s' % experiment_name)
+#     iterations = 1
+#     save_weights = True
+#     weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-001.h5'
+#     numfil = 2
+#     epochs = 10
+#     batch_size = 128
+#     lr = 0.001
+#     cnn.super_main(experiment_name, iterations, weights_name, numfil, epochs, batch_size, lr, save_weights=save_weights)
+#
+# def experiment_20():
+#     experiment_name = '20:saving weights simple CNN with 2D filters, start 32 filters, BatchNorm, lr=0.0001'
+#     print('experiment: %s' % experiment_name)
+#     iterations = 1
+#     save_weights = True
+#     weights_name = 'cnn_2D_32_filter_ddl_hdf5_BN_lr_0-0001.h5'
+#     numfil = 2
+#     epochs = 10
+#     batch_size = 128
+#     lr = 0.0001
+#     cnn.super_main(experiment_name, iterations, weights_name, numfil, epochs, batch_size, lr, save_weights=save_weights)
 
 # ---
 # ---
@@ -963,6 +959,12 @@ def experiment_69():
     scn.super_main(a)
 
 
+def experishit(test_number):
+    a = ProjectVariable()
+    a.use_gpu = str(test_number)
+    scn.super_main(a)
+
+
 def main():
     num = sys.argv[1]
     print(sys.argv)
@@ -993,6 +995,3 @@ def main():
         experiment_68()
     if num == '69':
         experiment_69()
-
-
-main()

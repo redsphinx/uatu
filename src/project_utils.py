@@ -556,3 +556,23 @@ def reduce_float_length(a_list, decimals):
     for i in range(len(a_list)):
         a_list[i] = float(format(a_list[i], decimals))
     return a_list
+
+
+# FIXME make a method that returns true or false if gpu is in use or not respectively
+def gpu_in_use(gpu_number):
+    return True
+
+
+def assign_experiments():
+    import running_experiments as re
+    list_of_experiments = []
+    list_of_experiments = ['experishit']
+    # for i in range(57, 69 + 1):
+    #     list_of_experiments.append('experiment_%d' % i)
+    number_of_gpus = len(os.environ["CUDA_VISIBLE_DEVICES"])
+    for gpu in range(number_of_gpus):
+        if gpu_in_use(gpu) == False:
+            the_experiment = getattr(re, list_of_experiments.pop(0))
+            the_experiment(gpu)
+
+assign_experiments()
