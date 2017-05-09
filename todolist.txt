@@ -35,6 +35,9 @@ Second phase: Improve the prototype in experiment cycles
 ------
 . DONE create Docker instance with evertyhing
 . figure out how to make the thing run on multiple GPUs
+.. halfway there. we have methods to check if a GPU is busy, if not busy assign an experiment to it
+.. and pop the experiment from the list. 
+.. Now we need to do this in a script that maintains when an experiment has run and assigns the next
 . fix the data loading bottleneck
 . add CUHK02 + Market-1501 to the pos-neg data
 . figure out how to make euclidean distance work
