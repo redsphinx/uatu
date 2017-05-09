@@ -4,7 +4,6 @@ python running_experiments.py 57
 python running_experiments.py 58
 python running_experiments.py 59
 python running_experiments.py 60
-python running_experiments.py 60
 python running_experiments.py 61
 python running_experiments.py 62
 python running_experiments.py 63

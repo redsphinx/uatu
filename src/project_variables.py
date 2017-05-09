@@ -26,11 +26,11 @@ class ProjectVariable(object):
         # the batch size
         self._batch_size = 64  # int
         # the number of epochs
-        self._epochs = 40  # int
+        self._epochs = 1  # int
         # save the weights of the scnn. choice of: True, False
         self._scnn_save_weights_name = None  # string
         # number of times to repeat experiment
-        self._iterations = 10  # int
+        self._iterations = 1  # int
         # the experiment name
         self._experiment_name = None  # string
         # the base learning rate

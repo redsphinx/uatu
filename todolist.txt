@@ -9,7 +9,6 @@ Tasks:
 . method to get wrong prediction images
 . look at the best DL re-id papers and try to recreate them in keras
 . read paper about deformable convolutional networks: https://arxiv.org/pdf/1703.06211.pdf
-. implement cyclical learning rate: https://arxiv.org/pdf/1506.01186.pdf
 . GANs for re-id
 
 other:
@@ -32,10 +31,21 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+9 may
+------
+. DONE create Docker instance with evertyhing
+. figure out how to make the thing run on multiple GPUs
+. fix the data loading bottleneck
+. add CUHK02 + Market-1501 to the pos-neg data
+. figure out how to make euclidean distance work
+.. also with calculate_CMC(). the ranking should be reversed: sort on smallest first
+.. also with make_confusion_matrix() decide good distance to set as threshold
+
+
 8 may
 ------
 . create Docker instance with evertyhing
-. fix the paths to the data
+. DONE fix the paths to the data
 . DONE add more hyperparameters to the experiments
 .. add number_of_conv_layers
 .. add neural_distance_layers
