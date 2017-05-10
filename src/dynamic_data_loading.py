@@ -204,9 +204,9 @@ def load_in_array(adjustable, data_pos=None, data_neg=None, hdf5_file=None, data
 
             data_array = np.zeros(shape=(len(data_pos)+len(data_neg), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
 
-            for image_1 in xrange(len(data_pos)):
+            for image_1 in range(len(data_pos)):
                 data_array[image_1] = hdf5_file['positives'][data_pos[image_1]]
-            for image_2 in xrange(len(data_neg)):
+            for image_2 in range(len(data_neg)):
                 data_array[len(data_pos) + image_2] = hdf5_file['negatives'][data_neg[image_2]]
 
             labels = np.append(np.ones(len(data_pos)), np.zeros(len(data_neg)))
@@ -221,7 +221,7 @@ def load_in_array(adjustable, data_pos=None, data_neg=None, hdf5_file=None, data
         else:
             data_array = np.zeros(shape=(len(data_list), pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
             labels = np.zeros(len(data_list))
-            for image in xrange(0, len(data_list)):
+            for image in range(0, len(data_list)):
                 name = data_list[image].split(',')[0]
                 data_array[image] = ndimage.imread(name)[:, :, 0:3]
                 labels[image] = int(data_list[image].split(',')[1])
@@ -233,7 +233,7 @@ def load_in_array(adjustable, data_pos=None, data_neg=None, hdf5_file=None, data
             data_array = np.zeros(shape=(len(data_list),  pc.NUM_SIAMESE_HEADS, pc.IMAGE_HEIGHT,
                                          pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
             labels = np.zeros(len(data_list))
-            for pair in xrange(0, len(data_list)):
+            for pair in range(0, len(data_list)):
                 for image in range(0,2):
                     name = data_list[pair].split(',')[image]
                     data_array[pair][image] = ndimage.imread(name)[:, :, 0:3]

@@ -31,6 +31,20 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+10 may
+------
+. DONE fix + create lists for CUHK02
+. fix + create lists for market
+. fix + create lists for caviar
+. fix + create lists for grid
+. fix + create lists for prid450s
+. fix the data loading bottleneck
+.. save all datasets as hdf5
+.. adapt data loading methods to load from this
+. figure out how to make euclidean distance work
+.. also with calculate_CMC(). the ranking should be reversed: sort on smallest first
+.. also with make_confusion_matrix() decide good distance to set as threshold
+
 9 may
 ------
 . DONE create Docker instance with evertyhing

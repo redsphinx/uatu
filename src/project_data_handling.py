@@ -363,31 +363,123 @@ def make_pairs_cuhk1():
                     negFile.write(str(pic_1 + ',' + pic_2 + ',0\n'))
 
 
-# FIXME finish this
 def fix_cuhk2():
+    # note: in the later pipeline, treat CUHK02 as 5 different datasets
     folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK2'
-    num = 1
-    if folder_path.endswith('/'):
-        num = 2
+    cropped_folder_path = os.path.join(os.path.dirname(folder_path), 'cropped_CUHK2')
+    if not os.path.exists(cropped_folder_path): os.mkdir(cropped_folder_path)
 
-    parts = folder_path.split('/')
-    new_path = ''
-    for i in range(0, len(parts) - num):
-        new_path = os.path.join(new_path, parts[i])
+    subdirs = os.listdir(folder_path)
 
-    list_images = os.listdir(folder_path)
-    name_folder = folder_path.split('/')[-num]
-    new_folder_path = os.path.join(new_path, 'cropped_' + str(name_folder))
-    new_folder_path = '/' + new_folder_path
-    if not os.path.exists(new_folder_path):
-        print('asdf')
-        os.makedirs(new_folder_path)
+    for dir in subdirs:
+        if not os.path.exists(os.path.join(cropped_folder_path, dir)):
+            os.mkdir(os.path.join(cropped_folder_path, dir))
+            os.mkdir(os.path.join(cropped_folder_path, dir, 'all'))
 
-    for image_path in list_images:
-        img = Image.open(os.path.join(folder_path, image_path))
+    cameras = ['cam1', 'cam2']
 
-        img = img.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
-        img.save(os.path.join(new_folder_path, image_path))
+    for dir in subdirs:
+        for cam in cameras:
+            original_images_path = os.path.join(folder_path, dir, cam)
+            cropped_images_path = os.path.join(cropped_folder_path, dir, 'all')
+            images = [file for file in os.listdir(original_images_path) if file.endswith('.png')]
+            for ind in range(len(images)):
+                image = os.path.join(original_images_path, images[ind])
+                cropped_image = os.path.join(cropped_images_path, images[ind])
+                img = Image.open(image)
+                img = img.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+                img.save(cropped_image)
+
+
+def make_pairs_cuhk2():
+    # note:treat CUHK02 as 5 different datasets since it's partitioned into 5 datasets and the imagenames are not unique
+    # This shoulnd't affect training because the total number of positive pairs will still be the same
+    folder_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
+    sub_dirs = os.listdir(folder_path)
+
+    def match(one, two):
+        one = one.split('/')[-1]
+        two = two.split('/')[-1]
+        return list(one)[0:4] == list(two)[0:4]
+
+    def write_combo_to_file(ids, pos, neg):
+        combos = combinations(ids, 2)
+        with open(pos, 'a') as pos_file:
+            with open(neg, 'a') as neg_file:
+                for comb in combos:
+                    pic_1 = comb[0]
+                    pic_2 = comb[1]
+
+                    if match(pic_1, pic_2):
+                        if not pic_1 == pic_2:
+                            pos_file.write(str(pic_1 + ',' + pic_2 + ',1\n'))
+                    else:
+                        neg_file.write(str(pic_1 + ',' + pic_2 + ',0\n'))
+
+    project_data_storage = '../data/CUHK02'
+    
+    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+
+    pairing_pos_name = os.path.join(project_data_storage, 'positives.txt')
+    pairing_neg_name = os.path.join(project_data_storage, 'negatives.txt')
+    ranking_pos_name =  os.path.join(project_data_storage, 'ranking_pos.txt')
+    ranking_neg_name =  os.path.join(project_data_storage, 'ranking_neg.txt')
+
+    for dir in sub_dirs:
+        identity_list = sorted(os.listdir(os.path.join(folder_path, dir, 'all')))
+        fullpath_identity_list = [os.path.join(folder_path, dir, 'all', item) for item in identity_list]
+
+        adapted_ranking_number = pc.RANKING_NUMBER / len(sub_dirs)
+        ranking_ids = fullpath_identity_list[0:adapted_ranking_number * 4]
+        pairing_ids = fullpath_identity_list[adapted_ranking_number * 4:]
+        
+        write_combo_to_file(ranking_ids, ranking_pos_name, ranking_neg_name)
+        write_combo_to_file(pairing_ids, pairing_pos_name, pairing_neg_name)
+
+
+def make_pairs_market():
+    # don't need to fix market
+    def match(one, two):
+        one = one.split('/')[-1]
+        two = two.split('/')[-1]
+        return list(one)[0:4] == list(two)[0:4]
+
+    def write_combo_to_file(ids, pos, neg):
+        combos = combinations(ids, 2)
+        with open(pos, 'a') as pos_file:
+            with open(neg, 'a') as neg_file:
+                for comb in combos:
+                    pic_1 = comb[0]
+                    pic_2 = comb[1]
+
+                    if match(pic_1, pic_2):
+                        if not pic_1 == pic_2:
+                            pos_file.write(str(pic_1 + ',' + pic_2 + ',1\n'))
+                    else:
+                        neg_file.write(str(pic_1 + ',' + pic_2 + ',0\n'))
+
+    folder_path = '/home/gabi/Documents/datasets/market-1501/identities'
+    identities_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
+    unique_identities = sorted(set(identities_all))
+    identities_image_name = sorted(os.listdir(folder_path))
+    fullpath_identities = sorted([os.path.join(folder_path, item) for item in identities_image_name])
+
+    project_data_storage = '../data/market'
+    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+    pairing_pos_name = os.path.join(project_data_storage, 'positives.txt')
+    pairing_neg_name = os.path.join(project_data_storage, 'negatives.txt')
+    ranking_pos_name = os.path.join(project_data_storage, 'ranking_pos.txt')
+    ranking_neg_name = os.path.join(project_data_storage, 'ranking_neg.txt')
+
+    index = identities_all.index(unique_identities[pc.RANKING_NUMBER])
+    ranking_ids = fullpath_identities[0:index]
+    pairing_ids = fullpath_identities[index:]
+
+    write_combo_to_file(ranking_ids, ranking_pos_name, ranking_neg_name)
+    write_combo_to_file(pairing_ids, pairing_pos_name, pairing_neg_name)
+
+# FIXME do this
+make_pairs_market()
 
 
 def merge_reid_sets(save=False):

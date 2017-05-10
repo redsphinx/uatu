@@ -10,7 +10,7 @@ from keras.models import load_model
 import project_constants as pc
 import os
 from tensorflow.python.client import device_lib
-
+import h5py
 
 from imblearn.datasets import make_imbalance
 import sys
@@ -267,4 +267,31 @@ def assign_experiments():
         the_experiment(gpu_number)
 
 
-# assign_experiments()
+def dict_to_h5():
+    image_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images/'
+    img_dict = {}
+
+    all_images = os.listdir(image_path)[0:10]
+
+    for i in range(10):
+        the_key = 'img_%d' % i
+        the_img = ndimage.imread(os.path.join(image_path, all_images[i]))
+        img_dict[the_key] = the_img
+
+    h5_path = 'test_dict.h5'
+    with h5py.File(h5_path, 'w') as myfile:
+        for i in range(10):
+            the_key = img_dict.keys()[i]
+            data = myfile.create_dataset(name=the_key, data=img_dict[the_key])
+
+    print('asdf')
+
+
+def read_h5dict():
+    hdf5_file = h5py.File('test_dict.h5', 'r')
+    for i in range(10):
+        thing = hdf5_file['img_1'][:]
+        print('asdf')
+
+
+read_h5dict()
