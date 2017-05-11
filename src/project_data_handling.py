@@ -7,7 +7,7 @@ from PIL import Image
 import os
 from itertools import combinations
 import time
-
+import random as rd
 
 def crop_INRIA_images(folder_path, width, height):
     """ crop images in center
@@ -437,49 +437,197 @@ def make_pairs_cuhk2():
         write_combo_to_file(pairing_ids, pairing_pos_name, pairing_neg_name)
 
 
-def make_pairs_market():
-    # don't need to fix market
+def write_to_file(filepath, data):
+    with open(filepath, 'w') as myfile:
+        for i in range(len(data)):
+            myfile.write(str(data[i]) + '\n')
+
+
+def unique_id_and_all_images_cuhk1():
+    """ This only needs to be done once ever.
+    """
+    folder_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1'
+    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
+    unique_id = sorted(set(id_all))
+    short_image_names = sorted(os.listdir(folder_path))
+    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
+    project_data_storage = '../data/market'
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    write_to_file(id_all_file, id_all)
+    write_to_file(unique_id_file, unique_id)
+    write_to_file(short_image_names_file, short_image_names)
+    write_to_file(fullpath_image_names_file, fullpath_image_names)
+
+
+def unique_id_and_all_images_market():
+    """ This only needs to be done once ever.
+    """
+    folder_path = '/home/gabi/Documents/datasets/market-1501/identities'
+    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
+    unique_id = sorted(set(id_all))
+    short_image_names = sorted(os.listdir(folder_path))
+    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
+    project_data_storage = '../data/market'
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    write_to_file(id_all_file, id_all)
+    write_to_file(unique_id_file, unique_id)
+    write_to_file(short_image_names_file, short_image_names)
+    write_to_file(fullpath_image_names_file, fullpath_image_names)
+
+
+def make_combos(ids):
     def match(one, two):
         one = one.split('/')[-1]
         two = two.split('/')[-1]
         return list(one)[0:4] == list(two)[0:4]
 
-    def write_combo_to_file(ids, pos, neg):
-        combos = combinations(ids, 2)
-        with open(pos, 'a') as pos_file:
-            with open(neg, 'a') as neg_file:
-                for comb in combos:
-                    pic_1 = comb[0]
-                    pic_2 = comb[1]
+    combos = combinations(ids, 2)
+    t = combinations(ids, 2)
+    thelen = len(list(t))
+    print(thelen)
 
-                    if match(pic_1, pic_2):
-                        if not pic_1 == pic_2:
-                            pos_file.write(str(pic_1 + ',' + pic_2 + ',1\n'))
-                    else:
-                        neg_file.write(str(pic_1 + ',' + pic_2 + ',0\n'))
+    combo_list = []
+    for comb in combos:
+        pic_1 = comb[0]
+        pic_2 = comb[1]
+        if match(pic_1, pic_2):
+            if not pic_1 == pic_2:
+                combo_list.append(str(pic_1 + ',' + pic_2 + ',1\n'))
 
-    folder_path = '/home/gabi/Documents/datasets/market-1501/identities'
-    identities_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
-    unique_identities = sorted(set(identities_all))
-    identities_image_name = sorted(os.listdir(folder_path))
-    fullpath_identities = sorted([os.path.join(folder_path, item) for item in identities_image_name])
+    return combo_list
 
+
+def preselection(the_list, unique_ids, all_ids, num):
+    selection = []
+    for id in unique_ids:
+        id_group = [i for i, x in enumerate(all_ids) if x == id]
+        full_path_group = [the_list[i] for i in id_group]
+        if num > len(id_group):
+            selection.append([thing for thing in full_path_group])
+        else:
+            for ble in range(num):
+                selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
+
+    return selection
+
+
+def make_all_positives(id_all_file, unique_id_file, short_image_names_file, fullpath_image_names_file,
+               ranking_number=pc.RANKING_NUMBER):
+    """ This needs to be done once at the beginning of the iteration.
+    """
+    def match(one, two):
+        return list(one)[0:4] == list(two)[0:4]
+    
+    def make_unique(the_list):
+        unique = []
+        seen = []
+        for item in range(len(the_list)):
+            i1 = the_list[item].split(',')[0].split('/')[-1][0:4]
+            i2 = the_list[item].split(',')[1].split('/')[-1][0:4]
+            if i1 == i2:
+                if i1 not in seen:
+                    seen.append(i1)
+                    unique.append(the_list[item])
+        return unique
+
+    # create a list with unique identities
+    unique_id = np.genfromtxt(unique_id_file, dtype=None).tolist()
+    # select at random a subset for ranking by drawing indices from a uniform distribution
+    start = rd.randrange(0, len(unique_id)-ranking_number)
+    stop = start + ranking_number
+    # we will need a list of the training id for later
+    train_ids = unique_id[0:start] + unique_id[stop:]
+    # create a list with all the identities
+    id_all = np.genfromtxt(id_all_file, dtype=None).tolist()
+    # determine where to slice the list depending on the start and stop indices
+    index_start = id_all.index(unique_id[start])
+    index_stop = id_all.index(unique_id[stop])
+    # we will need a list of the training id for later
+    all_train_ids = id_all[0:index_start] + id_all[index_stop:]
+    # create a list with all the imagepaths
+    fullpath_image_names = np.genfromtxt(fullpath_image_names_file, dtype=None).tolist()
+    # slice the lists to create a set for ranking and a set for training
+    ranking_ids_pos = fullpath_image_names[index_start:index_stop]
+    training_ids_pos = fullpath_image_names[0:index_start] + fullpath_image_names[index_start:]
+    # create combinations and store the positive matches
+    ranking_ids_pos = make_combos(ranking_ids_pos)
+    # if we use all the data we have more than 300 million combinations. going through all of these will take about 80 mins
+    # instead for each unique id we select 2 images matching this id and discard the rest of the images for that id.
+    # then we have 4.4 million combos instead of 300 million which will take no more than 2 minutes. this is acceptable
+    training_ids_pos = preselection(training_ids_pos, train_ids, all_train_ids, 2)
+    training_ids_pos = make_combos(training_ids_pos)
+    # shuffle so that each time we get different first occurences
+    rd.shuffle(ranking_ids_pos)
+    rd.shuffle(training_ids_pos)
+    # from the shuffled original list, create a unique list by only selecting first id occurences
+    ranking_ids_pos = make_unique(ranking_ids_pos)
+    training_ids_pos = make_unique(training_ids_pos)
+
+    return ranking_ids_pos, training_ids_pos
+
+
+def make_all_negatives(pos_list, the_type):
+    list_0 = [pos_list[index].split(',')[0] for index in range(len(pos_list))]
+    list_1 = [pos_list[index].split(',')[1] for index in range(len(pos_list))]
+
+    if the_type == 'ranking':
+        ranking_list = []
+        for img0 in range(len(list_0)):
+            for img1 in range(len(list_1)):
+                num = 1 if img0 == img1 else 0
+                line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
+                ranking_list.append(line)
+        return ranking_list
+
+    elif the_type == 'training':
+        training_pos = []
+        training_neg = []
+        for img0 in range(len(list_0)):
+            for img1 in range(len(list_1)):
+                if img0 == img1:
+                    line = list_0[img0] + ',' + list_1[img1] + ',1\n'
+                    training_pos.append(line)
+                else:
+                    line = list_0[img0] + ',' + list_1[img1] + ',0\n'
+                    training_neg.append(line)
+        return training_pos, training_neg
+
+
+def make_pairs_market():
+    start = time.time()
     project_data_storage = '../data/market'
     if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
-    pairing_pos_name = os.path.join(project_data_storage, 'positives.txt')
-    pairing_neg_name = os.path.join(project_data_storage, 'negatives.txt')
-    ranking_pos_name = os.path.join(project_data_storage, 'ranking_pos.txt')
-    ranking_neg_name = os.path.join(project_data_storage, 'ranking_neg.txt')
 
-    index = identities_all.index(unique_identities[pc.RANKING_NUMBER])
-    ranking_ids = fullpath_identities[0:index]
-    pairing_ids = fullpath_identities[index:]
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
-    write_combo_to_file(ranking_ids, ranking_pos_name, ranking_neg_name)
-    write_combo_to_file(pairing_ids, pairing_pos_name, pairing_neg_name)
+    if not os.path.exists(id_all_file):
+        unique_id_and_all_images_market()
 
-# FIXME do this
-make_pairs_market()
+    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+                                                   fullpath_image_names_file)
+
+    ranking = make_all_negatives(ranking_pos, 'ranking')
+    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+
+    total_time = time.time() - start
+    print('total_time   %0.2f seconds' % total_time)
+
+    return ranking, training_pos, training_neg
+
+
 
 
 def merge_reid_sets(save=False):

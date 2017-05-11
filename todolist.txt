@@ -31,10 +31,75 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+
+11 may
+------
+. fix + create lists for market
+.. all the negative combinations take way too much space. so we'll make a selection and make combinations with those.
+.. we choose the selection based on the number of identities. if we choose a random selection out of all combinations, there is a big change that multiple images can be present in the set many times. By choosing based on the number of identities we can increase the variation of data that the network sees, and this will be better for generalization. for negatives as well as positives. for each iteration we can create a different subset, making a much better use of all the data we have available while keeping the memory costs to a minumum.
+
+How it works
+------------
+First we create the list of unique positive matches. Then from this list we create combinations of 2 and store the mismatches. 
+
+
+CREATING THE POSITIVES
+----------------------
+We start of by having a folder of images of people. 
+There are at least 2 images of each person. 
+Create a list with all the unique identities <UID> and a list with all the images <ALL>. We take a subset of N (random) identities to use for the ranking test. 
+Pop the images belonging to the N identities from the list of <ALL> into a list for ranking images <RANKING>. 
+Now rename <ALL> to <TRAIN> as this list will be used during training.
+For each list, make combinations of 2, so n choose k, where n is the number of images and k is 2. 
+For each combo in combinations, only store the pairs that are matches. 
+Then we shuffle both lists. 
+From each list, select the first occurance of a pair of images where the images are different and belong to the same person. 
+Add this pair to the list of positives <POS>. 
+Add the id to the seen list <SEEN>.
+Repeat the process until we have seen all ids. 
+Now there are 2 <POS> lists: <RANK_ALL> and <TRAIN_ALL>.
+<RANK_ALL> should have length N and <TRAIN_ALL> should have length [len(UID) - N]
+
+SUMMARY POSITIVES
+-----------------
+Whenever we repeat the process above, we get a different <RANK_ALL> and <TRAIN_ALL> list with a predefined length, without any duplicate images. These lists contain images from all identities.
+This way we can optimally make use of all the data that we have while keeping the memory costs low. We can repeat this process each experiment iteration to generate new subsets to be trained upon. 
+
+CREATING THE NEGATIVES
+----------------------
+We have <RANK_ALL> and <TRAIN_ALL> lists. 
+For each list, make 2 lists: <img1> and <img2> out of each column.
+For each image in each list, check if the indices are the same. 
+If they are then this is a matching pair and gets the label 1, else the pair gets the label 0.
+
+-- Important difference. 
+.. For <RANK_ALL> we want to create 1 final list with all the match and mismatches. 
+Save the (mis)matches in the same file.
+.. For <TRAIN_ALL> we want to create 2 separate lists, one for all the matches <POSITIVES> and one for all the mismatches <NEGATIVES>.
+Save the matches in <POSITIVES> and the mismatches in <NEGATIVES>.
+
+
+
+
+
+
+
+. fix + create lists for caviar
+. fix + create lists for grid
+. fix + create lists for prid450s
+. fix the data loading bottleneck
+.. save all datasets as hdf5
+.. adapt data loading methods to load from this
+. figure out how to make euclidean distance work
+.. also with calculate_CMC(). the ranking should be reversed: sort on smallest first
+.. also with make_confusion_matrix() decide good distance to set as threshold 
+
+
 10 may
 ------
 . DONE fix + create lists for CUHK02
 . fix + create lists for market
+.. all the negative combinations take way too much space. so we'll make a selection and make combinations with those.
 . fix + create lists for caviar
 . fix + create lists for grid
 . fix + create lists for prid450s
@@ -44,6 +109,7 @@ Second phase: Improve the prototype in experiment cycles
 . figure out how to make euclidean distance work
 .. also with calculate_CMC(). the ranking should be reversed: sort on smallest first
 .. also with make_confusion_matrix() decide good distance to set as threshold
+
 
 9 may
 ------
