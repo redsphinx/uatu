@@ -34,10 +34,11 @@ Second phase: Improve the prototype in experiment cycles
 
 11 may
 ------
-. fix + create lists for market
+. DONE fix + create lists for market
 .. all the negative combinations take way too much space. so we'll make a selection and make combinations with those.
 .. we choose the selection based on the number of identities. if we choose a random selection out of all combinations, there is a big change that multiple images can be present in the set many times. By choosing based on the number of identities we can increase the variation of data that the network sees, and this will be better for generalization. for negatives as well as positives. for each iteration we can create a different subset, making a much better use of all the data we have available while keeping the memory costs to a minumum.
-
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 How it works
 ------------
 First we create the list of unique positive matches. Then from this list we create combinations of 2 and store the mismatches. 
@@ -47,7 +48,8 @@ CREATING THE POSITIVES
 ----------------------
 We start of by having a folder of images of people. 
 There are at least 2 images of each person. 
-Create a list with all the unique identities <UID> and a list with all the images <ALL>. We take a subset of N (random) identities to use for the ranking test. 
+Create a list with all the unique identities <UID> and a list with all the images <ALL>. 
+We take a subset of N (random) identities to use for the ranking test. 
 Pop the images belonging to the N identities from the list of <ALL> into a list for ranking images <RANKING>. 
 Now rename <ALL> to <TRAIN> as this list will be used during training.
 For each list, make combinations of 2, so n choose k, where n is the number of images and k is 2. 
@@ -78,12 +80,8 @@ Save the (mis)matches in the same file.
 .. For <TRAIN_ALL> we want to create 2 separate lists, one for all the matches <POSITIVES> and one for all the mismatches <NEGATIVES>.
 Save the matches in <POSITIVES> and the mismatches in <NEGATIVES>.
 
-
-
-
-
-
-
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 . fix + create lists for caviar
 . fix + create lists for grid
 . fix + create lists for prid450s

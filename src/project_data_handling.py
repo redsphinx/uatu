@@ -315,7 +315,7 @@ def fix_cuhk1():
         img.save(os.path.join(new_folder_path, image_path))
 
 
-def make_pairs_cuhk1():
+def make_pairs_cuhk1_old():
     """ makes positive and negative pairs
     """
     def match(one, two):
@@ -446,12 +446,12 @@ def write_to_file(filepath, data):
 def unique_id_and_all_images_cuhk1():
     """ This only needs to be done once ever.
     """
-    folder_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1'
+    folder_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images'
     id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
     unique_id = sorted(set(id_all))
     short_image_names = sorted(os.listdir(folder_path))
     fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
-    project_data_storage = '../data/market'
+    project_data_storage = '../data/CUHK'
 
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
@@ -628,7 +628,31 @@ def make_pairs_market():
     return ranking, training_pos, training_neg
 
 
+def make_pairs_cuhk1():
+    start = time.time()
+    project_data_storage = '../data/CUHK'
+    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
 
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    if not os.path.exists(id_all_file):
+        unique_id_and_all_images_cuhk1()
+
+    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+                                                   fullpath_image_names_file)
+
+    ranking = make_all_negatives(ranking_pos, 'ranking')
+    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+
+    total_time = time.time() - start
+    print('total_time   %0.2f seconds' % total_time)
+
+    return ranking, training_pos, training_neg
+
+make_pairs_cuhk1()
 
 def merge_reid_sets(save=False):
     """ merges the mentioned datasets
