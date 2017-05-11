@@ -391,7 +391,7 @@ def fix_cuhk2():
                 img.save(cropped_image)
 
 
-def make_pairs_cuhk2():
+def make_pairs_cuhk2_old():
     # note:treat CUHK02 as 5 different datasets since it's partitioned into 5 datasets and the imagenames are not unique
     # This shoulnd't affect training because the total number of positive pairs will still be the same
     folder_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
@@ -462,6 +462,35 @@ def unique_id_and_all_images_cuhk1():
     write_to_file(unique_id_file, unique_id)
     write_to_file(short_image_names_file, short_image_names)
     write_to_file(fullpath_image_names_file, fullpath_image_names)
+
+
+def unique_id_and_all_images_cuhk2():
+    """ This only needs to be done once ever.
+    """
+    top_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
+
+    subdirs = os.listdir(top_path)
+
+    for dir in subdirs:
+        folder_path = os.path.join(top_path, dir, 'all')
+
+        id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
+        unique_id = sorted(set(id_all))
+        short_image_names = sorted(os.listdir(folder_path))
+        fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
+
+        project_data_storage = os.path.join('../data/CUHK02', dir)
+        if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+
+        id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+        unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+        short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+        fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+        write_to_file(id_all_file, id_all)
+        write_to_file(unique_id_file, unique_id)
+        write_to_file(short_image_names_file, short_image_names)
+        write_to_file(fullpath_image_names_file, fullpath_image_names)
 
 
 def unique_id_and_all_images_market():
@@ -652,7 +681,47 @@ def make_pairs_cuhk1():
 
     return ranking, training_pos, training_neg
 
-make_pairs_cuhk1()
+
+# FIXME fix the ranking file so that it is no longer 5 x rank 4 but rank 20
+def make_pairs_cuhk2():
+    start = time.time()
+    top_project_data_storage = '../data/CUHK02'
+    original_data_location = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
+
+    subdirs = os.listdir(original_data_location)
+    adapted_ranking_number = pc.RANKING_NUMBER / len(subdirs)
+
+    ranking_all = []
+    training_pos_all = []
+    training_neg_all = []
+
+    for dir in subdirs:
+        project_data_storage = os.path.join(top_project_data_storage, dir)
+
+        if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+
+        id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+        unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+        short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+        fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+        if not os.path.exists(id_all_file):
+            unique_id_and_all_images_cuhk2()
+
+        ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+                                                       fullpath_image_names_file, ranking_number=adapted_ranking_number)
+
+        ranking = make_all_negatives(ranking_pos, 'ranking')
+        training_pos, training_neg = make_all_negatives(training_pos, 'training')
+
+        ranking_all += ranking
+        training_pos_all += training_pos
+        training_neg_all += training_neg
+
+    total_time = time.time() - start
+    print('total_time   %0.2f seconds' % total_time)
+    return ranking_all, training_pos_all, training_neg_all
+
 
 def merge_reid_sets(save=False):
     """ merges the mentioned datasets
