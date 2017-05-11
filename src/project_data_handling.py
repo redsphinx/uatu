@@ -204,19 +204,20 @@ def fix_viper():
     """
     original_folder_path = '/home/gabi/Documents/datasets/VIPeR'
     padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
-    cam_a_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_a'
-    cam_b_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_b'
+    # cam_a_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_a'
+    # cam_b_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_b'
 
 
     # assuming they don't exist yet
     os.mkdir(padded_folder_path)
-    os.mkdir(cam_a_p)
-    os.mkdir(cam_b_p)
+    # os.mkdir(cam_a_p)
+    # os.mkdir(cam_b_p)
 
     cams = ['cam_a', 'cam_b']
     for folder in cams:
         cam_path = os.path.join(original_folder_path, str(folder))
-        padded_cam_path = os.path.join(padded_folder_path, str(folder))
+        padded_cam_path = padded_folder_path
+        num = 'a' if folder == 'cam_a' else 'b'
         for the_file in os.listdir(cam_path):
             img = Image.open(os.path.join(cam_path, the_file))
             new_img = Image.new('RGB', (pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), (255, 255, 255))
@@ -228,13 +229,13 @@ def fix_viper():
 
             new_img.paste(img, box=(padding_width, padding_height))
 
-            filename = the_file.split('_')[0] + '.bmp'
+            filename = the_file.split('_')[0] + '_' + str(num) + '.bmp'
             filename = os.path.join(padded_cam_path, filename)
             new_img.save(filename)
     # it throws an error but it does the job
 
 
-def make_pairs_viper():
+def make_pairs_viper_old():
     """ make matching and non-matching pairs
     """
     padded_folder_path = pc.LOCATION_RAW_VIPER
@@ -443,6 +444,27 @@ def write_to_file(filepath, data):
             myfile.write(str(data[i]) + '\n')
 
 
+def unique_id_and_all_images_viper():
+    """ This only needs to be done once ever.
+    """
+    folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
+    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
+    unique_id = sorted(set(id_all))
+    short_image_names = sorted(os.listdir(folder_path))
+    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
+    project_data_storage = '../data/VIPER'
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    write_to_file(id_all_file, id_all)
+    write_to_file(unique_id_file, unique_id)
+    write_to_file(short_image_names_file, short_image_names)
+    write_to_file(fullpath_image_names_file, fullpath_image_names)
+
+
 def unique_id_and_all_images_cuhk1():
     """ This only needs to be done once ever.
     """
@@ -632,9 +654,9 @@ def make_all_negatives(pos_list, the_type):
         return training_pos, training_neg
 
 
-def make_pairs_market():
+def make_pairs_viper():
     start = time.time()
-    project_data_storage = '../data/market'
+    project_data_storage = '../data/VIPER'
     if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
 
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
@@ -643,7 +665,7 @@ def make_pairs_market():
     fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
-        unique_id_and_all_images_market()
+        unique_id_and_all_images_viper()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file)
@@ -656,6 +678,7 @@ def make_pairs_market():
 
     return ranking, training_pos, training_neg
 
+make_pairs_viper()
 
 def make_pairs_cuhk1():
     start = time.time()
@@ -722,6 +745,30 @@ def make_pairs_cuhk2():
     print('total_time   %0.2f seconds' % total_time)
     return ranking_all, training_pos_all, training_neg_all
 
+
+def make_pairs_market():
+    start = time.time()
+    project_data_storage = '../data/market'
+    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    if not os.path.exists(id_all_file):
+        unique_id_and_all_images_market()
+
+    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+                                                   fullpath_image_names_file)
+
+    ranking = make_all_negatives(ranking_pos, 'ranking')
+    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+
+    total_time = time.time() - start
+    print('total_time   %0.2f seconds' % total_time)
+
+    return ranking, training_pos, training_neg
 
 def merge_reid_sets(save=False):
     """ merges the mentioned datasets
