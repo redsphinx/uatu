@@ -1,6 +1,6 @@
 import keras
 from keras.models import Sequential, Model
-from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Input, Lambda, BatchNormalization
+from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Input, Lambda, BatchNormalization, AveragePooling2D
 from keras import optimizers
 import dynamic_data_loading as ddl
 from keras import backend as K
@@ -80,7 +80,10 @@ def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm
     """
     model.add(Activation(adjustable.activation_function))
     if first_layer:
-        model.add(MaxPool2D(pool_size=(adjustable.max_pooling_size[0][0], adjustable.max_pooling_size[0][1])))
+        if adjustable.pooling_type == 'avg_pooling':
+            model.add(AveragePooling2D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1])))
+        else:  # max_pooling
+            model.add(MaxPool2D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1])))
     else:
         model.add(MaxPool2D(pool_size=(adjustable.max_pooling_size[1][0], adjustable.max_pooling_size[1][1])))
     if use_batch_norm:

@@ -959,6 +959,21 @@ def experiment_69():
     scn.super_main(a)
 
 
+def experiment_70():
+    a = ProjectVariable()
+    a.experiment_name = '70. pooling type: avg_pooling'
+    a.pooling_type = 'avg_pooling'
+    scn.super_main(a)
+
+
+def experiment_71():
+    a = ProjectVariable()
+    a.experiment_name = '71. pooling type: avg_pooling + max pooling size: [[4,2], [2,2]]'
+    a.pooling_type = 'avg_pooling'
+    a.max_pooling_size = [[4, 2], [2, 2]]
+    scn.super_main(a)
+
+
 def experishit(test_number):
     a = ProjectVariable()
     a.use_gpu = str(test_number)
@@ -994,4 +1009,8 @@ def main():
     if num == '68':
         experiment_68()
     if num == '69':
+        experiment_69()
+    if num == '70':
+        experiment_68()
+    if num == '71':
         experiment_69()

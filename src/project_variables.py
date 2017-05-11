@@ -42,13 +42,14 @@ class ProjectVariable(object):
         # the number of units in each dense layer for the 'neural_network' type of cost module
         self._neural_distance_layers = (512, 1024) # tuple
         # (horizontal, vertical) for downscaling with max-pooling. remember shape=(height,width)
-        self._max_pooling_size = [[2, 2], [2, 2]] # list
+        self._pooling_size = [[2, 2], [2, 2]] # list
         # the activation function. choice of: 'relu', 'elu'
         self._activation_function = 'relu' # string
         # the loss function. choice of: 'categorical_crossentropy', 'kullback_leibler_divergence', 'mean_squared_error',
         # 'mean_absolute_error'
         self._loss_function = 'categorical_crossentropy' # string
-
+        # the type of pooling operation. choice of: 'avg_pooling' and 'max_pooling'
+        self._pooling_type = 'max_pooling'
 
     @property
     def use_gpu(self):
@@ -220,14 +221,14 @@ class ProjectVariable(object):
     def neural_distance_layers(self, value):
         self._neural_distance_layers = value
         
-    # self._max_pooling_size = None  # int
+    # self._pooling_size = None  # int
     @property
-    def max_pooling_size(self):
-        return self._max_pooling_size
+    def pooling_size(self):
+        return self._pooling_size
 
-    @max_pooling_size.setter
-    def max_pooling_size(self, value):
-        self._max_pooling_size = value
+    @pooling_size.setter
+    def pooling_size(self, value):
+        self._pooling_size = value
         
     # self._activation_function = None  # string
     @property
@@ -246,3 +247,13 @@ class ProjectVariable(object):
     @loss_function.setter
     def loss_function(self, value):
         self._loss_function = value
+
+    # self._pooling_type = None  # string
+    @property
+    def pooling_type(self):
+        return self._pooling_type
+
+    @pooling_type.setter
+    def pooling_type(self, value):
+        self._pooling_type = value
+    
