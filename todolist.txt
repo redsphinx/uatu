@@ -36,10 +36,10 @@ Second phase: Improve the prototype in experiment cycles
 . DONE fix ranking list of CUHK02
 . DONE fix + create lists for caviar
 . DONE fix + create lists for grid
-. fix + create lists for prid450s
+. DONE fix + create lists for prid450s
 . fix data merging in project_data_handling.py
 . fix the data loading bottleneck
-.. save all datasets as hdf5
+.. DONE save all datasets as hdf5
 .. adapt data loading methods to load from this
 . figure out how to make euclidean distance work
 .. also with calculate_CMC(). the ranking should be reversed: sort on smallest first

@@ -8,6 +8,9 @@ import os
 from itertools import combinations
 import time
 import random as rd
+import h5py
+from scipy import ndimage
+import matplotlib.pyplot as plt
 
 def crop_INRIA_images(folder_path, width, height):
     """ crop images in center
@@ -1035,9 +1038,7 @@ def make_pairs_prid450():
     return ranking, training_pos, training_neg
 
 
-
-
-def merge_reid_sets(save=False):
+def merge_reid_sets_old(save=False):
     """ merges the mentioned datasets
     """
     data_location = '../data'
@@ -1065,4 +1066,45 @@ def merge_reid_sets(save=False):
 
     return pos_list, neg_list
 
-# merge_reid_sets(save=True)
+
+def save_as_hdf5(file_list_of_paths, h5_path):
+    list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()
+    with h5py.File(h5_path, 'a') as myfile:
+        for item in list_of_paths:
+            data = myfile.create_dataset(name=item, data=ndimage.imread(item))
+
+
+def save_all_datasets_as_hdf5():
+    save_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450.h5')
+    print('saved prid450')
+
+    save_as_hdf5('../data/caviar/fullpath_image_names_file.txt', '../data/caviar/caviar.h5')
+    print('saved caviar')
+
+    save_as_hdf5('../data/VIPER/fullpath_image_names_file.txt', '../data/VIPER/viper.h5')
+    print('saved viper')
+
+    subdirs = [item for item in os.listdir('../data/CUHK02') if not item.split('.')[-1] == 'txt']
+    cuhk2_path = '../data/CUHK02'
+    for dir in subdirs:
+        the_full = os.path.join(cuhk2_path, dir, 'fullpath_image_names_file.txt')
+        the_h5 = os.path.join(cuhk2_path, 'cuhk02.h5')
+        save_as_hdf5(the_full, the_h5)
+    print('saved cuhk02')
+
+    save_as_hdf5('../data/CUHK/fullpath_image_names_file.txt', '../data/CUHK/cuhk01.h5')
+    print('saved cuhk01')
+
+    save_as_hdf5('../data/market/fullpath_image_names_file.txt', '../data/market/market.h5')
+    print('saved market')
+
+
+save_all_datasets_as_hdf5()
+
+
+def read_plot_from_hdf5(file_list_of_paths, h5_path):
+    hdf5_file = h5py.File(h5_path, 'r')
+    list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()
+    for i in range(10):
+        thing = hdf5_file[list_of_paths[i]][:]
+        plt.imshow(thing)
