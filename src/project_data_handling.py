@@ -1075,6 +1075,9 @@ def save_as_hdf5(file_list_of_paths, h5_path):
 
 
 def save_all_datasets_as_hdf5():
+    save_as_hdf5('../data/GRID/fullpath_image_names_file.txt', '../data/GRID/grid.h5')
+    print('saved grid')
+
     save_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450.h5')
     print('saved prid450')
 
