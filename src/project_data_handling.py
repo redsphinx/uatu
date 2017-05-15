@@ -1102,9 +1102,6 @@ def save_all_datasets_as_hdf5():
     print('saved market')
 
 
-save_all_datasets_as_hdf5()
-
-
 def read_plot_from_hdf5(file_list_of_paths, h5_path):
     hdf5_file = h5py.File(h5_path, 'r')
     list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()

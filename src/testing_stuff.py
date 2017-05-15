@@ -293,5 +293,3 @@ def read_h5dict():
         thing = hdf5_file['img_1'][:]
         print('asdf')
 
-
-read_h5dict()

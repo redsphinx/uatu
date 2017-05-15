@@ -8,6 +8,7 @@ import h5py
 import time
 import os
 from project_variables import ProjectVariable as pv
+import project_data_handling as pdh
 
 def analyze_data_set(dataset):
     data_list = list(csv.reader(np.genfromtxt(dataset, dtype=None)))
@@ -355,3 +356,67 @@ def get_data_scnn(adjustable):
 # text_file = '../data/reid_all_negatives.txt'
 # h5_name = 'reid_all_negatives_uncompressed.h5'
 # txt_to_hdf5(text_file, h5_name)
+
+def get_dataset(name):
+    """ Given the name of a dataset it returns that dataset as a h5 file
+        note that you cannot learn on cuhk01 and cuhk02 at the same time
+        since cuhk02 includes cuhk01
+    """
+    if name == 'viper':
+        dataset_h5 = h5py.File('../data/VIPER/viper.h5', 'r')
+    elif name == 'cuhk01':
+        dataset_h5 = h5py.File('../data/CUHK/cuhk01.h5', 'r')
+    elif name == 'cuhk02':
+        dataset_h5 = h5py.File('../data/CUHK02/cuhk02.h5', 'r')
+    elif name == 'market':
+        dataset_h5 = h5py.File('../data/market/market.h5', 'r')
+    elif name == 'caviar':
+        dataset_h5 = h5py.File('../data/caviar/caviar.h5', 'r')
+    elif name == 'grid':
+        dataset_h5 = h5py.File('../data/GRID/grid.h5', 'r')
+    elif name == 'prid450':
+        dataset_h5 = h5py.File('../data/prid450/prid450.h5', 'r')
+    else:
+        dataset_h5 = None
+
+    return dataset_h5
+
+
+def load_specified_datasets(list_of_datasets):
+    """ Do this at the beginning of the experiment
+    """
+    h5_data = []
+    for dataset in list_of_datasets:
+        h5_data.append(get_dataset(dataset))
+
+    return h5_data
+
+
+def create_training_and_ranking_set(name):
+    """ Do this at the beginning of each iteration
+    """
+    if name == 'viper':
+        ranking, training_pos, training_neg = pdh.make_pairs_viper()
+    elif name == 'cuhk01':
+        ranking, training_pos, training_neg = pdh.make_pairs_cuhk1()
+    elif name == 'cuhk02':
+        ranking, training_pos, training_neg = pdh.make_pairs_cuhk2()
+    elif name == 'market':
+        ranking, training_pos, training_neg = pdh.make_pairs_market()
+    elif name == 'caviar':
+        ranking, training_pos, training_neg = pdh.make_pairs_caviar()
+    elif name == 'grid':
+        ranking, training_pos, training_neg = pdh.make_pairs_grid()
+    elif name == 'prid450':
+        ranking, training_pos, training_neg = pdh.make_pairs_prid450()
+    else:
+        ranking, training_pos, training_neg = None, None, None
+
+    return ranking, training_pos, training_neg
+
+
+def merge_datasets(list_training_pos, list_training_neg):
+    merged_training_pos = []
+    merged_training_neg = []
+
+    return merged_training_pos, merged_training_neg
