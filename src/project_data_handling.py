@@ -392,33 +392,38 @@ def fix_cuhk2():
                 img.save(cropped_image)
 
 
-def fix_caviar():
-    folder_path = '/home/gabi/Documents/datasets/CAVIAR4REID/original'
-    fixed_folder_path = os.path.join(os.path.dirname(folder_path), 'fixed_caviar')
-    if not os.path.exists(fixed_folder_path): os.mkdir(fixed_folder_path)
 
-    all_images = os.listdir(folder_path)
+def standardize(all_images, folder_path, fixed_folder_path):
     for image in all_images:
         original_image_path = os.path.join(folder_path, image)
         modified_image_path = os.path.join(fixed_folder_path, image)
         the_image = Image.open(original_image_path)
         image_width, image_height = the_image.size
-        
-        case = None
-        if image_width < pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT: case = 1
-        elif image_width > pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT: case = 2
-        
-        elif image_width < pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT: case = 3
-        elif image_width > pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT: case = 4
-        
-        elif image_width < pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT: case = 1
-        elif image_width > pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT: case = 2
-        
-        elif image_width == pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT: case = 2
-        elif image_width == pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT: case = 1
 
-        elif image_width == pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT: case = 5
-        
+        case = None
+        if image_width < pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT:
+            case = 1
+        elif image_width > pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT:
+            case = 2
+
+        elif image_width < pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT:
+            case = 3
+        elif image_width > pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT:
+            case = 4
+
+        elif image_width < pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT:
+            case = 1
+        elif image_width > pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT:
+            case = 2
+
+        elif image_width == pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT:
+            case = 2
+        elif image_width == pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT:
+            case = 1
+
+        elif image_width == pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT:
+            case = 5
+
         # if dimensions are bigger than WIDTH, HEIGHT then resize
         # if dimensions are smaller then pad with zeros
         if case == 2:
@@ -436,7 +441,34 @@ def fix_caviar():
             new_img.save(modified_image_path)
         elif case == 5:
             the_image.save(modified_image_path)
-        
+
+
+
+def fix_caviar():
+    folder_path = '/home/gabi/Documents/datasets/CAVIAR4REID/original'
+    fixed_folder_path = os.path.join(os.path.dirname(folder_path), 'fixed_caviar')
+    if not os.path.exists(fixed_folder_path): os.mkdir(fixed_folder_path)
+
+    all_images = os.listdir(folder_path)
+    standardize(all_images, folder_path, fixed_folder_path)
+
+
+def fix_grid():
+    folder_path = '/home/gabi/Documents/datasets/GRID'
+    probe = os.path.join(folder_path, 'probe')
+    gallery = os.path.join(folder_path, 'gallery')
+
+    probe_list = os.listdir(probe)
+    gallery_list = os.listdir(gallery)
+
+    proper_gallery_list = [item for item in gallery_list if not item[0:4] == '0000' ]
+
+    fixed_folder_path = os.path.join(os.path.dirname(probe), 'fixed_grid')
+    if not os.path.exists(fixed_folder_path): os.mkdir(fixed_folder_path)
+
+    standardize(probe_list, probe, fixed_folder_path)
+    standardize(proper_gallery_list, gallery, fixed_folder_path)
+
 
 def make_pairs_cuhk2_old():
     # note:treat CUHK02 as 5 different datasets since it's partitioned into 5 datasets and the imagenames are not unique
@@ -593,6 +625,27 @@ def unique_id_and_all_images_caviar():
 
     project_data_storage = '../data/caviar'
     if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    write_to_file(id_all_file, id_all)
+    write_to_file(unique_id_file, unique_id)
+    write_to_file(short_image_names_file, short_image_names)
+    write_to_file(fullpath_image_names_file, fullpath_image_names)
+
+
+def unique_id_and_all_images_grid():
+    """ This only needs to be done once ever.
+    """
+    folder_path = '/home/gabi/Documents/datasets/GRID/fixed_grid'
+    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
+    unique_id = sorted(set(id_all))
+    short_image_names = sorted(os.listdir(folder_path))
+    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
+    project_data_storage = '../data/GRID'
 
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
@@ -873,6 +926,31 @@ def make_pairs_caviar():
 
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_caviar()
+
+    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+                                                   fullpath_image_names_file)
+
+    ranking = make_all_negatives(ranking_pos, 'ranking')
+    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+
+    total_time = time.time() - start
+    print('total_time   %0.2f seconds' % total_time)
+
+    return ranking, training_pos, training_neg
+
+
+def make_pairs_grid():
+    start = time.time()
+    project_data_storage = '../data/GRID'
+    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    if not os.path.exists(id_all_file):
+        unique_id_and_all_images_grid()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file)
