@@ -393,10 +393,17 @@ def fix_cuhk2():
 
 
 
-def standardize(all_images, folder_path, fixed_folder_path):
+def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
+    def modify(name, the_mod):
+        return name.split('.')[0].split('_')[-1] + the_mod + name.split('.')[-1]
+
     for image in all_images:
         original_image_path = os.path.join(folder_path, image)
-        modified_image_path = os.path.join(fixed_folder_path, image)
+
+        if not the_mod == None:
+            modified_image_path = os.path.join(fixed_folder_path, modify(image, the_mod))
+        else:
+            modified_image_path = os.path.join(fixed_folder_path, image)
         the_image = Image.open(original_image_path)
         image_width, image_height = the_image.size
 
@@ -468,6 +475,24 @@ def fix_grid():
 
     standardize(probe_list, probe, fixed_folder_path)
     standardize(proper_gallery_list, gallery, fixed_folder_path)
+
+
+def fix_prid450():
+    folder_path = '/home/gabi/Documents/datasets/PRID450'
+    cam_a = os.path.join(folder_path, 'cam_a')
+    cam_b = os.path.join(folder_path, 'cam_b')
+
+    cam_a_list = os.listdir(cam_a)
+    cam_b_list = os.listdir(cam_b)
+
+    proper_cam_a_list = [item for item in cam_a_list if item.split('_')[0] == 'img']
+    proper_cam_b_list = [item for item in cam_b_list if item.split('_')[0] == 'img']
+
+    fixed_folder_path = os.path.join(os.path.dirname(cam_a), 'fixed_grid')
+    if not os.path.exists(fixed_folder_path): os.mkdir(fixed_folder_path)
+
+    standardize(proper_cam_a_list, cam_a, fixed_folder_path, '_a.')
+    standardize(proper_cam_b_list, cam_b, fixed_folder_path, '_b.')
 
 
 def make_pairs_cuhk2_old():
@@ -646,6 +671,27 @@ def unique_id_and_all_images_grid():
     short_image_names = sorted(os.listdir(folder_path))
     fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
     project_data_storage = '../data/GRID'
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    write_to_file(id_all_file, id_all)
+    write_to_file(unique_id_file, unique_id)
+    write_to_file(short_image_names_file, short_image_names)
+    write_to_file(fullpath_image_names_file, fullpath_image_names)
+
+
+def unique_id_and_all_images_prid450():
+    """ This only needs to be done once ever.
+    """
+    folder_path = '/home/gabi/Documents/datasets/PRID450/fixed_grid'
+    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
+    unique_id = sorted(set(id_all))
+    short_image_names = sorted(os.listdir(folder_path))
+    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
+    project_data_storage = '../data/prid450'
 
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
@@ -962,6 +1008,33 @@ def make_pairs_grid():
     print('total_time   %0.2f seconds' % total_time)
 
     return ranking, training_pos, training_neg
+
+
+def make_pairs_prid450():
+    start = time.time()
+    project_data_storage = '../data/prid450'
+    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    if not os.path.exists(id_all_file):
+        unique_id_and_all_images_prid450()
+
+    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+                                                   fullpath_image_names_file)
+
+    ranking = make_all_negatives(ranking_pos, 'ranking')
+    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+
+    total_time = time.time() - start
+    print('total_time   %0.2f seconds' % total_time)
+
+    return ranking, training_pos, training_neg
+
+
 
 
 def merge_reid_sets(save=False):

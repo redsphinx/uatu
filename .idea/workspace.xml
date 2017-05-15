@@ -28,7 +28,7 @@
     <SUITE FILE_PATH="coverage/uatu$example_siamese.coverage" NAME="example_siamese Coverage Results" MODIFIED="1493909539391" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples_src" />
     <SUITE FILE_PATH="coverage/uatu$lstm.coverage" NAME="lstm Coverage Results" MODIFIED="1486921325814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/uatu$project_utils.coverage" NAME="project_utils Coverage Results" MODIFIED="1494336092110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/uatu$project_data_handling.coverage" NAME="project_data_handling Coverage Results" MODIFIED="1494851342834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/uatu$project_data_handling.coverage" NAME="project_data_handling Coverage Results" MODIFIED="1494852647530" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$dynamic_data_loading.coverage" NAME="dynamic_data_loading Coverage Results" MODIFIED="1494247655689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$fun_plotting.coverage" NAME="fun_plotting Coverage Results" MODIFIED="1493806091212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$visualize_filters.coverage" NAME="visualize_filters Coverage Results" MODIFIED="1492533709292" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
@@ -115,8 +115,8 @@
       <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="965" column="0" lean-forward="true" selection-start-line="965" selection-start-column="0" selection-end-line="965" selection-end-column="0" />
+            <state relative-caret-position="408">
+              <caret line="1037" column="0" lean-forward="true" selection-start-line="1037" selection-start-column="0" selection-end-line="1037" selection-end-column="0" />
               <folding>
                 <element signature="e#109#127#0" expanded="true" />
               </folding>
@@ -135,8 +135,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>trainable</find>
-      <find>neural</find>
       <find>trainable)</find>
       <find>numfil</find>
       <find>batch_size,</find>
@@ -165,10 +163,10 @@
       <find>if</find>
       <find>cropped</find>
       <find>probe</find>
+      <find>gallery</find>
+      <find>cam_b</find>
     </findStrings>
     <replaceStrings>
-      <replace>cl_max</replace>
-      <replace>experiment_name</replace>
       <replace>pv.neural</replace>
       <replace>pv.trainable)</replace>
       <replace>pv.numfil</replace>
@@ -197,6 +195,8 @@
       <replace>elif</replace>
       <replace>fixed</replace>
       <replace>gallery</replace>
+      <replace>cam_b</replace>
+      <replace>cam_a</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -757,6 +757,11 @@
           <line>293</line>
           <option name="timeStamp" value="531" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/project_data_handling.py</url>
+          <line>1013</line>
+          <option name="timeStamp" value="610" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -768,7 +773,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="610" />
+      <option name="time" value="611" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -1121,8 +1126,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="965" column="0" lean-forward="true" selection-start-line="965" selection-start-column="0" selection-end-line="965" selection-end-column="0" />
+        <state relative-caret-position="408">
+          <caret line="1037" column="0" lean-forward="true" selection-start-line="1037" selection-start-column="0" selection-end-line="1037" selection-end-column="0" />
           <folding>
             <element signature="e#109#127#0" expanded="true" />
           </folding>
