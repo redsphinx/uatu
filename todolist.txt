@@ -33,7 +33,7 @@ Second phase: Improve the prototype in experiment cycles
 
 12 may
 ------
-. fix ranking list of CUHK02
+. DONE fix ranking list of CUHK02
 . fix + create lists for caviar
 . fix + create lists for grid
 . fix + create lists for prid450s

@@ -392,6 +392,52 @@ def fix_cuhk2():
                 img.save(cropped_image)
 
 
+def fix_caviar():
+    folder_path = '/home/gabi/Documents/datasets/CAVIAR4REID/original'
+    fixed_folder_path = os.path.join(os.path.dirname(folder_path), 'fixed_caviar')
+    if not os.path.exists(fixed_folder_path): os.mkdir(fixed_folder_path)
+
+    all_images = os.listdir(folder_path)
+    for image in all_images:
+        original_image_path = os.path.join(folder_path, image)
+        modified_image_path = os.path.join(fixed_folder_path, image)
+        the_image = Image.open(original_image_path)
+        image_width, image_height = the_image.size
+        
+        case = None
+        if image_width < pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT: case = 1
+        elif image_width > pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT: case = 2
+        
+        elif image_width < pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT: case = 3
+        elif image_width > pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT: case = 4
+        
+        elif image_width < pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT: case = 1
+        elif image_width > pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT: case = 2
+        
+        elif image_width == pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT: case = 2
+        elif image_width == pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT: case = 1
+
+        elif image_width == pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT: case = 5
+        
+        # if dimensions are bigger than WIDTH, HEIGHT then resize
+        # if dimensions are smaller then pad with zeros
+        if case == 2:
+            the_image = the_image.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+            the_image.save(modified_image_path)
+        elif case == 1 or case == 3 or case == 4:
+            if case == 3:
+                the_image = the_image.resize((image_width, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+            elif case == 4:
+                the_image = the_image.resize((pc.IMAGE_WIDTH, image_height), Image.ANTIALIAS)
+            padding_width = (pc.IMAGE_WIDTH - the_image.size[0]) / 2
+            padding_height = (pc.IMAGE_HEIGHT - the_image.size[1]) / 2
+            new_img = Image.new('RGB', (pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), (255, 255, 255))
+            new_img.paste(the_image, box=(padding_width, padding_height))
+            new_img.save(modified_image_path)
+        elif case == 5:
+            the_image.save(modified_image_path)
+        
+
 def make_pairs_cuhk2_old():
     # note:treat CUHK02 as 5 different datasets since it's partitioned into 5 datasets and the imagenames are not unique
     # This shoulnd't affect training because the total number of positive pairs will still be the same
@@ -524,6 +570,29 @@ def unique_id_and_all_images_market():
     short_image_names = sorted(os.listdir(folder_path))
     fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
     project_data_storage = '../data/market'
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    write_to_file(id_all_file, id_all)
+    write_to_file(unique_id_file, unique_id)
+    write_to_file(short_image_names_file, short_image_names)
+    write_to_file(fullpath_image_names_file, fullpath_image_names)
+
+
+def unique_id_and_all_images_caviar():
+    """ This only needs to be done once ever.
+    """
+    folder_path = '/home/gabi/Documents/datasets/CAVIAR4REID/fixed_caviar'
+    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
+    unique_id = sorted(set(id_all))
+    short_image_names = sorted(os.listdir(folder_path))
+    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
+
+    project_data_storage = '../data/caviar'
+    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
 
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
@@ -678,7 +747,6 @@ def make_pairs_viper():
 
     return ranking, training_pos, training_neg
 
-make_pairs_viper()
 
 def make_pairs_cuhk1():
     start = time.time()
@@ -705,7 +773,27 @@ def make_pairs_cuhk1():
     return ranking, training_pos, training_neg
 
 
-# FIXME fix the ranking file so that it is no longer 5 x rank 4 but rank 20
+def merge_ranking_files(rank_list):
+    # for cuhk2
+    rank_list_pos = []
+    for item in rank_list:
+        the_label = int(item.strip().split(',')[-1])
+        if the_label == 1:
+            rank_list_pos.append(item)
+
+    list_0 = [rank_list_pos[index].split(',')[0] for index in range(len(rank_list_pos))]
+    list_1 = [rank_list_pos[index].split(',')[1] for index in range(len(rank_list_pos))]
+
+    rank_list_pos = []
+    for img0 in range(len(list_0)):
+        for img1 in range(len(list_1)):
+            num = 1 if img0 == img1 else 0
+            line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
+            rank_list_pos.append(line)
+
+    return rank_list_pos
+
+
 def make_pairs_cuhk2():
     start = time.time()
     top_project_data_storage = '../data/CUHK02'
@@ -741,6 +829,8 @@ def make_pairs_cuhk2():
         training_pos_all += training_pos
         training_neg_all += training_neg
 
+    ranking_all = merge_ranking_files(ranking_all)
+
     total_time = time.time() - start
     print('total_time   %0.2f seconds' % total_time)
     return ranking_all, training_pos_all, training_neg_all
@@ -769,6 +859,32 @@ def make_pairs_market():
     print('total_time   %0.2f seconds' % total_time)
 
     return ranking, training_pos, training_neg
+
+
+def make_pairs_caviar():
+    start = time.time()
+    project_data_storage = '../data/caviar'
+    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+
+    if not os.path.exists(id_all_file):
+        unique_id_and_all_images_caviar()
+
+    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+                                                   fullpath_image_names_file)
+
+    ranking = make_all_negatives(ranking_pos, 'ranking')
+    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+
+    total_time = time.time() - start
+    print('total_time   %0.2f seconds' % total_time)
+
+    return ranking, training_pos, training_neg
+
 
 def merge_reid_sets(save=False):
     """ merges the mentioned datasets
