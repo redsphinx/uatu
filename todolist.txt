@@ -31,19 +31,57 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
-12 may
+16 may
 ------
-. DONE fix ranking list of CUHK02
-. DONE fix + create lists for caviar
-. DONE fix + create lists for grid
-. DONE fix + create lists for prid450s
-. fix data merging in project_data_handling.py
+. fix data merging in project_data_handling.py Or in dynamic_data_loading.py
 . fix the data loading bottleneck
 .. DONE save all datasets as hdf5
 .. adapt data loading methods to load from this
 . figure out how to make euclidean distance work
 .. also with calculate_CMC(). the ranking should be reversed: sort on smallest first
 .. also with make_confusion_matrix() decide good distance to set as threshold 
+. add methods to do "cheating but not: real world re-id"
+. change metric from accuracy to precision
+. write methods for subtraction and division of feature tensors in keras
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+How data loading works.
+
+For each dataset we have a folder with 
+	- a file with the full path to the location of the original image: these will be considered keys
+	- a hdf5 file containing the original images. Each image has a key with the same name as their original path
+With ddl.load_specified_datasets() we can return the datasets as readable hdf5 objects
+With ddl.create_training_and_ranking_set() we can return the training and ranking selection for the specified dataset
+Slices are no longer necessary, since we can load all the data in CPU memory
+
+
+h5_files = ddl.load_specified_datasets(['dataset_1', 'dataset_2', ..., 'dataset_n'])
+
+For iteration in iterations:
+	ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(['dataset_1', 'dataset_2', ..., 'dataset_n'])
+	merged_training_pos, merged_training_neg = ddl.merge_datasets(training_pos, training_neg, 'balanced')
+	For epoch in epochs:
+		train_neg = sample(merged_training_neg)
+		train_set = shuffle(concat(train_neg, merged_training_pos))
+		train_set = grab_from(h5_files)
+		model.fit(train_set)
+	
+	For rank_set in ranking:
+		model.predict()
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+
+15 may
+------
+. DONE fix ranking list of CUHK02
+. DONE fix + create lists for caviar
+. DONE fix + create lists for grid
+. DONE fix + create lists for prid450s
 
 
 11 may

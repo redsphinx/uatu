@@ -415,8 +415,27 @@ def create_training_and_ranking_set(name):
     return ranking, training_pos, training_neg
 
 
-def merge_datasets(list_training_pos, list_training_neg):
+def merge_datasets(list_training_pos, list_training_neg, percentages='balanced'):
+    """ Merges specified datasets by shuffling together the positive and negative training instances.
+        There will be many more negative instances than positive instances. This method needs to be excecuted
+        once, right after 'create_trainin_and_ranking_set()'.
+
+    :param list_training_pos:       A list of all training positive instances of the different datasets
+    :param list_training_neg:       A list of all training negative instances of the different datasets
+    :param percentages:             A list of the composition of the to be merged datasets. For example:
+                                    ['viper', 'cuhk01'] -> [0.7, 0.3]. Note that the order matters.
+                                    If you want to have all the datasets equally represented, then use the keyword
+                                    'balanced'
+    :return:                        Two lists composed of the specified compositions of the data for negative
+                                    and positive instances.
+    """
+
+    
+
     merged_training_pos = []
     merged_training_neg = []
+
+
+
 
     return merged_training_pos, merged_training_neg
