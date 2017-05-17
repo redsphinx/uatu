@@ -50,6 +50,8 @@ class ProjectVariable(object):
         self._loss_function = 'categorical_crossentropy' # string
         # the type of pooling operation. choice of: 'avg_pooling' and 'max_pooling'
         self._pooling_type = 'max_pooling'
+        # the datasets to load
+        self._datasets = ['viper', 'cuhk01']
 
     @property
     def use_gpu(self):
@@ -256,4 +258,12 @@ class ProjectVariable(object):
     @pooling_type.setter
     def pooling_type(self, value):
         self._pooling_type = value
-    
+
+    # self._datasets = None  # bool
+    @property
+    def datasets(self):
+        return self._datasets
+
+    @datasets.setter
+    def datasets(self, value):
+        self._datasets = value

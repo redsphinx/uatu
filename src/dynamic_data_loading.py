@@ -382,7 +382,7 @@ def get_dataset(name):
     return dataset_h5
 
 
-def load_specified_datasets(list_of_datasets):
+def load_datasets_from_h5(list_of_datasets):
     """ Do this at the beginning of the experiment
     """
     h5_data = []
@@ -415,27 +415,88 @@ def create_training_and_ranking_set(name):
     return ranking, training_pos, training_neg
 
 
-def merge_datasets(list_training_pos, list_training_neg, percentages='balanced'):
+def merge_datasets(adjustable, list_training_pos, list_training_neg):
     """ Merges specified datasets by shuffling together the positive and negative training instances.
         There will be many more negative instances than positive instances. This method needs to be excecuted
         once, right after 'create_trainin_and_ranking_set()'.
 
+    :param adjustable:              object of class ProjectVariable created in 'running_experiments.py'
     :param list_training_pos:       A list of all training positive instances of the different datasets
     :param list_training_neg:       A list of all training negative instances of the different datasets
-    :param percentages:             A list of the composition of the to be merged datasets. For example:
-                                    ['viper', 'cuhk01'] -> [0.7, 0.3]. Note that the order matters.
-                                    If you want to have all the datasets equally represented, then use the keyword
-                                    'balanced'
     :return:                        Two lists composed of the specified compositions of the data for negative
                                     and positive instances.
     """
-
-    
+    number_of_datasets = len(adjustable.datasets)
 
     merged_training_pos = []
     merged_training_neg = []
 
+    # balance the datasets such that each dataset has the same presence in the training set
+    count_pos = [len(item) for item in list_training_pos]
+    min_pos = min(count_pos)
+    count_neg = [len(item) for item in list_training_neg]
+    min_neg = min(count_neg)
 
+    if number_of_datasets > 1:
+        for dataset in range(number_of_datasets):
+            pos = list_training_pos[dataset]
+            neg = list_training_neg[dataset]
+            random.shuffle(pos)
+            random.shuffle(neg)
+            merged_training_pos.append(pos[0:min_pos])
+            merged_training_neg.append(neg[0:min_neg])
+    else:
+        merged_training_pos = list_training_pos
+        merged_training_neg = list_training_neg
 
-
+    random.shuffle(merged_training_pos)
+    random.shuffle(merged_training_neg)
     return merged_training_pos, merged_training_neg
+
+
+def create_key_dataset_mapping(key_list, h5_dataset_list):
+    """ Creates a mapping from the keys to the datasets. This way we know where to find each key
+    :param key_list:            list of keys in form of tuples with a label "img1,img2,1"
+    :param h5_dataset_list:     list of the h5 datasets to search in
+    :return:                    a mapping from the keys to the datasets
+    """
+    key_dataset_mapping = []
+
+    for key in key_list:
+        key_1 = key.split(',')[0]
+        key_2 = key.split(',')[1]
+        for h5_dataset in h5_dataset_list:
+            if key_1 in h5_dataset.keys():
+                a_mapping_1 = [key_1, h5_dataset]
+                key_dataset_mapping.append(a_mapping_1)
+            if key_2 in h5_dataset.keys():
+                a_mapping_2 = [key_2, h5_dataset]
+                key_dataset_mapping.append(a_mapping_2)
+
+    return key_dataset_mapping
+
+
+def grab_em_by_the_keys(key_list, h5_dataset_list):
+    """ Returns a training set
+    :param key_list:
+    :param key_dataset_mapping:
+    :return:
+    """
+    # create mapping from keys to dataset
+    key_dataset_mapping = create_key_dataset_mapping(key_list, h5_dataset_list)
+    # isolate the different keys
+    all_key_1 = [item.split(',')[0] for item in key_list]
+    all_key_2 = [item.split(',')[1] for item in key_list]
+    all_keys_in_mapping = [item[0] for item in key_dataset_mapping]
+    # isolate the values
+    only_values = [item[1] for item in key_dataset_mapping]
+    # get the index of the value that key in all_key points to
+    the_index_key_1 = [all_keys_in_mapping.index(key_1) for key_1 in all_key_1]
+    the_index_key_2 = [all_keys_in_mapping.index(key_2) for key_2 in all_key_2]
+    # get the values from the h5 file given the indices
+    values_key_1 = [only_values[the_index_key_1[item]][item][:] for item in range(len(all_key_1))]
+    values_key_2 = [only_values[the_index_key_2[item]][item][:] for item in range(len(all_key_2))]
+
+    return values_key_1, values_key_2
+
+

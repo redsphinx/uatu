@@ -293,3 +293,20 @@ def read_h5dict():
         thing = hdf5_file['img_1'][:]
         print('asdf')
 
+
+def get_names():
+    hdf5_file = h5py.File('test_dict.h5', 'r')
+
+    print(hdf5_file.name)
+    a = hdf5_file.keys()
+    print(a)
+
+
+    for i in range(10):
+        thing = hdf5_file['img_%i' % i][:]
+        other = hdf5_file['fake'][:]
+        print('asdf')
+    print('asdf')
+
+
+get_names()
