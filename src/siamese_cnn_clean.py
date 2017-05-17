@@ -206,18 +206,12 @@ def train_network_light(adjustable, model, final_training_data, final_training_l
                   verbose=2)
 
 
-def main(adjustable, h5_data_list):
+def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
     """Runs a the whole training and testing phase
     :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
                 ranking for each dataset
     """
 # coming SOON ---> NEW VERSION OF DATALOADING <---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
-
-    all_ranking, all_training_pos, all_training_neg = \
-        [ddl.create_training_and_ranking_set(name) for name in adjustable.datasets]
-
-    merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
-
     model = create_siamese_network(adjustable)
 
     if adjustable.cost_module_type == 'neural_network':
@@ -280,7 +274,7 @@ def main(adjustable, h5_data_list):
 # in the process of getting deprecated ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
 
     # test_sets = len(test) / 3
-    test_sets = len(adjustable.datasets)
+    # test_sets = len(adjustable.datasets)
     confusion_matrices = []
     ranking_matrices = []
     names = []
@@ -328,7 +322,10 @@ def super_main(adjustable):
     """Runs main for a specified iterations. Useful for experiment running.
     Note: set iterations to 1 if you want to save weights
     """
-    all_h5_datasets = ddl.load_datasets_from_h5(adjustable)
+    all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
+
+    # all_ranking, all_training_pos, all_training_neg = \
+    #     [ddl.create_training_and_ranking_set(name) for name in adjustable.datasets]
 
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
 
@@ -341,7 +338,18 @@ def super_main(adjustable):
     for iter in range(adjustable.iterations):
         print('-----ITERATION %d' % iter)
 
-        name, confusion_matrix, ranking_matrix = main(adjustable, all_h5_datasets)
+        all_ranking, all_training_pos, all_training_neg = [], [], []
+        for name in range(len(adjustable.datasets)):
+            # FIXME, fix issue that causes the lists to be separate chubks of lists instead of 1 big list
+            ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name])
+            all_ranking.append(ranking)
+            all_training_pos.append(training_pos)
+            all_training_neg.append(training_neg)
+
+        merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
+
+        name, confusion_matrix, ranking_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
+                                                      merged_training_neg)
 
         confusion_matrices[iter] = confusion_matrix
         ranking_matrices[iter] = ranking_matrix

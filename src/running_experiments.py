@@ -980,10 +980,16 @@ def experishit(test_number):
     scn.super_main(a)
 
 
+def thing():
+    a = ProjectVariable()
+    scn.super_main(a)
+
+
 def main():
+    # TODO run these experiments
     num = sys.argv[1]
     print(sys.argv)
-    
+
     if num == '57':
         experiment_57()
     if num == '58':
@@ -1014,3 +1020,5 @@ def main():
         experiment_68()
     if num == '71':
         experiment_69()
+
+thing()
