@@ -84,7 +84,7 @@ def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm
         else:  # max_pooling
             model.add(MaxPool2D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1])))
     else:
-        model.add(MaxPool2D(pool_size=(adjustable.max_pooling_size[1][0], adjustable.max_pooling_size[1][1])))
+        model.add(MaxPool2D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1])))
     if use_batch_norm:
         model.add(BatchNormalization(name=batch_norm_name, trainable=adjustable.trainable))
     return model
@@ -216,7 +216,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
     if adjustable.cost_module_type == 'neural_network':
         nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-        model.compile(loss='categorical_crossentropy', optimizer=nadam, metrics=['accuracy'])
+        model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
     elif adjustable.cost_module_type == 'euclidean':
         rms = keras.optimizers.RMSprop()
         model.compile(loss=contrastive_loss, optimizer=rms)
@@ -226,7 +226,10 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         random.shuffle(merged_training_neg)
         training_neg_sample = merged_training_neg[0:len(merged_training_pos)]
         # now we have the final list of keys to the instances we use for training
-        final_training_data = random.shuffle(merged_training_pos + training_neg_sample)
+
+        final_training_data = merged_training_pos + training_neg_sample
+
+        random.shuffle(final_training_data)
 
         final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in range(len(merged_training_pos))]
         final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
@@ -340,8 +343,12 @@ def super_main(adjustable):
 
         all_ranking, all_training_pos, all_training_neg = [], [], []
         for name in range(len(adjustable.datasets)):
-            # FIXME, fix issue that causes the lists to be separate chubks of lists instead of 1 big list
             ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name])
+
+            # all_ranking = all_ranking + ranking
+            # all_training_pos = all_training_pos + training_pos
+            # all_training_neg = all_training_neg + training_neg
+
             all_ranking.append(ranking)
             all_training_pos.append(training_pos)
             all_training_neg.append(training_neg)

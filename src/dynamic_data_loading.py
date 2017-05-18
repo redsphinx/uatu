@@ -443,8 +443,12 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
             neg = list_training_neg[dataset]
             random.shuffle(pos)
             random.shuffle(neg)
-            merged_training_pos.append(pos[0:min_pos])
-            merged_training_neg.append(neg[0:min_neg])
+
+            merged_training_pos = merged_training_pos + pos[0:min_pos]
+            merged_training_neg = merged_training_neg + neg[0:min_neg]
+
+            # merged_training_pos.append(pos[0:min_pos])
+            # merged_training_neg.append(neg[0:min_neg])
     else:
         merged_training_pos = list_training_pos
         merged_training_neg = list_training_neg
@@ -466,6 +470,8 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
         key_1 = key.split(',')[0]
         key_2 = key.split(',')[1]
         for h5_dataset in h5_dataset_list:
+            dataset_keys = h5_dataset.keys()
+
             if key_1 in h5_dataset.keys():
                 a_mapping_1 = [key_1, h5_dataset]
                 key_dataset_mapping.append(a_mapping_1)

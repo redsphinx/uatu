@@ -1069,7 +1069,11 @@ def merge_reid_sets_old(save=False):
 
 def save_as_hdf5(file_list_of_paths, h5_path):
     list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()
-    with h5py.File(h5_path, 'a') as myfile:
+    # with h5py.File(h5_path, 'a') as myfile:
+
+    action = 'a' if os.path.exists(h5_path) else 'w'
+
+    with h5py.File(h5_path, action) as myfile:
         for item in list_of_paths:
             data = myfile.create_dataset(name=item, data=ndimage.imread(item))
 
@@ -1102,9 +1106,17 @@ def save_all_datasets_as_hdf5():
     print('saved market')
 
 
+
 def read_plot_from_hdf5(file_list_of_paths, h5_path):
     hdf5_file = h5py.File(h5_path, 'r')
+
+    a = hdf5_file.keys()
+
+    b = hdf5_file[u'home'].keys()
+
     list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()
     for i in range(10):
         thing = hdf5_file[list_of_paths[i]][:]
         plt.imshow(thing)
+
+# read_plot_from_hdf5('/home/gabi/PycharmProjects/uatu/data/VIPER/fullpath_image_names_file.txt', '/home/gabi/PycharmProjects/uatu/data/VIPER/viper.h5')

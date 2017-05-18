@@ -274,11 +274,11 @@ def dict_to_h5():
     all_images = os.listdir(image_path)[0:10]
 
     for i in range(10):
-        the_key = 'img_%d' % i
+        the_key = 'img/_%d' % i
         the_img = ndimage.imread(os.path.join(image_path, all_images[i]))
         img_dict[the_key] = the_img
 
-    h5_path = 'test_dict.h5'
+    h5_path = 'test_dict_with_slash.h5'
     with h5py.File(h5_path, 'w') as myfile:
         for i in range(10):
             the_key = img_dict.keys()[i]
@@ -295,10 +295,14 @@ def read_h5dict():
 
 
 def get_names():
-    hdf5_file = h5py.File('test_dict.h5', 'r')
+    hdf5_file_3 = h5py.File('/home/gabi/PycharmProjects/uatu/src/test_dict_with_slash.h5', 'r')
+    hdf5_file_2 = h5py.File('/home/gabi/PycharmProjects/uatu/src/test_dict.h5', 'r')
+    hdf5_file = h5py.File('/home/gabi/PycharmProjects/uatu/data/GRID/grid.h5', 'r')
 
     print(hdf5_file.name)
+    b = hdf5_file_2.keys()
     a = hdf5_file.keys()
+    c = hdf5_file_3.keys()
     print(a)
 
 
@@ -309,4 +313,5 @@ def get_names():
     print('asdf')
 
 
+# dict_to_h5()
 get_names()
