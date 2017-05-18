@@ -1067,6 +1067,22 @@ def merge_reid_sets_old(save=False):
     return pos_list, neg_list
 
 
+def my_join():
+# FIXME finish this
+    pass
+
+
+def swap_for(the_thing, a, b):
+    the_thing = list(the_thing)
+    for item in range(len(the_thing)):
+        if the_thing[item] == a:
+            the_thing[item] = b
+    test = str(the_thing)
+    return str(the_thing)
+
+thing = swap_for('asdfasdfasdf', 'a', 'zzz')
+print('asdf')
+
 def save_as_hdf5(file_list_of_paths, h5_path):
     list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()
     # with h5py.File(h5_path, 'a') as myfile:
@@ -1075,6 +1091,11 @@ def save_as_hdf5(file_list_of_paths, h5_path):
 
     with h5py.File(h5_path, action) as myfile:
         for item in list_of_paths:
+
+            # FIXME: replace '/' in item with '+'
+            item_name = swap_for(item, '/', '+')
+
+
             data = myfile.create_dataset(name=item, data=ndimage.imread(item))
 
 

@@ -274,7 +274,7 @@ def dict_to_h5():
     all_images = os.listdir(image_path)[0:10]
 
     for i in range(10):
-        the_key = 'img/_%d' % i
+        the_key = 'img+_%d' % i
         the_img = ndimage.imread(os.path.join(image_path, all_images[i]))
         img_dict[the_key] = the_img
 
