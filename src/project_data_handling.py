@@ -743,6 +743,7 @@ def preselection(the_list, unique_ids, all_ids, num):
     return selection
 
 
+#note:swapped
 def make_all_positives(id_all_file, unique_id_file, short_image_names_file, fullpath_image_names_file,
                ranking_number=pc.RANKING_NUMBER):
     """ This needs to be done once at the beginning of the iteration.
@@ -754,8 +755,10 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
         unique = []
         seen = []
         for item in range(len(the_list)):
-            i1 = the_list[item].split(',')[0].split('/')[-1][0:4]
-            i2 = the_list[item].split(',')[1].split('/')[-1][0:4]
+            # i1 = the_list[item].split(',')[0].split('/')[-1][0:4]
+            # i2 = the_list[item].split(',')[1].split('/')[-1][0:4]
+            i1 = the_list[item].split(',')[0].split('+')[-1][0:4]
+            i2 = the_list[item].split(',')[1].split('+')[-1][0:4]
             if i1 == i2:
                 if i1 not in seen:
                     seen.append(i1)
@@ -824,7 +827,7 @@ def make_all_negatives(pos_list, the_type):
                     training_neg.append(line)
         return training_pos, training_neg
 
-
+# note: swapped
 def make_pairs_viper():
     start = time.time()
     project_data_storage = '../data/VIPER'
@@ -833,7 +836,8 @@ def make_pairs_viper():
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
     short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
+    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_viper()
@@ -850,6 +854,7 @@ def make_pairs_viper():
     return ranking, training_pos, training_neg
 
 
+# note: swapped
 def make_pairs_cuhk1():
     start = time.time()
     project_data_storage = '../data/CUHK'
@@ -858,7 +863,8 @@ def make_pairs_cuhk1():
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
     short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
+    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_cuhk1()
@@ -896,6 +902,7 @@ def merge_ranking_files(rank_list):
     return rank_list_pos
 
 
+# note: swapped
 def make_pairs_cuhk2():
     start = time.time()
     top_project_data_storage = '../data/CUHK02'
@@ -916,7 +923,8 @@ def make_pairs_cuhk2():
         id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
         unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
         short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-        fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+        fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
+        # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
         if not os.path.exists(id_all_file):
             unique_id_and_all_images_cuhk2()
@@ -938,6 +946,7 @@ def make_pairs_cuhk2():
     return ranking_all, training_pos_all, training_neg_all
 
 
+#note:swapped
 def make_pairs_market():
     start = time.time()
     project_data_storage = '../data/market'
@@ -946,7 +955,8 @@ def make_pairs_market():
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
     short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
+    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_market()
@@ -962,7 +972,7 @@ def make_pairs_market():
 
     return ranking, training_pos, training_neg
 
-
+#note:swapped
 def make_pairs_caviar():
     start = time.time()
     project_data_storage = '../data/caviar'
@@ -971,7 +981,8 @@ def make_pairs_caviar():
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
     short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
+    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_caviar()
@@ -988,6 +999,7 @@ def make_pairs_caviar():
     return ranking, training_pos, training_neg
 
 
+#note:swapped
 def make_pairs_grid():
     start = time.time()
     project_data_storage = '../data/GRID'
@@ -996,7 +1008,8 @@ def make_pairs_grid():
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
     short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
+    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_grid()
@@ -1013,6 +1026,7 @@ def make_pairs_grid():
     return ranking, training_pos, training_neg
 
 
+#note:swapped
 def make_pairs_prid450():
     start = time.time()
     project_data_storage = '../data/prid450'
@@ -1021,7 +1035,8 @@ def make_pairs_prid450():
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
     short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
+    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_prid450()
@@ -1067,9 +1082,12 @@ def merge_reid_sets_old(save=False):
     return pos_list, neg_list
 
 
-def my_join():
-# FIXME finish this
-    pass
+def my_join(list_strings):
+    awesome_string = ''
+    for item in list_strings:
+        awesome_string += item
+
+    return awesome_string
 
 
 def swap_for(the_thing, a, b):
@@ -1077,26 +1095,28 @@ def swap_for(the_thing, a, b):
     for item in range(len(the_thing)):
         if the_thing[item] == a:
             the_thing[item] = b
+
+    the_thing = my_join(the_thing)
+
     test = str(the_thing)
     return str(the_thing)
 
-thing = swap_for('asdfasdfasdf', 'a', 'zzz')
-print('asdf')
 
 def save_as_hdf5(file_list_of_paths, h5_path):
     list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()
+    swapped_file_list_of_paths = os.path.join(os.path.dirname(file_list_of_paths), 'swapped_list_of_paths.txt')
+
     # with h5py.File(h5_path, 'a') as myfile:
 
     action = 'a' if os.path.exists(h5_path) else 'w'
 
     with h5py.File(h5_path, action) as myfile:
-        for item in list_of_paths:
-
-            # FIXME: replace '/' in item with '+'
-            item_name = swap_for(item, '/', '+')
-
-
-            data = myfile.create_dataset(name=item, data=ndimage.imread(item))
+        with open(swapped_file_list_of_paths, 'w') as my_other_file:
+            for item in list_of_paths:
+                # swap the '/' for '+' or else listing the hdf5 keys will be a problem later
+                item_name = swap_for(item, '/', '+')
+                my_other_file.write(item_name + '\n')
+                data = myfile.create_dataset(name=item_name, data=ndimage.imread(item))
 
 
 def save_all_datasets_as_hdf5():
@@ -1127,17 +1147,16 @@ def save_all_datasets_as_hdf5():
     print('saved market')
 
 
-
 def read_plot_from_hdf5(file_list_of_paths, h5_path):
     hdf5_file = h5py.File(h5_path, 'r')
 
     a = hdf5_file.keys()
 
-    b = hdf5_file[u'home'].keys()
-
     list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()
     for i in range(10):
         thing = hdf5_file[list_of_paths[i]][:]
         plt.imshow(thing)
+
+save_all_datasets_as_hdf5()
 
 # read_plot_from_hdf5('/home/gabi/PycharmProjects/uatu/data/VIPER/fullpath_image_names_file.txt', '/home/gabi/PycharmProjects/uatu/data/VIPER/viper.h5')
