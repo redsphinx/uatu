@@ -491,7 +491,7 @@ def fix_prid450():
     proper_cam_a_list = [item for item in cam_a_list if item.split('_')[0] == 'img']
     proper_cam_b_list = [item for item in cam_b_list if item.split('_')[0] == 'img']
 
-    fixed_folder_path = os.path.join(os.path.dirname(cam_a), 'fixed_grid')
+    fixed_folder_path = os.path.join(os.path.dirname(cam_a), 'fixed_prid')
     if not os.path.exists(fixed_folder_path): os.mkdir(fixed_folder_path)
 
     standardize(proper_cam_a_list, cam_a, fixed_folder_path, '_a.')
@@ -689,7 +689,7 @@ def unique_id_and_all_images_grid():
 def unique_id_and_all_images_prid450():
     """ This only needs to be done once ever.
     """
-    folder_path = '/home/gabi/Documents/datasets/PRID450/fixed_grid'
+    folder_path = '/home/gabi/Documents/datasets/PRID450/fixed_prid'
     id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
     unique_id = sorted(set(id_all))
     short_image_names = sorted(os.listdir(folder_path))
@@ -1122,29 +1122,30 @@ def save_as_hdf5(file_list_of_paths, h5_path):
 def save_all_datasets_as_hdf5():
     save_as_hdf5('../data/GRID/fullpath_image_names_file.txt', '../data/GRID/grid.h5')
     print('saved grid')
+    #
+    # save_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450.h5')
+    # print('saved prid450')
+    #
+    # save_as_hdf5('../data/caviar/fullpath_image_names_file.txt', '../data/caviar/caviar.h5')
+    # print('saved caviar')
+    #
+    # save_as_hdf5('../data/VIPER/fullpath_image_names_file.txt', '../data/VIPER/viper.h5')
+    # print('saved viper')
+    #
+    # subdirs = [item for item in os.listdir('../data/CUHK02') if not item.split('.')[-1] == 'txt']
+    # cuhk2_path = '../data/CUHK02'
+    # for dir in subdirs:
+    #     the_full = os.path.join(cuhk2_path, dir, 'fullpath_image_names_file.txt')
+    #     the_h5 = os.path.join(cuhk2_path, 'cuhk02.h5')
+    #     save_as_hdf5(the_full, the_h5)
+    # print('saved cuhk02')
+    #
+    # save_as_hdf5('../data/CUHK/fullpath_image_names_file.txt', '../data/CUHK/cuhk01.h5')
+    # print('saved cuhk01')
+    #
+    # save_as_hdf5('../data/market/fullpath_image_names_file.txt', '../data/market/market.h5')
+    # print('saved market')
 
-    save_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450.h5')
-    print('saved prid450')
-
-    save_as_hdf5('../data/caviar/fullpath_image_names_file.txt', '../data/caviar/caviar.h5')
-    print('saved caviar')
-
-    save_as_hdf5('../data/VIPER/fullpath_image_names_file.txt', '../data/VIPER/viper.h5')
-    print('saved viper')
-
-    subdirs = [item for item in os.listdir('../data/CUHK02') if not item.split('.')[-1] == 'txt']
-    cuhk2_path = '../data/CUHK02'
-    for dir in subdirs:
-        the_full = os.path.join(cuhk2_path, dir, 'fullpath_image_names_file.txt')
-        the_h5 = os.path.join(cuhk2_path, 'cuhk02.h5')
-        save_as_hdf5(the_full, the_h5)
-    print('saved cuhk02')
-
-    save_as_hdf5('../data/CUHK/fullpath_image_names_file.txt', '../data/CUHK/cuhk01.h5')
-    print('saved cuhk01')
-
-    save_as_hdf5('../data/market/fullpath_image_names_file.txt', '../data/market/market.h5')
-    print('saved market')
 
 
 def read_plot_from_hdf5(file_list_of_paths, h5_path):
@@ -1157,6 +1158,6 @@ def read_plot_from_hdf5(file_list_of_paths, h5_path):
         thing = hdf5_file[list_of_paths[i]][:]
         plt.imshow(thing)
 
-save_all_datasets_as_hdf5()
+# save_all_datasets_as_hdf5()
 
 # read_plot_from_hdf5('/home/gabi/PycharmProjects/uatu/data/VIPER/fullpath_image_names_file.txt', '/home/gabi/PycharmProjects/uatu/data/VIPER/viper.h5')

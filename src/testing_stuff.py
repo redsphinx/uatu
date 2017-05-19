@@ -305,7 +305,7 @@ def get_names():
     c = hdf5_file_3.keys()
     print(a)
 
-
+    # / home / gabi / PycharmProjects / uatu / data / VIPER / viper.h5
     for i in range(10):
         thing = hdf5_file['img_%i' % i][:]
         other = hdf5_file['fake'][:]
