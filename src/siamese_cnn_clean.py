@@ -190,6 +190,8 @@ def train_network_light(adjustable, model, final_training_data, final_training_l
 
         train_data = ddl.grab_em_by_the_keys(final_training_data, h5_data_list)
 
+        train_data = np.asarray(train_data)
+
         model.fit([train_data[:, 0], train_data[:, 1]], final_training_labels,
                   batch_size=adjustable.batch_size,
                   epochs=1,

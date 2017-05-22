@@ -465,7 +465,7 @@ def get_dataset_to_map(name, data_list, data_names):
     # mathc with name
     # return data_list[indexof(match)]
 
-    if name == 'VIPeR':
+    if name == 'padded':
         dataset = 'VIPER'
     elif name == 'identities':
         dataset = 'market'
@@ -479,8 +479,8 @@ def get_dataset_to_map(name, data_list, data_names):
         dataset = 'prid450'
     elif name == 'fixed_grid':
         dataset = 'GRID'
-        #FIXME somehow it is coming here. fix it!
     else:
+        print("sorry, we don't serve '%s'. would you like some fries with that?" % name)
         dataset = None
 
     return data_list[data_names.index(dataset)]
@@ -493,16 +493,13 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
     :return:                    a mapping from the keys to the datasets
     """
     key_dataset_mapping = []
-
-    # FIXME: this is a bottleneck yay. fix this
-
     h5_filenames = [str(item.file.filename.split('/')[-2]) for item in h5_dataset_list]
 
     for key in key_list:
         key_1 = key.split(',')[0]
         key_2 = key.split(',')[1]
-        folder_key_1 = key_1.split('+')[5]
-        folder_key_2 = key_2.split('+')[5]
+        folder_key_1 = key_1.split('+')[-2]
+        folder_key_2 = key_2.split('+')[-2]
 
         dataset_key_1 = get_dataset_to_map(folder_key_1, h5_dataset_list, h5_filenames)
         dataset_key_2 = get_dataset_to_map(folder_key_2, h5_dataset_list, h5_filenames)
@@ -512,19 +509,6 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
 
         key_dataset_mapping.append(mapping_1)
         key_dataset_mapping.append(mapping_2)
-
-    # for key in key_list:
-    #     key_1 = key.split(',')[0]
-    #     key_2 = key.split(',')[1]
-    #     for h5_dataset in h5_dataset_list:
-    #         dataset_keys = h5_dataset.keys()
-    #
-    #         if key_1 in h5_dataset.keys():
-    #             a_mapping_1 = [key_1, h5_dataset]
-    #             key_dataset_mapping.append(a_mapping_1)
-    #         if key_2 in h5_dataset.keys():
-    #             a_mapping_2 = [key_2, h5_dataset]
-    #             key_dataset_mapping.append(a_mapping_2)
 
     return key_dataset_mapping
 
@@ -540,22 +524,16 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
     # isolate the different keys
     all_key_1 = [item.split(',')[0] for item in key_list]
     all_key_2 = [item.split(',')[1] for item in key_list]
-
-    all_keys_in_mapping = []
-    only_values = []
-    for item in key_dataset_mapping:
-        all_keys_in_mapping.append(item[0])
-        only_values.append(item[1])
-    # all_keys_in_mapping = [item[0] for item in key_dataset_mapping]
+    all_keys_in_mapping = [item[0] for item in key_dataset_mapping]
     # # isolate the values
-    # only_values = [item[1] for item in key_dataset_mapping]
+    only_values = [item[1] for item in key_dataset_mapping]
     # get the index of the value that key in all_key points to
     the_index_key_1 = [all_keys_in_mapping.index(key_1) for key_1 in all_key_1]
     the_index_key_2 = [all_keys_in_mapping.index(key_2) for key_2 in all_key_2]
     # get the values from the h5 file given the indices
-    values_key_1 = [only_values[the_index_key_1[item]][item][:] for item in range(len(all_key_1))]
-    values_key_2 = [only_values[the_index_key_2[item]][item][:] for item in range(len(all_key_2))]
 
+    values_key_1 = [only_values[the_index_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
+    values_key_2 = [only_values[the_index_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
     return values_key_1, values_key_2
 
 
