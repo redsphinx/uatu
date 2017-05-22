@@ -51,7 +51,7 @@ class ProjectVariable(object):
         # the type of pooling operation. choice of: 'avg_pooling' and 'max_pooling'
         self._pooling_type = 'max_pooling'
         # the datasets to load. choice of: 'viper', 'cuhk01', 'cuhk02', 'market', 'grid', 'prid450', 'caviar'
-        self._datasets = ['viper', 'cuhk01']
+        self._datasets = 'all'
 
     @property
     def use_gpu(self):

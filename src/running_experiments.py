@@ -910,6 +910,13 @@ def experiment_62():
     a.neural_distance_layers = (1024, 512)
     scn.super_main(a)
 
+
+def experiment_62_2():
+    a = ProjectVariable()
+    a.experiment_name = '62_2. neural distance layer: (512, 256)'
+    a.neural_distance_layers = (512, 256)
+    scn.super_main(a)
+
 def experiment_63():
     a = ProjectVariable()
     a.experiment_name = '63. neural distance layer: (8192, 128)'
@@ -968,7 +975,7 @@ def experiment_70():
 
 def experiment_71():
     a = ProjectVariable()
-    a.experiment_name = '71. pooling type: avg_pooling + max pooling size: [[4,2], [2,2]]'
+    a.experiment_name = '71. pooling type: avg_pooling + pooling size: [[4,2], [2,2]]'
     a.pooling_type = 'avg_pooling'
     a.max_pooling_size = [[4, 2], [2, 2]]
     scn.super_main(a)
@@ -994,33 +1001,35 @@ def main():
 
     if num == '57':
         experiment_57()
-    if num == '58':
-        experiment_58()
-    if num == '59':
-        experiment_59()
-    if num == '60':
-        experiment_60()
-    if num == '61':
-        experiment_61()
-    if num == '62':
+    # elif num == '58':
+    #     experiment_58()
+    # elif num == '59':
+    #     experiment_59()
+    # elif num == '60':
+    #     experiment_60()
+    # elif num == '61':
+    #     experiment_61()
+    elif num == '62':
         experiment_62()
-    if num == '63':
-        experiment_63()
-    if num == '64':
-        experiment_64()
-    if num == '65':
-        experiment_65()
-    if num == '66':
-        experiment_66()
-    if num == '67':
-        experiment_67()
-    if num == '68':
-        experiment_68()
-    if num == '69':
-        experiment_69()
-    if num == '70':
-        experiment_68()
-    if num == '71':
-        experiment_69()
+    elif num == '62_2':
+        experiment_62_2()
+    # elif num == '63':
+    #     experiment_63()
+    # elif num == '64':
+    #     experiment_64()
+    # elif num == '65':
+    #     experiment_65()
+    # elif num == '66':
+    #     experiment_66()
+    # elif num == '67':
+    #     experiment_67()
+    # elif num == '68':
+    #     experiment_68()
+    # elif num == '69':
+    #     experiment_69()
+    # elif num == '70':
+    #     experiment_68()
+    # elif num == '71':
+    #     experiment_69()
 
-thing()
+main()

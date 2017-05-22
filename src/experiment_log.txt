@@ -2646,7 +2646,7 @@ cuhk01 mean ranking:        [0.43, 0.56, 0.7, 0.79, 0.84, 0.87, 0.9, 0.92, 0.92,
 cuhk01 std ranking:         [0.07, 0.09, 0.1, 0.1, 0.06, 0.06, 0.04, 0.05, 0.03, 0.02, 0.03, 0.03, 0.03, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.0]
 
 
-name_of_experiment:         None
+name_of_experiment:         Running default with all data
 file_name:                  siamese_cnn_clean.pyc
 date:                       22/05/2017   16:25:47
 duration:                   7283.560074
@@ -2676,7 +2676,7 @@ caviar mean ranking:        [0.14, 0.22, 0.36, 0.42, 0.44, 0.54, 0.61, 0.7, 0.72
 caviar std ranking:         [0.07, 0.07, 0.04, 0.02, 0.05, 0.02, 0.05, 0.03, 0.04, 0.06, 0.04, 0.06, 0.06, 0.05, 0.07, 0.05, 0.04, 0.02, 0.02, 0.0]
 
 
-name_of_experiment:         None
+name_of_experiment:         Running default with viper, grid, prid, caviar
 file_name:                  siamese_cnn_clean.pyc
 date:                       22/05/2017   17:12:36
 duration:                   2173.843599
