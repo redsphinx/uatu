@@ -232,6 +232,16 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         final_training_data = merged_training_pos + training_neg_sample
 
         random.shuffle(final_training_data)
+
+        # final_training_labels = []
+        # for item in range(len(final_training_data)):
+        #     val1 = final_training_data[item]
+        #     val2 = val1.strip()
+        #     val3 = val2.split(',')
+        #     val4 = val3[-1]
+        #     final_training_labels.append(val4)
+
+
         final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in range(len(final_training_data))]
         final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
@@ -289,30 +299,29 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         name = adjustable.datasets[dataset]
         names.append(name)
         this_ranking = all_ranking[dataset]
-        # test_data = test[(test_set * 3) + 1]
-        # test_labels = test[(test_set * 3) + 2]
-        # test_data = ddl.grab_em_by_the_keys(all_ranking[dataset], h5_data_list)
         test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
+        test_data = np.asarray(test_data)
 
-        # final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
-        #                          range(len(final_training_data))]
-        # final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
-
-        final_testing_labels = []
-
-        for item in range(len(this_ranking)):
-            val1 = this_ranking[item]
-            val2 = val1.strip()
-            val3 = val2.split(',')[-1]
-            final_testing_labels.append(val3)
+        # final_testing_labels = []
+        #
+        # for item in range(len(this_ranking)):
+        #     val1 = this_ranking[item]
+        #     val2 = val1.strip()
+        #     val3 = val2.split(',')[-1]
+        #     final_testing_labels.append(val3)
 
 
+        final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
 
-        final_testing_labels = [int(all_ranking[item].strip().split(',')[-1]) for item in
-                                 range(len(all_ranking))]
         final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
-        predictions = model.predict([test_data[:, 0], test_data[:, 1]])
+        t1 = test_data[0, :]
+        t2 = test_data[1, :]
+
+        t1_1 = test_data[:, 0]
+        t2_2 = test_data[:, 1]
+
+        predictions = model.predict([test_data[0, :], test_data[1, :]])
 
         # FIXME make make_confusion_matrix euclidean distance compatible
         # matrix = pu.make_confusion_matrix(predictions, test_labels)

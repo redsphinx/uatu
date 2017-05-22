@@ -51,7 +51,13 @@ class ProjectVariable(object):
         # the type of pooling operation. choice of: 'avg_pooling' and 'max_pooling'
         self._pooling_type = 'max_pooling'
         # the datasets to load
-        self._datasets = ['viper', 'cuhk01']
+        # self._datasets = ['viper', 'cuhk01']
+        # self._datasets = ['grid', 'caviar', 'prid450']
+
+        # FIXME debug these 2
+        # self._datasets = ['grid', 'cuhk02']
+        # self._datasets = ['cuhk02']
+        self._datasets = ['market']
 
     @property
     def use_gpu(self):

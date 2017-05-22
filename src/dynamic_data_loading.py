@@ -450,8 +450,8 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
             # merged_training_pos.append(pos[0:min_pos])
             # merged_training_neg.append(neg[0:min_neg])
     else:
-        merged_training_pos = list_training_pos
-        merged_training_neg = list_training_neg
+        merged_training_pos = list_training_pos[0]
+        merged_training_neg = list_training_neg[0]
 
     random.shuffle(merged_training_pos)
     random.shuffle(merged_training_neg)
