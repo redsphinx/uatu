@@ -28,11 +28,11 @@ class ProjectVariable(object):
         # the batch size
         self._batch_size = 64  # int
         # the number of epochs
-        self._epochs = 1  # int
+        self._epochs = 30  # int
         # save the weights of the scnn. choice of: True, False
         self._scnn_save_weights_name = None  # string
         # number of times to repeat experiment
-        self._iterations = 1  # int
+        self._iterations = 5  # int
         # the experiment name
         self._experiment_name = None  # string
         # the base learning rate
@@ -50,14 +50,8 @@ class ProjectVariable(object):
         self._loss_function = 'categorical_crossentropy' # string
         # the type of pooling operation. choice of: 'avg_pooling' and 'max_pooling'
         self._pooling_type = 'max_pooling'
-        # the datasets to load
-        # self._datasets = ['viper', 'cuhk01']
-        # self._datasets = ['grid', 'caviar', 'prid450']
-
-        # FIXME debug these 2
-        # self._datasets = ['grid', 'cuhk02']
-        # self._datasets = ['cuhk02']
-        self._datasets = ['market']
+        # the datasets to load. choice of: 'viper', 'cuhk01', 'cuhk02', 'market', 'grid', 'prid450', 'caviar'
+        self._datasets = ['viper', 'cuhk01']
 
     @property
     def use_gpu(self):
@@ -272,4 +266,6 @@ class ProjectVariable(object):
 
     @datasets.setter
     def datasets(self, value):
+        if value == 'all':
+            value = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
         self._datasets = value
