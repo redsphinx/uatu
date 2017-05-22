@@ -31,6 +31,50 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+
+22 may
+------
+. start implement normalization of images: 0-255 to 0-1
+. start fixing code for other distance metrics: 
+.. pu.make_confusion_matrix()
+.. pu.calculate_CMC()
+. start implementing different distance metrics to compare with 'neural distance':
+.. euclidean
+.. cosine distance metric
+.. KISSME(keep it simple and straightforward metric): https://lrs.icg.tugraz.at/research/kissme/paper/lrs_icg_koestinger_cvpr_2012.pdf
+.. [RELEVANT] deep hybrid similarity learning: https://arxiv.org/pdf/1702.04858.pdf
+.. [optional] MFA (marginal fisher analysis): http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4337772
+.. [optional] RankSVM: https://arxiv.org/pdf/1701.06351.pdf
+
+. start implementation for different max pooling sizes
+.. this means different number of conv layers
+
+. start create methods for priming
+
+
+. start modify network for video
+
+
+. DONE finish debugging data pipeline. 
+.. there is an issue when you leave balancing on when you use all datasets: since all datasets are not the same size, it will take the smallest dataset and copy that amount of pos/neg, so in the end 
+.. if you use all datasets, leaving out CUHK01, then you have a training data size of 534. This is stupid, so I've added an option to turn off balancing. 
+. overall there seems to be some speedup. the bottlenecks now are 1) when the data gets loaded from the h5 files and 2) when pairs need to be made. But now we are looking through more data and making
+.. sure that the data is very diverse. With diverse we mean that the pipeline finds images of all identities to train on. Before, we didn't care about the variety of identities that the network was seeing,
+.. so it could have been that images of person_1 were in the training set like 10 times. With the current setup this should not be possible.
+. I can't say how much the speedup is objectively. but there is speedup. training is notably faster than before. 
+. conclusions from preliminary test with 30 epochs and 5 iters using all data: 
+.. takes about 2 hours (7283 sec) to complete 5 iterations of 30 epochs. this is really nice compared to 55 mins(3324 sec) for 1 iteration of 40 epoch. so that's 48s/e now VS. 83s/e before
+.. [hypothesis] because market and cuhk02 are overrepresented in the data, these datasets do better on benchmarks
+. conclusions compared to 30 epochs, 5 iterations on viper, grid, prid450 and caviar only:
+.. hypothesis is rejected: datasets do worse on benchmarks trained on their own data only
+
+17-21 may
+------
+. tried to make the keras docker work on the devbox, but it did not work. Suspect that it's because of CentOS instead of Ubuntu. 
+. got permission from dennis to install virtualenv and just gonna try with that.
+. also been debugging the data pipeline
+
+
 16 may
 ------
 . fix data merging in project_data_handling.py Or in dynamic_data_loading.py

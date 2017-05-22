@@ -982,7 +982,7 @@ def experishit(test_number):
 
 def thing():
     a = ProjectVariable()
-    a.datasets = 'all'
+    a.datasets = ['viper', 'grid', 'prid450', 'caviar']
     scn.super_main(a)
 
 
