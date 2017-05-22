@@ -415,7 +415,7 @@ def create_training_and_ranking_set(name):
     return ranking, training_pos, training_neg
 
 
-def merge_datasets(adjustable, list_training_pos, list_training_neg):
+def merge_datasets(adjustable, list_training_pos, list_training_neg, balance=False):
     """ Merges specified datasets by shuffling together the positive and negative training instances.
         There will be many more negative instances than positive instances. This method needs to be excecuted
         once, right after 'create_trainin_and_ranking_set()'.
@@ -433,9 +433,9 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
 
     # balance the datasets such that each dataset has the same presence in the training set
     count_pos = [len(item) for item in list_training_pos]
-    min_pos = min(count_pos)
+    min_pos_1 = min(count_pos)
     count_neg = [len(item) for item in list_training_neg]
-    min_neg = min(count_neg)
+    min_neg_1 = min(count_neg)
 
     if number_of_datasets > 1:
         for dataset in range(number_of_datasets):
@@ -443,6 +443,13 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
             neg = list_training_neg[dataset]
             random.shuffle(pos)
             random.shuffle(neg)
+
+            if balance:
+                min_pos = min_pos_1
+                min_neg = min_neg_1
+            else:
+                min_pos = len(list_training_pos[dataset])
+                min_neg = len(list_training_neg[dataset])
 
             merged_training_pos = merged_training_pos + pos[0:min_pos]
             merged_training_neg = merged_training_neg + neg[0:min_neg]
