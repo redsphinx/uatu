@@ -996,23 +996,23 @@ def thing():
 
 def main():
     # TODO run these experiments
-    num = sys.argv[1]
-    print(sys.argv)
-
-    if num == '57':
-        experiment_57()
-    # elif num == '58':
-    #     experiment_58()
-    # elif num == '59':
-    #     experiment_59()
-    # elif num == '60':
-    #     experiment_60()
-    # elif num == '61':
-    #     experiment_61()
-    elif num == '62':
-        experiment_62()
-    elif num == '62_2':
-        experiment_62_2()
+    # num = sys.argv[1]
+    # print(sys.argv)
+    #
+    # if num == '57':
+    #     experiment_57()
+    # # elif num == '58':
+    # #     experiment_58()
+    # # elif num == '59':
+    # #     experiment_59()
+    # # elif num == '60':
+    # #     experiment_60()
+    # # elif num == '61':
+    # #     experiment_61()
+    # elif num == '62':
+    #     experiment_62()
+    # elif num == '62_2':
+    #     experiment_62_2()
     # elif num == '63':
     #     experiment_63()
     # elif num == '64':
@@ -1031,5 +1031,6 @@ def main():
     #     experiment_68()
     # elif num == '71':
     #     experiment_69()
+    experiment_57()
 
 main()
