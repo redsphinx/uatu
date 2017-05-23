@@ -917,6 +917,14 @@ def experiment_62_2():
     a.neural_distance_layers = (512, 256)
     scn.super_main(a)
 
+
+def experiment_62_3():
+    a = ProjectVariable()
+    a.experiment_name = '62_3. neural distance layer: (128, 256)'
+    a.neural_distance_layers = (128, 256)
+    scn.super_main(a)
+
+
 def experiment_63():
     a = ProjectVariable()
     a.experiment_name = '63. neural distance layer: (8192, 128)'
@@ -981,6 +989,22 @@ def experiment_71():
     scn.super_main(a)
 
 
+def experiment_72():
+    a = ProjectVariable()
+    a.experiment_name = '72. combo: avg_pooling, elu, dif pooling size, dif neural distance layers'
+    a.pooling_type = 'avg_pooling'
+    a.activation_function = 'elu'
+    a.pooling_size = [[4, 2], [2, 2]]
+    a.neural_distance_layers = (256, 128)
+
+
+def experiment_73():
+    a = ProjectVariable()
+    a.experiment_name = '73. combo: avg_pooling, elu, dif pooling size'
+    a.pooling_type = 'avg_pooling'
+    a.activation_function = 'elu'
+    a.pooling_size = [[4, 2], [2, 2]]
+
 def experishit(test_number):
     a = ProjectVariable()
     a.use_gpu = str(test_number)
@@ -996,23 +1020,30 @@ def thing():
 
 def main():
     # TODO run these experiments
-    # num = sys.argv[1]
-    # print(sys.argv)
-    #
+    num = sys.argv[1]
+    print(sys.argv)
+
+    if num == '72':
+        experiment_72()
+    elif num == '73':
+        experiment_73()
+
     # if num == '57':
-    #     experiment_57()
-    # # elif num == '58':
-    # #     experiment_58()
-    # # elif num == '59':
-    # #     experiment_59()
-    # # elif num == '60':
-    # #     experiment_60()
-    # # elif num == '61':
-    # #     experiment_61()
+        # experiment_57()
+    # elif num == '58':
+    #     experiment_58()
+    # elif num == '59':
+    #     experiment_59()
+    # elif num == '60':
+    #     experiment_60()
+    # elif num == '61':
+    #     experiment_61()
     # elif num == '62':
-    #     experiment_62()
+        # experiment_62()
     # elif num == '62_2':
-    #     experiment_62_2()
+        # experiment_62_2()
+    # if num == '62_3':
+    #     experiment_62_3()
     # elif num == '63':
     #     experiment_63()
     # elif num == '64':
@@ -1028,9 +1059,9 @@ def main():
     # elif num == '69':
     #     experiment_69()
     # elif num == '70':
-    #     experiment_68()
+    #     experiment_70()
     # elif num == '71':
-    #     experiment_69()
-    experiment_57()
+    #     experiment_71()
+    # experiment_57()
 
 main()
