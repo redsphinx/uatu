@@ -11,7 +11,7 @@ from PIL import Image
 from skimage.util import random_noise
 from matplotlib.image import imsave
 from itertools import combinations
-
+import time
 
 
 def zoom(image):
@@ -90,7 +90,7 @@ def load_augmented_images(list_augmented_images):
 
 
 def main(adjustable):
-
+    start = time.time()
     cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
     market_ranking = list(np.genfromtxt('market_ranking.txt', dtype=None))
 
@@ -165,5 +165,33 @@ def main(adjustable):
                   % (name, accuracy, precision, str(matrix), str(ranking)))
 
         else:
+            # FIXME implement priming for market
             pass
 
+        stop = time.time()
+        total_time = stop - start
+        number_of_datasets = 2
+        matrix_means = np.zeros((number_of_datasets, 4))
+        matrix_std = np.zeros((number_of_datasets, 4))
+        ranking_means = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
+        ranking_std = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
+
+        for dataset in range(number_of_datasets):
+            matrices = np.zeros((adjustable.iterations, 4))
+            rankings = np.zeros((adjustable.iterations, pc.RANKING_NUMBER))
+
+            for iter in range(adjustable.iterations):
+                matrices[iter] = confusion_matrices[iter][dataset]
+                rankings[iter] = ranking_matrices[iter][dataset]
+
+            matrix_means[dataset] = np.mean(matrices, axis=0)
+            matrix_std[dataset] = np.std(matrices, axis=0)
+            ranking_means[dataset] = np.mean(rankings, axis=0)
+            ranking_std[dataset] = np.std(rankings, axis=0)
+
+        # note: TURN ON if you want to log results!!
+        if pc.LOGGING:
+            file_name = os.path.basename(__file__)
+            pu.enter_in_log(adjustable.experiment_name, file_name, name, matrix_means, matrix_std, ranking_means,
+                            ranking_std,
+                            total_time)
