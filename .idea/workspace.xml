@@ -77,11 +77,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="running_experiments.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="running_experiments.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="823">
-                  <caret line="1204" column="0" lean-forward="false" selection-start-line="1204" selection-start-column="0" selection-end-line="1204" selection-end-column="0" />
+                <state relative-caret-position="928">
+                  <caret line="1218" column="26" lean-forward="false" selection-start-line="1218" selection-start-column="26" selection-end-line="1218" selection-end-column="26" />
                   <folding>
                     <element signature="e#26#57#0" expanded="true" />
                   </folding>
@@ -89,7 +89,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="554">
@@ -127,11 +127,21 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="885">
+                  <caret line="59" column="36" lean-forward="false" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="priming.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/priming.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1198">
-                  <caret line="171" column="33" lean-forward="false" selection-start-line="171" selection-start-column="33" selection-end-line="171" selection-end-column="33" />
+                <state relative-caret-position="808">
+                  <caret line="133" column="61" lean-forward="false" selection-start-line="133" selection-start-column="61" selection-end-line="133" selection-end-column="61" />
                   <folding>
                     <element signature="e#0#35#0" expanded="true" />
                   </folding>
@@ -260,8 +270,8 @@
         <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
         <option value="$PROJECT_DIR$/src/testing_stuff.py" />
         <option value="$PROJECT_DIR$/src/project_data_handling.py" />
-        <option value="$PROJECT_DIR$/src/running_experiments.py" />
         <option value="$PROJECT_DIR$/src/priming.py" />
+        <option value="$PROJECT_DIR$/src/running_experiments.py" />
       </list>
     </option>
   </component>
@@ -871,6 +881,11 @@
           <line>93</line>
           <option name="timeStamp" value="739" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/running_experiments.py</url>
+          <line>1209</line>
+          <option name="timeStamp" value="740" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -882,7 +897,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="740" />
+      <option name="time" value="741" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -1148,14 +1163,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="59" column="36" lean-forward="false" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/cuhk02_ranking.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="943">
@@ -1198,14 +1205,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/CUHK02/P1/short_image_names_file.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/crap.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -1239,16 +1238,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="823">
-          <caret line="1204" column="0" lean-forward="false" selection-start-line="1204" selection-start-column="0" selection-end-line="1204" selection-end-column="0" />
-          <folding>
-            <element signature="e#26#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="554">
@@ -1259,12 +1248,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data/CUHK02/P1/short_image_names_file.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="885">
+          <caret line="59" column="36" lean-forward="false" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/priming.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1198">
-          <caret line="171" column="33" lean-forward="false" selection-start-line="171" selection-start-column="33" selection-end-line="171" selection-end-column="33" />
+        <state relative-caret-position="808">
+          <caret line="133" column="61" lean-forward="false" selection-start-line="133" selection-start-column="61" selection-end-line="133" selection-end-column="61" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="928">
+          <caret line="1218" column="26" lean-forward="false" selection-start-line="1218" selection-start-column="26" selection-end-line="1218" selection-end-column="26" />
+          <folding>
+            <element signature="e#26#57#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -131,7 +131,7 @@ def main(adjustable):
                 prime_labels = np.ones(training_instances, dtype=int)
                 prime_labels = keras.utils.to_categorical(prime_labels, pc.NUM_CLASSES)
 
-                model = load_model('scn_86_model.h5')
+                model = load_model(adjustable.load_model_name)
                 model.fit([prime_train[0], prime_train[:, 1]], prime_labels,
                           batch_size=adjustable.batch_size,
                           epochs=adjustable.prime_epochs,

@@ -2,6 +2,7 @@
 import siamese_cnn_clean as scn
 import sys
 from project_variables import ProjectVariable
+import priming as prime
 import os
 
 #
@@ -1202,7 +1203,11 @@ def thing():
 
 
 def experiment_priming():
-
+    a = ProjectVariable()
+    a.experiment_name = 'debugging priming'
+    a.priming = True
+    a.load_model_name = 'scn_86_model.h5'
+    prime.main(a)
 
 
 def main():
@@ -1210,7 +1215,7 @@ def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '86':
-        experiment_86()
+    if num == 'prime':
+        experiment_priming()
 
 main()
