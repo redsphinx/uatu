@@ -1086,7 +1086,6 @@ def my_join(list_strings):
     awesome_string = ''
     for item in list_strings:
         awesome_string += item
-
     return awesome_string
 
 

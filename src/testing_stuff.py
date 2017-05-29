@@ -16,7 +16,9 @@ from imblearn.datasets import make_imbalance
 import sys
 import time
 from scipy import ndimage
-
+import matplotlib.pyplot as plt
+from skimage.util import random_noise
+from matplotlib.image import imsave
 
 def test_data_pipeline():
     path = '/home/gabi/Documents/datasets/humans/1/per00001.jpg'
@@ -313,5 +315,10 @@ def get_names():
     print('asdf')
 
 
-# dict_to_h5()
-get_names()
+def noise():
+    the_image = ndimage.imread('/home/gabi/Documents/datasets/INRIAPerson/train_64x128_H96/real_cropped_images_pos/crop001001a.png')
+    image_2 = random_noise(the_image)
+
+    imsave('crap.png', image_2)
+
+    return image_2

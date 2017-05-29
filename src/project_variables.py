@@ -15,10 +15,8 @@ class ProjectVariable(object):
         self._numfil = 2  # int
         # the type of siamese head to implement. choice of: 'simple', 'batch_normalized'
         self._head_type = 'batch_normalized'# string
-        # use weights transferred from pre-trained CNN. choice of: True, False
-        self._transfer_weights = False  # bool
-        # the names of the weights to use for transfer
-        self._cnn_weights_name = None  # string
+        # name of a weights h5 file to initialize the siamese head weights with trained weights from h5 file.
+        self._weights_name = None  # string
         # use cyclical learning rate. choice of: True, False
         self._use_cyclical_learning_rate = True  # bool
         # the lower bound for the CLR
@@ -31,6 +29,8 @@ class ProjectVariable(object):
         self._epochs = 30  # int
         # save the weights of the scnn. choice of: True, False
         self._scnn_save_weights_name = None  # string
+        # save scn as a model. choice of: True, False
+        self._scnn_save_model_name = None  # string
         # number of times to repeat experiment
         self._iterations = 5  # int
         # the experiment name
@@ -52,6 +52,12 @@ class ProjectVariable(object):
         self._pooling_type = 'max_pooling'
         # the datasets to load. choice of: 'viper', 'cuhk01', 'cuhk02', 'market', 'grid', 'prid450', 'caviar'
         self._datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
+        # indicate if we wish to prime the network
+        self._priming = False
+        # for how many epochs we want to train on the priming train set
+        self._prime_epochs = 10
+        # name of the model that we want to load
+        self._load_model_name = None
 
     @property
     def use_gpu(self):
@@ -115,14 +121,14 @@ class ProjectVariable(object):
     def transfer_weights(self, value):
         self._transfer_weights = value
         
-    # self._cnn_weights_name = None  # string
+    # self._weights_name = None  # string
     @property
-    def cnn_weights_name(self):
-        return self._cnn_weights_name
+    def weights_name(self):
+        return self._weights_name
 
-    @cnn_weights_name.setter
-    def cnn_weights_name(self, value):
-        self._cnn_weights_name = value
+    @weights_name.setter
+    def weights_name(self, value):
+        self._weights_name = value
         
     # self._use_cyclical_learning_rate = None  # bool
     @property
@@ -177,7 +183,16 @@ class ProjectVariable(object):
     @scnn_save_weights_name.setter
     def scnn_save_weights_name(self, value):
         self._scnn_save_weights_name = value
-        
+
+    # self._scnn_save_model_name = None  # string
+    @property
+    def scnn_save_model_name(self):
+        return self._scnn_save_model_name
+
+    @scnn_save_model_name.setter
+    def scnn_save_model_name(self, value):
+        self._scnn_save_model_name = value
+
     # self._iterations = None  # int
     @property
     def iterations(self):
@@ -269,3 +284,30 @@ class ProjectVariable(object):
         if value == 'all':
             value = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
         self._datasets = value
+
+    # self._priming = False  # bool
+    @property
+    def priming(self):
+        return self._priming
+
+    @priming.setter
+    def priming(self, value):
+        self._priming = value
+
+    # self._prime_epoch = 10  # int
+    @property
+    def prime_epoch(self):
+        return self._prime_epoch
+
+    @prime_epoch.setter
+    def prime_epoch(self, value):
+        self._prime_epoch = value
+
+    # self._load_model_name = 10  # int
+    @property
+    def load_model_name(self):
+        return self._load_model_name
+
+    @load_model_name.setter
+    def load_model_name(self, value):
+        self._load_model_name = value

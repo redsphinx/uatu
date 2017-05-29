@@ -53,14 +53,18 @@ def create_cost_module(inputs, adjustable):
         else:
             features = None
 
-        dense_layer = Dense(adjustable.neural_distance_layers[0])(features)
+        dense_layer = Dense(adjustable.neural_distance_layers[0], name='dense_1')(features)
         activation = Activation(adjustable.activation_function)(dense_layer)
         dropout_layer = Dropout(pc.DROPOUT)(activation)
-        dense_layer = Dense(adjustable.neural_distance_layers[1])(dropout_layer)
+        dense_layer = Dense(adjustable.neural_distance_layers[1], name='dense_2')(dropout_layer)
         activation = Activation(adjustable.activation_function)(dense_layer)
         dropout_layer = Dropout(pc.DROPOUT)(activation)
-        output_layer = Dense(pc.NUM_CLASSES)(dropout_layer)
+        output_layer = Dense(pc.NUM_CLASSES, name='ouput')(dropout_layer)
         softmax = Activation('softmax')(output_layer)
+
+        if not adjustable.weights_name == None:
+            softmax.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.weights_name), by_name=True)
+
         return softmax
 
     elif adjustable.cost_module_type == 'euclidean':
@@ -118,8 +122,8 @@ def create_siamese_head(adjustable):
         model.add(BatchNormalization(name='bn_7', trainable=adjustable.trainable))
     model.add(Flatten(name='cnn_flat'))
 
-    if adjustable.transfer_weights == True:
-        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.cnn_weights_name), by_name=True)
+    if not adjustable.weights_name == None:
+        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.weights_name), by_name=True)
 
     return model
 
@@ -138,6 +142,7 @@ def create_siamese_network(adjustable):
 
     distance = create_cost_module([processed_a, processed_b], adjustable)
     model = Model([input_a, input_b], distance)
+
     return model
 
 
@@ -214,7 +219,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
                 ranking for each dataset
     """
-# coming SOON ---> NEW VERSION OF DATALOADING <---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
     model = create_siamese_network(adjustable)
 
     if adjustable.cost_module_type == 'neural_network':
@@ -225,6 +229,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         model.compile(loss=contrastive_loss, optimizer=rms)
 
     for epoch in range(adjustable.epochs):
+        print('epoch %d/%d' % (epoch, adjustable.epochs))
         # sample from the big set of negative training instances
         random.shuffle(merged_training_neg)
         training_neg_sample = merged_training_neg[0:len(merged_training_pos)]
@@ -234,62 +239,11 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         random.shuffle(final_training_data)
 
-        # final_training_labels = []
-        # for item in range(len(final_training_data)):
-        #     val1 = final_training_data[item]
-        #     val2 = val1.strip()
-        #     val3 = val2.split(',')
-        #     val4 = val3[-1]
-        #     final_training_labels.append(val4)
-
-
         final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in range(len(final_training_data))]
         final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
         train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
 
-# coming SOON ---> NEW VERSION OF DATALOADING <---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
-
-# in the process of getting deprecated ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
-#     total_data_list, validation, test = ddl.get_data_scnn(adjustable)
-#     total_data_list_pos, total_data_list_neg = total_data_list
-#     validation_data, validation_labels = validation
-#
-#     model = create_siamese_network(adjustable)
-#
-#     slice_size = 5000
-#     train_data_size = 2 * min(len(total_data_list_pos), len(total_data_list_neg))
-#     num_steps_per_epoch = np.ceil(train_data_size * 1.0 / slice_size).astype(int)
-#
-#     num_validations_per_epoch = 1  # note: must be at least 1
-#     if num_validations_per_epoch > num_steps_per_epoch: num_validations_per_epoch = num_steps_per_epoch
-#     validation_interval = np.floor(num_steps_per_epoch / num_validations_per_epoch).astype(int)
-#
-#     if adjustable.cost_module_type == 'neural_network':
-#         nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-#         model.compile(loss='categorical_crossentropy', optimizer=nadam, metrics=['accuracy'])
-#     elif adjustable.cost_module_type == 'euclidean':
-#         rms = keras.optimizers.RMSprop()
-#         model.compile(loss=contrastive_loss, optimizer=rms)
-#
-#     for epoch in range(adjustable.epochs):
-#         print('------EPOCH: %d' % epoch)
-#         slice_size_queue = ddl.make_slice_queue(train_data_size, slice_size)
-#         total_train_data_list = ddl.make_train_batches(total_data_list_pos, total_data_list_neg, data_type='images')
-#         for step in range(num_steps_per_epoch):
-#             train_data_list = total_train_data_list[step * slice_size: step * slice_size + slice_size_queue[step]]
-#
-#             train_data, train_labels = ddl.load_in_array(adjustable, data_list=train_data_list,
-#                                                          heads=2,
-#                                                          data_type='images')
-#
-#             train_network(adjustable, model=model, step=step, validation_interval=validation_interval, train_data=train_data,
-#                           train_labels=train_labels, validation_data=validation_data,
-#                           validation_labels=validation_labels)
-# in the process of getting deprecated ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~```
-
-    # test_sets = len(test) / 3
-    # test_sets = len(adjustable.datasets)
     confusion_matrices = []
     ranking_matrices = []
     names = []
@@ -303,7 +257,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
         test_data = np.asarray(test_data)
 
-		# make a record of the ranking selection for each dataset
+        # make a record of the ranking selection for each dataset
         # for priming
         if not adjustable.scnn_save_weights_name == None:
             file_name = '%s_ranking.txt' % name
@@ -311,24 +265,8 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                 for item in this_ranking:
                     my_file.write(item)
 
-        # final_testing_labels = []
-        #
-        # for item in range(len(this_ranking)):
-        #     val1 = this_ranking[item]
-        #     val2 = val1.strip()
-        #     val3 = val2.split(',')[-1]
-        #     final_testing_labels.append(val3)
-
-
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
-
         final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
-
-        t1 = test_data[0, :]
-        t2 = test_data[1, :]
-
-        t1_1 = test_data[:, 0]
-        t2_2 = test_data[:, 1]
 
         predictions = model.predict([test_data[0, :], test_data[1, :]])
 
@@ -351,6 +289,9 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
     if not adjustable.scnn_save_weights_name == None:
         model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.scnn_save_weights_name))
+
+    if not adjustable.scnn_save_model_name == None:
+        model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.scnn_save_model_name))
 
     del model
     return names, confusion_matrices, ranking_matrices

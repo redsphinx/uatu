@@ -1177,7 +1177,7 @@ def experiment_85_6():
 
 def experiment_86():
     a = ProjectVariable()
-    a.experiment_name = '86. saving weights for priming'
+    a.experiment_name = '86. saving the model for priming'
     a.activation_function = 'elu'
     a.cl_min = 0.00005
     a.cl_max = 0.001
@@ -1185,7 +1185,7 @@ def experiment_86():
     a.epochs = 100
     a.batch_size = 32
     a.iterations = 1
-    a.scnn_save_weights_name = 'scn_86_weights.h5'
+    a.scnn_save_model_name = 'scn_86_model.h5'
     scn.super_main(a)
 
 

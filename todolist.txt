@@ -31,6 +31,31 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+29 may
+------
+. start create methods for priming
+.. in siamese_cnn_clean write method to load from saved weights
+.. in project_data_handling and dynamic_data_loading to load the correct identities 
+.. in siamese_cnn_clean to train on the selected identities
+.. put options to use augmented data or not
+
+
+. DONE write email to payens
+. start implement normalization of images: 0-255 to 0-1
+. start fixing code for other distance metrics: 
+.. pu.make_confusion_matrix()
+.. pu.calculate_CMC()
+. start implementing different distance metrics to compare with 'neural distance':
+.. euclidean
+.. cosine distance metric
+.. KISSME(keep it simple and straightforward metric): https://lrs.icg.tugraz.at/research/kissme/paper/lrs_icg_koestinger_cvpr_2012.pdf
+.. [RELEVANT] deep hybrid similarity learning: https://arxiv.org/pdf/1702.04858.pdf
+.. [optional] MFA (marginal fisher analysis): http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4337772
+.. [optional] RankSVM: https://arxiv.org/pdf/1701.06351.pdf
+. start implementation for different max pooling sizes
+.. this means different number of conv layers
+. start modify network for video
+
 
 22 may
 ------
@@ -45,13 +70,9 @@ Second phase: Improve the prototype in experiment cycles
 .. [RELEVANT] deep hybrid similarity learning: https://arxiv.org/pdf/1702.04858.pdf
 .. [optional] MFA (marginal fisher analysis): http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4337772
 .. [optional] RankSVM: https://arxiv.org/pdf/1701.06351.pdf
-
 . start implementation for different max pooling sizes
 .. this means different number of conv layers
-
 . start create methods for priming
-
-
 . start modify network for video
 
 

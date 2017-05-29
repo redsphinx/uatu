@@ -522,8 +522,8 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
 
 def grab_em_by_the_keys(key_list, h5_dataset_list):
     """ Returns a training set
-    :param key_list:
-    :param key_dataset_mapping:
+    :param key_list:                list of keys
+    :param key_dataset_mapping:     list of the participating h5 datasets
     :return:
     """
     # create mapping from keys to dataset
@@ -544,3 +544,34 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
     return values_key_1, values_key_2
 
 
+def get_related_keys(name_dataset, partition, id, seen_list):
+    """Gets a list of related keys based on the id you are looking for
+    :param name_dataset:
+    :param partition:
+    :param id:
+    :param seen_list:
+    :return:
+    """
+
+    # note: `partition` is only applicable for CUHK02
+    if name_dataset == 'cuhk02':
+        all_partition_ids_in_order = list(np.genfromtxt('../data/CUHK02/%s/id_all_file.txt' % partition, dtype=None))
+        indices_matching_id = [item for item in range(len(all_partition_ids_in_order)) if all_partition_ids_in_order[item] == id]
+
+        all_image_names = list(np.genfromtxt('../data/CUHK02/%s/short_image_names_file.txt' % partition, dtype=None))
+        image_names_matching_id = [all_image_names[item] for item in indices_matching_id]
+        indices_seen_image = [image_names_matching_id.index(im) for im in seen_list for name in image_names_matching_id if im == name]
+
+        updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if item not in indices_seen_image]
+
+        all_partition_keys_in_order = list(np.genfromtxt('../data/CUHK02/%s/fullpath_image_names_file.txt' % partition, dtype=None))
+        keys = [all_partition_keys_in_order[item] for item in updated_indices]
+    elif name_dataset == 'market':
+        all_ids_in_order = list(np.genfromtxt('../data/market/id_all_file.txt', dtype=None))
+        indices_matching_id = [item for item in range(len(all_ids_in_order)) if all_ids_in_order[item] == id]
+        all_keys_in_order = list(np.genfromtxt('../data/market/fullpath_image_names_file.txt', dtype=None))
+        keys = [all_keys_in_order[item] for item in indices_matching_id]
+    else:
+        keys = None
+
+    return keys
