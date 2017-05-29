@@ -996,6 +996,7 @@ def experiment_72():
     a.activation_function = 'elu'
     a.pooling_size = [[4, 2], [2, 2]]
     a.neural_distance_layers = (256, 128)
+    scn.super_main(a)
 
 
 def experiment_73():
@@ -1004,6 +1005,189 @@ def experiment_73():
     a.pooling_type = 'avg_pooling'
     a.activation_function = 'elu'
     a.pooling_size = [[4, 2], [2, 2]]
+    scn.super_main(a)
+
+
+def experiment_74():
+    a = ProjectVariable()
+    a.experiment_name = '74. no cyclical learning rate'
+    a.activation_function = 'elu'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+    
+
+def experiment_75():
+    a = ProjectVariable()
+    a.experiment_name = '75. combo: elu + dif pooling size'
+    a.activation_function = 'elu'
+    a.pooling_size = [[4, 2], [2, 2]]
+    scn.super_main(a)
+
+
+def experiment_76():
+    a = ProjectVariable()
+    a.experiment_name = '76. combo: elu + numfil=1'
+    a.activation_function = 'elu'
+    a.numfil = 1
+    scn.super_main(a)
+
+
+def experiment_77():
+    a = ProjectVariable()
+    a.experiment_name = '77. combo: elu + no BN'
+    a.activation_function = 'elu'
+    a.head_type = 'simple'
+    scn.super_main(a)
+
+
+def experiment_78():
+    a = ProjectVariable()
+    a.experiment_name = '78. combo: elu + CLR min=0.00005, max=0.0005'
+    a.activation_function = 'elu'
+    scn.super_main(a)
+
+
+def experiment_78_2():
+    a = ProjectVariable()
+    a.experiment_name = '78_2. elu + CLR min=0.00005, max=0.0005'
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.0005
+    scn.super_main(a)
+
+
+def experiment_79():
+    a = ProjectVariable()
+    a.experiment_name = '79. elu + avg pooling'
+    a.activation_function = 'elu'
+    a.pooling_type = 'avg_pooling'
+    scn.super_main(a)
+
+def experiment_80():
+    a = ProjectVariable()
+    a.experiment_name = '80. elu + avg pooling + CLR min=0.00005, max=0.0005'
+    a.activation_function = 'elu'
+    a.pooling_type = 'avg_pooling'
+    a.cl_min = 0.00005
+    a.cl_max = 0.0005
+    scn.super_main(a)
+
+
+def experiment_81():
+    a = ProjectVariable()
+    a.experiment_name = '81. elu + avg pooling + pooling size [[4,2],[2,2]]'
+    a.activation_function = 'elu'
+    a.pooling_type = 'avg_pooling'
+    a.pooling_size = [[4,2],[2,2]]
+    scn.super_main(a)
+
+
+def experiment_82():
+    a = ProjectVariable()
+    a.experiment_name = '82. elu + neural distance layer: (128, 256)'
+    a.activation_function = 'elu'
+    a.neural_distance_layers = (128, 256)
+    scn.super_main(a)
+
+
+def experiment_83():
+    a = ProjectVariable()
+    a.experiment_name = '83. elu + numfil=1 + pooling size [[4,2],[2,2]]'
+    a.activation_function = 'elu'
+    a.pooling_size = [[4,2],[2,2]]
+    a.numfil = 1
+    scn.super_main(a)
+
+
+def experiment_84():
+    a = ProjectVariable()
+    a.experiment_name = '84. elu + numfil=1 + neural distance layer: (128, 256)'
+    a.activation_function = 'elu'
+    a.neural_distance_layers = (128, 256)
+    a.numfil = 1
+    scn.super_main(a)
+
+
+def experiment_85():
+    a = ProjectVariable()
+    a.experiment_name = '85. elu + CLR min=0.00005 max=0.0005 + test=100'
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.0005
+    a.datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450']
+    scn.super_main(a)
+
+
+
+def experiment_85_2():
+    a = ProjectVariable()
+    a.experiment_name = '85_2. elu + CLR min=0.00005 max=0.0005 + test=100 + epoch=60'
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.0005
+    a.datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450']
+    a.epochs = 60
+    scn.super_main(a)
+
+def experiment_85_3():
+    a = ProjectVariable()
+    a.experiment_name = '85_3. elu + CLR min=0.00005 max=0.0005 + test=100 + epoch=100'
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.0005
+    a.datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450']
+    a.epochs = 100
+    scn.super_main(a)
+
+
+def experiment_85_4():
+    a = ProjectVariable()
+    a.experiment_name = '85_4. elu + CLR min=0.00005 max=0.0005 + test=100 + epoch=100'
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.0005
+    a.datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450']
+    a.epochs = 100
+    a.batch_size = 32
+    scn.super_main(a)
+
+
+def experiment_85_5():
+    a = ProjectVariable()
+    a.experiment_name = '85_5. elu + CLR min=0.00005 max=0.001 + test=100 + epoch=100'
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450']
+    a.epochs = 100
+    a.batch_size = 32
+    scn.super_main(a)
+
+def experiment_85_6():
+    a = ProjectVariable()
+    a.experiment_name = '85_6. elu + CLR min=0.0001 max=0.001 + test=100 + epoch=100'
+    a.activation_function = 'elu'
+    a.cl_min = 0.0001
+    a.cl_max = 0.001
+    a.datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450']
+    a.epochs = 100
+    a.batch_size = 32
+    scn.super_main(a)
+
+
+def experiment_86():
+    a = ProjectVariable()
+    a.experiment_name = '86. saving weights for priming'
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450']
+    a.epochs = 100
+    a.batch_size = 32
+    a.iterations = 1
+    a.scnn_save_weights_name = 'scn_86_weights.h5'
+    scn.super_main(a)
+
 
 def experishit(test_number):
     a = ProjectVariable()
@@ -1023,45 +1207,7 @@ def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '72':
-        experiment_72()
-    elif num == '73':
-        experiment_73()
-
-    # if num == '57':
-        # experiment_57()
-    # elif num == '58':
-    #     experiment_58()
-    # elif num == '59':
-    #     experiment_59()
-    # elif num == '60':
-    #     experiment_60()
-    # elif num == '61':
-    #     experiment_61()
-    # elif num == '62':
-        # experiment_62()
-    # elif num == '62_2':
-        # experiment_62_2()
-    # if num == '62_3':
-    #     experiment_62_3()
-    # elif num == '63':
-    #     experiment_63()
-    # elif num == '64':
-    #     experiment_64()
-    # elif num == '65':
-    #     experiment_65()
-    # elif num == '66':
-    #     experiment_66()
-    # elif num == '67':
-    #     experiment_67()
-    # elif num == '68':
-    #     experiment_68()
-    # elif num == '69':
-    #     experiment_69()
-    # elif num == '70':
-    #     experiment_70()
-    # elif num == '71':
-    #     experiment_71()
-    # experiment_57()
+    if num == '86':
+        experiment_86()
 
 main()

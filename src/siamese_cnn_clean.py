@@ -200,6 +200,7 @@ def train_network_light(adjustable, model, final_training_data, final_training_l
                   callbacks=[clr])
     else:
         train_data = ddl.grab_em_by_the_keys(final_training_data, h5_data_list)
+        train_data = np.asarray(train_data)
 
         model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
                   batch_size=adjustable.batch_size,
@@ -301,6 +302,14 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         this_ranking = all_ranking[dataset]
         test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
         test_data = np.asarray(test_data)
+
+		# make a record of the ranking selection for each dataset
+        # for priming
+        if not adjustable.scnn_save_weights_name == None:
+            file_name = '%s_ranking.txt' % name
+            with open(file_name, 'w') as my_file:
+                for item in this_ranking:
+                    my_file.write(item)
 
         # final_testing_labels = []
         #
