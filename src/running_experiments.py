@@ -1178,7 +1178,7 @@ def experiment_85_6():
 
 def experiment_86():
     a = ProjectVariable()
-    a.experiment_name = '86. saving the model for priming'
+    a.experiment_name = '86. saving the model for priming, rankingnumber=20'
     a.activation_function = 'elu'
     a.cl_min = 0.00005
     a.cl_max = 0.001
@@ -1186,7 +1186,8 @@ def experiment_86():
     a.epochs = 100
     a.batch_size = 32
     a.iterations = 1
-    a.scnn_save_model_name = 'scn_86_model.h5'
+    a.scnn_save_model_name = 'scn_86_model_20.h5'
+    a.scnn_save_weights_name = 'scn_86_weights_20'
     scn.super_main(a)
 
 
@@ -1206,16 +1207,18 @@ def experiment_priming():
     a = ProjectVariable()
     a.experiment_name = 'debugging priming'
     a.priming = True
-    a.load_model_name = 'scn_86_model.h5'
+    a.load_model_name = 'scn_86_model_20.h5'
+    a.load_weights_name = 'scn_86_weights_20.h5'
     prime.main(a)
 
 
 def main():
     # TODO run these experiments
-    num = sys.argv[1]
-    print(sys.argv)
-
-    if num == 'prime':
-        experiment_priming()
-
+    # num = sys.argv[1]
+    # print(sys.argv)
+    #
+    # if num == 'prime':
+    #     experiment_priming()
+    # experiment_priming()
+    experiment_86()
 main()

@@ -39,6 +39,25 @@ Second phase: Improve the prototype in experiment cycles
 .. in siamese_cnn_clean to train on the selected identities
 .. put options to use augmented data or not
 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+HOW PRIMING WORKS
+
+First we train a SCN on the training set. 
+We separate the test cases (the identities) and save these to a file. 
+After training we save the weights of this SCN.
+
+Then for each ID we train the network again, in addition to the previous training, on a very select subset of training images.
+This training subset we will call the prime-train. 
+After the SCN is trained on the prime-train, we stop training and we do a forward pass, getting the CMC ranking for that particular ID.
+
+Then we initiate the network with the original trained network.
+We repeat the process above for all IDs until we have the complete CMC ranking matrix.
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
 . DONE write email to payens
 . start implement normalization of images: 0-255 to 0-1

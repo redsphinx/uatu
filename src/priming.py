@@ -12,6 +12,7 @@ from skimage.util import random_noise
 from matplotlib.image import imsave
 from itertools import combinations
 import time
+import matplotlib.pyplot as plt
 
 
 def zoom(image):
@@ -45,11 +46,13 @@ def flip(image):
 def create_and_save_augmented_images(keys, the_id):
     # augments data. saves data
     path = '../data/CUHK02/augmented/%s' % the_id
-    if not os.path.exists(path): os.mkdir(path)
+    # if not os.path.exists(path): os.mkdir(path)
+    if not os.path.exists(path): os.makedirs(path)
 
     for item in keys:
         image = Image.open(item)
         name_bare = item.strip().split('/')[-1].split('.')[0]
+
         name_original = os.path.join(path, name_bare + '_original.png')
         image.save(name_original)
 
@@ -71,20 +74,15 @@ def create_and_save_augmented_images(keys, the_id):
 
 
 def load_augmented_images(list_augmented_images):
-    combos = combinations(list_augmented_images, 2)
+    combos = list(combinations(list_augmented_images, 2))
 
-    len_combos = 0
-    for item in combos: len_combos += 1
+    data = np.zeros((len(combos), 2, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, 3))
 
-    data = np.zeros((len_combos, 2, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, 3))
-
-    i = 0
-    for comb in combos:
-        image_1 = ndimage.imread(comb[0])
-        image_2 = ndimage.imread(comb[1])
-        data[i][0] = image_1
-        data[i][1] = image_2
-        i += 1
+    for comb in range(len(combos)):
+        image_1 = ndimage.imread(combos[comb][0])
+        image_2 = ndimage.imread(combos[comb][1])
+        data[comb][0] = image_1[:, :, 0:3]
+        data[comb][1] = image_2[:, :, 0:3]
 
     return data
 
@@ -100,26 +98,34 @@ def main(adjustable):
     confusion_matrices = []
     ranking_matrices = []
 
+    path = os.path.join('../model_weights', adjustable.load_model_name)
+    os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
+    model = load_model(path)
+
     for item in range(len(all_ranking)):
         name = names[item]
         this_ranking = all_ranking[item]
 
         if name == 'cuhk02':
-            full_predictions = []
+            full_predictions = np.zeros((len(this_ranking), 2))
             h5_dataset = ddl.load_datasets_from_h5(['cuhk02'])
 
             for id in range(pc.RANKING_NUMBER):
+                print('ID %d/%d' % (id, pc.RANKING_NUMBER))
                 matching_index = id * pc.RANKING_NUMBER + id
                 partition = this_ranking[matching_index].strip().split(',')[0].split('+')[-3]
                 image_1 = this_ranking[matching_index].strip().split(',')[0].split('+')[-1]
                 image_2 = this_ranking[matching_index].strip().split(',')[1].split('+')[-1]
                 seen = [image_1, image_2]
-                the_id = pd.my_join(list(image_1)[0:5])
-
+                the_id = pd.my_join(list(image_1)[0:4])
 
                 list_related_keys = ddl.get_related_keys(name, partition, the_id, seen)
                 path = '../data/CUHK02/augmented/%s' % the_id
-                if not os.path.exists(path):
+
+                if os.path.exists(path):
+                    if len(os.listdir(path)) == 0:
+                        create_and_save_augmented_images(list_related_keys, the_id)
+                else:
                     create_and_save_augmented_images(list_related_keys, the_id)
 
                 list_augmented_images = os.listdir(path)
@@ -131,8 +137,10 @@ def main(adjustable):
                 prime_labels = np.ones(training_instances, dtype=int)
                 prime_labels = keras.utils.to_categorical(prime_labels, pc.NUM_CLASSES)
 
-                model = load_model(adjustable.load_model_name)
-                model.fit([prime_train[0], prime_train[:, 1]], prime_labels,
+                weight_path = os.path.join('../model_weights', adjustable.load_weights_name)
+                model.load_weights(weight_path)
+
+                model.fit([prime_train[:, 0], prime_train[:, 1]], prime_labels,
                           batch_size=adjustable.batch_size,
                           epochs=adjustable.prime_epochs,
                           verbose=2)
@@ -141,8 +149,10 @@ def main(adjustable):
                 part_ranking = this_ranking[id * pc.RANKING_NUMBER:(id + 1) * pc.RANKING_NUMBER]
                 test_data = ddl.grab_em_by_the_keys(part_ranking, h5_dataset)
 
-                part_prediction = model.predict([test_data[0, :], test_data[1, :]])
-                full_predictions += part_prediction
+                test_data = np.asarray(test_data)
+
+                part_prediction = model.predict([test_data[0], test_data[1]])
+                full_predictions[id * pc.RANKING_NUMBER:(id+1)*pc.RANKING_NUMBER] = part_prediction
 
 
             # putting it all together

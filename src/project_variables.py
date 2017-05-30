@@ -16,6 +16,7 @@ class ProjectVariable(object):
         # the type of siamese head to implement. choice of: 'simple', 'batch_normalized'
         self._head_type = 'batch_normalized'# string
         # name of a weights h5 file to initialize the siamese head weights with trained weights from h5 file.
+        # note: this is only for the siamese heads
         self._weights_name = None  # string
         # use cyclical learning rate. choice of: True, False
         self._use_cyclical_learning_rate = True  # bool
@@ -57,7 +58,10 @@ class ProjectVariable(object):
         # for how many epochs we want to train on the priming train set
         self._prime_epochs = 10
         # name of the model that we want to load
-        self._load_model_name = None
+        self._load_model_name = None # string
+        # name of the weights that we want to load.
+        # note: this is for the entire network
+        self._load_weights_name = None # string
 
     @property
     def use_gpu(self):
@@ -294,16 +298,16 @@ class ProjectVariable(object):
     def priming(self, value):
         self._priming = value
 
-    # self._prime_epoch = 10  # int
+    # self._prime_epochs = 10  # int
     @property
-    def prime_epoch(self):
-        return self._prime_epoch
+    def prime_epochs(self):
+        return self._prime_epochs
 
-    @prime_epoch.setter
-    def prime_epoch(self, value):
-        self._prime_epoch = value
+    @prime_epochs.setter
+    def prime_epochs(self, value):
+        self._prime_epochs = value
 
-    # self._load_model_name = 10  # int
+    # self._load_model_name = None  # string
     @property
     def load_model_name(self):
         return self._load_model_name
@@ -311,3 +315,12 @@ class ProjectVariable(object):
     @load_model_name.setter
     def load_model_name(self, value):
         self._load_model_name = value
+
+    # self._load_weights_name = None  # string
+    @property
+    def load_weights_name(self):
+        return self._load_weights_name
+
+    @load_weights_name.setter
+    def load_weights_name(self, value):
+        self._load_weights_name = value

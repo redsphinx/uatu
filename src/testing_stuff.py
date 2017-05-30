@@ -317,8 +317,25 @@ def get_names():
 
 def noise():
     the_image = ndimage.imread('/home/gabi/Documents/datasets/INRIAPerson/train_64x128_H96/real_cropped_images_pos/crop001001a.png')
+
+    the_image_2 = the_image[:, :, 0:3]
+
     image_2 = random_noise(the_image)
 
-    imsave('crap.png', image_2)
+    image_2_2 = random_noise(the_image_2)
+
+    # plt.imshow(image_2)
+    # plt.imshow(image_2_2)
+
+    imsave('crap.png', image_2_2)
 
     return image_2
+
+
+def load_image():
+    the_image = ndimage.imread('crap.png')
+
+    new_image = the_image[:, :, 0:3]
+
+    plt.imshow(new_image)
+    print('asdf')
