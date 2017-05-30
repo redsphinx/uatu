@@ -556,21 +556,50 @@ def get_related_keys(name_dataset, partition, id, seen_list):
     # note: `partition` is only applicable for CUHK02
     if name_dataset == 'cuhk02':
         all_partition_ids_in_order = list(np.genfromtxt('../data/CUHK02/%s/id_all_file.txt' % partition, dtype=None))
-        indices_matching_id = [item for item in range(len(all_partition_ids_in_order)) if all_partition_ids_in_order[item] == id]
+        indices_matching_id = [item for item in range(len(all_partition_ids_in_order)) if
+                               all_partition_ids_in_order[item] == id]
 
         all_image_names = list(np.genfromtxt('../data/CUHK02/%s/short_image_names_file.txt' % partition, dtype=None))
         image_names_matching_id = [all_image_names[item] for item in indices_matching_id]
-        indices_seen_image = [image_names_matching_id.index(im) for im in seen_list for name in image_names_matching_id if im == name]
+        indices_seen_image = [image_names_matching_id.index(im) for im in seen_list for name in image_names_matching_id
+                              if im == name]
 
-        updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if item not in indices_seen_image]
+        # todo testing something -> the probe is in
+        updated_indices_seen = [indices_seen_image[-1]]
 
-        all_partition_keys_in_order = list(np.genfromtxt('../data/CUHK02/%s/fullpath_image_names_file.txt' % partition, dtype=None))
+        # updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
+        #                    item not in indices_seen_image]
+        updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
+                           item not in updated_indices_seen]
+
+
+        all_partition_keys_in_order = list(
+            np.genfromtxt('../data/CUHK02/%s/fullpath_image_names_file.txt' % partition, dtype=None))
         keys = [all_partition_keys_in_order[item] for item in updated_indices]
+        # TODO switch back
+        # keys = [all_partition_keys_in_order[item] for item in indices_seen_image]
     elif name_dataset == 'market':
-        all_ids_in_order = list(np.genfromtxt('../data/market/id_all_file.txt', dtype=None))
+        all_ids_in_order = list(np.genfromtxt('../data/market/id_all_file.txt', dtype=str))
         indices_matching_id = [item for item in range(len(all_ids_in_order)) if all_ids_in_order[item] == id]
+
+        all_image_names = list(np.genfromtxt('../data/market/short_image_names_file.txt', dtype=None))
+        image_names_matching_id = [all_image_names[item] for item in indices_matching_id]
+        indices_seen_image = [image_names_matching_id.index(im) for im in seen_list for name in image_names_matching_id
+                              if im == name]
+
+        updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
+                           item not in indices_seen_image]
+
+        # truncate list to 4 images -- for faster testing
+        # add the probe
+        probe = all_image_names.index(seen_list[0])
+        updated_indices = updated_indices[0:2]
+        updated_indices += [probe]
+
         all_keys_in_order = list(np.genfromtxt('../data/market/fullpath_image_names_file.txt', dtype=None))
-        keys = [all_keys_in_order[item] for item in indices_matching_id]
+        keys = [all_keys_in_order[item] for item in updated_indices]
+        # TODO switch back
+        # keys = [all_keys_in_order[item] for item in indices_seen_image]
     else:
         keys = None
 

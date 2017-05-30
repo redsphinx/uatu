@@ -37,7 +37,7 @@ Second phase: Improve the prototype in experiment cycles
 .. in siamese_cnn_clean write method to load from saved weights
 .. in project_data_handling and dynamic_data_loading to load the correct identities 
 .. in siamese_cnn_clean to train on the selected identities
-.. put options to use augmented data or not
+.. put options to use augmented data or not [DEFAULT]
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -1178,16 +1178,16 @@ def experiment_85_6():
 
 def experiment_86():
     a = ProjectVariable()
-    a.experiment_name = '86. saving the model for priming, rankingnumber=20'
+    a.experiment_name = '86. saving the model for priming, 40 epochs rankingnumber=20'
     a.activation_function = 'elu'
     a.cl_min = 0.00005
     a.cl_max = 0.001
     a.datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450']
-    a.epochs = 100
+    a.epochs = 40
     a.batch_size = 32
     a.iterations = 1
-    a.scnn_save_model_name = 'scn_86_model_20.h5'
-    a.scnn_save_weights_name = 'scn_86_weights_20.h5'
+    a.scnn_save_model_name = 'scn_86_model_20_40ep.h5'
+    a.scnn_save_weights_name = 'scn_86_weights_20_40ep.h5'
     scn.super_main(a)
 
 
@@ -1205,10 +1205,15 @@ def thing():
 
 def experiment_priming():
     a = ProjectVariable()
-    a.experiment_name = 'debugging priming'
+    a.experiment_name = 'debugging priming - clmin=0.00005 clmax=0.001 5 epoch '
     a.priming = True
-    a.load_model_name = 'scn_86_model_20.h5'
-    a.load_weights_name = 'scn_86_weights_20.h5'
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.load_model_name = 'scn_86_model_20_40ep.h5'
+    a.load_weights_name = 'scn_86_weights_20_40ep.h5'
+    a.prime_epochs = 5
+    a.batch_size = 1
     prime.main(a)
 
 
