@@ -1187,7 +1187,7 @@ def experiment_86():
     a.batch_size = 32
     a.iterations = 1
     a.scnn_save_model_name = 'scn_86_model_20.h5'
-    a.scnn_save_weights_name = 'scn_86_weights_20'
+    a.scnn_save_weights_name = 'scn_86_weights_20.h5'
     scn.super_main(a)
 
 
@@ -1219,6 +1219,9 @@ def main():
     #
     # if num == 'prime':
     #     experiment_priming()
-    # experiment_priming()
-    experiment_86()
+    experiment_priming()
+
+    # if num == '86':
+    #     experiment_86()
+
 main()
