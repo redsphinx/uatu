@@ -62,6 +62,9 @@ class ProjectVariable(object):
         # name of the weights that we want to load.
         # note: this is for the entire network
         self._load_weights_name = None # string
+        # for priming. if True, indicates to only test. if False, training will happen as well
+        self._only_test = False # bool
+
 
     @property
     def use_gpu(self):
@@ -324,3 +327,12 @@ class ProjectVariable(object):
     @load_weights_name.setter
     def load_weights_name(self, value):
         self._load_weights_name = value
+
+    # for priming. if True, indicates to only test. if False, training will happen as well
+    @property
+    def only_test(self):
+        return self._only_test
+
+    @only_test.setter
+    def only_test(self, value):
+        self._only_test = value

@@ -1217,6 +1217,14 @@ def experiment_priming():
     prime.main(a)
 
 
+def experiment_priming_only_test():
+    a = ProjectVariable()
+    a.experiment_name = 'debug priming rewrite: only testing'
+    a.priming = True
+    a.load_model_name = 'scn_86_model_20_40ep.h5'
+    a.only_test = True
+    prime.main(a)
+
 def main():
     # TODO run these experiments
     # num = sys.argv[1]
@@ -1225,6 +1233,7 @@ def main():
     # if num == 'prime':
     #     experiment_priming()
     experiment_priming()
+    # experiment_priming_only_test()
 
     # if num == '86':
     #     experiment_86()
