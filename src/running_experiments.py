@@ -1302,7 +1302,7 @@ def experiment_ds():
     a.activation_function = 'elu'
     a.cl_min = 0.00005
     a.cl_max = 0.001
-    a.datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450']
+    a.datasets = ['caviar', 'grid']
     a.epochs = 1
     a.batch_size = 32
     a.iterations = 1

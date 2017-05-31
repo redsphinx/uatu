@@ -65,7 +65,6 @@ class ProjectVariable(object):
         # for priming. if True, indicates to only test. if False, training will happen as well
         self._only_test = False # bool
 
-
     @property
     def use_gpu(self):
         return self._use_gpu
