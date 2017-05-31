@@ -8,6 +8,7 @@ class ProjectVariable(object):
         # the type of cost module. choice of: 'neural_network', 'euclidean'
         self._cost_module_type = 'neural_network'  # string
         # the operation to perform with the siamese head features. choice of: 'concatenate', 'add', 'multiply'
+        #                                                                     'subtract', 'divide', 'absolute'
         self._neural_distance = 'concatenate'  # string
         # make layers trainable. choice of: True, False
         self._trainable = True  # bool

@@ -56,6 +56,20 @@ def create_cost_module(inputs, adjustable):
     :param inputs:          list containing feature tensor from each siamese head
     :return:                some type of distance
     """
+
+    def subtract(x):
+        output = x[0] - x[1]
+        return output
+
+    def divide(x):
+        output = x[0] / x[1]
+        return output
+
+    def the_shape(shapes):
+        shape1, shape2 = shapes
+        a_shape = shape1
+        return a_shape
+
     if adjustable.cost_module_type == 'neural_network':
         if adjustable.neural_distance == 'concatenate':
             features = keras.layers.concatenate(inputs)
@@ -65,9 +79,9 @@ def create_cost_module(inputs, adjustable):
             features = keras.layers.multiply(inputs)
             # TODO: debug
         elif adjustable.neural_distance == 'subtract':
-            features = inputs[0] - inputs[1]
+            features = keras.layers.merge(inputs=inputs, mode=subtract, output_shape=the_shape)
         elif adjustable.neural_distance == 'divide':
-            features = inputs[0] / inputs[1]
+            features = keras.layers.merge(inputs=inputs, mode=divide, output_shape=the_shape)
         elif adjustable.neural_distance == 'absolute':
             features = abs(inputs[0] - inputs[1])
         else:
@@ -260,7 +274,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         random.shuffle(final_training_data)
 
-        # TODO: debug
         final_training_data = pu.sideways_shuffle(final_training_data)
 
         # TODO: debug

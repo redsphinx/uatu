@@ -1298,14 +1298,15 @@ def experiment_priming_only_test():
 
 def experiment_ds():
     a = ProjectVariable()
-    a.experiment_name = 'debugging  shuffle sideways'
+    a.experiment_name = 'debugging subtract'
     a.activation_function = 'elu'
     a.cl_min = 0.00005
     a.cl_max = 0.001
     a.datasets = ['caviar', 'grid']
-    a.epochs = 1
+    a.epochs = 20
     a.batch_size = 32
     a.iterations = 1
+    a.neural_distance = 'subtract'
     scn.super_main(a)
 
 def main():
