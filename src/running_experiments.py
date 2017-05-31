@@ -1298,7 +1298,7 @@ def experiment_priming_only_test():
 
 def experiment_ds():
     a = ProjectVariable()
-    a.experiment_name = 'debugging divide'
+    a.experiment_name = 'debugging absolute'
     a.activation_function = 'elu'
     a.cl_min = 0.00005
     a.cl_max = 0.001
@@ -1306,7 +1306,7 @@ def experiment_ds():
     a.epochs = 10
     a.batch_size = 32
     a.iterations = 1
-    a.neural_distance = 'divide'
+    a.neural_distance = 'absolute'
     scn.super_main(a)
 
 def main():

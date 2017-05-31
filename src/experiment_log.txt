@@ -4101,3 +4101,17 @@ grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
 grid mean ranking:        [0.2, 0.2, 0.6, 0.6, 1.0]
 grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0]
 
+
+name_of_experiment:         debugging absolute
+file_name:                  siamese_cnn_clean.py
+date:                       31/05/2017   18:57:46
+duration:                   66.349880
+caviar mean tp,fp,tn,fn:    [2.0, 10.0, 10.0, 3.0]
+caviar std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+caviar mean ranking:        [0.0, 0.2, 0.4, 1.0, 1.0]
+caviar std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0]
+grid mean tp,fp,tn,fn:    [5.0, 4.0, 16.0, 0.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.8, 1.0, 1.0, 1.0, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0]
+

@@ -65,6 +65,10 @@ def create_cost_module(inputs, adjustable):
         output = x[0] / x[1]
         return output
 
+    def absolute(x):
+        output = abs(x[0] - x[1])
+        return output
+
     def the_shape(shapes):
         shape1, shape2 = shapes
         a_shape = shape1
@@ -83,7 +87,7 @@ def create_cost_module(inputs, adjustable):
         elif adjustable.neural_distance == 'divide':
             features = keras.layers.merge(inputs=inputs, mode=divide, output_shape=the_shape)
         elif adjustable.neural_distance == 'absolute':
-            features = abs(inputs[0] - inputs[1])
+            features = keras.layers.merge(inputs=inputs, mode=absolute, output_shape=the_shape)
         else:
             features = None
 
