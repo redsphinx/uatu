@@ -77,18 +77,40 @@ def create_and_save_augmented_images(keys, the_id, name):
         # image_vertical_flip.save(name_flip)
 
 
+def is_match(comb):
+    i1 = comb[0]
+    i2 = comb[1]
+    key1 = i1.strip().split('/')[2]
+    key2 = i2.strip().split('/')[2]
+
+    if key1 == key2:
+        h1 = i1.strip().split('/')[-1].split('_')[0]
+        h2 = i2.strip().split('/')[-1].split('_')[0]
+        if h1 == h2:
+            return 1
+        else:
+            return 0
+    else:
+        return 0
+
+
 def load_augmented_images(list_augmented_images):
     combos = list(combinations(list_augmented_images, 2))
 
     data = np.zeros((len(combos), 2, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, 3))
+    labels = []
 
     for comb in range(len(combos)):
         image_1 = ndimage.imread(combos[comb][0])
         image_2 = ndimage.imread(combos[comb][1])
+
+        labels.append(is_match(combos[comb]))
+
         data[comb][0] = image_1[:, :, 0:3]
         data[comb][1] = image_2[:, :, 0:3]
 
-    return data
+    labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
+    return data, labels
 
 
 def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
@@ -100,19 +122,19 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
 
     for id in range(pc.RANKING_NUMBER):
         print('ID %d/%d' % (id, pc.RANKING_NUMBER))
-        matching_index = id * pc.RANKING_NUMBER + id
+        matching_pair_index = id * pc.RANKING_NUMBER + id
         if name == 'cuhk02':
-            partition = this_ranking[matching_index].strip().split(',')[0].split('+')[-3]
+            partition = this_ranking[matching_pair_index].strip().split(',')[0].split('+')[-3]
             folder_name = 'CUHK02'
         else:
             partition = None
             folder_name = 'market'
-        image_1 = this_ranking[matching_index].strip().split(',')[0].split('+')[-1]
-        image_2 = this_ranking[matching_index].strip().split(',')[1].split('+')[-1]
+        image_1 = this_ranking[matching_pair_index].strip().split(',')[0].split('+')[-1]
+        image_2 = this_ranking[matching_pair_index].strip().split(',')[1].split('+')[-1]
         seen = [image_1, image_2]
         the_id = pd.my_join(list(image_1)[0:4])
 
-        list_related_keys = ddl.get_related_keys(name, partition, the_id, seen)
+        list_related_keys = ddl.get_related_keys(name, partition, seen, this_ranking, the_id)
         path = '../data/%s/augmented/%s' % (folder_name, the_id)
 
         if os.path.exists(path):
@@ -121,14 +143,11 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         else:
             create_and_save_augmented_images(list_related_keys, the_id, name)
 
-        list_augmented_images = os.listdir(path)
-        list_augmented_images = [os.path.join(path, item) for item in list_augmented_images]
+        list_augmented_images_short = os.listdir(path)
+        list_augmented_images_long = [os.path.join(path, item) for item in list_augmented_images_short]
 
         # training
-        prime_train = load_augmented_images(list_augmented_images)
-        training_instances = len(prime_train[:, 0])
-        prime_labels = np.ones(training_instances, dtype=int)
-        prime_labels = keras.utils.to_categorical(prime_labels, pc.NUM_CLASSES)
+        prime_train, prime_labels = load_augmented_images(list_augmented_images_long)
 
         weight_path = os.path.join('../model_weights', adjustable.load_weights_name)
         model.load_weights(weight_path)
@@ -168,6 +187,9 @@ def main(adjustable):
 
     all_ranking = [cuhk02_ranking, market_ranking]
     names = ['cuhk02', 'market']
+
+    # all_ranking = [market_ranking, cuhk02_ranking]
+    # names = ['market', 'cuhk02']
     confusion_matrices = []
     ranking_matrices = []
 

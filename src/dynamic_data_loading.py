@@ -8,7 +8,9 @@ import h5py
 import time
 import os
 from project_variables import ProjectVariable as pv
-import project_data_handling as pdh
+import project_data_handling as pd
+from random import randint
+
 
 def analyze_data_set(dataset):
     data_list = list(csv.reader(np.genfromtxt(dataset, dtype=None)))
@@ -396,19 +398,19 @@ def create_training_and_ranking_set(name):
     """ Do this at the beginning of each iteration
     """
     if name == 'viper':
-        ranking, training_pos, training_neg = pdh.make_pairs_viper()
+        ranking, training_pos, training_neg = pd.make_pairs_viper()
     elif name == 'cuhk01':
-        ranking, training_pos, training_neg = pdh.make_pairs_cuhk1()
+        ranking, training_pos, training_neg = pd.make_pairs_cuhk1()
     elif name == 'cuhk02':
-        ranking, training_pos, training_neg = pdh.make_pairs_cuhk2()
+        ranking, training_pos, training_neg = pd.make_pairs_cuhk2()
     elif name == 'market':
-        ranking, training_pos, training_neg = pdh.make_pairs_market()
+        ranking, training_pos, training_neg = pd.make_pairs_market()
     elif name == 'caviar':
-        ranking, training_pos, training_neg = pdh.make_pairs_caviar()
+        ranking, training_pos, training_neg = pd.make_pairs_caviar()
     elif name == 'grid':
-        ranking, training_pos, training_neg = pdh.make_pairs_grid()
+        ranking, training_pos, training_neg = pd.make_pairs_grid()
     elif name == 'prid450':
-        ranking, training_pos, training_neg = pdh.make_pairs_prid450()
+        ranking, training_pos, training_neg = pd.make_pairs_prid450()
     else:
         ranking, training_pos, training_neg = None, None, None
 
@@ -544,7 +546,7 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
     return values_key_1, values_key_2
 
 
-def get_related_keys(name_dataset, partition, id, seen_list):
+def get_positive_keys(name_dataset, partition, id, seen_list):
     """Gets a list of related keys based on the id you are looking for
     """
 
@@ -600,12 +602,84 @@ def get_related_keys(name_dataset, partition, id, seen_list):
 
     return keys
 
-#
-# def get_negative_keys(name_dataset, partition, id, seen_list):
-#     """get negative keys. get key that has been seen before in the training set, but that is not an id in the test set
-#     """
-#     if name_dataset == 'cuhk02':
-#
-#     else:
-#         pass
-#
+
+def get_negative_keys(name_dataset, partition, seen_list, this_ranking, positive_keys):
+    """ get negative keys. get key that could have been seen before in the training set, but that is not an id in
+        the test set
+    """
+    number_positive_keys = len(positive_keys)
+
+    if name_dataset == 'cuhk02':
+        rank_ordered_partitions = [this_ranking[item * pc.RANKING_NUMBER + item].strip().split(',')[0].split('+')[-3]
+                                   for item in range(pc.RANKING_NUMBER)]
+        rank_ordered_ids = [
+            pd.my_join(list(this_ranking[item * pc.RANKING_NUMBER + item].strip().split(',')[0].split('+')[-1])[0:4])
+            for item in range(pc.RANKING_NUMBER)]
+        # create list in the form of [(partition, id), ...]
+        joined_unique = list(set(zip(rank_ordered_partitions, rank_ordered_ids)))
+
+        negative_keys = []
+
+
+
+        for num in range(number_positive_keys):
+            # choose a random partition
+            p = 'P%s' % str(randint(1, 5))
+            # get the list of unique cuhk02 IDs
+            unique_ids = list(np.genfromtxt('../data/CUHK02/%s/unique_id_file.txt' % p, dtype=None))
+            # get list of swapped fullpath
+            swapped_fullpath = list(
+                np.genfromtxt('../data/CUHK02/%s/fullpath_image_names_file.txt' % p, dtype=None))
+            # get list of all ids
+            all_ids = list(np.genfromtxt('../data/CUHK02/%s/id_all_file.txt' % p, dtype=None))
+            # at random choose an id from that list
+            index = randint(0, len(unique_ids)-1)
+            chosen = unique_ids.pop(index)
+            # check if id already in ranking list
+            i = 1
+            while (p, chosen) in joined_unique:
+                index = randint(0, len(unique_ids) - 1 - i)
+                chosen = unique_ids.pop(unique_ids[index])
+                i += 1
+            # get the first index matching the chosen id from the list of all ids
+            index = all_ids.index(chosen)
+            # get the key with the index and append to the list
+            negative_keys.append(swapped_fullpath[index])
+    else:
+        rank_ordered_ids = [
+            pd.my_join(list(this_ranking[item * pc.RANKING_NUMBER + item].strip().split(',')[0].split('+')[-1])[0:4])
+            for item in range(pc.RANKING_NUMBER)]
+
+        negative_keys = []
+
+        # get the list of unique market IDs
+        unique_ids = list(np.genfromtxt('../data/market/unique_id_file.txt', dtype=None))
+        # get list of swapped fullpath
+        swapped_fullpath = list(np.genfromtxt('../data/market/fullpath_image_names_file.txt', dtype=None))
+        # get list of all ids
+        all_ids = list(np.genfromtxt('../data/market/id_all_file.txt', dtype=None))
+
+        for num in range(number_positive_keys):
+            # at random choose an id from that list
+            index = randint(0, len(unique_ids)-1)
+            chosen = unique_ids.pop(index)
+            # check if id already in ranking list
+            i = 1
+            while chosen in rank_ordered_ids:
+                index = randint(0, len(unique_ids) - 1 - i)
+                chosen = unique_ids.pop(index)
+                i += 1
+            # get the first index matching the chosen id from the list of all ids
+            index = all_ids.index(chosen)
+            # get the key with the index and append to the list
+            negative_keys.append(swapped_fullpath[index])
+
+    return negative_keys
+
+
+def get_related_keys(name_dataset, partition, seen_list, this_ranking, id):
+    pos_keys = get_positive_keys(name_dataset, partition, id, seen_list)
+    neg_keys = get_negative_keys(name_dataset, partition, seen_list, this_ranking, pos_keys)
+    keys = pos_keys + neg_keys
+
+    return keys

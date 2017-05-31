@@ -1205,14 +1205,14 @@ def thing():
 
 def experiment_priming():
     a = ProjectVariable()
-    a.experiment_name = 'debugging priming - clmin=0.00005 clmax=0.001 3 epoch '
+    a.experiment_name = 'debugging priming - clmin=0.00005 clmax=0.001 5 epoch '
     a.priming = True
     a.activation_function = 'elu'
     a.cl_min = 0.00005
     a.cl_max = 0.001
     a.load_model_name = 'scn_86_model_20_40ep.h5'
     a.load_weights_name = 'scn_86_weights_20_40ep.h5'
-    a.prime_epochs = 3
+    a.prime_epochs = 5
     a.batch_size = 1
     prime.main(a)
 
@@ -1239,3 +1239,5 @@ def main():
     #     experiment_86()
 
 main()
+
+# '../data/dataset/augmented/id/name.png'

@@ -144,6 +144,7 @@ def calculate_CMC(predictions):
     final_ranking = []
 
     for row in range(len(predictions)):
+        # get the indices by sorted values from high to low
         ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
                                                         reverse=True)]
         list_form = ranking_matrix_abs[row].tolist()
