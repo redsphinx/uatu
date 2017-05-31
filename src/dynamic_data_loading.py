@@ -620,8 +620,6 @@ def get_negative_keys(name_dataset, partition, seen_list, this_ranking, positive
 
         negative_keys = []
 
-
-
         for num in range(number_positive_keys):
             # choose a random partition
             p = 'P%s' % str(randint(1, 5))
@@ -639,7 +637,7 @@ def get_negative_keys(name_dataset, partition, seen_list, this_ranking, positive
             i = 1
             while (p, chosen) in joined_unique:
                 index = randint(0, len(unique_ids) - 1 - i)
-                chosen = unique_ids.pop(unique_ids[index])
+                chosen = unique_ids.pop(index)
                 i += 1
             # get the first index matching the chosen id from the list of all ids
             index = all_ids.index(chosen)

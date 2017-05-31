@@ -50,6 +50,13 @@ def create_cost_module(inputs, adjustable):
             features = keras.layers.add(inputs)
         elif adjustable.neural_distance == 'multiply':
             features = keras.layers.multiply(inputs)
+            # FIXME
+        elif adjustable.neural_distance == 'subtract':
+            pass
+        elif adjustable.neural_distance == 'divide':
+            pass
+        elif adjustable.neural_distance == 'absolute':
+            pass
         else:
             features = None
 

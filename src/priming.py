@@ -13,7 +13,7 @@ from matplotlib.image import imsave
 from itertools import combinations
 import time
 import matplotlib.pyplot as plt
-
+import random
 
 def zoom(image):
     the_image = image
@@ -96,6 +96,8 @@ def is_match(comb):
 
 def load_augmented_images(list_augmented_images):
     combos = list(combinations(list_augmented_images, 2))
+
+    random.shuffle(combos)
 
     data = np.zeros((len(combos), 2, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, 3))
     labels = []
