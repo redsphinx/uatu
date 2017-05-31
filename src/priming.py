@@ -91,6 +91,12 @@ def load_augmented_images(list_augmented_images):
     return data
 
 
+# def train_and_test(adjustable, name):
+#
+#     return full_predictions,
+
+
+
 def main(adjustable):
     start = time.time()
     cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
@@ -158,7 +164,6 @@ def main(adjustable):
                 full_predictions[id * pc.RANKING_NUMBER:(id+1)*pc.RANKING_NUMBER] = part_prediction
 
         else:
-            # FIXME implement priming for market
             full_predictions = np.zeros((len(this_ranking), 2))
             h5_dataset = ddl.load_datasets_from_h5(['market'])
 

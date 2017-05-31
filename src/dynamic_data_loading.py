@@ -546,11 +546,6 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
 
 def get_related_keys(name_dataset, partition, id, seen_list):
     """Gets a list of related keys based on the id you are looking for
-    :param name_dataset:
-    :param partition:
-    :param id:
-    :param seen_list:
-    :return:
     """
 
     # note: `partition` is only applicable for CUHK02
@@ -604,3 +599,13 @@ def get_related_keys(name_dataset, partition, id, seen_list):
         keys = None
 
     return keys
+
+#
+# def get_negative_keys(name_dataset, partition, id, seen_list):
+#     """get negative keys. get key that has been seen before in the training set, but that is not an id in the test set
+#     """
+#     if name_dataset == 'cuhk02':
+#
+#     else:
+#         pass
+#
