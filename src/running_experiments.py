@@ -1295,25 +1295,38 @@ def experiment_priming_only_test():
     a.only_test = True
     prime.main(a)
 
+
+def experiment_ds():
+    a = ProjectVariable()
+    a.experiment_name = 'debugging  shuffle sideways'
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450']
+    a.epochs = 1
+    a.batch_size = 32
+    a.iterations = 1
+    scn.super_main(a)
+
 def main():
     # TODO run these experiments
-    num = sys.argv[1]
-    print(sys.argv)
-
-    if num == '87':
-        experiment_87()
-
-    if num == '88':
-        experiment_88()
-
-    if num == '89':
-        experiment_89()
-
-    if num == '90':
-        experiment_90()
-
-    if num == '91':
-        experiment_91()
-
+    # num = sys.argv[1]
+    # print(sys.argv)
+    #
+    # if num == '87':
+    #     experiment_87()
+    #
+    # if num == '88':
+    #     experiment_88()
+    #
+    # if num == '89':
+    #     experiment_89()
+    #
+    # if num == '90':
+    #     experiment_90()
+    #
+    # if num == '91':
+    #     experiment_91()
+    experiment_ds()
 
 main()

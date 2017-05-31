@@ -59,7 +59,9 @@ def create_pairs(x, digit_indices):
             dn = (d + inc) % 10
             z1, z2 = digit_indices[d][i], digit_indices[dn][i]
             pairs += [[x[z1], x[z2]]]
-            labels += [1, 0]
+            # labels += [1, 0]
+            labels += [0, 1]
+
     return np.array(pairs), np.array(labels)
 
 

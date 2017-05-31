@@ -14,22 +14,35 @@ from clr_callback import *
 import random
 
 def euclidean_distance(vects):
+    """ Returns the euclidean distance between the 2 feature vectors
+    """
     x, y = vects
     return K.sqrt(K.sum(K.square(x - y), axis=1, keepdims=True))
 
 
+# TODO find out what this does
 def eucl_dist_output_shape(shapes):
+    """ IDK what this does
+    """
     shape1, shape2 = shapes
     return (shape1[0], 1)
 
 
 def contrastive_loss(y_true, y_pred):
-    '''Contrastive loss from Hadsell-et-al.'06
+    """Contrastive loss from Hadsell-et-al.'06
     http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
-    '''
+
+    y = 0 if image is similar
+    y = 1 if image is different
+
+    according to Tokukawa: https://github.com/fchollet/keras/issues/4980 it has to be:
+    return K.mean((1 - y_true) * K.square(y_pred) + y_true * K.square(K.maximum(margin - y_pred, 0)))
+    instead of:
+    return K.mean(y_true * K.square(y_pred) + (1 - y_true) * K.square(K.maximum(margin - y_pred, 0)))
+    """
     margin = 1
-    return K.mean(y_true * K.square(y_pred) +
-                  (1 - y_true) * K.square(K.maximum(margin - y_pred, 0)))
+    loss = K.mean((1 - y_true) * K.square(y_pred) + y_true * K.square(K.maximum(margin - y_pred, 0)))
+    return loss
 
 
 def compute_accuracy(predictions, labels):
@@ -50,13 +63,13 @@ def create_cost_module(inputs, adjustable):
             features = keras.layers.add(inputs)
         elif adjustable.neural_distance == 'multiply':
             features = keras.layers.multiply(inputs)
-            # FIXME
+            # TODO: debug
         elif adjustable.neural_distance == 'subtract':
-            pass
+            features = inputs[0] - inputs[1]
         elif adjustable.neural_distance == 'divide':
-            pass
+            features = inputs[0] / inputs[1]
         elif adjustable.neural_distance == 'absolute':
-            pass
+            features = abs(inputs[0] - inputs[1])
         else:
             features = None
 
@@ -233,6 +246,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
     elif adjustable.cost_module_type == 'euclidean':
         rms = keras.optimizers.RMSprop()
+        # TODO: debug
         model.compile(loss=contrastive_loss, optimizer=rms)
 
     for epoch in range(adjustable.epochs):
@@ -246,8 +260,14 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         random.shuffle(final_training_data)
 
-        final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in range(len(final_training_data))]
-        final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
+        # TODO: debug
+        final_training_data = pu.sideways_shuffle(final_training_data)
+
+        # TODO: debug
+        final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
+                                 range(len(final_training_data))]
+        if adjustable.cost_module_type == 'neural_network':
+            final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
         train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
 
@@ -327,6 +347,12 @@ def super_main(adjustable):
         all_ranking, all_training_pos, all_training_neg = [], [], []
         for name in range(len(adjustable.datasets)):
             ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name])
+
+            # TODO: debug
+            if adjustable.cost_module_type == 'euclidean':
+                ranking = pu.flip_labels(ranking)
+                training_pos = pu.flip_labels(training_pos)
+                training_neg = pu.flip_labels(training_neg)
 
             # all_ranking = all_ranking + ranking
             # all_training_pos = all_training_pos + training_pos

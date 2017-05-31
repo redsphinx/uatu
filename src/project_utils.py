@@ -8,7 +8,7 @@ import os
 from shutil import copyfile
 import shutil
 import time
-
+from random import shuffle
 
 # recursively transform list into tuple
 def tupconv(lst):
@@ -94,7 +94,6 @@ def make_confusion_matrix(predictions, labels):
                     tn += 1
                 else:
                     fp += 1
-        pass
     else:
         predictions = threshold_predictions(predictions)
         tp, fp, tn, fn = 0, 0, 0, 0
@@ -138,29 +137,86 @@ def enter_in_log(experiment_name, file_name, data_names, matrix_means, matrix_st
 
 # FIXME make comptible with euclidean distance
 def calculate_CMC(predictions):
-    ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-    predictions = np.reshape(predictions[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-    tallies = np.zeros(pc.RANKING_NUMBER)
-    final_ranking = []
+    # TODO: debug
+    ble = np.shape(predictions)
+    if len(np.shape(predictions)) > 1:
+        ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+        predictions = np.reshape(predictions[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+        tallies = np.zeros(pc.RANKING_NUMBER)
+        final_ranking = []
 
-    for row in range(len(predictions)):
-        # get the indices by sorted values from high to low
-        ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
-                                                        reverse=True)]
-        list_form = ranking_matrix_abs[row].tolist()
-        num = list_form.index(row)
-        tallies[num] += 1
+        for row in range(len(predictions)):
+            # get the indices by sorted values from high to low
+            ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
+                                                            reverse=True)]
+            list_form = ranking_matrix_abs[row].tolist()
+            num = list_form.index(row)
+            tallies[num] += 1
 
-    for tally in range(len(tallies)):
-        percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
-        final_ranking.append(float('%0.2f' % percentage))
-    return final_ranking
+        for tally in range(len(tallies)):
+            percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
+            final_ranking.append(float('%0.2f' % percentage))
+        return final_ranking
+    else:
+        ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+        predictions = np.reshape(predictions, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+        tallies = np.zeros(pc.RANKING_NUMBER)
+        final_ranking = []
+
+        for row in range(len(predictions)):
+            # note: the smaller the distance, the more alike the images are. So we sort from low to high
+            ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1])]
+            list_form = ranking_matrix_abs[row].tolist()
+            num = list_form.index(row)
+            tallies[num] += 1
+
+        for tally in range(len(tallies)):
+            percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
+            final_ranking.append(float('%0.2f' % percentage))
+        return final_ranking
 
 
 def reduce_float_length(a_list, decimals):
     for i in range(len(a_list)):
         a_list[i] = float(format(a_list[i], decimals))
     return a_list
+
+
+# TODO: debug
+def sideways_shuffle(data_list):
+    """ Data comes in already shuffled but only horizontally. I think that the order matters because the features get
+        concatenated. And in `combinations` the first item gets paired with others while always being in the left column
+        So we take half of the rows and swap the locations of item1, item2. Labels don't change. And then we shuffle the
+        list again.
+    """
+    cutoff = len(data_list) / 2
+    to_be_shuffled = data_list[0:cutoff]
+
+    column_1 = [item.strip().split(',')[0] for item in to_be_shuffled]
+    column_2 = [item.strip().split(',')[1] for item in to_be_shuffled]
+    labels = [item.strip().split(',')[-1] for item in to_be_shuffled]
+
+    shuffled_list = [column_2[i] + ',' + column_1[i] + ',' + labels[i] for i in range(cutoff)]
+
+    data_list[0:cutoff] = shuffled_list
+
+    shuffle(data_list)
+
+    return data_list
+
+
+# TODO: debug
+def flip_labels(data_list):
+    """ Gets a list of pairs and labels and flips the labels. so 1 becomes 0 and 0 becomes 1
+    """
+    column_1 = [item.strip().split(',')[0] for item in data_list]
+    column_2 = [item.strip().split(',')[1] for item in data_list]
+    labels = [item.strip().split(',')[-1] for item in data_list]
+    labels = list(np.asarray(np.asarray([1]*len(labels)) - np.asarray(labels, dtype=int), dtype=str))
+
+    data_list = [column_1[i] + ',' + column_2[i] + ',' + labels[i] for i in range(len(column_1))]
+
+    return data_list
 
 
 # def assign_experiments():
@@ -176,3 +232,4 @@ def reduce_float_length(a_list, decimals):
 #             the_experiment(gpu)
 #
 # assign_experiments()
+
