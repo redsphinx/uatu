@@ -4087,3 +4087,17 @@ grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
 grid mean ranking:        [0.6, 1.0, 1.0, 1.0, 1.0]
 grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0]
 
+
+name_of_experiment:         debugging divide
+file_name:                  siamese_cnn_clean.pyc
+date:                       31/05/2017   18:53:56
+duration:                   66.869904
+caviar mean tp,fp,tn,fn:    [5.0, 20.0, 0.0, 0.0]
+caviar std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+caviar mean ranking:        [0.2, 0.6, 0.6, 0.6, 1.0]
+caviar std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0]
+grid mean tp,fp,tn,fn:    [3.0, 18.0, 2.0, 2.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.2, 0.2, 0.6, 0.6, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0]
+
