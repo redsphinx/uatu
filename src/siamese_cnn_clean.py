@@ -56,7 +56,7 @@ def create_cost_module(inputs, adjustable):
     :param inputs:          list containing feature tensor from each siamese head
     :return:                some type of distance
     """
-
+    # NOTE: 2017/08 `merge` will become deprecated
     def subtract(x):
         output = x[0] - x[1]
         return output
@@ -81,7 +81,6 @@ def create_cost_module(inputs, adjustable):
             features = keras.layers.add(inputs)
         elif adjustable.neural_distance == 'multiply':
             features = keras.layers.multiply(inputs)
-            # TODO: debug
         elif adjustable.neural_distance == 'subtract':
             features = keras.layers.merge(inputs=inputs, mode=subtract, output_shape=the_shape)
         elif adjustable.neural_distance == 'divide':

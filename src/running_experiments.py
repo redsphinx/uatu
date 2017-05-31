@@ -1306,7 +1306,7 @@ def experiment_ds():
     a.epochs = 10
     a.batch_size = 32
     a.iterations = 1
-    a.neural_distance = 'absolute'
+    a.cost_module_type = 'euclidean'
     scn.super_main(a)
 
 def main():
