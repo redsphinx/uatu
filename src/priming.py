@@ -180,22 +180,19 @@ def only_test(model, h5_dataset, this_ranking):
     return full_predictions
 
 
-def main(adjustable):
-    start = time.time()
-    cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
-    market_ranking = list(np.genfromtxt('market_ranking.txt', dtype=None))
-
-    all_ranking = [cuhk02_ranking, market_ranking]
-    names = ['cuhk02', 'market']
-
-    # all_ranking = [market_ranking, cuhk02_ranking]
-    # names = ['market', 'cuhk02']
+def main(adjustable, all_ranking, names, path, model):
+    # cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
+    # market_ranking = list(np.genfromtxt('market_ranking.txt', dtype=None))
+    #
+    # all_ranking = [cuhk02_ranking, market_ranking]
+    # names = ['cuhk02', 'market']
+    #
     confusion_matrices = []
     ranking_matrices = []
-
-    path = os.path.join('../model_weights', adjustable.load_model_name)
-    os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
-    model = load_model(path)
+    #
+    # path = os.path.join('../model_weights', adjustable.load_model_name)
+    # os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
+    # model = load_model(path)
 
     for item in range(len(all_ranking)):
         name = names[item]
@@ -226,15 +223,71 @@ def main(adjustable):
         print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \n CMC: \n %s'
               % (name, accuracy, precision, str(matrix), str(ranking)))
 
+    return confusion_matrices, ranking_matrices
+    #
+    # stop = time.time()
+    # total_time = stop - start
+    # number_of_datasets = 2
+    # matrix_std = np.zeros((number_of_datasets, 4))
+    # ranking_std = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
+    #
+    # # note: TURN ON if you want to log results!!
+    # if pc.LOGGING:
+    #     file_name = os.path.basename(__file__)
+    #     pu.enter_in_log(adjustable.experiment_name, file_name, names, confusion_matrices, matrix_std, ranking_matrices,
+    #                     ranking_std,
+    #                     total_time)
+
+def super_main(adjustable):
+    start = time.time()
+
+    cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
+    market_ranking = list(np.genfromtxt('market_ranking.txt', dtype=None))
+
+    all_ranking = [cuhk02_ranking, market_ranking]
+    names = ['cuhk02', 'market']
+
+    path = os.path.join('../model_weights', adjustable.load_model_name)
+    os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
+    model = load_model(path)
+
+    number_of_datasets = 2
+
+    confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
+    ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, pc.RANKING_NUMBER))
+
+    for iter in range(adjustable.iterations):
+        print('-----ITERATION %d' % iter)
+
+        confusion, ranking = main(adjustable, all_ranking, names, path, model)
+
+        confusion_matrices[iter] = confusion
+        ranking_matrices[iter] = ranking
+
     stop = time.time()
     total_time = stop - start
-    number_of_datasets = 2
+
+    matrix_means = np.zeros((number_of_datasets, 4))
     matrix_std = np.zeros((number_of_datasets, 4))
+    ranking_means = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
     ranking_std = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
+
+    for dataset in range(number_of_datasets):
+        matrices = np.zeros((adjustable.iterations, 4))
+        rankings = np.zeros((adjustable.iterations, pc.RANKING_NUMBER))
+
+        for iter in range(adjustable.iterations):
+            matrices[iter] = confusion_matrices[iter][dataset]
+            rankings[iter] = ranking_matrices[iter][dataset]
+
+        matrix_means[dataset] = np.mean(matrices, axis=0)
+        matrix_std[dataset] = np.std(matrices, axis=0)
+        ranking_means[dataset] = np.mean(rankings, axis=0)
+        ranking_std[dataset] = np.std(rankings, axis=0)
 
     # note: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)
-        pu.enter_in_log(adjustable.experiment_name, file_name, names, confusion_matrices, matrix_std, ranking_matrices,
+        pu.enter_in_log(adjustable.experiment_name, file_name, names, matrix_means, matrix_std, ranking_means,
                         ranking_std,
                         total_time)

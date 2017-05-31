@@ -1217,6 +1217,76 @@ def experiment_priming():
     prime.main(a)
 
 
+def experiment_87():
+    a = ProjectVariable()
+    a.experiment_name = '87. baseline (testing only)'
+    a.priming = True
+    a.load_model_name = 'scn_86_model_20_40ep.h5'
+    a.only_test = True
+    a.iterations = 1
+    prime.super_main(a)
+
+
+def experiment_88():
+    a = ProjectVariable()
+    a.experiment_name = '88. epoch=1'
+    a.priming = True
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.load_model_name = 'scn_86_model_20_40ep.h5'
+    a.load_weights_name = 'scn_86_weights_20_40ep.h5'
+    a.prime_epochs = 1
+    a.batch_size = 1
+    a.iterations = 5
+    prime.super_main(a)
+
+
+def experiment_89():
+    a = ProjectVariable()
+    a.experiment_name = '89. epoch=3'
+    a.priming = True
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.load_model_name = 'scn_86_model_20_40ep.h5'
+    a.load_weights_name = 'scn_86_weights_20_40ep.h5'
+    a.prime_epochs = 3
+    a.batch_size = 1
+    a.iterations = 5
+    prime.super_main(a)
+
+
+def experiment_90():
+    a = ProjectVariable()
+    a.experiment_name = '90. epoch=5'
+    a.priming = True
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.load_model_name = 'scn_86_model_20_40ep.h5'
+    a.load_weights_name = 'scn_86_weights_20_40ep.h5'
+    a.prime_epochs = 5
+    a.batch_size = 1
+    a.iterations = 5
+    prime.super_main(a)
+
+
+def experiment_91():
+    a = ProjectVariable()
+    a.experiment_name = '91. epoch=7'
+    a.priming = True
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.load_model_name = 'scn_86_model_20_40ep.h5'
+    a.load_weights_name = 'scn_86_weights_20_40ep.h5'
+    a.prime_epochs = 7
+    a.batch_size = 1
+    a.iterations = 5
+    prime.super_main(a)
+
+
 def experiment_priming_only_test():
     a = ProjectVariable()
     a.experiment_name = 'debug priming rewrite: only testing'
@@ -1227,17 +1297,23 @@ def experiment_priming_only_test():
 
 def main():
     # TODO run these experiments
-    # num = sys.argv[1]
-    # print(sys.argv)
-    #
-    # if num == 'prime':
-    #     experiment_priming()
-    experiment_priming()
-    # experiment_priming_only_test()
+    num = sys.argv[1]
+    print(sys.argv)
 
-    # if num == '86':
-    #     experiment_86()
+    if num == '87':
+        experiment_87()
+
+    if num == '88':
+        experiment_88()
+
+    if num == '89':
+        experiment_89()
+
+    if num == '90':
+        experiment_90()
+
+    if num == '91':
+        experiment_91()
+
 
 main()
-
-# '../data/dataset/augmented/id/name.png'
