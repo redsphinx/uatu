@@ -4115,3 +4115,17 @@ grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
 grid mean ranking:        [0.8, 1.0, 1.0, 1.0, 1.0]
 grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0]
 
+
+name_of_experiment:         debugging euclidean
+file_name:                  siamese_cnn_clean.py
+date:                       01/06/2017   12:02:50
+duration:                   241.211140
+caviar mean tp,fp,tn,fn:    [0.0, 0.0, 20.0, 5.0]
+caviar std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+caviar mean ranking:        [0.4, 0.4, 0.6, 0.6, 1.0]
+caviar std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0]
+grid mean tp,fp,tn,fn:    [0.0, 0.0, 20.0, 5.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.0, 0.0, 0.0, 0.4, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0]
+
