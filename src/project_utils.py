@@ -111,13 +111,13 @@ def make_confusion_matrix(adjustable, predictions, labels):
                     fp += 1
     elif adjustable.cost_module_type == 'euclidean':
         for lab in range(0, len(labels)):
-            if labels[lab] == 1:
-                if predictions[lab] == 1:
+            if labels[lab] == 0:
+                if predictions[lab] == 0:
                     tp += 1  # t=1, p=1
                 else:
                     fn += 1  # t=1, p=0
-            elif labels[lab] == 0:
-                if predictions[lab] == 0:
+            elif labels[lab] == 1:
+                if predictions[lab] == 1:
                     tn += 1
                 else:
                     fp += 1
