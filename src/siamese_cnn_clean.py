@@ -113,12 +113,12 @@ def create_cost_module(inputs, adjustable):
 
 
 def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name, first_layer=False):
-    """One-liner for adding activation and max pooling
+    """One-liner for adding: pooling + activation + batchnorm
     :param model:       the model to add to
     :return:            the model with added activation and max pooling
     :param trainable:   boolean indicating if layer is trainable
     """
-    model.add(Activation(adjustable.activation_function))
+
     if first_layer:
         if adjustable.pooling_type == 'avg_pooling':
             model.add(AveragePooling2D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1])))
@@ -129,6 +129,9 @@ def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm
             model.add(AveragePooling2D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1])))
         else:  # max_pooling
             model.add(MaxPool2D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1])))
+
+    model.add(Activation(adjustable.activation_function))
+
     if use_batch_norm:
         model.add(BatchNormalization(name=batch_norm_name, trainable=adjustable.trainable))
     return model
