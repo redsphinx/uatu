@@ -65,6 +65,8 @@ class ProjectVariable(object):
         self._load_weights_name = None # string
         # for priming. if True, indicates to only test. if False, training will happen as well
         self._only_test = False # bool
+        # size of kernel in conv2D
+        self._kernel = (3, 3) # tuple
 
     @property
     def use_gpu(self):
@@ -336,3 +338,12 @@ class ProjectVariable(object):
     @only_test.setter
     def only_test(self, value):
         self._only_test = value
+
+    # size of kernel in conv2D
+    @property
+    def kernel(self):
+        return self._kernel
+
+    @kernel.setter
+    def kernel(self, value):
+        self._kernel = value

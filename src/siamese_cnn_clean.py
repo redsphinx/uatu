@@ -125,7 +125,10 @@ def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm
         else:  # max_pooling
             model.add(MaxPool2D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1])))
     else:
-        model.add(MaxPool2D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1])))
+        if adjustable.pooling_type == 'avg_pooling':
+            model.add(AveragePooling2D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1])))
+        else:  # max_pooling
+            model.add(MaxPool2D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1])))
     if use_batch_norm:
         model.add(BatchNormalization(name=batch_norm_name, trainable=adjustable.trainable))
     return model
@@ -138,25 +141,32 @@ def create_siamese_head(adjustable):
     use_batch_norm = True if adjustable.head_type == 'batch_normalized' else False
 
     model = Sequential()
-    model.add(Conv2D(16 * adjustable.numfil, kernel_size=(3, 3), padding='same',
-                     input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
-                     name='conv_1',
+    if use_batch_norm == True:
+        model.add(BatchNormalization(name='bn_1', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
+                                     trainable=adjustable.trainable))
+    model.add(Conv2D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
                      trainable=adjustable.trainable))
-    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_1', first_layer=True)
-    model.add(Conv2D(32 * adjustable.numfil, kernel_size=(3, 3), padding='same', name='conv_2', trainable=adjustable.trainable))
-    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2')
-    model.add(Conv2D(64 * adjustable.numfil, kernel_size=(3, 3), padding='same', name='conv_3', trainable=adjustable.trainable))
+    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
+    model.add(Conv2D(32 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_2',
+                     trainable=adjustable.trainable))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_3')
-    model.add(Conv2D(128 * adjustable.numfil, kernel_size=(3, 3), padding='same', name='conv_4', trainable=adjustable.trainable))
+    model.add(Conv2D(64 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_3',
+                     trainable=adjustable.trainable))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_4')
-    model.add(Conv2D(256 * adjustable.numfil, kernel_size=(3, 3), padding='same', name='conv_5', trainable=adjustable.trainable))
+    model.add(Conv2D(128 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_4',
+                     trainable=adjustable.trainable))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_5')
-    model.add(Conv2D(512 * adjustable.numfil, kernel_size=(3, 3), padding='same', name='conv_6', trainable=adjustable.trainable))
+    model.add(Conv2D(256 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_5',
+                     trainable=adjustable.trainable))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_6')
-    model.add(Conv2D(1024 * adjustable.numfil, kernel_size=(3, 3), padding='same', name='conv_7', trainable=adjustable.trainable))
+    model.add(Conv2D(512 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_6',
+                     trainable=adjustable.trainable))
+    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_7')
+    model.add(Conv2D(1024 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_7',
+                     trainable=adjustable.trainable))
     model.add(Activation(adjustable.activation_function))
     if use_batch_norm == True:
-        model.add(BatchNormalization(name='bn_7', trainable=adjustable.trainable))
+        model.add(BatchNormalization(name='bn_8', trainable=adjustable.trainable))
     model.add(Flatten(name='cnn_flat'))
 
     if not adjustable.weights_name == None:
@@ -370,7 +380,8 @@ def super_main(adjustable):
                 training_pos = pu.flip_labels(training_pos)
                 training_neg = pu.flip_labels(training_neg)
 
-            # all_ranking = all_ranking + ranking
+            # all_ranking = all_ranking + rankinggpustat
+
             # all_training_pos = all_training_pos + training_pos
             # all_training_neg = all_training_neg + training_neg
 
