@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic_data_loading.py" afterPath="$PROJECT_DIR$/src/dynamic_data_loading.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_data_handling.py" afterPath="$PROJECT_DIR$/src/project_data_handling.py" />
     </list>
     <ignored path="uatu.iws" />
@@ -57,7 +56,7 @@
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="628">
-                  <caret line="376" column="65" lean-forward="true" selection-start-line="376" selection-start-column="65" selection-end-line="376" selection-end-column="65" />
+                  <caret line="376" column="62" lean-forward="false" selection-start-line="376" selection-start-column="62" selection-end-line="376" selection-end-column="62" />
                   <folding />
                 </state>
               </provider>
@@ -82,8 +81,8 @@
           <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="3" column="12" lean-forward="true" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+                <state relative-caret-position="409">
+                  <caret line="410" column="54" lean-forward="false" selection-start-line="410" selection-start-column="54" selection-end-line="410" selection-end-column="54" />
                   <folding>
                     <element signature="e#142#160#0" expanded="true" />
                   </folding>
@@ -94,8 +93,8 @@
           <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="274">
-                  <caret line="743" column="0" lean-forward="true" selection-start-line="743" selection-start-column="0" selection-end-line="743" selection-end-column="0" />
+                <state relative-caret-position="799">
+                  <caret line="756" column="66" lean-forward="true" selection-start-line="756" selection-start-column="66" selection-end-line="756" selection-end-column="66" />
                   <folding />
                 </state>
               </provider>
@@ -739,6 +738,21 @@
           <line>136</line>
           <option name="timeStamp" value="858" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/project_data_handling.py</url>
+          <line>723</line>
+          <option name="timeStamp" value="859" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/project_data_handling.py</url>
+          <line>807</line>
+          <option name="timeStamp" value="860" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
+          <line>409</line>
+          <option name="timeStamp" value="861" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -750,7 +764,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="859" />
+      <option name="time" value="862" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -1115,15 +1129,15 @@
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="628">
-          <caret line="376" column="65" lean-forward="true" selection-start-line="376" selection-start-column="65" selection-end-line="376" selection-end-column="65" />
+          <caret line="376" column="62" lean-forward="false" selection-start-line="376" selection-start-column="62" selection-end-line="376" selection-end-column="62" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="12" lean-forward="true" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+        <state relative-caret-position="409">
+          <caret line="410" column="54" lean-forward="false" selection-start-line="410" selection-start-column="54" selection-end-line="410" selection-end-column="54" />
           <folding>
             <element signature="e#142#160#0" expanded="true" />
           </folding>
@@ -1132,8 +1146,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="743" column="0" lean-forward="true" selection-start-line="743" selection-start-column="0" selection-end-line="743" selection-end-column="0" />
+        <state relative-caret-position="799">
+          <caret line="756" column="66" lean-forward="true" selection-start-line="756" selection-start-column="66" selection-end-line="756" selection-end-column="66" />
           <folding />
         </state>
       </provider>

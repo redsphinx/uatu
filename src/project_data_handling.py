@@ -710,15 +710,19 @@ def unique_id_and_all_images_prid450():
 
 
 def make_combos(ids):
+    """ Given a list of strings, create combinations.
+        A combination is valid if the IDs match and if the image is not identical
+    """
     def match(one, two):
         one = one.split('/')[-1]
         two = two.split('/')[-1]
         return list(one)[0:4] == list(two)[0:4]
 
-    combos = combinations(ids, 2)
-    t = combinations(ids, 2)
-    thelen = len(list(t))
-    print(thelen)
+    combos = list(combinations(ids, 2))
+
+    # TODO: debug
+    combo_list = [str(comb[0] + ',' + comb[1] + ',1\n') for comb in combos if
+                  (match(comb[0], comb[1]) and not comb[0] == comb[1])]
 
     combo_list = []
     for comb in combos:
@@ -731,7 +735,7 @@ def make_combos(ids):
     return combo_list
 
 
-def preselection(the_list, unique_ids, all_ids, num):
+def pre_selection(the_list, unique_ids, all_ids, num):
     """ Prevents there from being a HUGE number of combinations of pairs by setting an upper bound on allowed images per
         unique ID
     :param the_list:        list containing full path to images of the set of IDs. an ID can have multiple images
@@ -754,6 +758,7 @@ def preselection(the_list, unique_ids, all_ids, num):
         else:
             # if there are more matching ID images than allowed images,
             # only add the number of allowed matching ID images
+            # use a random number to decide which images get popped to make sure you don't choose the same images always
             for ble in range(num):
                 selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
 
@@ -804,7 +809,7 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     # if we use all the data we have more than 300 million combinations. going through all of these will take about 80 mins
     # instead for each unique id we select 2 images matching this id and discard the rest of the images for that id.
     # then we have 4.4 million combos instead of 300 million which will take no more than 2 minutes. this is acceptable
-    training_ids_pos = preselection(training_ids_pos, train_ids, all_train_ids, 2)
+    training_ids_pos = pre_selection(training_ids_pos, train_ids, all_train_ids, 2)
     training_ids_pos = make_combos(training_ids_pos)
     # shuffle so that each time we get different first occurences
     rd.shuffle(ranking_ids_pos)
