@@ -388,7 +388,6 @@ def super_main(adjustable):
         # put all the training data together
         st = time.time()
         print('%0.2f mins' % ((st-ss)/60))
-        return
         merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
         # run main
         name, confusion_matrix, ranking_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,

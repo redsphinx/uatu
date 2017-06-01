@@ -1303,10 +1303,9 @@ def experiment_ds():
     a.cl_min = 0.00005
     a.cl_max = 0.001
     # a.datasets = ['caviar', 'grid']
-    a.epochs = 1
+    a.epochs = 10
     a.batch_size = 64
     a.iterations = 1
-    a.cost_module_type = 'euclidean'
     scn.super_main(a)
 
 def main():

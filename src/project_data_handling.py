@@ -709,7 +709,7 @@ def unique_id_and_all_images_prid450():
     write_to_file(fullpath_image_names_file, fullpath_image_names)
 
 
-def make_combos(ids):
+def make_combos_1(ids):
     """ Given a list of strings, create combinations.
         A combination is valid if the IDs match and if the image is not identical
     """
@@ -726,6 +726,25 @@ def make_combos(ids):
     return combo_list
 
 
+def make_combos_2(fullpath, unique_ids, num, smallest_id_group):
+    if num > smallest_id_group:
+        num = smallest_id_group
+    combo_list = []
+    if num == 3:
+        for item in range(len(unique_ids)):
+            thing = str(fullpath[num*item] + ',' + fullpath[num*item+1] + ',1\n')
+            combo_list.append(thing)
+            thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 2] + ',1\n')
+            combo_list.append(thing)
+    elif num == 2:
+        for item in range(len(unique_ids)):
+            a = fullpath[num*item]
+            b = fullpath[num*item+1]
+            thing = str(fullpath[num*item] + ',' + fullpath[num*item+1] + ',1\n')
+            combo_list.append(thing)
+    return combo_list
+
+
 def pre_selection(the_list, unique_ids, all_ids, num):
     """ Prevents there from being a HUGE number of combinations of pairs by setting an upper bound on allowed images per
         unique ID
@@ -736,16 +755,20 @@ def pre_selection(the_list, unique_ids, all_ids, num):
     :return:                truncated selection of the_list
     """
     selection = []
+    min_id_group_size = 100000
 
     for id in unique_ids:
         # get the indices for the matching IDs
         id_group = [i for i, x in enumerate(all_ids) if x == id]
         # get the fullpaths for each matching ID at the indices
         full_path_group = [the_list[i] for i in id_group]
+        # update min_id_group_size
+        if min_id_group_size > len(id_group): min_id_group_size = len(id_group)
         if num > len(id_group):
             # if the number of allowed images is greater than the number of matching ID images,
             # add all the images of that ID to the selection
-            selection.append([thing for thing in full_path_group])
+            sub_selection = [thing for thing in full_path_group]
+            selection += sub_selection
         else:
             # if there are more matching ID images than allowed images,
             # only add the number of allowed matching ID images
@@ -753,7 +776,7 @@ def pre_selection(the_list, unique_ids, all_ids, num):
             for ble in range(num):
                 selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
 
-    return selection
+    return selection, min_id_group_size
 
 
 #note:swapped
@@ -802,18 +825,18 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     # if we use all the data we have more than 300 million combinations. going through all of these will take about 80 mins
     # instead for each unique id we select 2 images matching this id and discard the rest of the images for that id.
     # then we have 4.4 million combos instead of 300 million which will take no more than 2 minutes. this is acceptable
-    upper_bound = 2
+    upper_bound = 3
     # create combinations and store the positive matches
-    ranking_ids_pos = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids, upper_bound)
-    ranking_ids_pos = make_combos(ranking_ids_pos)
-    training_ids_pos = pre_selection(training_ids_pos, train_ids, all_train_ids, upper_bound)
-    training_ids_pos = make_combos(training_ids_pos)
+    ranking_ids_pos, min_group_size_rank = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids, num=2)
+    ranking_ids_pos = make_combos_2(ranking_ids_pos, ranking_ids, 2, min_group_size_rank)
+    training_ids_pos, min_group_size_train = pre_selection(training_ids_pos, train_ids, all_train_ids, upper_bound)
+    training_ids_pos = make_combos_2(training_ids_pos, train_ids, upper_bound, min_group_size_train)
     # shuffle so that each time we get different first occurences
     rd.shuffle(ranking_ids_pos)
     rd.shuffle(training_ids_pos)
     # from the shuffled original list, create a unique list by only selecting first id occurences
-    ranking_ids_pos = make_unique(ranking_ids_pos)
-    training_ids_pos = make_unique(training_ids_pos)
+    # ranking_ids_pos = make_unique(ranking_ids_pos)
+    # training_ids_pos = make_unique(training_ids_pos)
 
     return ranking_ids_pos, training_ids_pos
 
