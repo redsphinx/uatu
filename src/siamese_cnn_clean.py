@@ -373,6 +373,7 @@ def super_main(adjustable):
         # lists for storing intermediate results
         all_ranking, all_training_pos, all_training_neg = [], [], []
         # create training and ranking set for all datasets
+        ss = time.time()
         for name in range(len(adjustable.datasets)):
             ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name])
             # labels have different meanings in `euclidean` case, 0 for match and 1 for mismatch
@@ -385,6 +386,9 @@ def super_main(adjustable):
             all_training_pos.append(training_pos)
             all_training_neg.append(training_neg)
         # put all the training data together
+        st = time.time()
+        print('%0.2f mins' % ((st-ss)/60))
+        return
         merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
         # run main
         name, confusion_matrix, ranking_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,

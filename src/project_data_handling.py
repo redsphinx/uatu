@@ -720,17 +720,8 @@ def make_combos(ids):
 
     combos = list(combinations(ids, 2))
 
-    # TODO: debug
     combo_list = [str(comb[0] + ',' + comb[1] + ',1\n') for comb in combos if
                   (match(comb[0], comb[1]) and not comb[0] == comb[1])]
-
-    combo_list = []
-    for comb in combos:
-        pic_1 = comb[0]
-        pic_2 = comb[1]
-        if match(pic_1, pic_2):
-            if not pic_1 == pic_2:
-                combo_list.append(str(pic_1 + ',' + pic_2 + ',1\n'))
 
     return combo_list
 
@@ -792,6 +783,8 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     stop = start + ranking_number
     # we will need a list of the training id for later
     train_ids = unique_id[0:start] + unique_id[stop:]
+    # we will need a list of the ranking id for later
+    ranking_ids = unique_id[start:stop]
     # load the list with all the identities
     id_all = np.genfromtxt(id_all_file, dtype=None).tolist()
     # determine where to slice the list depending on the start and stop indices
@@ -799,17 +792,21 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     index_stop = id_all.index(unique_id[stop])
     # we will need a list of the training id for later
     all_train_ids = id_all[0:index_start] + id_all[index_stop:]
+    # we will need a list of the ranking id for later
+    all_ranking_ids = id_all[index_start:index_stop]
     # load the list with all the imagepaths
     fullpath_image_names = np.genfromtxt(fullpath_image_names_file, dtype=None).tolist()
     # slice the lists to create a set for ranking and a set for training
     ranking_ids_pos = fullpath_image_names[index_start:index_stop]
     training_ids_pos = fullpath_image_names[0:index_start] + fullpath_image_names[index_start:]
-    # create combinations and store the positive matches
-    ranking_ids_pos = make_combos(ranking_ids_pos)
     # if we use all the data we have more than 300 million combinations. going through all of these will take about 80 mins
     # instead for each unique id we select 2 images matching this id and discard the rest of the images for that id.
     # then we have 4.4 million combos instead of 300 million which will take no more than 2 minutes. this is acceptable
-    training_ids_pos = pre_selection(training_ids_pos, train_ids, all_train_ids, 2)
+    upper_bound = 2
+    # create combinations and store the positive matches
+    ranking_ids_pos = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids, upper_bound)
+    ranking_ids_pos = make_combos(ranking_ids_pos)
+    training_ids_pos = pre_selection(training_ids_pos, train_ids, all_train_ids, upper_bound)
     training_ids_pos = make_combos(training_ids_pos)
     # shuffle so that each time we get different first occurences
     rd.shuffle(ranking_ids_pos)
