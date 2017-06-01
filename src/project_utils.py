@@ -157,6 +157,7 @@ def calculate_CMC(adjustable, predictions):
         predictions = np.reshape(predictions[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
     elif adjustable.cost_module_type == 'euclidean':
         predictions = predictions.ravel()
+        predictions = np.reshape(predictions, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
     else:
         predictions = None
 
