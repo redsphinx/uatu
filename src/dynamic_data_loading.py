@@ -1,3 +1,9 @@
+"""
+The purpose of this file is to perform manipulations with the list of keys pointing
+to the location of the image files.
+key_handling
+"""
+
 import numpy as np
 import project_constants as pc
 from scipy import ndimage

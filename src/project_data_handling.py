@@ -1,5 +1,7 @@
 """
-Handles everything that has to do with turning raw images into a list of positive and negative pairs
+Handles everything that has to do with turning raw images
+into a list of positive and negative pairs
+raw_data_handling?
 """
 import numpy as np
 import project_constants as pc
@@ -730,13 +732,28 @@ def make_combos(ids):
 
 
 def preselection(the_list, unique_ids, all_ids, num):
+    """ Prevents there from being a HUGE number of combinations of pairs by setting an upper bound on allowed images per
+        unique ID
+    :param the_list:        list containing full path to images of the set of IDs. an ID can have multiple images
+    :param unique_ids:      list of unique IDs. every ID appears only once
+    :param all_ids:         the_list, but then only the IDs
+    :param num:             the number of allowed image per ID
+    :return:                truncated selection of the_list
+    """
     selection = []
+
     for id in unique_ids:
+        # get the indices for the matching IDs
         id_group = [i for i, x in enumerate(all_ids) if x == id]
+        # get the fullpaths for each matching ID at the indices
         full_path_group = [the_list[i] for i in id_group]
         if num > len(id_group):
+            # if the number of allowed images is greater than the number of matching ID images,
+            # add all the images of that ID to the selection
             selection.append([thing for thing in full_path_group])
         else:
+            # if there are more matching ID images than allowed images,
+            # only add the number of allowed matching ID images
             for ble in range(num):
                 selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
 
@@ -755,8 +772,6 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
         unique = []
         seen = []
         for item in range(len(the_list)):
-            # i1 = the_list[item].split(',')[0].split('/')[-1][0:4]
-            # i2 = the_list[item].split(',')[1].split('/')[-1][0:4]
             i1 = the_list[item].split(',')[0].split('+')[-1][0:4]
             i2 = the_list[item].split(',')[1].split('+')[-1][0:4]
             if i1 == i2:
@@ -772,14 +787,14 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     stop = start + ranking_number
     # we will need a list of the training id for later
     train_ids = unique_id[0:start] + unique_id[stop:]
-    # create a list with all the identities
+    # load the list with all the identities
     id_all = np.genfromtxt(id_all_file, dtype=None).tolist()
     # determine where to slice the list depending on the start and stop indices
     index_start = id_all.index(unique_id[start])
     index_stop = id_all.index(unique_id[stop])
     # we will need a list of the training id for later
     all_train_ids = id_all[0:index_start] + id_all[index_stop:]
-    # create a list with all the imagepaths
+    # load the list with all the imagepaths
     fullpath_image_names = np.genfromtxt(fullpath_image_names_file, dtype=None).tolist()
     # slice the lists to create a set for ranking and a set for training
     ranking_ids_pos = fullpath_image_names[index_start:index_stop]
@@ -1053,6 +1068,7 @@ def make_pairs_prid450():
     return ranking, training_pos, training_neg
 
 
+# unused
 def merge_reid_sets_old(save=False):
     """ merges the mentioned datasets
     """
@@ -1097,7 +1113,6 @@ def swap_for(the_thing, a, b):
 
     the_thing = my_join(the_thing)
 
-    test = str(the_thing)
     return str(the_thing)
 
 
@@ -1121,29 +1136,29 @@ def save_as_hdf5(file_list_of_paths, h5_path):
 def save_all_datasets_as_hdf5():
     save_as_hdf5('../data/GRID/fullpath_image_names_file.txt', '../data/GRID/grid.h5')
     print('saved grid')
-    #
-    # save_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450.h5')
-    # print('saved prid450')
-    #
-    # save_as_hdf5('../data/caviar/fullpath_image_names_file.txt', '../data/caviar/caviar.h5')
-    # print('saved caviar')
-    #
-    # save_as_hdf5('../data/VIPER/fullpath_image_names_file.txt', '../data/VIPER/viper.h5')
-    # print('saved viper')
-    #
-    # subdirs = [item for item in os.listdir('../data/CUHK02') if not item.split('.')[-1] == 'txt']
-    # cuhk2_path = '../data/CUHK02'
-    # for dir in subdirs:
-    #     the_full = os.path.join(cuhk2_path, dir, 'fullpath_image_names_file.txt')
-    #     the_h5 = os.path.join(cuhk2_path, 'cuhk02.h5')
-    #     save_as_hdf5(the_full, the_h5)
-    # print('saved cuhk02')
-    #
-    # save_as_hdf5('../data/CUHK/fullpath_image_names_file.txt', '../data/CUHK/cuhk01.h5')
-    # print('saved cuhk01')
-    #
-    # save_as_hdf5('../data/market/fullpath_image_names_file.txt', '../data/market/market.h5')
-    # print('saved market')
+
+    save_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450.h5')
+    print('saved prid450')
+
+    save_as_hdf5('../data/caviar/fullpath_image_names_file.txt', '../data/caviar/caviar.h5')
+    print('saved caviar')
+
+    save_as_hdf5('../data/VIPER/fullpath_image_names_file.txt', '../data/VIPER/viper.h5')
+    print('saved viper')
+
+    subdirs = [item for item in os.listdir('../data/CUHK02') if not item.split('.')[-1] == 'txt']
+    cuhk2_path = '../data/CUHK02'
+    for dir in subdirs:
+        the_full = os.path.join(cuhk2_path, dir, 'fullpath_image_names_file.txt')
+        the_h5 = os.path.join(cuhk2_path, 'cuhk02.h5')
+        save_as_hdf5(the_full, the_h5)
+    print('saved cuhk02')
+
+    save_as_hdf5('../data/CUHK/fullpath_image_names_file.txt', '../data/CUHK/cuhk01.h5')
+    print('saved cuhk01')
+
+    save_as_hdf5('../data/market/fullpath_image_names_file.txt', '../data/market/market.h5')
+    print('saved market')
 
 
 
