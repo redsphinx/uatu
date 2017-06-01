@@ -12,6 +12,7 @@ import project_data_handling as pd
 from random import randint
 
 
+# unused
 def analyze_data_set(dataset):
     data_list = list(csv.reader(np.genfromtxt(dataset, dtype=None)))
     labels = np.asarray([data_list[row][2] for row in range(0, len(data_list))], dtype=int)
@@ -20,6 +21,7 @@ def analyze_data_set(dataset):
     return [positives_percentage, negatives_percentage]
 
 
+# unused
 # dataset is a list with ['path_to_image.png,0'] format
 def make_specific_balanced_set(dataset, positives_percentage, set_size):
     data_list = np.asarray(dataset)
@@ -41,6 +43,7 @@ def make_specific_balanced_set(dataset, positives_percentage, set_size):
     return balanced_data, new_data_list
 
 
+# used in unused method
 def make_specific_balanced_set_given_pos_neg(dataset_pos, dataset_neg, positives_percentage, set_size, data_type='hdf5'):
 
     if data_type == 'hdf5':
@@ -327,6 +330,7 @@ def txt_to_hdf5(text_file, hdf5_file_name):
         print('time loading: %0.2f' % time_loading)
 
 
+# unused
 def get_data_scnn(adjustable):
     total_data_list_pos = np.genfromtxt(pc.POSITIVE_DATA, dtype=None)
     with h5py.File(pc.NEGATIVE_DATA, 'r') as hf:

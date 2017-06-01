@@ -31,6 +31,45 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+2 june
+------
+. start more data
+
+. start implementing different distance metrics to compare with 'neural distance':
+.. DONE euclidean
+.. cosine distance metric
+.. KISSME(keep it simple and straightforward metric): https://lrs.icg.tugraz.at/research/kissme/paper/lrs_icg_koestinger_cvpr_2012.pdf
+.. [RELEVANT] deep hybrid similarity learning: https://arxiv.org/pdf/1702.04858.pdf
+.. [optional] MFA (marginal fisher analysis): http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4337772
+.. [optional] RankSVM: https://arxiv.org/pdf/1701.06351.pdf
+
+. setup new experiments
+.. experiments with SCN
+.. experiments with priming
+
+
+1 june
+------
+. DONE start create methods for priming
+
+. DONE start fixing code for other distance metrics: 
+.. DONE pu.make_confusion_matrix()
+.. DONE pu.calculate_CMC()
+
+. start more data
+
+. start implementing different distance metrics to compare with 'neural distance':
+.. DONE euclidean
+.. cosine distance metric
+.. KISSME(keep it simple and straightforward metric): https://lrs.icg.tugraz.at/research/kissme/paper/lrs_icg_koestinger_cvpr_2012.pdf
+.. [RELEVANT] deep hybrid similarity learning: https://arxiv.org/pdf/1702.04858.pdf
+.. [optional] MFA (marginal fisher analysis): http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4337772
+.. [optional] RankSVM: https://arxiv.org/pdf/1701.06351.pdf
+
+. setup new experiments
+.. experiments with SCN
+.. experiments with priming
+
 29 may
 ------
 . start create methods for priming

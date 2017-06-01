@@ -52,7 +52,7 @@ def get_wrong_predictions():
                 thing = paths[line].split('/')[-1]
                 copyfile(paths[line], os.path.join(folder, thing))
 
-# todo: debug
+
 def threshold_predictions(adjustable, predictions):
     num_pred = len(predictions)
     if adjustable.cost_module_type == 'neural_network':

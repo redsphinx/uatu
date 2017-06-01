@@ -1298,13 +1298,13 @@ def experiment_priming_only_test():
 
 def experiment_ds():
     a = ProjectVariable()
-    a.experiment_name = 'debugging absolute'
+    a.experiment_name = 'seeing how well euclidean does'
     a.activation_function = 'elu'
     a.cl_min = 0.00005
     a.cl_max = 0.001
-    a.datasets = ['caviar', 'grid']
-    a.epochs = 10
-    a.batch_size = 32
+    # a.datasets = ['caviar', 'grid']
+    a.epochs = 30
+    a.batch_size = 64
     a.iterations = 1
     a.cost_module_type = 'euclidean'
     scn.super_main(a)

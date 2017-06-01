@@ -195,6 +195,7 @@ def create_siamese_network(adjustable):
     return model
 
 
+# unused
 def train_network(adjustable, model, step, validation_interval, train_data, train_labels, validation_data,
                   validation_labels):
     """Trains the siamese network.
@@ -262,6 +263,8 @@ def train_network_light(adjustable, model, final_training_data, final_training_l
                   validation_split=0.01,
                   verbose=2)
 
+def absolute_distance_difference(y_true, y_pred):
+    return abs(y_true - y_pred)
 
 def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
     """Runs a the whole training and testing phase
@@ -275,7 +278,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
     elif adjustable.cost_module_type == 'euclidean':
         rms = keras.optimizers.RMSprop()
-        model.compile(loss=contrastive_loss, optimizer=rms)
+        model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
 
     for epoch in range(adjustable.epochs):
         print('epoch %d/%d' % (epoch, adjustable.epochs))
@@ -325,7 +328,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         predictions = model.predict([test_data[0, :], test_data[1, :]])
 
-        # FIXME make make_confusion_matrix euclidean distance compatible
         # matrix = pu.make_confusion_matrix(predictions, test_labels)
         matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
         accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
@@ -335,7 +337,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
             precision = 0
         confusion_matrices.append(matrix)
 
-        # FIXME make calculate_CMC euclidean distance compatible
         ranking = pu.calculate_CMC(adjustable, predictions)
         ranking_matrices.append(ranking)
 
@@ -356,13 +357,11 @@ def super_main(adjustable):
     """Runs main for a specified iterations. Useful for experiment running.
     Note: set iterations to 1 if you want to save weights
     """
+    # load the datasets from h5
     all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
-
-    # all_ranking, all_training_pos, all_training_neg = \
-    #     [ddl.create_training_and_ranking_set(name) for name in adjustable.datasets]
-
+    # select which GPU to use, necessary to start tf session
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
-
+    # arrays for storing results
     number_of_datasets = len(adjustable.datasets)
     name = np.zeros(number_of_datasets)
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
@@ -371,30 +370,26 @@ def super_main(adjustable):
     start = time.time()
     for iter in range(adjustable.iterations):
         print('-----ITERATION %d' % iter)
-
+        # lists for storing intermediate results
         all_ranking, all_training_pos, all_training_neg = [], [], []
+        # create training and ranking set for all datasets
         for name in range(len(adjustable.datasets)):
             ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name])
-
+            # labels have different meanings in `euclidean` case, 0 for match and 1 for mismatch
             if adjustable.cost_module_type == 'euclidean':
                 ranking = pu.flip_labels(ranking)
                 training_pos = pu.flip_labels(training_pos)
                 training_neg = pu.flip_labels(training_neg)
 
-            # all_ranking = all_ranking + rankinggpustat
-
-            # all_training_pos = all_training_pos + training_pos
-            # all_training_neg = all_training_neg + training_neg
-
             all_ranking.append(ranking)
             all_training_pos.append(training_pos)
             all_training_neg.append(training_neg)
-
+        # put all the training data together
         merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
-
+        # run main
         name, confusion_matrix, ranking_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
                                                       merged_training_neg)
-
+        # store results
         confusion_matrices[iter] = confusion_matrix
         ranking_matrices[iter] = ranking_matrix
 
@@ -405,7 +400,7 @@ def super_main(adjustable):
     matrix_std = np.zeros((number_of_datasets, 4))
     ranking_means = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
     ranking_std = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
-
+    # for each dataset, create confusion and ranking matrices
     for dataset in range(number_of_datasets):
         matrices = np.zeros((adjustable.iterations, 4))
         rankings = np.zeros((adjustable.iterations, pc.RANKING_NUMBER))
@@ -413,12 +408,12 @@ def super_main(adjustable):
         for iter in range(adjustable.iterations):
             matrices[iter] = confusion_matrices[iter][dataset]
             rankings[iter] = ranking_matrices[iter][dataset]
-
+        # calculate the mean and std
         matrix_means[dataset] = np.mean(matrices, axis=0)
         matrix_std[dataset] = np.std(matrices, axis=0)
         ranking_means[dataset] = np.mean(rankings, axis=0)
         ranking_std[dataset] = np.std(rankings, axis=0)
-
+    # log the results
     # note: TURN ON if you want to log results!!
     if pc.LOGGING:
         file_name = os.path.basename(__file__)

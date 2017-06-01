@@ -9,10 +9,8 @@ import keras
 from scipy import ndimage
 from PIL import Image
 from skimage.util import random_noise
-from matplotlib.image import imsave
 from itertools import combinations
 import time
-import matplotlib.pyplot as plt
 import random
 
 def zoom(image):
@@ -183,18 +181,8 @@ def only_test(model, h5_dataset, this_ranking):
 
 
 def main(adjustable, all_ranking, names, path, model):
-    # cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
-    # market_ranking = list(np.genfromtxt('market_ranking.txt', dtype=None))
-    #
-    # all_ranking = [cuhk02_ranking, market_ranking]
-    # names = ['cuhk02', 'market']
-    #
     confusion_matrices = []
     ranking_matrices = []
-    #
-    # path = os.path.join('../model_weights', adjustable.load_model_name)
-    # os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
-    # model = load_model(path)
 
     for item in range(len(all_ranking)):
         name = names[item]
@@ -226,19 +214,7 @@ def main(adjustable, all_ranking, names, path, model):
               % (name, accuracy, precision, str(matrix), str(ranking)))
 
     return confusion_matrices, ranking_matrices
-    #
-    # stop = time.time()
-    # total_time = stop - start
-    # number_of_datasets = 2
-    # matrix_std = np.zeros((number_of_datasets, 4))
-    # ranking_std = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
-    #
-    # # note: TURN ON if you want to log results!!
-    # if pc.LOGGING:
-    #     file_name = os.path.basename(__file__)
-    #     pu.enter_in_log(adjustable.experiment_name, file_name, names, confusion_matrices, matrix_std, ranking_matrices,
-    #                     ranking_std,
-    #                     total_time)
+
 
 def super_main(adjustable):
     start = time.time()

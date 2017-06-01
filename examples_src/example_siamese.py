@@ -40,8 +40,9 @@ def contrastive_loss(y_true, y_pred):
     http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
     '''
     margin = 1
-    return K.mean(y_true * K.square(y_pred) +
-                  (1 - y_true) * K.square(K.maximum(margin - y_pred, 0)))
+    loss = K.mean((1 - y_true) * K.square(y_pred) + y_true * K.square(K.maximum(margin - y_pred, 0)))
+
+    return loss
 
 
 def create_pairs(x, digit_indices):
@@ -92,7 +93,7 @@ x_test = x_test.astype('float32')
 x_train /= 255
 x_test /= 255
 input_dim = 784
-epochs = 1
+epochs = 5
 
 # create training+test positive and negative pairs
 digit_indices = [np.where(y_train == i)[0] for i in range(10)]
@@ -118,9 +119,12 @@ distance = Lambda(euclidean_distance,
 
 model = Model([input_a, input_b], distance)
 
+def eu(y_true, y_pred):
+    return abs(y_true - y_pred)
+
 # train
 rms = RMSprop()
-model.compile(loss=contrastive_loss, optimizer=rms)
+model.compile(loss=contrastive_loss, optimizer=rms, metrics=[eu])
 model.fit([tr_pairs[:, 0], tr_pairs[:, 1]], tr_y,
           batch_size=128,
           epochs=epochs,
