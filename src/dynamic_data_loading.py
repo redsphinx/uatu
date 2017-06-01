@@ -561,7 +561,7 @@ def get_positive_keys(name_dataset, partition, id, seen_list):
         indices_seen_image = [image_names_matching_id.index(im) for im in seen_list for name in image_names_matching_id
                               if im == name]
 
-        # todo testing something -> the probe is in
+        # make sure the probe is in the training set by removing it from seen
         updated_indices_seen = [indices_seen_image[-1]]
 
         # updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if

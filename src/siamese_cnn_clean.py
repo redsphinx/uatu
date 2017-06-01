@@ -20,7 +20,6 @@ def euclidean_distance(vects):
     return K.sqrt(K.sum(K.square(x - y), axis=1, keepdims=True))
 
 
-# TODO find out what this does
 def eucl_dist_output_shape(shapes):
     """ IDK what this does
     """
@@ -276,7 +275,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
     elif adjustable.cost_module_type == 'euclidean':
         rms = keras.optimizers.RMSprop()
-        # TODO: debug
         model.compile(loss=contrastive_loss, optimizer=rms)
 
     for epoch in range(adjustable.epochs):
@@ -292,7 +290,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         final_training_data = pu.sideways_shuffle(final_training_data)
 
-        # TODO: debug
         final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
                                  range(len(final_training_data))]
         if adjustable.cost_module_type == 'neural_network':
@@ -322,7 +319,11 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                     my_file.write(item)
 
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
-        final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
+
+
+
+        if adjustable.cost_module_type == 'neural_network':
+            final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
         predictions = model.predict([test_data[0, :], test_data[1, :]])
 
@@ -377,7 +378,6 @@ def super_main(adjustable):
         for name in range(len(adjustable.datasets)):
             ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name])
 
-            # TODO: debug
             if adjustable.cost_module_type == 'euclidean':
                 ranking = pu.flip_labels(ranking)
                 training_pos = pu.flip_labels(training_pos)
