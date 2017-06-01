@@ -33,8 +33,6 @@ Second phase: Improve the prototype in experiment cycles
 
 2 june
 ------
-. start more data
-
 . start implementing different distance metrics to compare with 'neural distance':
 .. DONE euclidean
 .. cosine distance metric
@@ -56,7 +54,7 @@ Second phase: Improve the prototype in experiment cycles
 .. DONE pu.make_confusion_matrix()
 .. DONE pu.calculate_CMC()
 
-. start more data
+. DONE start more data
 
 . start implementing different distance metrics to compare with 'neural distance':
 .. DONE euclidean

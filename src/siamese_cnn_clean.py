@@ -263,6 +263,14 @@ def train_network_light(adjustable, model, final_training_data, final_training_l
                   validation_split=0.01,
                   verbose=2)
 
+
+def save_model_and_weights(adjustable, epoch):
+    if epoch in adjustable.save_points:
+        return True
+    else:
+        return False
+
+
 def absolute_distance_difference(y_true, y_pred):
     return abs(y_true - y_pred)
 
@@ -299,6 +307,15 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
             final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
         train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
+
+        if adjustable.save_inbetween:
+            if save_model_and_weights(adjustable, epoch):
+
+                date = str(time.strftime("scnn_%d%m%Y_%H%M_epoch_%d_model.h5")) + "   " + str(time.strftime("%H:%M:%S"))
+
+                model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, time.strftime('scnn_%d%m%Y_%H:%M_epoch_%d_model.h5' % epoch)))
+                model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.scnn_save_model_name))
+
 
     confusion_matrices = []
     ranking_matrices = []
@@ -343,11 +360,11 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \n CMC: \n %s'
               % (name, accuracy, precision, str(matrix), str(ranking)))
 
-    if not adjustable.scnn_save_weights_name == None:
-        model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.scnn_save_weights_name))
-
-    if not adjustable.scnn_save_model_name == None:
-        model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.scnn_save_model_name))
+    # if not adjustable.scnn_save_weights_name == None:
+    #     model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.scnn_save_weights_name))
+    #
+    # if not adjustable.scnn_save_model_name == None:
+    #     model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.scnn_save_model_name))
 
     del model
     return names, confusion_matrices, ranking_matrices

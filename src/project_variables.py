@@ -69,6 +69,12 @@ class ProjectVariable(object):
         self._only_test = False # bool
         # size of kernel in conv2D
         self._kernel = (3, 3) # tuple
+        # wether or not to save inbetween
+        self._save_inbetween = False
+        # at which epoch to save
+        self._save_points = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+
 
     @property
     def use_gpu(self):
@@ -358,3 +364,21 @@ class ProjectVariable(object):
     @kernel.setter
     def kernel(self, value):
         self._kernel = value
+
+    # wether or not to save intermediary
+    @property
+    def save_inbetween(self):
+        return self._save_inbetween
+
+    @save_inbetween.setter
+    def save_inbetween(self, value):
+        self._save_inbetween = value
+
+    # at which epoch to save
+    @property
+    def save_points(self):
+        return self._save_points
+
+    @save_points.setter
+    def save_points(self, value):
+        self._save_points = value
