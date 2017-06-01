@@ -152,44 +152,30 @@ def enter_in_log(experiment_name, file_name, data_names, matrix_means, matrix_st
 def calculate_CMC(adjustable, predictions):
     # TODO: debug
     ble = np.shape(predictions)
+
     if adjustable.cost_module_type == 'neural_network':
-        ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
         predictions = np.reshape(predictions[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-        tallies = np.zeros(pc.RANKING_NUMBER)
-        final_ranking = []
-
-        for row in range(len(predictions)):
-            # get the indices by sorted values from high to low
-            ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
-                                                            reverse=True)]
-            list_form = ranking_matrix_abs[row].tolist()
-            num = list_form.index(row)
-            tallies[num] += 1
-
-        for tally in range(len(tallies)):
-            percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
-            final_ranking.append(float('%0.2f' % percentage))
-        return final_ranking
     elif adjustable.cost_module_type == 'euclidean':
         predictions = predictions.ravel()
-        ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-        predictions = np.reshape(predictions, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-        tallies = np.zeros(pc.RANKING_NUMBER)
-        final_ranking = []
-
-        for row in range(len(predictions)):
-            # note: the smaller the distance, the more alike the images are. So we sort from low to high
-            ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1])]
-            list_form = ranking_matrix_abs[row].tolist()
-            num = list_form.index(row)
-            tallies[num] += 1
-
-        for tally in range(len(tallies)):
-            percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
-            final_ranking.append(float('%0.2f' % percentage))
-        return final_ranking
     else:
-        return None
+        predictions = None
+
+    ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+    tallies = np.zeros(pc.RANKING_NUMBER)
+    final_ranking = []
+
+    for row in range(len(predictions)):
+        # get the indices by sorted values from high to low
+        ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
+                                                        reverse=True)]
+        list_form = ranking_matrix_abs[row].tolist()
+        num = list_form.index(row)
+        tallies[num] += 1
+
+    for tally in range(len(tallies)):
+        percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
+        final_ranking.append(float('%0.2f' % percentage))
+    return final_ranking
 
 
 def reduce_float_length(a_list, decimals):

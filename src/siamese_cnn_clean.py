@@ -327,7 +327,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         # FIXME make make_confusion_matrix euclidean distance compatible
         # matrix = pu.make_confusion_matrix(predictions, test_labels)
-        matrix = pu.make_confusion_matrix(predictions, final_testing_labels)
+        matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
         accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
         if not matrix[0] == 0:
             precision = (matrix[0] * 1.0 / (matrix[0] + matrix[1] * 1.0))
@@ -336,7 +336,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         confusion_matrices.append(matrix)
 
         # FIXME make calculate_CMC euclidean distance compatible
-        ranking = pu.calculate_CMC(predictions)
+        ranking = pu.calculate_CMC(adjustable, predictions)
         ranking_matrices.append(ranking)
 
         print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \n CMC: \n %s'
