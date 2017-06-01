@@ -320,8 +320,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
 
-
-
         if adjustable.cost_module_type == 'neural_network':
             final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 

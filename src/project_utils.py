@@ -52,12 +52,27 @@ def get_wrong_predictions():
                 thing = paths[line].split('/')[-1]
                 copyfile(paths[line], os.path.join(folder, thing))
 
+# todo: debug
+def threshold_predictions(adjustable, predictions):
+    num_pred = len(predictions)
+    if adjustable.cost_module_type == 'neural_network':
+        new_predictions = np.zeros((num_pred, 2))
+        for item in range(num_pred):
+            new_predictions[item, np.argmax(predictions[item])] = 1
 
-def threshold_predictions(predictions):
-    new_predictions = np.zeros((len(predictions), 2))
-    for item in range(0, len(predictions)):
-        new_predictions[item, np.argmax(predictions[item])] = 1
-    return new_predictions
+        return new_predictions
+    elif adjustable.cost_module_type == 'euclidean':
+        predictions = predictions.ravel()
+        new_predictions = [0] * num_pred
+        for item in range(num_pred):
+            if predictions[item] < adjustable.distance_threshold:
+                new_predictions[item] = 0
+            else:
+                new_predictions[item] = 1
+
+        new_predictions = np.asarray(new_predictions)
+        return new_predictions
+
 
 
 def calculate_accuracy(predictions, labels):
@@ -79,10 +94,10 @@ def calculate_accuracy(predictions, labels):
 
 
 # FIXME make it euclidean distance compatible
-def make_confusion_matrix(predictions, labels):
-    if len(np.shape(labels)) > 1:
-        predictions = threshold_predictions(predictions)
-        tp, fp, tn, fn = 0, 0, 0, 0
+def make_confusion_matrix(adjustable, predictions, labels):
+    predictions = threshold_predictions(adjustable, predictions)
+    tp, fp, tn, fn = 0, 0, 0, 0
+    if adjustable.cost_module_type == 'neural_network':
         for lab in range(0, len(labels)):
             if labels[lab][0] == 0:
                 if predictions[lab][0] == 0:
@@ -94,9 +109,7 @@ def make_confusion_matrix(predictions, labels):
                     tn += 1
                 else:
                     fp += 1
-    else:
-        predictions = threshold_predictions(predictions)
-        tp, fp, tn, fn = 0, 0, 0, 0
+    elif adjustable.cost_module_type == 'euclidean':
         for lab in range(0, len(labels)):
             if labels[lab] == 1:
                 if predictions[lab] == 1:
@@ -136,10 +149,10 @@ def enter_in_log(experiment_name, file_name, data_names, matrix_means, matrix_st
 
 
 # FIXME make comptible with euclidean distance
-def calculate_CMC(predictions):
+def calculate_CMC(adjustable, predictions):
     # TODO: debug
     ble = np.shape(predictions)
-    if len(np.shape(predictions)) > 1:
+    if adjustable.cost_module_type == 'neural_network':
         ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
         predictions = np.reshape(predictions[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
         tallies = np.zeros(pc.RANKING_NUMBER)
@@ -157,7 +170,8 @@ def calculate_CMC(predictions):
             percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
             final_ranking.append(float('%0.2f' % percentage))
         return final_ranking
-    else:
+    elif adjustable.cost_module_type == 'euclidean':
+        predictions = predictions.ravel()
         ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
         predictions = np.reshape(predictions, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
         tallies = np.zeros(pc.RANKING_NUMBER)
@@ -174,6 +188,8 @@ def calculate_CMC(predictions):
             percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
             final_ranking.append(float('%0.2f' % percentage))
         return final_ranking
+    else:
+        return None
 
 
 def reduce_float_length(a_list, decimals):
@@ -182,7 +198,6 @@ def reduce_float_length(a_list, decimals):
     return a_list
 
 
-# TODO: debug
 def sideways_shuffle(data_list):
     """ Data comes in already shuffled but only horizontally. I think that the order matters because the features get
         concatenated. And in `combinations` the first item gets paired with others while always being in the left column
@@ -205,7 +220,6 @@ def sideways_shuffle(data_list):
     return data_list
 
 
-# TODO: debug
 def flip_labels(data_list):
     """ Gets a list of pairs and labels and flips the labels. so 1 becomes 0 and 0 becomes 1
     """

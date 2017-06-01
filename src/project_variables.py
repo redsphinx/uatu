@@ -10,6 +10,8 @@ class ProjectVariable(object):
         # the operation to perform with the siamese head features. choice of: 'concatenate', 'add', 'multiply'
         #                                                                     'subtract', 'divide', 'absolute'
         self._neural_distance = 'concatenate'  # string
+        # distance threshold
+        self._distance_threshold = 0.5
         # make layers trainable. choice of: True, False
         self._trainable = True  # bool
         # the number of filters in the convolutional layers. choice of: 1, 2
@@ -93,6 +95,15 @@ class ProjectVariable(object):
     @neural_distance.setter
     def neural_distance(self, value):
         self._neural_distance = value
+
+    # distance threshold
+    @property
+    def distance_threshold(self):
+        return self._distance_threshold
+
+    @distance_threshold.setter
+    def distance_threshold(self, value):
+        self._distance_threshold = value
     
     # self._trainable = None  # bool
     @property
