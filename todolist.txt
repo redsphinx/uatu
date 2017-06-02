@@ -71,7 +71,7 @@ This is to more quickly find out what works and what doesn't. So not to compare 
 
 [cost_module_type = 'neural_network']
 
-adjustable.numfil = 1	(will take less time)
+adjustable.numfil = 1	#(will take less time)
 adjustable.pooling_size = [[4,2], [2,2]]
 adjustable.neural_distance_layers = (128, 256)
 adjustable.kernel = (5, 5)
@@ -108,7 +108,15 @@ adjustable.distance_threshold = 1
 adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] 
 
 .. experiments with priming
+When we have the best network:
+adjustable.awesomeperfection = ???
+adjustable.save_inbetween = true
 
+after we save the models and weights:
+for each epoch in adjustable.save_points:
+adjustable.load_weights_name = '???'
+adjustable.load_model_name = '???'
+adjustable.prime_epochs = 5
 
 1 june
 ------

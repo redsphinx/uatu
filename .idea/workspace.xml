@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_variables.py" afterPath="$PROJECT_DIR$/src/project_variables.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_clean.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
-    </list>
+    <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="" />
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -54,11 +50,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.558698">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="360">
-                  <caret line="313" column="0" lean-forward="true" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
+                <state relative-caret-position="105">
+                  <caret line="296" column="0" lean-forward="true" selection-start-line="296" selection-start-column="0" selection-end-line="296" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -76,11 +72,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="running_experiments.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="running_experiments.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-4845">
-                  <caret line="944" column="62" lean-forward="false" selection-start-line="944" selection-start-column="62" selection-end-line="944" selection-end-column="62" />
+                <state relative-caret-position="615">
+                  <caret line="1308" column="21" lean-forward="true" selection-start-line="1308" selection-start-column="21" selection-end-line="1308" selection-end-column="21" />
                   <folding />
                 </state>
               </provider>
@@ -1119,14 +1115,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4845">
-          <caret line="944" column="62" lean-forward="false" selection-start-line="944" selection-start-column="62" selection-end-line="944" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -1137,8 +1125,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="313" column="0" lean-forward="true" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
+        <state relative-caret-position="105">
+          <caret line="296" column="0" lean-forward="true" selection-start-line="296" selection-start-column="0" selection-end-line="296" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="1308" column="21" lean-forward="true" selection-start-line="1308" selection-start-column="21" selection-end-line="1308" selection-end-column="21" />
           <folding />
         </state>
       </provider>
