@@ -65,6 +65,8 @@ This is to more quickly find out what works and what doesn't. So not to compare 
 	adjustable.cl_min = 0.00005
 	adjustable.cl_max = 0.001
 
+4*280m=18.7H
+
 ** if euclidean sucks, train longer
 
 >>> Depending on which one is better, choose those settings.

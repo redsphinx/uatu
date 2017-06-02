@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="" />
+    <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bash_run_experiments.sh" afterPath="$PROJECT_DIR$/src/bash_run_experiments.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments.py" afterPath="$PROJECT_DIR$/src/running_experiments.py" />
+    </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -47,7 +50,7 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.558698">
+    <splitter split-orientation="horizontal" split-proportion="0.5026681">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
@@ -72,11 +75,21 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="running_experiments.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="running_experiments.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="615">
-                  <caret line="1308" column="21" lean-forward="true" selection-start-line="1308" selection-start-column="21" selection-end-line="1308" selection-end-column="21" />
+                <state relative-caret-position="659">
+                  <caret line="1346" column="0" lean-forward="true" selection-start-line="1346" selection-start-column="0" selection-end-line="1346" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="bash_run_experiments.sh" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="105">
+                  <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -111,8 +124,8 @@
           <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_variables.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
-                  <caret line="27" column="37" lean-forward="true" selection-start-line="27" selection-start-column="37" selection-end-line="27" selection-end-column="37" />
+                <state relative-caret-position="255">
+                  <caret line="32" column="24" lean-forward="false" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
                   <folding />
                 </state>
               </provider>
@@ -220,7 +233,6 @@
         <option value="$PROJECT_DIR$/src/nvidia_bash_utils.py" />
         <option value="$PROJECT_DIR$/src/cuhk02_ranking.txt" />
         <option value="$PROJECT_DIR$/src/testing_stuff.py" />
-        <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
         <option value="$PROJECT_DIR$/src/experiment_log.txt" />
         <option value="$PROJECT_DIR$/examples_src/example_siamese.py" />
         <option value="$PROJECT_DIR$/src/project_constants.py" />
@@ -228,9 +240,10 @@
         <option value="$PROJECT_DIR$/src/project_utils.py" />
         <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
         <option value="$PROJECT_DIR$/src/project_data_handling.py" />
-        <option value="$PROJECT_DIR$/src/running_experiments.py" />
-        <option value="$PROJECT_DIR$/src/project_variables.py" />
         <option value="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
+        <option value="$PROJECT_DIR$/src/project_variables.py" />
+        <option value="$PROJECT_DIR$/src/running_experiments.py" />
+        <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
       </list>
     </option>
   </component>
@@ -287,7 +300,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="examples_src" />
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -670,7 +683,7 @@
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17075774" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17075774" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11502783" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32919255" sideWeight="0.50213444" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1011,14 +1024,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="29" lean-forward="false" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/experiment_log.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="958">
@@ -1115,14 +1120,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="27" column="37" lean-forward="true" selection-start-line="27" selection-start-column="37" selection-end-line="27" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1131,10 +1128,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="32" column="24" lean-forward="false" selection-start-line="32" selection-start-column="24" selection-end-line="32" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="1308" column="21" lean-forward="true" selection-start-line="1308" selection-start-column="21" selection-end-line="1308" selection-end-column="21" />
+        <state relative-caret-position="659">
+          <caret line="1346" column="0" lean-forward="true" selection-start-line="1346" selection-start-column="0" selection-end-line="1346" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
           <folding />
         </state>
       </provider>

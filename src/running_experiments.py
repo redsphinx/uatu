@@ -1308,25 +1308,58 @@ def experiment_ds():
     a.iterations = 1
     scn.super_main(a)
 
+
+def experiment_92():
+    a = ProjectVariable()
+    a.experiment_name = '92. baseline: debugged network'
+    a.epochs = 40
+    scn.super_main(a)
+
+
+def experiment_92_2():
+    a = ProjectVariable()
+    a.experiment_name = '92_2. improved baseline: elu + CL 0.00005-0.001'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    scn.super_main(a)
+
+
+def experiment_93():
+    a = ProjectVariable()
+    a.experiment_name = '93. euclidean baseline: debugged network'
+    a.cost_module_type = 'euclidean'
+    a.epochs = 40
+    scn.super_main(a)
+
+
+def experiment_93_2():
+    a = ProjectVariable()
+    a.experiment_name = '93_2. euclidean improved baseline: elu + CL 0.00005-0.001'
+    a.cost_module_type = 'euclidean'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    scn.super_main(a)
+
+
 def main():
     # TODO run these experiments
-    # num = sys.argv[1]
-    # print(sys.argv)
-    #
-    # if num == '87':
-    #     experiment_87()
-    #
-    # if num == '88':
-    #     experiment_88()
-    #
-    # if num == '89':
-    #     experiment_89()
-    #
-    # if num == '90':
-    #     experiment_90()
-    #
-    # if num == '91':
-    #     experiment_91()
-    experiment_ds()
+    num = sys.argv[1]
+    print(sys.argv)
+
+    if num == '92':
+        experiment_92()
+
+    if num == '92_2':
+        experiment_92_2()
+
+    if num == '93':
+        experiment_93()
+
+    if num == '93_2':
+        experiment_93_2()
 
 main()

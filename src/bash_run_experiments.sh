@@ -1,7 +1,7 @@
 #!/bin/sh
 
-python running_experiments.py 88
-python running_experiments.py 89
-python running_experiments.py 90
-python running_experiments.py 91
+python running_experiments.py 92
+python running_experiments.py 92_2
+python running_experiments.py 93
+python running_experiments.py 93_2
 
