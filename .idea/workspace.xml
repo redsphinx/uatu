@@ -57,8 +57,8 @@
           <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="568">
-                  <caret line="343" column="73" lean-forward="true" selection-start-line="343" selection-start-column="73" selection-end-line="343" selection-end-column="73" />
+                <state relative-caret-position="360">
+                  <caret line="313" column="0" lean-forward="true" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -79,8 +79,8 @@
           <file leaf-file-name="running_experiments.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="764">
-                  <caret line="1305" column="17" lean-forward="true" selection-start-line="1305" selection-start-column="17" selection-end-line="1305" selection-end-column="17" />
+                <state relative-caret-position="-4845">
+                  <caret line="944" column="62" lean-forward="false" selection-start-line="944" selection-start-column="62" selection-end-line="944" selection-end-column="62" />
                   <folding />
                 </state>
               </provider>
@@ -115,8 +115,8 @@
           <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_variables.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="855">
-                  <caret line="72" column="43" lean-forward="false" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
+                <state relative-caret-position="180">
+                  <caret line="27" column="37" lean-forward="true" selection-start-line="27" selection-start-column="37" selection-end-line="27" selection-end-column="37" />
                   <folding />
                 </state>
               </provider>
@@ -135,7 +135,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>weights</find>
       <find>prime_epoch</find>
       <find>genfr</find>
       <find>viper</find>
@@ -165,6 +164,7 @@
       <find>len(predictions)</find>
       <find>neural_distance</find>
       <find>kernel</find>
+      <find>pooling_</find>
     </findStrings>
     <replaceStrings>
       <replace>neg</replace>
@@ -301,7 +301,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.toDoOptions" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="settings.editor.splitter.proportion" value="0.27307326" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/gabi/PycharmProjects/uatu/src/testing_stuff.py" />
@@ -1109,14 +1109,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="764">
-          <caret line="1305" column="17" lean-forward="true" selection-start-line="1305" selection-start-column="17" selection-end-line="1305" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-586">
@@ -1127,18 +1119,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/running_experiments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4845">
+          <caret line="944" column="62" lean-forward="false" selection-start-line="944" selection-start-column="62" selection-end-line="944" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="72" column="43" lean-forward="false" selection-start-line="72" selection-start-column="43" selection-end-line="72" selection-end-column="43" />
+        <state relative-caret-position="180">
+          <caret line="27" column="37" lean-forward="true" selection-start-line="27" selection-start-column="37" selection-end-line="27" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="343" column="73" lean-forward="true" selection-start-line="343" selection-start-column="73" selection-end-line="343" selection-end-column="73" />
+        <state relative-caret-position="360">
+          <caret line="313" column="0" lean-forward="true" selection-start-line="313" selection-start-column="0" selection-end-line="313" selection-end-column="0" />
           <folding />
         </state>
       </provider>

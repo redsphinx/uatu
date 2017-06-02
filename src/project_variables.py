@@ -31,10 +31,6 @@ class ProjectVariable(object):
         self._batch_size = 64  # int
         # the number of epochs
         self._epochs = 30  # int
-        # save the weights of the scnn. choice of: True, False
-        self._scnn_save_weights_name = None  # string
-        # save scn as a model. choice of: True, False
-        self._scnn_save_model_name = None  # string
         # number of times to repeat experiment
         self._iterations = 5  # int
         # the experiment name
@@ -73,7 +69,12 @@ class ProjectVariable(object):
         self._save_inbetween = False # bool
         # at which epoch to save
         self._save_points = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100] # list
-
+        # UNUSED
+        # save the weights of the scnn. choice of: True, False
+        self._scnn_save_weights_name = None  # string
+        # UNUSED
+        # save scn as a model. choice of: True, False
+        self._scnn_save_model_name = None  # string
 
 
     @property

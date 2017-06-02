@@ -164,11 +164,12 @@ def create_siamese_head(adjustable):
     model.add(Conv2D(512 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_6',
                      trainable=adjustable.trainable))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_7')
-    model.add(Conv2D(1024 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_7',
-                     trainable=adjustable.trainable))
-    model.add(Activation(adjustable.activation_function))
-    if use_batch_norm == True:
-        model.add(BatchNormalization(name='bn_8', trainable=adjustable.trainable))
+    if adjustable.pooling_size == [[2, 2], [2, 2]]:
+        model.add(Conv2D(1024 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_7',
+                         trainable=adjustable.trainable))
+        model.add(Activation(adjustable.activation_function))
+        if use_batch_norm == True:
+            model.add(BatchNormalization(name='bn_8', trainable=adjustable.trainable))
     model.add(Flatten(name='cnn_flat'))
 
     if not adjustable.weights_name == None:
@@ -301,10 +302,12 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
 
+        time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
+
         if adjustable.save_inbetween and adjustable.iterations == 1:
             if epoch+1 in adjustable.save_points:
-                model_name = time.strftime('scnn_%d%m%Y_%H%M') + '_epoch_%d_model.h5' % epoch
-                weights_name = time.strftime('scnn_%d%m%Y_%H%M') + '_epoch_%d_weights.h5' % epoch
+                model_name = time_stamp + '_epoch_%d_model.h5' % epoch
+                weights_name = time_stamp + '_epoch_%d_weights.h5' % epoch
 
                 model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
                 model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
@@ -324,7 +327,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         # make a record of the ranking selection for each dataset
         # for priming
-        if not adjustable.scnn_save_weights_name == None:
+        if adjustable.save_inbetween and adjustable.iterations == 1:
             file_name = '%s_ranking.txt' % name
             with open(file_name, 'w') as my_file:
                 for item in this_ranking:

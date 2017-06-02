@@ -46,6 +46,67 @@ Second phase: Improve the prototype in experiment cycles
 
 . setup new experiments
 .. experiments with SCN
+
+This is to more quickly find out what works and what doesn't. So not to compare with SOTA
+
+>>> 10 epochs = 14 mins with rank=20, batch_size=64
+    5 iter + 40 epochs = 5*4*14=280m=4.7h
+92. baseline:	
+	adjustable.iterations = 5
+	adjustable.epochs = 40
+92_2. improved baseline:
+	adjustable.activation_function = 'elu'
+	adjustable.cl_min = 0.00005
+	adjustable.cl_max = 0.001
+93. baseline [euclidean]
+	adjustable.cost_module_type = 'euclidean'
+93_2. improved baseline [euclidean]:
+	adjustable.activation_function = 'elu'
+	adjustable.cl_min = 0.00005
+	adjustable.cl_max = 0.001
+
+** if euclidean sucks, train longer
+
+>>> Depending on which one is better, choose those settings.
+
+[cost_module_type = 'neural_network']
+
+adjustable.numfil = 1	(will take less time)
+adjustable.pooling_size = [[4,2], [2,2]]
+adjustable.neural_distance_layers = (128, 256)
+adjustable.kernel = (5, 5)
+
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256)
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] 
+adjustable.numfil = 2 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256)
+
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.kernel = (5, 5)
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.kernel = (5, 5)
+adjustable.numfil = 2 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.kernel = (5, 5)
+
+adjustable.pooling_type = 'avg_pooling' 
+adjustable.neural_distance = 'absolute'
+adjustable.neural_distance = 'subtract'
+adjustable.neural_distance = 'divide'
+
+>>> If neural_distance modifications are making sense:
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'absolute'
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'subtract'
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'divide'
+
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'absolute' + adjustable.kernel = (5, 5)
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'subtract' + adjustable.kernel = (5, 5)
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'divide' + adjustable.kernel = (5, 5)
+
+[cost_module_type = 'euclidean']
+** this has to train enough and may take more time than 'neural_network'
+adjustable.numfil = 1	(will take less time)
+adjustable.pooling_size = [[4,2], [2,2]]
+adjustable.kernel = (5, 5)
+adjustable.distance_threshold = 1
+
+adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] 
+
 .. experiments with priming
 
 
