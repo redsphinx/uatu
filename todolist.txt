@@ -33,6 +33,9 @@ Second phase: Improve the prototype in experiment cycles
 
 2 june
 ------
+
+. DONE implement saving at indicated checkpoints
+
 . start implementing different distance metrics to compare with 'neural distance':
 .. DONE euclidean
 .. cosine distance metric

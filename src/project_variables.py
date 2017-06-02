@@ -70,9 +70,9 @@ class ProjectVariable(object):
         # size of kernel in conv2D
         self._kernel = (3, 3) # tuple
         # wether or not to save inbetween
-        self._save_inbetween = False
+        self._save_inbetween = False # bool
         # at which epoch to save
-        self._save_points = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        self._save_points = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100] # list
 
 
 
