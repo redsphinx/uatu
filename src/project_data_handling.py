@@ -764,6 +764,7 @@ def pre_selection(the_list, unique_ids, all_ids, num):
         full_path_group = [the_list[i] for i in id_group]
         # update min_id_group_size
         if min_id_group_size > len(id_group): min_id_group_size = len(id_group)
+        # FIXME market has min id group size of 2: this is an issue. add option to pop the groups of size 2 if dataset == market
         if num > len(id_group):
             # if the number of allowed images is greater than the number of matching ID images,
             # add all the images of that ID to the selection

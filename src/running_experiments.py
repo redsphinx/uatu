@@ -2198,7 +2198,7 @@ def experiment_163():
     
 def experiment_164():
     a = ProjectVariable()
-    a.experiment_name = '161. network 105 train only on grid for 40 epochs'
+    a.experiment_name = '164. network 105 train only on grid for 40 epochs'
     a.epochs = 40
     a.datasets = ['grid']
     a.activation_function = 'elu'
@@ -2235,15 +2235,102 @@ def experiment_166():
     scn.super_main(a)
 
 
+def experiment_171():
+    a = ProjectVariable()
+    a.experiment_name = '171. network 105 train only on viper for 40 epochs ranking=20'
+    a.epochs = 40
+    a.datasets = ['viper']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_172():
+    a = ProjectVariable()
+    a.experiment_name = '172. network 105 train only on cuhk02 for 40 epochs ranking=20'
+    a.epochs = 40
+    a.datasets = ['cuhk02']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_173():
+    a = ProjectVariable()
+    a.experiment_name = '173. network 105 train only on market for 40 epochs ranking=20'
+    a.epochs = 40
+    a.datasets = ['market']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_174():
+    a = ProjectVariable()
+    a.experiment_name = '174. network 105 train only on grid for 40 epochs ranking=20'
+    a.epochs = 40
+    a.datasets = ['grid']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_175():
+    a = ProjectVariable()
+    a.experiment_name = '165. network 105 train only on prid450 for 40 epochs ranking=20'
+    a.epochs = 40
+    a.datasets = ['prid450']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_176():
+    a = ProjectVariable()
+    a.experiment_name = '176. network 105 train only on caviar for 40 epochs. ran with ranking=20. again for fun'
+    a.epochs = 40
+    a.datasets = ['caviar']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
 
 
 def main():
     # TODO run these experiments
-    num = sys.argv[1]
-    print(sys.argv)
+    # num = sys.argv[1]
+    # print(sys.argv)
+    #
+    #
+    # if num == '171':
+    #     experiment_171()
+    # if num == '172':
+    #     experiment_172()
+    # if num == '173':
+    #     experiment_173()
+    # if num == '174':
+    #     experiment_174()
+    # if num == '175':
+    #     experiment_175()
+    # if num == '176':
+    #     experiment_176()
 
-
-    if num == '166':
-        experiment_166()
-
+    experiment_173()
 main()
