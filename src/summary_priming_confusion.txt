@@ -1,0 +1,359 @@
+name_of_experiment:         111. priming: test only 105 at epoch 10
+cuhk02 mean tp,fp,tn,fn:    [18.0, 45.0, 335.0, 2.0]
+market mean tp,fp,tn,fn:    [19.0, 109.0, 271.0, 1.0]
+
+
+name_of_experiment:         111_2. priming 105 at epoch 10
+cuhk02 mean tp,fp,tn,fn:    [17.0, 40.0, 340.0, 3.0]
+market mean tp,fp,tn,fn:    [16.2, 53.0, 327.0, 3.8]
+
+
+name_of_experiment:         112. priming: test only 105 at epoch 20
+cuhk02 mean tp,fp,tn,fn:    [19.0, 26.0, 354.0, 1.0]
+market mean tp,fp,tn,fn:    [13.0, 49.0, 331.0, 7.0]
+
+
+name_of_experiment:         112_2. priming 105 at epoch 20
+cuhk02 mean tp,fp,tn,fn:    [18.6, 44.2, 335.8, 1.4]
+market mean tp,fp,tn,fn:    [14.0, 55.0, 325.0, 6.0]
+
+
+name_of_experiment:         113. priming: test only 105 at epoch 30
+cuhk02 mean tp,fp,tn,fn:    [20.0, 18.0, 362.0, 0.0]
+market mean tp,fp,tn,fn:    [15.0, 46.0, 334.0, 5.0]
+
+
+name_of_experiment:         113_2. priming 105 at epoch 30
+cuhk02 mean tp,fp,tn,fn:    [18.6, 65.8, 314.2, 1.4]
+market mean tp,fp,tn,fn:    [17.8, 57.4, 322.6, 2.2]
+
+
+name_of_experiment:         114. priming: test only 105 at epoch 40
+cuhk02 mean tp,fp,tn,fn:    [19.0, 11.0, 369.0, 1.0]
+market mean tp,fp,tn,fn:    [12.0, 41.0, 339.0, 8.0]
+
+
+name_of_experiment:         114_2. priming 105 at epoch 40
+cuhk02 mean tp,fp,tn,fn:    [19.0, 60.8, 319.2, 1.0]
+market mean tp,fp,tn,fn:    [17.0, 96.2, 283.8, 3.0]
+
+
+name_of_experiment:         115. priming: test only 105 at epoch 50
+cuhk02 mean tp,fp,tn,fn:    [20.0, 15.0, 365.0, 0.0]
+market mean tp,fp,tn,fn:    [14.0, 24.0, 356.0, 6.0]
+
+
+name_of_experiment:         115_2. priming 105 at epoch 50
+cuhk02 mean tp,fp,tn,fn:    [19.6, 60.4, 319.6, 0.4]
+market mean tp,fp,tn,fn:    [18.2, 55.6, 324.4, 1.8]
+
+
+name_of_experiment:         116. priming: test only 105 at epoch 60
+cuhk02 mean tp,fp,tn,fn:    [19.0, 22.0, 358.0, 1.0]
+market mean tp,fp,tn,fn:    [13.0, 28.0, 352.0, 7.0]
+
+
+name_of_experiment:         116_2. priming 105 at epoch 60
+cuhk02 mean tp,fp,tn,fn:    [19.6, 53.6, 326.4, 0.4]
+market mean tp,fp,tn,fn:    [18.0, 65.4, 314.6, 2.0]
+
+
+name_of_experiment:         117. priming: test only 105 at epoch 70
+cuhk02 mean tp,fp,tn,fn:    [20.0, 11.0, 369.0, 0.0]
+market mean tp,fp,tn,fn:    [11.0, 11.0, 369.0, 9.0]
+
+
+name_of_experiment:         117_2. priming 105 at epoch 70
+cuhk02 mean tp,fp,tn,fn:    [19.6, 47.2, 332.8, 0.4]
+market mean tp,fp,tn,fn:    [16.8, 51.6, 328.4, 3.2]
+
+
+name_of_experiment:         118. priming: test only 105 at epoch 80
+cuhk02 mean tp,fp,tn,fn:    [19.0, 4.0, 376.0, 1.0]
+market mean tp,fp,tn,fn:    [9.0, 13.0, 367.0, 11.0]
+
+
+name_of_experiment:         118_2. priming 105 at epoch 80
+cuhk02 mean tp,fp,tn,fn:    [19.8, 41.0, 339.0, 0.2]
+market mean tp,fp,tn,fn:    [17.0, 46.4, 333.6, 3.0]
+
+
+name_of_experiment:         119. priming: test only 105 at epoch 90
+cuhk02 mean tp,fp,tn,fn:    [20.0, 8.0, 372.0, 0.0]
+market mean tp,fp,tn,fn:    [15.0, 17.0, 363.0, 5.0]
+
+
+name_of_experiment:         119_2. priming 105 at epoch 90
+cuhk02 mean tp,fp,tn,fn:    [19.2, 31.6, 348.4, 0.8]
+market mean tp,fp,tn,fn:    [18.0, 44.2, 335.8, 2.0]
+
+
+name_of_experiment:         120. priming: test only 105 at epoch 100
+cuhk02 mean tp,fp,tn,fn:    [19.0, 3.0, 377.0, 1.0]
+market mean tp,fp,tn,fn:    [10.0, 7.0, 373.0, 10.0]
+
+name_of_experiment:         120_2. priming 105 at epoch 100
+cuhk02 mean tp,fp,tn,fn:    [19.0, 31.6, 348.4, 1.0]
+market mean tp,fp,tn,fn:    [17.0, 36.6, 343.4, 3.0]
+
+
+name_of_experiment:         121. priming 105 at epoch 10, train 3 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.0, 38.0, 342.0, 2.0]
+market mean tp,fp,tn,fn:    [17.8, 54.6, 325.4, 2.2]
+
+
+name_of_experiment:         122. priming 105 at epoch 20, train 3 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.6, 43.4, 336.6, 1.4]
+market mean tp,fp,tn,fn:    [14.8, 55.2, 324.8, 5.2]
+
+
+name_of_experiment:         123. priming 105 at epoch 30, train 3 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.4, 60.2, 319.8, 1.6]
+market mean tp,fp,tn,fn:    [17.6, 57.8, 322.2, 2.4]
+
+
+name_of_experiment:         124. priming 105 at epoch 40, train 3 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.8, 59.6, 320.4, 1.2]
+market mean tp,fp,tn,fn:    [18.0, 108.0, 272.0, 2.0]
+
+
+name_of_experiment:         125. priming 105 at epoch 50, train 3 epochs
+cuhk02 mean tp,fp,tn,fn:    [19.8, 53.4, 326.6, 0.2]
+market mean tp,fp,tn,fn:    [19.0, 58.4, 321.6, 1.0]
+
+
+name_of_experiment:         126. priming 105 at epoch 60, train 3 epochs
+cuhk02 mean tp,fp,tn,fn:    [19.8, 53.6, 326.4, 0.2]
+market mean tp,fp,tn,fn:    [18.4, 65.0, 315.0, 1.6]
+
+
+name_of_experiment:         127. priming 105 at epoch 70, train 3 epochs
+cuhk02 mean tp,fp,tn,fn:    [20.0, 45.2, 334.8, 0.0]
+market mean tp,fp,tn,fn:    [17.6, 49.6, 330.4, 2.4]
+
+
+name_of_experiment:         128. priming 105 at epoch 80, train 3 epochs
+cuhk02 mean tp,fp,tn,fn:    [20.0, 37.4, 342.6, 0.0]
+market mean tp,fp,tn,fn:    [17.2, 46.8, 333.2, 2.8]
+
+
+name_of_experiment:         129. priming 105 at epoch 90, train 3 epochs
+cuhk02 mean tp,fp,tn,fn:    [20.0, 32.8, 347.2, 0.0]
+market mean tp,fp,tn,fn:    [18.0, 39.0, 341.0, 2.0]
+
+
+name_of_experiment:         130. priming 105 at epoch 100, train 3 epochs
+cuhk02 mean tp,fp,tn,fn:    [19.4, 33.4, 346.6, 0.6]
+market mean tp,fp,tn,fn:    [17.0, 36.8, 343.2, 3.0]
+
+
+name_of_experiment:         131. priming 105 at epoch 10, train 1 epochs
+cuhk02 mean tp,fp,tn,fn:    [16.8, 37.6, 342.4, 3.2]
+cuhk02 mean ranking:        [0.55, 0.8, 0.92, 0.95, 0.98, 0.98, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [18.8, 67.2, 312.8, 1.2]
+market mean ranking:        [0.49, 0.66, 0.79, 0.82, 0.87, 0.94, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         132. priming 105 at epoch 20, train 1 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.6, 64.6, 315.4, 1.4]
+cuhk02 mean ranking:        [0.71, 0.87, 0.93, 0.93, 0.99, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [15.4, 68.8, 311.2, 4.6]
+market mean ranking:        [0.36, 0.61, 0.69, 0.78, 0.84, 0.88, 0.89, 0.92, 0.95, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         133. priming 105 at epoch 30, train 1 epochs
+cuhk02 mean tp,fp,tn,fn:    [19.8, 65.8, 314.2, 0.2]
+cuhk02 mean ranking:        [0.76, 0.96, 0.96, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [19.4, 85.8, 294.2, 0.6]
+market mean ranking:        [0.59, 0.7, 0.77, 0.86, 0.89, 0.95, 0.96, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         134. priming 105 at epoch 40, train 1 epochs
+cuhk02 mean tp,fp,tn,fn:    [19.6, 78.6, 301.4, 0.4]
+cuhk02 mean ranking:        [0.85, 0.93, 0.94, 0.95, 0.99, 0.99, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [18.4, 151.2, 228.8, 1.6]
+market mean ranking:        [0.39, 0.62, 0.76, 0.84, 0.85, 0.86, 0.89, 0.9, 0.92, 0.93, 0.98, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         135. priming 105 at epoch 50, train 1 epochs
+cuhk02 mean tp,fp,tn,fn:    [20.0, 65.6, 314.4, 0.0]
+cuhk02 mean ranking:        [0.91, 0.92, 0.98, 0.98, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [19.4, 73.4, 306.6, 0.6]
+market mean ranking:        [0.51, 0.79, 0.81, 0.9, 0.93, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         136. priming 105 at epoch 60, train 1 epochs
+cuhk02 mean tp,fp,tn,fn:    [20.0, 67.4, 312.6, 0.0]
+cuhk02 mean ranking:        [0.87, 0.93, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [19.0, 93.8, 286.2, 1.0]
+market mean ranking:        [0.56, 0.74, 0.85, 0.89, 0.9, 0.9, 0.9, 0.95, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         137. priming 105 at epoch 70, train 1 epochs
+cuhk02 mean tp,fp,tn,fn:    [19.8, 52.2, 327.8, 0.2]
+cuhk02 mean ranking:        [0.91, 0.96, 0.98, 0.98, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [18.2, 55.4, 324.6, 1.8]
+market mean ranking:        [0.61, 0.75, 0.8, 0.85, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         138. priming 105 at epoch 80, train 1 epochs
+cuhk02 mean tp,fp,tn,fn:    [19.8, 47.2, 332.8, 0.2]
+cuhk02 mean ranking:        [0.9, 0.97, 0.97, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [18.0, 55.8, 324.2, 2.0]
+market mean ranking:        [0.61, 0.66, 0.77, 0.85, 0.9, 0.96, 0.96, 0.96, 0.97, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         139. priming 105 at epoch 90, train 1 epochs
+cuhk02 mean tp,fp,tn,fn:    [20.0, 42.6, 337.4, 0.0]
+cuhk02 mean ranking:        [0.91, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [17.4, 50.2, 329.8, 2.6]
+market mean ranking:        [0.63, 0.76, 0.82, 0.84, 0.86, 0.93, 0.94, 0.95, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         140. priming 105 at epoch 100, train 1 epochs
+cuhk02 mean tp,fp,tn,fn:    [20.0, 39.8, 340.2, 0.0]
+cuhk02 mean ranking:        [0.96, 0.97, 0.98, 0.98, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [16.2, 42.2, 337.8, 3.8]
+market mean ranking:        [0.6, 0.78, 0.87, 0.94, 0.96, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         141. priming 105 at epoch 10, train 10 epochs
+cuhk02 mean tp,fp,tn,fn:    [15.0, 38.8, 341.2, 5.0]
+cuhk02 mean ranking:        [0.59, 0.76, 0.82, 0.84, 0.91, 0.95, 0.96, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [15.2, 48.4, 331.6, 4.8]
+market mean ranking:        [0.51, 0.71, 0.77, 0.86, 0.91, 0.94, 0.95, 0.96, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         142. priming 105 at epoch 20, train 10 epochs
+cuhk02 mean tp,fp,tn,fn:    [16.4, 46.0, 334.0, 3.6]
+cuhk02 mean ranking:        [0.74, 0.82, 0.85, 0.86, 0.91, 0.98, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [13.6, 52.2, 327.8, 6.4]
+market mean ranking:        [0.46, 0.67, 0.79, 0.82, 0.87, 0.9, 0.91, 0.95, 0.98, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         143. priming 105 at epoch 30, train 10 epochs
+cuhk02 mean tp,fp,tn,fn:    [17.2, 72.8, 307.2, 2.8]
+cuhk02 mean ranking:        [0.61, 0.7, 0.81, 0.84, 0.9, 0.92, 0.94, 0.97, 0.98, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [15.8, 58.4, 321.6, 4.2]
+market mean ranking:        [0.54, 0.64, 0.77, 0.85, 0.88, 0.88, 0.89, 0.91, 0.93, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         144. priming 105 at epoch 40, train 10 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.4, 75.8, 304.2, 1.6]
+cuhk02 mean ranking:        [0.61, 0.71, 0.76, 0.82, 0.9, 0.92, 0.95, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [15.8, 84.4, 295.6, 4.2]
+market mean ranking:        [0.43, 0.7, 0.77, 0.8, 0.8, 0.8, 0.8, 0.83, 0.93, 0.96, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         145. priming 105 at epoch 50, train 10 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.6, 64.8, 315.2, 1.4]
+cuhk02 mean ranking:        [0.67, 0.79, 0.88, 0.9, 0.94, 0.96, 0.96, 0.98, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [17.2, 55.0, 325.0, 2.8]
+market mean ranking:        [0.52, 0.73, 0.76, 0.85, 0.85, 0.91, 0.95, 0.98, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         146. priming 105 at epoch 60, train 10 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.6, 57.0, 323.0, 1.4]
+cuhk02 mean ranking:        [0.72, 0.86, 0.89, 0.98, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [17.2, 57.2, 322.8, 2.8]
+market mean ranking:        [0.56, 0.72, 0.8, 0.85, 0.91, 0.91, 0.95, 0.98, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         147. priming 105 at epoch 70, train 10 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.4, 47.6, 332.4, 1.6]
+cuhk02 mean ranking:        [0.79, 0.88, 0.9, 0.95, 0.98, 0.98, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [15.6, 49.6, 330.4, 4.4]
+market mean ranking:        [0.53, 0.71, 0.82, 0.94, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         148. priming 105 at epoch 80, train 10 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.2, 44.2, 335.8, 1.8]
+cuhk02 mean ranking:        [0.63, 0.8, 0.86, 0.91, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [16.4, 41.6, 338.4, 3.6]
+market mean ranking:        [0.52, 0.68, 0.81, 0.9, 0.95, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         149. priming 105 at epoch 90, train 10 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.6, 36.4, 343.6, 1.4]
+cuhk02 mean ranking:        [0.9, 0.93, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [16.8, 44.8, 335.2, 3.2]
+market mean ranking:        [0.78, 0.87, 0.87, 0.89, 0.91, 0.95, 0.96, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         150. priming 105 at epoch 100, train 10 epochs
+cuhk02 mean tp,fp,tn,fn:    [19.0, 39.4, 340.6, 1.0]
+cuhk02 mean ranking:        [0.78, 0.82, 0.88, 0.88, 0.97, 0.98, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [15.8, 41.8, 338.2, 4.2]
+market mean ranking:        [0.61, 0.8, 0.86, 0.89, 0.93, 0.94, 0.95, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         151. priming 105 at epoch 10, train 20 epochs
+cuhk02 mean tp,fp,tn,fn:    [14.0, 42.8, 337.2, 6.0]
+cuhk02 mean ranking:        [0.56, 0.71, 0.79, 0.83, 0.86, 0.91, 0.97, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [11.6, 37.8, 342.2, 8.4]
+market mean ranking:        [0.44, 0.65, 0.71, 0.75, 0.83, 0.86, 0.91, 0.92, 0.96, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         152. priming 105 at epoch 20, train 20 epochs
+cuhk02 mean tp,fp,tn,fn:    [17.4, 53.2, 326.8, 2.6]
+cuhk02 mean ranking:        [0.71, 0.82, 0.86, 0.9, 0.93, 0.98, 0.99, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [13.2, 49.8, 330.2, 6.8]
+market mean ranking:        [0.47, 0.62, 0.74, 0.82, 0.84, 0.86, 0.9, 0.92, 0.92, 0.94, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         153. priming 105 at epoch 30, train 20 epochs
+cuhk02 mean tp,fp,tn,fn:    [17.8, 77.8, 302.2, 2.2]
+cuhk02 mean ranking:        [0.5, 0.61, 0.81, 0.84, 0.9, 0.96, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [15.4, 55.2, 324.8, 4.6]
+market mean ranking:        [0.54, 0.7, 0.81, 0.85, 0.88, 0.89, 0.9, 0.91, 0.92, 0.97, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         154. priming 105 at epoch 40, train 20 epochs
+cuhk02 mean tp,fp,tn,fn:    [17.4, 73.0, 307.0, 2.6]
+cuhk02 mean ranking:        [0.59, 0.71, 0.77, 0.79, 0.86, 0.89, 0.9, 0.91, 0.97, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [15.8, 76.6, 303.4, 4.2]
+market mean ranking:        [0.38, 0.68, 0.75, 0.79, 0.81, 0.82, 0.84, 0.91, 0.93, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         155. priming 105 at epoch 50, train 20 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.4, 73.6, 306.4, 1.6]
+cuhk02 mean ranking:        [0.6, 0.77, 0.87, 0.91, 0.93, 0.95, 0.95, 0.95, 0.95, 0.96, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [17.0, 61.6, 318.4, 3.0]
+market mean ranking:        [0.44, 0.66, 0.74, 0.87, 0.87, 0.9, 0.91, 0.92, 0.98, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         156. priming 105 at epoch 60, train 20 epochs
+cuhk02 mean tp,fp,tn,fn:    [17.6, 64.6, 315.4, 2.4]
+cuhk02 mean ranking:        [0.57, 0.74, 0.8, 0.9, 0.96, 0.96, 0.97, 0.97, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [16.2, 64.0, 316.0, 3.8]
+market mean ranking:        [0.46, 0.7, 0.81, 0.84, 0.93, 0.96, 0.97, 0.98, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         157. priming 105 at epoch 70, train 20 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.8, 53.6, 326.4, 1.2]
+cuhk02 mean ranking:        [0.74, 0.86, 0.89, 0.94, 0.96, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [15.0, 56.0, 324.0, 5.0]
+market mean ranking:        [0.49, 0.69, 0.79, 0.89, 0.93, 0.95, 0.96, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         158. priming 105 at epoch 80, train 20 epochs
+cuhk02 mean tp,fp,tn,fn:    [17.2, 50.8, 329.2, 2.8]
+cuhk02 mean ranking:        [0.58, 0.76, 0.8, 0.88, 0.96, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [14.2, 50.0, 330.0, 5.8]
+market mean ranking:        [0.47, 0.62, 0.78, 0.88, 0.92, 0.96, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         159. priming 105 at epoch 90, train 20 epochs
+cuhk02 mean tp,fp,tn,fn:    [18.2, 33.4, 346.6, 1.8]
+cuhk02 mean ranking:        [0.87, 0.9, 0.91, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [15.6, 48.6, 331.4, 4.4]
+market mean ranking:        [0.62, 0.81, 0.82, 0.85, 0.88, 0.91, 0.94, 0.94, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+
+name_of_experiment:         160. priming 105 at epoch 100, train 20 epochs
+cuhk02 mean tp,fp,tn,fn:    [19.4, 54.4, 325.6, 0.6]
+cuhk02 mean ranking:        [0.75, 0.81, 0.87, 0.87, 0.93, 0.97, 0.98, 0.98, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market mean tp,fp,tn,fn:    [13.4, 39.8, 340.2, 6.6]
+market mean ranking:        [0.59, 0.82, 0.87, 0.9, 0.9, 0.9, 0.94, 0.97, 0.98, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+
+

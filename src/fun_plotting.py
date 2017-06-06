@@ -50,4 +50,25 @@ def plot_CMC():
     # plt.savefig('CMC_curve_viper_cihk01.png', format='png', dpi=400)
     plt.show()
 
-plot_CMC()
+# plot_CMC()
+
+def plot_reli():
+    y = [1, 0.95, 0.55, 0.45, 0.9, 1]
+    x = [0.08, 0.45, 0.37, 0.01, 0.03, 0.05]
+    labels = ['viper', 'cuhk02', 'market', 'caviar', 'grid', 'prid']
+    plt.plot(x, y, 'o')
+    plt.xlabel('percentage')
+    plt.ylabel('rank-1')
+
+    for label, x, y in zip(labels, x, y):
+        plt.annotate(
+            label,
+            xy=(x, y), xytext=(40, 20),
+            textcoords='offset points', ha='right', va='bottom',
+            bbox=dict(boxstyle='round,pad=0.5', fc='yellow', alpha=0.5),
+            arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
+
+    plt.show()
+
+
+plot_reli()

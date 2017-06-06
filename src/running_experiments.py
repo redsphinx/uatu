@@ -2157,59 +2157,93 @@ def experiment_160():
     prime.super_main(a)
 
 
+def experiment_161():
+    a = ProjectVariable()
+    a.experiment_name = '161. network 105 train only on viper for 40 epochs'
+    a.epochs = 40
+    a.datasets = ['viper']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+    
+    
+def experiment_162():
+    a = ProjectVariable()
+    a.experiment_name = '162. network 105 train only on cuhk02 for 40 epochs'
+    a.epochs = 40
+    a.datasets = ['cuhk02']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+    
+    
+def experiment_163():
+    a = ProjectVariable()
+    a.experiment_name = '163. network 105 train only on market for 40 epochs'
+    a.epochs = 40
+    a.datasets = ['market']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+    
+    
+def experiment_164():
+    a = ProjectVariable()
+    a.experiment_name = '161. network 105 train only on grid for 40 epochs'
+    a.epochs = 40
+    a.datasets = ['grid']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_165():
+    a = ProjectVariable()
+    a.experiment_name = '165. network 105 train only on prid450 for 40 epochs'
+    a.epochs = 40
+    a.datasets = ['prid450']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_166():
+    a = ProjectVariable()
+    a.experiment_name = '166. network 105 train only on caviar for 40 epochs. ran with ranking=20 because only 72 IDs'
+    a.epochs = 40
+    a.datasets = ['caviar']
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+
+
 def main():
     # TODO run these experiments
     num = sys.argv[1]
     print(sys.argv)
 
-    # if num == '94':
-        # experiment_94()
 
-    # if num == '95':
-        # experiment_95()
-
-    # if num == '96':
-        # experiment_96()
-
-    if num == '141':
-        experiment_141()
-    if num == '142':
-        experiment_142()
-    if num == '143':
-        experiment_143()
-    if num == '144':
-        experiment_144()
-    if num == '145':
-        experiment_145()
-    if num == '146':
-        experiment_146()
-    if num == '147':
-        experiment_147()
-    if num == '148':
-        experiment_148()
-    if num == '149':
-        experiment_149()
-    if num == '150':
-        experiment_150()
-    if num == '151':
-        experiment_151()
-    if num == '152':
-        experiment_152()
-    if num == '153':
-        experiment_153()
-    if num == '154':
-        experiment_154()
-    if num == '155':
-        experiment_155()
-    if num == '156':
-        experiment_156()
-    if num == '157':
-        experiment_157()
-    if num == '158':
-        experiment_158()
-    if num == '159':
-        experiment_159()
-    if num == '160':
-        experiment_160()
+    if num == '166':
+        experiment_166()
 
 main()
