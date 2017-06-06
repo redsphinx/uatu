@@ -1345,21 +1345,871 @@ def experiment_93_2():
     scn.super_main(a)
 
 
+def experiment_94():
+    a = ProjectVariable()
+    a.experiment_name = '94. numfil=1'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    scn.super_main(a)
+
+
+def experiment_95():
+    a = ProjectVariable()
+    a.experiment_name = '95. pooling_size=[[4,2],[2,2]]'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.pooling_size= [[4,2],[2,2]]
+    scn.super_main(a)
+
+
+def experiment_96():
+    a = ProjectVariable()
+    a.experiment_name = '96. neural_distance_layers=(128, 256)'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance_layers = (128, 256)
+    scn.super_main(a)
+
+
+def experiment_97():
+    a = ProjectVariable()
+    a.experiment_name = '97. kernel=(5,5)'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.kernel = (5, 5)
+    a.iterations = 1
+    scn.super_main(a)
+
+
+def experiment_98():
+    a = ProjectVariable()
+    a.experiment_name = '98. numfil=1 + pooling_size=[[4,2],[2,2]] + neural_distance=(128,256)'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.pooling_size= [[4,2],[2,2]]
+    a.neural_distance_layers = (128, 256)
+    scn.super_main(a)
+
+
+def experiment_99():
+    a = ProjectVariable()
+    a.experiment_name = '99. numfil=1 + pooling_size=[[4,2],[2,2]]'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.pooling_size= [[4,2],[2,2]]
+    scn.super_main(a)
+
+
+def experiment_100():
+    a = ProjectVariable()
+    a.experiment_name = '100. pooling_size=[[4,2],[2,2]] + neural_distance=(128,256)'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.pooling_size= [[4,2],[2,2]]
+    a.neural_distance_layers = (128, 256)
+    scn.super_main(a)
+
+
+def experiment_101():
+    a = ProjectVariable()
+    a.experiment_name = '101. pooling_type=avg_pooling'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.pooling_type = 'avg_pooling'
+    scn.super_main(a)
+
+
+def experiment_102():
+    a = ProjectVariable()
+    a.experiment_name = '102. neural_distance=absolute'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_103():
+    a = ProjectVariable()
+    a.experiment_name = '103. neural_distance=subtract'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'subtract'
+    scn.super_main(a)
+
+
+def experiment_104():
+    a = ProjectVariable()
+    a.experiment_name = '104. neural_distance=divide'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'divide'
+    scn.super_main(a)
+
+
+def experiment_105():
+    a = ProjectVariable()
+    a.experiment_name = '105. adjustable.numfil = 1 + neural_distance=absolute'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_106():
+    a = ProjectVariable()
+    a.experiment_name = '106. adjustable.numfil = 1 + pooling_size=[[4,2], [2,2]] +neural_distance=absolute'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.pooling_size = [[4,2],[2,2]]
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_107():
+    a = ProjectVariable()
+    a.experiment_name = '107. adjustable.numfil = 1 + neural_distance_layers=(128,256) + neural_distance=absolute'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance_layers = (128, 256)
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_108():
+    a = ProjectVariable()
+    a.experiment_name = '108. adjustable.numfil = 1 + pooling_size=[[4,2],[2,2]]  +neural_distance_layers=(128,256) + neural_distance=absolute'
+    a.epochs = 40
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance_layers = (128, 256)
+    a.pooling_size = [[4,2],[2,2]]
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def experiment_109():
+    a = ProjectVariable()
+    a.experiment_name = '109. saving network with config. 105 each 10 epochs. preparation for priming experiments'
+    a.epochs = 100
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.iterations = 1
+    a.neural_distance = 'absolute'
+    a.save_inbetween = True
+    scn.super_main(a)
+
+
+def experiment_110():
+    a = ProjectVariable()
+    a.experiment_name = '110. test only epoch 100'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1622_epoch_100_weights.h5'
+    a.load_model_name = 'scnn_05062017_1622_epoch_100_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+    
+
+def experiment_111():
+    a = ProjectVariable()
+    a.experiment_name = '111. priming: test only 105 at epoch 10'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1522_epoch_10_weights.h5'
+    a.load_model_name = 'scnn_05062017_1522_epoch_10_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+
+def experiment_111_2():
+    a = ProjectVariable()
+    a.experiment_name = '111_2. priming 105 at epoch 10'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1522_epoch_10_weights.h5'
+    a.load_model_name = 'scnn_05062017_1522_epoch_10_model.h5'
+    a.prime_epochs = 5
+    prime.super_main(a)
+
+
+def experiment_112():
+    a = ProjectVariable()
+    a.experiment_name = '112. priming: test only 105 at epoch 20'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1529_epoch_20_weights.h5'
+    a.load_model_name = 'scnn_05062017_1529_epoch_20_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+
+def experiment_112_2():
+    a = ProjectVariable()
+    a.experiment_name = '112_2. priming 105 at epoch 20'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1529_epoch_20_weights.h5'
+    a.load_model_name = 'scnn_05062017_1529_epoch_20_model.h5'
+    a.prime_epochs = 5
+    prime.super_main(a)
+
+
+def experiment_113():
+    a = ProjectVariable()
+    a.experiment_name = '113. priming: test only 105 at epoch 30'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1535_epoch_30_weights.h5'
+    a.load_model_name = 'scnn_05062017_1535_epoch_30_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+
+def experiment_113_2():
+    a = ProjectVariable()
+    a.experiment_name = '113_2. priming 105 at epoch 30'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1535_epoch_30_weights.h5'
+    a.load_model_name = 'scnn_05062017_1535_epoch_30_model.h5'
+    a.prime_epochs = 5
+    prime.super_main(a)
+
+
+def experiment_114():
+    a = ProjectVariable()
+    a.experiment_name = '114. priming: test only 105 at epoch 40'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1542_epoch_40_weights.h5'
+    a.load_model_name = 'scnn_05062017_1542_epoch_40_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+
+def experiment_114_2():
+    a = ProjectVariable()
+    a.experiment_name = '114_2. priming 105 at epoch 40'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1542_epoch_40_weights.h5'
+    a.load_model_name = 'scnn_05062017_1542_epoch_40_model.h5'
+    a.prime_epochs = 5
+    prime.super_main(a)
+
+
+def experiment_115():
+    a = ProjectVariable()
+    a.experiment_name = '115. priming: test only 105 at epoch 50'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1549_epoch_50_weights.h5'
+    a.load_model_name = 'scnn_05062017_1549_epoch_50_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+
+def experiment_115_2():
+    a = ProjectVariable()
+    a.experiment_name = '115_2. priming 105 at epoch 50'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1549_epoch_50_weights.h5'
+    a.load_model_name = 'scnn_05062017_1549_epoch_50_model.h5'
+    a.prime_epochs = 5
+    prime.super_main(a)
+
+
+def experiment_116():
+    a = ProjectVariable()
+    a.experiment_name = '116. priming: test only 105 at epoch 60'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1555_epoch_60_weights.h5'
+    a.load_model_name = 'scnn_05062017_1555_epoch_60_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+
+def experiment_116_2():
+    a = ProjectVariable()
+    a.experiment_name = '116_2. priming 105 at epoch 60'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1555_epoch_60_weights.h5'
+    a.load_model_name = 'scnn_05062017_1555_epoch_60_model.h5'
+    a.prime_epochs = 5
+    prime.super_main(a)
+
+
+def experiment_117():
+    a = ProjectVariable()
+    a.experiment_name = '117. priming: test only 105 at epoch 70'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1602_epoch_70_weights.h5'
+    a.load_model_name = 'scnn_05062017_1602_epoch_70_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+
+def experiment_117_2():
+    a = ProjectVariable()
+    a.experiment_name = '117_2. priming 105 at epoch 70'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1602_epoch_70_weights.h5'
+    a.load_model_name = 'scnn_05062017_1602_epoch_70_model.h5'
+    a.prime_epochs = 5
+    prime.super_main(a)
+
+
+def experiment_118():
+    a = ProjectVariable()
+    a.experiment_name = '118. priming: test only 105 at epoch 80'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1608_epoch_80_weights.h5'
+    a.load_model_name = 'scnn_05062017_1608_epoch_80_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+
+def experiment_118_2():
+    a = ProjectVariable()
+    a.experiment_name = '118_2. priming 105 at epoch 80'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1608_epoch_80_weights.h5'
+    a.load_model_name = 'scnn_05062017_1608_epoch_80_model.h5'
+    a.prime_epochs = 5
+    prime.super_main(a)
+
+
+def experiment_119():
+    a = ProjectVariable()
+    a.experiment_name = '119. priming: test only 105 at epoch 90'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1615_epoch_90_weights.h5'
+    a.load_model_name = 'scnn_05062017_1615_epoch_90_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+
+def experiment_119_2():
+    a = ProjectVariable()
+    a.experiment_name = '119_2. priming 105 at epoch 90'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1615_epoch_90_weights.h5'
+    a.load_model_name = 'scnn_05062017_1615_epoch_90_model.h5'
+    a.prime_epochs = 5
+    prime.super_main(a)
+
+
+def experiment_120():
+    a = ProjectVariable()
+    a.experiment_name = '120. priming: test only 105 at epoch 100'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_05062017_1622_epoch_100_weights.h5'
+    a.load_model_name = 'scnn_05062017_1622_epoch_100_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+
+def experiment_120_2():
+    a = ProjectVariable()
+    a.experiment_name = '120_2. priming 105 at epoch 100'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1622_epoch_100_weights.h5'
+    a.load_model_name = 'scnn_05062017_1622_epoch_100_model.h5'
+    a.prime_epochs = 5
+    prime.super_main(a)
+
+
+def experiment_121():
+    a = ProjectVariable()
+    a.experiment_name = '121. priming 105 at epoch 10, train 3 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1522_epoch_10_weights.h5'
+    a.load_model_name = 'scnn_05062017_1522_epoch_10_model.h5'
+    a.prime_epochs = 3
+    prime.super_main(a)
+
+
+def experiment_122():
+    a = ProjectVariable()
+    a.experiment_name = '122. priming 105 at epoch 20, train 3 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1529_epoch_20_weights.h5'
+    a.load_model_name = 'scnn_05062017_1529_epoch_20_model.h5'
+    a.prime_epochs = 3
+    prime.super_main(a)
+
+
+def experiment_123():
+    a = ProjectVariable()
+    a.experiment_name = '123. priming 105 at epoch 30, train 3 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1535_epoch_30_weights.h5'
+    a.load_model_name = 'scnn_05062017_1535_epoch_30_model.h5'
+    a.prime_epochs = 3
+    prime.super_main(a)
+
+
+def experiment_124():
+    a = ProjectVariable()
+    a.experiment_name = '124. priming 105 at epoch 40, train 3 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1542_epoch_40_weights.h5'
+    a.load_model_name = 'scnn_05062017_1542_epoch_40_model.h5'
+    a.prime_epochs = 3
+    prime.super_main(a)
+
+
+def experiment_125():
+    a = ProjectVariable()
+    a.experiment_name = '125. priming 105 at epoch 50, train 3 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1549_epoch_50_weights.h5'
+    a.load_model_name = 'scnn_05062017_1549_epoch_50_model.h5'
+    a.prime_epochs = 3
+    prime.super_main(a)
+
+
+def experiment_126():
+    a = ProjectVariable()
+    a.experiment_name = '126. priming 105 at epoch 60, train 3 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1555_epoch_60_weights.h5'
+    a.load_model_name = 'scnn_05062017_1555_epoch_60_model.h5'
+    a.prime_epochs = 3
+    prime.super_main(a)
+
+
+def experiment_127():
+    a = ProjectVariable()
+    a.experiment_name = '127. priming 105 at epoch 70, train 3 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1602_epoch_70_weights.h5'
+    a.load_model_name = 'scnn_05062017_1602_epoch_70_model.h5'
+    a.prime_epochs = 3
+    prime.super_main(a)
+
+
+def experiment_128():
+    a = ProjectVariable()
+    a.experiment_name = '128. priming 105 at epoch 80, train 3 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1608_epoch_80_weights.h5'
+    a.load_model_name = 'scnn_05062017_1608_epoch_80_model.h5'
+    a.prime_epochs = 3
+    prime.super_main(a)
+
+
+def experiment_129():
+    a = ProjectVariable()
+    a.experiment_name = '129. priming 105 at epoch 90, train 3 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1615_epoch_90_weights.h5'
+    a.load_model_name = 'scnn_05062017_1615_epoch_90_model.h5'
+    a.prime_epochs = 3
+    prime.super_main(a)
+
+
+def experiment_130():
+    a = ProjectVariable()
+    a.experiment_name = '130. priming 105 at epoch 100, train 3 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1622_epoch_100_weights.h5'
+    a.load_model_name = 'scnn_05062017_1622_epoch_100_model.h5'
+    a.prime_epochs = 3
+    prime.super_main(a)
+
+
+def experiment_131():
+    a = ProjectVariable()
+    a.experiment_name = '131. priming 105 at epoch 10, train 1 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1522_epoch_10_weights.h5'
+    a.load_model_name = 'scnn_05062017_1522_epoch_10_model.h5'
+    a.prime_epochs = 1
+    prime.super_main(a)
+
+
+def experiment_132():
+    a = ProjectVariable()
+    a.experiment_name = '132. priming 105 at epoch 20, train 1 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1529_epoch_20_weights.h5'
+    a.load_model_name = 'scnn_05062017_1529_epoch_20_model.h5'
+    a.prime_epochs = 1
+    prime.super_main(a)
+
+
+def experiment_133():
+    a = ProjectVariable()
+    a.experiment_name = '133. priming 105 at epoch 30, train 1 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1535_epoch_30_weights.h5'
+    a.load_model_name = 'scnn_05062017_1535_epoch_30_model.h5'
+    a.prime_epochs = 1
+    prime.super_main(a)
+
+
+def experiment_134():
+    a = ProjectVariable()
+    a.experiment_name = '134. priming 105 at epoch 40, train 1 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1542_epoch_40_weights.h5'
+    a.load_model_name = 'scnn_05062017_1542_epoch_40_model.h5'
+    a.prime_epochs = 1
+    prime.super_main(a)
+
+
+def experiment_135():
+    a = ProjectVariable()
+    a.experiment_name = '135. priming 105 at epoch 50, train 1 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1549_epoch_50_weights.h5'
+    a.load_model_name = 'scnn_05062017_1549_epoch_50_model.h5'
+    a.prime_epochs = 1
+    prime.super_main(a)
+
+
+def experiment_136():
+    a = ProjectVariable()
+    a.experiment_name = '136. priming 105 at epoch 60, train 1 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1555_epoch_60_weights.h5'
+    a.load_model_name = 'scnn_05062017_1555_epoch_60_model.h5'
+    a.prime_epochs = 1
+    prime.super_main(a)
+
+
+def experiment_137():
+    a = ProjectVariable()
+    a.experiment_name = '137. priming 105 at epoch 70, train 1 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1602_epoch_70_weights.h5'
+    a.load_model_name = 'scnn_05062017_1602_epoch_70_model.h5'
+    a.prime_epochs = 1
+    prime.super_main(a)
+
+
+def experiment_138():
+    a = ProjectVariable()
+    a.experiment_name = '138. priming 105 at epoch 80, train 1 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1608_epoch_80_weights.h5'
+    a.load_model_name = 'scnn_05062017_1608_epoch_80_model.h5'
+    a.prime_epochs = 1
+    prime.super_main(a)
+
+
+def experiment_139():
+    a = ProjectVariable()
+    a.experiment_name = '139. priming 105 at epoch 90, train 1 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1615_epoch_90_weights.h5'
+    a.load_model_name = 'scnn_05062017_1615_epoch_90_model.h5'
+    a.prime_epochs = 1
+    prime.super_main(a)
+
+
+def experiment_140():
+    a = ProjectVariable()
+    a.experiment_name = '140. priming 105 at epoch 100, train 1 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1622_epoch_100_weights.h5'
+    a.load_model_name = 'scnn_05062017_1622_epoch_100_model.h5'
+    a.prime_epochs = 1
+    prime.super_main(a)
+
+
+def experiment_141():
+    a = ProjectVariable()
+    a.experiment_name = '141. priming 105 at epoch 10, train 10 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1522_epoch_10_weights.h5'
+    a.load_model_name = 'scnn_05062017_1522_epoch_10_model.h5'
+    a.prime_epochs = 10
+    prime.super_main(a)
+
+
+def experiment_142():
+    a = ProjectVariable()
+    a.experiment_name = '142. priming 105 at epoch 20, train 10 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1529_epoch_20_weights.h5'
+    a.load_model_name = 'scnn_05062017_1529_epoch_20_model.h5'
+    a.prime_epochs = 10
+    prime.super_main(a)
+
+
+def experiment_143():
+    a = ProjectVariable()
+    a.experiment_name = '143. priming 105 at epoch 30, train 10 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1535_epoch_30_weights.h5'
+    a.load_model_name = 'scnn_05062017_1535_epoch_30_model.h5'
+    a.prime_epochs = 10
+    prime.super_main(a)
+
+
+def experiment_144():
+    a = ProjectVariable()
+    a.experiment_name = '144. priming 105 at epoch 40, train 10 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1542_epoch_40_weights.h5'
+    a.load_model_name = 'scnn_05062017_1542_epoch_40_model.h5'
+    a.prime_epochs = 10
+    prime.super_main(a)
+
+
+def experiment_145():
+    a = ProjectVariable()
+    a.experiment_name = '145. priming 105 at epoch 50, train 10 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1549_epoch_50_weights.h5'
+    a.load_model_name = 'scnn_05062017_1549_epoch_50_model.h5'
+    a.prime_epochs = 10
+    prime.super_main(a)
+
+
+def experiment_146():
+    a = ProjectVariable()
+    a.experiment_name = '146. priming 105 at epoch 60, train 10 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1555_epoch_60_weights.h5'
+    a.load_model_name = 'scnn_05062017_1555_epoch_60_model.h5'
+    a.prime_epochs = 10
+    prime.super_main(a)
+
+
+def experiment_147():
+    a = ProjectVariable()
+    a.experiment_name = '147. priming 105 at epoch 70, train 10 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1602_epoch_70_weights.h5'
+    a.load_model_name = 'scnn_05062017_1602_epoch_70_model.h5'
+    a.prime_epochs = 10
+    prime.super_main(a)
+
+
+def experiment_148():
+    a = ProjectVariable()
+    a.experiment_name = '148. priming 105 at epoch 80, train 10 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1608_epoch_80_weights.h5'
+    a.load_model_name = 'scnn_05062017_1608_epoch_80_model.h5'
+    a.prime_epochs = 10
+    prime.super_main(a)
+
+
+def experiment_149():
+    a = ProjectVariable()
+    a.experiment_name = '149. priming 105 at epoch 90, train 10 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1615_epoch_90_weights.h5'
+    a.load_model_name = 'scnn_05062017_1615_epoch_90_model.h5'
+    a.prime_epochs = 10
+    prime.super_main(a)
+
+
+def experiment_150():
+    a = ProjectVariable()
+    a.experiment_name = '150. priming 105 at epoch 100, train 10 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1622_epoch_100_weights.h5'
+    a.load_model_name = 'scnn_05062017_1622_epoch_100_model.h5'
+    a.prime_epochs = 10
+    prime.super_main(a)
+
+
+def experiment_151():
+    a = ProjectVariable()
+    a.experiment_name = '151. priming 105 at epoch 10, train 20 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1522_epoch_10_weights.h5'
+    a.load_model_name = 'scnn_05062017_1522_epoch_10_model.h5'
+    a.prime_epochs = 20
+    prime.super_main(a)
+
+
+def experiment_152():
+    a = ProjectVariable()
+    a.experiment_name = '152. priming 105 at epoch 20, train 20 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1529_epoch_20_weights.h5'
+    a.load_model_name = 'scnn_05062017_1529_epoch_20_model.h5'
+    a.prime_epochs = 20
+    prime.super_main(a)
+
+
+def experiment_153():
+    a = ProjectVariable()
+    a.experiment_name = '153. priming 105 at epoch 30, train 20 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1535_epoch_30_weights.h5'
+    a.load_model_name = 'scnn_05062017_1535_epoch_30_model.h5'
+    a.prime_epochs = 20
+    prime.super_main(a)
+
+
+def experiment_154():
+    a = ProjectVariable()
+    a.experiment_name = '154. priming 105 at epoch 40, train 20 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1542_epoch_40_weights.h5'
+    a.load_model_name = 'scnn_05062017_1542_epoch_40_model.h5'
+    a.prime_epochs = 20
+    prime.super_main(a)
+
+
+def experiment_155():
+    a = ProjectVariable()
+    a.experiment_name = '155. priming 105 at epoch 50, train 20 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1549_epoch_50_weights.h5'
+    a.load_model_name = 'scnn_05062017_1549_epoch_50_model.h5'
+    a.prime_epochs = 20
+    prime.super_main(a)
+
+
+def experiment_156():
+    a = ProjectVariable()
+    a.experiment_name = '156. priming 105 at epoch 60, train 20 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1555_epoch_60_weights.h5'
+    a.load_model_name = 'scnn_05062017_1555_epoch_60_model.h5'
+    a.prime_epochs = 20
+    prime.super_main(a)
+
+
+def experiment_157():
+    a = ProjectVariable()
+    a.experiment_name = '157. priming 105 at epoch 70, train 20 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1602_epoch_70_weights.h5'
+    a.load_model_name = 'scnn_05062017_1602_epoch_70_model.h5'
+    a.prime_epochs = 20
+    prime.super_main(a)
+
+
+def experiment_158():
+    a = ProjectVariable()
+    a.experiment_name = '158. priming 105 at epoch 80, train 20 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1608_epoch_80_weights.h5'
+    a.load_model_name = 'scnn_05062017_1608_epoch_80_model.h5'
+    a.prime_epochs = 20
+    prime.super_main(a)
+
+
+def experiment_159():
+    a = ProjectVariable()
+    a.experiment_name = '159. priming 105 at epoch 90, train 20 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1615_epoch_90_weights.h5'
+    a.load_model_name = 'scnn_05062017_1615_epoch_90_model.h5'
+    a.prime_epochs = 20
+    prime.super_main(a)
+
+
+def experiment_160():
+    a = ProjectVariable()
+    a.experiment_name = '160. priming 105 at epoch 100, train 20 epochs'
+    a.iterations = 5
+    a.load_weights_name = 'scnn_05062017_1622_epoch_100_weights.h5'
+    a.load_model_name = 'scnn_05062017_1622_epoch_100_model.h5'
+    a.prime_epochs = 20
+    prime.super_main(a)
+
+
 def main():
     # TODO run these experiments
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '92':
-        experiment_92()
+    # if num == '94':
+        # experiment_94()
 
-    if num == '92_2':
-        experiment_92_2()
+    # if num == '95':
+        # experiment_95()
 
-    if num == '93':
-        experiment_93()
+    # if num == '96':
+        # experiment_96()
 
-    if num == '93_2':
-        experiment_93_2()
+    if num == '141':
+        experiment_141()
+    if num == '142':
+        experiment_142()
+    if num == '143':
+        experiment_143()
+    if num == '144':
+        experiment_144()
+    if num == '145':
+        experiment_145()
+    if num == '146':
+        experiment_146()
+    if num == '147':
+        experiment_147()
+    if num == '148':
+        experiment_148()
+    if num == '149':
+        experiment_149()
+    if num == '150':
+        experiment_150()
+    if num == '151':
+        experiment_151()
+    if num == '152':
+        experiment_152()
+    if num == '153':
+        experiment_153()
+    if num == '154':
+        experiment_154()
+    if num == '155':
+        experiment_155()
+    if num == '156':
+        experiment_156()
+    if num == '157':
+        experiment_157()
+    if num == '158':
+        experiment_158()
+    if num == '159':
+        experiment_159()
+    if num == '160':
+        experiment_160()
 
 main()

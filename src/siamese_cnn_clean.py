@@ -306,8 +306,8 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         if adjustable.save_inbetween and adjustable.iterations == 1:
             if epoch+1 in adjustable.save_points:
-                model_name = time_stamp + '_epoch_%d_model.h5' % epoch
-                weights_name = time_stamp + '_epoch_%d_weights.h5' % epoch
+                model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
+                weights_name = time_stamp + '_epoch_%s_weights.h5' % str(epoch + 1)
 
                 model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
                 model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))

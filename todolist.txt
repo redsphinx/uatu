@@ -66,35 +66,42 @@ This is to more quickly find out what works and what doesn't. So not to compare 
 	adjustable.cl_max = 0.001
 
 4*280m=18.7H
+started at:             02-06 12:38
+expected to finish at:  03-06 07:20
 
-** if euclidean sucks, train longer
+** [TODO] if euclidean sucks, train longer
+.. it does suck, I think something is going wrong with the ranking. something that has to do with 0 being distance is small VS. not a match
 
 >>> Depending on which one is better, choose those settings.
 
 [cost_module_type = 'neural_network']
 
-adjustable.numfil = 1	#(will take less time)
-adjustable.pooling_size = [[4,2], [2,2]]
-adjustable.neural_distance_layers = (128, 256)
-adjustable.kernel = (5, 5)
+94. adjustable.numfil = 1	#(will take less time)    138m
+95. adjustable.pooling_size = [[4,2], [2,2]]        145m
+96. adjustable.neural_distance_layers = (128, 256)  240m
+97. adjustable.kernel = (5, 5) takes like 5500 sec ~ 92m  ~ 1.57 hours for 1 iteration: way too long
 
-adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256)
-adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] 
-adjustable.numfil = 2 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256)
+
+98. adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256)   113m
+99. adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]]                                                    111m
+100. adjustable.numfil = 2 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256)  144m
 
 adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.kernel = (5, 5)
 adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.kernel = (5, 5)
 adjustable.numfil = 2 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.kernel = (5, 5)
 
-adjustable.pooling_type = 'avg_pooling' 
-adjustable.neural_distance = 'absolute'
-adjustable.neural_distance = 'subtract'
-adjustable.neural_distance = 'divide'
+101. adjustable.pooling_type = 'avg_pooling'  241m
+102. adjustable.neural_distance = 'absolute'  238m
+103. adjustable.neural_distance = 'subtract'  241m
+104. adjustable.neural_distance = 'divide'    ~24:42
 
 >>> If neural_distance modifications are making sense:
-adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'absolute'
-adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'subtract'
-adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'divide'
+105. adjustable.numfil = 1 + adjustable.neural_distance = 'absolute'
+106. adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance = 'absolute'
+107. adjustable.numfil = 1 + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'absolute'
+108. adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'absolute'
+
+Depending on the results, repeat with numfil = 2
 
 adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'absolute' + adjustable.kernel = (5, 5)
 adjustable.numfil = 1 + adjustable.pooling_size = [[4,2], [2,2]] + adjustable.neural_distance_layers = (128, 256) + adjustable.neural_distance = 'subtract' + adjustable.kernel = (5, 5)

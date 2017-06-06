@@ -199,7 +199,7 @@ def main(adjustable, all_ranking, names, path, model):
                                 range(len(this_ranking))]
         final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
-        matrix = pu.make_confusion_matrix(full_predictions, final_testing_labels)
+        matrix = pu.make_confusion_matrix(adjustable, full_predictions, final_testing_labels)
         accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
         if not matrix[0] == 0:
             precision = (matrix[0] * 1.0 / (matrix[0] + matrix[1] * 1.0))
@@ -207,7 +207,7 @@ def main(adjustable, all_ranking, names, path, model):
             precision = 0
         confusion_matrices.append(matrix)
 
-        ranking = pu.calculate_CMC(full_predictions)
+        ranking = pu.calculate_CMC(adjustable, full_predictions)
         ranking_matrices.append(ranking)
 
         print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \n CMC: \n %s'
