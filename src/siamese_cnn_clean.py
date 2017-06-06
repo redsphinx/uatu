@@ -387,7 +387,8 @@ def super_main(adjustable):
                 ranking = pu.flip_labels(ranking)
                 training_pos = pu.flip_labels(training_pos)
                 training_neg = pu.flip_labels(training_neg)
-
+            # FIXME figure out grid issue with disappearing data
+            
             all_ranking.append(ranking)
             all_training_pos.append(training_pos)
             all_training_neg.append(training_neg)
