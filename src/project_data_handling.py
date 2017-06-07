@@ -726,18 +726,22 @@ def make_combos_1(ids):
     return combo_list
 
 
-def make_combos_2(fullpath, unique_ids, num, smallest_id_group):
+def make_combos_2(fullpath, unique_ids, num, smallest_id_group, the_type):
     if num > smallest_id_group:
         num = smallest_id_group
     combo_list = []
+    num_ids = len(unique_ids)
+    # if the_type == 'training': num_ids = len(fullpath) / 3
+    # elif the_type == 'ranking': num_ids = len(fullpath) / 2
+
     if num == 3:
-        for item in range(len(unique_ids)):
+        for item in range(num_ids):
             thing = str(fullpath[num*item] + ',' + fullpath[num*item+1] + ',1\n')
             combo_list.append(thing)
             thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 2] + ',1\n')
             combo_list.append(thing)
     elif num == 2:
-        for item in range(len(unique_ids)):
+        for item in range(num_ids):
             a = fullpath[num*item]
             b = fullpath[num*item+1]
             thing = str(fullpath[num*item] + ',' + fullpath[num*item+1] + ',1\n')
@@ -745,7 +749,9 @@ def make_combos_2(fullpath, unique_ids, num, smallest_id_group):
     return combo_list
 
 
-def pre_selection(the_list, unique_ids, all_ids, num):
+# FIXME market has min id group size of 2: this is an issue. add option to pop the groups of size 2 if dataset == market
+
+def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     """ Prevents there from being a HUGE number of combinations of pairs by setting an upper bound on allowed images per
         unique ID
     :param the_list:        list containing full path to images of the set of IDs. an ID can have multiple images
@@ -756,32 +762,63 @@ def pre_selection(the_list, unique_ids, all_ids, num):
     """
     selection = []
     min_id_group_size = 100000
+    # keep track of which ids we ignore.
+    ignore_id = []
 
     for id in unique_ids:
+        print('id: %s' % str(id))
         # get the indices for the matching IDs
         id_group = [i for i, x in enumerate(all_ids) if x == id]
         # get the fullpaths for each matching ID at the indices
         full_path_group = [the_list[i] for i in id_group]
         # update min_id_group_size
-        if min_id_group_size > len(id_group): min_id_group_size = len(id_group)
-        # FIXME market has min id group size of 2: this is an issue. add option to pop the groups of size 2 if dataset == market
-        if num > len(id_group):
-            # if the number of allowed images is greater than the number of matching ID images,
-            # add all the images of that ID to the selection
-            sub_selection = [thing for thing in full_path_group]
-            selection += sub_selection
-        else:
-            # if there are more matching ID images than allowed images,
-            # only add the number of allowed matching ID images
-            # use a random number to decide which images get popped to make sure you don't choose the same images always
-            for ble in range(num):
-                selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
+        # if the dataset is large and has a lot of large id groups(>num) then ignore the id groups that are smaller than num
+        if dataset_name == 'market' or dataset_name == 'cuhk02' or dataset_name == 'caviar':
+            if len(id_group) >= num:
+                # print('length id group: %d, num: %d' % (len(id_group), num))
+                if min_id_group_size > len(id_group):
+                    min_id_group_size = len(id_group)
+                # if there are more matching ID images than allowed images,
+                # only add the number of allowed matching ID images
+                # use a random number to decide which images get popped to make sure you don't choose the same images always
+                for ble in range(num):
+                    selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
+            else:
+                to_pop_index = unique_ids.index(id)
 
-    return selection, min_id_group_size
+                print('index: %s, to pop value: %d' % (str(id), to_pop_index))
+                ignore_id.append(id)
+        else:
+            if min_id_group_size > len(id_group): min_id_group_size = len(id_group)
+            if num > len(id_group):
+                # if the number of allowed images is greater than the number of matching ID images,
+                # add all the images of that ID to the selection
+                sub_selection = [thing for thing in full_path_group]
+                selection += sub_selection
+            else:
+                # if there are more matching ID images than allowed images,
+                # only add the number of allowed matching ID images
+                # use a random number to decide which images get popped to make sure you don't choose the same images always
+                for ble in range(num):
+                    selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
+
+    print('length unique ids before: %d' % (len(unique_ids)))
+
+    print('amount to pop: %d' % (len(ignore_id)))
+
+    for value in ignore_id:
+        index = unique_ids.index(value)
+        print('index: %d, value: %s' % (index, str(value)))
+        popped = unique_ids.pop(index)
+        print('popped: %d' % popped)
+
+    print('length unique ids after: %d' % (len(unique_ids)))
+
+    return selection, min_id_group_size, unique_ids
 
 
 #note:swapped
-def make_all_positives(id_all_file, unique_id_file, short_image_names_file, fullpath_image_names_file,
+def make_all_positives(id_all_file, unique_id_file, short_image_names_file, fullpath_image_names_file, dataset_name,
                ranking_number=pc.RANKING_NUMBER):
     """ This needs to be done once at the beginning of the iteration.
     """
@@ -828,10 +865,10 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     # then we have 4.4 million combos instead of 300 million which will take no more than 2 minutes. this is acceptable
     upper_bound = 3
     # create combinations and store the positive matches
-    ranking_ids_pos, min_group_size_rank = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids, num=2)
-    ranking_ids_pos = make_combos_2(ranking_ids_pos, ranking_ids, 2, min_group_size_rank)
-    training_ids_pos, min_group_size_train = pre_selection(training_ids_pos, train_ids, all_train_ids, upper_bound)
-    training_ids_pos = make_combos_2(training_ids_pos, train_ids, upper_bound, min_group_size_train)
+    ranking_ids_pos, min_group_size_rank, ranking_ids = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids, num=2, dataset_name=dataset_name)
+    ranking_ids_pos = make_combos_2(ranking_ids_pos, ranking_ids, 2, min_group_size_rank, 'ranking')
+    training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids, upper_bound, dataset_name)
+    training_ids_pos = make_combos_2(training_ids_pos, train_ids, upper_bound, min_group_size_train, 'training')
     # shuffle so that each time we get different first occurences
     rd.shuffle(ranking_ids_pos)
     rd.shuffle(training_ids_pos)
@@ -884,7 +921,7 @@ def make_pairs_viper():
         unique_id_and_all_images_viper()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file)
+                                                   fullpath_image_names_file, 'viper')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -911,7 +948,7 @@ def make_pairs_cuhk1():
         unique_id_and_all_images_cuhk1()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file)
+                                                   fullpath_image_names_file, 'cuhk01')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -971,7 +1008,7 @@ def make_pairs_cuhk2():
             unique_id_and_all_images_cuhk2()
 
         ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                       fullpath_image_names_file, ranking_number=adapted_ranking_number)
+                                                       fullpath_image_names_file, ranking_number=adapted_ranking_number, dataset_name='cuhk02')
 
         ranking = make_all_negatives(ranking_pos, 'ranking')
         training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -1003,7 +1040,7 @@ def make_pairs_market():
         unique_id_and_all_images_market()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file)
+                                                   fullpath_image_names_file, 'market')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -1029,7 +1066,7 @@ def make_pairs_caviar():
         unique_id_and_all_images_caviar()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file)
+                                                   fullpath_image_names_file, 'caviar')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -1056,7 +1093,7 @@ def make_pairs_grid():
         unique_id_and_all_images_grid()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file)
+                                                   fullpath_image_names_file, 'grid')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -1083,7 +1120,7 @@ def make_pairs_prid450():
         unique_id_and_all_images_prid450()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file)
+                                                   fullpath_image_names_file, 'prid450')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')

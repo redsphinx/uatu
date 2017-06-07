@@ -5737,3 +5737,103 @@ cuhk02 std tp,fp,tn,fn:     [0.89, 4.96, 4.96, 0.89]
 cuhk02 mean ranking:        [0.81, 0.92, 0.94, 0.96, 0.98, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
 cuhk02 std ranking:         [0.05, 0.06, 0.06, 0.04, 0.02, 0.02, 0.02, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
+
+name_of_experiment:         173. network 105 train only on market for 40 epochs ranking=20
+file_name:                  siamese_cnn_clean.pyc
+date:                       07/06/2017   13:16:50
+duration:                   67.763166
+market mean tp,fp,tn,fn:    [20.0, 268.0, 112.0, 0.0]
+market std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+market mean ranking:        [0.35, 0.55, 0.55, 0.7, 0.7, 0.75, 0.8, 0.85, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         174. network 105 train only on grid for 40 epochs ranking=20
+file_name:                  siamese_cnn_clean.pyc
+date:                       07/06/2017   13:17:47
+duration:                   23.291276
+grid mean tp,fp,tn,fn:    [7.0, 173.0, 207.0, 13.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.15, 0.15, 0.2, 0.2, 0.25, 0.25, 0.25, 0.25, 0.35, 0.4, 0.45, 0.55, 0.75, 0.75, 0.8, 0.9, 0.9, 1.0, 1.0, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         174. network 105 train only on grid for 40 epochs ranking=20
+file_name:                  siamese_cnn_clean.pyc
+date:                       07/06/2017   13:18:38
+duration:                   23.085773
+grid mean tp,fp,tn,fn:    [12.0, 174.0, 206.0, 8.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.05, 0.1, 0.15, 0.25, 0.3, 0.4, 0.45, 0.65, 0.65, 0.65, 0.65, 0.7, 0.85, 0.85, 0.9, 0.9, 0.9, 1.0, 1.0, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         174. network 105 train only on grid for 40 epochs ranking=20
+file_name:                  siamese_cnn_clean.pyc
+date:                       07/06/2017   13:33:13
+duration:                   23.640546
+grid mean tp,fp,tn,fn:    [1.0, 0.0, 380.0, 19.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.2, 0.25, 0.25, 0.5, 0.55, 0.6, 0.6, 0.65, 0.65, 0.65, 0.7, 0.8, 0.8, 0.9, 0.95, 0.95, 0.95, 0.95, 0.95, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         173. network 105 train only on market for 40 epochs ranking=20
+file_name:                  siamese_cnn_clean.pyc
+date:                       07/06/2017   13:57:42
+duration:                   65.284171
+market mean tp,fp,tn,fn:    [18.0, 153.0, 227.0, 2.0]
+market std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+market mean ranking:        [0.3, 0.55, 0.6, 0.7, 0.8, 0.8, 0.9, 0.9, 0.9, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         173. network 105 train only on market for 40 epochs ranking=20
+file_name:                  siamese_cnn_clean.pyc
+date:                       07/06/2017   13:59:22
+duration:                   65.370984
+market mean tp,fp,tn,fn:    [19.0, 140.0, 240.0, 1.0]
+market std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+market mean ranking:        [0.2, 0.35, 0.6, 0.75, 0.8, 0.8, 0.85, 0.9, 0.95, 0.95, 0.95, 0.95, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         174. network 105 train only on grid for 40 epochs ranking=20
+file_name:                  siamese_cnn_clean.pyc
+date:                       07/06/2017   14:00:04
+duration:                   23.501854
+grid mean tp,fp,tn,fn:    [20.0, 380.0, 0.0, 0.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.0, 0.1, 0.1, 0.15, 0.15, 0.25, 0.3, 0.35, 0.35, 0.45, 0.45, 0.55, 0.55, 0.6, 0.65, 0.65, 0.75, 0.85, 0.9, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         175. network 105 train only on prid450 for 40 epochs ranking=20
+file_name:                  siamese_cnn_clean.pyc
+date:                       07/06/2017   14:01:23
+duration:                   24.536691
+prid450 mean tp,fp,tn,fn:    [9.0, 174.0, 206.0, 11.0]
+prid450 std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+prid450 mean ranking:        [0.0, 0.0, 0.0, 0.05, 0.15, 0.25, 0.3, 0.35, 0.35, 0.35, 0.35, 0.55, 0.7, 0.7, 0.75, 0.8, 0.85, 0.95, 1.0, 1.0]
+prid450 std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         176. network 105 train only on caviar for 40 epochs. ran with ranking=20. again for fun
+file_name:                  siamese_cnn_clean.pyc
+date:                       07/06/2017   14:02:35
+duration:                   23.142828
+caviar mean tp,fp,tn,fn:    [20.0, 380.0, 0.0, 0.0]
+caviar std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+caviar mean ranking:        [0.0, 0.05, 0.05, 0.05, 0.1, 0.25, 0.25, 0.25, 0.25, 0.3, 0.35, 0.5, 0.5, 0.55, 0.65, 0.7, 0.85, 0.95, 1.0, 1.0]
+caviar std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         176. network 105 train only on caviar for 40 epochs. ran with ranking=20. again for fun
+file_name:                  siamese_cnn_clean.pyc
+date:                       07/06/2017   14:03:21
+duration:                   22.665162
+caviar mean tp,fp,tn,fn:    [20.0, 377.0, 3.0, 0.0]
+caviar std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+caviar mean ranking:        [0.0, 0.05, 0.1, 0.1, 0.1, 0.1, 0.1, 0.15, 0.2, 0.2, 0.25, 0.25, 0.35, 0.45, 0.45, 0.65, 0.65, 0.8, 0.95, 1.0]
+caviar std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
