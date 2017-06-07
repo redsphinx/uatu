@@ -2315,9 +2315,9 @@ def experiment_176():
 
 def experiment_euc():
     a = ProjectVariable()
-    a.experiment_name = 'euclidean_fc. euclidean baseline: debugged network'
-    a.cost_module_type = 'euclidean_fc'
-    a.epochs = 40
+    a.experiment_name = 'euclidean'
+    a.cost_module_type = 'euclidean'
+    a.epochs = 100
     a.iterations = 1
     a.activation_function = 'elu'
     a.cl_min = 0.00005
