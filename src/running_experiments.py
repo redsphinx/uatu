@@ -2315,8 +2315,8 @@ def experiment_176():
 
 def main():
     # TODO run these experiments
-    # num = sys.argv[1]
-    # print(sys.argv)
+    num = sys.argv[1]
+    print(sys.argv)
     #
     #
     # if num == '171':
@@ -2325,12 +2325,12 @@ def main():
     #     experiment_172()
     # if num == '173':
     #     experiment_173()
-    # if num == '174':
-    #     experiment_174()
+    if num == '174':
+        experiment_174()
     # if num == '175':
     #     experiment_175()
     # if num == '176':
     #     experiment_176()
 
-    experiment_174()
+    # experiment_174()
 main()
