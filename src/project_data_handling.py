@@ -766,7 +766,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     ignore_id = []
 
     for id in unique_ids:
-        print('id: %s' % str(id))
+        # print('id: %s' % str(id))
         # get the indices for the matching IDs
         id_group = [i for i, x in enumerate(all_ids) if x == id]
         # get the fullpaths for each matching ID at the indices
@@ -784,9 +784,9 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
                 for ble in range(num):
                     selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
             else:
-                to_pop_index = unique_ids.index(id)
-
-                print('index: %s, to pop value: %d' % (str(id), to_pop_index))
+                # to_pop_index = unique_ids.index(id)
+                #
+                # print('index: %s, to pop value: %d' % (str(id), to_pop_index))
                 ignore_id.append(id)
         else:
             if min_id_group_size > len(id_group): min_id_group_size = len(id_group)
@@ -802,17 +802,17 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
                 for ble in range(num):
                     selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
 
-    print('length unique ids before: %d' % (len(unique_ids)))
+    # print('length unique ids before: %d' % (len(unique_ids)))
 
-    print('amount to pop: %d' % (len(ignore_id)))
+    # print('amount to pop: %d' % (len(ignore_id)))
 
     for value in ignore_id:
         index = unique_ids.index(value)
-        print('index: %d, value: %s' % (index, str(value)))
+        # print('index: %d, value: %s' % (index, str(value)))
         popped = unique_ids.pop(index)
-        print('popped: %d' % popped)
+        # print('popped: %d' % popped)
 
-    print('length unique ids after: %d' % (len(unique_ids)))
+    # print('length unique ids after: %d' % (len(unique_ids)))
 
     return selection, min_id_group_size, unique_ids
 

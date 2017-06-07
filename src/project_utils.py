@@ -55,7 +55,7 @@ def get_wrong_predictions():
 
 def threshold_predictions(adjustable, predictions):
     num_pred = len(predictions)
-    if adjustable.cost_module_type == 'neural_network':
+    if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
         new_predictions = np.zeros((num_pred, 2))
         for item in range(num_pred):
             new_predictions[item, np.argmax(predictions[item])] = 1
@@ -97,7 +97,7 @@ def calculate_accuracy(predictions, labels):
 def make_confusion_matrix(adjustable, predictions, labels):
     predictions = threshold_predictions(adjustable, predictions)
     tp, fp, tn, fn = 0, 0, 0, 0
-    if adjustable.cost_module_type == 'neural_network':
+    if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
         for lab in range(0, len(labels)):
             if labels[lab][0] == 0:
                 if predictions[lab][0] == 0:
@@ -153,7 +153,7 @@ def calculate_CMC(adjustable, predictions):
     # TODO: debug
     ble = np.shape(predictions)
 
-    if adjustable.cost_module_type == 'neural_network':
+    if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
         predictions = np.reshape(predictions[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
     elif adjustable.cost_module_type == 'euclidean':
         predictions = predictions.ravel()

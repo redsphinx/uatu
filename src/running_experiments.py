@@ -2264,8 +2264,7 @@ def experiment_172():
 def experiment_173():
     a = ProjectVariable()
     a.experiment_name = '173. network 105 train only on market for 40 epochs ranking=20'
-    a.epochs = 1
-    a.iterations = 1
+    a.epochs = 40
     a.datasets = ['market']
     a.activation_function = 'elu'
     a.cl_min = 0.00005
@@ -2278,8 +2277,7 @@ def experiment_173():
 def experiment_174():
     a = ProjectVariable()
     a.experiment_name = '174. network 105 train only on grid for 40 epochs ranking=20'
-    a.epochs = 1
-    a.iterations = 1
+    a.epochs = 40
     a.datasets = ['grid']
     a.activation_function = 'elu'
     a.cl_min = 0.00005
@@ -2292,8 +2290,7 @@ def experiment_174():
 def experiment_175():
     a = ProjectVariable()
     a.experiment_name = '175. network 105 train only on prid450 for 40 epochs ranking=20'
-    a.epochs = 1
-    a.iterations = 1
+    a.epochs = 40
     a.datasets = ['prid450']
     a.activation_function = 'elu'
     a.cl_min = 0.00005
@@ -2306,8 +2303,7 @@ def experiment_175():
 def experiment_176():
     a = ProjectVariable()
     a.experiment_name = '176. network 105 train only on caviar for 40 epochs. ran with ranking=20. again for fun'
-    a.epochs = 1
-    a.iterations = 1
+    a.epochs = 40
     a.datasets = ['caviar']
     a.activation_function = 'elu'
     a.cl_min = 0.00005
@@ -2317,12 +2313,26 @@ def experiment_176():
     scn.super_main(a)
 
 
+def experiment_euc():
+    a = ProjectVariable()
+    a.experiment_name = 'euclidean_fc. euclidean baseline: debugged network'
+    a.cost_module_type = 'euclidean_fc'
+    a.epochs = 40
+    a.iterations = 1
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.distance_threshold = 0.5
+    a.datasets = ['grid']
+    scn.super_main(a)
+
+
 def main():
     # TODO run these experiments
     # num = sys.argv[1]
     # print(sys.argv)
-    #
-    #
+
+
     # if num == '173':
     #     experiment_173()
     # if num == '174':
@@ -2331,5 +2341,6 @@ def main():
     #     experiment_175()
     # if num == '176':
     #     experiment_176()
-    experiment_172()
+    experiment_euc()
+
 main()

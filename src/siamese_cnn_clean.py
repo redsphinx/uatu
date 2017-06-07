@@ -107,6 +107,14 @@ def create_cost_module(inputs, adjustable):
         distance = Lambda(euclidean_distance, output_shape=eucl_dist_output_shape)(inputs)
         return distance
 
+    elif adjustable.cost_module_type == 'euclidean_fc':
+        distance = Lambda(euclidean_distance, output_shape=eucl_dist_output_shape)(inputs)
+        dense_layer = Dense(1, name='dense_1')(distance)
+        activation = Activation(adjustable.activation_function)(dense_layer)
+        output_layer = Dense(pc.NUM_CLASSES, name='ouput')(activation)
+        softmax = Activation('softmax')(output_layer)
+        return softmax
+
     else:
         return None
 
@@ -275,7 +283,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     """
     model = create_siamese_network(adjustable)
 
-    if adjustable.cost_module_type == 'neural_network':
+    if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
         nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
         model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
     elif adjustable.cost_module_type == 'euclidean':
@@ -297,7 +305,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
                                  range(len(final_training_data))]
-        if adjustable.cost_module_type == 'neural_network':
+        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
             final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
         train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
@@ -335,10 +343,13 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
 
-        if adjustable.cost_module_type == 'neural_network':
+        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
             final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
         predictions = model.predict([test_data[0, :], test_data[1, :]])
+        if adjustable.cost_module_type == 'euclidean':
+            new_thing = zip(predictions, final_testing_labels)
+            print(new_thing[0:50])
 
         # matrix = pu.make_confusion_matrix(predictions, test_labels)
         matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
