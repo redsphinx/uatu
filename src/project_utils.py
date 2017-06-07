@@ -72,6 +72,17 @@ def threshold_predictions(adjustable, predictions):
 
         new_predictions = np.asarray(new_predictions)
         return new_predictions
+    elif adjustable.cost_module_type == 'cosine':
+        predictions = predictions.ravel()
+        new_predictions = [0] * num_pred
+        for item in range(num_pred):
+            if predictions[item] < 0:
+                new_predictions[item] = -1
+            else:
+                new_predictions[item] = 1
+
+        new_predictions = np.asarray(new_predictions)
+        return new_predictions
 
 
 
@@ -93,7 +104,6 @@ def calculate_accuracy(predictions, labels):
     return acc
 
 
-# FIXME make it euclidean distance compatible
 def make_confusion_matrix(adjustable, predictions, labels):
     predictions = threshold_predictions(adjustable, predictions)
     tp, fp, tn, fn = 0, 0, 0, 0
@@ -113,6 +123,18 @@ def make_confusion_matrix(adjustable, predictions, labels):
         for lab in range(0, len(labels)):
             if labels[lab] == 0:
                 if predictions[lab] == 0:
+                    tp += 1  # t=1, p=1
+                else:
+                    fn += 1  # t=1, p=0
+            elif labels[lab] == 1:
+                if predictions[lab] == 1:
+                    tn += 1
+                else:
+                    fp += 1
+    elif adjustable.cost_module_type == 'cosine':
+        for lab in range(0, len(labels)):
+            if labels[lab] == -1:
+                if predictions[lab] == -1:
                     tp += 1  # t=1, p=1
                 else:
                     fn += 1  # t=1, p=0
@@ -148,14 +170,12 @@ def enter_in_log(experiment_name, file_name, data_names, matrix_means, matrix_st
         log_file.write('\n')
 
 
-# FIXME make comptible with euclidean distance
 def calculate_CMC(adjustable, predictions):
-    # TODO: debug
     ble = np.shape(predictions)
 
     if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
         predictions = np.reshape(predictions[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-    elif adjustable.cost_module_type == 'euclidean':
+    elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
         predictions = predictions.ravel()
         predictions = np.reshape(predictions, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
     else:
@@ -219,6 +239,25 @@ def flip_labels(data_list):
 
     return data_list
 
+
+def zero_to_min_one_labels(data_list):
+    """ Gets a list of pairs and labels and turns 0s to 1s and 1s to -1s
+    """
+    column_1 = [item.strip().split(',')[0] for item in data_list]
+    column_2 = [item.strip().split(',')[1] for item in data_list]
+    labels = [item.strip().split(',')[-1] for item in data_list]
+
+    new_labels = []
+    for item in labels:
+        if item == '0':
+            new_labels.append('1')
+        elif item == '1':
+            new_labels.append('-1')
+
+    data_list = [column_1[i] + ',' + column_2[i] + ',' + new_labels[i] for i in range(len(column_1))]
+
+
+    return data_list
 
 # def assign_experiments():
 #     import running_experiments as re

@@ -50,6 +50,24 @@ def compute_accuracy(predictions, labels):
     return labels[predictions.ravel() < 0.5].mean()
 
 
+def cosine_distance(vects):
+    """ Returns the cosine distance between the 2 feature vectors
+    """
+    x, y = vects
+
+    return K.sum(x * y, axis=1, keepdims=True) / K.sqrt(
+        K.sum(K.square(x), axis=1, keepdims=True) * K.sum(K.square(y), axis=1, keepdims=True))
+    # return K.sum(x * y) / K.sqrt(
+    #         K.sum(K.square(x)) * K.sum(K.square(y)))
+
+
+def cos_dist_output_shape(shapes):
+    """ IDK what this does
+    """
+    shape1, shape2 = shapes
+    return (shape1[0], 1)
+
+
 def create_cost_module(inputs, adjustable):
     """Implements the cost module of the siamese network.
     :param inputs:          list containing feature tensor from each siamese head
@@ -114,6 +132,15 @@ def create_cost_module(inputs, adjustable):
         output_layer = Dense(pc.NUM_CLASSES, name='ouput')(activation)
         softmax = Activation('softmax')(output_layer)
         return softmax
+
+    # elif adjustable.cost_module_type == 'DHSL':
+    #     ''' As proposed by Zhu et al. in https://arxiv.org/abs/1702.04858
+    #     '''
+
+    elif adjustable.cost_module_type == 'cosine':
+        distance = Lambda(cosine_distance, output_shape=cos_dist_output_shape)(inputs)
+        return distance
+
 
     else:
         return None
@@ -286,7 +313,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
         nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
         model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
-    elif adjustable.cost_module_type == 'euclidean':
+    elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
         rms = keras.optimizers.RMSprop()
         model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
 
@@ -347,7 +374,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
             final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
         predictions = model.predict([test_data[0, :], test_data[1, :]])
-        if adjustable.cost_module_type == 'euclidean':
+        if adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             new_thing = zip(predictions, final_testing_labels)
             print(new_thing[0:50])
 
@@ -398,7 +425,10 @@ def super_main(adjustable):
                 ranking = pu.flip_labels(ranking)
                 training_pos = pu.flip_labels(training_pos)
                 training_neg = pu.flip_labels(training_neg)
-            # FIXME figure out grid issue with disappearing data
+            elif adjustable.cost_module_type == 'cosine':
+                ranking = pu.zero_to_min_one_labels(ranking)
+                training_pos = pu.zero_to_min_one_labels(training_pos)
+                training_neg = pu.zero_to_min_one_labels(training_neg)
 
             all_ranking.append(ranking)
             all_training_pos.append(training_pos)

@@ -2313,16 +2313,15 @@ def experiment_176():
     scn.super_main(a)
 
 
-def experiment_euc():
+def experiment_cos():
     a = ProjectVariable()
-    a.experiment_name = 'euclidean'
-    a.cost_module_type = 'euclidean'
+    a.experiment_name = 'cosine'
+    a.cost_module_type = 'cosine'
     a.epochs = 100
     a.iterations = 1
     a.activation_function = 'elu'
     a.cl_min = 0.00005
     a.cl_max = 0.001
-    a.distance_threshold = 0.5
     a.datasets = ['grid']
     scn.super_main(a)
 
@@ -2341,6 +2340,6 @@ def main():
     #     experiment_175()
     # if num == '176':
     #     experiment_176()
-    experiment_euc()
+    experiment_cos()
 
 main()
