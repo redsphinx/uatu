@@ -69,6 +69,9 @@ class ProjectVariable(object):
         self._save_inbetween = False # bool
         # at which epoch to save
         self._save_points = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100] # list
+        # what to add to the save file name when saving model and/or weigths
+        # choice of 'epoch', 'dataset_name'
+        self._name_indication = 'epoch' # string
         # UNUSED
         # load all the data for testing
         self._use_all_data = False # bool
@@ -395,3 +398,12 @@ class ProjectVariable(object):
     @use_all_data.setter
     def use_all_data(self, value):
         self._use_all_data = value
+
+    # what to add to the save file name when saving model and/or weigths
+    @property
+    def name_indication(self):
+        return self._name_indication
+
+    @name_indication.setter
+    def name_indication(self, value):
+        self._name_indication = value

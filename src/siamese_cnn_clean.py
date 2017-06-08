@@ -1,5 +1,5 @@
 import keras
-from keras.models import Sequential, Model
+from keras.models import Sequential, Model, load_model
 from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Input, Lambda, BatchNormalization, AveragePooling2D
 from keras import optimizers
 import dynamic_data_loading as ddl
@@ -308,14 +308,17 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
                 ranking for each dataset
     """
-    model = create_siamese_network(adjustable)
+    if not adjustable.load_model_name == None:
+        model = load_model(adjustable.load_model_name)
+    else:
+        model = create_siamese_network(adjustable)
 
-    if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-        nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-        model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
-    elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
-        rms = keras.optimizers.RMSprop()
-        model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
+        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+            nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+            model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+        elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
+            rms = keras.optimizers.RMSprop()
+            model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
 
     for epoch in range(adjustable.epochs):
         print('epoch %d/%d' % (epoch, adjustable.epochs))
@@ -341,8 +344,15 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         if adjustable.save_inbetween and adjustable.iterations == 1:
             if epoch+1 in adjustable.save_points:
-                model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
-                weights_name = time_stamp + '_epoch_%s_weights.h5' % str(epoch + 1)
+                if adjustable.name_indication == 'epoch':
+                    model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
+                    weights_name = time_stamp + '_epoch_%s_weights.h5' % str(epoch + 1)
+                elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
+                    model_name = time_stamp + '_%s_model.h5' % adjustable.datasets[0]
+                    weights_name = time_stamp + '_%s_weights.h5' % adjustable.datasets[0]
+                else:
+                    model_name = None
+                    weights_name = None
 
                 model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
                 model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
@@ -374,6 +384,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
             final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
         predictions = model.predict([test_data[0, :], test_data[1, :]])
+        # print predictions
         if adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             new_thing = zip(predictions, final_testing_labels)
             print(new_thing[0:50])
@@ -430,6 +441,7 @@ def super_main(adjustable):
                 training_pos = pu.zero_to_min_one_labels(training_pos)
                 training_neg = pu.zero_to_min_one_labels(training_neg)
 
+            # data gets appended in order
             all_ranking.append(ranking)
             all_training_pos.append(training_pos)
             all_training_neg.append(training_neg)

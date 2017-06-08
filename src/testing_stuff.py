@@ -339,3 +339,10 @@ def load_image():
 
     plt.imshow(new_image)
     print('asdf')
+
+def test_file_name():
+    file_name = os.path.basename(__file__)
+    print(file_name)
+
+
+test_file_name()

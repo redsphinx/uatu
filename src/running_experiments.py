@@ -2326,6 +2326,34 @@ def experiment_cos():
     scn.super_main(a)
 
 
+def experiment_order_cuhk02():
+    a = ProjectVariable()
+    a.experiment_name = 'train on cuhk02'
+    a.epochs = 50
+    a.iterations = 1
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    a.save_points = [50]
+    a.datasets = ['cuhk02']
+    a.batch_size = 32
+    scn.super_main(a)
+
+
+def experiment_order_market():
+    a = ProjectVariable()
+    a.experiment_name = 'load cuhk02, train on market'
+    a.epochs = 50
+    a.iterations = 1
+    a.load_model_name = ''
+    a.save_points = [50]
+    a.datasets = ['market']
+    a.name_indication = 'dataset_name'
+
+
+
 def main():
     # TODO run these experiments
     # num = sys.argv[1]
