@@ -2336,6 +2336,7 @@ def experiment_order_cuhk02():
     a.cl_max = 0.001
     a.numfil = 1
     a.neural_distance = 'absolute'
+    a.save_inbetween = True
     a.save_points = [50]
     a.datasets = ['cuhk02']
     a.batch_size = 32
@@ -2347,11 +2348,63 @@ def experiment_order_market():
     a.experiment_name = 'load cuhk02, train on market'
     a.epochs = 50
     a.iterations = 1
-    a.load_model_name = ''
+    a.load_model_name = '' # FIXME
+    a.save_inbetween = True
     a.save_points = [50]
     a.datasets = ['market']
     a.name_indication = 'dataset_name'
+    # scn.super_main(a)
 
+
+def experiment_order_caviar():
+    a = ProjectVariable()
+    a.experiment_name = 'load market, train on caviar'
+    a.epochs = 50
+    a.iterations = 1
+    a.load_model_name = '' # FIXME
+    a.save_inbetween = True
+    a.save_points = [50]
+    a.datasets = ['caviar']
+    a.name_indication = 'dataset_name'
+    # scn.super_main(a)
+
+
+def experiment_order_viper():
+    a = ProjectVariable()
+    a.experiment_name = 'load caviar, train on viper'
+    a.epochs = 50
+    a.iterations = 1
+    a.load_model_name = '' # FIXME
+    a.save_inbetween = True
+    a.save_points = [50]
+    a.datasets = ['viper']
+    a.name_indication = 'dataset_name'
+    # scn.super_main(a)
+
+
+def experiment_order_prid450():
+    a = ProjectVariable()
+    a.experiment_name = 'load viper, train on prid450'
+    a.epochs = 50
+    a.iterations = 1
+    a.load_model_name = '' # FIXME
+    a.save_inbetween = True
+    a.save_points = [50]
+    a.datasets = ['prid450']
+    a.name_indication = 'dataset_name'
+    # scn.super_main(a)
+
+def experiment_order_grid():
+    a = ProjectVariable()
+    a.experiment_name = 'load prid450, train on grid'
+    a.epochs = 50
+    a.iterations = 1
+    a.load_model_name = '' # FIXME
+    a.save_inbetween = True
+    a.save_points = [50]
+    a.datasets = ['grid']
+    a.name_indication = 'dataset_name'
+    # scn.super_main(a)
 
 
 def main():
@@ -2368,6 +2421,7 @@ def main():
     #     experiment_175()
     # if num == '176':
     #     experiment_176()
-    experiment_cos()
+    experiment_order_cuhk02()
+
 
 main()
