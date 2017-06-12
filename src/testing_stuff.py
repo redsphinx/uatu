@@ -430,12 +430,3 @@ def test_load_mat():
 
     # thing = loadmat('/home/gabi/Documents/datasets/CUHK/CUHK3/cuhk-03.mat')
     print('asdf')
-
-
-
-
-# f = h5py.File('/home/gabi/Documents/datasets/CUHK/CUHK3/cuhk-03.mat', 'r')
-# f.visititems(print_attrs)
-
-
-# test_load_mat()
