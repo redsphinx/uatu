@@ -162,10 +162,11 @@ def enter_in_log(experiment_name, file_name, data_names, matrix_means, matrix_st
         log_file.write('duration:                   %f\n' % total_time)
         for dataset in range(len(data_names)):
             name = data_names[dataset]
-
             log_file.write('%s mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(matrix_means[dataset]).tolist(), decimals))))
-            log_file.write('%s std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(matrix_std[dataset]).tolist(), decimals))))
             log_file.write('%s mean ranking:        %s\n' % (name, str(reduce_float_length(np.asarray(ranking_means[dataset]).tolist(), decimals))))
+        for dataset in range(len(data_names)):
+            name = data_names[dataset]
+            log_file.write('%s std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(matrix_std[dataset]).tolist(), decimals))))
             log_file.write('%s std ranking:         %s\n' % (name, str(reduce_float_length(np.asarray(ranking_std[dataset]).tolist(), decimals))))
         log_file.write('\n')
 

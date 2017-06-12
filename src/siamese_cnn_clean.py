@@ -2,8 +2,8 @@ import keras
 from keras.models import Sequential, Model, load_model
 from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Input, Lambda, BatchNormalization, AveragePooling2D
 from keras import optimizers
-import dynamic_data_loading as ddl
 from keras import backend as K
+import dynamic_data_loading as ddl
 import project_constants as pc
 import project_utils as pu
 import os
@@ -21,8 +21,6 @@ def euclidean_distance(vects):
 
 
 def eucl_dist_output_shape(shapes):
-    """ IDK what this does
-    """
     shape1, shape2 = shapes
     return (shape1[0], 1)
 
@@ -371,7 +369,8 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         # make a record of the ranking selection for each dataset
         # for priming
         if adjustable.save_inbetween and adjustable.iterations == 1:
-            file_name = '%s_ranking.txt' % name
+            file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
+            file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
             with open(file_name, 'w') as my_file:
                 for item in this_ranking:
                     my_file.write(item)

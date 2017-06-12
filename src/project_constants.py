@@ -18,7 +18,7 @@ VERBOSE = False
 
 TRANSFER_LEARNING = False
 TRAIN_CNN = False
-LOG_FILE_PATH = 'experiment_log.txt'
+LOG_FILE_PATH = 'experiment_log_2.txt'
 
 LOGGING = True
 SIMILARITY_METRIC = 'fc_layers'
@@ -27,6 +27,8 @@ SAVE_CNN_WEIGHTS = True
 SAVE_CNN_MODEL = False
 
 SAVE_LOCATION_MODEL_WEIGHTS = '../model_weights'
+SAVE_LOCATION_RANKING_FILES = '../ranking_files'
+
 SAVE_LOCATION_VIPER_CUHK = '../data/VIPeR_CUHK'
 
 POSITIVE_DATA = '../data/reid_all_positives.txt'
@@ -36,4 +38,4 @@ LOCATION_RAW_VIPER = '../raw_data/VIPER'
 LOCATION_RAW_CUHK01 = '../raw_data/CUHK01'
 
 USE_BIAS = True
-RANKING_NUMBER = 20
+RANKING_NUMBER = 100

@@ -72,6 +72,8 @@ class ProjectVariable(object):
         # what to add to the save file name when saving model and/or weigths
         # choice of 'epoch', 'dataset_name'
         self._name_indication = 'epoch' # string
+        # timestamp of when the ranking file was made
+        self._ranking_time_name = None # string
         # UNUSED
         # load all the data for testing
         self._use_all_data = False # bool
@@ -407,3 +409,12 @@ class ProjectVariable(object):
     @name_indication.setter
     def name_indication(self, value):
         self._name_indication = value
+
+    # timestamp of when the ranking file was made
+    @property
+    def ranking_time_name(self):
+        return self._ranking_time_name
+
+    @ranking_time_name.setter
+    def ranking_time_name(self, value):
+        self._ranking_time_name = value
