@@ -16,7 +16,7 @@ def test():
 
 def experiment_000():
     a = ProjectVariable()
-    a.experiment_name = 'improved baseline SCNN setup 105: rank=100'
+    a.experiment_name = 'improved baseline SCNN setup 105, minus caviar: rank=100'
     a.epochs = 100
     a.iterations = 10
     a.batch_size = 32
@@ -25,6 +25,7 @@ def experiment_000():
     a.cl_max = 0.001
     a.numfil = 1
     a.neural_distance = 'absolute'
+    a.datasets = ['cuhk02', 'market', 'viper', 'prid450', 'grid']
     scn.super_main(a)
 
 
