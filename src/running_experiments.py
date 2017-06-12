@@ -2339,6 +2339,7 @@ def experiment_order_cuhk02():
     a.save_inbetween = True
     a.save_points = [50]
     a.datasets = ['cuhk02']
+    a.name_indication = 'dataset_name'
     a.batch_size = 32
     scn.super_main(a)
 
@@ -2348,12 +2349,12 @@ def experiment_order_market():
     a.experiment_name = 'load cuhk02, train on market'
     a.epochs = 50
     a.iterations = 1
-    a.load_model_name = '' # FIXME
+    a.load_model_name = 'scnn_08062017_1146_cuhk02_model.h5'
     a.save_inbetween = True
     a.save_points = [50]
     a.datasets = ['market']
     a.name_indication = 'dataset_name'
-    # scn.super_main(a)
+    scn.super_main(a)
 
 
 def experiment_order_caviar():
@@ -2361,12 +2362,12 @@ def experiment_order_caviar():
     a.experiment_name = 'load market, train on caviar'
     a.epochs = 50
     a.iterations = 1
-    a.load_model_name = '' # FIXME
+    a.load_model_name = 'scnn_08062017_1214_market_model.h5'
     a.save_inbetween = True
     a.save_points = [50]
     a.datasets = ['caviar']
     a.name_indication = 'dataset_name'
-    # scn.super_main(a)
+    scn.super_main(a)
 
 
 def experiment_order_viper():
@@ -2374,12 +2375,12 @@ def experiment_order_viper():
     a.experiment_name = 'load caviar, train on viper'
     a.epochs = 50
     a.iterations = 1
-    a.load_model_name = '' # FIXME
+    a.load_model_name = 'scnn_08062017_1232_caviar_model.h5'
     a.save_inbetween = True
     a.save_points = [50]
     a.datasets = ['viper']
     a.name_indication = 'dataset_name'
-    # scn.super_main(a)
+    scn.super_main(a)
 
 
 def experiment_order_prid450():
@@ -2387,24 +2388,124 @@ def experiment_order_prid450():
     a.experiment_name = 'load viper, train on prid450'
     a.epochs = 50
     a.iterations = 1
-    a.load_model_name = '' # FIXME
+    a.load_model_name = 'scnn_08062017_1241_viper_model.h5'
     a.save_inbetween = True
     a.save_points = [50]
     a.datasets = ['prid450']
     a.name_indication = 'dataset_name'
-    # scn.super_main(a)
+    scn.super_main(a)
 
 def experiment_order_grid():
     a = ProjectVariable()
     a.experiment_name = 'load prid450, train on grid'
     a.epochs = 50
     a.iterations = 1
-    a.load_model_name = '' # FIXME
+    a.load_model_name = 'scnn_08062017_1248_prid450_model.h5' #
     a.save_inbetween = True
     a.save_points = [50]
     a.datasets = ['grid']
     a.name_indication = 'dataset_name'
-    # scn.super_main(a)
+    scn.super_main(a)
+
+def experiment_test_all_on_order():
+    a = ProjectVariable()
+    a.experiment_name = 'after training on all data in order test on all ranking test sets'
+    a.iterations = 1
+    a.load_model_name = 'scnn_08062017_1254_grid_model.h5'
+    a.only_test = True
+    prime.super_main(a)
+
+
+def experiment_order_viper_2():
+    a = ProjectVariable()
+    a.experiment_name = 'train on viper'
+    a.epochs = 50
+    a.iterations = 1
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    a.save_inbetween = True
+    a.save_points = [50]
+    a.datasets = ['viper']
+    a.name_indication = 'dataset_name'
+    a.batch_size = 32
+    scn.super_main(a)
+
+
+def experiment_order_cuhk02_2():
+    a = ProjectVariable()
+    a.experiment_name = 'load viper, train on cuhk02'
+    a.epochs = 50
+    a.iterations = 1
+    a.load_model_name = 'scnn_08062017_1339_viper_model.h5' #
+    a.save_inbetween = True
+    a.save_points = [50]
+    a.datasets = ['cuhk02']
+    a.name_indication = 'dataset_name'
+    scn.super_main(a)
+
+
+def experiment_ordered_priming():
+    a = ProjectVariable()
+    a.experiment_name = 'ordered priming on cuhk02'
+    a.priming = True
+    a.load_model_name = 'scnn_08062017_1400_cuhk02_model.h5'
+    a.load_weights_name = 'scnn_08062017_1400_cuhk02_weights.h5'
+    a.prime_epochs = 20
+    a.iterations = 10
+    a.batch_size = 32
+    prime.super_main(a)
+
+def experiment_order_market_2():
+    a = ProjectVariable()
+    a.experiment_name = 'load cuhk02, train on market'
+    a.epochs = 50
+    a.iterations = 1
+    a.load_model_name = 'scnn_08062017_1400_cuhk02_model.h5'
+    a.save_inbetween = True
+    a.save_points = [50]
+    a.datasets = ['market']
+    a.name_indication = 'dataset_name'
+    scn.super_main(a)
+
+def experiment_ordered_priming_2():
+    a = ProjectVariable()
+    a.experiment_name = 'ordered priming on market'
+    a.priming = True
+    a.load_model_name = 'scnn_08062017_1438_market_model.h5'
+    a.load_weights_name = 'scnn_08062017_1438_market_weights.h5'
+    a.prime_epochs = 2
+    a.iterations = 10
+    a.batch_size = 32
+    prime.super_main(a)
+
+def experiment_order_market_3():
+    a = ProjectVariable()
+    a.experiment_name = 'load viper, train on market'
+    a.epochs = 50
+    a.iterations = 1
+    a.load_model_name = 'scnn_08062017_1339_viper_model.h5'
+    a.save_inbetween = True
+    a.save_points = [50]
+    a.datasets = ['market']
+    a.name_indication = 'dataset_name'
+    scn.super_main(a)
+
+def experiment_ordered_priming_3():
+    a = ProjectVariable()
+    a.experiment_name = 'ordered priming on market'
+    a.priming = True
+    a.load_model_name = 'scnn_08062017_1535_market_model.h5'
+    a.load_weights_name = 'scnn_08062017_1535_market_weights.h5'
+    a.prime_epochs = 10
+    a.iterations = 10
+    a.batch_size = 32
+    prime.super_main(a)
+
+
+
 
 
 def main():
@@ -2421,7 +2522,8 @@ def main():
     #     experiment_175()
     # if num == '176':
     #     experiment_176()
-    experiment_order_cuhk02()
+    # experiment_order_market_3()
+    experiment_ordered_priming_3()
 
 
 main()

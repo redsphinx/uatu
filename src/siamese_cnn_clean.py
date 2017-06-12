@@ -133,17 +133,15 @@ def create_cost_module(inputs, adjustable):
         softmax = Activation('softmax')(output_layer)
         return softmax
 
-    # elif adjustable.cost_module_type == 'DHSL':
-    #     ''' As proposed by Zhu et al. in https://arxiv.org/abs/1702.04858
-    #     '''
-
     elif adjustable.cost_module_type == 'cosine':
         distance = Lambda(cosine_distance, output_shape=cos_dist_output_shape)(inputs)
         return distance
 
+    # elif adjustable.cost_module_type == 'DHSL':
+    #     ''' As proposed by Zhu et al. in https://arxiv.org/abs/1702.04858
+    #     '''
+    # elif adjustable.cost_module_type == 'kissme':
 
-    else:
-        return None
 
 
 def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name, first_layer=False):
@@ -309,7 +307,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                 ranking for each dataset
     """
     if not adjustable.load_model_name == None:
-        model = load_model(adjustable.load_model_name)
+        model = load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
     else:
         model = create_siamese_network(adjustable)
 

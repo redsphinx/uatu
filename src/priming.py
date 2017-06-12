@@ -219,17 +219,36 @@ def main(adjustable, all_ranking, names, path, model):
 def super_main(adjustable):
     start = time.time()
 
-    cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
+    # cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
     market_ranking = list(np.genfromtxt('market_ranking.txt', dtype=None))
 
-    all_ranking = [cuhk02_ranking, market_ranking]
-    names = ['cuhk02', 'market']
+    # all_ranking = [cuhk02_ranking, market_ranking]
+    # names = ['cuhk02', 'market']
+
+    all_ranking = [market_ranking]
+    names = ['market']
+
+    if adjustable.only_test:
+        viper_ranking = list(np.genfromtxt('viper_ranking.txt', dtype=None))
+        grid_ranking = list(np.genfromtxt('grid_ranking.txt', dtype=None))
+        caviar_ranking = list(np.genfromtxt('caviar_ranking.txt', dtype=None))
+        prid450_ranking = list(np.genfromtxt('prid450_ranking.txt', dtype=None))
+        all_ranking.append(viper_ranking)
+        all_ranking.append(grid_ranking)
+        all_ranking.append(caviar_ranking)
+        all_ranking.append(prid450_ranking)
+        names.append('viper')
+        names.append('grid')
+        names.append('caviar')
+        names.append('prid450')
 
     path = os.path.join('../model_weights', adjustable.load_model_name)
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
     model = load_model(path)
 
     number_of_datasets = 2
+    if adjustable.only_test:
+        number_of_datasets = 6
 
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
     ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, pc.RANKING_NUMBER))

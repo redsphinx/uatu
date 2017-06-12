@@ -1,13 +1,13 @@
-import tensorflow as tf
+# import tensorflow as tf
 import os
-import keras
-from keras.models import Sequential, Model
-from keras.layers import Dense, Dropout, Activation, LSTM, Embedding, Input
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
+# import keras
+# from keras.models import Sequential, Model
+# from keras.layers import Dense, Dropout, Activation, LSTM, Embedding, Input
+# os.environ["CUDA_VISIBLE_DEVICES"]="0"
 import numpy as np
 from PIL import Image
-from keras.models import load_model
-import project_constants as pc
+# from keras.models import load_model
+# import project_constants as pc
 import os
 from tensorflow.python.client import device_lib
 import h5py
@@ -16,9 +16,11 @@ from imblearn.datasets import make_imbalance
 import sys
 import time
 from scipy import ndimage
+from scipy.io import loadmat
 import matplotlib.pyplot as plt
 from skimage.util import random_noise
 from matplotlib.image import imsave
+from numpy.linalg import inv
 
 def test_data_pipeline():
     path = '/home/gabi/Documents/datasets/humans/1/per00001.jpg'
@@ -345,4 +347,95 @@ def test_file_name():
     print(file_name)
 
 
-test_file_name()
+def kissme():
+    a = np.array([5, 5, 5])
+    b = np.array([3, 0, 6])
+    c = np.array([2, 3, 4])
+    d = np.array([1, 2, 3])
+
+    e = np.array([4, 4, 4])
+    f = np.array([4, 5, 6])
+
+    # pairs = [(a, b),(c, d),(b, c), (a, e), (d, f)]
+    # labels = [0, 1, 0, 1, 1]
+
+    pairs = [(a, b), (c, d), (b, c)]
+    labels = [0, 1, 0]
+
+    match = np.zeros((len(a), len(a)))
+    mismatch = np.zeros((len(a), len(a)))
+
+    pairs_match = []
+    pairs_mismatch = []
+    for item in range(len(labels)):
+        if labels[item]:
+            pairs_match.append(pairs[item])
+        else:
+            pairs_mismatch.append(pairs[item])
+
+    for item in range(len(pairs_match)):
+        diff = pairs_match[item][0] - pairs_match[item][1]
+        mult = np.outer(diff, diff)
+        match += mult
+
+    for item in range(len(pairs_mismatch)):
+        diff = pairs_mismatch[item][0] - pairs_mismatch[item][1]
+        mult = np.outer(diff, diff)
+        mismatch += mult
+
+    # match = inv(match)
+    # mismatch = inv(mismatch)
+
+    match /= len(pairs_match)
+    mismatch /= len(pairs_mismatch)
+
+    m = match - mismatch
+
+    d_a_b = np.inner(np.inner((a - b), m), (a - b))
+    d_c_d = np.inner(np.inner((c - d), m), (c - d))
+    d_b_c = np.inner(np.inner((b - c), m), (b - c))
+
+    d_a_e = np.inner(np.inner((a - e), m), (a - e))
+    d_d_f = np.inner(np.inner((d - f), m), (d - f))
+
+    # TODO do the clipping of spectrum thing
+
+
+    print(d_a_b)
+    print(d_c_d)
+    print(d_b_c)
+    print(d_a_e)
+    print(d_d_f)
+
+
+def print_attrs(name, obj):
+    print(name)
+    for key, val in obj.attrs.iteritems():
+        print "    %s: %s" % (key, val)
+
+def test_load_mat():
+    f = h5py.File('/home/gabi/Documents/datasets/CUHK/CUHK3/cuhk-03.mat', 'r')
+    # detected
+    # MATLAB_class: cell
+    # labeled
+    # MATLAB_class: cell
+    # testsets
+    # MATLAB_class: cell
+    data = f.get('detected')
+
+
+    data.visititems(print_attrs)
+
+    # data = np.array(data)
+
+    # thing = loadmat('/home/gabi/Documents/datasets/CUHK/CUHK3/cuhk-03.mat')
+    print('asdf')
+
+
+
+
+# f = h5py.File('/home/gabi/Documents/datasets/CUHK/CUHK3/cuhk-03.mat', 'r')
+# f.visititems(print_attrs)
+
+
+# test_load_mat()

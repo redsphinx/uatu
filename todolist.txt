@@ -39,7 +39,7 @@ Second phase: Improve the prototype in experiment cycles
 . start implementing different distance metrics to compare with 'neural distance':
 .. DONE euclidean
 .. cosine distance metric
-.. KISSME(keep it simple and straightforward metric): https://lrs.icg.tugraz.at/research/kissme/paper/lrs_icg_koestinger_cvpr_2012.pdf
+.. KISSME(keep it simple and straightforward metric): https://files.icg.tugraz.at/seafhttp/files/2ae5d903-de52-48b2-a0a5-aa3d1de1cd6f/koestinger_cvpr_2012.pdf
 .. [RELEVANT] deep hybrid similarity learning: https://arxiv.org/pdf/1702.04858.pdf
 .. [optional] MFA (marginal fisher analysis): http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=4337772
 .. [optional] RankSVM: https://arxiv.org/pdf/1701.06351.pdf

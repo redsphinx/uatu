@@ -5877,3 +5877,227 @@ grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
 grid mean ranking:        [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.05, 1.0]
 grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
+
+name_of_experiment:         train on cuhk02
+file_name:                  siamese_cnn_clean.pyc
+date:                       08/06/2017   11:46:43
+duration:                   1408.324415
+cuhk02 mean tp,fp,tn,fn:    [18.0, 18.0, 362.0, 2.0]
+cuhk02 std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+cuhk02 mean ranking:        [0.8, 0.85, 0.9, 0.95, 0.95, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+cuhk02 std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         load cuhk02, train on market
+file_name:                  siamese_cnn_clean.py
+date:                       08/06/2017   12:14:04
+duration:                   1118.704219
+market mean tp,fp,tn,fn:    [15.0, 3.0, 377.0, 5.0]
+market std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+market mean ranking:        [0.9, 0.95, 0.95, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         load market, train on caviar
+file_name:                  siamese_cnn_clean.pyc
+date:                       08/06/2017   12:32:05
+duration:                   53.552143
+caviar mean tp,fp,tn,fn:    [7.0, 6.0, 374.0, 13.0]
+caviar std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+caviar mean ranking:        [0.45, 0.5, 0.6, 0.65, 0.75, 0.75, 0.8, 0.85, 0.85, 0.85, 0.85, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+caviar std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         load caviar, train on viper
+file_name:                  siamese_cnn_clean.pyc
+date:                       08/06/2017   12:41:44
+duration:                   187.778487
+viper mean tp,fp,tn,fn:    [20.0, 3.0, 377.0, 0.0]
+viper std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper mean ranking:        [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+viper std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         load viper, train on prid450
+file_name:                  siamese_cnn_clean.pyc
+date:                       08/06/2017   12:48:49
+duration:                   137.531984
+prid450 mean tp,fp,tn,fn:    [20.0, 12.0, 368.0, 0.0]
+prid450 std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+prid450 mean ranking:        [0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+prid450 std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         load prid450, train on grid
+file_name:                  siamese_cnn_clean.pyc
+date:                       08/06/2017   12:54:15
+duration:                   85.147895
+grid mean tp,fp,tn,fn:    [13.0, 18.0, 362.0, 7.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.7, 0.85, 0.85, 0.85, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         after training on all data in order test on all ranking test sets
+file_name:                  priming.pyc
+date:                       08/06/2017   13:15:44
+duration:                   22.642506
+cuhk02 mean tp,fp,tn,fn:    [18.0, 55.0, 325.0, 2.0]
+cuhk02 std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+cuhk02 mean ranking:        [0.55, 0.75, 0.95, 0.95, 0.95, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+cuhk02 std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+market mean tp,fp,tn,fn:    [16.0, 26.0, 354.0, 4.0]
+market std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+market mean ranking:        [0.7, 0.9, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         after training on all data in order test on all ranking test sets
+file_name:                  priming.py
+date:                       08/06/2017   13:24:26
+duration:                   25.438746
+cuhk02 mean tp,fp,tn,fn:    [18.0, 55.0, 325.0, 2.0]
+cuhk02 std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+cuhk02 mean ranking:        [0.55, 0.75, 0.95, 0.95, 0.95, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+cuhk02 std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+market mean tp,fp,tn,fn:    [16.0, 26.0, 354.0, 4.0]
+market std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+market mean ranking:        [0.7, 0.9, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+viper mean tp,fp,tn,fn:    [17.0, 53.0, 327.0, 3.0]
+viper std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper mean ranking:        [0.55, 0.65, 0.75, 0.9, 0.9, 0.9, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+viper std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+grid mean tp,fp,tn,fn:    [13.0, 18.0, 362.0, 7.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.7, 0.85, 0.85, 0.85, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+caviar mean tp,fp,tn,fn:    [11.0, 128.0, 252.0, 9.0]
+caviar std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+caviar mean ranking:        [0.15, 0.25, 0.5, 0.55, 0.55, 0.6, 0.65, 0.65, 0.65, 0.8, 0.8, 0.8, 0.9, 0.9, 0.9, 0.95, 0.95, 0.95, 1.0, 1.0]
+caviar std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+prid450 mean tp,fp,tn,fn:    [18.0, 243.0, 137.0, 2.0]
+prid450 std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+prid450 mean ranking:        [0.25, 0.35, 0.4, 0.45, 0.55, 0.55, 0.65, 0.7, 0.7, 0.75, 0.8, 0.8, 0.95, 0.95, 0.95, 0.95, 0.95, 1.0, 1.0, 1.0]
+prid450 std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         train on viper
+file_name:                  siamese_cnn_clean.pyc
+date:                       08/06/2017   13:39:25
+duration:                   232.616772
+viper mean tp,fp,tn,fn:    [20.0, 22.0, 358.0, 0.0]
+viper std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper mean ranking:        [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+viper std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         load viper, train on cuhk02
+file_name:                  siamese_cnn_clean.pyc
+date:                       08/06/2017   14:00:13
+duration:                   1135.425293
+cuhk02 mean tp,fp,tn,fn:    [17.0, 15.0, 365.0, 3.0]
+cuhk02 std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+cuhk02 mean ranking:        [0.75, 0.85, 0.95, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+cuhk02 std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         ordered priming on cuhk02
+file_name:                  priming.py
+date:                       08/06/2017   14:07:34
+duration:                   78.637736
+cuhk02 mean tp,fp,tn,fn:    [19.0, 25.4, 354.6, 1.0]
+cuhk02 std tp,fp,tn,fn:     [0.0, 3.14, 3.14, 0.0]
+cuhk02 mean ranking:        [0.82, 0.93, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+cuhk02 std ranking:         [0.04, 0.02, 0.02, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         ordered priming on cuhk02
+file_name:                  priming.pyc
+date:                       08/06/2017   14:10:06
+duration:                   110.164737
+cuhk02 mean tp,fp,tn,fn:    [18.6, 29.0, 351.0, 1.4]
+cuhk02 std tp,fp,tn,fn:     [0.49, 2.61, 2.61, 0.49]
+cuhk02 mean ranking:        [0.84, 0.95, 0.98, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+cuhk02 std ranking:         [0.05, 0.04, 0.02, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         ordered priming on cuhk02
+file_name:                  priming.pyc
+date:                       08/06/2017   14:16:16
+duration:                   324.502517
+cuhk02 mean tp,fp,tn,fn:    [19.0, 31.3, 348.7, 1.0]
+cuhk02 std tp,fp,tn,fn:     [0.0, 3.47, 3.47, 0.0]
+cuhk02 mean ranking:        [0.88, 0.94, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+cuhk02 std ranking:         [0.03, 0.04, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         load cuhk02, train on market
+file_name:                  siamese_cnn_clean.pyc
+date:                       08/06/2017   14:38:11
+duration:                   1177.231912
+market mean tp,fp,tn,fn:    [10.0, 2.0, 378.0, 10.0]
+market std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+market mean ranking:        [0.8, 0.9, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         ordered priming on market
+file_name:                  priming.pyc
+date:                       08/06/2017   14:47:00
+duration:                   445.035060
+market mean tp,fp,tn,fn:    [16.4, 30.4, 349.6, 3.6]
+market std tp,fp,tn,fn:     [0.49, 4.41, 4.41, 0.49]
+market mean ranking:        [0.66, 0.68, 0.79, 0.83, 0.89, 0.96, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.01, 0.02, 0.02, 0.03, 0.03, 0.03, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         ordered priming on market
+file_name:                  priming.pyc
+date:                       08/06/2017   15:00:31
+duration:                   249.557647
+market mean tp,fp,tn,fn:    [16.0, 17.0, 363.0, 4.0]
+market std tp,fp,tn,fn:     [0.0, 3.61, 3.61, 0.0]
+market mean ranking:        [0.74, 0.86, 0.9, 0.92, 0.93, 0.94, 0.95, 0.96, 0.98, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.05, 0.03, 0.03, 0.03, 0.02, 0.02, 0.02, 0.02, 0.02, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         ordered priming on market
+file_name:                  priming.pyc
+date:                       08/06/2017   15:08:25
+duration:                   205.643163
+market mean tp,fp,tn,fn:    [15.8, 13.9, 366.1, 4.2]
+market std tp,fp,tn,fn:     [0.75, 5.89, 5.89, 0.75]
+market mean ranking:        [0.79, 0.9, 0.94, 0.94, 0.94, 0.95, 0.95, 0.95, 0.95, 0.96, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.02, 0.02, 0.03, 0.03, 0.01, 0.0, 0.0, 0.0, 0.02, 0.02, 0.02, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         load viper, train on market
+file_name:                  siamese_cnn_clean.pyc
+date:                       08/06/2017   15:35:48
+duration:                   1155.897930
+market mean tp,fp,tn,fn:    [10.0, 9.0, 371.0, 10.0]
+market std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+market mean ranking:        [0.65, 0.8, 0.9, 0.95, 0.95, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         ordered priming on market
+file_name:                  priming.pyc
+date:                       08/06/2017   15:47:56
+duration:                   249.069220
+market mean tp,fp,tn,fn:    [17.0, 25.6, 354.4, 3.0]
+market std tp,fp,tn,fn:     [0.0, 6.28, 6.28, 0.0]
+market mean ranking:        [0.6, 0.86, 0.9, 0.97, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.03, 0.02, 0.0, 0.03, 0.02, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         ordered priming on market
+file_name:                  priming.pyc
+date:                       08/06/2017   15:54:27
+duration:                   317.980922
+market mean tp,fp,tn,fn:    [17.0, 33.5, 346.5, 3.0]
+market std tp,fp,tn,fn:     [0.89, 4.82, 4.82, 0.89]
+market mean ranking:        [0.56, 0.82, 0.9, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+market std ranking:         [0.07, 0.02, 0.0, 0.03, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
