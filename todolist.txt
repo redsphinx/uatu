@@ -34,27 +34,31 @@ Second phase: Improve the prototype in experiment cycles
 15 june
 -------
 . translate from keras to tensorflow
-.. make new virtualenv with the latest tensorflow
-... things to install: h5py, matplotlib, keras, seaborn, PIL, skimage
-	https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.1.0-cp27-none-linux_x86_64.whl
-	pip install h5py
-	pip install Pillow
-	pip install matplotlib
-	pip install scikit-image
-	pip install seaborn
-
+..	make new virtualenv with the latest tensorflow
+... 	things to install: h5py, matplotlib, keras, seaborn, PIL, skimage
+		https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.1.0-cp27-none-linux_x86_64.whl
+		pip install h5py
+		pip install Pillow
+		pip install matplotlib
+		pip install scikit-image
+		pip install seaborn
 .. siamese_cnn_clean
-.. priming
+.. priming (TODO)
+.. Figure out how to solve issue with 1) merging and 2) batchnormalization
 
+. fix the transfer learning pipeline
+..	Decided that data will no longer be mixed. Network is trained on 1 dataset at a time because of batchnorm.
+	If the network is trained one dataset at a time we can use all the data from the previously data used for training
+	so we only need to store the ranking file of the last (eval) dataset. 
+..	Change the way we train the scnn
+...		Use the different trainable_ variables to play with what gets frozen and when.
+..	fix the ranking stuff
+...	Decided that ranking number will be ID/2. Create ranking dictionary in project_constants.py
 
-
+.. if we only want to train, set adjustable.ranking_number = 2. But never only train with CUHK02
 
 . fix the datapaths to relative
 .. prepare experiment log
-
-. fix the transfer learning pipeline
-
-. fix the ranking stuff
 
 . set up to run on all 4 GPUs
 

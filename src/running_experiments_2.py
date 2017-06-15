@@ -174,6 +174,30 @@ def rem_k():
     a.epochs = 1
     a.iterations = 1
     a.datasets = ['grid']
+    # a.neural_distance = 'add'
+    scn.super_main(a)
+
+
+def something():
+    a = ProjectVariable()
+    a.experiment_name = 'something'
+    a.ranking_number = 2
+    a.epochs = 1
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [1]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['grid']
+    scn.super_main(a)
+
+    a.ranking_number = 3
+    a.datasets = ['viper']
+    a.load_weights_name = 'grid_weigths.h5'
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    a.trainable_bn = False
+    a.trainable_cost_module = False
     scn.super_main(a)
 
 
@@ -197,7 +221,7 @@ def main():
         # experiment_007()
     # if num == '006':
     #     experiment_006()
-    rem_k()
+    something()
 
 
 main()

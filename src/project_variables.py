@@ -71,6 +71,8 @@ class ProjectVariable(object):
         self._load_weights_name = None # string
         # for priming. if True, indicates to only test. if False, training will happen as well
         self._only_test = False # bool
+        # for scnn. if True, indicates to only train. no ranking happens
+        self._only_train = False  # bool
         # size of kernel in conv2D
         self._kernel = (3, 3) # tuple
         # wether or not to save inbetween
@@ -87,6 +89,8 @@ class ProjectVariable(object):
         # train on these datasets. Last dataset gets trained on and tested. the datasets before the last one
         # serve for transfer learning
         self._datsets_order = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
+        # to log the experiment
+        self._log_experiment = True
         # UNUSED
         # load all the data for testing
         self._use_all_data = False # bool
@@ -449,3 +453,66 @@ class ProjectVariable(object):
     @datasets_order.setter
     def datasets_order(self, value):
         self._datasets_order = value
+        
+    # make layers of convolutional units 1 and 2 trainable. choice of: True, False
+    @property
+    def trainable_12(self):
+        return self._trainable_12
+
+    @trainable_12.setter
+    def trainable_12(self, value):
+        self._trainable_12 = value
+        
+    # make layers of convolutional units 3 and 4 trainable. choice of: True, False
+    @property
+    def trainable_34(self):
+        return self._trainable_34
+
+    @trainable_34.setter
+    def trainable_34(self, value):
+        self._trainable_34 = value
+        
+    # make layers of convolutional units 5 and 6 trainable. choice of: True, False
+    @property
+    def trainable_56(self):
+        return self._trainable_56
+
+    @trainable_56.setter
+    def trainable_56(self, value):
+        self._trainable_56 = value
+        
+    # make layers of cost module trainable. choice of: True, False
+    @property
+    def trainable_cost_module(self):
+        return self._trainable_cost_module
+
+    @trainable_cost_module.setter
+    def trainable_cost_module(self, value):
+        self._trainable_cost_module = value
+        
+    # make layers of batch normalization layers trainable. choice of: True, False
+    @property
+    def trainable_bn(self):
+        return self._trainable_bn
+
+    @trainable_bn.setter
+    def trainable_bn(self, value):
+        self._trainable_bn = value
+        
+    # for scnn. if True, indicates to only train. no ranking happens
+    @property
+    def only_train(self):
+        return self._only_train
+
+    @only_train.setter
+    def only_train(self, value):
+        self._only_train = value
+
+    # to log the experiment
+    @property
+    def log_experiment(self):
+        return self._log_experiment
+
+    @log_experiment.setter
+    def log_experiment(self, value):
+        self._log_experiment = value

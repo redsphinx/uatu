@@ -1,15 +1,19 @@
-from tensorflow.contrib import keras
+import keras
+# from tensorflow.contrib import keras
 # from keras.models import Sequential, Model, load_model
-from tensorflow.contrib.keras import models
+from keras import models
+# from tensorflow.contrib.keras import models
 # from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Input, Lambda, BatchNormalization, AveragePooling2D
-from tensorflow.contrib.keras import layers
+from keras import layers
+# from tensorflow.contrib.keras import layers
 # from keras import optimizers
-from tensorflow.contrib.keras import optimizers
+from keras import optimizers
+# from tensorflow.contrib.keras import optimizers
 # from keras import backend as K
-from tensorflow.contrib.keras import backend as K
-
-# FIXME remove keras
-
+import keras.backend as K
+# from tensorflow.contrib.keras import backend as K
+from tensorflow.contrib.keras import initializers
+import tensorflow as tf
 import dynamic_data_loading as ddl
 import project_constants as pc
 import project_utils as pu
@@ -19,6 +23,7 @@ import time
 import h5py
 from clr_callback import *
 import random
+
 
 def euclidean_distance(vects):
     """ Returns the euclidean distance between the 2 feature vectors
@@ -105,13 +110,15 @@ def create_cost_module(inputs, adjustable):
             features = keras.layers.multiply(inputs)
         elif adjustable.neural_distance == 'subtract':
             features = keras.layers.merge(inputs=inputs, mode=subtract, output_shape=the_shape)
+            # features = tf.subtract(inputs[0], inputs[1])
         elif adjustable.neural_distance == 'divide':
             features = keras.layers.merge(inputs=inputs, mode=divide, output_shape=the_shape)
+            # features = tf.divide(inputs[0], inputs[1])
         elif adjustable.neural_distance == 'absolute':
             features = keras.layers.merge(inputs=inputs, mode=absolute, output_shape=the_shape)
+            # features = tf.abs(tf.subtract(inputs[0], inputs[1]))
         else:
             features = None
-
         dense_layer = layers.Dense(adjustable.neural_distance_layers[0], name='dense_1', trainable=adjustable.trainable_cost_module)(features)
         activation = layers.Activation(adjustable.activation_function)(dense_layer)
         dropout_layer = layers.Dropout(pc.DROPOUT)(activation)
@@ -318,8 +325,23 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
                 ranking for each dataset
     """
-    if not adjustable.models.load_model_name == None:
-        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.models.load_model_name))
+
+    if not adjustable.load_model_name == None:
+        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
+    elif not adjustable.load_weights_name == None:
+        model = create_siamese_network(adjustable)
+
+
+        the_path = os.path.join('../model_weights', adjustable.load_weights_name)
+        model.load_weights(the_path, by_name=True)
+
+        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+            nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+            model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+        elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
+            rms = keras.optimizers.RMSprop()
+            model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
+
     else:
         model = create_siamese_network(adjustable)
 
@@ -356,10 +378,12 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
             if epoch+1 in adjustable.save_points:
                 if adjustable.name_indication == 'epoch':
                     model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
-                    weights_name = time_stamp + '_epoch_%s_weights.h5' % str(epoch + 1)
+                    weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
                 elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
-                    model_name = time_stamp + '_%s_model.h5' % adjustable.datasets[0]
-                    weights_name = time_stamp + '_%s_weights.h5' % adjustable.datasets[0]
+                    # model_name = time_stamp + '_%s_model.h5' % adjustable.datasets[0]
+                    # weights_name = time_stamp + '_%s_weights.h5' % adjustable.datasets[0]
+                    model_name = '%s_model.h5' % adjustable.datasets[0]
+                    weights_name = '%s_weigths.h5' % adjustable.datasets[0]
                 else:
                     model_name = None
                     weights_name = None
@@ -367,6 +391,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                 model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
                 model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
 
+    # if appropriate, skip the testing step
     confusion_matrices = []
     ranking_matrices = []
     names = []
@@ -383,7 +408,8 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         # make a record of the ranking selection for each dataset
         # for priming
         if adjustable.save_inbetween and adjustable.iterations == 1:
-            file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
+            # file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
+            file_name = '%s_ranking.txt' % (name)
             file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
             with open(file_name, 'w') as my_file:
                 for item in this_ranking:
@@ -415,6 +441,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \n CMC: \n %s'
               % (name, accuracy, precision, str(matrix), str(ranking)))
 
+
     del model
     return names, confusion_matrices, ranking_matrices
 
@@ -424,14 +451,25 @@ def super_main(adjustable):
     Note: set iterations to 1 if you want to save weights
     """
     # load the datasets from h5
+    # note: this will always be 1 dataset
     all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
+
+    if adjustable.ranking_number == 'half':
+        the_dataset_name = adjustable.datasets[0]
+        ranking_number = pc.RANKING_DICT[the_dataset_name]
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
+    else:
+        ranking_number = None
+
+    the_dataset_name = adjustable.datasets[0]
     # select which GPU to use, necessary to start tf session
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
     # arrays for storing results
     number_of_datasets = len(adjustable.datasets)
     name = np.zeros(number_of_datasets)
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
-    ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, pc.RANKING_NUMBER))
+    ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, ranking_number))
 
     start = time.time()
     for iter in range(adjustable.iterations):
@@ -441,7 +479,7 @@ def super_main(adjustable):
         # create training and ranking set for all datasets
         ss = time.time()
         for name in range(len(adjustable.datasets)):
-            ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name])
+            ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name], adjustable)
             # labels have different meanings in `euclidean` case, 0 for match and 1 for mismatch
             if adjustable.cost_module_type == 'euclidean':
                 ranking = pu.flip_labels(ranking)
@@ -472,12 +510,12 @@ def super_main(adjustable):
 
     matrix_means = np.zeros((number_of_datasets, 4))
     matrix_std = np.zeros((number_of_datasets, 4))
-    ranking_means = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
-    ranking_std = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
+    ranking_means = np.zeros((number_of_datasets, ranking_number))
+    ranking_std = np.zeros((number_of_datasets, ranking_number))
     # for each dataset, create confusion and ranking matrices
     for dataset in range(number_of_datasets):
         matrices = np.zeros((adjustable.iterations, 4))
-        rankings = np.zeros((adjustable.iterations, pc.RANKING_NUMBER))
+        rankings = np.zeros((adjustable.iterations, ranking_number))
 
         for iter in range(adjustable.iterations):
             matrices[iter] = confusion_matrices[iter][dataset]
@@ -488,8 +526,7 @@ def super_main(adjustable):
         ranking_means[dataset] = np.mean(rankings, axis=0)
         ranking_std[dataset] = np.std(rankings, axis=0)
     # log the results
-    # note: TURN ON if you want to log results!!
-    if pc.LOGGING:
+    if adjustable.log_experiment:
         file_name = os.path.basename(__file__)
         pu.enter_in_log(adjustable.experiment_name, file_name, name, matrix_means, matrix_std, ranking_means, ranking_std,
                         total_time)

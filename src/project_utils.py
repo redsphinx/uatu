@@ -172,18 +172,25 @@ def enter_in_log(experiment_name, file_name, data_names, matrix_means, matrix_st
 
 
 def calculate_CMC(adjustable, predictions):
-    ble = np.shape(predictions)
-
+    
+    if adjustable.ranking_number == 'half':
+        the_dataset_name = adjustable.datasets[0]
+        ranking_number = pc.RANKING_DICT[the_dataset_name]
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
+    else:
+        ranking_number = None
+    
     if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-        predictions = np.reshape(predictions[:, 1], (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+        predictions = np.reshape(predictions[:, 1], (ranking_number, ranking_number))
     elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
         predictions = predictions.ravel()
-        predictions = np.reshape(predictions, (pc.RANKING_NUMBER, pc.RANKING_NUMBER))
+        predictions = np.reshape(predictions, (ranking_number, ranking_number))
     else:
         predictions = None
 
-    ranking_matrix_abs = np.zeros((pc.RANKING_NUMBER, pc.RANKING_NUMBER))
-    tallies = np.zeros(pc.RANKING_NUMBER)
+    ranking_matrix_abs = np.zeros((ranking_number, ranking_number))
+    tallies = np.zeros(ranking_number)
     final_ranking = []
 
     for row in range(len(predictions)):

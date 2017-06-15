@@ -404,23 +404,23 @@ def load_datasets_from_h5(list_of_datasets):
     return h5_data
 
 
-def create_training_and_ranking_set(name):
+def create_training_and_ranking_set(name, adjustable):
     """ Do this at the beginning of each iteration
     """
     if name == 'viper':
-        ranking, training_pos, training_neg = pd.make_pairs_viper()
+        ranking, training_pos, training_neg = pd.make_pairs_viper(adjustable)
     elif name == 'cuhk01':
-        ranking, training_pos, training_neg = pd.make_pairs_cuhk1()
+        ranking, training_pos, training_neg = pd.make_pairs_cuhk1(adjustable)
     elif name == 'cuhk02':
-        ranking, training_pos, training_neg = pd.make_pairs_cuhk2()
+        ranking, training_pos, training_neg = pd.make_pairs_cuhk2(adjustable)
     elif name == 'market':
-        ranking, training_pos, training_neg = pd.make_pairs_market()
+        ranking, training_pos, training_neg = pd.make_pairs_market(adjustable)
     elif name == 'caviar':
-        ranking, training_pos, training_neg = pd.make_pairs_caviar()
+        ranking, training_pos, training_neg = pd.make_pairs_caviar(adjustable)
     elif name == 'grid':
-        ranking, training_pos, training_neg = pd.make_pairs_grid()
+        ranking, training_pos, training_neg = pd.make_pairs_grid(adjustable)
     elif name == 'prid450':
-        ranking, training_pos, training_neg = pd.make_pairs_prid450()
+        ranking, training_pos, training_neg = pd.make_pairs_prid450(adjustable)
     else:
         ranking, training_pos, training_neg = None, None, None
 

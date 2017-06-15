@@ -59,21 +59,21 @@ def create_and_save_augmented_images(keys, the_id, name):
         name_original = os.path.join(path, name_bare + '_original.png')
         image.save(name_original)
 
-        # image_zoom = zoom(image)
-        # name_zoom = os.path.join(path, name_bare + '_zoom.png')
-        # image_zoom.save(name_zoom)
-        #
-        # image_rotate = rotate(image)
-        # name_rotate = os.path.join(path, name_bare + '_rotate.png')
-        # image_rotate.save(name_rotate)
+        image_zoom = zoom(image)
+        name_zoom = os.path.join(path, name_bare + '_zoom.png')
+        image_zoom.save(name_zoom)
+
+        image_rotate = rotate(image)
+        name_rotate = os.path.join(path, name_bare + '_rotate.png')
+        image_rotate.save(name_rotate)
 
         # image_noise = noise(item)
         # name_noise = os.path.join(path, name_bare + '_noise.png')
         # imsave(name_noise, image_noise)
-        #
-        # image_vertical_flip = flip(image)
-        # name_flip = os.path.join(path, name_bare + '_flip.png')
-        # image_vertical_flip.save(name_flip)
+
+        image_vertical_flip = flip(image)
+        name_flip = os.path.join(path, name_bare + '_flip.png')
+        image_vertical_flip.save(name_flip)
 
 
 def is_match(comb):
@@ -121,9 +121,9 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
     """
     full_predictions = np.zeros((len(this_ranking), 2))
 
-    for id in range(pc.RANKING_NUMBER):
-        print('ID %d/%d' % (id, pc.RANKING_NUMBER))
-        matching_pair_index = id * pc.RANKING_NUMBER + id
+    for id in range(pc.RANKING_DICT[name]):
+        print('ID %d/%d' % (id, pc.RANKING_DICT[name]))
+        matching_pair_index = id * pc.RANKING_DICT[name] + id
         if name == 'cuhk02':
             partition = this_ranking[matching_pair_index].strip().split(',')[0].split('+')[-3]
             folder_name = 'CUHK02'
@@ -159,13 +159,13 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
                   verbose=2)
 
         # testing
-        part_ranking = this_ranking[id * pc.RANKING_NUMBER:(id + 1) * pc.RANKING_NUMBER]
+        part_ranking = this_ranking[id * pc.RANKING_DICT[name]:(id + 1) * pc.RANKING_DICT[name]]
         test_data = ddl.grab_em_by_the_keys(part_ranking, h5_dataset)
 
         test_data = np.asarray(test_data)
 
         part_prediction = model.predict([test_data[0], test_data[1]])
-        full_predictions[id * pc.RANKING_NUMBER:(id + 1) * pc.RANKING_NUMBER] = part_prediction
+        full_predictions[id * pc.RANKING_DICT[name]:(id + 1) * pc.RANKING_DICT[name]] = part_prediction
 
     return full_predictions
 
@@ -218,6 +218,7 @@ def main(adjustable, all_ranking, names, path, model):
 
 
 def super_main(adjustable):
+    name = adjustable.datasets[0]
     start = time.time()
 
     # cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
@@ -252,7 +253,7 @@ def super_main(adjustable):
         number_of_datasets = 6
 
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
-    ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, pc.RANKING_NUMBER))
+    ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, pc.RANKING_DICT[name]))
 
     for iter in range(adjustable.iterations):
         print('-----ITERATION %d' % iter)
@@ -267,12 +268,12 @@ def super_main(adjustable):
 
     matrix_means = np.zeros((number_of_datasets, 4))
     matrix_std = np.zeros((number_of_datasets, 4))
-    ranking_means = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
-    ranking_std = np.zeros((number_of_datasets, pc.RANKING_NUMBER))
+    ranking_means = np.zeros((number_of_datasets, pc.RANKING_DICT[name]))
+    ranking_std = np.zeros((number_of_datasets, pc.RANKING_DICT[name]))
 
     for dataset in range(number_of_datasets):
         matrices = np.zeros((adjustable.iterations, 4))
-        rankings = np.zeros((adjustable.iterations, pc.RANKING_NUMBER))
+        rankings = np.zeros((adjustable.iterations, pc.RANKING_DICT[name]))
 
         for iter in range(adjustable.iterations):
             matrices[iter] = confusion_matrices[iter][dataset]

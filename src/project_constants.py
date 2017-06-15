@@ -27,6 +27,7 @@ SAVE_CNN_WEIGHTS = True
 SAVE_CNN_MODEL = False
 
 SAVE_LOCATION_MODEL_WEIGHTS = '../model_weights'
+# SAVE_LOCATION_MODEL_WEIGHTS = '/home/gabi/PycharmProjects/uatu/model_weights'
 SAVE_LOCATION_RANKING_FILES = '../ranking_files'
 
 SAVE_LOCATION_VIPER_CUHK = '../data/VIPeR_CUHK'
@@ -39,3 +40,11 @@ LOCATION_RAW_CUHK01 = '../raw_data/CUHK01'
 
 USE_BIAS = True
 # RANKING_NUMBER = 125
+
+RANKING_DICT = {'viper': 316,
+                'cuhk01': 485,
+                'cuhk02': 908,
+                'market': 750,
+                'grid': 125,
+                'prid450': 225,
+                'caviar': 36}
