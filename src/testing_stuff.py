@@ -1,4 +1,4 @@
-# import tensorflow as tf
+import tensorflow as tf
 import os
 # import keras
 # from keras.models import Sequential, Model
@@ -80,7 +80,7 @@ def get_version():
     ver = tf.__version__
     print(type(ver))
     print(tf.__version__)
-    print keras.__version__
+    # print keras.__version__
 
 
 def test_saving():
@@ -430,3 +430,5 @@ def test_load_mat():
 
     # thing = loadmat('/home/gabi/Documents/datasets/CUHK/CUHK3/cuhk-03.mat')
     print('asdf')
+
+get_version()

@@ -31,6 +31,37 @@ other:
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
 
+15 june
+-------
+. translate from keras to tensorflow
+.. make new virtualenv with the latest tensorflow
+... things to install: h5py, matplotlib, keras, seaborn, PIL, skimage
+	https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.1.0-cp27-none-linux_x86_64.whl
+	pip install h5py
+	pip install Pillow
+	pip install matplotlib
+	pip install scikit-image
+	pip install seaborn
+
+.. siamese_cnn_clean
+.. priming
+
+
+
+
+. fix the datapaths to relative
+.. prepare experiment log
+
+. fix the transfer learning pipeline
+
+. fix the ranking stuff
+
+. set up to run on all 4 GPUs
+
+
+
+Did some experiments inbetween, figured out that mixing datasets is bad, we should go more transfer learning way.
+
 2 june
 ------
 

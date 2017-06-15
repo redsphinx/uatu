@@ -168,9 +168,18 @@ def experiment_order_cuhk02_2():
     scn.super_main(a)
 
 
+def rem_k():
+    a = ProjectVariable()
+    a.experiment_name = 'shit'
+    a.epochs = 1
+    a.iterations = 1
+    a.datasets = ['grid']
+    scn.super_main(a)
+
+
 def main():
-    num = sys.argv[1]
-    print(sys.argv)
+    # num = sys.argv[1]
+    # print(sys.argv)
 
     # if num == '000':
     #     experiment_000()
@@ -186,8 +195,9 @@ def main():
     #     experiment_005()
     # if num == '007':
         # experiment_007()
-    if num == '006':
-        experiment_006()
+    # if num == '006':
+    #     experiment_006()
+    rem_k()
 
 
 main()
