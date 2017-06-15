@@ -12,8 +12,16 @@ class ProjectVariable(object):
         self._neural_distance = 'concatenate'  # string
         # distance threshold
         self._distance_threshold = 0.5
-        # make layers trainable. choice of: True, False
-        self._trainable = True  # bool
+        # make layers of convolutional units 1 and 2 trainable. choice of: True, False
+        self._trainable_12 = True  # bool
+        # make layers of convolutional units 3 and 4 trainable. choice of: True, False
+        self._trainable_34 = True  # bool
+        # make layers of convolutional units 5 and 6 trainable. choice of: True, False
+        self._trainable_56 = True  # bool
+        # make layers of cost module trainable. choice of: True, False
+        self._trainable_cost_module = True  # bool
+        # make layers of batch normalization layers trainable. choice of: True, False
+        self._trainable_bn = True  # bool
         # the number of filters in the convolutional layers. choice of: 1, 2
         self._numfil = 2  # int
         # the type of siamese head to implement. choice of: 'simple', 'batch_normalized'
@@ -74,6 +82,11 @@ class ProjectVariable(object):
         self._name_indication = 'epoch' # string
         # timestamp of when the ranking file was made
         self._ranking_time_name = None # string
+        # the ranking number for each dataset
+        self._ranking_number = 'half' # str 'half' or actual int
+        # train on these datasets. Last dataset gets trained on and tested. the datasets before the last one
+        # serve for transfer learning
+        self._datsets_order = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
         # UNUSED
         # load all the data for testing
         self._use_all_data = False # bool
@@ -418,3 +431,21 @@ class ProjectVariable(object):
     @ranking_time_name.setter
     def ranking_time_name(self, value):
         self._ranking_time_name = value
+
+    # the ranking number for each dataset
+    @property
+    def ranking_number(self):
+        return self._ranking_number
+
+    @ranking_number.setter
+    def ranking_number(self, value):
+        self._ranking_number = value
+
+    # train on these datasets. Last dataset gets trained on and tested. the datasets before the last one
+    @property
+    def datasets_order(self):
+        return self._datasets_order
+
+    @datasets_order.setter
+    def datasets_order(self, value):
+        self._datasets_order = value

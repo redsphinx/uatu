@@ -105,10 +105,10 @@ def create_cost_module(inputs, adjustable):
         else:
             features = None
 
-        dense_layer = Dense(adjustable.neural_distance_layers[0], name='dense_1')(features)
+        dense_layer = Dense(adjustable.neural_distance_layers[0], name='dense_1', trainable=adjustable.trainable_cost_module)(features)
         activation = Activation(adjustable.activation_function)(dense_layer)
         dropout_layer = Dropout(pc.DROPOUT)(activation)
-        dense_layer = Dense(adjustable.neural_distance_layers[1], name='dense_2')(dropout_layer)
+        dense_layer = Dense(adjustable.neural_distance_layers[1], name='dense_2', trainable=adjustable.trainable_cost_module)(dropout_layer)
         activation = Activation(adjustable.activation_function)(dense_layer)
         dropout_layer = Dropout(pc.DROPOUT)(activation)
         output_layer = Dense(pc.NUM_CLASSES, name='ouput')(dropout_layer)
@@ -163,7 +163,7 @@ def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm
     model.add(Activation(adjustable.activation_function))
 
     if use_batch_norm:
-        model.add(BatchNormalization(name=batch_norm_name, trainable=adjustable.trainable))
+        model.add(BatchNormalization(name=batch_norm_name, trainable=adjustable.trainable_bn))
     return model
 
 
@@ -173,34 +173,40 @@ def create_siamese_head(adjustable):
     """
     use_batch_norm = True if adjustable.head_type == 'batch_normalized' else False
 
+    # convolutional unit 1
     model = Sequential()
     if use_batch_norm == True:
         model.add(BatchNormalization(name='bn_1', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
-                                     trainable=adjustable.trainable))
+                                     trainable=adjustable.trainable_bn))
     model.add(Conv2D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
-                     trainable=adjustable.trainable))
+                     trainable=adjustable.trainable_12))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
+    # convolutional unit 2
     model.add(Conv2D(32 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_2',
-                     trainable=adjustable.trainable))
+                     trainable=adjustable.trainable_12))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_3')
+    # convolutional unit 3
     model.add(Conv2D(64 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_3',
-                     trainable=adjustable.trainable))
+                     trainable=adjustable.trainable_34))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_4')
+    # convolutional unit 4
     model.add(Conv2D(128 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_4',
-                     trainable=adjustable.trainable))
+                     trainable=adjustable.trainable_34))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_5')
+    # convolutional unit 5
     model.add(Conv2D(256 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_5',
-                     trainable=adjustable.trainable))
+                     trainable=adjustable.trainable_56))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_6')
+    # convolutional unit 6
     model.add(Conv2D(512 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_6',
-                     trainable=adjustable.trainable))
+                     trainable=adjustable.trainable_56))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_7')
     if adjustable.pooling_size == [[2, 2], [2, 2]]:
         model.add(Conv2D(1024 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_7',
-                         trainable=adjustable.trainable))
+                         trainable=adjustable.trainable_56))
         model.add(Activation(adjustable.activation_function))
         if use_batch_norm == True:
-            model.add(BatchNormalization(name='bn_8', trainable=adjustable.trainable))
+            model.add(BatchNormalization(name='bn_8', trainable=adjustable.trainable_bn))
     model.add(Flatten(name='cnn_flat'))
 
     if not adjustable.weights_name == None:

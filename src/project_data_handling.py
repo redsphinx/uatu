@@ -819,7 +819,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
 
 #note:swapped
 def make_all_positives(id_all_file, unique_id_file, short_image_names_file, fullpath_image_names_file, dataset_name,
-               ranking_number=pc.RANKING_NUMBER):
+               ranking_number):
     """ This needs to be done once at the beginning of the iteration.
     """
     def match(one, two):
@@ -839,6 +839,9 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
 
     # create a list with unique identities
     unique_id = np.genfromtxt(unique_id_file, dtype=None).tolist()
+    # fix adapted ranking number
+    if ranking_number == 'half':
+        ranking_number = len(unique_id) / 2
     # select at random a subset for ranking by drawing indices from a uniform distribution
     start = rd.randrange(0, len(unique_id)-ranking_number)
     stop = start + ranking_number
@@ -906,7 +909,7 @@ def make_all_negatives(pos_list, the_type):
         return training_pos, training_neg
 
 # note: swapped
-def make_pairs_viper():
+def make_pairs_viper(adjustable):
     start = time.time()
     project_data_storage = '../data/VIPER'
     if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
@@ -921,7 +924,9 @@ def make_pairs_viper():
         unique_id_and_all_images_viper()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file, 'viper')
+                                                   fullpath_image_names_file,
+                                                   ranking_number=adjustable.ranking_number,
+                                                   dataset_name='viper')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -933,7 +938,7 @@ def make_pairs_viper():
 
 
 # note: swapped
-def make_pairs_cuhk1():
+def make_pairs_cuhk1(adjustable):
     start = time.time()
     project_data_storage = '../data/CUHK'
     if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
@@ -948,7 +953,9 @@ def make_pairs_cuhk1():
         unique_id_and_all_images_cuhk1()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file, 'cuhk01')
+                                                   fullpath_image_names_file,
+                                                   ranking_number=adjustable.ranking_number,
+                                                   dataset_name='cuhk01')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -981,7 +988,7 @@ def merge_ranking_files(rank_list):
 
 
 # note: swapped
-def make_pairs_cuhk2():
+def make_pairs_cuhk2(adjustable):
     start = time.time()
     top_project_data_storage = '../data/CUHK02'
     original_data_location = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
@@ -1007,8 +1014,11 @@ def make_pairs_cuhk2():
         if not os.path.exists(id_all_file):
             unique_id_and_all_images_cuhk2()
 
+        # FIXME: fix for the adapted ranking number
+
         ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                       fullpath_image_names_file, ranking_number=adapted_ranking_number, dataset_name='cuhk02')
+                                                       fullpath_image_names_file,
+                                                       ranking_number=adjustable.ranking_number, dataset_name='cuhk02')
 
         ranking = make_all_negatives(ranking_pos, 'ranking')
         training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -1025,7 +1035,7 @@ def make_pairs_cuhk2():
 
 
 #note:swapped
-def make_pairs_market():
+def make_pairs_market(adjustable):
     start = time.time()
     project_data_storage = '../data/market'
     if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
@@ -1040,7 +1050,9 @@ def make_pairs_market():
         unique_id_and_all_images_market()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file, 'market')
+                                                   fullpath_image_names_file,
+                                                   ranking_number=adjustable.ranking_number,
+                                                   dataset_name='market')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -1051,7 +1063,7 @@ def make_pairs_market():
     return ranking, training_pos, training_neg
 
 #note:swapped
-def make_pairs_caviar():
+def make_pairs_caviar(adjustable):
     start = time.time()
     project_data_storage = '../data/caviar'
     if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
@@ -1066,7 +1078,9 @@ def make_pairs_caviar():
         unique_id_and_all_images_caviar()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file, 'caviar')
+                                                   fullpath_image_names_file,
+                                                   ranking_number=adjustable.ranking_number,
+                                                   dataset_name='caviar')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -1078,7 +1092,7 @@ def make_pairs_caviar():
 
 
 #note:swapped
-def make_pairs_grid():
+def make_pairs_grid(adjustable):
     start = time.time()
     project_data_storage = '../data/GRID'
     if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
@@ -1093,7 +1107,9 @@ def make_pairs_grid():
         unique_id_and_all_images_grid()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file, 'grid')
+                                                   fullpath_image_names_file,
+                                                   ranking_number=adjustable.ranking_number,
+                                                   dataset_name='grid')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -1105,7 +1121,7 @@ def make_pairs_grid():
 
 
 #note:swapped
-def make_pairs_prid450():
+def make_pairs_prid450(adjustable):
     start = time.time()
     project_data_storage = '../data/prid450'
     if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
@@ -1120,7 +1136,9 @@ def make_pairs_prid450():
         unique_id_and_all_images_prid450()
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file, 'prid450')
+                                                   fullpath_image_names_file,
+                                                   ranking_number=adjustable.ranking_number,
+                                                   dataset_name='prid450')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
     training_pos, training_neg = make_all_negatives(training_pos, 'training')
