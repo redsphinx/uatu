@@ -41,6 +41,7 @@ def flip(image):
     return image_2
 
 
+
 def create_and_save_augmented_images(keys, the_id, name):
     # augments data. saves data
 

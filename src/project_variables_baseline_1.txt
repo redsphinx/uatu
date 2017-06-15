@@ -4,12 +4,12 @@ class ProjectVariable(object):
         Default values for all the experimental variables.
         """
         # which gpu to use
-        self._use_gpu = '0' # string
+        self._use_gpu = "0" # string
         # the type of cost module. choice of: 'neural_network', 'euclidean', 'euclidean_fc', 'DHSL', 'cosine'
         self._cost_module_type = 'neural_network'  # string
         # the operation to perform with the siamese head features. choice of: 'concatenate', 'add', 'multiply'
         #                                                                     'subtract', 'divide', 'absolute'
-        self._neural_distance = 'absolute'  # string
+        self._neural_distance = 'concatenate'  # string
         # distance threshold
         self._distance_threshold = 0.5
         # make layers of convolutional units 1 and 2 trainable. choice of: True, False
@@ -23,7 +23,7 @@ class ProjectVariable(object):
         # make layers of batch normalization layers trainable. choice of: True, False
         self._trainable_bn = True  # bool
         # the number of filters in the convolutional layers. choice of: 1, 2
-        self._numfil = 1  # int
+        self._numfil = 2  # int
         # the type of siamese head to implement. choice of: 'simple', 'batch_normalized'
         self._head_type = 'batch_normalized'# string
         # name of a weights h5 file to initialize the siamese head weights with trained weights from h5 file.
@@ -32,15 +32,15 @@ class ProjectVariable(object):
         # use cyclical learning rate. choice of: True, False
         self._use_cyclical_learning_rate = True  # bool
         # the lower bound for the CLR
-        self._cl_min = 0.00005  # float
+        self._cl_min = 0.00001  # float
         # the upper bound for the CLR
-        self._cl_max = 0.001  # float
+        self._cl_max = 0.0001  # float
         # the batch size
-        self._batch_size = 32  # int
+        self._batch_size = 64  # int
         # the number of epochs
-        self._epochs = 100  # int
+        self._epochs = 30  # int
         # number of times to repeat experiment
-        self._iterations = 10  # int
+        self._iterations = 5  # int
         # the experiment name
         self._experiment_name = None  # string
         # the base learning rate
@@ -50,9 +50,9 @@ class ProjectVariable(object):
         # the number of units in each dense layer for the 'neural_network' type of cost module
         self._neural_distance_layers = (512, 1024) # tuple
         # (horizontal, vertical) for downscaling with max-pooling. remember shape=(height,width)
-        self._pooling_size = [[4, 2], [2, 2]] # list
+        self._pooling_size = [[2, 2], [2, 2]] # list
         # the activation function. choice of: 'relu', 'elu'
-        self._activation_function = 'elu' # string
+        self._activation_function = 'relu' # string
         # the loss function. choice of: 'categorical_crossentropy', 'kullback_leibler_divergence', 'mean_squared_error',
         # 'mean_absolute_error'
         self._loss_function = 'categorical_crossentropy' # string
@@ -119,7 +119,7 @@ class ProjectVariable(object):
     @property
     def neural_distance(self):
         return self._neural_distance
-    
+
     @neural_distance.setter
     def neural_distance(self, value):
         self._neural_distance = value
@@ -132,7 +132,7 @@ class ProjectVariable(object):
     @distance_threshold.setter
     def distance_threshold(self, value):
         self._distance_threshold = value
-    
+
     # self._trainable = None  # bool
     @property
     def trainable(self):
@@ -141,7 +141,7 @@ class ProjectVariable(object):
     @trainable.setter
     def trainable(self, value):
         self._trainable = value
-        
+
     # self._numfil = None  # int
     @property
     def numfil(self):
@@ -150,7 +150,7 @@ class ProjectVariable(object):
     @numfil.setter
     def numfil(self, value):
         self._numfil = value
-        
+
     # self._head_type = None  # string
     @property
     def head_type(self):
@@ -159,7 +159,7 @@ class ProjectVariable(object):
     @head_type.setter
     def head_type(self, value):
         self._head_type = value
-        
+
     # self._transfer_weights = None  # bool
     @property
     def transfer_weights(self):
@@ -168,7 +168,7 @@ class ProjectVariable(object):
     @transfer_weights.setter
     def transfer_weights(self, value):
         self._transfer_weights = value
-        
+
     # self._weights_name = None  # string
     @property
     def weights_name(self):
@@ -177,7 +177,7 @@ class ProjectVariable(object):
     @weights_name.setter
     def weights_name(self, value):
         self._weights_name = value
-        
+
     # self._use_cyclical_learning_rate = None  # bool
     @property
     def use_cyclical_learning_rate(self):
@@ -186,7 +186,7 @@ class ProjectVariable(object):
     @use_cyclical_learning_rate.setter
     def use_cyclical_learning_rate(self, value):
         self._use_cyclical_learning_rate = value
-        
+
     # self._cl_min = None  # float
     @property
     def cl_min(self):
@@ -195,7 +195,7 @@ class ProjectVariable(object):
     @cl_min.setter
     def cl_min(self, value):
         self._cl_min = value
-        
+
     # self._cl_max = None  # float
     @property
     def cl_max(self):
@@ -204,7 +204,7 @@ class ProjectVariable(object):
     @cl_max.setter
     def cl_max(self, value):
         self._cl_max = value
-        
+
     # self._batch_size = None  # int
     @property
     def batch_size(self):
@@ -213,7 +213,7 @@ class ProjectVariable(object):
     @batch_size.setter
     def batch_size(self, value):
         self._batch_size = value
-        
+
     # self._epochs = None  # int
     @property
     def epochs(self):
@@ -222,7 +222,7 @@ class ProjectVariable(object):
     @epochs.setter
     def epochs(self, value):
         self._epochs = value
-        
+
     # self._scnn_save_weights_name = None  # string
     @property
     def scnn_save_weights_name(self):
@@ -249,7 +249,7 @@ class ProjectVariable(object):
     @iterations.setter
     def iterations(self, value):
         self._iterations = value
-        
+
     # self._experiment_name = None  # string
     @property
     def experiment_name(self):
@@ -276,7 +276,7 @@ class ProjectVariable(object):
     @number_of_conv_layers.setter
     def number_of_conv_layers(self, value):
         self._number_of_conv_layers = value
-        
+
     # self._neural_distance_layers = None  # array
     @property
     def neural_distance_layers(self):
@@ -285,7 +285,7 @@ class ProjectVariable(object):
     @neural_distance_layers.setter
     def neural_distance_layers(self, value):
         self._neural_distance_layers = value
-        
+
     # self._pooling_size = None  # int
     @property
     def pooling_size(self):
@@ -294,7 +294,7 @@ class ProjectVariable(object):
     @pooling_size.setter
     def pooling_size(self, value):
         self._pooling_size = value
-        
+
     # self._activation_function = None  # string
     @property
     def activation_function(self):
@@ -303,7 +303,7 @@ class ProjectVariable(object):
     @activation_function.setter
     def activation_function(self, value):
         self._activation_function = value
-        
+
     # self._loss_function = None  # string
     @property
     def loss_function(self):

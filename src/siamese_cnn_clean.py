@@ -142,6 +142,7 @@ def create_cost_module(inputs, adjustable):
 
 
 
+
 def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name, first_layer=False):
     """One-liner for adding: pooling + activation + batchnorm
     :param model:       the model to add to
