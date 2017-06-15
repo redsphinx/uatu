@@ -7,4 +7,5 @@
 #python running_experiments_2.py 002
 #python running_experiments_2.py 003
 #python running_experiments_2.py 004
-python running_experiments_2.py 006
+#python running_experiments_2.py 006
+python running_experiments_2.py something_prime

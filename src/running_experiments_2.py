@@ -201,9 +201,21 @@ def something():
     scn.super_main(a)
 
 
+def something_prime():
+    a = ProjectVariable()
+    a.experiment_name = 'something prime'
+    a.priming = True
+    a.load_model_name = 'grid_model.h5'
+    a.load_weights_name = 'grid_weigths.h5'
+    a.prime_epochs = 1
+    a.batch_size = 32
+    a.iterations = 1
+    prime.super_main(a)
+
+
 def main():
-    # num = sys.argv[1]
-    # print(sys.argv)
+    num = sys.argv[1]
+    print(sys.argv)
 
     # if num == '000':
     #     experiment_000()
@@ -221,7 +233,7 @@ def main():
         # experiment_007()
     # if num == '006':
     #     experiment_006()
-    something()
+    something_prime()
 
 
 main()

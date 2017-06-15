@@ -12,7 +12,8 @@ from keras import optimizers
 # from keras import backend as K
 import keras.backend as K
 # from tensorflow.contrib.keras import backend as K
-from tensorflow.contrib.keras import initializers
+from keras import initializers
+# from tensorflow.contrib.keras import initializers
 import tensorflow as tf
 import dynamic_data_loading as ddl
 import project_constants as pc

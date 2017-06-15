@@ -222,13 +222,15 @@ def super_main(adjustable):
     start = time.time()
 
     # cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
-    market_ranking = list(np.genfromtxt('market_ranking.txt', dtype=None))
+    # market_ranking = list(np.genfromtxt('market_ranking.txt', dtype=None))
+    grid_ranking = list(np.genfromtxt('../ranking_files/grid_ranking.txt', dtype=None))
+
 
     # all_ranking = [cuhk02_ranking, market_ranking]
     # names = ['cuhk02', 'market']
 
-    all_ranking = [market_ranking]
-    names = ['market']
+    all_ranking = [grid_ranking]
+    names = ['grid']
 
     if adjustable.only_test:
         viper_ranking = list(np.genfromtxt('viper_ranking.txt', dtype=None))
