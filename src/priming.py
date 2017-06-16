@@ -47,8 +47,11 @@ def create_and_save_augmented_images(keys, the_id, name):
 
     if name == 'cuhk02':
         path = '../data/CUHK02/augmented/%s' % the_id
-    else:
+    elif name == 'market':
         path = '../data/market/augmented/%s' % the_id
+    elif name == 'grid':
+        path = '../data/GRID/augmented/%s' % the_id
+
     # if not os.path.exists(path): os.mkdir(path)
     if not os.path.exists(path): os.makedirs(path)
 
@@ -120,22 +123,31 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         images belonging to that same ID, but not the same as the image in the gallery.
     """
     full_predictions = np.zeros((len(this_ranking), 2))
+    
+    if name == 'cuhk02' or adjustable.ranking_number == 'half':
+        ranking_number = pc.RANKING_DICT[name]
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
 
-    for id in range(pc.RANKING_DICT[name]):
-        print('ID %d/%d' % (id, pc.RANKING_DICT[name]))
-        matching_pair_index = id * pc.RANKING_DICT[name] + id
+
+    for an_id in range(ranking_number):
+        print('ID %d/%d' % (an_id, ranking_number))
+        matching_pair_index = an_id * ranking_number + an_id
         if name == 'cuhk02':
             partition = this_ranking[matching_pair_index].strip().split(',')[0].split('+')[-3]
             folder_name = 'CUHK02'
-        else:
+        elif name == 'market':
             partition = None
             folder_name = 'market'
+        elif name == 'grid':
+            partition = None
+            folder_name = 'GRID'
         image_1 = this_ranking[matching_pair_index].strip().split(',')[0].split('+')[-1]
         image_2 = this_ranking[matching_pair_index].strip().split(',')[1].split('+')[-1]
         seen = [image_1, image_2]
         the_id = pd.my_join(list(image_1)[0:4])
 
-        list_related_keys = ddl.get_related_keys(name, partition, seen, this_ranking, the_id)
+        list_related_keys = ddl.get_related_keys(adjustable, name, partition, seen, this_ranking, the_id)
         path = '../data/%s/augmented/%s' % (folder_name, the_id)
 
         if os.path.exists(path):
@@ -159,13 +171,13 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
                   verbose=2)
 
         # testing
-        part_ranking = this_ranking[id * pc.RANKING_DICT[name]:(id + 1) * pc.RANKING_DICT[name]]
+        part_ranking = this_ranking[an_id * ranking_number:(an_id + 1) * ranking_number]
         test_data = ddl.grab_em_by_the_keys(part_ranking, h5_dataset)
 
         test_data = np.asarray(test_data)
 
         part_prediction = model.predict([test_data[0], test_data[1]])
-        full_predictions[id * pc.RANKING_DICT[name]:(id + 1) * pc.RANKING_DICT[name]] = part_prediction
+        full_predictions[an_id * ranking_number:(an_id + 1) * ranking_number] = part_prediction
 
     return full_predictions
 
@@ -250,12 +262,17 @@ def super_main(adjustable):
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
     model = load_model(path)
 
-    number_of_datasets = 2
+    number_of_datasets = len(names)
     if adjustable.only_test:
         number_of_datasets = 6
 
+    if names[0] == 'cuhk02' or adjustable.ranking_number == 'half':
+        ranking_number = pc.RANKING_DICT[name]
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
+
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
-    ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, pc.RANKING_DICT[name]))
+    ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, ranking_number))
 
     for iter in range(adjustable.iterations):
         print('-----ITERATION %d' % iter)
@@ -270,12 +287,12 @@ def super_main(adjustable):
 
     matrix_means = np.zeros((number_of_datasets, 4))
     matrix_std = np.zeros((number_of_datasets, 4))
-    ranking_means = np.zeros((number_of_datasets, pc.RANKING_DICT[name]))
-    ranking_std = np.zeros((number_of_datasets, pc.RANKING_DICT[name]))
+    ranking_means = np.zeros((number_of_datasets, ranking_number))
+    ranking_std = np.zeros((number_of_datasets, ranking_number))
 
     for dataset in range(number_of_datasets):
         matrices = np.zeros((adjustable.iterations, 4))
-        rankings = np.zeros((adjustable.iterations, pc.RANKING_DICT[name]))
+        rankings = np.zeros((adjustable.iterations, ranking_number))
 
         for iter in range(adjustable.iterations):
             matrices[iter] = confusion_matrices[iter][dataset]

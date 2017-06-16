@@ -54,13 +54,25 @@ Second phase: Improve the prototype in experiment cycles
 ...		Use the different trainable_ variables to play with what gets frozen and when.
 ..	fix the ranking stuff
 ...	Decided that ranking number will be ID/2. Create ranking dictionary in project_constants.py
+.. I think DONE for siamese and priming
+
 
 .. if we only want to train, set adjustable.ranking_number = 2. But never only train with CUHK02
+... how we gonna train with only CUHK02 for a comparison huh
+... oh wait we don't adjustable.only_train kekeke
 
-. fix the datapaths to relative
-.. prepare experiment log
+. DONE fix the datapaths to relative
+. prepare experiment log
 
 . set up to run on all 4 GPUs
+
+. setup experiments
+viper
+cuhk02
+market
+grid
+prid450
+caviar
 
 
 

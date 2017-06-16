@@ -994,7 +994,7 @@ def make_pairs_cuhk2(adjustable):
     original_data_location = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
 
     subdirs = os.listdir(original_data_location)
-    adapted_ranking_number = pc.RANKING_NUMBER / len(subdirs)
+    adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)
 
     ranking_all = []
     training_pos_all = []

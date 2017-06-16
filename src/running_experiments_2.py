@@ -134,9 +134,6 @@ def experiment_007():
     scn.super_main(a)
 
 
-def experiment_008():
-    a = ProjectVariable()
-
 
 def experiment_order_viper_2():
     a = ProjectVariable()
@@ -207,33 +204,83 @@ def something_prime():
     a.priming = True
     a.load_model_name = 'grid_model.h5'
     a.load_weights_name = 'grid_weigths.h5'
+    a.ranking_number = 2
     a.prime_epochs = 1
     a.batch_size = 32
     a.iterations = 1
     prime.super_main(a)
 
 
+
+def experiment_008():
+    a = ProjectVariable()
+    a.experiment_name = '008. train on cuhk02 only baseline'
+    a.datasets = ['cuhk02']
+    a.epochs = 1 # rem
+    a.iterations = 1 # rem
+    scn.super_main(a)
+
+
+
+def experiment_009():
+    a = ProjectVariable()
+    a.experiment_name = '009. train on viper, then cuhk02'
+    a.ranking_number = 2
+    # a.epochs = 100
+    a.epochs = 1
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    scn.super_main(a)
+
+    a.ranking_number = 'half'
+    a.datasets = ['cuhk02']
+    a.load_weights_name = 'viper_weigths.h5'
+    scn.super_main(a)
+
+
+def experiment_010():
+    a = ProjectVariable()
+    a.experiment_name = '010. train on market only baseline'
+    a.datasets = ['market']
+    a.epochs = 1 # rem
+    a.iterations = 1 # rem
+    scn.super_main(a)
+
+
+def experiment_011():
+    a = ProjectVariable()
+    a.experiment_name = '011. train on viper then market'
+    a.ranking_number = 2
+    # a.epochs = 100
+    a.epochs = 1
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    scn.super_main(a)
+
+    a.ranking_number = 'half'
+    a.datasets = ['market']
+    a.load_weights_name = 'viper_weigths.h5'
+    scn.super_main(a)
+
+
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    # if num == '000':
-    #     experiment_000()
-    # if num == '001':
-    #     experiment_001()
-    # if num == '002':
-    #     experiment_002()
-    # if num == '003':
-    #     experiment_003()
-    # if num == '004':
-    #     experiment_004()
-    # if num == '005':
-    #     experiment_005()
-    # if num == '007':
-        # experiment_007()
-    # if num == '006':
-    #     experiment_006()
-    something_prime()
+    if num == '008':
+        experiment_008()
+    if num == '009':
+        experiment_009()
+    if num == '010':
+        experiment_010()
+    if num == '011':
+        experiment_011()
 
 
 main()

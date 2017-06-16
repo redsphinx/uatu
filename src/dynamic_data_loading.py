@@ -261,8 +261,8 @@ def load_in_array(adjustable, data_pos=None, data_neg=None, hdf5_file=None, data
 
 def fetch_dummy_data():
     print('fetching data')
-    path_pos = '/home/gabi/PycharmProjects/uatu/data/all_positives.txt'
-    path_neg = '/home/gabi/PycharmProjects/uatu/data/all_negatives.txt'
+    path_pos = '../data/all_positives.txt'
+    path_neg = '../data/all_negatives.txt'
 
     list_pos = np.genfromtxt(path_pos, dtype=None).tolist()
     list_neg = np.genfromtxt(path_neg, dtype=None).tolist()
@@ -273,7 +273,7 @@ def fetch_dummy_data():
 def data_pos_to_hdf5():
     data_pos, data_neg = fetch_dummy_data()
     # amount = 40000
-    h5_path = '/home/gabi/PycharmProjects/uatu/data/all_data_uncompressed.h5'
+    h5_path = '../data/all_data_uncompressed.h5'
 
     print('loading positive data into array')
     start = time.time()
@@ -292,7 +292,7 @@ def data_pos_to_hdf5():
 def data_neg_to_hdf5():
     data_pos, data_neg = fetch_dummy_data()
     # amount = 40000
-    h5_path = '/home/gabi/PycharmProjects/uatu/data/all_data_uncompressed.h5'
+    h5_path = '../data/all_data_uncompressed.h5'
 
     print('loading negative data into array')
     start = time.time()
@@ -310,7 +310,7 @@ def data_neg_to_hdf5():
 
 
 def load_from_hdf5():
-    h5_path = '/home/gabi/PycharmProjects/uatu/data/all_data_uncompressed.h5'
+    h5_path = '../data/all_data_uncompressed.h5'
 
     with h5py.File(h5_path, 'r') as hf:
         start = time.time()
@@ -641,18 +641,18 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
     return keys
 
 
-def get_negative_keys(name_dataset, partition, seen_list, this_ranking, positive_keys):
+def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranking, positive_keys):
     """ get negative keys. get key that could have been seen before in the training set, but that is not an id in
         the test set
     """
     number_positive_keys = len(positive_keys)
 
     if name_dataset == 'cuhk02':
-        rank_ordered_partitions = [this_ranking[item * pc.RANKING_NUMBER + item].strip().split(',')[0].split('+')[-3]
-                                   for item in range(pc.RANKING_NUMBER)]
+        rank_ordered_partitions = [this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-3]
+                                   for item in range(pc.RANKING_DICT['cuhk02'])]
         rank_ordered_ids = [
-            pd.my_join(list(this_ranking[item * pc.RANKING_NUMBER + item].strip().split(',')[0].split('+')[-1])[0:4])
-            for item in range(pc.RANKING_NUMBER)]
+            pd.my_join(list(this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-1])[0:4])
+            for item in range(pc.RANKING_DICT['cuhk02'])]
         # create list in the form of [(partition, id), ...]
         joined_unique = list(set(zip(rank_ordered_partitions, rank_ordered_ids)))
 
@@ -682,18 +682,43 @@ def get_negative_keys(name_dataset, partition, seen_list, this_ranking, positive
             # get the key with the index and append to the list
             negative_keys.append(swapped_fullpath[index])
     else:
-        rank_ordered_ids = [
-            pd.my_join(list(this_ranking[item * pc.RANKING_NUMBER + item].strip().split(',')[0].split('+')[-1])[0:4])
-            for item in range(pc.RANKING_NUMBER)]
+        if adjustable.ranking_number == 'half':
+            ranking_number = pc.RANKING_DICT[name_dataset]
+        elif isinstance(adjustable.ranking_number, int):
+            ranking_number = adjustable.ranking_number
+
+        print('ranking number: %s' % str(ranking_number))
+
+        # rank_ordered_ids = [
+            # pd.my_join(list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])[0:4])
+            # for item in range(ranking_number)]
+        rank_ordered_ids = []
+
+        for thingy in this_ranking:
+            print(thingy)
+
+        for item in range(ranking_number):
+            a = list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])
+            print('a: %s' % str(a))
+            b = pd.my_join(a[0:4])
+            print('b: %s' % str(b))
+            rank_ordered_ids.append(b)
 
         negative_keys = []
 
+        if name_dataset == 'market':
+            folder_name = 'market'
+        elif name_dataset == 'grid':
+            folder_name = 'GRID'
+        else:
+            folder_name = None
+
         # get the list of unique market IDs
-        unique_ids = list(np.genfromtxt('../data/market/unique_id_file.txt', dtype=None))
+        unique_ids = list(np.genfromtxt('../data/%s/unique_id_file.txt' % folder_name, dtype=None))
         # get list of swapped fullpath
-        swapped_fullpath = list(np.genfromtxt('../data/market/fullpath_image_names_file.txt', dtype=None))
+        swapped_fullpath = list(np.genfromtxt('../data/%s/fullpath_image_names_file.txt' % folder_name, dtype=None))
         # get list of all ids
-        all_ids = list(np.genfromtxt('../data/market/id_all_file.txt', dtype=None))
+        all_ids = list(np.genfromtxt('../data/%s/id_all_file.txt' % folder_name, dtype=None))
 
         for num in range(number_positive_keys):
             # at random choose an id from that list
@@ -713,9 +738,9 @@ def get_negative_keys(name_dataset, partition, seen_list, this_ranking, positive
     return negative_keys
 
 
-def get_related_keys(name_dataset, partition, seen_list, this_ranking, id):
-    pos_keys = get_positive_keys(name_dataset, partition, id, seen_list)
-    neg_keys = get_negative_keys(name_dataset, partition, seen_list, this_ranking, pos_keys)
+def get_related_keys(adjustable, name_dataset, partition, seen_list, this_ranking, the_id):
+    pos_keys = get_positive_keys(name_dataset, partition, the_id, seen_list)
+    neg_keys = get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranking, pos_keys)
     keys = pos_keys + neg_keys
 
     return keys
