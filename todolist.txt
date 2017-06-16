@@ -30,6 +30,127 @@ other:
 ===============================================================================================
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
+16 june
+-------
+. translate from keras to tensorflow
+..	make new virtualenv with the latest tensorflow
+... 	things to install: h5py, matplotlib, keras, seaborn, PIL, skimage
+		https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.1.0-cp27-none-linux_x86_64.whl
+		pip install h5py
+		pip install Pillow
+		pip install matplotlib
+		pip install scikit-image
+		pip install seaborn
+.. siamese_cnn_clean
+.. priming (TODO)
+.. Figure out how to solve issue with 1) merging and 2) batchnormalization
+
+. fix the transfer learning pipeline
+..	Decided that data will no longer be mixed. Network is trained on 1 dataset at a time because of batchnorm.
+	If the network is trained one dataset at a time we can use all the data from the previously data used for training
+	so we only need to store the ranking file of the last (eval) dataset. 
+..	Change the way we train the scnn
+...		Use the different trainable_ variables to play with what gets frozen and when.
+..	fix the ranking stuff
+...	Decided that ranking number will be ID/2. Create ranking dictionary in project_constants.py
+.. I think DONE for siamese and priming
+... NOPE lol still bugs, mainly with ranking. FIX these
+
+
+.. if we only want to train, set adjustable.ranking_number = 2. But never only train with CUHK02
+... how we gonna train with only CUHK02 for a comparison huh
+... oh wait we don't adjustable.only_train kekeke
+... IT WORKS LIKE THIS
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+HOW RANKING WORKS NOW
+
+you adjust `adjustable.ranking_number` to 1 of 2 options:
+1) 'half'
+	this takes the value in pc.RANKING_DICT[name_of_datset]
+2) <int>
+	This sets the ranking number to said int
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+thing = np.zeros((100,100))
+
+for row in range(900):
+	start = time.time()
+	thing[row] = [i[0] for i in sorted(enumerate(a[row]), key=lambda x: x[1], reverse=True)]
+	list_form = thing[row].tolist()
+	num = list_form.index(row)
+	time.sleep(10)
+	print(time.time() - start)
+	
+
+b = sorted(enumerate(a[row]), key=lambda x: x[1], reverse=True)
+	print(np.shape(b))
+	for i in b:
+		thing[row] = i[0]
+
+
+50 = 40s
+100 = 53s
+316 = 442s, 413s = 8 mins
+500 = 1923
+915 = 
+
+.. debugging:
+1)	scn.super_main() on ['cuhk02']
+	- no saving, just train
+	- ranking_number = 5, 20, 80
+	- with saving
+	- FIXED
+2)	scn.super_main() on ['viper']
+	- no saving, just train
+	- ranking_number = 5, 20, 80, 'half'
+	- with saving
+	- FIXED
+
+
+in P3 032_, 077_ is causing an issue because there are only 3 images of it
+so we remove it
+
+fullpathimages:
+/home/gabi/Documents/datasets/CUHK/cropped_CUHK2/P3/all/032_12752.png
+/home/gabi/Documents/datasets/CUHK/cropped_CUHK2/P3/all/032_12800.png
+/home/gabi/Documents/datasets/CUHK/cropped_CUHK2/P3/all/032_12880.png
+
+idall:
+032_
+032_
+032_
+
+short iamgenames:
+032_12752.png
+032_12800.png
+032_12880.png
+
+swapped:
++home+gabi+Documents+datasets+CUHK+cropped_CUHK2+P3+all+032_12752.png
++home+gabi+Documents+datasets+CUHK+cropped_CUHK2+P3+all+032_12800.png
++home+gabi+Documents+datasets+CUHK+cropped_CUHK2+P3+all+032_12880.png
+
+unique:
+032_
+
+
+. DONE fix the datapaths to relative
+. prepare experiment log
+
+. set up to run on all 4 GPUs
+
+. setup experiments
+viper
+cuhk02
+market
+grid
+prid450
+caviar
+
+
 
 15 june
 -------

@@ -12,7 +12,7 @@ import os
 from tensorflow.python.client import device_lib
 import h5py
 
-from imblearn.datasets import make_imbalance
+# from imblearn.datasets import make_imbalance
 import sys
 import time
 from scipy import ndimage
@@ -431,4 +431,23 @@ def test_load_mat():
     # thing = loadmat('/home/gabi/Documents/datasets/CUHK/CUHK3/cuhk-03.mat')
     print('asdf')
 
-get_version()
+def get_duplicate():
+    path = '/home/gabi/PycharmProjects/uatu/data/CUHK02/P3/id_all_file.txt'
+    unique = '/home/gabi/PycharmProjects/uatu/data/CUHK02/P3/unique_id_file.txt'
+
+    a_list = list(np.genfromtxt(path, dtype=None))
+    u_list = list(np.genfromtxt(unique, dtype=None))
+    print(len(a_list))
+
+    tally = 0
+    for ind in range(len(a_list)):
+        if a_list[ind] in u_list:
+            tally +=1
+        if tally == 3 and (not a_list[ind+1] == a_list[ind]):
+            print(a_list[ind])
+        if tally == 4 and (not a_list[ind+1] == a_list[ind]):
+            tally = 0
+
+
+
+get_duplicate()

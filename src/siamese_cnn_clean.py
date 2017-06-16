@@ -374,6 +374,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
 
         time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
+        print('DONE WITH TRAINING')
 
         if adjustable.save_inbetween and adjustable.iterations == 1:
             if epoch+1 in adjustable.save_points:
@@ -391,6 +392,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
                 model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
                 model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
+                print('MODEL SAVED')
 
     # if appropriate, skip the testing step
     confusion_matrices = []
@@ -403,6 +405,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         name = adjustable.datasets[dataset]
         names.append(name)
         this_ranking = all_ranking[dataset]
+        print('GRABBING BY THE KEYS')
         test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
         test_data = np.asarray(test_data)
 
@@ -416,17 +419,21 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                 for item in this_ranking:
                     my_file.write(item)
 
+        print('final_testing_labels')
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
 
+
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+            print('more final testing labels')
             final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
+        print('predictions')
         predictions = model.predict([test_data[0, :], test_data[1, :]])
         # print predictions
         if adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             new_thing = zip(predictions, final_testing_labels)
             print(new_thing[0:50])
-
+        print('MAKING CONFUSION MATRIX')
         # matrix = pu.make_confusion_matrix(predictions, test_labels)
         matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
         accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)

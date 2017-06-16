@@ -43,8 +43,14 @@ USE_BIAS = True
 
 RANKING_DICT = {'viper': 316,
                 'cuhk01': 485,
-                'cuhk02': 908,
+                'cuhk02': 904, # removed 032_, 077_, 085_ from the IDs. this should work with 'half'. if you want custom ranking_number then set to a number divisible by 5
                 'market': 750,
                 'grid': 125,
                 'prid450': 225,
                 'caviar': 36}
+
+RANKING_CUHK02_PARTS = {'P1': 485,
+                        'P2': 152,
+                        'P3': 52,
+                        'P4': 96,
+                        'P5': 119}

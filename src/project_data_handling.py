@@ -840,8 +840,8 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     # create a list with unique identities
     unique_id = np.genfromtxt(unique_id_file, dtype=None).tolist()
     # fix adapted ranking number
-    if ranking_number == 'half':
-        ranking_number = len(unique_id) / 2
+    # if ranking_number == 'half':
+    #     ranking_number = len(unique_id) / 2
     # select at random a subset for ranking by drawing indices from a uniform distribution
     start = rd.randrange(0, len(unique_id)-ranking_number)
     stop = start + ranking_number
@@ -923,9 +923,17 @@ def make_pairs_viper(adjustable):
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_viper()
 
+    if adjustable.ranking_number == 'half':
+        ranking_number = pc.RANKING_DICT['viper']
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
+    else:
+        ranking_number = None
+
+
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
-                                                   ranking_number=adjustable.ranking_number,
+                                                   ranking_number=ranking_number,
                                                    dataset_name='viper')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
@@ -952,6 +960,13 @@ def make_pairs_cuhk1(adjustable):
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_cuhk1()
 
+    if adjustable.ranking_number == 'half':
+        ranking_number = pc.RANKING_DICT['cuhk01']
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
+    else:
+        ranking_number = None
+
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
                                                    ranking_number=adjustable.ranking_number,
@@ -966,7 +981,7 @@ def make_pairs_cuhk1(adjustable):
     return ranking, training_pos, training_neg
 
 
-def merge_ranking_files(rank_list):
+def merge_ranking_files(adjustable, rank_list):
     # for cuhk2
     rank_list_pos = []
     for item in rank_list:
@@ -984,6 +999,20 @@ def merge_ranking_files(rank_list):
             line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
             rank_list_pos.append(line)
 
+    # FIXME: i think this is causing a problem, so let's comment it
+    # if adjustable.ranking_number == 'half':
+    #     if len(rank_list_pos) > pc.RANKING_DICT['cuhk02']:
+    #         rank_list_pos = rank_list_pos[0:pc.RANKING_DICT['cuhk02']]
+    #     else:
+    #         print('total rankings picked are less than indicated by adjustable.ranking_number')
+    #         print('len current list: %d' % (len(rank_list_pos)))
+    # elif isinstance(adjustable.ranking_number, int):
+    #     if len(rank_list_pos) > adjustable.ranking_number:
+    #         rank_list_pos = rank_list_pos[0:adjustable.ranking_number]
+    #     else:
+    #         print('total rankings picked are less than indicated by adjustable.ranking_number')
+    #         print('len current list: %d' % (len(rank_list_pos)))
+
     return rank_list_pos
 
 
@@ -994,13 +1023,32 @@ def make_pairs_cuhk2(adjustable):
     original_data_location = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
 
     subdirs = os.listdir(original_data_location)
-    adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)
+
+    if adjustable.ranking_number == 'half':
+        adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)
+    elif isinstance(adjustable.ranking_number, int):
+        if adjustable.ranking_number >= len(subdirs):
+            # FIXME
+            # adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)
+            adapted_ranking_number = adjustable.ranking_number / len(subdirs)
+        elif adjustable.ranking_number < len(subdirs):
+            print('ERROR: for cuhk02 ranking number must be at least 5 and number that is divisible by 5')
+            adapted_ranking_number = None
+            # adapted_ranking_number = 1
+        else:
+            adapted_ranking_number = None
+    else:
+        adapted_ranking_number = None
 
     ranking_all = []
     training_pos_all = []
     training_neg_all = []
 
     for dir in subdirs:
+
+        if adjustable.ranking_number == 'half':
+            adapted_ranking_number = pc.RANKING_CUHK02_PARTS[dir]
+
         project_data_storage = os.path.join(top_project_data_storage, dir)
 
         if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
@@ -1014,11 +1062,9 @@ def make_pairs_cuhk2(adjustable):
         if not os.path.exists(id_all_file):
             unique_id_and_all_images_cuhk2()
 
-        # FIXME: fix for the adapted ranking number
-
         ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
                                                        fullpath_image_names_file,
-                                                       ranking_number=adjustable.ranking_number, dataset_name='cuhk02')
+                                                       ranking_number=adapted_ranking_number, dataset_name='cuhk02')
 
         ranking = make_all_negatives(ranking_pos, 'ranking')
         training_pos, training_neg = make_all_negatives(training_pos, 'training')
@@ -1027,7 +1073,24 @@ def make_pairs_cuhk2(adjustable):
         training_pos_all += training_pos
         training_neg_all += training_neg
 
-    ranking_all = merge_ranking_files(ranking_all)
+    # if adjustable.ranking_number == 'half':
+    #     if len(ranking_all) > pc.RANKING_DICT['cuhk02']:
+    #         ranking_all = ranking_all[0:pc.RANKING_DICT['cuhk02']]
+    #     else:
+    #         print('total rankings picked are less than indicated by adjustable.ranking_number')
+    #         print('len current list: %d' % (len(ranking_all)))
+    # elif isinstance(adjustable.ranking_number, int):
+    #     if len(ranking_all) > adjustable.ranking_number:
+    #         ranking_all = ranking_all[0:adjustable.ranking_number]
+    #     elif len(ranking_all) == adjustable.ranking_number:
+    #         print('len current ranking: %d \nadjustable.ranking_number: %d' % (len(ranking_all), adjustable.ranking_number))
+    #     else:
+    #         print('total rankings picked are less than indicated by adjustable.ranking_number')
+    #         print('len current list: %d' % (len(ranking_all)))
+
+    ranking_all = merge_ranking_files(adjustable, ranking_all)
+
+    # note: fixing for the sizing incompatibility issues in scn.supermain
 
     total_time = time.time() - start
     print('total_time   %0.2f seconds' % total_time)
@@ -1049,9 +1112,16 @@ def make_pairs_market(adjustable):
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_market()
 
+    if adjustable.ranking_number == 'half':
+        ranking_number = pc.RANKING_DICT['market']
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
+    else:
+        ranking_number = None
+
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
-                                                   ranking_number=adjustable.ranking_number,
+                                                   ranking_number=ranking_number,
                                                    dataset_name='market')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
@@ -1077,9 +1147,16 @@ def make_pairs_caviar(adjustable):
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_caviar()
 
+    if adjustable.ranking_number == 'half':
+        ranking_number = pc.RANKING_DICT['caviar']
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
+    else:
+        ranking_number = None
+
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
-                                                   ranking_number=adjustable.ranking_number,
+                                                   ranking_number=ranking_number,
                                                    dataset_name='caviar')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
@@ -1106,9 +1183,16 @@ def make_pairs_grid(adjustable):
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_grid()
 
+    if adjustable.ranking_number == 'half':
+        ranking_number = pc.RANKING_DICT['grid']
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
+    else:
+        ranking_number = None
+
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
-                                                   ranking_number=adjustable.ranking_number,
+                                                   ranking_number=ranking_number,
                                                    dataset_name='grid')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')
@@ -1135,9 +1219,16 @@ def make_pairs_prid450(adjustable):
     if not os.path.exists(id_all_file):
         unique_id_and_all_images_prid450()
 
+    if adjustable.ranking_number == 'half':
+        ranking_number = pc.RANKING_DICT['prid450']
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
+    else:
+        ranking_number = None
+
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
-                                                   ranking_number=adjustable.ranking_number,
+                                                   ranking_number=ranking_number,
                                                    dataset_name='prid450')
 
     ranking = make_all_negatives(ranking_pos, 'ranking')

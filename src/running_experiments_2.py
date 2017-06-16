@@ -218,6 +218,10 @@ def experiment_008():
     a.datasets = ['cuhk02']
     a.epochs = 1 # rem
     a.iterations = 1 # rem
+    a.ranking_number = 'half'
+    # a.save_inbetween = True
+    # a.save_points = [1]
+    # a.name_indication = 'dataset_name'
     scn.super_main(a)
 
 
@@ -270,17 +274,17 @@ def experiment_011():
 
 
 def main():
-    num = sys.argv[1]
-    print(sys.argv)
+    # num = sys.argv[1]
+    # print(sys.argv)
 
-    if num == '008':
-        experiment_008()
-    if num == '009':
-        experiment_009()
-    if num == '010':
-        experiment_010()
-    if num == '011':
-        experiment_011()
-
+    # if num == '008':
+    #     experiment_008()
+    # if num == '009':
+    #     experiment_009()
+    # if num == '010':
+    #     experiment_010()
+    # if num == '011':
+    #     experiment_011()
+    experiment_008()
 
 main()

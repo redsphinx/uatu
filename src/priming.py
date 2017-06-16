@@ -124,7 +124,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
     """
     full_predictions = np.zeros((len(this_ranking), 2))
     
-    if name == 'cuhk02' or adjustable.ranking_number == 'half':
+    if adjustable.ranking_number == 'half':
         ranking_number = pc.RANKING_DICT[name]
     elif isinstance(adjustable.ranking_number, int):
         ranking_number = adjustable.ranking_number
@@ -266,7 +266,7 @@ def super_main(adjustable):
     if adjustable.only_test:
         number_of_datasets = 6
 
-    if names[0] == 'cuhk02' or adjustable.ranking_number == 'half':
+    if adjustable.ranking_number == 'half':
         ranking_number = pc.RANKING_DICT[name]
     elif isinstance(adjustable.ranking_number, int):
         ranking_number = adjustable.ranking_number

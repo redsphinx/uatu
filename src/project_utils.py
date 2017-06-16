@@ -172,7 +172,7 @@ def enter_in_log(experiment_name, file_name, data_names, matrix_means, matrix_st
 
 
 def calculate_CMC(adjustable, predictions):
-    
+    print('we are at CMC')
     if adjustable.ranking_number == 'half':
         the_dataset_name = adjustable.datasets[0]
         ranking_number = pc.RANKING_DICT[the_dataset_name]
@@ -180,7 +180,7 @@ def calculate_CMC(adjustable, predictions):
         ranking_number = adjustable.ranking_number
     else:
         ranking_number = None
-    
+
     if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
         predictions = np.reshape(predictions[:, 1], (ranking_number, ranking_number))
     elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
@@ -193,13 +193,22 @@ def calculate_CMC(adjustable, predictions):
     tallies = np.zeros(ranking_number)
     final_ranking = []
 
+    print('we are now getting ready to do the whole prediction shit')
     for row in range(len(predictions)):
         # get the indices by sorted values from high to low
+        print('row: %d' % row)
+        start = time.time()
         ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
                                                         reverse=True)]
+        print('getting ranking matrix for row: %0.2f s' % (time.time()-start))
+
+        start = time.time()
         list_form = ranking_matrix_abs[row].tolist()
         num = list_form.index(row)
         tallies[num] += 1
+        print('doing rest of shit like tallies: %0.2f s' % (time.time() - start))
+
+    print('end getting ranking')
 
     for tally in range(len(tallies)):
         percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
