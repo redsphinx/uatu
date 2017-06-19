@@ -374,7 +374,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
 
         time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
-        print('DONE WITH TRAINING')
+        # print('DONE WITH TRAINING')
 
         if adjustable.save_inbetween and adjustable.iterations == 1:
             if epoch+1 in adjustable.save_points:

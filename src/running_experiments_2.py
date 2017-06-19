@@ -216,12 +216,9 @@ def experiment_008():
     a = ProjectVariable()
     a.experiment_name = '008. train on cuhk02 only baseline'
     a.datasets = ['cuhk02']
-    a.epochs = 1 # rem
-    a.iterations = 1 # rem
-    a.ranking_number = 'half'
-    # a.save_inbetween = True
-    # a.save_points = [1]
-    # a.name_indication = 'dataset_name'
+    a.epochs = 100 # rem
+    a.iterations = 10 # rem
+    a.ranking_number = 100
     scn.super_main(a)
 
 
@@ -230,8 +227,7 @@ def experiment_009():
     a = ProjectVariable()
     a.experiment_name = '009. train on viper, then cuhk02'
     a.ranking_number = 2
-    # a.epochs = 100
-    a.epochs = 1
+    a.epochs = 100
     a.iterations = 1
     a.save_inbetween = True
     a.save_points = [100]
@@ -239,7 +235,8 @@ def experiment_009():
     a.datasets = ['viper']
     scn.super_main(a)
 
-    a.ranking_number = 'half'
+    a.ranking_number = 100
+    a.save_inbetween = False
     a.datasets = ['cuhk02']
     a.load_weights_name = 'viper_weigths.h5'
     scn.super_main(a)
@@ -249,8 +246,9 @@ def experiment_010():
     a = ProjectVariable()
     a.experiment_name = '010. train on market only baseline'
     a.datasets = ['market']
-    a.epochs = 1 # rem
-    a.iterations = 1 # rem
+    a.ranking_number = 100
+    a.epochs = 100 # rem
+    a.iterations = 10 # rem
     scn.super_main(a)
 
 
@@ -258,8 +256,7 @@ def experiment_011():
     a = ProjectVariable()
     a.experiment_name = '011. train on viper then market'
     a.ranking_number = 2
-    # a.epochs = 100
-    a.epochs = 1
+    a.epochs = 100
     a.iterations = 1
     a.save_inbetween = True
     a.save_points = [100]
@@ -267,24 +264,78 @@ def experiment_011():
     a.datasets = ['viper']
     scn.super_main(a)
 
-    a.ranking_number = 'half'
+    a.ranking_number = 100
+    a.save_inbetween = False
     a.datasets = ['market']
     a.load_weights_name = 'viper_weigths.h5'
     scn.super_main(a)
 
 
-def main():
-    # num = sys.argv[1]
-    # print(sys.argv)
+def experiment_012():
+    a = ProjectVariable()
+    a.experiment_name = '012. train on prid450 only baseline'
+    a.datasets = ['prid450']
+    a.ranking_number = 100
+    a.epochs = 100 # rem
+    a.iterations = 10 # rem
+    scn.super_main(a)
 
-    # if num == '008':
-    #     experiment_008()
-    # if num == '009':
-    #     experiment_009()
-    # if num == '010':
-    #     experiment_010()
-    # if num == '011':
-    #     experiment_011()
-    experiment_008()
+
+def experiment_013():
+    a = ProjectVariable()
+    a.experiment_name = '013. train on viper then prid450, train everything'
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['prid450']
+    a.load_weights_name = 'viper_weigths.h5'
+    scn.super_main(a)
+
+
+def experiment_014():
+    a = ProjectVariable()
+    a.experiment_name = '014. train on viper then prid450, train classifier only'
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    a.datasets = ['prid450']
+    a.load_weights_name = 'viper_weigths.h5'
+    scn.super_main(a)
+
+# TODO: adapt the learning rate. set it lower
+
+def main():
+    num = sys.argv[1]
+    print(sys.argv)
+
+    if num == '012':
+        experiment_012()
+    if num == '013':
+        experiment_013()
+    if num == '014':
+        experiment_014()
 
 main()

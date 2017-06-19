@@ -508,10 +508,10 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
     :param h5_dataset_list:     list of the h5 datasets to search in
     :return:                    a mapping from the keys to the datasets
     """
-    print('CREATING KEY MAPPING')
+    # print('CREATING KEY MAPPING')
     key_dataset_mapping = []
     h5_filenames = [str(item.file.filename.split('/')[-2]) for item in h5_dataset_list]
-    print('keys in list: %d' % len(key_list))
+    # print('keys in list: %d' % len(key_list))
     cnt = 0
     for key in key_list:
         # print('%d out of %d' % (cnt, len(key_list)))
@@ -529,7 +529,7 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
         key_dataset_mapping.append(mapping_1)
         key_dataset_mapping.append(mapping_2)
         cnt += 1
-    print('DONE with getting keys')
+    # print('DONE with getting keys')
     return key_dataset_mapping
 
 
@@ -540,39 +540,39 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
     :return:
     """
 
-    print('INSIDE GRABBING THE KEYS')
+    # print('INSIDE GRABBING THE KEYS')
     # create mapping from keys to dataset
     key_dataset_mapping = create_key_dataset_mapping(key_list, h5_dataset_list)
     # isolate the different keys
-    print('splitting 1')
+    # print('splitting 1')
     all_key_1 = [item.split(',')[0] for item in key_list]
-    print('splitting 2')
+    # print('splitting 2')
     all_key_2 = [item.split(',')[1] for item in key_list]
-    print('somethingg')
+    # print('somethingg')
     all_keys_in_mapping = [item[0] for item in key_dataset_mapping]
     # # isolate the values
-    print('only values')
+    # print('only values')
     only_values = [item[1] for item in key_dataset_mapping]
     # get the index of the value that key in all_key points to
-    print('getting index 1')
+    # print('getting index 1')
     # FIXME: taking incredibly fucking long
     the_index_key_1 = [all_keys_in_mapping.index(key_1) for key_1 in all_key_1]
-    print('getting index 2')
+    # print('getting index 2')
     the_index_key_2 = [all_keys_in_mapping.index(key_2) for key_2 in all_key_2]
     # get the values from the h5 file given the indices
-    print('getting values 1')
+    # print('getting values 1')
     values_key_1 = [only_values[the_index_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
-    print('getting values 2')
+    # print('getting values 2')
     values_key_2 = [only_values[the_index_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
-    print('DONE getting values')
+    # print('DONE getting values')
     return values_key_1, values_key_2
 
 
 def get_positive_keys(name_dataset, partition, the_id, seen_list):
     """Gets a list of related keys based on the id you are looking for
     """
-    print('the id: %s' % str(the_id))
-    print('the seen list: %s' % str(seen_list))
+    # print('the id: %s' % str(the_id))
+    # print('the seen list: %s' % str(seen_list))
 
     # note: `partition` is only applicable for CUHK02
     if name_dataset == 'cuhk02':
@@ -628,23 +628,23 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
 
         all_image_names = list(np.genfromtxt('../data/GRID/short_image_names_file.txt', dtype=None))
         image_names_matching_id = [all_image_names[item] for item in indices_matching_id]
-        print('image names matching id: %s' % str(image_names_matching_id))
+        # print('image names matching id: %s' % str(image_names_matching_id))
         indices_seen_image = [image_names_matching_id.index(im) for im in seen_list for name in image_names_matching_id
                               if im == name]
-        print('indices seen image: %s' % str(indices_seen_image))
+        # print('indices seen image: %s' % str(indices_seen_image))
 
         updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
                            item not in indices_seen_image]
-        print('updated indices: %s' % str(updated_indices))
+        # print('updated indices: %s' % str(updated_indices))
 
         # truncate list to 4 images -- for faster testing
         # add the probe
         probe = all_image_names.index(seen_list[0])
-        print('probe: %s' % str(probe))
+        # print('probe: %s' % str(probe))
         updated_indices = updated_indices[0:2]
-        print('updated indices: %s' % str(updated_indices))
+        # print('updated indices: %s' % str(updated_indices))
         updated_indices += [probe]
-        print('updated indices: %s' % str(updated_indices))
+        # print('updated indices: %s' % str(updated_indices))
 
         all_keys_in_order = list(np.genfromtxt('../data/GRID/fullpath_image_names_file.txt', dtype=None))
         keys = [all_keys_in_order[item] for item in updated_indices]
@@ -702,7 +702,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
         elif isinstance(adjustable.ranking_number, int):
             ranking_number = adjustable.ranking_number
 
-        print('ranking number: %s' % str(ranking_number))
+        # print('ranking number: %s' % str(ranking_number))
 
         # rank_ordered_ids = [
             # pd.my_join(list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])[0:4])
@@ -714,9 +714,9 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
 
         for item in range(ranking_number):
             a = list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])
-            print('a: %s' % str(a))
+            # print('a: %s' % str(a))
             b = pd.my_join(a[0:4])
-            print('b: %s' % str(b))
+            # print('b: %s' % str(b))
             rank_ordered_ids.append(b)
 
         negative_keys = []
