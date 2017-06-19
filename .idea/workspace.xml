@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_utils.py" afterPath="$PROJECT_DIR$/src/project_utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_variables.py" afterPath="$PROJECT_DIR$/src/project_variables.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments_2.py" afterPath="$PROJECT_DIR$/src/running_experiments_2.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_clean.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
     </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -82,8 +78,8 @@
           <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="688">
-                  <caret line="1165" column="0" lean-forward="true" selection-start-line="1165" selection-start-column="0" selection-end-line="1165" selection-end-column="0" />
+                <state relative-caret-position="913">
+                  <caret line="1248" column="0" lean-forward="true" selection-start-line="1248" selection-start-column="0" selection-end-line="1248" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#31#0" expanded="true" />
                   </folding>
@@ -128,7 +124,7 @@
           <file leaf-file-name="todolist.txt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/todolist.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="690">
+                <state relative-caret-position="600">
                   <caret line="76" column="67" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="76" selection-end-column="67" />
                   <folding />
                 </state>
@@ -1223,7 +1219,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/todolist.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
+        <state relative-caret-position="600">
           <caret line="76" column="67" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="76" selection-end-column="67" />
           <folding />
         </state>
@@ -1231,8 +1227,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="688">
-          <caret line="1165" column="0" lean-forward="true" selection-start-line="1165" selection-start-column="0" selection-end-line="1165" selection-end-column="0" />
+        <state relative-caret-position="913">
+          <caret line="1248" column="0" lean-forward="true" selection-start-line="1248" selection-start-column="0" selection-end-line="1248" selection-end-column="0" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

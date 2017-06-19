@@ -1169,15 +1169,83 @@ def e_034():
 # TODO: adapt the learning rate. set it lower
 
 def main():
-    # num = sys.argv[1]
-    # print(sys.argv)
-    #
-    # if num == '012':
-    #     experiment_012()
-    # if num == '013':
-    #     experiment_013()
-    # if num == '014':
-    #     experiment_014()
-    experiment_test()
+    num = sys.argv[1]
+    print(sys.argv)
+
+    if num == '001':
+        e_001()
+    if num == '002':
+        e_002()
+    if num == '003':
+        e_003()
+    if num == '004':
+        e_004()
+    if num == '005':
+        e_005()
+    if num == '006':
+        e_006()
+
+    if num == '007':
+        e_007()
+    if num == '008':
+        e_008()
+    if num == '009':
+        e_009()
+    if num == '010':
+        e_010()
+    if num == '011':
+        e_011()
+
+    if num == '012':
+        e_012()
+    if num == '013':
+        e_013()
+    if num == '014':
+        e_014()
+    if num == '015':
+        e_015()
+    if num == '016':
+        e_016()
+
+    if num == '017':
+        e_017()
+    if num == '018':
+        e_018()
+    if num == '019':
+        e_019()
+    if num == '020':
+        e_020()
+    if num == '021':
+        e_021()
+
+    if num == '022':
+        e_022()
+    if num == '023':
+        e_023()
+    if num == '024':
+        e_024()
+    if num == '025':
+        e_025()
+    if num == '026':
+        e_026()
+
+    if num == '027':
+        e_027()
+    if num == '028':
+        e_028()
+    if num == '029':
+        e_029()
+    if num == '030':
+        e_030()
+
+    if num == '031':
+        e_031()
+    if num == '032':
+        e_032()
+    if num == '033':
+        e_033()
+    if num == '034':
+        e_034()
+
 
 main()
