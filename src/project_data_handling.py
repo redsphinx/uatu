@@ -749,8 +749,6 @@ def make_combos_2(fullpath, unique_ids, num, smallest_id_group, the_type):
     return combo_list
 
 
-# FIXME market has min id group size of 2: this is an issue. add option to pop the groups of size 2 if dataset == market
-
 def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     """ Prevents there from being a HUGE number of combinations of pairs by setting an upper bound on allowed images per
         unique ID
@@ -999,7 +997,7 @@ def merge_ranking_files(adjustable, rank_list):
             line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
             rank_list_pos.append(line)
 
-    # FIXME: i think this is causing a problem, so let's comment it
+    # FIXME: i think this is causing a problem, so let's comment it. seems to help!
     # if adjustable.ranking_number == 'half':
     #     if len(rank_list_pos) > pc.RANKING_DICT['cuhk02']:
     #         rank_list_pos = rank_list_pos[0:pc.RANKING_DICT['cuhk02']]
@@ -1020,9 +1018,10 @@ def merge_ranking_files(adjustable, rank_list):
 def make_pairs_cuhk2(adjustable):
     start = time.time()
     top_project_data_storage = '../data/CUHK02'
-    original_data_location = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
+    # original_data_location = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
 
-    subdirs = os.listdir(original_data_location)
+    # subdirs = os.listdir(original_data_location)
+    subdirs = ['P1', 'P2', 'P3', 'P4', 'P5']
 
     if adjustable.ranking_number == 'half':
         adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)

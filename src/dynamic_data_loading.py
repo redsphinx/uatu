@@ -701,6 +701,8 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
             ranking_number = pc.RANKING_DICT[name_dataset]
         elif isinstance(adjustable.ranking_number, int):
             ranking_number = adjustable.ranking_number
+        else:
+            ranking_number = None
 
         # print('ranking number: %s' % str(ranking_number))
 

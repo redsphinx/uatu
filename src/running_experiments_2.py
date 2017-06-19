@@ -329,10 +329,10 @@ def experiment_014():
 def test_it():
     a = ProjectVariable()
     a.experiment_name = ''
-    a.ranking_number = 2
+    a.ranking_number = 5
     a.epochs = 10
     a.iterations = 1
-    a.datasets = ['viper']
+    a.datasets = ['cuhk02']
     a.log_experiment = False
     scn.super_main(a)
 

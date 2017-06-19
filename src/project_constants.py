@@ -32,6 +32,8 @@ SAVE_LOCATION_RANKING_FILES = '../ranking_files'
 
 SAVE_LOCATION_VIPER_CUHK = '../data/VIPeR_CUHK'
 
+SAVE_LOCATION_RAW_DATA = '../raw_data'
+
 POSITIVE_DATA = '../data/reid_all_positives.txt'
 NEGATIVE_DATA = '../data/reid_all_negatives_uncompressed.h5'
 
