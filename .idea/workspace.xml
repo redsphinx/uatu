@@ -56,7 +56,7 @@
           <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="928">
+                <state relative-caret-position="2818">
                   <caret line="536" column="36" lean-forward="false" selection-start-line="536" selection-start-column="36" selection-end-line="536" selection-end-column="36" />
                   <folding>
                     <element signature="e#162#198#0" expanded="true" />
@@ -75,14 +75,64 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="913">
-                  <caret line="1248" column="0" lean-forward="true" selection-start-line="1248" selection-start-column="0" selection-end-line="1248" selection-end-column="0" />
+                <state relative-caret-position="1498">
+                  <caret line="1247" column="0" lean-forward="true" selection-start-line="1247" selection-start-column="0" selection-end-line="1247" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#31#0" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="bash_run_experiments.sh" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="90">
+                  <caret line="6" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="bash_run_experiments_0.sh" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/bash_run_experiments_0.sh">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="720">
+                  <caret line="48" column="35" lean-forward="true" selection-start-line="48" selection-start-column="35" selection-end-line="48" selection-end-column="35" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="bash_run_experiments_1.sh" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/bash_run_experiments_1.sh">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="32" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="bash_run_experiments_2.sh" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/bash_run_experiments_2.sh">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="75">
+                  <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="13" selection-end-column="35" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="bash_run_experiments_3.sh" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/bash_run_experiments_3.sh">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="508">
+                  <caret line="83" column="35" lean-forward="true" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -107,16 +157,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="project_utils.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/project_utils.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="274">
-                  <caret line="144" column="27" lean-forward="true" selection-start-line="144" selection-start-column="27" selection-end-line="144" selection-end-column="27" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
         </leaf>
       </split-first>
       <split-second>
@@ -124,8 +164,8 @@
           <file leaf-file-name="todolist.txt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/todolist.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="600">
-                  <caret line="76" column="67" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="76" selection-end-column="67" />
+                <state relative-caret-position="765">
+                  <caret line="81" column="64" lean-forward="false" selection-start-line="75" selection-start-column="57" selection-end-line="81" selection-end-column="64" />
                   <folding />
                 </state>
               </provider>
@@ -144,8 +184,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Sequential</find>
-      <find>Model</find>
       <find>load_model</find>
       <find>datasets_order</find>
       <find>_datasets_order</find>
@@ -174,9 +212,10 @@
       <find>viper_we</find>
       <find>train on cuhk02</find>
       <find>full network</find>
+      <find>13</find>
+      <find>07</find>
     </findStrings>
     <replaceStrings>
-      <replace>layers.Dropout</replace>
       <replace>layers.Activation</replace>
       <replace>layers.Conv2D</replace>
       <replace>layers.MaxPool2D</replace>
@@ -192,7 +231,6 @@
       <replace>adjustable.ranking_number</replace>
       <replace>trainable_12</replace>
       <replace>trainable_34</replace>
-      <replace>34</replace>
       <replace>bn</replace>
       <replace>RANKING_DICT[the_name]</replace>
       <replace>RANKING_DICT[name]</replace>
@@ -206,6 +244,8 @@
       <replace>cuhk02_we</replace>
       <replace>train on cuhk02, market</replace>
       <replace>only classifier</replace>
+      <replace>32</replace>
+      <replace>34</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -238,7 +278,6 @@
         <option value="$PROJECT_DIR$/src/running_experiments.py" />
         <option value="$PROJECT_DIR$/src/baseline_1.txt" />
         <option value="$PROJECT_DIR$/src/priming.py" />
-        <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
         <option value="$PROJECT_DIR$/src/experiment_log_2.txt" />
         <option value="$PROJECT_DIR$/src/testing_stuff.py" />
         <option value="$PROJECT_DIR$/data/CUHK02/P3/id_all_file.txt" />
@@ -255,6 +294,11 @@
         <option value="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
         <option value="$PROJECT_DIR$/todolist.txt" />
         <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
+        <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
+        <option value="$PROJECT_DIR$/src/bash_run_experiments_0.sh" />
+        <option value="$PROJECT_DIR$/src/bash_run_experiments_1.sh" />
+        <option value="$PROJECT_DIR$/src/bash_run_experiments_2.sh" />
+        <option value="$PROJECT_DIR$/src/bash_run_experiments_3.sh" />
       </list>
     </option>
   </component>
@@ -695,7 +739,7 @@
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21558164" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21558164" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11502783" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48608536" sideWeight="0.5032017" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -783,11 +827,6 @@
           <option name="timeStamp" value="961" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/running_experiments_2.py</url>
-          <line>189</line>
-          <option name="timeStamp" value="965" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_cnn_clean.py</url>
           <line>443</line>
           <option name="timeStamp" value="982" />
@@ -856,34 +895,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ranking_files/08062017_1146-1254/prid450_ranking.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-225">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/CUHK02/P1/id_all_file.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/tensorflow_2/local/lib/python2.7/site-packages/PIL/Image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="1261" column="8" lean-forward="false" selection-start-line="1261" selection-start-column="8" selection-end-line="1261" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/tensorflow_2/lib/python2.7/site-packages/PIL/Image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="1014" column="8" lean-forward="false" selection-start-line="1014" selection-start-column="8" selection-end-line="1014" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/-539069300/numpy/random/mtrand.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-291">
@@ -1123,14 +1134,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -1191,16 +1194,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="928">
-          <caret line="536" column="36" lean-forward="false" selection-start-line="536" selection-start-column="36" selection-end-line="536" selection-end-column="36" />
-          <folding>
-            <element signature="e#162#198#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1217,21 +1210,71 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/todolist.txt">
+    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="76" column="67" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="76" selection-end-column="67" />
-          <folding />
+        <state relative-caret-position="2818">
+          <caret line="536" column="36" lean-forward="false" selection-start-line="536" selection-start-column="36" selection-end-line="536" selection-end-column="36" />
+          <folding>
+            <element signature="e#162#198#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="913">
-          <caret line="1248" column="0" lean-forward="true" selection-start-line="1248" selection-start-column="0" selection-end-line="1248" selection-end-column="0" />
+        <state relative-caret-position="1498">
+          <caret line="1247" column="0" lean-forward="true" selection-start-line="1247" selection-start-column="0" selection-end-line="1247" selection-end-column="0" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments_0.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="48" column="35" lean-forward="true" selection-start-line="48" selection-start-column="35" selection-end-line="48" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments_1.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="5" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/todolist.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="81" column="64" lean-forward="false" selection-start-line="75" selection-start-column="57" selection-end-line="81" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments_2.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="13" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments_3.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="508">
+          <caret line="83" column="35" lean-forward="true" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
