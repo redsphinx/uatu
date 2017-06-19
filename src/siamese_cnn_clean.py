@@ -1,20 +1,16 @@
 import keras
 # from tensorflow.contrib import keras
-# from keras.models import Sequential, Model, load_model
 from keras import models
 # from tensorflow.contrib.keras import models
-# from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten, Input, Lambda, BatchNormalization, AveragePooling2D
 from keras import layers
 # from tensorflow.contrib.keras import layers
-# from keras import optimizers
 from keras import optimizers
 # from tensorflow.contrib.keras import optimizers
-# from keras import backend as K
 import keras.backend as K
 # from tensorflow.contrib.keras import backend as K
 from keras import initializers
 # from tensorflow.contrib.keras import initializers
-import tensorflow as tf
+# import tensorflow as tf
 import dynamic_data_loading as ddl
 import project_constants as pc
 import project_utils as pu
@@ -104,20 +100,20 @@ def create_cost_module(inputs, adjustable):
 
     if adjustable.cost_module_type == 'neural_network':
         if adjustable.neural_distance == 'concatenate':
-            features = keras.layers.concatenate(inputs)
+            features = layers.concatenate(inputs)
         elif adjustable.neural_distance == 'add':
-            features = keras.layers.add(inputs)
+            features = layers.add(inputs)
         elif adjustable.neural_distance == 'multiply':
-            features = keras.layers.multiply(inputs)
+            features = layers.multiply(inputs)
         elif adjustable.neural_distance == 'subtract':
-            features = keras.layers.merge(inputs=inputs, mode=subtract, output_shape=the_shape)
-            # features = tf.subtract(inputs[0], inputs[1])
+            # features = layers.merge(inputs=inputs, mode=subtract, output_shape=the_shape)
+            features = layers.Lambda(subtract)(inputs)
         elif adjustable.neural_distance == 'divide':
-            features = keras.layers.merge(inputs=inputs, mode=divide, output_shape=the_shape)
-            # features = tf.divide(inputs[0], inputs[1])
+            # features = layers.merge(inputs=inputs, mode=divide, output_shape=the_shape)
+            features = layers.Lambda(divide)(inputs)
         elif adjustable.neural_distance == 'absolute':
-            features = keras.layers.merge(inputs=inputs, mode=absolute, output_shape=the_shape)
-            # features = tf.abs(tf.subtract(inputs[0], inputs[1]))
+            # features = layers.merge(inputs=inputs, mode=absolute, output_shape=the_shape)
+            features = layers.Lambda(absolute)(inputs)
         else:
             features = None
         dense_layer = layers.Dense(adjustable.neural_distance_layers[0], name='dense_1', trainable=adjustable.trainable_cost_module)(features)

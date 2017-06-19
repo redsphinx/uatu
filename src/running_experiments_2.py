@@ -325,17 +325,30 @@ def experiment_014():
     a.load_weights_name = 'viper_weigths.h5'
     scn.super_main(a)
 
+
+def test_it():
+    a = ProjectVariable()
+    a.experiment_name = ''
+    a.ranking_number = 2
+    a.epochs = 10
+    a.iterations = 1
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
 # TODO: adapt the learning rate. set it lower
 
 def main():
-    num = sys.argv[1]
-    print(sys.argv)
+    # num = sys.argv[1]
+    # print(sys.argv)
+    #
+    # if num == '012':
+    #     experiment_012()
+    # if num == '013':
+    #     experiment_013()
+    # if num == '014':
+    #     experiment_014()
+    test_it()
 
-    if num == '012':
-        experiment_012()
-    if num == '013':
-        experiment_013()
-    if num == '014':
-        experiment_014()
 
 main()
