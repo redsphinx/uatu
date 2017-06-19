@@ -40,12 +40,12 @@ Second phase: Improve the prototype in experiment cycles
 iterations = 10
 epochs = 100
 
-viper baseline                                          e_001 gpu 0
-market baseline                                         e_002 gpu 1
-cuhk02 baseline                                         e_003 gpu 1
-grid baseline                                           e_004 gpu 0
-prid450                                                 e_005 gpu 0
-caviar                                                  e_006 gpu 0
+viper baseline                                          e_001 gpu 3
+market baseline                                         e_002 gpu 2
+cuhk02 baseline                                         e_003 gpu 2
+grid baseline                                           e_004 gpu 3
+prid450                                                 e_005 gpu 3
+caviar                                                  e_006 gpu 3
 
 train on viper  -> market   (full network)              e_007 gpu 2
                 -> cuhk02   (full network)              e_008 gpu 2
@@ -59,17 +59,17 @@ train on viper  -> market   (only classifier)           e_012 gpu 2
                 -> prid450  (only classifier)           e_015 gpu 3
                 -> caviar   (only classifier)           e_016 gpu 3
 
-train on cuhk02 -> market   (full network)              e_017 gpu 1
-                -> viper    (full network)              e_018 gpu 0
-                -> grid     (full network)              e_019 gpu 1
-                -> prid450  (full network)              e_020 gpu 1
-                -> caviar   (full network)              e_021 gpu 0
+train on cuhk02 -> market   (full network)              e_017 gpu 2
+                -> viper    (full network)              e_018 gpu 3
+                -> grid     (full network)              e_019 gpu 2
+                -> prid450  (full network)              e_020 gpu 2
+                -> caviar   (full network)              e_021 gpu 3
 
-train on cuhk02 -> market   (only classifier)           e_022 gpu 1
-                -> viper    (only classifier)           e_023 gpu 0
-                -> grid     (only classifier)           e_024 gpu 1
-                -> prid450  (only classifier)           e_025 gpu 1
-                -> caviar   (only classifier)           e_026 gpu 0
+train on cuhk02 -> market   (only classifier)           e_022 gpu 2
+                -> viper    (only classifier)           e_023 gpu 3
+                -> grid     (only classifier)           e_024 gpu 2
+                -> prid450  (only classifier)           e_025 gpu 2
+                -> caviar   (only classifier)           e_026 gpu 3
 
 train on cuhk02, market -> viper    (full network)      e_027 gpu 2
                         -> grid     (full network)      e_028 gpu 2
@@ -80,6 +80,10 @@ train on cuhk02, market -> viper    (only classifier)   e_031 gpu 2
                         -> grid     (only classifier)   e_032 gpu 2
                         -> prid450  (only classifier)   e_033 gpu 3
                         -> caviar   (only classifier)   e_034 gpu 3
+
+train on market and save, then prime    (full network)                      e_035 gpu 3
+train on market and save, then prime    (only_classifier)                   e_036 gpu 3
+train on market and save, then prime (only_classifier) prime_epochs=10      e_037 gpu 3
 
 
 With lowered learning rates

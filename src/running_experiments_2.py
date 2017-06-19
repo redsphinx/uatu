@@ -375,7 +375,7 @@ def e_001():
 def e_002():
     a = ProjectVariable()
     a.experiment_name = '002. baseline market'
-    a.use_gpu = '1'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.datasets = ['market']
     scn.super_main(a)
@@ -384,7 +384,7 @@ def e_002():
 def e_003():
     a = ProjectVariable()
     a.experiment_name = '003. baseline cuhk02'
-    a.use_gpu = '1'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.datasets = ['cuhk02']
     scn.super_main(a)
@@ -424,7 +424,7 @@ def e_006():
 def e_007():
     a = ProjectVariable()
     a.experiment_name = '007. train on viper -> market (full network)'
-    a.use_gpu = '2'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 2
     a.epochs = 100
@@ -447,7 +447,7 @@ def e_007():
 def e_008():
     a = ProjectVariable()
     a.experiment_name = '008. train on viper -> cuhk02 (full network)'
-    a.use_gpu = '2'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 2
     a.epochs = 100
@@ -470,7 +470,7 @@ def e_008():
 def e_009():
     a = ProjectVariable()
     a.experiment_name = '009. train on viper -> grid (full network)'
-    a.use_gpu = '3'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 2
     a.epochs = 100
@@ -493,7 +493,7 @@ def e_009():
 def e_010():
     a = ProjectVariable()
     a.experiment_name = '010. train on viper -> prid450 (full network)'
-    a.use_gpu = '3'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 2
     a.epochs = 100
@@ -516,7 +516,7 @@ def e_010():
 def e_011():
     a = ProjectVariable()
     a.experiment_name = '011. train on viper -> caviar (full network)'
-    a.use_gpu = '3'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 2
     a.epochs = 100
@@ -543,7 +543,7 @@ def e_011():
 def e_012():
     a = ProjectVariable()
     a.experiment_name = '012. train on viper -> market (classifier only)'
-    a.use_gpu = '2'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 2
     a.epochs = 100
@@ -569,7 +569,7 @@ def e_012():
 def e_013():
     a = ProjectVariable()
     a.experiment_name = '013. train on viper -> cuhk02 (classifier only)'
-    a.use_gpu = '2'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 2
     a.epochs = 100
@@ -595,7 +595,7 @@ def e_013():
 def e_014():
     a = ProjectVariable()
     a.experiment_name = '014. train on viper -> grid (classifier only)'
-    a.use_gpu = '3'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 2
     a.epochs = 100
@@ -621,7 +621,7 @@ def e_014():
 def e_015():
     a = ProjectVariable()
     a.experiment_name = '015. train on viper -> prid450 (classifier only)'
-    a.use_gpu = '3'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 2
     a.epochs = 100
@@ -647,7 +647,7 @@ def e_015():
 def e_016():
     a = ProjectVariable()
     a.experiment_name = '016. train on viper -> caviar (classifier only)'
-    a.use_gpu = '3'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 2
     a.epochs = 100
@@ -676,7 +676,7 @@ def e_016():
 def e_017():
     a = ProjectVariable()
     a.experiment_name = '017. train on cuhk02 -> market (full network)'
-    a.use_gpu = '1'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -722,7 +722,7 @@ def e_018():
 def e_019():
     a = ProjectVariable()
     a.experiment_name = '019. train on cuhk02 -> grid (full network)'
-    a.use_gpu = '1'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -745,7 +745,7 @@ def e_019():
 def e_020():
     a = ProjectVariable()
     a.experiment_name = '020. train on cuhk02 -> prid450 (full network)'
-    a.use_gpu = '1'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -794,7 +794,7 @@ def e_021():
 def e_022():
     a = ProjectVariable()
     a.experiment_name = '022. train on cuhk02 -> market (only classifier)'
-    a.use_gpu = '1'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -846,7 +846,7 @@ def e_023():
 def e_024():
     a = ProjectVariable()
     a.experiment_name = '024. train on cuhk02 -> grid (only classifier)'
-    a.use_gpu = '1'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -872,7 +872,7 @@ def e_024():
 def e_025():
     a = ProjectVariable()
     a.experiment_name = '025. train on cuhk02 -> prid450 (only classifier)'
-    a.use_gpu = '1'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -927,7 +927,7 @@ def e_026():
 def e_027():
     a = ProjectVariable()
     a.experiment_name = '027. train on cuhk02, market -> viper (full network)'
-    a.use_gpu = '2'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -955,7 +955,7 @@ def e_027():
 def e_028():
     a = ProjectVariable()
     a.experiment_name = '028. train on cuhk02, market -> grid (full network)'
-    a.use_gpu = '2'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -983,7 +983,7 @@ def e_028():
 def e_029():
     a = ProjectVariable()
     a.experiment_name = '029. train on cuhk02, market -> prid450 (full network)'
-    a.use_gpu = '3'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -1011,7 +1011,7 @@ def e_029():
 def e_030():
     a = ProjectVariable()
     a.experiment_name = '030. train on cuhk02, market -> caviar (full network)'
-    a.use_gpu = '3'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -1043,7 +1043,7 @@ def e_030():
 def e_031():
     a = ProjectVariable()
     a.experiment_name = '031. train on cuhk02, market -> viper (only classifier)'
-    a.use_gpu = '2'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -1074,7 +1074,7 @@ def e_031():
 def e_032():
     a = ProjectVariable()
     a.experiment_name = '032. train on cuhk02, market -> grid (only classifier)'
-    a.use_gpu = '2'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -1105,7 +1105,7 @@ def e_032():
 def e_033():
     a = ProjectVariable()
     a.experiment_name = '033. train on cuhk02, market -> prid450 (only classifier)'
-    a.use_gpu = '3'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -1136,7 +1136,7 @@ def e_033():
 def e_034():
     a = ProjectVariable()
     a.experiment_name = '034. train on cuhk02, market -> caviar (only classifier)'
-    a.use_gpu = '3'
+    a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.ranking_number = 5
     a.epochs = 100
@@ -1164,12 +1164,89 @@ def e_034():
     scn.super_main(a)
 
 
+def e_035():
+    a = ProjectVariable()
+    a.experiment_name = '035. train on market and save, then prime (full network)'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 100
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [1]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['market']
+    scn.super_main(a)
 
-# TODO: adapt the learning rate. set it lower
+    a.save_inbetween = False
+    a.priming = True
+    a.load_model_name = 'market_model_%s.h5' % a.use_gpu
+    a.load_weights_name = 'market_weigths_%s.h5'  % a.use_gpu
+    a.datasets = ['market']
+    a.prime_epochs = 5
+    a.batch_size = 32
+    a.iterations = 1
+    prime.super_main(a)
+
+
+def e_036():
+    a = ProjectVariable()
+    a.experiment_name = '036. train on market and save, then prime (only_classifier)'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 100
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [1]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['market']
+    scn.super_main(a)
+
+    a.save_inbetween = False
+    a.priming = True
+    a.load_model_name = 'market_model_%s.h5' % a.use_gpu
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['market']
+    a.prime_epochs = 5
+    a.batch_size = 32
+    a.iterations = 1
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    prime.super_main(a)
+
+
+def e_037():
+    a = ProjectVariable()
+    a.experiment_name = '035. train on market and save, then prime (full network), prime_epochs=10'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 100
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [1]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['market']
+    scn.super_main(a)
+
+    a.save_inbetween = False
+    a.priming = True
+    a.load_model_name = 'market_model_%s.h5' % a.use_gpu
+    a.load_weights_name = 'market_weigths_%s.h5'  % a.use_gpu
+    a.datasets = ['market']
+    a.prime_epochs = 10
+    a.batch_size = 32
+    a.iterations = 1
+    prime.super_main(a)
+
+
 
 def main():
     num = sys.argv[1]
     print(sys.argv)
+
 
     if num == '001':
         e_001()
@@ -1246,5 +1323,11 @@ def main():
     if num == '034':
         e_034()
 
+    if num == '035':
+        e_035()
+    if num == '036':
+        e_036()
+    if num == '037':
+        e_037()
 
 main()

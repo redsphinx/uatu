@@ -52,3 +52,36 @@ python running_experiments_2.py 026
 python running_experiments_2.py 026
 python running_experiments_2.py 026
 python running_experiments_2.py 026
+
+python running_experiments_2.py 035
+python running_experiments_2.py 035
+python running_experiments_2.py 035
+python running_experiments_2.py 035
+python running_experiments_2.py 035
+python running_experiments_2.py 035
+python running_experiments_2.py 035
+python running_experiments_2.py 035
+python running_experiments_2.py 035
+python running_experiments_2.py 035
+
+python running_experiments_2.py 036
+python running_experiments_2.py 036
+python running_experiments_2.py 036
+python running_experiments_2.py 036
+python running_experiments_2.py 036
+python running_experiments_2.py 036
+python running_experiments_2.py 036
+python running_experiments_2.py 036
+python running_experiments_2.py 036
+python running_experiments_2.py 036
+
+python running_experiments_2.py 037
+python running_experiments_2.py 037
+python running_experiments_2.py 037
+python running_experiments_2.py 037
+python running_experiments_2.py 037
+python running_experiments_2.py 037
+python running_experiments_2.py 037
+python running_experiments_2.py 037
+python running_experiments_2.py 037
+python running_experiments_2.py 037

@@ -1,11 +1,15 @@
-from keras.models import load_model
+from tensorflow.contrib.keras import models
+from tensorflow.contrib.keras import layers
+import tensorflow.contrib.keras as keras
+
+# from keras.models import load_model
 import numpy as np
 import dynamic_data_loading as ddl
 import project_constants as pc
 import project_data_handling as pd
 import project_utils as pu
 import os
-import keras
+# import keras
 from scipy import ndimage
 from PIL import Image
 from skimage.util import random_noise
@@ -51,6 +55,13 @@ def create_and_save_augmented_images(keys, the_id, name):
         path = '../data/market/augmented/%s' % the_id
     elif name == 'grid':
         path = '../data/GRID/augmented/%s' % the_id
+    elif name == 'viper':
+        path = '../data/VIPER/augmented/%s' % the_id
+    elif name == 'prid450':
+        path = '../data/prid450/augmented/%s' % the_id
+    else:
+        path = None
+
 
     # if not os.path.exists(path): os.mkdir(path)
     if not os.path.exists(path): os.makedirs(path)
@@ -142,6 +153,16 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         elif name == 'grid':
             partition = None
             folder_name = 'GRID'
+        elif name == 'viper':
+            partition = None
+            folder_name = 'VIPER'
+        elif name == 'prid450':
+            partition = None
+            folder_name = 'prid450'
+        else:
+            partition = None
+            folder_name = None
+
         image_1 = this_ranking[matching_pair_index].strip().split(',')[0].split('+')[-1]
         image_2 = this_ranking[matching_pair_index].strip().split(',')[1].split('+')[-1]
         seen = [image_1, image_2]
@@ -163,7 +184,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         prime_train, prime_labels = load_augmented_images(list_augmented_images_long)
 
         weight_path = os.path.join('../model_weights', adjustable.load_weights_name)
-        model.load_weights(weight_path)
+        model.load_weights(weight_path, by_name=True)
 
         model.fit([prime_train[:, 0], prime_train[:, 1]], prime_labels,
                   batch_size=adjustable.batch_size,
@@ -231,36 +252,44 @@ def main(adjustable, all_ranking, names, path, model):
 
 def super_main(adjustable):
     name = adjustable.datasets[0]
+    print('name: %s' % name)
     start = time.time()
 
-    # cuhk02_ranking = list(np.genfromtxt('cuhk02_ranking.txt', dtype=None))
-    # market_ranking = list(np.genfromtxt('market_ranking.txt', dtype=None))
-    grid_ranking = list(np.genfromtxt('../ranking_files/grid_ranking.txt', dtype=None))
-
-
+    if name == 'cuhk02':
+        datset_ranking = list(np.genfromtxt('../ranking_files/cuhk02_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+    elif name == 'market':
+        datset_ranking = list(np.genfromtxt('../ranking_files/market_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+    elif name == 'grid':
+        datset_ranking = list(np.genfromtxt('../ranking_files/grid_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+    elif name == 'viper':
+        datset_ranking = list(np.genfromtxt('../ranking_files/viper_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+    elif name == 'prid450':
+        datset_ranking = list(np.genfromtxt('../ranking_files/prid450_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+    else:
+        datset_ranking = None
     # all_ranking = [cuhk02_ranking, market_ranking]
     # names = ['cuhk02', 'market']
 
-    all_ranking = [grid_ranking]
-    names = ['grid']
+    all_ranking = [datset_ranking]
+    names = [name]
 
-    if adjustable.only_test:
-        viper_ranking = list(np.genfromtxt('viper_ranking.txt', dtype=None))
-        grid_ranking = list(np.genfromtxt('grid_ranking.txt', dtype=None))
-        caviar_ranking = list(np.genfromtxt('caviar_ranking.txt', dtype=None))
-        prid450_ranking = list(np.genfromtxt('prid450_ranking.txt', dtype=None))
-        all_ranking.append(viper_ranking)
-        all_ranking.append(grid_ranking)
-        all_ranking.append(caviar_ranking)
-        all_ranking.append(prid450_ranking)
-        names.append('viper')
-        names.append('grid')
-        names.append('caviar')
-        names.append('prid450')
+    # if adjustable.only_test:
+    #     viper_ranking = list(np.genfromtxt('viper_ranking.txt', dtype=None))
+    #     grid_ranking = list(np.genfromtxt('grid_ranking.txt', dtype=None))
+    #     caviar_ranking = list(np.genfromtxt('caviar_ranking.txt', dtype=None))
+    #     prid450_ranking = list(np.genfromtxt('prid450_ranking.txt', dtype=None))
+    #     all_ranking.append(viper_ranking)
+    #     all_ranking.append(grid_ranking)
+    #     all_ranking.append(caviar_ranking)
+    #     all_ranking.append(prid450_ranking)
+    #     names.append('viper')
+    #     names.append('grid')
+    #     names.append('caviar')
+    #     names.append('prid450')
 
     path = os.path.join('../model_weights', adjustable.load_model_name)
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
-    model = load_model(path)
+    model = models.load_model(path)
 
     number_of_datasets = len(names)
     if adjustable.only_test:
@@ -304,8 +333,8 @@ def super_main(adjustable):
         ranking_std[dataset] = np.std(rankings, axis=0)
 
     # note: TURN ON if you want to log results!!
-    if pc.LOGGING:
+    if adjustable.log_experiment:
         file_name = os.path.basename(__file__)
-        pu.enter_in_log(adjustable.experiment_name, file_name, names, matrix_means, matrix_std, ranking_means,
+        pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, names, matrix_means, matrix_std, ranking_means,
                         ranking_std,
                         total_time)
