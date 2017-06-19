@@ -147,13 +147,13 @@ def make_confusion_matrix(adjustable, predictions, labels):
     return [tp, fp, tn, fn]
 
 
-def enter_in_log(experiment_name, file_name, data_names, matrix_means, matrix_std, ranking_means, ranking_std, total_time):
+def enter_in_log(adjustable, experiment_name, file_name, data_names, matrix_means, matrix_std, ranking_means, ranking_std, total_time):
     decimals = '.2f'
-    if not os.path.exists(pc.LOG_FILE_PATH):
-        with open(pc.LOG_FILE_PATH, 'w') as my_file:
+    if not os.path.exists(adjustable.log_file):
+        with open(adjustable.log_file, 'w') as my_file:
             print('new log file made')
 
-    with open(pc.LOG_FILE_PATH, 'a') as log_file:
+    with open(adjustable.log_file, 'a') as log_file:
         date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
         log_file.write('\n')
         log_file.write('name_of_experiment:         %s\n' % experiment_name)

@@ -336,6 +336,836 @@ def test_it():
     a.log_experiment = False
     scn.super_main(a)
 
+
+def experiment_test():
+    a = ProjectVariable()
+    a.experiment_name = 'shit'
+    a.use_gpu = '0'
+    a.log_file = 'log_0.txt'
+    a.ranking_number = 2
+    a.epochs = 1
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [1]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 10
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['prid450']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+#################################################################################################
+#    BASELINE
+#################################################################################################
+
+def e_001():
+    a = ProjectVariable()
+    a.experiment_name = '001. baseline viper'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.datasets = ['viper']
+    scn.super_main(a)
+    
+    
+def e_002():
+    a = ProjectVariable()
+    a.experiment_name = '002. baseline market'
+    a.use_gpu = '1'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.datasets = ['market']
+    scn.super_main(a)
+    
+
+def e_003():
+    a = ProjectVariable()
+    a.experiment_name = '003. baseline cuhk02'
+    a.use_gpu = '1'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.datasets = ['cuhk02']
+    scn.super_main(a)
+    
+
+def e_004():
+    a = ProjectVariable()
+    a.experiment_name = '004. baseline grid'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.datasets = ['grid']
+    scn.super_main(a)
+    
+    
+def e_005():
+    a = ProjectVariable()
+    a.experiment_name = '005. baseline prid450'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.datasets = ['prid450']
+    scn.super_main(a)
+
+
+def e_006():
+    a = ProjectVariable()
+    a.experiment_name = '006. baseline caviar'
+    a.ranking_number = 36
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.datasets = ['caviar']
+    scn.super_main(a)
+
+#################################################################################################
+#    TRAIN ON VIPER, FULL NETWORK
+#################################################################################################
+
+def e_007():
+    a = ProjectVariable()
+    a.experiment_name = '007. train on viper -> market (full network)'
+    a.use_gpu = '2'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['market']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_008():
+    a = ProjectVariable()
+    a.experiment_name = '008. train on viper -> cuhk02 (full network)'
+    a.use_gpu = '2'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['cuhk02']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+    
+    
+def e_009():
+    a = ProjectVariable()
+    a.experiment_name = '009. train on viper -> grid (full network)'
+    a.use_gpu = '3'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['grid']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_010():
+    a = ProjectVariable()
+    a.experiment_name = '010. train on viper -> prid450 (full network)'
+    a.use_gpu = '3'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['prid450']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_011():
+    a = ProjectVariable()
+    a.experiment_name = '011. train on viper -> caviar (full network)'
+    a.use_gpu = '3'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 36
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['caviar']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+#################################################################################################
+#    TRAIN ON VIPER, ONLY CLASSIFIER
+#################################################################################################
+
+def e_012():
+    a = ProjectVariable()
+    a.experiment_name = '012. train on viper -> market (classifier only)'
+    a.use_gpu = '2'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['market']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_013():
+    a = ProjectVariable()
+    a.experiment_name = '013. train on viper -> cuhk02 (classifier only)'
+    a.use_gpu = '2'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['cuhk02']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_014():
+    a = ProjectVariable()
+    a.experiment_name = '014. train on viper -> grid (classifier only)'
+    a.use_gpu = '3'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['grid']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_015():
+    a = ProjectVariable()
+    a.experiment_name = '015. train on viper -> prid450 (classifier only)'
+    a.use_gpu = '3'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['prid450']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_016():
+    a = ProjectVariable()
+    a.experiment_name = '016. train on viper -> caviar (classifier only)'
+    a.use_gpu = '3'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 2
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['viper']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 36
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['caviar']
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+#################################################################################################
+#    TRAIN ON CUHK02, FULL NETWORK
+#################################################################################################
+
+def e_017():
+    a = ProjectVariable()
+    a.experiment_name = '017. train on cuhk02 -> market (full network)'
+    a.use_gpu = '1'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['market']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_018():
+    a = ProjectVariable()
+    a.experiment_name = '018. train on cuhk02 -> viper (full network)'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['viper']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_019():
+    a = ProjectVariable()
+    a.experiment_name = '019. train on cuhk02 -> grid (full network)'
+    a.use_gpu = '1'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['grid']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_020():
+    a = ProjectVariable()
+    a.experiment_name = '020. train on cuhk02 -> prid450 (full network)'
+    a.use_gpu = '1'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['prid450']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_021():
+    a = ProjectVariable()
+    a.experiment_name = '021. train on cuhk02 -> caviar (full network)'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 36
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['caviar']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+#################################################################################################
+#    TRAIN ON CUHK02, ONLY CLASSIFIER
+#################################################################################################
+
+def e_022():
+    a = ProjectVariable()
+    a.experiment_name = '022. train on cuhk02 -> market (only classifier)'
+    a.use_gpu = '1'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['market']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_023():
+    a = ProjectVariable()
+    a.experiment_name = '023. train on cuhk02 -> viper (only classifier)'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['viper']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_024():
+    a = ProjectVariable()
+    a.experiment_name = '024. train on cuhk02 -> grid (only classifier)'
+    a.use_gpu = '1'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['grid']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_025():
+    a = ProjectVariable()
+    a.experiment_name = '025. train on cuhk02 -> prid450 (only classifier)'
+    a.use_gpu = '1'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['prid450']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_026():
+    a = ProjectVariable()
+    a.experiment_name = '021. train on cuhk02 -> caviar (only classifier)'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 36
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['caviar']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+#################################################################################################
+#    TRAIN ON CUHK02, MARKET, FULL NETWORK
+#################################################################################################
+
+def e_027():
+    a = ProjectVariable()
+    a.experiment_name = '027. train on cuhk02, market -> viper (full network)'
+    a.use_gpu = '2'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 2
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['market']
+    scn.super_main(a)
+    
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['viper']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_028():
+    a = ProjectVariable()
+    a.experiment_name = '028. train on cuhk02, market -> grid (full network)'
+    a.use_gpu = '2'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 2
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['market']
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['grid']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_029():
+    a = ProjectVariable()
+    a.experiment_name = '029. train on cuhk02, market -> prid450 (full network)'
+    a.use_gpu = '3'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 2
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['market']
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['prid450']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_030():
+    a = ProjectVariable()
+    a.experiment_name = '030. train on cuhk02, market -> caviar (full network)'
+    a.use_gpu = '3'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 2
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['market']
+    scn.super_main(a)
+
+    a.ranking_number = 36
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['caviar']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+#################################################################################################
+#    TRAIN ON CUHK02, MARKET, ONLY CLASSIFIER
+#################################################################################################
+
+def e_031():
+    a = ProjectVariable()
+    a.experiment_name = '031. train on cuhk02, market -> viper (only classifier)'
+    a.use_gpu = '2'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 2
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['market']
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['viper']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_032():
+    a = ProjectVariable()
+    a.experiment_name = '032. train on cuhk02, market -> grid (only classifier)'
+    a.use_gpu = '2'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 2
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['market']
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['grid']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_033():
+    a = ProjectVariable()
+    a.experiment_name = '033. train on cuhk02, market -> prid450 (only classifier)'
+    a.use_gpu = '3'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 2
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['market']
+    scn.super_main(a)
+
+    a.ranking_number = 100
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['prid450']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+def e_034():
+    a = ProjectVariable()
+    a.experiment_name = '034. train on cuhk02, market -> caviar (only classifier)'
+    a.use_gpu = '3'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
+
+    a.ranking_number = 2
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['market']
+    scn.super_main(a)
+
+    a.ranking_number = 36
+    a.save_inbetween = False
+    a.log_experiment = True
+    a.datasets = ['caviar']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    a.trainable_12 = False
+    a.trainable_34 = False
+    a.trainable_56 = False
+    scn.super_main(a)
+
+
+
+
 # TODO: adapt the learning rate. set it lower
 
 def main():
@@ -348,7 +1178,6 @@ def main():
     #     experiment_013()
     # if num == '014':
     #     experiment_014()
-    test_it()
-
+    experiment_test()
 
 main()

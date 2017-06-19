@@ -1,0 +1,10 @@
+
+name_of_experiment:         shit
+file_name:                  siamese_cnn_clean.py
+date:                       19/06/2017   13:20:34
+duration:                   10.815478
+prid450 mean tp,fp,tn,fn:    [8.0, 65.0, 25.0, 2.0]
+prid450 mean ranking:        [0.2, 0.3, 0.3, 0.4, 0.7, 0.8, 0.9, 0.9, 1.0, 1.0]
+prid450 std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+prid450 std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+

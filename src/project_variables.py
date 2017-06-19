@@ -5,6 +5,8 @@ class ProjectVariable(object):
         """
         # which gpu to use
         self._use_gpu = '0' # string
+        # which log file to use choice of 'log_0.txt' and 'log_1.txt' and 'log_2.txt' and 'log_3.txt'
+        self._log_file = None # string
         # the type of cost module. choice of: 'neural_network', 'euclidean', 'euclidean_fc', 'DHSL', 'cosine'
         self._cost_module_type = 'neural_network'  # string
         # the operation to perform with the siamese head features. choice of: 'concatenate', 'add', 'multiply'
@@ -85,7 +87,8 @@ class ProjectVariable(object):
         # timestamp of when the ranking file was made
         self._ranking_time_name = None # string
         # the ranking number for each dataset
-        self._ranking_number = 'half' # str 'half' or actual int
+        self._ranking_number = 100 # str 'half' or actual int
+        # unused
         # train on these datasets. Last dataset gets trained on and tested. the datasets before the last one
         # serve for transfer learning
         self._datsets_order = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
@@ -516,3 +519,12 @@ class ProjectVariable(object):
     @log_experiment.setter
     def log_experiment(self, value):
         self._log_experiment = value
+
+    # which log file to use choice of 'log_0.txt' and 'log_1.txt' and 'log_2.txt' and 'log_3.txt'
+    @property
+    def log_file(self):
+        return self._log_file
+
+    @log_file.setter
+    def log_file(self, value):
+        self._log_file = value

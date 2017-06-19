@@ -382,8 +382,8 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                 elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
                     # model_name = time_stamp + '_%s_model.h5' % adjustable.datasets[0]
                     # weights_name = time_stamp + '_%s_weights.h5' % adjustable.datasets[0]
-                    model_name = '%s_model.h5' % adjustable.datasets[0]
-                    weights_name = '%s_weigths.h5' % adjustable.datasets[0]
+                    model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+                    weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
                 else:
                     model_name = None
                     weights_name = None
@@ -411,7 +411,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         # for priming
         if adjustable.save_inbetween and adjustable.iterations == 1:
             # file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
-            file_name = '%s_ranking.txt' % (name)
+            file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
             file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
             with open(file_name, 'w') as my_file:
                 for item in this_ranking:
@@ -534,5 +534,5 @@ def super_main(adjustable):
     # log the results
     if adjustable.log_experiment:
         file_name = os.path.basename(__file__)
-        pu.enter_in_log(adjustable.experiment_name, file_name, name, matrix_means, matrix_std, ranking_means, ranking_std,
+        pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, name, matrix_means, matrix_std, ranking_means, ranking_std,
                         total_time)
