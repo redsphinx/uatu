@@ -1261,12 +1261,13 @@ def e_038():
 
 def e_039():
     a = ProjectVariable()
-    a.experiment_name = '039. train on cuhk02, market, save -> viper (full network), rank=632'
+    a.experiment_name = '039. train on cuhk02, market, save -> viper (full network), rank=316'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 632
+    a.ranking_number = 316
     a.iterations = 5
     a.datasets = ['viper']
     a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
 
 
 def e_040():

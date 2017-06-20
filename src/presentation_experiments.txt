@@ -89,3 +89,79 @@ experiments for the presentation
 	running_experiments_2, log_0.txt
 	038 - 042
 
+(17)Problems with euclidean, cosine
+	running_experiments_1, experiment_log_1
+
+
+http://watchingthewatchers.weebly.com/the-netherlands.html#.WUlHxnYrLmE	
+	
+
+Text
+
+Hello everyone, my name is Gabi and I will be telling a little something about how deep learning is used in surveillance systems.
+
+Big brother may or may not be watching.
+
+I say that it is.
+
+Fun facts about surveillance in the Netherlands
+
+According to the Dutch website Sargasso, there are at least 200000 surveillance cameras watching over the inhabitants of the Netherlands. Since privately owened cameras are not mandatory to be reported, it it very likely that this number is a lot higher. According to other sources this number may be as high as 1 million cameras. This includes cameras in supermarkets, schools or business areas. 
+
+These cameras are being used for many types of surveillance, for example traffic surveillance, tracking people of interest and also some very specific things such as detecting if luggage is being left unattended in a public space.
+
+However, big brother is not always watching. As the number of cameras used for surveillence is constantly increasing, this becomes a burden for people who need to keep an eye on all these camera feeds. Cameras are getting very cheap and are easy to install in virtually any imaginable space. It should come as no suprise that the demand for the automization of surveillance is also increasing. 
+
+This is where Artificial Intelligence comes in. It may seem that AI is a magic box that can do everything, but actually it is quite difficult to make things work robustly. For example in surveillance systems, there is no AI (yet) that can do many tasks. Currently we create AI that is able to deal with 1 clearly defined task at a time. Various examples of these tasks are:
+- person tracking
+- person identification
+- vehicle tracking
+- object detection
+
+In this talk I will be talking about 1 specific problem that we will automate:
+- person re-identification
+
+Person identification is when we say "oh look that is Bob, hi Bob!". This is where the AI has learned the identity of Bob and stores representations of the identity of Bob in a database. This is easy to do in closed environments where everybody's identity is known.
+
+But imagine that we have 100 random strange people on the camera at any given moment, such as a crowd in a public space, where it is simply unfeasible to store everybody's ID in a giant database. Also imagine that we have a couple of cameras observing this space from various angles. Then imagine that there is a human security guard being observing these cameras, and he or she sees a person doing something weird, like punch another person and then run away. This security has seen the person who commited the assault and then has to keep an eye on all the cameras to see where this person might be. Since the identity of the person is not known beforehand but has only just been observed, we only have a couple of reference frames of this person. And then the task is to find this person again on the other cameras. This is known as person re-identification.
+
+In literature we say that, 
+
+given the probe, we have to find its match in the gallery of candidates.
+
+In our case we want to create an automated surveillance system that can do person re-identification in an area where there are no more than 100 people on the camera at the same time. The target scenario is where we have a non-cluttered background with optimally just 1 person at a time on the video under more or less the same angle.
+
+Classically we have computer vision algorithms that deal with this. But recently it has been shown that deep learning is capable of outperforming classic computer vision methods when it comes to things like detecting objects, mainly because we don't have to specify hand-crafted features anymore. Deep learning is capable of detecting dicriminating features by itself. 
+
+Which is why we will be using deep learning to solve this problem.
+
+While the main objective is to create a deep learning model that can perform person re-id in the specific scenario, we will also aim to solve some problems that are relevant in person re-id literature. Answering these questions will also lead to a better model that can be used in practice.
+
+Research questions
+
+We deal with 3 research questions:
+
+(1) Can we avoid the use of an explicit Mahalanobis distance metric?
+(2) How can we optimally make use of all datasets available to us?
+(3) How can we make use of the fact that we will have some minor knowledge of the probe?
+
+In the rest of my presentation I will talk about why these research questions deserve an answer and what I have done so far to answer them.
+
+Big brother will not be mentioned anymore.
+
+First of all I will explain briefly what is deep learning, since it gets mentioned all the time in the media. 
+
+This is a neural network. It's a network that is composed of small units called nodes and these are connected to each other. Each connection has a weigth that indicate how important the connection is. Nodes are typically organized in layers. And when we stack these layers we get a deep neural network. Deep learning refers to 
+
+
+
+
+
+
+
+
+
+
+	
+	
+
