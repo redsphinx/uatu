@@ -151,7 +151,7 @@ Big brother will not be mentioned anymore.
 
 First of all I will explain briefly what is deep learning, since it gets mentioned all the time in the media. 
 
-This is a neural network. It's a network that is composed of small units called nodes and these are connected to each other. Each connection has a weigth that indicate how important the connection is. Nodes are typically organized in layers. And when we stack these layers we get a deep neural network. Deep learning refers to 
+This is a neural network. It's a network that is composed of small units called nodes and these are connected to each other. Each connection has a weigth that indicate how important the connection is. Nodes are typically organized in layers. And when we stack these layers we get a deep neural network. Deep learning refers to this stacking of layers. 
 
 
 
