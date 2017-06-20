@@ -84,4 +84,8 @@ experiments for the presentation
 	train on prid450 only: rank=225
 	train on caviar only: rank=36
 	train on grid only: rank=125
+	
+(16)new SOTAs
+	running_experiments_2, log_0.txt
+	038 - 042
 

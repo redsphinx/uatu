@@ -1247,15 +1247,11 @@ def e_038():
     a.experiment_name = '038. train on cuhk02, market, save'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
     a.save_inbetween = True
     a.save_points = [100]
     a.name_indication = 'dataset_name'
-    # a.datasets = ['cuhk02']
-    a.log_experiment = False
-    # scn.super_main(a)
 
     a.ranking_number = 2
     a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
