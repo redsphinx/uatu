@@ -701,15 +701,15 @@ def e_018():
     a.experiment_name = '018. train on cuhk02 -> viper (full network)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -724,15 +724,15 @@ def e_019():
     a.experiment_name = '019. train on cuhk02 -> grid (full network)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -747,15 +747,15 @@ def e_020():
     a.experiment_name = '020. train on cuhk02 -> prid450 (full network)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -770,15 +770,15 @@ def e_021():
     a.experiment_name = '021. train on cuhk02 -> caviar (full network)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
     a.ranking_number = 36
     a.save_inbetween = False
@@ -822,15 +822,15 @@ def e_023():
     a.experiment_name = '023. train on cuhk02 -> viper (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -848,15 +848,15 @@ def e_024():
     a.experiment_name = '024. train on cuhk02 -> grid (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -874,15 +874,15 @@ def e_025():
     a.experiment_name = '025. train on cuhk02 -> prid450 (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -900,15 +900,15 @@ def e_026():
     a.experiment_name = '021. train on cuhk02 -> caviar (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
     a.ranking_number = 36
     a.save_inbetween = False
@@ -957,20 +957,20 @@ def e_028():
     a.experiment_name = '028. train on cuhk02, market -> grid (full network)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
-    a.ranking_number = 2
-    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
-    a.datasets = ['market']
-    scn.super_main(a)
+    # a.ranking_number = 2
+    # a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    # a.datasets = ['market']
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -985,20 +985,20 @@ def e_029():
     a.experiment_name = '029. train on cuhk02, market -> prid450 (full network)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
-    a.ranking_number = 2
-    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
-    a.datasets = ['market']
-    scn.super_main(a)
+    # a.ranking_number = 2
+    # a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    # a.datasets = ['market']
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -1013,20 +1013,20 @@ def e_030():
     a.experiment_name = '030. train on cuhk02, market -> caviar (full network)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
-    a.ranking_number = 2
-    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
-    a.datasets = ['market']
-    scn.super_main(a)
+    # a.ranking_number = 2
+    # a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    # a.datasets = ['market']
+    # scn.super_main(a)
 
     a.ranking_number = 36
     a.save_inbetween = False
@@ -1045,20 +1045,20 @@ def e_031():
     a.experiment_name = '031. train on cuhk02, market -> viper (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
-    a.ranking_number = 2
-    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
-    a.datasets = ['market']
-    scn.super_main(a)
+    # a.ranking_number = 2
+    # a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    # a.datasets = ['market']
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -1076,20 +1076,20 @@ def e_032():
     a.experiment_name = '032. train on cuhk02, market -> grid (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
-    a.ranking_number = 2
-    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
-    a.datasets = ['market']
-    scn.super_main(a)
+    # a.ranking_number = 2
+    # a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    # a.datasets = ['market']
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -1107,20 +1107,20 @@ def e_033():
     a.experiment_name = '033. train on cuhk02, market -> prid450 (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
-    a.ranking_number = 2
-    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
-    a.datasets = ['market']
-    scn.super_main(a)
+    # a.ranking_number = 2
+    # a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    # a.datasets = ['market']
+    # scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -1138,20 +1138,20 @@ def e_034():
     a.experiment_name = '034. train on cuhk02, market -> caviar (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 5
+    # a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [100]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['cuhk02']
-    a.log_experiment = False
-    scn.super_main(a)
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    # a.log_experiment = False
+    # scn.super_main(a)
 
-    a.ranking_number = 2
-    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
-    a.datasets = ['market']
-    scn.super_main(a)
+    # a.ranking_number = 2
+    # a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    # a.datasets = ['market']
+    # scn.super_main(a)
 
     a.ranking_number = 36
     a.save_inbetween = False
@@ -1194,14 +1194,14 @@ def e_036():
     a.experiment_name = '036. train on market and save, then prime (only_classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 100
-    a.epochs = 100
-    a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [1]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['market']
-    scn.super_main(a)
+    # a.ranking_number = 100
+    # a.epochs = 100
+    # a.iterations = 1
+    # a.save_inbetween = True
+    # a.save_points = [1]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['market']
+    # scn.super_main(a)
 
     a.save_inbetween = False
     a.priming = True
@@ -1219,17 +1219,17 @@ def e_036():
 
 def e_037():
     a = ProjectVariable()
-    a.experiment_name = '035. train on market and save, then prime (full network), prime_epochs=10'
+    a.experiment_name = '037. train on market and save, then prime (full network), prime_epochs=10'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    a.ranking_number = 100
-    a.epochs = 100
-    a.iterations = 1
-    a.save_inbetween = True
-    a.save_points = [1]
-    a.name_indication = 'dataset_name'
-    a.datasets = ['market']
-    scn.super_main(a)
+    # a.ranking_number = 100
+    # a.epochs = 100
+    # a.iterations = 1
+    # a.save_inbetween = True
+    # a.save_points = [1]
+    # a.name_indication = 'dataset_name'
+    # a.datasets = ['market']
+    # scn.super_main(a)
 
     a.save_inbetween = False
     a.priming = True
