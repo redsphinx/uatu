@@ -330,7 +330,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     elif not adjustable.load_weights_name == None:
         model = create_siamese_network(adjustable)
 
-
         the_path = os.path.join('../model_weights', adjustable.load_weights_name)
         model.load_weights(the_path, by_name=True)
 

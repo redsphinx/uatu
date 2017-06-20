@@ -4774,7 +4774,7 @@ caviar mean ranking:        [0.14, 0.21, 0.32, 0.37, 0.47, 0.56, 0.57, 0.66, 0.6
 caviar std ranking:         [0.09, 0.1, 0.05, 0.06, 0.04, 0.07, 0.07, 0.07, 0.06, 0.05, 0.05, 0.07, 0.06, 0.07, 0.04, 0.04, 0.03, 0.04, 0.02, 0.0]
 
 
-name_of_experiment:         109. saving network with config. 105 each 10 epochs. preparation for priming experiments
+name_of_experiment:         109. saving network with config. 105 each 100 epochs. preparation for priming experiments
 file_name:                  siamese_cnn_clean.py
 date:                       05/06/2017   16:22:06
 duration:                   4047.394937

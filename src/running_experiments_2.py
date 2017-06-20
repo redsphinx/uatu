@@ -822,15 +822,15 @@ def e_023():
     a.experiment_name = '023. train on cuhk02 -> viper (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    # a.ranking_number = 5
+    a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    # a.save_inbetween = True
-    # a.save_points = [100]
-    # a.name_indication = 'dataset_name'
-    # a.datasets = ['cuhk02']
-    # a.log_experiment = False
-    # scn.super_main(a)
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -848,15 +848,15 @@ def e_024():
     a.experiment_name = '024. train on cuhk02 -> grid (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    # a.ranking_number = 5
+    a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    # a.save_inbetween = True
-    # a.save_points = [100]
-    # a.name_indication = 'dataset_name'
-    # a.datasets = ['cuhk02']
-    # a.log_experiment = False
-    # scn.super_main(a)
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -874,15 +874,15 @@ def e_025():
     a.experiment_name = '025. train on cuhk02 -> prid450 (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    # a.ranking_number = 5
+    a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    # a.save_inbetween = True
-    # a.save_points = [100]
-    # a.name_indication = 'dataset_name'
-    # a.datasets = ['cuhk02']
-    # a.log_experiment = False
-    # scn.super_main(a)
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
 
     a.ranking_number = 100
     a.save_inbetween = False
@@ -897,18 +897,18 @@ def e_025():
 
 def e_026():
     a = ProjectVariable()
-    a.experiment_name = '021. train on cuhk02 -> caviar (only classifier)'
+    a.experiment_name = '026. train on cuhk02 -> caviar (only classifier)'
     a.use_gpu = '0'
     a.log_file = 'log_%s.txt' % a.use_gpu
-    # a.ranking_number = 5
+    a.ranking_number = 5
     a.epochs = 100
     a.iterations = 1
-    # a.save_inbetween = True
-    # a.save_points = [100]
-    # a.name_indication = 'dataset_name'
-    # a.datasets = ['cuhk02']
-    # a.log_experiment = False
-    # scn.super_main(a)
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    a.datasets = ['cuhk02']
+    a.log_experiment = False
+    scn.super_main(a)
 
     a.ranking_number = 36
     a.save_inbetween = False
@@ -1242,92 +1242,84 @@ def e_037():
     prime.super_main(a)
 
 
+def e_038():
+    a = ProjectVariable()
+    a.experiment_name = '038. train on cuhk02, market, save'
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    # a.ranking_number = 5
+    a.epochs = 100
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    # a.datasets = ['cuhk02']
+    a.log_experiment = False
+    # scn.super_main(a)
+
+    a.ranking_number = 2
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['market']
+    scn.super_main(a)
+
+
+def e_039():
+    a = ProjectVariable()
+    a.experiment_name = '039. train on cuhk02, market, save -> viper (full network), rank=632'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 632
+    a.iterations = 5
+    a.datasets = ['viper']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+
+
+def e_040():
+    a = ProjectVariable()
+    a.experiment_name = '040. train on cuhk02, market, save -> prid450 (full network), rank=225'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 225
+    a.iterations = 5
+    a.datasets = ['prid450']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_041():
+    a = ProjectVariable()
+    a.experiment_name = '041. train on cuhk02, market, save -> grid (full network), rank=125'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 125
+    a.iterations = 5
+    a.datasets = ['grid']
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
+
+def e_042():
+    a = ProjectVariable()
+    a.experiment_name = '042. train on cuhk02, market, save -> caviar (full network), rank=36'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.ranking_number = 36
+    a.iterations = 5
+    a.datasets = ['caviar']
+    a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
+    scn.super_main(a)
+
 
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
+    if num == '038':
+        e_038()
+    if num == '039':
+        e_039()
+    if num == '040':
+        e_040()
+    if num == '041':
+        e_041()
+    if num == '042':
+        e_042()
 
-    if num == '001':
-        e_001()
-    if num == '002':
-        e_002()
-    if num == '003':
-        e_003()
-    if num == '004':
-        e_004()
-    if num == '005':
-        e_005()
-    if num == '006':
-        e_006()
-
-    if num == '007':
-        e_007()
-    if num == '008':
-        e_008()
-    if num == '009':
-        e_009()
-    if num == '010':
-        e_010()
-    if num == '011':
-        e_011()
-
-    if num == '012':
-        e_012()
-    if num == '013':
-        e_013()
-    if num == '014':
-        e_014()
-    if num == '015':
-        e_015()
-    if num == '016':
-        e_016()
-
-    if num == '017':
-        e_017()
-    if num == '018':
-        e_018()
-    if num == '019':
-        e_019()
-    if num == '020':
-        e_020()
-    if num == '021':
-        e_021()
-
-    if num == '022':
-        e_022()
-    if num == '023':
-        e_023()
-    if num == '024':
-        e_024()
-    if num == '025':
-        e_025()
-    if num == '026':
-        e_026()
-
-    if num == '027':
-        e_027()
-    if num == '028':
-        e_028()
-    if num == '029':
-        e_029()
-    if num == '030':
-        e_030()
-
-    if num == '031':
-        e_031()
-    if num == '032':
-        e_032()
-    if num == '033':
-        e_033()
-    if num == '034':
-        e_034()
-
-    if num == '035':
-        e_035()
-    if num == '036':
-        e_036()
-    if num == '037':
-        e_037()
 
 main()

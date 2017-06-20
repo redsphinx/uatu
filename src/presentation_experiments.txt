@@ -1,0 +1,87 @@
+experiments for the presentation
+
+(1) Transfer of CNN weights to SCNN
+	running_experiments_1, experiment_log_1
+	28:training SCN with CNN weights: 2D filters 32, BN_lr_0-0001. use CL 0.00001-0.0001
+	vs.
+	31.SCNN: random weight initialization
+	
+(2) Usage of CLR
+	running_experiments_1, experiment_log_1
+	33.SCNN: RIW, BN, no CL, lr=0.00001
+	34.SCNN: RIW, BN, no CL, lr=0.0001
+	vs.
+	38.SCNN: RIW, BN, CL, lr=0.00001-0.0001
+	
+(3) Different types of neural distance
+	running_experiments_1, experiment_log_1, from line 2607
+	57. baseline (concatenate)
+	58. neural distance: add
+	59. neural distance: multiply
+
+(4) Using ELU instead of ReLU
+	running_experiments_1, experiment_log_1
+	78. combo: elu + CLR min=0.00005, max=0.0005
+	vs.
+	57. baseline
+
+(5) Different types of neural distance
+	running_experiments_1, experiment_log_1
+	92. baseline: debugged network
+	vs.
+	102. neural_distance=absolute
+	vs
+	103. neural_distance=subtract
+	vs
+	104. neural_distance=divide
+	
+(6) Reducing number of filters
+	running_experiments_1, experiment_log_1
+	105. adjustable.numfil = 1 + neural_distance=absolute
+	
+(7) Training in order on all data
+	running_experiments_1, experiment_log_1
+	109. saving network with config. 105 each 100 epochs. preparation for priming experiments
+	
+(8) Priming at different epochs
+ 	running_experiments_1, experiment_log_1
+ 	111 - 130
+ 	
+(9) Train on 1 dataset only
+ 	running_experiments_1, experiment_log_1
+ 	161 - 166
+ 
+(10)Transfer on data with rank 20
+ 	running_experiments_1, experiment_log_1
+ 	lines 5881 - 5931
+ 	
+(11)Network trained on ALL the data, test on each test set individually, rank 20
+ 	running_experiments_1, experiment_log_1
+ 	after training on all data in order test on all ranking test sets
+ 	lines 5955 - 5982
+ 	
+(12)Transfer + priming
+	running_experiments_1, experiment_log_1
+	lines 5985 - 6095
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+(13)Transfer learning
+	running_experiments_2, log_0.txt
+	001 - 034
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+
+(14)Training on mixed data, rank 100
+	running_experiments_2, experiment_log_2
+	improved baseline SCNN setup 105, minus caviar: rank=100
+	
+(15)SOTAs
+	running_experiments_2, experiment_log_2
+	train on viper only: rank=632
+	train on prid450 only: rank=225
+	train on caviar only: rank=36
+	train on grid only: rank=125
+
