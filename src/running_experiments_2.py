@@ -1303,20 +1303,170 @@ def e_042():
     scn.super_main(a)
 
 
+def e_043():
+    a = ProjectVariable()
+    a.experiment_name = '043. sanity test. train on viper only: rank=316'
+    a.ranking_number = 316
+    a.iterations = 5
+    a.datasets = ['viper']
+    scn.super_main(a)
+
+
+def e_044():
+    a = ProjectVariable()
+    a.experiment_name = '044. sanity test. train on prid450 only: rank=225'
+    a.ranking_number = 225
+    a.iterations = 5
+    a.datasets = ['prid450']
+    scn.super_main(a)
+
+
+def e_045():
+    a = ProjectVariable()
+    a.experiment_name = '045. sanity test. train on grid only: rank=125'
+    a.ranking_number = 125
+    a.iterations = 5
+    a.datasets = ['grid']
+    scn.super_main(a)
+
+
+def e_046():
+    a = ProjectVariable()
+    a.experiment_name = '046. sanity test. train on caviar only: rank=36'
+    a.ranking_number = 36
+    a.iterations = 5
+    a.datasets = ['caviar']
+    scn.super_main(a)
+
+
+def e_047():
+    a = ProjectVariable()
+    a.experiment_name = '047. train on viper only: rank=316, euclidean, no CLR'
+    a.ranking_number = 316
+    a.iterations = 5
+    # a.epochs = 100
+    a.datasets = ['viper']
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+
+    scn.super_main(a)
+
+
+def e_048():
+    a = ProjectVariable()
+    a.experiment_name = '048. train on prid450 only: rank=225, euclidean, no CLR'
+    a.ranking_number = 225
+    a.iterations = 5
+    # a.epochs = 100
+    a.datasets = ['prid450']
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+
+    scn.super_main(a)
+
+
+def e_049():
+    a = ProjectVariable()
+    a.experiment_name = '048. train on grid only: rank=125, euclidean, no CLR'
+    a.ranking_number = 125
+    a.iterations = 5
+    # a.epochs = 100
+    a.datasets = ['grid']
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+
+    scn.super_main(a)
+
+
+def e_050():
+    a = ProjectVariable()
+    a.experiment_name = '050. train on caviar only: rank=36, euclidean, no CLR'
+    a.ranking_number = 36
+    a.iterations = 5
+    # a.epochs = 100
+    a.datasets = ['caviar']
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+
+    scn.super_main(a)
+
+
+def e_051():
+    a = ProjectVariable()
+    a.experiment_name = '051. viper. exp with 1 dataset only, rank=20, epoch=40'
+    a.ranking_number = 20
+    a.iterations = 5
+    a.epochs = 40
+    a.datasets = ['viper']
+    scn.super_main(a)
+
+
+def e_052():
+    a = ProjectVariable()
+    a.experiment_name = '052. market. exp with 1 dataset only, rank=20, epoch=40'
+    a.ranking_number = 20
+    a.iterations = 5
+    a.epochs = 40
+    a.datasets = ['market']
+    scn.super_main(a)
+
+
+def e_053():
+    a = ProjectVariable()
+    a.experiment_name = '053. cuhk02. exp with 1 dataset only, rank=20, epoch=40'
+    a.ranking_number = 20
+    a.iterations = 5
+    a.epochs = 40
+    a.datasets = ['cuhk02']
+    scn.super_main(a)
+
+
+def e_054():
+    a = ProjectVariable()
+    a.experiment_name = '054. grid. exp with 1 dataset only, rank=20, epoch=40'
+    a.ranking_number = 20
+    a.iterations = 5
+    a.epochs = 40
+    a.datasets = ['grid']
+    scn.super_main(a)
+
+
+def e_055():
+    a = ProjectVariable()
+    a.experiment_name = '055. prid450. exp with 1 dataset only, rank=20, epoch=40'
+    a.ranking_number = 20
+    a.iterations = 5
+    a.epochs = 40
+    a.datasets = ['prid450']
+    scn.super_main(a)
+
+
+def e_056():
+    a = ProjectVariable()
+    a.experiment_name = '056. caviar. exp with 1 dataset only, rank=20, epoch=40'
+    a.ranking_number = 20
+    a.iterations = 5
+    a.epochs = 40
+    a.datasets = ['caviar']
+    scn.super_main(a)
+
+
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '038':
-        e_038()
-    if num == '039':
-        e_039()
-    if num == '040':
-        e_040()
-    if num == '041':
-        e_041()
-    if num == '042':
-        e_042()
+    if num == '051':
+        e_051()
+    if num == '052':
+        e_052()
+    if num == '053':
+        e_053()
+    if num == '054':
+        e_054()
+    if num == '055':
+        e_055()
+    if num == '056':
+        e_056()
 
 
 main()

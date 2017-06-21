@@ -6,7 +6,7 @@ class ProjectVariable(object):
         # which gpu to use
         self._use_gpu = '0' # string
         # which log file to use choice of 'log_0.txt' and 'log_1.txt' and 'log_2.txt' and 'log_3.txt'
-        self._log_file = None # string
+        self._log_file = 'log_0.txt' # string
         # the type of cost module. choice of: 'neural_network', 'euclidean', 'euclidean_fc', 'DHSL', 'cosine'
         self._cost_module_type = 'neural_network'  # string
         # the operation to perform with the siamese head features. choice of: 'concatenate', 'add', 'multiply'

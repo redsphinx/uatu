@@ -87,7 +87,7 @@ experiments for the presentation
 	
 (16)new SOTAs
 	running_experiments_2, log_0.txt
-	038 - 042
+	038 - 046
 
 (17)Problems with euclidean, cosine
 	running_experiments_1, experiment_log_1
@@ -147,11 +147,69 @@ We deal with 3 research questions:
 
 In the rest of my presentation I will talk about why these research questions deserve an answer and what I have done so far to answer them.
 
-Big brother will not be mentioned anymore.
+Big brother will not be mentioned anymore. Sadface
 
 First of all I will explain briefly what is deep learning, since it gets mentioned all the time in the media. 
 
-This is a neural network. It's a network that is composed of small units called nodes and these are connected to each other. Each connection has a weigth that indicate how important the connection is. Nodes are typically organized in layers. And when we stack these layers we get a deep neural network. Deep learning refers to this stacking of layers. 
+This is a neural network. It's a network that is composed of small units called nodes and these are connected to each other. Each connection has a weigth that indicate how important the connection is. Nodes are typically organized in layers. And when we stack these layers we get a deep neural network. Deep learning refers to this stacking of simple units to form a hierarchical structure. The concept is heavily related to the use of Artificial Neural Networks, but it does not solely apply to neural networks.
+
+So now you know what is deep learning. 
+
+Let's move on to the first research question:
+(1) Can we avoid the use of an explicit Mahalanobis distance metric?
+
+Where does this problem come from and is it even a problem to begin with. It all has to do with the problem formulation. Previously I mentioned that the question posed by person re-identification is: 'given a probe, find the match in the gallery of candidates'. We can write this problem as <formula>. In terms of Mahalanobis distance we would like to compute the distance between <a> and <b>. We write this as follows <formula>. <Explain formula> So the greater the distance, the less similar <a> and <b> are. When the Mahalanobis distance is used in combination with deep learning, we use a CNN to extract feature vectors from image of <a> and <b>. Then we compute the distance between feature vectors of <a> and <b>. This is awesome and it works in general but BUT we need to specify the inverse covariance matrix. And assuming that the network will converge we need to set a threshold. This brings with it some problems. First of all we don't know at which point the network will converge. And also it brings with it the problem of choosing an appropriate threshold. Most of the time the euclidean distance is chosen. This distance can grow unbounded making it hard to select a threshold.
+
+Several papers deal with this in a couple of different ways. A solution to the first problem of selecting covariance matrix is proposed by KISSME guys where S gets learned. But whatever I don't think it's elegant and why don't we just use deep learning and neural networks all the way.
+
+Instead we propose a more 'holistic' neural network way of dealing with things. Instead of formulating the problem as a distance problem we formulate it as a classification problem.
+We can rewrite as <formula>. Explain <formula>. Something something order invariant. 
+
+To see if our methods works we test it and compare with using the euclidean distance.
+See results. 
+
+With this we conclude that our method is cool and it kinda works on some level. On this benchmark it even outperforms state of the art. However on other benchmarks it does not. We think it works because the dataset is pretty nice. I think if the dataset IRL is something like this then we are awesome.
+
+That wraps up Q1. Now let's go to the second research question. 
+(2) How can we optimally make use of all datasets available to us?
+
+So in lots of papers they pretrain on imagenet and stuff but there's a shitton of data alltogether in the re-id repos but all the individual datasets are quite small for deep learning. We all know that the more data the better when using deep learning. Some papers tried to use more data that is available from the re-id datasets in this and that way. We like to draw our inspiration from that by proposing the following changes based on these experiments. Also don't mix data because batchnorm will mess shit up because the data comes from different distributions. 
+
+Explain experiments. 
+
+Ok cool that was Q2. Hope you guys are still with me. Now the third and last one. 
+(3) How can we make use of the fact that we will have some minor knowledge of the probe?
+
+We realized that when we trained the network with similar images the results went up by a bajillion. We've been trying to recreate it in a realistic way since. Sometimes it works. Sometimes it doesn't. Dunno for sure why. Something something difficulties of transfer learning.
+
+Here are experiments showing what I said. I interpret them this and that way.
+
+Ok nice you guys survived that. 
+
+Now let's see if there is time left and I will explain the main architecture because now some shit makes sense since I explained them.
+
+We use a siamese network because the data comes in pairs and it's totally natural given the formulation of the problem. 
+
+Here is a picture of it. We use 6 conv layers and 3 FC layers in the end. So all in all it's a pretty simple network, so that's cool. And it's portable and easy to train which helps when you wanna make shit work IRL and not everyone has a GPU cluster ready to go. 
+
+Some fun facts about the network.
+
+We train with ELU instead of ReLU because it's way cooler, because of <reasons> mentioned in the paper and shit. Here look at these experiments, they prove that ELUs are cooler.
+
+Also we use cyclical learning rate, which is awesome. Explain shit in paper of CLR. Here look at experiments where we show it works better than LR with decay.
+
+So I've been talking for like 15 min straight. Let's wrap it up and summarize, make some conclusions. Big brother is watching you, but if you wanna evade him then do the following:
+- wear different colors of clothing and change them regularly if you're running away. 
+- grab an object and dont look like you are walking
+- 
+
+Also say that I have 2,5 months left in my internship and we are gonna put recurrent units in the network to experiment with pairs of video. And parallel to that we will make a prototype that will work on a stream of real video. 
+
+yee
+
+fin
+
+
 
 
 

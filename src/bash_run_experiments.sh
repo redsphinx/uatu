@@ -1,8 +1,10 @@
 #!/bin/sh
 
 #python running_experiments_2.py 038
-python running_experiments_2.py 039
-#python running_experiments_2.py 040
-#python running_experiments_2.py 041
-#python running_experiments_2.py 042
+python running_experiments_2.py 051
+python running_experiments_2.py 052
+python running_experiments_2.py 053
+python running_experiments_2.py 054
+python running_experiments_2.py 055
+python running_experiments_2.py 056
 

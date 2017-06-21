@@ -198,11 +198,16 @@ def calculate_CMC(adjustable, predictions):
         # get the indices by sorted values from high to low
         # print('row: %d' % row)
         start = time.time()
-        ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
+
+        if adjustable.cost_module_type == 'neural_network':
+            ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
                                                         reverse=True)]
+        else:
+            ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1])]
+
         # print('getting ranking matrix for row: %0.2f s' % (time.time()-start))
 
-        start = time.time()
+        # start = time.time()
         list_form = ranking_matrix_abs[row].tolist()
         num = list_form.index(row)
         tallies[num] += 1

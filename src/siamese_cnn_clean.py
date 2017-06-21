@@ -28,7 +28,14 @@ def euclidean_distance(vects):
     """ Returns the euclidean distance between the 2 feature vectors
     """
     x, y = vects
+    # diff = x - y
+    # sq = K.square(x - y)
+    # su = K.sum(K.square(x - y), axis=1, keepdims=True)
+    # sqrt = K.sqrt(K.sum(K.square(x - y), axis=1, keepdims=True))
+
     return K.sqrt(K.sum(K.square(x - y), axis=1, keepdims=True))
+    # return K.sqrt(tf.to_float(K.sum(K.square(x - y))))
+
 
 
 def eucl_dist_output_shape(shapes):
@@ -133,7 +140,8 @@ def create_cost_module(inputs, adjustable):
         return softmax
 
     elif adjustable.cost_module_type == 'euclidean':
-        distance = layers.Lambda(euclidean_distance, output_shape=eucl_dist_output_shape)(inputs)
+        # distance = layers.Lambda(euclidean_distance, output_shape=eucl_dist_output_shape)(inputs)
+        distance = layers.Lambda(euclidean_distance)(inputs)
         return distance
 
     elif adjustable.cost_module_type == 'euclidean_fc':
