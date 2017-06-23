@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui.py" afterPath="$PROJECT_DIR$/src/gui.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gui_variables.py" afterPath="$PROJECT_DIR$/src/gui_variables.py" />
     </list>
@@ -32,7 +31,7 @@
     <SUITE FILE_PATH="coverage/uatu$project_utils.coverage" NAME="project_utils Coverage Results" MODIFIED="1496155306432" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$project_data_handling.coverage" NAME="project_data_handling Coverage Results" MODIFIED="1497625482078" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$dynamic_data_loading.coverage" NAME="dynamic_data_loading Coverage Results" MODIFIED="1494865211786" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/uatu$gui.coverage" NAME="gui Coverage Results" MODIFIED="1498229662100" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/uatu$gui.coverage" NAME="gui Coverage Results" MODIFIED="1498241900180" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$fun_plotting.coverage" NAME="fun_plotting Coverage Results" MODIFIED="1496752181186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$visualize_filters.coverage" NAME="visualize_filters Coverage Results" MODIFIED="1492533709292" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$gui_variables.coverage" NAME="gui_variables Coverage Results" MODIFIED="1498225958349" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
@@ -60,8 +59,8 @@
           <file leaf-file-name="gui_variables.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/gui_variables.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="622">
-                  <caret line="59" column="8" lean-forward="false" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="8" />
+                <state relative-caret-position="455">
+                  <caret line="184" column="36" lean-forward="true" selection-start-line="184" selection-start-column="36" selection-end-line="184" selection-end-column="36" />
                   <folding />
                 </state>
               </provider>
@@ -81,23 +80,35 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="gui.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/gui.py">
+          <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="150">
-                  <caret line="19" column="30" lean-forward="true" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
                   <folding>
-                    <element signature="e#0#26#0" expanded="true" />
+                    <element signature="e#162#198#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+          <file leaf-file-name="gui.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/gui.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="615">
-                  <caret line="107" column="4" lean-forward="true" selection-start-line="107" selection-start-column="4" selection-end-line="113" selection-end-column="29" />
+                <state relative-caret-position="375">
+                  <caret line="61" column="0" lean-forward="true" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#0#37#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="29">
+                  <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -116,21 +127,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>load_weights</find>
-      <find>prime</find>
-      <find>ranking</find>
-      <find>log</find>
-      <find>026</find>
-      <find>use_gpu = '1'</find>
-      <find>gpu 1</find>
-      <find>baseline</find>
-      <find>use_gpu = '2'</find>
-      <find>e_023</find>
-      <find>e_012</find>
-      <find>e_026</find>
-      <find>006</find>
-      <find>train on viper only: rank=100</find>
-      <find>13:</find>
       <find>euclidean</find>
       <find>os.</find>
       <find>CUDA</find>
@@ -142,42 +138,57 @@
       <find>selected</find>
       <find>w1_support</find>
       <find>state</find>
-      <find>run</find>
       <find>butt</find>
       <find>use_gpu</find>
+      <find>Button</find>
+      <find>#</find>
+      <find>tk_bb_</find>
+      <find>model</find>
+      <find>tk_bb_image</find>
+      <find>stop</find>
+      <find>run</find>
       <find>root</find>
+      <find>gv</find>
+      <find>b</find>
+      <find>b.</find>
+      <find>load_test</find>
+      <find>gv.load_model</find>
+      <find>load</find>
+      <find>loaded_model_text</find>
+      <find>loaded</find>
+      <find>load_model</find>
     </findStrings>
     <replaceStrings>
-      <replace>adjustable.ranking_number</replace>
-      <replace>trainable_12</replace>
-      <replace>trainable_34</replace>
-      <replace>bn</replace>
-      <replace>RANKING_DICT[the_name]</replace>
-      <replace>RANKING_DICT[name]</replace>
-      <replace>ranking_number</replace>
-      <replace>only_train</replace>
-      <replace>log_experiment</replace>
-      <replace>file</replace>
-      <replace>classifier only</replace>
-      <replace>train on cuhk02</replace>
-      <replace>ranking_number = 5</replace>
-      <replace>cuhk02_we</replace>
-      <replace>train on cuhk02, market</replace>
-      <replace>only classifier</replace>
-      <replace>32</replace>
-      <replace>34</replace>
-      <replace>037</replace>
-      <replace>use_gpu = '2'</replace>
-      <replace>gpu 2</replace>
-      <replace>use_gpu = '0'</replace>
-      <replace>gv</replace>
-      <replace>loaded</replace>
-      <replace>step</replace>
-      <replace>stop</replace>
-      <replace>butt2</replace>
       <replace>root</replace>
       <replace>window_width</replace>
       <replace>window_height</replace>
+      <replace>window_position</replace>
+      <replace>run_conditions</replace>
+      <replace>loaded_model_text</replace>
+      <replace>loaded_test_text</replace>
+      <replace>bb_image_left</replace>
+      <replace>bb_image_right</replace>
+      <replace>run_button</replace>
+      <replace>step_button</replace>
+      <replace>stop_button</replace>
+      <replace>certainty_text</replace>
+      <replace>prediction_text</replace>
+      <replace>None #Button</replace>
+      <replace>#</replace>
+      <replace>b.root</replace>
+      <replace>test</replace>
+      <replace>tk_bb_image</replace>
+      <replace>window_title</replace>
+      <replace>is_test_loaded</replace>
+      <replace>reset</replace>
+      <replace>step</replace>
+      <replace>load_model</replace>
+      <replace>load_test</replace>
+      <replace>b</replace>
+      <replace>gv</replace>
+      <replace>gv.</replace>
+      <replace>load_test_button</replace>
+      <replace>load</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -235,8 +246,8 @@
         <option value="$PROJECT_DIR$/src/log_0.txt" />
         <option value="$PROJECT_DIR$/src/gui_tools.py" />
         <option value="$PROJECT_DIR$/src/gui_constants.py" />
-        <option value="$PROJECT_DIR$/src/gui.py" />
         <option value="$PROJECT_DIR$/src/gui_variables.py" />
+        <option value="$PROJECT_DIR$/src/gui.py" />
       </list>
     </option>
   </component>
@@ -714,9 +725,10 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11502783" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48608536" sideWeight="0.5032017" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14378479" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2309833" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2470651" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33580706" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -726,7 +738,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1258,31 +1269,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="1409" column="27" lean-forward="false" selection-start-line="1409" selection-start-column="27" selection-end-line="1409" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#31#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/log_0.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="779">
           <caret line="657" column="54" lean-forward="false" selection-start-line="657" selection-start-column="54" selection-end-line="657" selection-end-column="54" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="450" column="26" lean-forward="false" selection-start-line="450" selection-start-column="26" selection-end-line="450" selection-end-column="26" />
-          <folding>
-            <element signature="e#162#198#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1320,29 +1311,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/gui.py">
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="19" column="30" lean-forward="true" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+        <state relative-caret-position="660">
+          <caret line="125" column="13" lean-forward="true" selection-start-line="125" selection-start-column="13" selection-end-line="125" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#26#0" expanded="true" />
+            <element signature="e#162#198#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+    <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="107" column="4" lean-forward="true" selection-start-line="107" selection-start-column="4" selection-end-line="113" selection-end-column="29" />
+        <state relative-caret-position="29">
+          <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gui_variables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="622">
-          <caret line="59" column="8" lean-forward="false" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="8" />
+        <state relative-caret-position="455">
+          <caret line="184" column="36" lean-forward="true" selection-start-line="184" selection-start-column="36" selection-end-line="184" selection-end-column="36" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gui.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="61" column="0" lean-forward="true" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
