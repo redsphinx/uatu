@@ -2,9 +2,11 @@ import gui_variables as gv
 from Tkinter import Button
 
 
+
 def load_model():
     loaded_model_text = gv.loaded_model_text
     loaded_model_text.config(text='model loaded')
+    run_conditions = 1
     print('load model')
 
 
@@ -15,10 +17,16 @@ def load_test():
 
 
 def run():
-    print('run')
+    if gv.run_conditions == 2:
+        print('run')
 
 
-def 
+def step():
+    print('step')
+
+
+def stop():
+    print('stop')
 
 
 def create_window(root):
