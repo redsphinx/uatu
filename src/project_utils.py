@@ -296,13 +296,16 @@ def zero_to_min_one_labels(data_list):
 #
 # assign_experiments()
 
-def get_data(pairs, dataset):
+def get_data(pairs, dataset, number_of_data=100):
     pairs = list(np.genfromtxt(pairs, dtype=str))
 
     refs = np.zeros((len(pairs), 2, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
     labs = np.zeros(len(pairs))
 
-    for item in range(len(pairs)):
+    if number_of_data > len(pairs):
+        number_of_data = len(pairs)
+
+    for item in range(number_of_data):
         p1, p2, l = pairs[item].strip().split(',')
         refs[item] = dataset[p1], dataset[p2]
         labs[item] = int(l)

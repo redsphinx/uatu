@@ -34,6 +34,10 @@ class GuiVariable(object):
         self._stop_button = None
         self._stop_press = False
         self._pred = 0
+        self._truth_text = None
+        self._all_truth = None
+        self._number_of_data = 100
+        self._run_speed = 50
 
 
     @property
@@ -273,3 +277,35 @@ class GuiVariable(object):
     @pred.setter
     def pred(self, value):
         self._pred = value
+
+    @property
+    def truth_text(self):
+        return self._truth_text
+
+    @truth_text.setter
+    def truth_text(self, value):
+        self._truth_text = value
+        
+    @property
+    def all_truth(self):
+        return self._all_truth
+
+    @all_truth.setter
+    def all_truth(self, value):
+        self._all_truth = value
+        
+    @property
+    def number_of_data(self):
+        return self._number_of_data
+
+    @number_of_data.setter
+    def number_of_data(self, value):
+        self._number_of_data = value
+
+    @property
+    def run_speed(self):
+        return self._run_speed
+
+    @run_speed.setter
+    def run_speed(self, value):
+        self._run_speed = value

@@ -231,6 +231,11 @@ def create_siamese_head(adjustable):
             model.add(layers.BatchNormalization(name='bn_8', trainable=adjustable.trainable_bn))
     model.add(layers.Flatten(name='cnn_flat'))
 
+
+    # TODO: add recurrent unit
+    
+
+
     if not adjustable.weights_name == None:
         model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.weights_name), by_name=True)
 

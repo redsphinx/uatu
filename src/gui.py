@@ -41,9 +41,11 @@ def initialize(b):
     b.reset_button = Button(b.root, text='Reset', state='disabled', command=lambda: reset(b))
 
     b.certainty_text = Label(b.root, text='1.00')
-    b.prediction_text = Label(b.root, text='Match')
+    b.prediction_text = Label(b.root, text='Predict:    Match')
     b.load_model_button = Button(b.root, text='Load Model', command=lambda: load_model(b))
     b.load_test_button = Button(b.root, text='Load Data', command=lambda: load_test(b))
+
+    b.truth_text = Label(b.root, text='Truth:   Match')
 
 
 def load_model(gv):
@@ -58,6 +60,7 @@ def load_model(gv):
 
 def get_dataset(name):
     bare_name = name.strip().split('_')[0]
+    print('bare name: %s' % bare_name)
     if bare_name == 'viper':
         dataset = h5.File('../data/VIPER/viper.h5', 'r')
     elif bare_name == 'cuhk02':
@@ -82,10 +85,14 @@ def load_test(gv):
     test_name = test_path.strip().split('/')[-1]
     dataset = get_dataset(test_name)
 
-    gv.test, pred = pu.get_data(test_path, dataset)
+    gv.test, gv.all_truth = pu.get_data(test_path, dataset, gv.number_of_data)
+
     print(np.shape(gv.test))
 
-    gv.max_position = len(list(np.genfromtxt(test_path, dtype=str)))
+    if gv.number_of_data > len(list(np.genfromtxt(test_path, dtype=str))):
+        gv.max_position = len(list(np.genfromtxt(test_path, dtype=str)))
+    else:
+        gv.max_position = gv.number_of_data
 
     gv.loaded_test_text.config(text='Test set loaded: %s' % (test_name))
     gv.is_test_loaded = True
@@ -103,12 +110,6 @@ def do_prediction_1(gv):
     gv.tk_bb_image_2 = image_right
     gv.bb_image_right.config(image=gv.tk_bb_image_2)
 
-    gv.step_position += 1
-    print('step position: %s' % gv.step_position)
-
-    if gv.step_position == gv.max_position:
-        gv.step_position = 0
-
     test_pair = gv.test[gv.step_position]
     test_pair = np.array([test_pair])
 
@@ -117,43 +118,39 @@ def do_prediction_1(gv):
     prediction = prediction[0]
     gv.certainty_text.config(text=str(prediction))
     if prediction >= 0.5:
-        gv.prediction_text.config(text='Match')
+        gv.prediction_text.config(text='Predict:    Match')
     else:
-        gv.prediction_text.config(text='Mismatch')
+        gv.prediction_text.config(text='Predict:    Mismatch')
+
+    truth = gv.all_truth[gv.step_position]
+    print(truth)
+    if truth[1] >= 0.5:
+        gv.truth_text.config(text='Truth:    Match')
+    else:
+        gv.truth_text.config(text='Truth:    Mismatch')
+
+    if truth[1] >= 0.5 and prediction >= 0.5:
+        gv.truth_text.config(fg='green')
+        gv.prediction_text.config(fg='green')
+    elif truth[1] < 0.5 and prediction < 0.5:
+        gv.truth_text.config(fg='green')
+        gv.prediction_text.config(fg='green')
+    else:
+        stop(gv)
+        gv.truth_text.config(fg='red')
+        gv.prediction_text.config(fg='red')
+    gv.step_position += 1
+    print('step position: %s' % gv.step_position)
+
+    if gv.step_position == gv.max_position:
+        gv.step_position = 0
 
 
 def do_prediction_2(gv):
-    gv.pred += 1
-    pil_image = Image.fromarray(np.uint8(gv.test[gv.step_position, 0]), 'RGB')
-    image_left = ImageTk.PhotoImage(pil_image)
-    gv.tk_bb_image_1 = image_left
-    gv.bb_image_left.config(image=gv.tk_bb_image_1)
-
-    pil_image = Image.fromarray(np.uint8(gv.test[gv.step_position, 1]), 'RGB')
-    image_right = ImageTk.PhotoImage(pil_image)
-    gv.tk_bb_image_2 = image_right
-    gv.bb_image_right.config(image=gv.tk_bb_image_2)
-
-    gv.step_position += 1
-    print('step position: %s' % gv.step_position)
-
-    if gv.step_position == gv.max_position:
-        gv.step_position = 0
-
-    test_pair = gv.test[gv.step_position]
-    test_pair = np.array([test_pair])
-
-    prediction = gv.model.predict([test_pair[:, 0], test_pair[:, 1]])
-    prediction = reduce_float_length([prediction[0][1]], '.2f')
-    prediction = prediction[0]
-    gv.certainty_text.config(text=str(prediction))
-    if prediction >= 0.5:
-        gv.prediction_text.config(text='Match')
-    else:
-        gv.prediction_text.config(text='Mismatch')
+    do_prediction_1(gv)
 
     if gv.stop_press:
-        gv.root.after(1, lambda: do_prediction_2(gv))
+        gv.root.after(gv.run_speed, lambda: do_prediction_2(gv))
 
 
 def step(gv):
@@ -202,7 +199,10 @@ def reset(gv):
     gv.max_position = 0
 
     gv.certainty_text.config(text='1.00')
-    gv.prediction_text.config(text='Match')
+    gv.prediction_text.config(text='Predict:    Match', fg='black')
+
+    gv.truth_text.config(text='Truth:   Match', fg='black')
+
     gv.reset_button.config(state='disabled')
     print('reset')
 
@@ -249,6 +249,8 @@ def create_window(gv):
     # create prediction label
     # prediction_text = gv.prediction_text.grid(row=6, column=1)
     prediction_text = gv.prediction_text.place(x=20, y=198)
+    # the ground truth if file contains labels
+    truth_text = gv.truth_text.place(x=20, y=218)
 
     # return gv.root
 
