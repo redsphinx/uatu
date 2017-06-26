@@ -1,17 +1,19 @@
 '''
-Holds constants for the gui
+Holds variables for the gui
 '''
 from Tkinter import Tk, Label, PhotoImage, Button
+
 
 class GuiVariable(object):
     def __init__(self):
         self._root = Tk()
         self._window_title = 'uatu-0.0.0'
-        self._window_width = 300
+        self._window_width = 500
         self._window_height = 300
-        self._window_position = 100
+        self._window_position = 200
         self._run_conditions = 0
-        self._tk_bb_image = PhotoImage(file='/home/gabi/PycharmProjects/uatu/images/bb.png')
+        self._tk_bb_image_1 = PhotoImage(file='../images/bb-3.png')
+        self._tk_bb_image_2 = PhotoImage(file='../images/bb-2.png')
         self._loaded_model_text = None   # Label(root, text='No model loaded')
         self._loaded_test_text = None   # Label(root, text='No test loaded')
         self._bb_image_left = None   # Label(root, image=tk_bb_image)
@@ -25,6 +27,14 @@ class GuiVariable(object):
         self._is_test_loaded = False
         self._load_model_button = None  # Button(gv.root, text='Load Model', command=lambda: load_model_button(gv)).grid(row=0, column=2)
         self._load_test_button = None  # Button(gv.root, text='Load Test', command=lambda: load_test_button(gv)).grid(row=2, column=2)
+        self._model = None
+        self._test = None
+        self._step_position = 0
+        self._max_position = 0
+        self._stop_button = None
+        self._stop_press = False
+        self._pred = 0
+
 
     @property
     def root(self):
@@ -41,7 +51,7 @@ class GuiVariable(object):
     @window_title.setter
     def window_title(self, value):
         self._window_title = value
-    
+
     # self._window_width = 300
     @property
     def window_width(self):
@@ -50,7 +60,7 @@ class GuiVariable(object):
     @window_width.setter
     def window_width(self, value):
         self._window_width = value
-        
+
     # self._window_height = 300
     @property
     def window_height(self):
@@ -59,7 +69,7 @@ class GuiVariable(object):
     @window_height.setter
     def window_height(self, value):
         self._window_height = value
-        
+
     # self._window_position = 100
     @property
     def window_position(self):
@@ -80,13 +90,21 @@ class GuiVariable(object):
 
     # self._tk_bb_image = PhotoImage(file='/home/gabi/PycharmProjects/uatu/images/bb.png')@property
     @property
-    def tk_bb_image(self):
-        return self._tk_bb_image
+    def tk_bb_image_1(self):
+        return self._tk_bb_image_1
 
-    @tk_bb_image.setter
-    def tk_bb_image(self, value):
-        self._tk_bb_image = value
-        
+    @tk_bb_image_1.setter
+    def tk_bb_image_1(self, value):
+        self._tk_bb_image_1 = value
+
+    @property
+    def tk_bb_image_2(self):
+        return self._tk_bb_image_2
+
+    @tk_bb_image_2.setter
+    def tk_bb_image_2(self, value):
+        self._tk_bb_image_2 = value
+
     # self._loaded_model_text = Label(root, text='No model loaded')
     @property
     def loaded_model_text(self):
@@ -95,7 +113,7 @@ class GuiVariable(object):
     @loaded_model_text.setter
     def loaded_model_text(self, value):
         self._loaded_model_text = value
-        
+
     # self._loaded_test_text = Label(root, text='No test loaded')
     @property
     def loaded_test_text(self):
@@ -104,7 +122,7 @@ class GuiVariable(object):
     @loaded_test_text.setter
     def loaded_test_text(self, value):
         self._loaded_test_text = value
-        
+
     # self._bb_image_left = Label(root, image=tk_bb_image)
     @property
     def bb_image_left(self):
@@ -167,7 +185,7 @@ class GuiVariable(object):
     @prediction_text.setter
     def prediction_text(self, value):
         self._prediction_text = value
-        
+
     @property
     def is_model_loaded(self):
         return self._is_model_loaded
@@ -175,7 +193,7 @@ class GuiVariable(object):
     @is_model_loaded.setter
     def is_model_loaded(self, value):
         self._is_model_loaded = value
-        
+
     @property
     def is_test_loaded(self):
         return self._is_test_loaded
@@ -183,7 +201,7 @@ class GuiVariable(object):
     @is_test_loaded.setter
     def is_test_loaded(self, value):
         self._is_test_loaded = value
-        
+
     @property
     def load_model_button(self):
         return self._load_model_button
@@ -199,3 +217,59 @@ class GuiVariable(object):
     @load_test_button.setter
     def load_test_button(self, value):
         self._load_test_button = value
+
+    @property
+    def model(self):
+        return self._model
+
+    @model.setter
+    def model(self, value):
+        self._model = value
+
+    @property
+    def test(self):
+        return self._test
+
+    @test.setter
+    def test(self, value):
+        self._test = value
+
+    @property
+    def step_position(self):
+        return self._step_position
+
+    @step_position.setter
+    def step_position(self, value):
+        self._step_position = value
+
+    @property
+    def max_position(self):
+        return self._max_position
+
+    @max_position.setter
+    def max_position(self, value):
+        self._max_position = value
+
+    @property
+    def stop_button(self):
+        return self._stop_button
+
+    @stop_button.setter
+    def stop_button(self, value):
+        self._stop_button = value
+
+    @property
+    def stop_press(self):
+        return self._stop_press
+
+    @stop_press.setter
+    def stop_press(self, value):
+        self._stop_press = value
+
+    @property
+    def pred(self):
+        return self._pred
+
+    @pred.setter
+    def pred(self, value):
+        self._pred = value
