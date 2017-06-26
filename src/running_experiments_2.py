@@ -1451,22 +1451,55 @@ def e_056():
     scn.super_main(a)
 
 
+def e_1():
+    a = ProjectVariable()
+    a.experiment_name = '1. train and save viper model'
+    a.ranking_number = 100
+    a.iterations = 1
+    a.epochs = 100
+    a.datasets = ['viper']
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    scn.super_main(a)
+
+
+def e_2():
+    a = ProjectVariable()
+    a.experiment_name = '2. train and save cuhk02 model'
+    a.ranking_number = 100
+    a.iterations = 1
+    a.epochs = 100
+    a.datasets = ['cuhk02']
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    scn.super_main(a)
+
+
+def e_3():
+    a = ProjectVariable()
+    a.experiment_name = '3. train and save market model'
+    a.ranking_number = 100
+    a.iterations = 1
+    a.epochs = 100
+    a.datasets = ['market']
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_indication = 'dataset_name'
+    scn.super_main(a)
+
+
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '051':
-        e_051()
-    if num == '052':
-        e_052()
-    if num == '053':
-        e_053()
-    if num == '054':
-        e_054()
-    if num == '055':
-        e_055()
-    if num == '056':
-        e_056()
+    if num == '1':
+        e_1()
+    if num == '2':
+        e_2()
+    if num == '3':
+        e_3()
 
 
 main()

@@ -56,12 +56,32 @@ def load_model(gv):
     set_run_possible(gv)
 
 
+def get_dataset(name):
+    bare_name = name.strip().split('_')[0]
+    if bare_name == 'viper':
+        dataset = h5.File('../data/VIPER/viper.h5', 'r')
+    elif bare_name == 'cuhk02':
+        dataset = h5.File('../data/CUHK02/cuhk02.h5', 'r')
+    elif bare_name == 'market':
+        dataset = h5.File('../data/market/market.h5', 'r')
+    elif bare_name == 'grid':
+        dataset = h5.File('../data/GRID/grid.h5', 'r')
+    elif bare_name == 'prid450':
+        dataset = h5.File('../data/prid450/prid450.h5', 'r')
+    elif bare_name == 'caviar':
+        dataset = h5.File('../data/caviar/caviar.h5', 'r')
+    else:
+        print('something is wrong. Dataset not found')
+        dataset = None
+    return dataset
+
+
 def load_test(gv):
     test_path = filedialog.askopenfilename(initialdir='../ranking_files')
     # test_path = filedialog.askopenfilename(initialdir='/home/gabi/PycharmProjects/testhings/viper')
     test_name = test_path.strip().split('/')[-1]
-    dataset = h5.File('../data/CUHK02/cuhk02.h5', 'r')
-    # FIXME
+    dataset = get_dataset(test_name)
+
     gv.test, pred = pu.get_data(test_path, dataset)
     print(np.shape(gv.test))
 
