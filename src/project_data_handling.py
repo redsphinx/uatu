@@ -13,6 +13,7 @@ import random as rd
 import h5py
 from scipy import ndimage
 import matplotlib.pyplot as plt
+from shutil import copyfile
 
 def crop_INRIA_images(folder_path, width, height):
     """ crop images in center
@@ -1343,6 +1344,204 @@ def read_plot_from_hdf5(file_list_of_paths, h5_path):
         thing = hdf5_file[list_of_paths[i]][:]
         plt.imshow(thing)
 
+# note: do this to save the datasets as hdf5
 # save_all_datasets_as_hdf5()
 
-# read_plot_from_hdf5('/home/gabi/PycharmProjects/uatu/data/VIPER/fullpath_image_names_file.txt', '/home/gabi/PycharmProjects/uatu/data/VIPER/viper.h5')
+
+def get_specifications_ilids():
+    """ilids-vid / camx / personxxx / camx_personxxx_xxxxx.png
+    """
+    number_of_persons = [0, 0]
+    min_seq_len = 100000000
+    max_seq_len = 0
+
+    ind = 0
+
+    path = '/home/gabi/Documents/datasets/ilids-vid'
+    cams = os.listdir(path)
+    print(cams)
+    for cam in cams:
+        cam_path = os.path.join(path, cam)
+        persons = os.listdir(cam_path)
+        number_of_persons[ind] = len(persons)
+        ind += 1
+        for person in persons:
+            person_path = os.path.join(cam_path, person)
+            images = os.listdir(person_path)
+            number_images = len(images)
+            if number_images < min_seq_len:
+                min_seq_len = number_images
+            if number_images > max_seq_len:
+                max_seq_len = number_images
+
+    print('dataset: ilids-vid\nnumber of persons: %s\nmin seq length: %d\nmax seq length: %d'
+          % (str(number_of_persons), min_seq_len, max_seq_len))
+
+
+def get_specifications_prid2011():
+    """ilids-vid / camx / personxxx / camx_personxxx_xxxxx.png
+    """
+    number_of_persons = [0, 0]
+    min_seq_len = 100000000
+    max_seq_len = 0
+
+    ind = 0
+
+    path = '/home/gabi/Documents/datasets/prid2011'
+    cams = os.listdir(path)
+    print(cams)
+    for cam in cams:
+        cam_path = os.path.join(path, cam)
+        persons = os.listdir(cam_path)
+        number_of_persons[ind] = len(persons)
+        ind += 1
+        for person in persons:
+            person_path = os.path.join(cam_path, person)
+            images = os.listdir(person_path)
+            number_images = len(images)
+            if number_images < min_seq_len:
+                min_seq_len = number_images
+            if number_images > max_seq_len:
+                max_seq_len = number_images
+
+    print('dataset: prid2011\nnumber of persons: %s\nmin seq length: %d\nmax seq length: %d'
+          % (str(number_of_persons), min_seq_len, max_seq_len))
+
+
+def fix_video_dataset(name, min_seq):
+    """
+    :param name:        name of the dataset
+    :param min_seq:     minimal sequence length
+    """
+    min_sequence_len = min_seq
+    old_path = '/home/gabi/Documents/datasets/%s' % name
+
+    # make new directory
+    new_path = '/home/gabi/Documents/datasets/%s-fixed' % name
+    if not os.path.exists(new_path):
+        os.mkdir(new_path)
+
+    # get the cams
+    cams = os.listdir(old_path)
+
+    for cam in cams:
+        if cam == 'cam1': cam_new = 'cam_a'
+        elif cam == 'cam2': cam_new = 'cam_b'
+        else: cam_new = cam
+        new_cam_path = os.path.join(new_path, cam_new)
+        if not os.path.exists(new_cam_path):
+            os.mkdir(new_cam_path)
+        old_cam_path = os.path.join(old_path, cam)
+        persons = os.listdir(old_cam_path)
+
+        # list the persons
+        for person in persons:
+            if len(person.split('_')) == 1:
+                new_person = list(person)[-3:]
+                new_person = my_join(new_person)
+                new_person = int(new_person)
+                new_person = 'person_%04d' % new_person
+            else:
+                new_person = person
+
+            old_person_path = os.path.join(old_cam_path, person)
+            images = sorted(os.listdir(old_person_path))
+
+            # number of images in sequence
+            number_images = len(images)
+
+            # only continue if sequence has more than min_seq number of frames
+            if number_images >= min_seq:
+                new_person_path = os.path.join(new_cam_path, new_person)
+                if not os.path.exists(new_person_path):
+                    os.mkdir(new_person_path)
+
+                possible_sequence_cuts = number_images / min_sequence_len
+
+                # depending on how many cuts we can make
+                for sequence in range(possible_sequence_cuts):
+                    sequence_path = os.path.join(new_person_path, 'sequence_%03d' % sequence)
+                    if not os.path.exists(sequence_path):
+                        os.mkdir(sequence_path)
+
+                    sample_images = images[sequence*min_sequence_len : min_sequence_len + sequence*min_sequence_len]
+                    number_sample_images = len(sample_images)
+
+                    for s_i in range(number_sample_images):
+                        old_image = os.path.join(old_person_path, sample_images[s_i])
+                        name_s_i = '%03d.png' % s_i
+                        new_image = os.path.join(sequence_path, name_s_i)
+
+                        # copy file
+                        copyfile(old_image, new_image)
+            else:
+                print(old_person_path, number_images)
+
+
+def fix_prid2011():
+    """ turn into
+        prid2011-fixed / cam_x / person_xxx / sequence_xxx / xxx.png
+    """
+    fix_video_dataset('prid2011', 20)
+
+
+def fix_ilids():
+    """ turn into
+        ilids-vid-fixed / cam_x / person_xxx / sequence_xxx / xxx.png
+    """
+    fix_video_dataset('ilids-vid', 22)
+
+
+def create_sequence_pairs(name):
+    """ This only needs to be done once ever.
+    """
+    path = '/home/gabi/Documents/datasets/%s-fixed' % name
+
+    data_folder = '../data/%s' % name
+    if not os.path.exists(data_folder):
+        os.mkdir(data_folder)
+
+    unique_sequences = '../data/%s/unique_sequences.txt' % name
+
+    if not os.path.exists(unique_sequences):
+        cams = sorted(os.listdir(path))
+
+        with open(unique_sequences, 'w') as my_file:
+            for cam in cams:
+                cam_path = os.path.join(path, cam)
+                persons = os.listdir(cam_path)
+                for person in persons:
+                    person_path = os.path.join(cam_path, person)
+                    sequences = os.listdir(person_path)
+                    for sequence in sequences:
+                        sequence_path = os.path.join(person_path, sequence)
+                        my_file.write('%s\n' % sequence_path)
+
+    # create positive pairs
+    pos_pairs = []
+
+
+
+
+
+
+
+
+
+
+    # id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
+    # unique_id = sorted(set(id_all))
+    # short_image_names = sorted(os.listdir(folder_path))
+    # fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
+    # project_data_storage = '../data/VIPER'
+    #
+    # id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    # unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    # short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
+    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+    #
+    # write_to_file(id_all_file, id_all)
+    # write_to_file(unique_id_file, unique_id)
+    # write_to_file(short_image_names_file, short_image_names)
+    # write_to_file(fullpath_image_names_file, fullpath_image_names)
+

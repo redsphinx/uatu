@@ -1490,16 +1490,18 @@ def e_3():
     scn.super_main(a)
 
 
-def main():
-    num = sys.argv[1]
-    print(sys.argv)
+def experiment_lstm():
+    a = ProjectVariable()
+    a.experiment_name = 'trying out LSTM'
+    a.ranking_number = 100
+    a.iterations = 1
+    a.datasets = ['viper']
+    scn.super_main(a)
 
-    if num == '1':
-        e_1()
-    if num == '2':
-        e_2()
-    if num == '3':
-        e_3()
+def main():
+    # num = sys.argv[1]
+    # print(sys.argv)
+    experiment_lstm()
 
 
 main()

@@ -229,11 +229,8 @@ def create_siamese_head(adjustable):
         model.add(layers.Activation(adjustable.activation_function))
         if use_batch_norm == True:
             model.add(layers.BatchNormalization(name='bn_8', trainable=adjustable.trainable_bn))
+
     model.add(layers.Flatten(name='cnn_flat'))
-
-
-    # TODO: add recurrent unit
-    
 
 
     if not adjustable.weights_name == None:
