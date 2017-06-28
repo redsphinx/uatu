@@ -1553,8 +1553,14 @@ def create_text_files_video_data(name):
                 my_file.write('%s\n' % list_thing[item])
 
 
-
 # TODO
 def remove_singles():
     """Remove the persons who have only 1 sequence
     """
+
+# TODO
+def make_pairs_video(name):
+    make_all_positives()
+    make_all_negatives()
+
+
