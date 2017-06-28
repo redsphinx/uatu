@@ -1492,7 +1492,7 @@ def fix_ilids():
     fix_video_dataset('ilids-vid', 22)
 
 
-def create_sequence_pairs(name):
+def create_text_files_video_data(name):
     """ This only needs to be done once ever.
     """
     path = '/home/gabi/Documents/datasets/%s-fixed' % name
@@ -1501,47 +1501,60 @@ def create_sequence_pairs(name):
     if not os.path.exists(data_folder):
         os.mkdir(data_folder)
 
-    unique_sequences = '../data/%s/unique_sequences.txt' % name
+    list_unique_sequences = []
+    list_id_all = []
+    list_id_as_int = []
+    list_swapped_unique = []
 
-    if not os.path.exists(unique_sequences):
-        cams = sorted(os.listdir(path))
+    cams = sorted(os.listdir(path))
 
-        with open(unique_sequences, 'w') as my_file:
-            for cam in cams:
-                cam_path = os.path.join(path, cam)
-                persons = os.listdir(cam_path)
-                for person in persons:
-                    person_path = os.path.join(cam_path, person)
-                    sequences = os.listdir(person_path)
-                    for sequence in sequences:
-                        sequence_path = os.path.join(person_path, sequence)
-                        my_file.write('%s\n' % sequence_path)
+    for cam in cams:
+        cam_path = os.path.join(path, cam)
+        persons = os.listdir(cam_path)
+        for person in persons:
+            person_path = os.path.join(cam_path, person)
+            sequences = os.listdir(person_path)
+            for sequence in sequences:
+                sequence_path = os.path.join(person_path, sequence)
+                # fullpath
+                list_unique_sequences.append(sequence_path)
+                # all_id
+                the_id = sequence_path.strip().split('/')[-2].split('_')[-1]
+                list_id_all.append(the_id)
+                list_id_as_int.append(int(the_id))
+                # swapped
+                swapped = swap_for(sequence_path, '/', '+')
+                list_swapped_unique.append(swapped)
 
-    # create positive pairs
-    pos_pairs = []
+    zipped = zip(list_id_as_int, list_id_all, list_unique_sequences, list_swapped_unique)
+    zipped.sort()
+    list_id_as_int, list_id_all, list_unique_sequences, list_swapped_unique = zip(*zipped)
+
+    unique_id = list(set(list_id_all))
+    unique_id.sort()
+
+    fullpath_unique_sequences = '../data/%s/fullpath_sequence_names.txt' % name
+    id_all = '../data/%s/id_all.txt' % name
+    swapped_unique = '../data/%s/swapped_fullpath_names.txt' % name
+    id_unique = '../data/%s/unique_id.txt' % name
+
+    lists = [list_unique_sequences, list_id_all, list_swapped_unique, unique_id]
+    files = [fullpath_unique_sequences, id_all, swapped_unique, id_unique]
+
+    numm = len(files)
+
+    for i in range(numm):
+        list_thing = lists[i]
+        file_thing = files[i]
+
+        with open(file_thing, 'w') as my_file:
+            num = len(list_thing)
+            for item in range(num):
+                my_file.write('%s\n' % list_thing[item])
 
 
 
-
-
-
-
-
-
-
-    # id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
-    # unique_id = sorted(set(id_all))
-    # short_image_names = sorted(os.listdir(folder_path))
-    # fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
-    # project_data_storage = '../data/VIPER'
-    #
-    # id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    # unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    # short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-    #
-    # write_to_file(id_all_file, id_all)
-    # write_to_file(unique_id_file, unique_id)
-    # write_to_file(short_image_names_file, short_image_names)
-    # write_to_file(fullpath_image_names_file, fullpath_image_names)
-
+# TODO
+def remove_singles():
+    """Remove the persons who have only 1 sequence
+    """
