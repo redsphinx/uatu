@@ -772,7 +772,8 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
         full_path_group = [the_list[i] for i in id_group]
         # update min_id_group_size
         # if the dataset is large and has a lot of large id groups(>num) then ignore the id groups that are smaller than num
-        if dataset_name == 'market' or dataset_name == 'cuhk02' or dataset_name == 'caviar':
+        if dataset_name == 'market' or dataset_name == 'cuhk02' or dataset_name == 'caviar' or \
+                        dataset_name == 'prid2011' or dataset_name == 'ilids-vid':
             if len(id_group) >= num:
                 # print('length id group: %d, num: %d' % (len(id_group), num))
                 if min_id_group_size > len(id_group):
@@ -842,6 +843,9 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     # if ranking_number == 'half':
     #     ranking_number = len(unique_id) / 2
     # select at random a subset for ranking by drawing indices from a uniform distribution
+
+    a = len(unique_id)
+
     start = rd.randrange(0, len(unique_id)-ranking_number)
     stop = start + ranking_number
     # we will need a list of the training id for later
@@ -1514,6 +1518,10 @@ def create_text_files_video_data(name):
         for person in persons:
             person_path = os.path.join(cam_path, person)
             sequences = os.listdir(person_path)
+
+            # ignore persons who have only a single sequence. DON'T do this: remember there are 2 camera angles
+            # if len(sequences) > 1:
+
             for sequence in sequences:
                 sequence_path = os.path.join(person_path, sequence)
                 # fullpath
@@ -1530,37 +1538,93 @@ def create_text_files_video_data(name):
     zipped.sort()
     list_id_as_int, list_id_all, list_unique_sequences, list_swapped_unique = zip(*zipped)
 
-    unique_id = list(set(list_id_all))
-    unique_id.sort()
+    # look for the IDs that only have 1 sequence
+    loners = []
+
+
+
+    for item in range(len(list_id_all)):
+        # look at the id before and after it
+        before = item - 1
+        after = item + 1
+        if not item == 0 and not item == (len(list_id_all) - 1):
+            if not (list_id_all[item] == list_id_all[before] or list_id_all[item] == list_id_all[after]):
+                loners.append(item)
+        elif item == 0:
+            if not list_id_all[item] == list_id_all[after]:
+                loners.append(item)
+        elif item == (len(list_id_all) - 1):
+            if not list_id_all[item] == list_id_all[before]:
+                loners.append(item)
 
     fullpath_unique_sequences = '../data/%s/fullpath_sequence_names.txt' % name
     id_all = '../data/%s/id_all.txt' % name
     swapped_unique = '../data/%s/swapped_fullpath_names.txt' % name
-    id_unique = '../data/%s/unique_id.txt' % name
 
-    lists = [list_unique_sequences, list_id_all, list_swapped_unique, unique_id]
-    files = [fullpath_unique_sequences, id_all, swapped_unique, id_unique]
+    lists = [list_unique_sequences, list_id_all, list_swapped_unique]
+    files = [fullpath_unique_sequences, id_all, swapped_unique]
 
     numm = len(files)
 
     for i in range(numm):
-        list_thing = lists[i]
-        file_thing = files[i]
 
-        with open(file_thing, 'w') as my_file:
-            num = len(list_thing)
-            for item in range(num):
-                my_file.write('%s\n' % list_thing[item])
+            list_thing = lists[i]
+            file_thing = files[i]
+
+            with open(file_thing, 'w') as my_file:
+                num = len(list_thing)
+                for item in range(num):
+                    if item not in loners:
+                        my_file.write('%s\n' % list_thing[item])
+
+    list_id_all = list(np.genfromtxt(id_all, dtype=None))
+    unique_id = list(set(list_id_all))
+    unique_id.sort()
+
+    id_unique = '../data/%s/unique_id.txt' % name
+
+    with open(id_unique, 'w') as my_file:
+        for item in range(len(unique_id)):
+            my_file.write('%s\n' % unique_id[item])
+
 
 
 # TODO
-def remove_singles():
-    """Remove the persons who have only 1 sequence
-    """
+def make_pairs_video(name, adjustable):
+    path = '../data/%s' % name
 
-# TODO
-def make_pairs_video(name):
-    make_all_positives()
-    make_all_negatives()
+    id_all_file = os.path.join(path, 'id_all.txt')
+    unique_id_file = os.path.join(path, 'unique_id.txt')
+    fullpath_image_names_file = os.path.join(path, 'swapped_fullpath_names.txt')
+
+    # ranking_number = adjustable.ranking_number
+    ranking_number = 10
+
+    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, None, fullpath_image_names_file,
+                                                   name, ranking_number)
+
+    ranking = make_all_negatives(ranking_pos, 'ranking')
+
+    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+
+    return ranking, training_pos, training_neg
 
 
+def get_composition(name):
+    path = '../data/%s/id_all.txt' % name
+    the_list = list(np.genfromtxt(path, dtype=None))
+    unique = list(set(the_list))
+    unique.sort()
+
+    tally = [0]*len(unique)
+
+    for item in range(len(the_list)):
+        thing = the_list[item]
+        ind = unique.index(thing)
+        tally[ind] += 1
+
+    count_1 = tally.count(1)
+    count_2 = tally.count(2)
+    count_3 = tally.count(3)
+
+    print(count_1, count_2, count_3)
