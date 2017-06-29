@@ -1296,8 +1296,6 @@ def save_as_hdf5(file_list_of_paths, h5_path):
     list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()
     swapped_file_list_of_paths = os.path.join(os.path.dirname(file_list_of_paths), 'swapped_list_of_paths.txt')
 
-    # with h5py.File(h5_path, 'a') as myfile:
-
     action = 'a' if os.path.exists(h5_path) else 'w'
 
     with h5py.File(h5_path, action) as myfile:
@@ -1352,7 +1350,7 @@ def read_plot_from_hdf5(file_list_of_paths, h5_path):
 # save_all_datasets_as_hdf5()
 
 
-def get_specifications_ilids():
+def get_specifications_video_dataset(name):
     """ilids-vid / camx / personxxx / camx_personxxx_xxxxx.png
     """
     number_of_persons = [0, 0]
@@ -1361,7 +1359,7 @@ def get_specifications_ilids():
 
     ind = 0
 
-    path = '/home/gabi/Documents/datasets/ilids-vid'
+    path = '/home/gabi/Documents/datasets/%s' % name
     cams = os.listdir(path)
     print(cams)
     for cam in cams:
@@ -1378,38 +1376,8 @@ def get_specifications_ilids():
             if number_images > max_seq_len:
                 max_seq_len = number_images
 
-    print('dataset: ilids-vid\nnumber of persons: %s\nmin seq length: %d\nmax seq length: %d'
-          % (str(number_of_persons), min_seq_len, max_seq_len))
-
-
-def get_specifications_prid2011():
-    """ilids-vid / camx / personxxx / camx_personxxx_xxxxx.png
-    """
-    number_of_persons = [0, 0]
-    min_seq_len = 100000000
-    max_seq_len = 0
-
-    ind = 0
-
-    path = '/home/gabi/Documents/datasets/prid2011'
-    cams = os.listdir(path)
-    print(cams)
-    for cam in cams:
-        cam_path = os.path.join(path, cam)
-        persons = os.listdir(cam_path)
-        number_of_persons[ind] = len(persons)
-        ind += 1
-        for person in persons:
-            person_path = os.path.join(cam_path, person)
-            images = os.listdir(person_path)
-            number_images = len(images)
-            if number_images < min_seq_len:
-                min_seq_len = number_images
-            if number_images > max_seq_len:
-                max_seq_len = number_images
-
-    print('dataset: prid2011\nnumber of persons: %s\nmin seq length: %d\nmax seq length: %d'
-          % (str(number_of_persons), min_seq_len, max_seq_len))
+    print('dataset: %s\nnumber of persons: %s\nmin seq length: %d\nmax seq length: %d'
+          % (name, str(number_of_persons), min_seq_len, max_seq_len))
 
 
 def fix_video_dataset(name, min_seq):
@@ -1519,9 +1487,6 @@ def create_text_files_video_data(name):
             person_path = os.path.join(cam_path, person)
             sequences = os.listdir(person_path)
 
-            # ignore persons who have only a single sequence. DON'T do this: remember there are 2 camera angles
-            # if len(sequences) > 1:
-
             for sequence in sequences:
                 sequence_path = os.path.join(person_path, sequence)
                 # fullpath
@@ -1540,8 +1505,6 @@ def create_text_files_video_data(name):
 
     # look for the IDs that only have 1 sequence
     loners = []
-
-
 
     for item in range(len(list_id_all)):
         # look at the id before and after it
@@ -1588,8 +1551,6 @@ def create_text_files_video_data(name):
             my_file.write('%s\n' % unique_id[item])
 
 
-
-# TODO
 def make_pairs_video(name, adjustable):
     path = '../data/%s' % name
 
@@ -1611,6 +1572,9 @@ def make_pairs_video(name, adjustable):
 
 
 def get_composition(name):
+    """Get composition of a specified video dataset
+    """
+
     path = '../data/%s/id_all.txt' % name
     the_list = list(np.genfromtxt(path, dtype=None))
     unique = list(set(the_list))
@@ -1628,3 +1592,32 @@ def get_composition(name):
     count_3 = tally.count(3)
 
     print(count_1, count_2, count_3)
+
+
+def save_video_as_hdf5(swapped_list, original_list,  h5_path):
+    og_list_path = np.genfromtxt(original_list, dtype=None).tolist()
+    list_of_paths = np.genfromtxt(swapped_list, dtype=None).tolist()
+
+    with h5py.File(h5_path, 'w') as myfile:
+        for item in range(len(list_of_paths)):
+            # load all images in the sequence
+            images = os.listdir(og_list_path[item])
+            images.sort()
+            len_images = len(images)
+            image_arr = np.zeros((len_images, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+            for i in range(len_images):
+                image_path = os.path.join(og_list_path[item], images[i])
+                image_arr[i] = ndimage.imread(image_path)
+
+            data = myfile.create_dataset(name=list_of_paths[item], data=image_arr)
+
+
+def actually_save_them(name):
+    swapped_list = '../data/%s/swapped_fullpath_names.txt' % name
+    og_list = '../data/%s/fullpath_sequence_names.txt' % name
+    h5_path = '../data/%s/%s.h5' % (name, name)
+
+    save_video_as_hdf5(swapped_list, og_list, h5_path)
+
+
+actually_save_them('ilids-vid')
