@@ -450,4 +450,22 @@ def get_duplicate():
 
 
 
-get_duplicate()
+def read_video_h5(name):
+    hdf5_file = h5py.File('../data/%s/%s.h5' % (name, name), 'r')
+    swapped_fullpath = list(np.genfromtxt('../data/%s/swapped_fullpath_names.txt' % name, dtype=None))
+    og_path = list(np.genfromtxt('../data/%s/fullpath_sequence_names.txt' % name, dtype=None))
+
+    for i in range(10):
+        path = og_path[i]
+        all_images = os.listdir(path)
+        all_images.sort()
+        path = os.path.join(path, all_images[0])
+
+        sequence = hdf5_file[swapped_fullpath[i]][:]
+        image_from_h5 = sequence[0].astype('uint8')
+        # image_from_file = ndimage.imread('/home/gabi/Documents/datasets/ilids-vid-fixed/cam_a/person_0001/sequence_000/000.png')
+        image_from_file = ndimage.imread(path)
+
+        plt.imshow(image_from_h5)
+        plt.imshow(image_from_file)
+
