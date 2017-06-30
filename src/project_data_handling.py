@@ -1574,7 +1574,6 @@ def make_pairs_video(name, adjustable):
 def get_composition(name):
     """Get composition of a specified video dataset
     """
-
     path = '../data/%s/id_all.txt' % name
     the_list = list(np.genfromtxt(path, dtype=None))
     unique = list(set(the_list))

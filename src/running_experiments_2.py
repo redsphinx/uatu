@@ -3,7 +3,7 @@ import sys
 from project_variables import ProjectVariable
 import priming as prime
 import os
-
+import siamese_rcnn as srcn
 
 def test():
     a = ProjectVariable()
@@ -1493,10 +1493,18 @@ def e_3():
 def experiment_lstm():
     a = ProjectVariable()
     a.experiment_name = 'trying out LSTM'
-    a.ranking_number = 100
+    a.ranking_number = 10
+    a.epochs = 10
     a.iterations = 1
+
     a.datasets = ['viper']
     scn.super_main(a)
+
+    # a.datasets = ['ilids-vid']
+    # srcn.super_main(a)
+
+
+
 
 def main():
     # num = sys.argv[1]

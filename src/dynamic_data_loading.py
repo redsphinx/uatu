@@ -368,7 +368,6 @@ def get_data_scnn(adjustable):
 # text_file = '../data/reid_all_negatives.txt'
 # h5_name = 'reid_all_negatives_uncompressed.h5'
 # txt_to_hdf5(text_file, h5_name)
-
 def get_dataset(name):
     """ Given the name of a dataset it returns that dataset as a h5 file
         note that you cannot learn on cuhk01 and cuhk02 at the same time
@@ -388,6 +387,10 @@ def get_dataset(name):
         dataset_h5 = h5py.File('../data/GRID/grid.h5', 'r')
     elif name == 'prid450':
         dataset_h5 = h5py.File('../data/prid450/prid450.h5', 'r')
+    elif name == 'ilids-vid':
+        dataset_h5 = h5py.File('../data/ilids-vid/ilids-vid.h5', 'r')
+    elif name == 'prid2011':
+        dataset_h5 = h5py.File('../data/prid2011/prid2011.h5', 'r')
     else:
         dataset_h5 = None
 
@@ -402,7 +405,6 @@ def load_datasets_from_h5(list_of_datasets):
         h5_data.append(get_dataset(dataset))
 
     return h5_data
-
 
 def create_training_and_ranking_set(name, adjustable):
     """ Do this at the beginning of each iteration
@@ -421,6 +423,10 @@ def create_training_and_ranking_set(name, adjustable):
         ranking, training_pos, training_neg = pd.make_pairs_grid(adjustable)
     elif name == 'prid450':
         ranking, training_pos, training_neg = pd.make_pairs_prid450(adjustable)
+    elif name == 'ilids-vid':
+        ranking, training_pos, training_neg = pd.make_pairs_video(name, adjustable)
+    elif name == 'prid2011':
+        ranking, training_pos, training_neg = pd.make_pairs_video(name, adjustable)
     else:
         ranking, training_pos, training_neg = None, None, None
 
@@ -495,6 +501,10 @@ def get_dataset_to_map(name, data_list, data_names):
         dataset = 'prid450'
     elif name == 'fixed_grid':
         dataset = 'GRID'
+    elif name == 'ilids-vid-fixed':
+        dataset = 'ilids-vid'
+    elif name == 'prid2011-fixed':
+        dataset = 'prid2011'
     else:
         print("sorry, we don't serve '%s'. would you like some fries with that?" % name)
         dataset = None
@@ -569,7 +579,8 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
 
 
 def get_positive_keys(name_dataset, partition, the_id, seen_list):
-    """Gets a list of related keys based on the id you are looking for
+    """For priming
+        Gets a list of related keys based on the id you are looking for
     """
     # print('the id: %s' % str(the_id))
     # print('the seen list: %s' % str(seen_list))
@@ -657,7 +668,8 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
 
 
 def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranking, positive_keys):
-    """ get negative keys. get key that could have been seen before in the training set, but that is not an id in
+    """ For priming
+        get negative keys. get key that could have been seen before in the training set, but that is not an id in
         the test set
     """
     number_positive_keys = len(positive_keys)
