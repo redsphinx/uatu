@@ -523,6 +523,7 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
     h5_filenames = [str(item.file.filename.split('/')[-2]) for item in h5_dataset_list]
     # print('keys in list: %d' % len(key_list))
     cnt = 0
+    # FIXME: add thing to check if video is being used to get another folder key
     for key in key_list:
         # print('%d out of %d' % (cnt, len(key_list)))
         key_1 = key.split(',')[0]
