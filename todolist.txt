@@ -28,8 +28,41 @@ other:
 ------------------------------------------------------------------------------------------------
 
 ===============================================================================================
+Third phase: Make prototype + SCRNN
+===============================================================================================
+
+. User guide
+.. scripts with use cases
+.. examples
+. Dependencies
+.. Python libraries
+.. Nvidia CUDA drivers + library versions
+
+
+3 july
+------
+. Documentation
+.. clean + document dynamic_data_loading 
+.. clean + document project_data_handling
+.. make a diagram of dependencies in parallel
+. Prototype
+.. weights GPU transferable to CPU?
+.. CPU transferable to GPU
+. SCRNN
+.. make a basic version work - debug
+.. figured out how to link timedistributed to LSTM
+.. problem with timedistributed and batchnomralization
+.. problem with keras 2.0.5 not containing selu and alphadropout even though version is latest
+.. figured out how to make 3d convolutions work
+
+
+===============================================================================================
 Second phase: Improve the prototype in experiment cycles
 ===============================================================================================
+
+
+Inbetween: GUI made mostly.
+
 19 june
 -------
 . experiments

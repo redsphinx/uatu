@@ -482,7 +482,7 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg, balance=Fal
 
 def get_dataset_to_map(name, data_list, data_names):
 
-    # get hdf dataset filename
+    # get hdf dataset filename, used only for pairs of images
     # split on '/' get second to last item
     # mathc with name
     # return data_list[indexof(match)]
@@ -501,15 +501,12 @@ def get_dataset_to_map(name, data_list, data_names):
         dataset = 'prid450'
     elif name == 'fixed_grid':
         dataset = 'GRID'
-    elif name == 'ilids-vid-fixed':
-        dataset = 'ilids-vid'
-    elif name == 'prid2011-fixed':
-        dataset = 'prid2011'
     else:
         print("sorry, we don't serve '%s'. would you like some fries with that?" % name)
         dataset = None
 
     return data_list[data_names.index(dataset)]
+
 
 
 def create_key_dataset_mapping(key_list, h5_dataset_list):
@@ -520,26 +517,42 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
     """
     # print('CREATING KEY MAPPING')
     key_dataset_mapping = []
-    h5_filenames = [str(item.file.filename.split('/')[-2]) for item in h5_dataset_list]
-    # print('keys in list: %d' % len(key_list))
-    cnt = 0
+
     # FIXME: add thing to check if video is being used to get another folder key
-    for key in key_list:
-        # print('%d out of %d' % (cnt, len(key_list)))
-        key_1 = key.split(',')[0]
-        key_2 = key.split(',')[1]
-        folder_key_1 = key_1.split('+')[-2]
-        folder_key_2 = key_2.split('+')[-2]
+    if len(h5_dataset_list) == 1:
 
-        dataset_key_1 = get_dataset_to_map(folder_key_1, h5_dataset_list, h5_filenames)
-        dataset_key_2 = get_dataset_to_map(folder_key_2, h5_dataset_list, h5_filenames)
+        for key in key_list:
+            key_1 = key.split(',')[0]
+            key_2 = key.split(',')[1]
 
-        mapping_1 = [key_1, dataset_key_1]
-        mapping_2 = [key_2, dataset_key_2]
+            a = h5_dataset_list[0]
 
-        key_dataset_mapping.append(mapping_1)
-        key_dataset_mapping.append(mapping_2)
-        cnt += 1
+            mapping_1 = [key_1, h5_dataset_list[0]]
+            mapping_2 = [key_2, h5_dataset_list[0]]
+
+            key_dataset_mapping.append(mapping_1)
+            key_dataset_mapping.append(mapping_2)
+
+    else:
+        h5_filenames = [str(item.file.filename.split('/')[-2]) for item in h5_dataset_list]
+        # print('keys in list: %d' % len(key_list))
+        cnt = 0
+        for key in key_list:
+            # print('%d out of %d' % (cnt, len(key_list)))
+            key_1 = key.split(',')[0]
+            key_2 = key.split(',')[1]
+            folder_key_1 = key_1.split('+')[-2]
+            folder_key_2 = key_2.split('+')[-2]
+
+            dataset_key_1 = get_dataset_to_map(folder_key_1, h5_dataset_list, h5_filenames)
+            dataset_key_2 = get_dataset_to_map(folder_key_2, h5_dataset_list, h5_filenames)
+
+            mapping_1 = [key_1, dataset_key_1]
+            mapping_2 = [key_2, dataset_key_2]
+
+            key_dataset_mapping.append(mapping_1)
+            key_dataset_mapping.append(mapping_2)
+            cnt += 1
     # print('DONE with getting keys')
     return key_dataset_mapping
 

@@ -1497,8 +1497,8 @@ def experiment_lstm():
     a.epochs = 10
     a.iterations = 1
 
-    a.datasets = ['viper']
-    scn.super_main(a)
+    a.datasets = ['ilids-vid']
+    srcn.super_main(a)
 
     # a.datasets = ['ilids-vid']
     # srcn.super_main(a)

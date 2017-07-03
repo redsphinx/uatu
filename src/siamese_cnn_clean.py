@@ -329,6 +329,7 @@ def train_network_light(adjustable, model, final_training_data, final_training_l
 def absolute_distance_difference(y_true, y_pred):
     return abs(y_true - y_pred)
 
+
 def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
     """Runs a the whole training and testing phase
     :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the

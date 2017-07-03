@@ -103,7 +103,10 @@ class ProjectVariable(object):
         # UNUSED
         # save scn as a model. choice of: True, False
         self._scnn_save_model_name = None  # string
-
+        # set length for sequence
+        # 22 for ilids-vid
+        # 20 for prid2011
+        self._sequence_length = 22
 
     @property
     def use_gpu(self):
@@ -528,3 +531,12 @@ class ProjectVariable(object):
     @log_file.setter
     def log_file(self, value):
         self._log_file = value
+
+
+    @property
+    def sequence_length(self):
+        return self._sequence_length
+
+    @sequence_length.setter
+    def sequence_length(self, value):
+        self._sequence_length = value
