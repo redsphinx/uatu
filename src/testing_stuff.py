@@ -21,6 +21,8 @@ import matplotlib.pyplot as plt
 from skimage.util import random_noise
 from matplotlib.image import imsave
 from numpy.linalg import inv
+import urllib
+import zipfile
 
 
 def test_data_pipeline():
@@ -469,4 +471,20 @@ def read_video_h5(name):
 
         plt.imshow(image_from_h5)
         plt.imshow(image_from_file)
+
+
+def download_from_internet():
+    raw_data_path = '../raw_data'
+    if not os.path.exists(raw_data_path):
+        os.mkdir(raw_data_path)
+    # download the zip file
+    urllib.urlretrieve('http://users.soe.ucsc.edu/~manduchi/VIPeR.v1.0.zip', os.path.join(raw_data_path, 'viper.zip'))
+    # extract
+    zip_ref = zipfile.ZipFile(os.path.join(raw_data_path, 'viper.zip'), 'r')
+    zip_ref.extractall('../raw-data')
+
+
+def parent():
+    folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK1'
+    print(os.path.dirname(folder_path))
 

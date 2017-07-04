@@ -16,20 +16,16 @@ import matplotlib.pyplot as plt
 from shutil import copyfile
 
 
-
 def fix_viper():
-    """ image has to be 64x128, this adds padding
+    """
+    Assuming the VIPeR data is already downloaded and extracted, put all images in a single folder and pad the
+    width with zeros.
     """
     original_folder_path = '/home/gabi/Documents/datasets/VIPeR'
     padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
-    # cam_a_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_a'
-    # cam_b_p = '/home/gabi/Documents/datasets/VIPeR/padded/cam_b'
 
-
-    # assuming they don't exist yet
-    os.mkdir(padded_folder_path)
-    # os.mkdir(cam_a_p)
-    # os.mkdir(cam_b_p)
+    if not os.path.exists(padded_folder_path):
+        os.mkdir(padded_folder_path)
 
     cams = ['cam_a', 'cam_b']
     for folder in cams:
@@ -50,140 +46,34 @@ def fix_viper():
             filename = the_file.split('_')[0] + '_' + str(num) + '.bmp'
             filename = os.path.join(padded_cam_path, filename)
             new_img.save(filename)
-    # it throws an error but it does the job
 
 
-def make_pairs_viper_old():
-    """ make matching and non-matching pairs
+def fix_cuhk01():
     """
-    padded_folder_path = pc.LOCATION_RAW_VIPER
-    pairings_pos_name = '../data/VIPER/positives.txt'
-    pairings_neg_name = '../data/VIPER/negatives.txt'
-    ranking_pos_name =  '../data/VIPER/ranking_pos.txt'
-    ranking_neg_name =  '../data/VIPER/ranking_neg.txt'
-
-    list_ids = os.listdir(os.path.join(padded_folder_path, 'cam_a'))
-
-    ranking_ids = list_ids[0:pc.RANKING_NUMBER]
-    list_ids = list_ids[pc.RANKING_NUMBER:]
-
-    ranking_combos = combinations(ranking_ids, 2)
-
-    with open(ranking_pos_name, 'wr') as myFile:
-        for id in ranking_ids:
-            path_1 = os.path.join(padded_folder_path, 'cam_a', id)
-            path_2 = os.path.join(padded_folder_path, 'cam_b', id)
-            myFile.write(str(path_1 + ',' + path_2 + ',1\n'))
-
-    with open(ranking_neg_name, 'wr') as myFile:
-        for comb in ranking_combos:
-            a = comb[0]
-            b = comb[1]
-            if comb[0] == comb[1]:
-                pass
-            else:
-                path_1 = os.path.join(padded_folder_path, 'cam_a', comb[0])
-                path_2 = os.path.join(padded_folder_path, 'cam_b', comb[1])
-                myFile.write(str(path_1 + ',' + path_2 + ',0\n'))
-
-    combos = combinations(list_ids, 2)
-
-    with open(pairings_pos_name, 'wr') as myFile:
-        for id in list_ids:
-            path_1 = os.path.join(padded_folder_path, 'cam_a', id)
-            path_2 = os.path.join(padded_folder_path, 'cam_b', id)
-            myFile.write(str(path_1 + ',' + path_2 + ',1\n'))
-
-    with open(pairings_neg_name, 'wr') as myFile:
-        for comb in combos:
-            a = comb[0]
-            b = comb[1]
-            if comb[0] == comb[1]:
-                pass
-            else:
-                path_1 = os.path.join(padded_folder_path, 'cam_a', comb[0])
-                path_2 = os.path.join(padded_folder_path, 'cam_b', comb[1])
-                myFile.write(str(path_1 + ',' + path_2 + ',0\n'))
-
-
-def fix_cuhk1():
-    """ crops images to 128x64
+    Assuming the CUHK01 data is already downloaded and extracted, put all images in a single folder and resizes
+    the images from 160x60 to 128x64.
     """
     folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK1'
-    num = 1
-    if folder_path.endswith('/'):
-        num = 2
-
-    parts = folder_path.split('/')
-    new_path = ''
-    for i in range(0, len(parts)-num):
-        new_path = os.path.join(new_path, parts[i])
+    new_path = os.path.dirname(folder_path)
 
     list_images = os.listdir(folder_path)
-    name_folder = folder_path.split('/')[-num]
+    name_folder = folder_path.split('/')[-1]
     new_folder_path = os.path.join(new_path, 'cropped_' + str(name_folder))
-    new_folder_path = '/' + new_folder_path
     if not os.path.exists(new_folder_path):
-        print('asdf')
         os.makedirs(new_folder_path)
 
     for image_path in list_images:
         img = Image.open(os.path.join(folder_path, image_path))
-
         img = img.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
         img.save(os.path.join(new_folder_path, image_path))
 
 
-def make_pairs_cuhk1_old():
-    """ makes positive and negative pairs
+def fix_cuhk02():
     """
-    def match(one, two):
-        return list(one)[0:4] == list(two)[0:4]
-
-    images_path = pc.LOCATION_RAW_CUHK01
-    pairings_pos_name = '../data/CUHK/positives.txt'
-    pairings_neg_name = '../data/CUHK/negatives.txt'
-    ranking_pos_name =  '../data/CUHK/ranking_pos.txt'
-    ranking_neg_name =  '../data/CUHK/ranking_neg.txt'
-
-    list_ids = sorted(os.listdir(images_path))
-
-    ranking_ids = list_ids[0:pc.RANKING_NUMBER*4]
-    list_ids = list_ids[pc.RANKING_NUMBER*4:]
-
-    ranking_combos = combinations(ranking_ids, 2)
-
-    with open(ranking_pos_name, 'wr') as rankFilePos:
-        with open(ranking_neg_name, 'wr') as rankFileNeg:
-            for comb in ranking_combos:
-                pic_1 = os.path.join(images_path, comb[0])
-                pic_2 = os.path.join(images_path, comb[1])
-                if match(comb[0], comb[1]):
-                    if comb[0] == comb[1]:
-                        pass
-                    else:
-                        rankFilePos.write(str(pic_1 + ',' + pic_2 + ',1\n'))
-                else:
-                    rankFileNeg.write(str(pic_1 + ',' + pic_2 + ',0\n'))
-
-    combos = combinations(list_ids, 2)
-
-    with open(pairings_pos_name, 'wr') as posFile:
-        with open(pairings_neg_name, 'wr') as negFile:
-            for comb in combos:
-                pic_1 = os.path.join(images_path, comb[0])
-                pic_2 = os.path.join(images_path, comb[1])
-                if match(comb[0], comb[1]):
-                    if comb[0] == comb[1]:
-                        pass
-                    else:
-                        posFile.write(str(pic_1 + ',' + pic_2 + ',1\n'))
-                else:
-                    negFile.write(str(pic_1 + ',' + pic_2 + ',0\n'))
-
-
-def fix_cuhk2():
-    # note: in the later pipeline, treat CUHK02 as 5 different datasets
+    Assuming the CUHK02 data is already downloaded and extracted, put all images in a single folder and resizes
+    the images from 160x60 to 128x64. Notice the weird layout of the folder structure. We leave the dataset partitioned
+    in 5 parts.
+    """
     folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK2'
     cropped_folder_path = os.path.join(os.path.dirname(folder_path), 'cropped_CUHK2')
     if not os.path.exists(cropped_folder_path): os.mkdir(cropped_folder_path)
@@ -192,8 +82,7 @@ def fix_cuhk2():
 
     for dir in subdirs:
         if not os.path.exists(os.path.join(cropped_folder_path, dir)):
-            os.mkdir(os.path.join(cropped_folder_path, dir))
-            os.mkdir(os.path.join(cropped_folder_path, dir, 'all'))
+            os.makedirs(os.path.join(cropped_folder_path, dir, 'all'))
 
     cameras = ['cam1', 'cam2']
 
@@ -210,8 +99,16 @@ def fix_cuhk2():
                 img.save(cropped_image)
 
 
-
 def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
+    """
+    Assuming the images have been downloaded and extracted.
+    Makes the images in the CAVIAR4REID, GRID and PRID450 in the correct size of 128x64
+    :param all_images:          list of image names
+    :param folder_path:         the directory of the extracted images
+    :param fixed_folder_path:   the directory of the standardized images
+    :param the_mod:             modifier to add to the image name, so `image_a` where `the_mod = '_a'`
+    """
+
     def modify(name, the_mod):
         return name.split('.')[0].split('_')[-1] + the_mod + name.split('.')[-1]
 
@@ -225,7 +122,6 @@ def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
         the_image = Image.open(original_image_path)
         image_width, image_height = the_image.size
 
-        case = None
         if image_width < pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT:
             case = 1
         elif image_width > pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT:
@@ -248,6 +144,8 @@ def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
 
         elif image_width == pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT:
             case = 5
+        else:
+            case = None
 
         # if dimensions are bigger than WIDTH, HEIGHT then resize
         # if dimensions are smaller then pad with zeros
@@ -270,15 +168,22 @@ def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
 
 
 def fix_caviar():
+    """
+    Assuming the CAVIAR4REID data is already downloaded and extracted, standardizes images to 128x64.
+    """
     folder_path = '/home/gabi/Documents/datasets/CAVIAR4REID/original'
     fixed_folder_path = os.path.join(os.path.dirname(folder_path), 'fixed_caviar')
-    if not os.path.exists(fixed_folder_path): os.mkdir(fixed_folder_path)
+    if not os.path.exists(fixed_folder_path):
+        os.mkdir(fixed_folder_path)
 
     all_images = os.listdir(folder_path)
     standardize(all_images, folder_path, fixed_folder_path)
 
 
 def fix_grid():
+    """
+    Assuming the GRID data is already downloaded and extracted, standardizes images to 128x64.
+    """
     folder_path = '/home/gabi/Documents/datasets/GRID'
     probe = os.path.join(folder_path, 'probe')
     gallery = os.path.join(folder_path, 'gallery')
@@ -286,16 +191,22 @@ def fix_grid():
     probe_list = os.listdir(probe)
     gallery_list = os.listdir(gallery)
 
-    proper_gallery_list = [item for item in gallery_list if not item[0:4] == '0000' ]
+    # trim the gallery list and remove items with '0000' in the path, these are identities that do not belong to a pair
+    proper_gallery_list = [item for item in gallery_list if not item[0:4] == '0000']
 
     fixed_folder_path = os.path.join(os.path.dirname(probe), 'fixed_grid')
-    if not os.path.exists(fixed_folder_path): os.mkdir(fixed_folder_path)
+    if not os.path.exists(fixed_folder_path):
+        os.mkdir(fixed_folder_path)
 
+    # standardize will put probe and gallery in the same fixed folder
     standardize(probe_list, probe, fixed_folder_path)
     standardize(proper_gallery_list, gallery, fixed_folder_path)
 
 
 def fix_prid450():
+    """
+    Assuming the PRID450 data is already downloaded and extracted, standardizes images to 128x64.
+    """
     folder_path = '/home/gabi/Documents/datasets/PRID450'
     cam_a = os.path.join(folder_path, 'cam_a')
     cam_b = os.path.join(folder_path, 'cam_b')
@@ -303,63 +214,26 @@ def fix_prid450():
     cam_a_list = os.listdir(cam_a)
     cam_b_list = os.listdir(cam_b)
 
+    # trim the dataset to contain only RGB color images
     proper_cam_a_list = [item for item in cam_a_list if item.split('_')[0] == 'img']
     proper_cam_b_list = [item for item in cam_b_list if item.split('_')[0] == 'img']
 
     fixed_folder_path = os.path.join(os.path.dirname(cam_a), 'fixed_prid')
-    if not os.path.exists(fixed_folder_path): os.mkdir(fixed_folder_path)
+    if not os.path.exists(fixed_folder_path):
+        os.mkdir(fixed_folder_path)
 
+    # standardize will put probe and gallery in the same fixed folder
     standardize(proper_cam_a_list, cam_a, fixed_folder_path, '_a.')
     standardize(proper_cam_b_list, cam_b, fixed_folder_path, '_b.')
 
 
-def make_pairs_cuhk2_old():
-    # note:treat CUHK02 as 5 different datasets since it's partitioned into 5 datasets and the imagenames are not unique
-    # This shoulnd't affect training because the total number of positive pairs will still be the same
-    folder_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
-    sub_dirs = os.listdir(folder_path)
-
-    def match(one, two):
-        one = one.split('/')[-1]
-        two = two.split('/')[-1]
-        return list(one)[0:4] == list(two)[0:4]
-
-    def write_combo_to_file(ids, pos, neg):
-        combos = combinations(ids, 2)
-        with open(pos, 'a') as pos_file:
-            with open(neg, 'a') as neg_file:
-                for comb in combos:
-                    pic_1 = comb[0]
-                    pic_2 = comb[1]
-
-                    if match(pic_1, pic_2):
-                        if not pic_1 == pic_2:
-                            pos_file.write(str(pic_1 + ',' + pic_2 + ',1\n'))
-                    else:
-                        neg_file.write(str(pic_1 + ',' + pic_2 + ',0\n'))
-
-    project_data_storage = '../data/CUHK02'
-    
-    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
-
-    pairing_pos_name = os.path.join(project_data_storage, 'positives.txt')
-    pairing_neg_name = os.path.join(project_data_storage, 'negatives.txt')
-    ranking_pos_name =  os.path.join(project_data_storage, 'ranking_pos.txt')
-    ranking_neg_name =  os.path.join(project_data_storage, 'ranking_neg.txt')
-
-    for dir in sub_dirs:
-        identity_list = sorted(os.listdir(os.path.join(folder_path, dir, 'all')))
-        fullpath_identity_list = [os.path.join(folder_path, dir, 'all', item) for item in identity_list]
-
-        adapted_ranking_number = pc.RANKING_NUMBER / len(sub_dirs)
-        ranking_ids = fullpath_identity_list[0:adapted_ranking_number * 4]
-        pairing_ids = fullpath_identity_list[adapted_ranking_number * 4:]
-        
-        write_combo_to_file(ranking_ids, ranking_pos_name, ranking_neg_name)
-        write_combo_to_file(pairing_ids, pairing_pos_name, pairing_neg_name)
-
-
 def write_to_file(filepath, data):
+    """
+    Writes data to file
+    :param filepath:    
+    :param data:
+    :return:
+    """
     with open(filepath, 'w') as myfile:
         for i in range(len(data)):
             myfile.write(str(data[i]) + '\n')
