@@ -230,7 +230,7 @@ def fix_prid450():
 def write_to_file(filepath, data):
     """
     Writes data to file
-    :param filepath:    
+    :param filepath:
     :param data:
     :return:
     """
