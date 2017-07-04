@@ -104,9 +104,9 @@ def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
     Assuming the images have been downloaded and extracted.
     Makes the images in the CAVIAR4REID, GRID and PRID450 in the correct size of 128x64
     :param all_images:          list of image names
-    :param folder_path:         the directory of the extracted images
-    :param fixed_folder_path:   the directory of the standardized images
-    :param the_mod:             modifier to add to the image name, so `image_a` where `the_mod = '_a'`
+    :param folder_path:         string, the directory of the extracted images
+    :param fixed_folder_path:   string, the directory of the standardized images
+    :param the_mod:             string, modifier to add to the image name, so `image_a` where `the_mod = '_a'`
     """
 
     def modify(name, the_mod):
@@ -230,45 +230,30 @@ def fix_prid450():
 def write_to_file(filepath, data):
     """
     Writes data to file
-    :param filepath:
-    :param data:
-    :return:
+    :param filepath:    string path to file
+    :param data:        a list with the data to write. list must be one-dimensional
     """
     with open(filepath, 'w') as myfile:
         for i in range(len(data)):
             myfile.write(str(data[i]) + '\n')
 
 
-def unique_id_and_all_images_viper():
-    """ This only needs to be done once ever.
+def make_image_data_files(fixed_dataset_path, project_data_storage):
     """
-    folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
+    Creates 4 text files, and saves them in the dataset directory:
+    id_all_file.txt                 contains the all unique IDs in order
+    unique_id_file.txt              the set of id_all_file.txt (so no duplicates)
+    short_image_names_file.txt      contains all the image names, without the full path
+    fullpath_image_names_file.txt   short_image_names_file.txt with full path
+
+    :param fixed_dataset_path:      string path to standardized dataset directory
+    :param project_data_storage:    string path where the image data gets stored
+    """
+    folder_path = fixed_dataset_path
     id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
     unique_id = sorted(set(id_all))
     short_image_names = sorted(os.listdir(folder_path))
     fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
-    project_data_storage = '../data/VIPER'
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-
-    write_to_file(id_all_file, id_all)
-    write_to_file(unique_id_file, unique_id)
-    write_to_file(short_image_names_file, short_image_names)
-    write_to_file(fullpath_image_names_file, fullpath_image_names)
-
-
-def unique_id_and_all_images_cuhk1():
-    """ This only needs to be done once ever.
-    """
-    folder_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images'
-    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
-    unique_id = sorted(set(id_all))
-    short_image_names = sorted(os.listdir(folder_path))
-    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
-    project_data_storage = '../data/CUHK'
 
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
@@ -282,7 +267,12 @@ def unique_id_and_all_images_cuhk1():
 
 
 def unique_id_and_all_images_cuhk2():
-    """ This only needs to be done once ever.
+    """
+    Creates 4 text files, one for each partition in CUHK02:
+    id_all_file.txt                 contains the all unique IDs in order
+    unique_id_file.txt              the set of id_all_file.txt (so no duplicates)
+    short_image_names_file.txt      contains all the image names, without the full path
+    fullpath_image_names_file.txt   short_image_names_file.txt with full path
     """
     top_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
 
@@ -310,120 +300,23 @@ def unique_id_and_all_images_cuhk2():
         write_to_file(fullpath_image_names_file, fullpath_image_names)
 
 
-def unique_id_and_all_images_market():
-    """ This only needs to be done once ever.
+def make_combos(fullpath, unique_ids, num, smallest_id_group):
     """
-    folder_path = '/home/gabi/Documents/datasets/market-1501/identities'
-    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
-    unique_id = sorted(set(id_all))
-    short_image_names = sorted(os.listdir(folder_path))
-    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
-    project_data_storage = '../data/market'
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-
-    write_to_file(id_all_file, id_all)
-    write_to_file(unique_id_file, unique_id)
-    write_to_file(short_image_names_file, short_image_names)
-    write_to_file(fullpath_image_names_file, fullpath_image_names)
-
-
-def unique_id_and_all_images_caviar():
-    """ This only needs to be done once ever.
+    Makes positive pairs for images (or sequences in the case of video data)
+    :param fullpath:            list of fullpath names
+    :param unique_ids:          list of unique IDs
+    :param num:                 int number of image per unique ID (sets a boundary)
+    :param smallest_id_group:   int size of the smallest set of images per ID
+    :return:                    a list of matching pairs with label 'item_a,item_b,1'
     """
-    folder_path = '/home/gabi/Documents/datasets/CAVIAR4REID/fixed_caviar'
-    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
-    unique_id = sorted(set(id_all))
-    short_image_names = sorted(os.listdir(folder_path))
-    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
-
-    project_data_storage = '../data/caviar'
-    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-
-    write_to_file(id_all_file, id_all)
-    write_to_file(unique_id_file, unique_id)
-    write_to_file(short_image_names_file, short_image_names)
-    write_to_file(fullpath_image_names_file, fullpath_image_names)
-
-
-def unique_id_and_all_images_grid():
-    """ This only needs to be done once ever.
-    """
-    folder_path = '/home/gabi/Documents/datasets/GRID/fixed_grid'
-    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
-    unique_id = sorted(set(id_all))
-    short_image_names = sorted(os.listdir(folder_path))
-    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
-    project_data_storage = '../data/GRID'
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-
-    write_to_file(id_all_file, id_all)
-    write_to_file(unique_id_file, unique_id)
-    write_to_file(short_image_names_file, short_image_names)
-    write_to_file(fullpath_image_names_file, fullpath_image_names)
-
-
-def unique_id_and_all_images_prid450():
-    """ This only needs to be done once ever.
-    """
-    folder_path = '/home/gabi/Documents/datasets/PRID450/fixed_prid'
-    id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
-    unique_id = sorted(set(id_all))
-    short_image_names = sorted(os.listdir(folder_path))
-    fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
-    project_data_storage = '../data/prid450'
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-
-    write_to_file(id_all_file, id_all)
-    write_to_file(unique_id_file, unique_id)
-    write_to_file(short_image_names_file, short_image_names)
-    write_to_file(fullpath_image_names_file, fullpath_image_names)
-
-
-def make_combos_1(ids):
-    """ Given a list of strings, create combinations.
-        A combination is valid if the IDs match and if the image is not identical
-    """
-    def match(one, two):
-        one = one.split('/')[-1]
-        two = two.split('/')[-1]
-        return list(one)[0:4] == list(two)[0:4]
-
-    combos = list(combinations(ids, 2))
-
-    combo_list = [str(comb[0] + ',' + comb[1] + ',1\n') for comb in combos if
-                  (match(comb[0], comb[1]) and not comb[0] == comb[1])]
-
-    return combo_list
-
-
-def make_combos_2(fullpath, unique_ids, num, smallest_id_group, the_type):
     if num > smallest_id_group:
         num = smallest_id_group
     combo_list = []
     num_ids = len(unique_ids)
-    # if the_type == 'training': num_ids = len(fullpath) / 3
-    # elif the_type == 'ranking': num_ids = len(fullpath) / 2
 
     if num == 3:
         for item in range(num_ids):
-            thing = str(fullpath[num*item] + ',' + fullpath[num*item+1] + ',1\n')
+            thing = str(fullpath[num * item] + ',' + fullpath[num * item + 1] + ',1\n')
             combo_list.append(thing)
             thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 2] + ',1\n')
             combo_list.append(thing)
@@ -451,7 +344,6 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     ignore_id = []
 
     for id in unique_ids:
-        # print('id: %s' % str(id))
         # get the indices for the matching IDs
         id_group = [i for i, x in enumerate(all_ids) if x == id]
         # get the fullpaths for each matching ID at the indices
@@ -470,9 +362,6 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
                 for ble in range(num):
                     selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
             else:
-                # to_pop_index = unique_ids.index(id)
-                #
-                # print('index: %s, to pop value: %d' % (str(id), to_pop_index))
                 ignore_id.append(id)
         else:
             if min_id_group_size > len(id_group): min_id_group_size = len(id_group)
@@ -488,17 +377,9 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
                 for ble in range(num):
                     selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
 
-    # print('length unique ids before: %d' % (len(unique_ids)))
-
-    # print('amount to pop: %d' % (len(ignore_id)))
-
     for value in ignore_id:
         index = unique_ids.index(value)
-        # print('index: %d, value: %s' % (index, str(value)))
-        popped = unique_ids.pop(index)
-        # print('popped: %d' % popped)
-
-    # print('length unique ids after: %d' % (len(unique_ids)))
+        unique_ids.pop(index)
 
     return selection, min_id_group_size, unique_ids
 
@@ -506,32 +387,20 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
 #note:swapped
 def make_all_positives(id_all_file, unique_id_file, short_image_names_file, fullpath_image_names_file, dataset_name,
                ranking_number):
-    """ This needs to be done once at the beginning of the iteration.
     """
-    def match(one, two):
-        return list(one)[0:4] == list(two)[0:4]
-    
-    def make_unique(the_list):
-        unique = []
-        seen = []
-        for item in range(len(the_list)):
-            i1 = the_list[item].split(',')[0].split('+')[-1][0:4]
-            i2 = the_list[item].split(',')[1].split('+')[-1][0:4]
-            if i1 == i2:
-                if i1 not in seen:
-                    seen.append(i1)
-                    unique.append(the_list[item])
-        return unique
-
+    This needs to be done once at the beginning of the iteration.
+    Creates positive labeled pairs for training and ranking set
+    :param id_all_file:                 string of path to id_all_file.txt
+    :param unique_id_file:              string of path to unique_id_file.txt
+    :param short_image_names_file:      string of path to short_image_names_file.txt
+    :param fullpath_image_names_file:   string of path to fullpath_image_names_file.txt
+    :param dataset_name:                string name of the dataset
+    :param ranking_number:              int the ranking number
+    :return:                            two lists, containing labeled pairs for training and ranking respectively
+    """
     # create a list with unique identities
     unique_id = np.genfromtxt(unique_id_file, dtype=None).tolist()
-    # fix adapted ranking number
-    # if ranking_number == 'half':
-    #     ranking_number = len(unique_id) / 2
     # select at random a subset for ranking by drawing indices from a uniform distribution
-
-    a = len(unique_id)
-
     start = rd.randrange(0, len(unique_id)-ranking_number)
     stop = start + ranking_number
     # we will need a list of the training id for later
@@ -558,20 +427,18 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     upper_bound = 3
     # create combinations and store the positive matches
     ranking_ids_pos, min_group_size_rank, ranking_ids = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids, num=2, dataset_name=dataset_name)
-    ranking_ids_pos = make_combos_2(ranking_ids_pos, ranking_ids, 2, min_group_size_rank, 'ranking')
+    ranking_ids_pos = make_combos(ranking_ids_pos, ranking_ids, 2, min_group_size_rank)
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids, upper_bound, dataset_name)
-    training_ids_pos = make_combos_2(training_ids_pos, train_ids, upper_bound, min_group_size_train, 'training')
+    training_ids_pos = make_combos(training_ids_pos, train_ids, upper_bound, min_group_size_train)
     # shuffle so that each time we get different first occurences
     rd.shuffle(ranking_ids_pos)
     rd.shuffle(training_ids_pos)
-    # from the shuffled original list, create a unique list by only selecting first id occurences
-    # ranking_ids_pos = make_unique(ranking_ids_pos)
-    # training_ids_pos = make_unique(training_ids_pos)
 
     return ranking_ids_pos, training_ids_pos
 
 
 def make_all_negatives(pos_list, the_type):
+    # TODO you are here
     list_0 = [pos_list[index].split(',')[0] for index in range(len(pos_list))]
     list_1 = [pos_list[index].split(',')[1] for index in range(len(pos_list))]
 
@@ -597,11 +464,13 @@ def make_all_negatives(pos_list, the_type):
                     training_neg.append(line)
         return training_pos, training_neg
 
+
 # note: swapped
 def make_pairs_viper(adjustable):
     start = time.time()
     project_data_storage = '../data/VIPER'
-    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+    if not os.path.exists(project_data_storage):
+        os.mkdir(project_data_storage)
 
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
@@ -610,7 +479,7 @@ def make_pairs_viper(adjustable):
     # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
-        unique_id_and_all_images_viper()
+        make_image_data_files('/home/gabi/Documents/datasets/VIPeR/padded', project_data_storage)
 
     if adjustable.ranking_number == 'half':
         ranking_number = pc.RANKING_DICT['viper']
@@ -647,7 +516,7 @@ def make_pairs_cuhk1(adjustable):
     # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
-        unique_id_and_all_images_cuhk1()
+        make_image_data_files('/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images', project_data_storage)
 
     if adjustable.ranking_number == 'half':
         ranking_number = pc.RANKING_DICT['cuhk01']
@@ -670,7 +539,7 @@ def make_pairs_cuhk1(adjustable):
     return ranking, training_pos, training_neg
 
 
-def merge_ranking_files(adjustable, rank_list):
+def merge_ranking_files(rank_list):
     # for cuhk2
     rank_list_pos = []
     for item in rank_list:
@@ -688,20 +557,6 @@ def merge_ranking_files(adjustable, rank_list):
             line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
             rank_list_pos.append(line)
 
-    # FIXME: i think this is causing a problem, so let's comment it. seems to help!
-    # if adjustable.ranking_number == 'half':
-    #     if len(rank_list_pos) > pc.RANKING_DICT['cuhk02']:
-    #         rank_list_pos = rank_list_pos[0:pc.RANKING_DICT['cuhk02']]
-    #     else:
-    #         print('total rankings picked are less than indicated by adjustable.ranking_number')
-    #         print('len current list: %d' % (len(rank_list_pos)))
-    # elif isinstance(adjustable.ranking_number, int):
-    #     if len(rank_list_pos) > adjustable.ranking_number:
-    #         rank_list_pos = rank_list_pos[0:adjustable.ranking_number]
-    #     else:
-    #         print('total rankings picked are less than indicated by adjustable.ranking_number')
-    #         print('len current list: %d' % (len(rank_list_pos)))
-
     return rank_list_pos
 
 
@@ -709,17 +564,12 @@ def merge_ranking_files(adjustable, rank_list):
 def make_pairs_cuhk2(adjustable):
     start = time.time()
     top_project_data_storage = '../data/CUHK02'
-    # original_data_location = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
-
-    # subdirs = os.listdir(original_data_location)
     subdirs = ['P1', 'P2', 'P3', 'P4', 'P5']
 
     if adjustable.ranking_number == 'half':
         adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)
     elif isinstance(adjustable.ranking_number, int):
         if adjustable.ranking_number >= len(subdirs):
-            # FIXME
-            # adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)
             adapted_ranking_number = adjustable.ranking_number / len(subdirs)
         elif adjustable.ranking_number < len(subdirs):
             print('ERROR: for cuhk02 ranking number must be at least 5 and number that is divisible by 5')
@@ -741,7 +591,8 @@ def make_pairs_cuhk2(adjustable):
 
         project_data_storage = os.path.join(top_project_data_storage, dir)
 
-        if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+        if not os.path.exists(project_data_storage):
+            os.mkdir(project_data_storage)
 
         id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
         unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
@@ -763,22 +614,7 @@ def make_pairs_cuhk2(adjustable):
         training_pos_all += training_pos
         training_neg_all += training_neg
 
-    # if adjustable.ranking_number == 'half':
-    #     if len(ranking_all) > pc.RANKING_DICT['cuhk02']:
-    #         ranking_all = ranking_all[0:pc.RANKING_DICT['cuhk02']]
-    #     else:
-    #         print('total rankings picked are less than indicated by adjustable.ranking_number')
-    #         print('len current list: %d' % (len(ranking_all)))
-    # elif isinstance(adjustable.ranking_number, int):
-    #     if len(ranking_all) > adjustable.ranking_number:
-    #         ranking_all = ranking_all[0:adjustable.ranking_number]
-    #     elif len(ranking_all) == adjustable.ranking_number:
-    #         print('len current ranking: %d \nadjustable.ranking_number: %d' % (len(ranking_all), adjustable.ranking_number))
-    #     else:
-    #         print('total rankings picked are less than indicated by adjustable.ranking_number')
-    #         print('len current list: %d' % (len(ranking_all)))
-
-    ranking_all = merge_ranking_files(adjustable, ranking_all)
+    ranking_all = merge_ranking_files( ranking_all)
 
     # note: fixing for the sizing incompatibility issues in scn.supermain
 
@@ -800,7 +636,7 @@ def make_pairs_market(adjustable):
     # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
-        unique_id_and_all_images_market()
+        make_image_data_files('/home/gabi/Documents/datasets/market-1501/identities', project_data_storage)
 
     if adjustable.ranking_number == 'half':
         ranking_number = pc.RANKING_DICT['market']
@@ -835,7 +671,7 @@ def make_pairs_caviar(adjustable):
     # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
-        unique_id_and_all_images_caviar()
+        make_image_data_files('/home/gabi/Documents/datasets/CAVIAR4REID/fixed_caviar', project_data_storage)
 
     if adjustable.ranking_number == 'half':
         ranking_number = pc.RANKING_DICT['caviar']
@@ -871,7 +707,7 @@ def make_pairs_grid(adjustable):
     # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
-        unique_id_and_all_images_grid()
+        make_image_data_files('/home/gabi/Documents/datasets/GRID/fixed_grid', project_data_storage)
 
     if adjustable.ranking_number == 'half':
         ranking_number = pc.RANKING_DICT['grid']
@@ -907,7 +743,7 @@ def make_pairs_prid450(adjustable):
     # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
 
     if not os.path.exists(id_all_file):
-        unique_id_and_all_images_prid450()
+        make_image_data_files('/home/gabi/Documents/datasets/PRID450/fixed_prid', project_data_storage)
 
     if adjustable.ranking_number == 'half':
         ranking_number = pc.RANKING_DICT['prid450']
@@ -928,36 +764,6 @@ def make_pairs_prid450(adjustable):
     print('total_time   %0.2f seconds' % total_time)
 
     return ranking, training_pos, training_neg
-
-
-# unused
-def merge_reid_sets_old(save=False):
-    """ merges the mentioned datasets
-    """
-    data_location = '../data'
-    pos = 'positives.txt'
-    neg = 'negatives.txt'
-    viper_pos = np.genfromtxt(os.path.join(data_location, 'VIPER', pos), dtype=None).tolist()
-    viper_neg = np.genfromtxt(os.path.join(data_location, 'VIPER', neg), dtype=None).tolist()
-    cuhk_pos = np.genfromtxt(os.path.join(data_location, 'CUHK', pos), dtype=None).tolist()
-    cuhk_neg = np.genfromtxt(os.path.join(data_location, 'CUHK', neg), dtype=None).tolist()
-
-    pos_list = viper_pos + cuhk_pos
-    neg_list = viper_neg + cuhk_neg
-
-    if save:
-        all_pos_list = os.path.join(data_location, 'reid_all_positives.txt')
-        all_neg_list = os.path.join(data_location, 'reid_all_negatives.txt')
-
-        with open(all_pos_list, 'wr') as myFile:
-            for line in pos_list:
-                myFile.write(str(line) + '\n')
-
-        with open(all_neg_list, 'wr') as myFile:
-            for line in neg_list:
-                myFile.write(str(line) + '\n')
-
-    return pos_list, neg_list
 
 
 def my_join(list_strings):
