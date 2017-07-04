@@ -1503,13 +1503,31 @@ def experiment_lstm():
     # a.datasets = ['ilids-vid']
     # srcn.super_main(a)
 
+def experiment_lstm_more():
+    a = ProjectVariable()
+    a.experiment_name = 'trying out LSTM more'
+    a.ranking_number = 30
+    a.epochs = 1
+    a.iterations = 3
+
+    a.datasets = ['ilids-vid']
+    srcn.super_main(a)
 
 
+def experiment_lstm_moore():
+    a = ProjectVariable()
+    a.experiment_name = 'trying out LSTM moore'
+    a.ranking_number = 30
+    a.epochs = 20
+    a.iterations = 3
+
+    a.datasets = ['ilids-vid']
+    srcn.super_main(a)
 
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
-    experiment_lstm()
+    experiment_lstm_moore()
 
 
 main()

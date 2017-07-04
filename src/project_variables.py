@@ -52,7 +52,7 @@ class ProjectVariable(object):
         # the number of units in each dense layer for the 'neural_network' type of cost module
         self._neural_distance_layers = (512, 1024) # tuple
         # (horizontal, vertical) for downscaling with max-pooling. remember shape=(height,width)
-        self._pooling_size = [[4, 2], [2, 2]] # list
+        self._pooling_size = [[1, 4, 2], [1, 2, 2]] # list
         # the activation function. choice of: 'relu', 'elu'
         self._activation_function = 'elu' # string
         # the loss function. choice of: 'categorical_crossentropy', 'kullback_leibler_divergence', 'mean_squared_error',
@@ -76,7 +76,7 @@ class ProjectVariable(object):
         # for scnn. if True, indicates to only train. no ranking happens
         self._only_train = False  # bool
         # size of kernel in conv2D
-        self._kernel = (3, 3) # tuple
+        self._kernel = (3, 3, 3) # tuple
         # wether or not to save inbetween
         self._save_inbetween = False # bool
         # at which epoch to save

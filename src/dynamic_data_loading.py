@@ -525,8 +525,6 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
             key_1 = key.split(',')[0]
             key_2 = key.split(',')[1]
 
-            a = h5_dataset_list[0]
-
             mapping_1 = [key_1, h5_dataset_list[0]]
             mapping_2 = [key_2, h5_dataset_list[0]]
 
@@ -585,6 +583,15 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
     the_index_key_2 = [all_keys_in_mapping.index(key_2) for key_2 in all_key_2]
     # get the values from the h5 file given the indices
     # print('getting values 1')
+
+    values_key_1 = []
+    for item in range(len(all_key_1)):
+        a = all_key_1[item]
+        b = the_index_key_1[item]
+        c = only_values[b][a][:]
+        values_key_1.append(c)
+
+
     values_key_1 = [only_values[the_index_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
     # print('getting values 2')
     values_key_2 = [only_values[the_index_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]

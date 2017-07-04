@@ -31,12 +31,40 @@ other:
 Third phase: Make prototype + SCRNN
 ===============================================================================================
 
+Discussion: what to do about issue using timedistributed + batchnorm?
+----------
+. could use 3D conv
+. or just not use batchnorm
+. find replacement for batchnorm
+.. make selu + alphadropout work
+. don't use timedistributed
+.. just use LSTM
+.. use conv3D + LSTM
+. try K.setlearningphase: https://github.com/fchollet/keras/issues/5934
+
 . User guide
 .. scripts with use cases
 .. examples
 . Dependencies
 .. Python libraries
 .. Nvidia CUDA drivers + library versions
+
+
+4 july
+------
+. Documentation
+.. clean + document dynamic_data_loading 
+.. clean + document project_data_handling
+.. make a diagram of dependencies in parallel
+. Prototype
+.. weights GPU transferable to CPU?
+.. CPU transferable to GPU
+. SCRNN
+.. make a basic version work - debug
+.. make a siamese architecture with the figured out network
+. Explore 3D convolutions as an alternative
+.. DONE implement 3D convolutions in the SRCNN
+... memory issues, computer freezes when setting the ranking number at 100. recommend ranking_number = 30
 
 
 3 july

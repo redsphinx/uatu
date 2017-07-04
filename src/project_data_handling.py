@@ -15,6 +15,7 @@ from scipy import ndimage
 import matplotlib.pyplot as plt
 from shutil import copyfile
 
+# unused
 def crop_INRIA_images(folder_path, width, height):
     """ crop images in center
     """
@@ -46,7 +47,7 @@ def crop_INRIA_images(folder_path, width, height):
         img2.save(os.path.join(new_folder_path, image_path))
 
 
-
+# unused
 def fix_NICTA(name):
     original_folder_path = '/home/gabi/Documents/datasets/NICTAPedestrians/' + str(name) + '/64x80'
     padded_path = '/home/gabi/Documents/datasets/NICTAPedestrians/padded_' + str(name)
@@ -86,6 +87,7 @@ def fix_NICTA(name):
                 new_img.save(filename)
 
 
+# unused
 def create_pos_neg_nicta():
     start = time.time()
     print('Create pos neg list from NICTA pedestrian')
@@ -119,6 +121,7 @@ def create_pos_neg_nicta():
     print('total time: %0.2f' % (total_time))
 
 
+# unused
 def create_pos_neg_inria():
     start = time.time()
     print('Create pos neg list from INRIA humans')
@@ -151,6 +154,7 @@ def create_pos_neg_inria():
     print('total time: %0.2f' % (total_time))
 
 
+# unused
 def create_pos_cbcl():
     start = time.time()
     print('Create pos list from CBCL pedestrian')
@@ -177,6 +181,7 @@ def create_pos_cbcl():
     print('total time: %0.2f' % (total_time))
 
 
+# unused
 def merge_pedestrian_sets(save=False):
     data_location = '/home/gabi/PycharmProjects/uatu/data'
     pos = 'positives.txt'
@@ -203,6 +208,7 @@ def merge_pedestrian_sets(save=False):
                 myFile.write(str(line) + '\n')
 
     return pos_list, neg_list
+
 
 
 def fix_viper():
@@ -1558,8 +1564,8 @@ def make_pairs_video(name, adjustable):
     unique_id_file = os.path.join(path, 'unique_id.txt')
     fullpath_image_names_file = os.path.join(path, 'swapped_fullpath_names.txt')
 
-    # ranking_number = adjustable.ranking_number
-    ranking_number = 10
+    ranking_number = adjustable.ranking_number
+    # ranking_number = 10
 
     ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, None, fullpath_image_names_file,
                                                    name, ranking_number)

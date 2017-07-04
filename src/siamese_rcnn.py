@@ -1,17 +1,17 @@
-import keras
-from keras import models
-from keras import layers
-from keras import optimizers
-import keras.backend as K
-from keras import initializers
+# import keras
+# from keras import models
+# from keras import layers
+# from keras import optimizers
+# import keras.backend as K
+# from keras import initializers
 
-# from tensorflow.contrib import keras
-# from tensorflow.contrib.keras import models
-# from tensorflow.contrib.keras import layers
-# from tensorflow.contrib.keras import optimizers
-# from tensorflow.contrib.keras import backend as K
-# from tensorflow.contrib.keras import initializers
-# import tensorflow as tf
+from tensorflow.contrib import keras
+from tensorflow.contrib.keras import models
+from tensorflow.contrib.keras import layers
+from tensorflow.contrib.keras import optimizers
+from tensorflow.contrib.keras import backend as K
+from tensorflow.contrib.keras import initializers
+import tensorflow as tf
 
 import dynamic_data_loading as ddl
 import project_constants as pc
@@ -166,14 +166,14 @@ def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm
 
     if first_layer:
         if adjustable.pooling_type == 'avg_pooling':
-            model.add(layers.AveragePooling2D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1])))
+            model.add(layers.AveragePooling3D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1], adjustable.pooling_size[0][2])))
         else:  # max_pooling
-            model.add(layers.MaxPool2D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1])))
+            model.add(layers.MaxPool3D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1], adjustable.pooling_size[0][2])))
     else:
         if adjustable.pooling_type == 'avg_pooling':
-            model.add(layers.AveragePooling2D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1])))
+            model.add(layers.AveragePooling3D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1], adjustable.pooling_size[1][2])))
         else:  # max_pooling
-            model.add(layers.MaxPool2D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1])))
+            model.add(layers.MaxPool3D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1], adjustable.pooling_size[1][2])))
 
     model.add(layers.Activation(adjustable.activation_function))
 
@@ -194,31 +194,31 @@ def create_siamese_head(adjustable):
     if use_batch_norm == True:
         model.add(layers.BatchNormalization(name='bn_1', input_shape=(adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
                                      trainable=adjustable.trainable_bn))
-    model.add(layers.Conv2D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
+    model.add(layers.Conv3D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
                      trainable=adjustable.trainable_12))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
     # convolutional unit 2
-    model.add(layers.Conv2D(32 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_2',
+    model.add(layers.Conv3D(32 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_2',
                      trainable=adjustable.trainable_12))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_3')
     # convolutional unit 3
-    model.add(layers.Conv2D(64 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_3',
+    model.add(layers.Conv3D(64 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_3',
                      trainable=adjustable.trainable_34))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_4')
     # convolutional unit 4
-    model.add(layers.Conv2D(128 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_4',
+    model.add(layers.Conv3D(128 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_4',
                      trainable=adjustable.trainable_34))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_5')
     # convolutional unit 5
-    model.add(layers.Conv2D(256 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_5',
+    model.add(layers.Conv3D(256 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_5',
                      trainable=adjustable.trainable_56))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_6')
     # convolutional unit 6
-    model.add(layers.Conv2D(512 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_6',
+    model.add(layers.Conv3D(512 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_6',
                      trainable=adjustable.trainable_56))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_7')
     if adjustable.pooling_size == [[2, 2], [2, 2]]:
-        model.add(layers.Conv2D(1024 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_7',
+        model.add(layers.Conv3D(1024 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_7',
                          trainable=adjustable.trainable_56))
         model.add(layers.Activation(adjustable.activation_function))
         if use_batch_norm == True:
@@ -237,8 +237,8 @@ def create_siamese_network(adjustable):
     """Creates the siamese network that works on pairs of images.
     :return:    Keras models.Sequential model
     """
-    input_a = layers.Input(shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-    input_b = layers.Input(shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    input_a = layers.Input(shape=(adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+    input_b = layers.Input(shape=(adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
 
     siamese_head = create_siamese_head(adjustable)
 
@@ -314,7 +314,8 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     if not adjustable.load_model_name == None:
         model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
     elif not adjustable.load_weights_name == None:
-        model = create_time_capable_siamese_network(adjustable)
+        # model = create_time_capable_siamese_network(adjustable)
+        model = create_siamese_network(adjustable)
 
         the_path = os.path.join('../model_weights', adjustable.load_weights_name)
         model.load_weights(the_path, by_name=True)
