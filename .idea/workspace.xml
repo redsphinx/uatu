@@ -116,8 +116,8 @@
           <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="508">
-                  <caret line="943" column="22" lean-forward="false" selection-start-line="943" selection-start-column="4" selection-end-line="943" selection-end-column="22" />
+                <state relative-caret-position="958">
+                  <caret line="979" column="0" lean-forward="true" selection-start-line="979" selection-start-column="0" selection-end-line="979" selection-end-column="0" />
                   <folding>
                     <element signature="e#128#146#0" expanded="true" />
                   </folding>
@@ -1226,8 +1226,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="943" column="22" lean-forward="false" selection-start-line="943" selection-start-column="4" selection-end-line="943" selection-end-column="22" />
+        <state relative-caret-position="958">
+          <caret line="979" column="0" lean-forward="true" selection-start-line="979" selection-start-column="0" selection-end-line="979" selection-end-column="0" />
           <folding>
             <element signature="e#128#146#0" expanded="true" />
           </folding>

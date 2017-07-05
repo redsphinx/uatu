@@ -658,8 +658,8 @@ def save_image_data_as_hdf5(file_list_of_paths, h5_path):
 
 def save_all_image_datasets_as_hdf5():
     """
-    Saves all image datasets as HDF% (h5) files. 
-    Run this method when you don't have the image data h5 files to create them.
+    Saves all image datasets as HDF5 (h5) files.
+    Run this method when you don't have the image data h5 files
     """
     save_image_data_as_hdf5('../data/GRID/fullpath_image_names_file.txt', '../data/GRID/grid.h5')
     print('saved grid')
@@ -965,9 +965,15 @@ def save_video_as_hdf5(swapped_list, original_list,  h5_path):
             data = myfile.create_dataset(name=list_of_paths[item], data=image_arr)
 
 
-def save_all_video_data_as_h5(name):
-    swapped_list = '../data/%s/swapped_fullpath_names.txt' % name
-    og_list = '../data/%s/fullpath_sequence_names.txt' % name
-    h5_path = '../data/%s/%s.h5' % (name, name)
+def save_all_video_data_as_h5():
+    """
+    Saves all video datasets as HDF5 (h5) files.
+    Run this method when you don't have the video data h5 files
+    """
+    names = ['ilids-vid', 'prid2011']
 
-    save_video_as_hdf5(swapped_list, og_list, h5_path)
+    for name in names:
+        swapped_list = '../data/%s/swapped_fullpath_names.txt' % name
+        og_list = '../data/%s/fullpath_sequence_names.txt' % name
+        h5_path = '../data/%s/%s.h5' % (name, name)
+        save_video_as_hdf5(swapped_list, og_list, h5_path)
