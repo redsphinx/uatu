@@ -6,7 +6,7 @@ import tensorflow.contrib.keras as keras
 import numpy as np
 import dynamic_data_loading as ddl
 import project_constants as pc
-import project_data_handling as pd
+import data_pipeline as dp
 import project_utils as pu
 import os
 # import keras
@@ -166,7 +166,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         image_1 = this_ranking[matching_pair_index].strip().split(',')[0].split('+')[-1]
         image_2 = this_ranking[matching_pair_index].strip().split(',')[1].split('+')[-1]
         seen = [image_1, image_2]
-        the_id = pd.my_join(list(image_1)[0:4])
+        the_id = dp.my_join(list(image_1)[0:4])
 
         list_related_keys = ddl.get_related_keys(adjustable, name, partition, seen, this_ranking, the_id)
         path = '../data/%s/augmented/%s' % (folder_name, the_id)

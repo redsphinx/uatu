@@ -14,7 +14,7 @@ import h5py
 import time
 import os
 from project_variables import ProjectVariable as pv
-import project_data_handling as pd
+import data_pipeline as dp
 from random import randint
 
 
@@ -410,29 +410,29 @@ def create_training_and_ranking_set(name, adjustable):
     """ Do this at the beginning of each iteration
     """
     if name == 'viper':
-        # ranking, training_pos, training_neg = pd.make_pairs_viper(adjustable)
-        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.VIPER_DATA_STORAGE, pc.VIPER_FIXED)
+        # ranking, training_pos, training_neg = dp.make_pairs_viper(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.VIPER_DATA_STORAGE, pc.VIPER_FIXED)
     elif name == 'cuhk01':
-        # ranking, training_pos, training_neg = pd.make_pairs_cuhk1(adjustable)
-        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.CUHK01_DATA_STORAGE, pc.CUHK01_FIXED)
+        # ranking, training_pos, training_neg = dp.make_pairs_cuhk1(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.CUHK01_DATA_STORAGE, pc.CUHK01_FIXED)
     elif name == 'cuhk02':
-        ranking, training_pos, training_neg = pd.make_pairs_cuhk2(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_cuhk2(adjustable)
     elif name == 'market':
-        # ranking, training_pos, training_neg = pd.make_pairs_market(adjustable)
-        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.MARKET_DATA_STORAGE, pc.MARKET_FIXED)
+        # ranking, training_pos, training_neg = dp.make_pairs_market(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.MARKET_DATA_STORAGE, pc.MARKET_FIXED)
     elif name == 'caviar':
-        # ranking, training_pos, training_neg = pd.make_pairs_caviar(adjustable)
-        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.CAVIAR_DATA_STORAGE, pc.CAVIAR_FIXED)
+        # ranking, training_pos, training_neg = dp.make_pairs_caviar(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.CAVIAR_DATA_STORAGE, pc.CAVIAR_FIXED)
     elif name == 'grid':
-        # ranking, training_pos, training_neg = pd.make_pairs_grid(adjustable)
-        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.GRID_DATA_STORAGE, pc.GRID_FIXED)
+        # ranking, training_pos, training_neg = dp.make_pairs_grid(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.GRID_DATA_STORAGE, pc.GRID_FIXED)
     elif name == 'prid450':
-        # ranking, training_pos, training_neg = pd.make_pairs_prid450(adjustable)
-        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.PRID450_DATA_STORAGE, pc.PRID450_FIXED)
+        # ranking, training_pos, training_neg = dp.make_pairs_prid450(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.PRID450_DATA_STORAGE, pc.PRID450_FIXED)
     elif name == 'ilids-vid':
-        ranking, training_pos, training_neg = pd.make_pairs_video(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_video(adjustable)
     elif name == 'prid2011':
-        ranking, training_pos, training_neg = pd.make_pairs_video(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_video(adjustable)
     else:
         ranking, training_pos, training_neg = None, None, None
 
@@ -705,7 +705,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
         rank_ordered_partitions = [this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-3]
                                    for item in range(pc.RANKING_DICT['cuhk02'])]
         rank_ordered_ids = [
-            pd.my_join(list(this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-1])[0:4])
+            dp.my_join(list(this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-1])[0:4])
             for item in range(pc.RANKING_DICT['cuhk02'])]
         # create list in the form of [(partition, id), ...]
         joined_unique = list(set(zip(rank_ordered_partitions, rank_ordered_ids)))
@@ -746,7 +746,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
         # print('ranking number: %s' % str(ranking_number))
 
         # rank_ordered_ids = [
-            # pd.my_join(list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])[0:4])
+            # dp.my_join(list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])[0:4])
             # for item in range(ranking_number)]
         rank_ordered_ids = []
 
@@ -756,7 +756,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
         for item in range(ranking_number):
             a = list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])
             # print('a: %s' % str(a))
-            b = pd.my_join(a[0:4])
+            b = dp.my_join(a[0:4])
             # print('b: %s' % str(b))
             rank_ordered_ids.append(b)
 

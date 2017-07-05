@@ -1,19 +1,25 @@
 """
-Handles everything that has to do with turning raw images
-into a list of positive and negative pairs
-raw_data_handling?
+Author:     Gabrielle Ras
+E-mail:     flambuyan@gmail.com
+
+File description:
+
+File has multiple functions:
+
+1) Transforms raw images and video to the specified format that we need to feed the network.
+2) Creates pairs of images and videos HDF5 datasets
+3) Saves image and video data to
 """
 import numpy as np
-import project_constants as pc
-from PIL import Image
 import os
-from itertools import combinations
-import time
 import random as rd
 import h5py
-from scipy import ndimage
 import matplotlib.pyplot as plt
+from scipy import ndimage
 from shutil import copyfile
+from PIL import Image
+
+import project_constants as pc
 
 
 def fix_viper():
