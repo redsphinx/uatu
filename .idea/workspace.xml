@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_data_handling.py" afterPath="$PROJECT_DIR$/src/project_data_handling.py" />
     </list>
     <ignored path="uatu.iws" />
@@ -117,8 +116,8 @@
           <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="409">
-                  <caret line="707" column="0" lean-forward="true" selection-start-line="707" selection-start-column="0" selection-end-line="707" selection-end-column="0" />
+                <state relative-caret-position="439">
+                  <caret line="727" column="30" lean-forward="true" selection-start-line="727" selection-start-column="30" selection-end-line="727" selection-end-column="30" />
                   <folding>
                     <element signature="e#128#146#0" expanded="true" />
                   </folding>
@@ -1249,8 +1248,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="707" column="0" lean-forward="true" selection-start-line="707" selection-start-column="0" selection-end-line="707" selection-end-column="0" />
+        <state relative-caret-position="439">
+          <caret line="727" column="30" lean-forward="true" selection-start-line="727" selection-start-column="30" selection-end-line="727" selection-end-column="30" />
           <folding>
             <element signature="e#128#146#0" expanded="true" />
           </folding>

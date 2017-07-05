@@ -706,8 +706,10 @@ def read_plot_from_hdf5(swapped_list, h5_path):
 read_plot_from_hdf5('../data/VIPER/swapped_list_of_paths.txt', '../data/VIPER/viper.h5')
 
 
-def get_specifications_video_dataset(name):
-    """ilids-vid / camx / personxxx / camx_personxxx_xxxxx.png
+def get_sequence_length_video_dataset(name):
+    """
+    Print the minimum sequence length and the maximum sequence length of the dataset,
+    :param name:    string name of the video dataset: 'ilids-vid' or 'prid2011'
     """
     number_of_persons = [0, 0]
     min_seq_len = 100000000
