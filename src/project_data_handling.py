@@ -824,8 +824,15 @@ def fix_ilids():
     fix_video_dataset('ilids-vid', 22)
 
 
-def create_text_files_video_data(name):
-    """ This only needs to be done once ever.
+def make_video_data_files(name):
+    """
+    Creates 4 text files, and saves them in the dataset directory:
+    id_all.txt                      contains the all unique IDs in order
+    unique_id.txt                   the set of id_all.txt (so no duplicates)
+    fullpath_sequence_names.txt     full path to sequences
+    swapped_fullpath_names.txt      fullpath_sequence_names.txt but with '+' instead of '/'
+
+    :param name:                    string name of the video dataset: 'ilids-vid' or 'prid2011'
     """
     path = '/home/gabi/Documents/datasets/%s-fixed' % name
 
@@ -863,7 +870,8 @@ def create_text_files_video_data(name):
     zipped.sort()
     list_id_as_int, list_id_all, list_unique_sequences, list_swapped_unique = zip(*zipped)
 
-    # look for the IDs that only have 1 sequence
+    # look for the IDs that only have 1 sequence. these won't be included in the end dataset because
+    # we cannot make pairs with them
     loners = []
 
     for item in range(len(list_id_all)):
@@ -971,12 +979,9 @@ def save_video_as_hdf5(swapped_list, original_list,  h5_path):
             data = myfile.create_dataset(name=list_of_paths[item], data=image_arr)
 
 
-def actually_save_them(name):
+def save_all_video_data_as_h5(name):
     swapped_list = '../data/%s/swapped_fullpath_names.txt' % name
     og_list = '../data/%s/fullpath_sequence_names.txt' % name
     h5_path = '../data/%s/%s.h5' % (name, name)
 
     save_video_as_hdf5(swapped_list, og_list, h5_path)
-
-
-# actually_save_them('prid2011')
