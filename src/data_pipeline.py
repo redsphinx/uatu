@@ -378,7 +378,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
                 for ble in range(num):
                     selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
             else:
-                ignore_id.append(id)
+                ignore_id.append(the_id)
         else:
             if min_id_group_size > len(id_group): 
                 min_id_group_size = len(id_group)

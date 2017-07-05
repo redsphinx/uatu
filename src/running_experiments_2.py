@@ -1552,6 +1552,6 @@ def main():
     #
     # if num == '1':
     #     experiment_lstm_mooore()
-    normal_scnn()
+    experiment_lstm_more()
 
 main()
