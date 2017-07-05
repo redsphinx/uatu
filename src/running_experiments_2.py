@@ -1537,12 +1537,12 @@ def experiment_lstm_mooore():
 
 
 def main():
-    num = sys.argv[1]
-    print(sys.argv)
-
-    if num == '1':
-        experiment_lstm_mooore()
-
+    # num = sys.argv[1]
+    # print(sys.argv)
+    #
+    # if num == '1':
+    #     experiment_lstm_mooore()
+    experiment_lstm_mooore()
 
 
 main()

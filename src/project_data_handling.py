@@ -384,12 +384,12 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     return selection, min_id_group_size, unique_ids
 
 
-#note:swapped
 def make_all_positives(id_all_file, unique_id_file, short_image_names_file, fullpath_image_names_file, dataset_name,
                ranking_number):
     """
+    Creates positive labeled pairs for training and ranking set.
     This needs to be done once at the beginning of the iteration.
-    Creates positive labeled pairs for training and ranking set
+
     :param id_all_file:                 string of path to id_all_file.txt
     :param unique_id_file:              string of path to unique_id_file.txt
     :param short_image_names_file:      string of path to short_image_names_file.txt
@@ -398,39 +398,43 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     :param ranking_number:              int the ranking number
     :return:                            two lists, containing labeled pairs for training and ranking respectively
     """
-    # create a list with unique identities
-    unique_id = np.genfromtxt(unique_id_file, dtype=None).tolist()
+    # load the image data from saved txt files
+    unique_id = list(np.genfromtxt(unique_id_file, dtype=None))
+    id_all = list(np.genfromtxt(id_all_file, dtype=None))
+    fullpath_image_names = list(np.genfromtxt(fullpath_image_names_file, dtype=None))
+
+    # -- Next we want to randomly select a ranking set and a training set where an ID can only be in one of the sets.
     # select at random a subset for ranking by drawing indices from a uniform distribution
     start = rd.randrange(0, len(unique_id)-ranking_number)
     stop = start + ranking_number
-    # we will need a list of the training id for later
-    train_ids = unique_id[0:start] + unique_id[stop:]
-    # we will need a list of the ranking id for later
-    ranking_ids = unique_id[start:stop]
-    # load the list with all the identities
-    id_all = np.genfromtxt(id_all_file, dtype=None).tolist()
-    # determine where to slice the list depending on the start and stop indices
+    # get the matching start and stop indices to determine where to slice the list
     index_start = id_all.index(unique_id[start])
     index_stop = id_all.index(unique_id[stop])
-    # we will need a list of the training id for later
-    all_train_ids = id_all[0:index_start] + id_all[index_stop:]
-    # we will need a list of the ranking id for later
-    all_ranking_ids = id_all[index_start:index_stop]
-    # load the list with all the imagepaths
-    fullpath_image_names = np.genfromtxt(fullpath_image_names_file, dtype=None).tolist()
-    # slice the lists to create a set for ranking and a set for training
+    # slice the list to create a set for ranking and a set for training
     ranking_ids_pos = fullpath_image_names[index_start:index_stop]
     training_ids_pos = fullpath_image_names[0:index_start] + fullpath_image_names[index_start:]
-    # if we use all the data we have more than 300 million combinations. going through all of these will take about 80 mins
-    # instead for each unique id we select 2 images matching this id and discard the rest of the images for that id.
-    # then we have 4.4 million combos instead of 300 million which will take no more than 2 minutes. this is acceptable
+
+    # get the chosen unique IDs and all IDs
+    train_ids = unique_id[0:start] + unique_id[stop:]
+    ranking_ids = unique_id[start:stop]
+    all_train_ids = id_all[0:index_start] + id_all[index_stop:]
+    all_ranking_ids = id_all[index_start:index_stop]
+
+    # -- Create combinations and store the positive matches for ranking
+    # select upper bound for images per ID. Has to be 2 for ranking.
+    upper_bound = 2
+    ranking_ids_pos, min_group_size_rank, ranking_ids = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids,
+                                                                      upper_bound, dataset_name)
+    ranking_ids_pos = make_combos(ranking_ids_pos, ranking_ids, upper_bound, min_group_size_rank)
+
+    # -- Create combinations and store the positive matches for training
+    # You could increase this but then you'll get a lot more data
     upper_bound = 3
-    # create combinations and store the positive matches
-    ranking_ids_pos, min_group_size_rank, ranking_ids = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids, num=2, dataset_name=dataset_name)
-    ranking_ids_pos = make_combos(ranking_ids_pos, ranking_ids, 2, min_group_size_rank)
-    training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids, upper_bound, dataset_name)
+    training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
+                                                                      upper_bound, dataset_name)
     training_ids_pos = make_combos(training_ids_pos, train_ids, upper_bound, min_group_size_train)
-    # shuffle so that each time we get different first occurences
+
+    # shuffle so that each time we get different first occurences for when making negative pairs
     rd.shuffle(ranking_ids_pos)
     rd.shuffle(training_ids_pos)
 
