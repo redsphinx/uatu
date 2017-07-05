@@ -1536,13 +1536,22 @@ def experiment_lstm_mooore():
     srcn.super_main(a)
 
 
+def normal_scnn():
+    a = ProjectVariable()
+    a.experiment_name = 'normal scnn to check for stuff'
+    a.ranking_number = 10
+    a.epochs = 1
+    a.iterations = 1
+
+    a.datasets = ['viper']
+    scn.super_main(a)
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     #
     # if num == '1':
     #     experiment_lstm_mooore()
-    experiment_lstm_mooore()
-
+    normal_scnn()
 
 main()

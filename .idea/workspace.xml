@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_data_handling.py" afterPath="$PROJECT_DIR$/src/project_data_handling.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments_2.py" afterPath="$PROJECT_DIR$/src/running_experiments_2.py" />
     </list>
@@ -22,7 +21,7 @@
     <SUITE FILE_PATH="coverage/uatu$cnn.coverage" NAME="cnn Coverage Results" MODIFIED="1490872067235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$cnn_clean.coverage" NAME="cnn_clean Coverage Results" MODIFIED="1493046867444" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$temp.coverage" NAME="temp Coverage Results" MODIFIED="1493830660785" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/uatu$running_experiments_2.coverage" NAME="running_experiments_2 Coverage Results" MODIFIED="1499249292373" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/uatu$running_experiments_2.coverage" NAME="running_experiments_2 Coverage Results" MODIFIED="1499253405319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$siamese_cnn.coverage" NAME="siamese_cnn Coverage Results" MODIFIED="1490780987613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$running_experiments.coverage" NAME="running_experiments Coverage Results" MODIFIED="1496933347519" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$testing_stuff.coverage" NAME="testing_stuff Coverage Results" MODIFIED="1499186978147" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
@@ -60,11 +59,21 @@
       <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="694">
-              <caret line="438" column="32" lean-forward="true" selection-start-line="438" selection-start-column="32" selection-end-line="438" selection-end-column="32" />
+            <state relative-caret-position="540">
+              <caret line="471" column="69" lean-forward="true" selection-start-line="471" selection-start-column="69" selection-end-line="471" selection-end-column="69" />
               <folding>
                 <element signature="e#128#146#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="730">
+              <caret line="499" column="0" lean-forward="false" selection-start-line="499" selection-start-column="0" selection-end-line="499" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -82,8 +91,18 @@
       <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="792">
-              <caret line="1523" column="30" lean-forward="true" selection-start-line="1523" selection-start-column="30" selection-end-line="1523" selection-end-column="30" />
+            <state relative-caret-position="193">
+              <caret line="1504" column="0" lean-forward="true" selection-start-line="1504" selection-start-column="0" selection-end-line="1504" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="184">
+              <caret line="432" column="0" lean-forward="false" selection-start-line="432" selection-start-column="0" selection-end-line="432" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -100,10 +119,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>person_0085</find>
-      <find>short_image_names</find>
-      <find>sort</find>
-      <find>zip</find>
       <find>project_data_storage</find>
       <find>0014</find>
       <find>imread</find>
@@ -130,11 +145,12 @@
       <find>make_combos_2</find>
       <find>swa</find>
       <find>environ</find>
+      <find>make_all_positives</find>
+      <find>make_all_negatives</find>
+      <find>make_combos</find>
+      <find>make_negative_pairs</find>
     </findStrings>
     <replaceStrings>
-      <replace>certainty_text</replace>
-      <replace>prediction_text</replace>
-      <replace>None #Button</replace>
       <replace>#</replace>
       <replace>b.root</replace>
       <replace>test</replace>
@@ -162,6 +178,9 @@
       <replace>sequence_length</replace>
       <replace>3D</replace>
       <replace>make_combos</replace>
+      <replace>make_positive_pairs</replace>
+      <replace>make_negative_pairs</replace>
+      <replace>create_positive_combinations</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -667,7 +686,7 @@
     </task>
     <servers />
   </component>
-  <component name="TodoView" selected-index="1">
+  <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -681,7 +700,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21611527" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11502783" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24304268" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48608536" sideWeight="0.5032017" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -691,7 +710,7 @@
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2470651" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33580706" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27458256" sideWeight="0.4967983" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45825604" sideWeight="0.4967983" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -737,80 +756,90 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/testing_stuff.py</url>
           <line>469</line>
           <option name="timeStamp" value="1096" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
           <line>489</line>
           <option name="timeStamp" value="1099" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_rcnn.py</url>
           <line>357</line>
           <option name="timeStamp" value="1112" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/project_utils.py</url>
           <line>176</line>
           <option name="timeStamp" value="1115" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/project_utils.py</url>
           <line>184</line>
           <option name="timeStamp" value="1116" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_rcnn.py</url>
           <line>385</line>
           <option name="timeStamp" value="1118" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_rcnn.py</url>
           <line>392</line>
           <option name="timeStamp" value="1119" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_rcnn.py</url>
           <line>408</line>
           <option name="timeStamp" value="1120" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_rcnn.py</url>
           <line>472</line>
           <option name="timeStamp" value="1121" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_rcnn.py</url>
           <line>281</line>
           <option name="timeStamp" value="1122" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
           <line>566</line>
           <option name="timeStamp" value="1123" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
           <line>518</line>
           <option name="timeStamp" value="1124" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_rcnn.py</url>
           <line>276</line>
           <option name="timeStamp" value="1125" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
           <line>554</line>
           <option name="timeStamp" value="1126" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
           <line>598</line>
           <option name="timeStamp" value="1134" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/siamese_cnn_clean.py</url>
+          <line>497</line>
+          <option name="timeStamp" value="1138" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/project_data_handling.py</url>
+          <line>512</line>
+          <option name="timeStamp" value="1141" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -823,7 +852,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="1136" />
+      <option name="time" value="1142" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -1073,13 +1102,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4725">
-          <caret line="331" column="0" lean-forward="false" selection-start-line="331" selection-start-column="0" selection-end-line="331" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/scrnn-simple.py" />
     <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1101,16 +1123,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
           <caret line="285" column="0" lean-forward="false" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
-          <folding>
-            <element signature="e#162#198#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="606" column="49" lean-forward="false" selection-start-line="606" selection-start-column="49" selection-end-line="606" selection-end-column="49" />
           <folding />
         </state>
       </provider>
@@ -1143,9 +1155,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="958">
           <caret line="490" column="0" lean-forward="true" selection-start-line="490" selection-start-column="0" selection-end-line="490" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1159,16 +1169,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="1523" column="30" lean-forward="true" selection-start-line="1523" selection-start-column="30" selection-end-line="1523" selection-end-column="30" />
+        <state relative-caret-position="193">
+          <caret line="1504" column="0" lean-forward="true" selection-start-line="1504" selection-start-column="0" selection-end-line="1504" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="432" column="0" lean-forward="false" selection-start-line="432" selection-start-column="0" selection-end-line="432" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="730">
+          <caret line="499" column="0" lean-forward="false" selection-start-line="499" selection-start-column="0" selection-end-line="499" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="694">
-          <caret line="438" column="32" lean-forward="true" selection-start-line="438" selection-start-column="32" selection-end-line="438" selection-end-column="32" />
+        <state relative-caret-position="540">
+          <caret line="471" column="69" lean-forward="true" selection-start-line="471" selection-start-column="69" selection-end-line="471" selection-end-column="69" />
           <folding>
             <element signature="e#128#146#0" expanded="true" />
           </folding>

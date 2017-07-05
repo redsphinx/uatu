@@ -300,7 +300,7 @@ def unique_id_and_all_images_cuhk2():
         write_to_file(fullpath_image_names_file, fullpath_image_names)
 
 
-def make_combos(fullpath, unique_ids, num, smallest_id_group):
+def create_positive_combinations(fullpath, unique_ids, num, smallest_id_group):
     """
     Makes positive pairs for images (or sequences in the case of video data)
     :param fullpath:            list of fullpath names
@@ -384,7 +384,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     return selection, min_id_group_size, unique_ids
 
 
-def make_all_positives(id_all_file, unique_id_file, short_image_names_file, fullpath_image_names_file, dataset_name,
+def make_positive_pairs(id_all_file, unique_id_file, short_image_names_file, fullpath_image_names_file, dataset_name,
                ranking_number):
     """
     Creates positive labeled pairs for training and ranking set.
@@ -425,14 +425,14 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     upper_bound = 2
     ranking_ids_pos, min_group_size_rank, ranking_ids = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids,
                                                                       upper_bound, dataset_name)
-    ranking_ids_pos = make_combos(ranking_ids_pos, ranking_ids, upper_bound, min_group_size_rank)
+    ranking_ids_pos = create_positive_combinations(ranking_ids_pos, ranking_ids, upper_bound, min_group_size_rank)
 
     # -- Create combinations and store the positive matches for training
     # You could increase this but then you'll get a lot more data
     upper_bound = 3
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
-    training_ids_pos = make_combos(training_ids_pos, train_ids, upper_bound, min_group_size_train)
+    training_ids_pos = create_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
 
     # shuffle so that each time we get different first occurences for when making negative pairs
     rd.shuffle(ranking_ids_pos)
@@ -441,8 +441,15 @@ def make_all_positives(id_all_file, unique_id_file, short_image_names_file, full
     return ranking_ids_pos, training_ids_pos
 
 
-def make_all_negatives(pos_list, the_type):
-    # TODO you are here
+def make_negative_pairs(pos_list, the_type):
+    """
+    Creates negative labeled pairs for training and ranking set.
+    :param pos_list:    list of the positive pairs
+    :param the_type:    string 'ranking' or 'training'
+    :return:            if ranking, return list with both positive and negative ranking pairs
+                        elif training, return list with negative pairs
+    """
+    # split the positive list into its first 2 columns
     list_0 = [pos_list[index].split(',')[0] for index in range(len(pos_list))]
     list_1 = [pos_list[index].split(',')[1] for index in range(len(pos_list))]
 
@@ -456,17 +463,16 @@ def make_all_negatives(pos_list, the_type):
         return ranking_list
 
     elif the_type == 'training':
-        training_pos = []
         training_neg = []
         for img0 in range(len(list_0)):
             for img1 in range(len(list_1)):
                 if img0 == img1:
-                    line = list_0[img0] + ',' + list_1[img1] + ',1\n'
-                    training_pos.append(line)
+                    pass
                 else:
                     line = list_0[img0] + ',' + list_1[img1] + ',0\n'
                     training_neg.append(line)
-        return training_pos, training_neg
+
+        return training_neg
 
 
 # note: swapped
@@ -493,13 +499,13 @@ def make_pairs_viper(adjustable):
         ranking_number = None
 
 
-    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
                                                    ranking_number=ranking_number,
                                                    dataset_name='viper')
 
-    ranking = make_all_negatives(ranking_pos, 'ranking')
-    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+    ranking = make_negative_pairs(ranking_pos, 'ranking')
+    training_neg = make_negative_pairs(training_pos, 'training')
 
     total_time = time.time() - start
     print('total_time   %0.2f seconds' % total_time)
@@ -529,13 +535,13 @@ def make_pairs_cuhk1(adjustable):
     else:
         ranking_number = None
 
-    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
                                                    ranking_number=adjustable.ranking_number,
                                                    dataset_name='cuhk01')
 
-    ranking = make_all_negatives(ranking_pos, 'ranking')
-    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+    ranking = make_negative_pairs(ranking_pos, 'ranking')
+    training_neg = make_negative_pairs(training_pos, 'training')
 
     total_time = time.time() - start
     print('total_time   %0.2f seconds' % total_time)
@@ -607,12 +613,12 @@ def make_pairs_cuhk2(adjustable):
         if not os.path.exists(id_all_file):
             unique_id_and_all_images_cuhk2()
 
-        ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+        ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
                                                        fullpath_image_names_file,
                                                        ranking_number=adapted_ranking_number, dataset_name='cuhk02')
 
-        ranking = make_all_negatives(ranking_pos, 'ranking')
-        training_pos, training_neg = make_all_negatives(training_pos, 'training')
+        ranking = make_negative_pairs(ranking_pos, 'ranking')
+        training_neg = make_negative_pairs(training_pos, 'training')
 
         ranking_all += ranking
         training_pos_all += training_pos
@@ -649,13 +655,13 @@ def make_pairs_market(adjustable):
     else:
         ranking_number = None
 
-    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
                                                    ranking_number=ranking_number,
                                                    dataset_name='market')
 
-    ranking = make_all_negatives(ranking_pos, 'ranking')
-    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+    ranking = make_negative_pairs(ranking_pos, 'ranking')
+    training_neg = make_negative_pairs(training_pos, 'training')
 
     total_time = time.time() - start
     print('total_time   %0.2f seconds' % total_time)
@@ -684,13 +690,13 @@ def make_pairs_caviar(adjustable):
     else:
         ranking_number = None
 
-    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
                                                    ranking_number=ranking_number,
                                                    dataset_name='caviar')
 
-    ranking = make_all_negatives(ranking_pos, 'ranking')
-    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+    ranking = make_negative_pairs(ranking_pos, 'ranking')
+    training_neg = make_negative_pairs(training_pos, 'training')
 
     total_time = time.time() - start
     print('total_time   %0.2f seconds' % total_time)
@@ -720,13 +726,13 @@ def make_pairs_grid(adjustable):
     else:
         ranking_number = None
 
-    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
                                                    ranking_number=ranking_number,
                                                    dataset_name='grid')
 
-    ranking = make_all_negatives(ranking_pos, 'ranking')
-    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+    ranking = make_negative_pairs(ranking_pos, 'ranking')
+    training_neg = make_negative_pairs(training_pos, 'training')
 
     total_time = time.time() - start
     print('total_time   %0.2f seconds' % total_time)
@@ -756,13 +762,13 @@ def make_pairs_prid450(adjustable):
     else:
         ranking_number = None
 
-    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, short_image_names_file,
+    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
                                                    fullpath_image_names_file,
                                                    ranking_number=ranking_number,
                                                    dataset_name='prid450')
 
-    ranking = make_all_negatives(ranking_pos, 'ranking')
-    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+    ranking = make_negative_pairs(ranking_pos, 'ranking')
+    training_neg = make_negative_pairs(training_pos, 'training')
 
     total_time = time.time() - start
     print('total_time   %0.2f seconds' % total_time)
@@ -1057,12 +1063,12 @@ def make_pairs_video(name, adjustable):
     ranking_number = adjustable.ranking_number
     # ranking_number = 10
 
-    ranking_pos, training_pos = make_all_positives(id_all_file, unique_id_file, None, fullpath_image_names_file,
+    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, None, fullpath_image_names_file,
                                                    name, ranking_number)
 
-    ranking = make_all_negatives(ranking_pos, 'ranking')
+    ranking = make_negative_pairs(ranking_pos, 'ranking')
 
-    training_pos, training_neg = make_all_negatives(training_pos, 'training')
+    training_neg = make_negative_pairs(training_pos, 'training')
 
     return ranking, training_pos, training_neg
 
