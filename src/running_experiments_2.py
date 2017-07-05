@@ -1518,16 +1518,31 @@ def experiment_lstm_moore():
     a = ProjectVariable()
     a.experiment_name = 'trying out LSTM moore'
     a.ranking_number = 30
-    a.epochs = 20
-    a.iterations = 3
+    a.epochs = 50
+    a.iterations = 1
 
     a.datasets = ['ilids-vid']
     srcn.super_main(a)
 
+
+def experiment_lstm_mooore():
+    a = ProjectVariable()
+    a.experiment_name = 'trying out LSTM mooore'
+    a.ranking_number = 30
+    a.epochs = 100
+    a.iterations = 1
+
+    a.datasets = ['ilids-vid']
+    srcn.super_main(a)
+
+
 def main():
-    # num = sys.argv[1]
-    # print(sys.argv)
-    experiment_lstm_moore()
+    num = sys.argv[1]
+    print(sys.argv)
+
+    if num == '1':
+        experiment_lstm_mooore()
+
 
 
 main()
