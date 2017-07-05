@@ -36,8 +36,8 @@ def error_rate(predictions, labels):
 def get_wrong_predictions():
     folder = 'wrong_predictions'
 
-    paths = np.genfromtxt('test_images.csv', dtype=None).tolist()
-    ans = np.genfromtxt('wrong_predictions.txt', dtype=None).tolist()
+    paths = list(np.genfromtxt('test_images.csv', dtype=None))
+    ans = list(np.genfromtxt('wrong_predictions.txt', dtype=None))
 
     if os.path.exists(folder):
         shutil.rmtree(folder)
