@@ -487,9 +487,48 @@ def make_negative_pairs(pos_list, the_type):
         return training_neg
 
 
+
+def make_pairs_image(adjustable, project_data_storage, fixed_path):
+    """
+    Makes pairs for the specified image dataset.
+    :param adjustable:              object of class ProjectVariable
+    :param project_data_storage:    string path to dataset processed data
+    :param fixed_path:              string path to fixed dataset
+    :return:                        3 lists contianing labeled pairs, one list for ranking and two for training
+    """
+    if not os.path.exists(project_data_storage):
+        os.mkdir(project_data_storage)
+
+    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
+    swapped_list_of_paths = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
+
+    if not os.path.exists(id_all_file):
+        make_image_data_files(fixed_path, project_data_storage)
+
+    if adjustable.ranking_number == 'half':
+        ranking_number = pc.RANKING_DICT[adjustable.datasets[0]]
+    elif isinstance(adjustable.ranking_number, int):
+        ranking_number = adjustable.ranking_number
+    else:
+        ranking_number = None
+
+    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths,
+                                                    adjustable.datasets[0], ranking_number)
+
+    ranking = make_negative_pairs(ranking_pos, 'ranking')
+    training_neg = make_negative_pairs(training_pos, 'training')
+
+    return ranking, training_pos, training_neg
+
+
 # note: swapped
 def make_pairs_viper(adjustable):
-    # TODO you are here
+    """
+    Makes pairs for VIPeR dataset
+    :param adjustable:      object of class ProjectVariable
+    :return:                3 lists contianing labeled pairs, one list for ranking and two for training
+    """
     start = time.time()
     project_data_storage = '../data/VIPER'
     if not os.path.exists(project_data_storage):

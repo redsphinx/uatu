@@ -56,3 +56,21 @@ RANKING_CUHK02_PARTS = {'P1': 485,
                         'P3': 52,
                         'P4': 96,
                         'P5': 119}
+
+VIPER_DATA_STORAGE = '../data/VIPER'
+VIPER_FIXED = '/home/gabi/Documents/datasets/VIPeR/padded'
+
+CUHK01_DATA_STORAGE = '../data/CUHK'
+CUHK01_FIXED = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images'
+
+MARKET_DATA_STORAGE = '../data/market'
+MARKET_FIXED = '/home/gabi/Documents/datasets/market-1501/identities'
+
+CAVIAR_DATA_STORAGE = '../data/caviar'
+CAVIAR_FIXED = '/home/gabi/Documents/datasets/CAVIAR4REID/fixed_caviar'
+
+GRID_DATA_STORAGE = '../data/GRID'
+GRID_FIXED = '/home/gabi/Documents/datasets/GRID/fixed_grid'
+
+PRID450_DATA_STORAGE = '../data/prid450'
+PRID450_FIXED = '/home/gabi/Documents/datasets/PRID450/fixed_prid'

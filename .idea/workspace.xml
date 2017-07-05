@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic_data_loading.py" afterPath="$PROJECT_DIR$/src/dynamic_data_loading.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_constants.py" afterPath="$PROJECT_DIR$/src/project_constants.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_data_handling.py" afterPath="$PROJECT_DIR$/src/project_data_handling.py" />
     </list>
     <ignored path="uatu.iws" />
@@ -54,60 +56,92 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="487" column="0" lean-forward="true" selection-start-line="487" selection-start-column="0" selection-end-line="487" selection-end-column="0" />
-              <folding>
-                <element signature="e#128#146#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="730">
-              <caret line="499" column="0" lean-forward="false" selection-start-line="499" selection-start-column="0" selection-end-line="499" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gui.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gui.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="19" column="25" lean-forward="false" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="1504" column="0" lean-forward="true" selection-start-line="1504" selection-start-column="0" selection-end-line="1504" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="184">
-              <caret line="432" column="0" lean-forward="false" selection-start-line="432" selection-start-column="0" selection-end-line="432" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.3719317">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="679">
+                  <caret line="802" column="80" lean-forward="false" selection-start-line="802" selection-start-column="30" selection-end-line="802" selection-end-column="80" />
+                  <folding>
+                    <element signature="e#128#146#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-270">
+                  <caret line="0" column="21" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="21" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="730">
+                  <caret line="499" column="0" lean-forward="false" selection-start-line="499" selection-start-column="0" selection-end-line="499" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="gui.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/gui.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="150">
+                  <caret line="19" column="25" lean-forward="false" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="349">
+                  <caret line="408" column="35" lean-forward="false" selection-start-line="408" selection-start-column="4" selection-end-line="408" selection-end-column="35" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1384">
+                  <caret line="557" column="52" lean-forward="false" selection-start-line="557" selection-start-column="52" selection-end-line="557" selection-end-column="52" />
+                  <folding>
+                    <element signature="e#128#146#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="project_constants.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/project_constants.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="928">
+                  <caret line="72" column="60" lean-forward="true" selection-start-line="72" selection-start-column="60" selection-end-line="72" selection-end-column="60" />
+                  <folding>
+                    <element signature="e#0#23#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -118,7 +152,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>0014</find>
       <find>imread</find>
       <find>imshow</find>
       <find>random</find>
@@ -148,9 +181,9 @@
       <find>make_combos</find>
       <find>make_negative_pairs</find>
       <find>make_positive_pairs</find>
+      <find>01</find>
     </findStrings>
     <replaceStrings>
-      <replace>#</replace>
       <replace>b.root</replace>
       <replace>test</replace>
       <replace>tk_bb_image</replace>
@@ -180,6 +213,7 @@
       <replace>make_positive_pairs</replace>
       <replace>make_negative_pairs</replace>
       <replace>create_positive_combinations</replace>
+      <replace>02</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -208,7 +242,6 @@
         <option value="$PROJECT_DIR$/data/CUHK02/P3/swapped_list_of_paths.txt" />
         <option value="$PROJECT_DIR$/data/CUHK02/P3/unique_id_file.txt" />
         <option value="$PROJECT_DIR$/src/clr_callback.py" />
-        <option value="$PROJECT_DIR$/src/project_constants.py" />
         <option value="$PROJECT_DIR$/src/bash_run_experiments_1.sh" />
         <option value="$PROJECT_DIR$/src/priming.py" />
         <option value="$PROJECT_DIR$/src/bash_run_experiments_0.sh" />
@@ -234,11 +267,12 @@
         <option value="$PROJECT_DIR$/src/scrnn-simple.py" />
         <option value="$PROJECT_DIR$/src/project_variables.py" />
         <option value="$PROJECT_DIR$/src/siamese_rcnn.py" />
-        <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
         <option value="$PROJECT_DIR$/src/preprocess_human_data.py" />
         <option value="$PROJECT_DIR$/src/testing_stuff.py" />
         <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
         <option value="$PROJECT_DIR$/src/project_data_handling.py" />
+        <option value="$PROJECT_DIR$/src/project_constants.py" />
+        <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
       </list>
     </option>
   </component>
@@ -284,52 +318,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="GRID" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -337,7 +325,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.toDoOptions" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="settings.editor.splitter.proportion" value="0.27307326" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/gabi/PycharmProjects/uatu/src/testing_stuff.py" />
@@ -716,7 +704,7 @@
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21611527" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21611527" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24304268" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48608536" sideWeight="0.5032017" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -724,7 +712,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30705008" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22251868" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1638207" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33580706" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45825604" sideWeight="0.4967983" order="3" side_tool="false" content_ui="tabs" />
@@ -780,7 +768,7 @@
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
-          <line>489</line>
+          <line>495</line>
           <option name="timeStamp" value="1099" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
@@ -825,12 +813,12 @@
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
-          <line>566</line>
+          <line>572</line>
           <option name="timeStamp" value="1123" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
-          <line>518</line>
+          <line>524</line>
           <option name="timeStamp" value="1124" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
@@ -840,12 +828,12 @@
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
-          <line>554</line>
+          <line>560</line>
           <option name="timeStamp" value="1126" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
-          <line>598</line>
+          <line>604</line>
           <option name="timeStamp" value="1134" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -855,7 +843,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/project_data_handling.py</url>
-          <line>520</line>
+          <line>559</line>
           <option name="timeStamp" value="1141" />
         </line-breakpoint>
       </breakpoints>
@@ -882,13 +870,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/lib/python2.7/lib-tk/Tkinter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="1543" column="0" lean-forward="false" selection-start-line="1543" selection-start-column="0" selection-end-line="1543" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ranking_files/viper_ranking_0.txt" />
     <entry file="file://$PROJECT_DIR$/ranking_files/market_ranking_0.txt" />
     <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
@@ -1120,14 +1101,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/scrnn-simple.py" />
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="45" column="29" lean-forward="false" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1018">
@@ -1192,10 +1165,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="432" column="0" lean-forward="false" selection-start-line="432" selection-start-column="0" selection-end-line="432" selection-end-column="0" />
+        <state relative-caret-position="-270">
+          <caret line="0" column="21" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="21" />
           <folding />
         </state>
       </provider>
@@ -1208,13 +1181,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="928">
+          <caret line="72" column="60" lean-forward="true" selection-start-line="72" selection-start-column="60" selection-end-line="72" selection-end-column="60" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="487" column="0" lean-forward="true" selection-start-line="487" selection-start-column="0" selection-end-line="487" selection-end-column="0" />
+        <state relative-caret-position="679">
+          <caret line="802" column="80" lean-forward="false" selection-start-line="802" selection-start-column="30" selection-end-line="802" selection-end-column="80" />
           <folding>
             <element signature="e#128#146#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="408" column="35" lean-forward="false" selection-start-line="408" selection-start-column="4" selection-end-line="408" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>

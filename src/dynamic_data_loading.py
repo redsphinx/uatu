@@ -410,19 +410,25 @@ def create_training_and_ranking_set(name, adjustable):
     """ Do this at the beginning of each iteration
     """
     if name == 'viper':
-        ranking, training_pos, training_neg = pd.make_pairs_viper(adjustable)
+        # ranking, training_pos, training_neg = pd.make_pairs_viper(adjustable)
+        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.VIPER_DATA_STORAGE, pc.VIPER_FIXED)
     elif name == 'cuhk01':
-        ranking, training_pos, training_neg = pd.make_pairs_cuhk1(adjustable)
+        # ranking, training_pos, training_neg = pd.make_pairs_cuhk1(adjustable)
+        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.CUHK01_DATA_STORAGE, pc.CUHK01_FIXED)
     elif name == 'cuhk02':
         ranking, training_pos, training_neg = pd.make_pairs_cuhk2(adjustable)
     elif name == 'market':
-        ranking, training_pos, training_neg = pd.make_pairs_market(adjustable)
+        # ranking, training_pos, training_neg = pd.make_pairs_market(adjustable)
+        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.MARKET_DATA_STORAGE, pc.MARKET_FIXED)
     elif name == 'caviar':
-        ranking, training_pos, training_neg = pd.make_pairs_caviar(adjustable)
+        # ranking, training_pos, training_neg = pd.make_pairs_caviar(adjustable)
+        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.CAVIAR_DATA_STORAGE, pc.CAVIAR_FIXED)
     elif name == 'grid':
-        ranking, training_pos, training_neg = pd.make_pairs_grid(adjustable)
+        # ranking, training_pos, training_neg = pd.make_pairs_grid(adjustable)
+        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.GRID_DATA_STORAGE, pc.GRID_FIXED)
     elif name == 'prid450':
-        ranking, training_pos, training_neg = pd.make_pairs_prid450(adjustable)
+        # ranking, training_pos, training_neg = pd.make_pairs_prid450(adjustable)
+        ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.PRID450_DATA_STORAGE, pc.PRID450_FIXED)
     elif name == 'ilids-vid':
         ranking, training_pos, training_neg = pd.make_pairs_video(name, adjustable)
     elif name == 'prid2011':
