@@ -240,11 +240,12 @@ def write_to_file(filepath, data):
 
 def make_image_data_files(fixed_dataset_path, project_data_storage):
     """
-    Creates 4 text files, and saves them in the dataset directory:
+    Creates 5 text files, and saves them in the dataset directory:
     id_all_file.txt                 contains the all unique IDs in order
     unique_id_file.txt              the set of id_all_file.txt (so no duplicates)
     short_image_names_file.txt      contains all the image names, without the full path
     fullpath_image_names_file.txt   short_image_names_file.txt with full path
+    swapped_list_of_paths.txt       fullpath_image_names_file.txt but with '+' instead of '/'
 
     :param fixed_dataset_path:      string path to standardized dataset directory
     :param project_data_storage:    string path where the image data gets stored
@@ -259,20 +260,26 @@ def make_image_data_files(fixed_dataset_path, project_data_storage):
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
     short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
     fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+    swapped_list_of_paths = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
 
     write_to_file(id_all_file, id_all)
     write_to_file(unique_id_file, unique_id)
     write_to_file(short_image_names_file, short_image_names)
     write_to_file(fullpath_image_names_file, fullpath_image_names)
+    with open(swapped_list_of_paths, 'w') as myfile:
+        for item in fullpath_image_names:
+            item_name = swap_for(item, '/', '+')
+            myfile.write(item_name + '\n')
 
 
 def unique_id_and_all_images_cuhk2():
     """
-    Creates 4 text files, one for each partition in CUHK02:
+    Creates 5 text files, one for each partition in CUHK02:
     id_all_file.txt                 contains the all unique IDs in order
     unique_id_file.txt              the set of id_all_file.txt (so no duplicates)
     short_image_names_file.txt      contains all the image names, without the full path
     fullpath_image_names_file.txt   short_image_names_file.txt with full path
+    swapped_list_of_paths.txt       fullpath_image_names_file.txt but with '+' instead of '/'
     """
     top_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
 
@@ -293,11 +300,16 @@ def unique_id_and_all_images_cuhk2():
         unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
         short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
         fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+        swapped_list_of_paths = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
 
         write_to_file(id_all_file, id_all)
         write_to_file(unique_id_file, unique_id)
         write_to_file(short_image_names_file, short_image_names)
         write_to_file(fullpath_image_names_file, fullpath_image_names)
+        with open(swapped_list_of_paths, 'w') as myfile:
+            for item in fullpath_image_names:
+                item_name = swap_for(item, '/', '+')
+                myfile.write(item_name + '\n')
 
 
 def create_positive_combinations(fullpath, unique_ids, num, smallest_id_group):
@@ -384,7 +396,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     return selection, min_id_group_size, unique_ids
 
 
-def make_positive_pairs(id_all_file, unique_id_file, short_image_names_file, fullpath_image_names_file, dataset_name,
+def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, dataset_name,
                ranking_number):
     """
     Creates positive labeled pairs for training and ranking set.
@@ -393,7 +405,7 @@ def make_positive_pairs(id_all_file, unique_id_file, short_image_names_file, ful
     :param id_all_file:                 string of path to id_all_file.txt
     :param unique_id_file:              string of path to unique_id_file.txt
     :param short_image_names_file:      string of path to short_image_names_file.txt
-    :param fullpath_image_names_file:   string of path to fullpath_image_names_file.txt
+    :param swapped_list_of_paths:       string of path to swapped_list_of_paths.txt
     :param dataset_name:                string name of the dataset
     :param ranking_number:              int the ranking number
     :return:                            two lists, containing labeled pairs for training and ranking respectively
@@ -401,7 +413,7 @@ def make_positive_pairs(id_all_file, unique_id_file, short_image_names_file, ful
     # load the image data from saved txt files
     unique_id = list(np.genfromtxt(unique_id_file, dtype=None))
     id_all = list(np.genfromtxt(id_all_file, dtype=None))
-    fullpath_image_names = list(np.genfromtxt(fullpath_image_names_file, dtype=None))
+    fullpath_image_names = list(np.genfromtxt(swapped_list_of_paths, dtype=None))
 
     # -- Next we want to randomly select a ranking set and a training set where an ID can only be in one of the sets.
     # select at random a subset for ranking by drawing indices from a uniform distribution
@@ -477,6 +489,7 @@ def make_negative_pairs(pos_list, the_type):
 
 # note: swapped
 def make_pairs_viper(adjustable):
+    # TODO you are here
     start = time.time()
     project_data_storage = '../data/VIPER'
     if not os.path.exists(project_data_storage):
@@ -484,9 +497,7 @@ def make_pairs_viper(adjustable):
 
     id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
     unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
-    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+    swapped_list_of_paths = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
 
     if not os.path.exists(id_all_file):
         make_image_data_files('/home/gabi/Documents/datasets/VIPeR/padded', project_data_storage)
@@ -498,11 +509,8 @@ def make_pairs_viper(adjustable):
     else:
         ranking_number = None
 
-
-    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file,
-                                                   ranking_number=ranking_number,
-                                                   dataset_name='viper')
+    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, 'viper',
+                                                    ranking_number)
 
     ranking = make_negative_pairs(ranking_pos, 'ranking')
     training_neg = make_negative_pairs(training_pos, 'training')
