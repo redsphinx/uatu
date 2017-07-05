@@ -80,17 +80,17 @@ def fix_cuhk02():
 
     subdirs = os.listdir(folder_path)
 
-    for dir in subdirs:
-        if not os.path.exists(os.path.join(cropped_folder_path, dir)):
-            os.makedirs(os.path.join(cropped_folder_path, dir, 'all'))
+    for a_dir in subdirs:
+        if not os.path.exists(os.path.join(cropped_folder_path, a_dir)):
+            os.makedirs(os.path.join(cropped_folder_path, a_dir, 'all'))
 
     cameras = ['cam1', 'cam2']
 
-    for dir in subdirs:
+    for a_dir in subdirs:
         for cam in cameras:
-            original_images_path = os.path.join(folder_path, dir, cam)
-            cropped_images_path = os.path.join(cropped_folder_path, dir, 'all')
-            images = [file for file in os.listdir(original_images_path) if file.endswith('.png')]
+            original_images_path = os.path.join(folder_path, a_dir, cam)
+            cropped_images_path = os.path.join(cropped_folder_path, a_dir, 'all')
+            images = [a_file for a_file in os.listdir(original_images_path) if a_file.endswith('.png')]
             for ind in range(len(images)):
                 image = os.path.join(original_images_path, images[ind])
                 cropped_image = os.path.join(cropped_images_path, images[ind])
@@ -109,13 +109,13 @@ def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
     :param the_mod:             string, modifier to add to the image name, so `image_a` where `the_mod = '_a'`
     """
 
-    def modify(name, the_mod):
-        return name.split('.')[0].split('_')[-1] + the_mod + name.split('.')[-1]
+    def modify(name, a_mod):
+        return name.split('.')[0].split('_')[-1] + a_mod + name.split('.')[-1]
 
     for image in all_images:
         original_image_path = os.path.join(folder_path, image)
 
-        if not the_mod == None:
+        if not the_mod is None:
             modified_image_path = os.path.join(fixed_folder_path, modify(image, the_mod))
         else:
             modified_image_path = os.path.join(fixed_folder_path, image)
@@ -285,15 +285,15 @@ def unique_id_and_all_images_cuhk2():
 
     subdirs = os.listdir(top_path)
 
-    for dir in subdirs:
-        folder_path = os.path.join(top_path, dir, 'all')
+    for a_dir in subdirs:
+        folder_path = os.path.join(top_path, a_dir, 'all')
 
         id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
         unique_id = sorted(set(id_all))
         short_image_names = sorted(os.listdir(folder_path))
         fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
 
-        project_data_storage = os.path.join('../data/CUHK02', dir)
+        project_data_storage = os.path.join('../data/CUHK02', a_dir)
         if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
 
         id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
@@ -334,8 +334,6 @@ def create_positive_combinations(fullpath, unique_ids, num, smallest_id_group):
             combo_list.append(thing)
     elif num == 2:
         for item in range(num_ids):
-            a = fullpath[num*item]
-            b = fullpath[num*item+1]
             thing = str(fullpath[num*item] + ',' + fullpath[num*item+1] + ',1\n')
             combo_list.append(thing)
     return combo_list
@@ -355,9 +353,9 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     # keep track of which ids we ignore.
     ignore_id = []
 
-    for id in unique_ids:
+    for the_id in unique_ids:
         # get the indices for the matching IDs
-        id_group = [i for i, x in enumerate(all_ids) if x == id]
+        id_group = [i for i, x in enumerate(all_ids) if x == the_id]
         # get the fullpaths for each matching ID at the indices
         full_path_group = [the_list[i] for i in id_group]
         # update min_id_group_size
@@ -376,7 +374,8 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
             else:
                 ignore_id.append(id)
         else:
-            if min_id_group_size > len(id_group): min_id_group_size = len(id_group)
+            if min_id_group_size > len(id_group): 
+                min_id_group_size = len(id_group)
             if num > len(id_group):
                 # if the number of allowed images is greater than the number of matching ID images,
                 # add all the images of that ID to the selection
@@ -396,15 +395,13 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     return selection, min_id_group_size, unique_ids
 
 
-def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, dataset_name,
-               ranking_number):
+def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, dataset_name, ranking_number):
     """
     Creates positive labeled pairs for training and ranking set.
     This needs to be done once at the beginning of the iteration.
 
     :param id_all_file:                 string of path to id_all_file.txt
     :param unique_id_file:              string of path to unique_id_file.txt
-    :param short_image_names_file:      string of path to short_image_names_file.txt
     :param swapped_list_of_paths:       string of path to swapped_list_of_paths.txt
     :param dataset_name:                string name of the dataset
     :param ranking_number:              int the ranking number
@@ -660,6 +657,10 @@ def save_image_data_as_hdf5(file_list_of_paths, h5_path):
 
 
 def save_all_datasets_as_hdf5():
+    """
+    Saves all image datasets as HDF% (h5) files. 
+    Run this method when you don't have the image data h5 files to create them.
+    """
     save_image_data_as_hdf5('../data/GRID/fullpath_image_names_file.txt', '../data/GRID/grid.h5')
     print('saved grid')
 
@@ -687,19 +688,15 @@ def save_all_datasets_as_hdf5():
     print('saved market')
 
 
-
 def read_plot_from_hdf5(file_list_of_paths, h5_path):
     hdf5_file = h5py.File(h5_path, 'r')
 
     a = hdf5_file.keys()
 
-    list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()
+    list_of_paths = list(np.genfromtxt(file_list_of_paths, dtype=None))
     for i in range(10):
         thing = hdf5_file[list_of_paths[i]][:]
         plt.imshow(thing)
-
-# note: do this to save the datasets as hdf5
-# save_all_datasets_as_hdf5()
 
 
 def get_specifications_video_dataset(name):
