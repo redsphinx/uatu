@@ -642,32 +642,34 @@ def swap_for(the_thing, a, b):
     return str(the_thing)
 
 
-def save_as_hdf5(file_list_of_paths, h5_path):
-    list_of_paths = np.genfromtxt(file_list_of_paths, dtype=None).tolist()
-    swapped_file_list_of_paths = os.path.join(os.path.dirname(file_list_of_paths), 'swapped_list_of_paths.txt')
+def save_image_data_as_hdf5(file_list_of_paths, h5_path):
+    """
+    Saves image data as HDF5 (h5) file.
+    :param file_list_of_paths:  string of path to 'fullpath_image_names_file.txt'
+    :param h5_path:             string path to save location of h5 file
+    """
+    list_of_paths = list(np.genfromtxt(file_list_of_paths, dtype=None).tolist())
+    swapped_list_of_paths = list(np.genfromtxt(os.path.join(os.path.dirname(file_list_of_paths),
+                                                            'swapped_list_of_paths.txt')))
 
     action = 'a' if os.path.exists(h5_path) else 'w'
 
     with h5py.File(h5_path, action) as myfile:
-        with open(swapped_file_list_of_paths, 'w') as my_other_file:
-            for item in list_of_paths:
-                # swap the '/' for '+' or else listing the hdf5 keys will be a problem later
-                item_name = swap_for(item, '/', '+')
-                my_other_file.write(item_name + '\n')
-                data = myfile.create_dataset(name=item_name, data=ndimage.imread(item))
+        for item in range(len(list_of_paths)):
+            data = myfile.create_dataset(name=swapped_list_of_paths[item], data=ndimage.imread(list_of_paths[item]))
 
 
 def save_all_datasets_as_hdf5():
-    save_as_hdf5('../data/GRID/fullpath_image_names_file.txt', '../data/GRID/grid.h5')
+    save_image_data_as_hdf5('../data/GRID/fullpath_image_names_file.txt', '../data/GRID/grid.h5')
     print('saved grid')
 
-    save_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450.h5')
+    save_image_data_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450.h5')
     print('saved prid450')
 
-    save_as_hdf5('../data/caviar/fullpath_image_names_file.txt', '../data/caviar/caviar.h5')
+    save_image_data_as_hdf5('../data/caviar/fullpath_image_names_file.txt', '../data/caviar/caviar.h5')
     print('saved caviar')
 
-    save_as_hdf5('../data/VIPER/fullpath_image_names_file.txt', '../data/VIPER/viper.h5')
+    save_image_data_as_hdf5('../data/VIPER/fullpath_image_names_file.txt', '../data/VIPER/viper.h5')
     print('saved viper')
 
     subdirs = [item for item in os.listdir('../data/CUHK02') if not item.split('.')[-1] == 'txt']
@@ -675,13 +677,13 @@ def save_all_datasets_as_hdf5():
     for dir in subdirs:
         the_full = os.path.join(cuhk2_path, dir, 'fullpath_image_names_file.txt')
         the_h5 = os.path.join(cuhk2_path, 'cuhk02.h5')
-        save_as_hdf5(the_full, the_h5)
+        save_image_data_as_hdf5(the_full, the_h5)
     print('saved cuhk02')
 
-    save_as_hdf5('../data/CUHK/fullpath_image_names_file.txt', '../data/CUHK/cuhk01.h5')
+    save_image_data_as_hdf5('../data/CUHK/fullpath_image_names_file.txt', '../data/CUHK/cuhk01.h5')
     print('saved cuhk01')
 
-    save_as_hdf5('../data/market/fullpath_image_names_file.txt', '../data/market/market.h5')
+    save_image_data_as_hdf5('../data/market/fullpath_image_names_file.txt', '../data/market/market.h5')
     print('saved market')
 
 
@@ -944,8 +946,8 @@ def get_composition(name):
 
 
 def save_video_as_hdf5(swapped_list, original_list,  h5_path):
-    og_list_path = np.genfromtxt(original_list, dtype=None).tolist()
-    list_of_paths = np.genfromtxt(swapped_list, dtype=None).tolist()
+    og_list_path = list(np.genfromtxt(original_list, dtype=None))
+    list_of_paths = list(np.genfromtxt(swapped_list, dtype=None))
 
     with h5py.File(h5_path, 'w') as myfile:
         for item in range(len(list_of_paths)):
