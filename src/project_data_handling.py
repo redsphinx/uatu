@@ -613,6 +613,11 @@ def make_pairs_cuhk2(adjustable):
 
 
 def my_join(list_strings):
+    """
+    Makes 1 string from a list of strings
+    :param list_strings:    list of strings
+    :return:                string concatenated from all strings in the list_strings in order
+    """
     awesome_string = ''
     for item in list_strings:
         awesome_string += item
@@ -620,6 +625,13 @@ def my_join(list_strings):
 
 
 def swap_for(the_thing, a, b):
+    """
+    Takes a string and swaps each character 'a' for character 'b', where the characters are specified
+    :param the_thing:   full string
+    :param a:           string
+    :param b:           string
+    :return:            string with swapped characters
+    """
     the_thing = list(the_thing)
     for item in range(len(the_thing)):
         if the_thing[item] == a:
