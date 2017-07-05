@@ -656,7 +656,7 @@ def save_image_data_as_hdf5(file_list_of_paths, h5_path):
             data = myfile.create_dataset(name=swapped_list_of_paths[item], data=ndimage.imread(list_of_paths[item]))
 
 
-def save_all_datasets_as_hdf5():
+def save_all_image_datasets_as_hdf5():
     """
     Saves all image datasets as HDF% (h5) files. 
     Run this method when you don't have the image data h5 files to create them.
@@ -688,15 +688,22 @@ def save_all_datasets_as_hdf5():
     print('saved market')
 
 
-def read_plot_from_hdf5(file_list_of_paths, h5_path):
+def read_plot_from_hdf5(swapped_list, h5_path):
+    """
+    Check if the data was loaded correctly by plotting it. To see plots, run in debug mode with
+    breaking point at plt.imshow(thing).
+
+    :param swapped_list:    string of path to swapped_list_of_paths.txt
+    :param h5_path:         string of path to h5 file
+    """
     hdf5_file = h5py.File(h5_path, 'r')
-
-    a = hdf5_file.keys()
-
-    list_of_paths = list(np.genfromtxt(file_list_of_paths, dtype=None))
+    list_of_paths = list(np.genfromtxt(swapped_list, dtype=None))
     for i in range(10):
         thing = hdf5_file[list_of_paths[i]][:]
         plt.imshow(thing)
+
+
+read_plot_from_hdf5('../data/VIPER/swapped_list_of_paths.txt', '../data/VIPER/viper.h5')
 
 
 def get_specifications_video_dataset(name):
