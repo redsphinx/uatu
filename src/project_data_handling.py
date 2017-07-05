@@ -941,29 +941,13 @@ def make_pairs_video(adjustable):
     return ranking, training_pos, training_neg
 
 
-def get_composition(name):
-    """Get composition of a specified video dataset
-    """
-    path = '../data/%s/id_all.txt' % name
-    the_list = list(np.genfromtxt(path, dtype=None))
-    unique = list(set(the_list))
-    unique.sort()
-
-    tally = [0]*len(unique)
-
-    for item in range(len(the_list)):
-        thing = the_list[item]
-        ind = unique.index(thing)
-        tally[ind] += 1
-
-    count_1 = tally.count(1)
-    count_2 = tally.count(2)
-    count_3 = tally.count(3)
-
-    print(count_1, count_2, count_3)
-
-
 def save_video_as_hdf5(swapped_list, original_list,  h5_path):
+    """
+    Saves video data as HDF5 (h5) file
+    :param swapped_list:    string path to swapped_fullpath_names.txt
+    :param original_list:   string path to fullpath_sequence_names.txt
+    :param h5_path:         string path to save location of h5 file
+    """
     og_list_path = list(np.genfromtxt(original_list, dtype=None))
     list_of_paths = list(np.genfromtxt(swapped_list, dtype=None))
 
