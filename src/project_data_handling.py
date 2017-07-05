@@ -522,116 +522,38 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path):
     return ranking, training_pos, training_neg
 
 
-# note: swapped
-def make_pairs_viper(adjustable):
+def make_pairs_cuhk2(adjustable):
     """
-    Makes pairs for VIPeR dataset
+    Makes pairs for CUHK02.
+    This is needed because CUHK02 has 5 subdirectories.
+    If someone has time, just merge together the separate subdirectories and use method `make_image_pairs()` like how
+    I did on the other image datasets.
+
     :param adjustable:      object of class ProjectVariable
     :return:                3 lists contianing labeled pairs, one list for ranking and two for training
     """
-    start = time.time()
-    project_data_storage = '../data/VIPER'
-    if not os.path.exists(project_data_storage):
-        os.mkdir(project_data_storage)
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    swapped_list_of_paths = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
-
-    if not os.path.exists(id_all_file):
-        make_image_data_files('/home/gabi/Documents/datasets/VIPeR/padded', project_data_storage)
-
-    if adjustable.ranking_number == 'half':
-        ranking_number = pc.RANKING_DICT['viper']
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
-    else:
-        ranking_number = None
-
-    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, 'viper',
-                                                    ranking_number)
-
-    ranking = make_negative_pairs(ranking_pos, 'ranking')
-    training_neg = make_negative_pairs(training_pos, 'training')
-
-    total_time = time.time() - start
-    print('total_time   %0.2f seconds' % total_time)
-
-    return ranking, training_pos, training_neg
-
-
-# note: swapped
-def make_pairs_cuhk1(adjustable):
-    start = time.time()
-    project_data_storage = '../data/CUHK'
-    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
-    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-
-    if not os.path.exists(id_all_file):
-        make_image_data_files('/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images', project_data_storage)
-
-    if adjustable.ranking_number == 'half':
-        ranking_number = pc.RANKING_DICT['cuhk01']
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
-    else:
-        ranking_number = None
-
-    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file,
-                                                   ranking_number=adjustable.ranking_number,
-                                                   dataset_name='cuhk01')
-
-    ranking = make_negative_pairs(ranking_pos, 'ranking')
-    training_neg = make_negative_pairs(training_pos, 'training')
-
-    total_time = time.time() - start
-    print('total_time   %0.2f seconds' % total_time)
-
-    return ranking, training_pos, training_neg
-
-
-def merge_ranking_files(rank_list):
-    # for cuhk2
-    rank_list_pos = []
-    for item in rank_list:
-        the_label = int(item.strip().split(',')[-1])
-        if the_label == 1:
-            rank_list_pos.append(item)
-
-    list_0 = [rank_list_pos[index].split(',')[0] for index in range(len(rank_list_pos))]
-    list_1 = [rank_list_pos[index].split(',')[1] for index in range(len(rank_list_pos))]
-
-    rank_list_pos = []
-    for img0 in range(len(list_0)):
-        for img1 in range(len(list_1)):
-            num = 1 if img0 == img1 else 0
-            line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
-            rank_list_pos.append(line)
-
-    return rank_list_pos
-
-
-# note: swapped
-def make_pairs_cuhk2(adjustable):
-    start = time.time()
     top_project_data_storage = '../data/CUHK02'
     subdirs = ['P1', 'P2', 'P3', 'P4', 'P5']
+    num_subdirs = len(subdirs)
 
+    # check if ranking_number is alright else fix it
     if adjustable.ranking_number == 'half':
         adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)
     elif isinstance(adjustable.ranking_number, int):
-        if adjustable.ranking_number >= len(subdirs):
-            adapted_ranking_number = adjustable.ranking_number / len(subdirs)
+        if adjustable.ranking_number >= num_subdirs:
+            if adjustable.ranking_number % num_subdirs != 0:
+                print('cuhk02 ranking number must be divisible by %d: changing ranking number from %d to %d'
+                      % (num_subdirs, adjustable.ranking_number, adjustable.ranking_number / num_subdirs))
+                adjustable.ranking_number /= num_subdirs
+                adapted_ranking_number = adjustable.ranking_number
+
+            else:
+                adapted_ranking_number = adjustable.ranking_number / num_subdirs
         elif adjustable.ranking_number < len(subdirs):
-            print('ERROR: for cuhk02 ranking number must be at least 5 and number that is divisible by 5')
-            adapted_ranking_number = None
-            # adapted_ranking_number = 1
+            print('cuhk02 ranking number must be at least %d and divisible by %d: changing ranking number from %d to %d'
+                  % (num_subdirs, num_subdirs, adjustable.ranking_number, num_subdirs))
+            adjustable.ranking_number = num_subdirs
+            adapted_ranking_number = adjustable.ranking_number
         else:
             adapted_ranking_number = None
     else:
@@ -641,6 +563,7 @@ def make_pairs_cuhk2(adjustable):
     training_pos_all = []
     training_neg_all = []
 
+    # for each subdirectory make positive and negative pairs
     for dir in subdirs:
 
         if adjustable.ranking_number == 'half':
@@ -653,16 +576,13 @@ def make_pairs_cuhk2(adjustable):
 
         id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
         unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-        short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-        fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
-        # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
+        swapped_list_of_paths = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
 
         if not os.path.exists(id_all_file):
             unique_id_and_all_images_cuhk2()
 
-        ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
-                                                       fullpath_image_names_file,
-                                                       ranking_number=adapted_ranking_number, dataset_name='cuhk02')
+        ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, 'cuhk02', 
+                                                        adapted_ranking_number)
 
         ranking = make_negative_pairs(ranking_pos, 'ranking')
         training_neg = make_negative_pairs(training_pos, 'training')
@@ -671,156 +591,25 @@ def make_pairs_cuhk2(adjustable):
         training_pos_all += training_pos
         training_neg_all += training_neg
 
-    ranking_all = merge_ranking_files( ranking_all)
+    # merge together the ranking pairs in the proper way: such that we have N IDs and N^2 pairs where N pairs
+    # are positive
+    rank_all = []
+    for item in ranking_all:
+        the_label = int(item.strip().split(',')[-1])
+        if the_label == 1:
+            rank_all.append(item)
 
-    # note: fixing for the sizing incompatibility issues in scn.supermain
+    list_0 = [rank_all[index].split(',')[0] for index in range(len(rank_all))]
+    list_1 = [rank_all[index].split(',')[1] for index in range(len(rank_all))]
 
-    total_time = time.time() - start
-    print('total_time   %0.2f seconds' % total_time)
-    return ranking_all, training_pos_all, training_neg_all
+    rank_all = []
+    for img0 in range(len(list_0)):
+        for img1 in range(len(list_1)):
+            num = 1 if img0 == img1 else 0
+            line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
+            rank_all.append(line)
 
-
-#note:swapped
-def make_pairs_market(adjustable):
-    start = time.time()
-    project_data_storage = '../data/market'
-    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
-    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-
-    if not os.path.exists(id_all_file):
-        make_image_data_files('/home/gabi/Documents/datasets/market-1501/identities', project_data_storage)
-
-    if adjustable.ranking_number == 'half':
-        ranking_number = pc.RANKING_DICT['market']
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
-    else:
-        ranking_number = None
-
-    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file,
-                                                   ranking_number=ranking_number,
-                                                   dataset_name='market')
-
-    ranking = make_negative_pairs(ranking_pos, 'ranking')
-    training_neg = make_negative_pairs(training_pos, 'training')
-
-    total_time = time.time() - start
-    print('total_time   %0.2f seconds' % total_time)
-
-    return ranking, training_pos, training_neg
-
-#note:swapped
-def make_pairs_caviar(adjustable):
-    start = time.time()
-    project_data_storage = '../data/caviar'
-    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
-    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-
-    if not os.path.exists(id_all_file):
-        make_image_data_files('/home/gabi/Documents/datasets/CAVIAR4REID/fixed_caviar', project_data_storage)
-
-    if adjustable.ranking_number == 'half':
-        ranking_number = pc.RANKING_DICT['caviar']
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
-    else:
-        ranking_number = None
-
-    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file,
-                                                   ranking_number=ranking_number,
-                                                   dataset_name='caviar')
-
-    ranking = make_negative_pairs(ranking_pos, 'ranking')
-    training_neg = make_negative_pairs(training_pos, 'training')
-
-    total_time = time.time() - start
-    print('total_time   %0.2f seconds' % total_time)
-
-    return ranking, training_pos, training_neg
-
-
-#note:swapped
-def make_pairs_grid(adjustable):
-    start = time.time()
-    project_data_storage = '../data/GRID'
-    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
-    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-
-    if not os.path.exists(id_all_file):
-        make_image_data_files('/home/gabi/Documents/datasets/GRID/fixed_grid', project_data_storage)
-
-    if adjustable.ranking_number == 'half':
-        ranking_number = pc.RANKING_DICT['grid']
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
-    else:
-        ranking_number = None
-
-    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file,
-                                                   ranking_number=ranking_number,
-                                                   dataset_name='grid')
-
-    ranking = make_negative_pairs(ranking_pos, 'ranking')
-    training_neg = make_negative_pairs(training_pos, 'training')
-
-    total_time = time.time() - start
-    print('total_time   %0.2f seconds' % total_time)
-
-    return ranking, training_pos, training_neg
-
-
-#note:swapped
-def make_pairs_prid450(adjustable):
-    start = time.time()
-    project_data_storage = '../data/prid450'
-    if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
-
-    id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
-    unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
-    short_image_names_file = os.path.join(project_data_storage, 'short_image_names_file.txt')
-    fullpath_image_names_file = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
-    # fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
-
-    if not os.path.exists(id_all_file):
-        make_image_data_files('/home/gabi/Documents/datasets/PRID450/fixed_prid', project_data_storage)
-
-    if adjustable.ranking_number == 'half':
-        ranking_number = pc.RANKING_DICT['prid450']
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
-    else:
-        ranking_number = None
-
-    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, short_image_names_file,
-                                                   fullpath_image_names_file,
-                                                   ranking_number=ranking_number,
-                                                   dataset_name='prid450')
-
-    ranking = make_negative_pairs(ranking_pos, 'ranking')
-    training_neg = make_negative_pairs(training_pos, 'training')
-
-    total_time = time.time() - start
-    print('total_time   %0.2f seconds' % total_time)
-
-    return ranking, training_pos, training_neg
+    return rank_all, training_pos_all, training_neg_all
 
 
 def my_join(list_strings):

@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic_data_loading.py" afterPath="$PROJECT_DIR$/src/dynamic_data_loading.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_constants.py" afterPath="$PROJECT_DIR$/src/project_constants.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_data_handling.py" afterPath="$PROJECT_DIR$/src/project_data_handling.py" />
     </list>
     <ignored path="uatu.iws" />
@@ -56,14 +54,14 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.3719317">
+    <splitter split-orientation="horizontal" split-proportion="0.48986125">
       <split-first>
         <leaf>
-          <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="679">
-                  <caret line="802" column="80" lean-forward="false" selection-start-line="802" selection-start-column="30" selection-end-line="802" selection-end-column="80" />
+                <state relative-caret-position="169">
+                  <caret line="522" column="0" lean-forward="false" selection-start-line="522" selection-start-column="0" selection-end-line="522" selection-end-column="0" />
                   <folding>
                     <element signature="e#128#146#0" expanded="true" />
                   </folding>
@@ -101,7 +99,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="349">
@@ -118,8 +116,8 @@
           <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1384">
-                  <caret line="557" column="52" lean-forward="false" selection-start-line="557" selection-start-column="52" selection-end-line="557" selection-end-column="52" />
+                <state relative-caret-position="589">
+                  <caret line="612" column="0" lean-forward="true" selection-start-line="612" selection-start-column="0" selection-end-line="612" selection-end-column="0" />
                   <folding>
                     <element signature="e#128#146#0" expanded="true" />
                   </folding>
@@ -152,7 +150,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>imread</find>
       <find>imshow</find>
       <find>random</find>
       <find>fromarra</find>
@@ -182,9 +179,9 @@
       <find>make_negative_pairs</find>
       <find>make_positive_pairs</find>
       <find>01</find>
+      <find>rank_list_pos</find>
     </findStrings>
     <replaceStrings>
-      <replace>b.root</replace>
       <replace>test</replace>
       <replace>tk_bb_image</replace>
       <replace>window_title</replace>
@@ -214,6 +211,7 @@
       <replace>make_negative_pairs</replace>
       <replace>create_positive_combinations</replace>
       <replace>02</replace>
+      <replace>rank_all</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -270,9 +268,9 @@
         <option value="$PROJECT_DIR$/src/preprocess_human_data.py" />
         <option value="$PROJECT_DIR$/src/testing_stuff.py" />
         <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
-        <option value="$PROJECT_DIR$/src/project_data_handling.py" />
         <option value="$PROJECT_DIR$/src/project_constants.py" />
         <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
+        <option value="$PROJECT_DIR$/src/project_data_handling.py" />
       </list>
     </option>
   </component>
@@ -841,11 +839,6 @@
           <line>497</line>
           <option name="timeStamp" value="1138" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/project_data_handling.py</url>
-          <line>559</line>
-          <option name="timeStamp" value="1141" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -1165,18 +1158,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-270">
-          <caret line="0" column="21" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_clean.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="730">
           <caret line="499" column="0" lean-forward="false" selection-start-line="499" selection-start-column="0" selection-end-line="499" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="408" column="35" lean-forward="false" selection-start-line="408" selection-start-column="4" selection-end-line="408" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-270">
+          <caret line="0" column="21" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="21" />
           <folding />
         </state>
       </provider>
@@ -1193,19 +1194,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="679">
-          <caret line="802" column="80" lean-forward="false" selection-start-line="802" selection-start-column="30" selection-end-line="802" selection-end-column="80" />
+        <state relative-caret-position="589">
+          <caret line="612" column="0" lean-forward="true" selection-start-line="612" selection-start-column="0" selection-end-line="612" selection-end-column="0" />
           <folding>
             <element signature="e#128#146#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="408" column="35" lean-forward="false" selection-start-line="408" selection-start-column="4" selection-end-line="408" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
