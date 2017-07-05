@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic_data_loading.py" afterPath="$PROJECT_DIR$/src/dynamic_data_loading.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_data_handling.py" afterPath="$PROJECT_DIR$/src/project_data_handling.py" />
     </list>
     <ignored path="uatu.iws" />
@@ -54,14 +55,14 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.3271078">
+    <splitter split-orientation="horizontal" split-proportion="0.3665955">
       <split-first>
         <leaf>
-          <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="169">
-                  <caret line="519" column="0" lean-forward="false" selection-start-line="519" selection-start-column="0" selection-end-line="519" selection-end-column="0" />
+                <state relative-caret-position="210">
+                  <caret line="397" column="62" lean-forward="false" selection-start-line="397" selection-start-column="62" selection-end-line="397" selection-end-column="62" />
                   <folding>
                     <element signature="e#128#146#0" expanded="true" />
                   </folding>
@@ -99,11 +100,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="349">
-                  <caret line="408" column="35" lean-forward="false" selection-start-line="408" selection-start-column="4" selection-end-line="408" selection-end-column="35" />
+                <state relative-caret-position="589">
+                  <caret line="436" column="62" lean-forward="true" selection-start-line="436" selection-start-column="62" selection-end-line="436" selection-end-column="62" />
                   <folding />
                 </state>
               </provider>
@@ -116,8 +117,8 @@
           <file leaf-file-name="project_data_handling.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="124">
-                  <caret line="826" column="25" lean-forward="false" selection-start-line="826" selection-start-column="4" selection-end-line="826" selection-end-column="25" />
+                <state relative-caret-position="559">
+                  <caret line="941" column="0" lean-forward="true" selection-start-line="941" selection-start-column="0" selection-end-line="941" selection-end-column="0" />
                   <folding>
                     <element signature="e#128#146#0" expanded="true" />
                   </folding>
@@ -150,7 +151,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>tf</find>
       <find>model</find>
       <find>Seque</find>
       <find>_</find>
@@ -180,6 +180,7 @@
       <find>file</find>
       <find>dir</find>
       <find>min_sequence_len</find>
+      <find>make_posit</find>
     </findStrings>
     <replaceStrings>
       <replace>reset</replace>
@@ -734,7 +735,7 @@
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21611527" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21611527" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24304268" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48608536" sideWeight="0.5032017" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1198,14 +1199,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="408" column="35" lean-forward="false" selection-start-line="408" selection-start-column="4" selection-end-line="408" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-270">
@@ -1224,10 +1217,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="436" column="62" lean-forward="true" selection-start-line="436" selection-start-column="62" selection-end-line="436" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_data_handling.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="826" column="25" lean-forward="false" selection-start-line="826" selection-start-column="4" selection-end-line="826" selection-end-column="25" />
+        <state relative-caret-position="559">
+          <caret line="941" column="0" lean-forward="true" selection-start-line="941" selection-start-column="0" selection-end-line="941" selection-end-column="0" />
           <folding>
             <element signature="e#128#146#0" expanded="true" />
           </folding>

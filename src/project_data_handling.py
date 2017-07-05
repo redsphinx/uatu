@@ -919,18 +919,20 @@ def make_video_data_files(name):
             my_file.write('%s\n' % unique_id[item])
 
 
-def make_pairs_video(name, adjustable):
-    path = '../data/%s' % name
+def make_pairs_video(adjustable):
+    """
+    Makes pairs for the specified video dataset.
+    :param adjustable:  object of class ProjectVariable
+    :return:            3 lists contianing labeled pairs, one list for ranking and two for training
+    """
+    path = '../data/%s' % adjustable.datasets[0]
 
     id_all_file = os.path.join(path, 'id_all.txt')
     unique_id_file = os.path.join(path, 'unique_id.txt')
-    fullpath_image_names_file = os.path.join(path, 'swapped_fullpath_names.txt')
+    swapped_fullpath_file = os.path.join(path, 'swapped_fullpath_names.txt')
 
-    ranking_number = adjustable.ranking_number
-    # ranking_number = 10
-
-    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, None, fullpath_image_names_file,
-                                                   name, ranking_number)
+    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_fullpath_file,
+                                                    adjustable.datasets[0], adjustable.ranking_number)
 
     ranking = make_negative_pairs(ranking_pos, 'ranking')
 

@@ -430,9 +430,9 @@ def create_training_and_ranking_set(name, adjustable):
         # ranking, training_pos, training_neg = pd.make_pairs_prid450(adjustable)
         ranking, training_pos, training_neg = pd.make_pairs_image(adjustable, pc.PRID450_DATA_STORAGE, pc.PRID450_FIXED)
     elif name == 'ilids-vid':
-        ranking, training_pos, training_neg = pd.make_pairs_video(name, adjustable)
+        ranking, training_pos, training_neg = pd.make_pairs_video(adjustable)
     elif name == 'prid2011':
-        ranking, training_pos, training_neg = pd.make_pairs_video(name, adjustable)
+        ranking, training_pos, training_neg = pd.make_pairs_video(adjustable)
     else:
         ranking, training_pos, training_neg = None, None, None
 
