@@ -740,10 +740,10 @@ def get_sequence_length_video_dataset(name):
 
 def fix_video_dataset(name, min_seq):
     """
-    :param name:        name of the dataset
+    Make all sequences of same length and store them in a new folder
+    :param name:        name of the video dataset: 'ilids-vid' or 'prid2011'
     :param min_seq:     minimal sequence length
     """
-    min_sequence_len = min_seq
     old_path = '/home/gabi/Documents/datasets/%s' % name
 
     # make new directory
@@ -751,12 +751,14 @@ def fix_video_dataset(name, min_seq):
     if not os.path.exists(new_path):
         os.mkdir(new_path)
 
-    # get the cams
+    # get the cameras
     cams = os.listdir(old_path)
 
     for cam in cams:
-        if cam == 'cam1': cam_new = 'cam_a'
-        elif cam == 'cam2': cam_new = 'cam_b'
+        if cam == 'cam1':
+            cam_new = 'cam_a'
+        elif cam == 'cam2':
+            cam_new = 'cam_b'
         else: cam_new = cam
         new_cam_path = os.path.join(new_path, cam_new)
         if not os.path.exists(new_cam_path):
@@ -786,7 +788,7 @@ def fix_video_dataset(name, min_seq):
                 if not os.path.exists(new_person_path):
                     os.mkdir(new_person_path)
 
-                possible_sequence_cuts = number_images / min_sequence_len
+                possible_sequence_cuts = number_images / min_seq
 
                 # depending on how many cuts we can make
                 for sequence in range(possible_sequence_cuts):
@@ -794,7 +796,7 @@ def fix_video_dataset(name, min_seq):
                     if not os.path.exists(sequence_path):
                         os.mkdir(sequence_path)
 
-                    sample_images = images[sequence*min_sequence_len : min_sequence_len + sequence*min_sequence_len]
+                    sample_images = images[sequence*min_seq : min_seq + sequence*min_seq]
                     number_sample_images = len(sample_images)
 
                     for s_i in range(number_sample_images):
