@@ -1546,12 +1546,25 @@ def normal_scnn():
     a.datasets = ['viper']
     scn.super_main(a)
 
+
+def testing_cosine():
+    a = ProjectVariable()
+    a.experiment_name = 'testing cosine'
+    a.ranking_number = 20
+    a.iterations = 3
+    a.epochs = 50
+    a.datasets = ['prid450']
+    a.cost_module_type = 'cosine'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     #
     # if num == '1':
     #     experiment_lstm_mooore()
-    experiment_lstm_more()
+    testing_cosine()
 
 main()

@@ -50,6 +50,46 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+5 july
+------
+. Documentation
+.. DONE clean + document dynamic_data_loading
+... Renamed `project_data_handling.py` to `data_pipeline.py`
+. Prototype
+.. DONE weights GPU transferable to CPU?
+... YES
+. Think about experiments that have to be run for the thesis
+
+In general I think the experiments should be centered around the research questions. Take the presentation as the
+guideline for the minimum experiments. Do those and if there is time do more.
+>> So for now just do the experiments in the presentation x10.
+
+Research Questions:
+1. Can we benefit from avoiding an explicit Mahalanobis distance?
+
+Euclidean vs. FC layers
+Cosine distance vs. FC layers
+
+1.1. What about differences between FC operations?
+Concat vs. absolute difference
+
+2. What is the best strategy for training on multiple datasets?
+
+Mixed data vs. single data
+Transfer learning
+- with increasingly more data
+
+3. Can we make use of prior information about the probe?
+
+Priming vs. not priming
+Priming using learning rate with decay
+Also on more datasets
+
+
+
+
+
+
 4 july
 ------
 . Documentation

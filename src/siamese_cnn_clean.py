@@ -89,7 +89,6 @@ def create_cost_module(inputs, adjustable):
     :param inputs:          list containing feature tensor from each siamese head
     :return:                some type of distance
     """
-    # NOTE: 2017/08 `merge` will become deprecated
     def subtract(x):
         output = x[0] - x[1]
         return output
@@ -153,7 +152,8 @@ def create_cost_module(inputs, adjustable):
         return softmax
 
     elif adjustable.cost_module_type == 'cosine':
-        distance = layers.Lambda(cosine_distance, output_shape=cos_dist_output_shape)(inputs)
+        distance = layers.Lambda(cosine_distance)(inputs)
+        # distance = layers.Lambda(cosine_distance, output_shape=cos_dist_output_shape)(inputs)
         return distance
 
     # elif adjustable.cost_module_type == 'DHSL':

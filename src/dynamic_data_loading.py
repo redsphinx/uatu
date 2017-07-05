@@ -583,7 +583,8 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
     only_values = [item[1] for item in key_dataset_mapping]
     # get the index of the value that key in all_key points to
     # print('getting index 1')
-    # FIXME: taking incredibly fucking long
+    # FIXME: taking incredibly fucking long if we do big ranking numbers
+    # TODO: fix it, optimize it somehow so that we can run with bigger ranking numbers
     the_index_key_1 = [all_keys_in_mapping.index(key_1) for key_1 in all_key_1]
     # print('getting index 2')
     the_index_key_2 = [all_keys_in_mapping.index(key_2) for key_2 in all_key_2]
@@ -596,7 +597,6 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
         b = the_index_key_1[item]
         c = only_values[b][a][:]
         values_key_1.append(c)
-
 
     values_key_1 = [only_values[the_index_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
     # print('getting values 2')

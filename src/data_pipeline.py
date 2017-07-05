@@ -82,7 +82,8 @@ def fix_cuhk02():
     """
     folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK2'
     cropped_folder_path = os.path.join(os.path.dirname(folder_path), 'cropped_CUHK2')
-    if not os.path.exists(cropped_folder_path): os.mkdir(cropped_folder_path)
+    if not os.path.exists(cropped_folder_path):
+        os.mkdir(cropped_folder_path)
 
     subdirs = os.listdir(folder_path)
 
@@ -121,7 +122,7 @@ def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
     for image in all_images:
         original_image_path = os.path.join(folder_path, image)
 
-        if not the_mod is None:
+        if the_mod is not None:
             modified_image_path = os.path.join(fixed_folder_path, modify(image, the_mod))
         else:
             modified_image_path = os.path.join(fixed_folder_path, image)
@@ -170,7 +171,6 @@ def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
             new_img.save(modified_image_path)
         elif case == 5:
             the_image.save(modified_image_path)
-
 
 
 def fix_caviar():
@@ -300,7 +300,8 @@ def unique_id_and_all_images_cuhk2():
         fullpath_image_names = sorted([os.path.join(folder_path, item) for item in short_image_names])
 
         project_data_storage = os.path.join('../data/CUHK02', a_dir)
-        if not os.path.exists(project_data_storage): os.mkdir(project_data_storage)
+        if not os.path.exists(project_data_storage):
+            os.mkdir(project_data_storage)
 
         id_all_file = os.path.join(project_data_storage, 'id_all_file.txt')
         unique_id_file = os.path.join(project_data_storage, 'unique_id_file.txt')
@@ -352,6 +353,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     :param unique_ids:      list of unique IDs. every ID appears only once
     :param all_ids:         the_list, but then only the IDs
     :param num:             the number of allowed image per ID
+    :param dataset_name     string name of the datasaet
     :return:                truncated selection of the_list
     """
     selection = []
@@ -365,16 +367,15 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
         # get the fullpaths for each matching ID at the indices
         full_path_group = [the_list[i] for i in id_group]
         # update min_id_group_size
-        # if the dataset is large and has a lot of large id groups(>num) then ignore the id groups that are smaller than num
-        if dataset_name == 'market' or dataset_name == 'cuhk02' or dataset_name == 'caviar' or \
-                        dataset_name == 'prid2011' or dataset_name == 'ilids-vid':
+        # if dataset is large and has a lot of large id groups(>num) then ignore the id groups that are smaller than num
+        if dataset_name in {'market', 'cuhk02', 'caviar', 'prid2011', 'ilids-vid'}:
             if len(id_group) >= num:
                 # print('length id group: %d, num: %d' % (len(id_group), num))
                 if min_id_group_size > len(id_group):
                     min_id_group_size = len(id_group)
                 # if there are more matching ID images than allowed images,
                 # only add the number of allowed matching ID images
-                # use a random number to decide which images get popped to make sure you don't choose the same images always
+                # use a random number to decide which images get popped
                 for ble in range(num):
                     selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
             else:
@@ -390,7 +391,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
             else:
                 # if there are more matching ID images than allowed images,
                 # only add the number of allowed matching ID images
-                # use a random number to decide which images get popped to make sure you don't choose the same images always
+                # use a random number to decide which images get popped
                 for ble in range(num):
                     selection.append(full_path_group.pop(rd.randrange(0, len(full_path_group))))
 
@@ -490,7 +491,6 @@ def make_negative_pairs(pos_list, the_type):
         return training_neg
 
 
-
 def make_pairs_image(adjustable, project_data_storage, fixed_path):
     """
     Makes pairs for the specified image dataset.
@@ -567,12 +567,12 @@ def make_pairs_cuhk2(adjustable):
     training_neg_all = []
 
     # for each subdirectory make positive and negative pairs
-    for dir in subdirs:
+    for a_dir in subdirs:
 
         if adjustable.ranking_number == 'half':
-            adapted_ranking_number = pc.RANKING_CUHK02_PARTS[dir]
+            adapted_ranking_number = pc.RANKING_CUHK02_PARTS[a_dir]
 
-        project_data_storage = os.path.join(top_project_data_storage, dir)
+        project_data_storage = os.path.join(top_project_data_storage, a_dir)
 
         if not os.path.exists(project_data_storage):
             os.mkdir(project_data_storage)
@@ -659,7 +659,7 @@ def save_image_data_as_hdf5(file_list_of_paths, h5_path):
 
     with h5py.File(h5_path, action) as myfile:
         for item in range(len(list_of_paths)):
-            data = myfile.create_dataset(name=swapped_list_of_paths[item], data=ndimage.imread(list_of_paths[item]))
+            myfile.create_dataset(name=swapped_list_of_paths[item], data=ndimage.imread(list_of_paths[item]))
 
 
 def save_all_image_datasets_as_hdf5():
@@ -681,8 +681,8 @@ def save_all_image_datasets_as_hdf5():
 
     subdirs = [item for item in os.listdir('../data/CUHK02') if not item.split('.')[-1] == 'txt']
     cuhk2_path = '../data/CUHK02'
-    for dir in subdirs:
-        the_full = os.path.join(cuhk2_path, dir, 'fullpath_image_names_file.txt')
+    for a_dir in subdirs:
+        the_full = os.path.join(cuhk2_path, a_dir, 'fullpath_image_names_file.txt')
         the_h5 = os.path.join(cuhk2_path, 'cuhk02.h5')
         save_image_data_as_hdf5(the_full, the_h5)
     print('saved cuhk02')
@@ -765,7 +765,8 @@ def fix_video_dataset(name, min_seq):
             cam_new = 'cam_a'
         elif cam == 'cam2':
             cam_new = 'cam_b'
-        else: cam_new = cam
+        else:
+            cam_new = cam
         new_cam_path = os.path.join(new_path, cam_new)
         if not os.path.exists(new_cam_path):
             os.mkdir(new_cam_path)
@@ -802,7 +803,7 @@ def fix_video_dataset(name, min_seq):
                     if not os.path.exists(sequence_path):
                         os.mkdir(sequence_path)
 
-                    sample_images = images[sequence*min_seq : min_seq + sequence*min_seq]
+                    sample_images = images[sequence * min_seq: min_seq + sequence * min_seq]
                     number_sample_images = len(sample_images)
 
                     for s_i in range(number_sample_images):
@@ -968,7 +969,7 @@ def save_video_as_hdf5(swapped_list, original_list,  h5_path):
                 image_path = os.path.join(og_list_path[item], images[i])
                 image_arr[i] = ndimage.imread(image_path)
 
-            data = myfile.create_dataset(name=list_of_paths[item], data=image_arr)
+            myfile.create_dataset(name=list_of_paths[item], data=image_arr)
 
 
 def save_all_video_data_as_h5():
