@@ -57,6 +57,7 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. 2 things that could be to blame:
 		1) merge vs lambda layer
 		2) using keras instead of TF
+. For a brief moment I thought that maybe the CLR import of keras vs TF was the issue, but then i remembered that in the simple example i am not using CLR at all so this is not the issue.
 
 
 5 july

@@ -1,18 +1,18 @@
-# import keras
-# from keras import models
-# from keras import layers
-# from keras import optimizers
-# import keras.backend as K
-# from keras import initializers
-# import tensorflow as tf
-
-from tensorflow.contrib import keras
-from tensorflow.contrib.keras import models
-from tensorflow.contrib.keras import layers
-from tensorflow.contrib.keras import optimizers
-from tensorflow.contrib.keras import backend as K
-from tensorflow.contrib.keras import initializers
+import keras
+from keras import models
+from keras import layers
+from keras import optimizers
+import keras.backend as K
+from keras import initializers
 import tensorflow as tf
+
+# from tensorflow.contrib import keras
+# from tensorflow.contrib.keras import models
+# from tensorflow.contrib.keras import layers
+# from tensorflow.contrib.keras import optimizers
+# from tensorflow.contrib.keras import backend as K
+# from tensorflow.contrib.keras import initializers
+# import tensorflow as tf
 
 import dynamic_data_loading as ddl
 import project_constants as pc

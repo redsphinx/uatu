@@ -1593,9 +1593,57 @@ def recreate_sota_2():
     scn.super_main(a)
 
 
+def recreate_sota_3():
+    a = ProjectVariable()
+    a.experiment_name = 'try to recreate viper sota: set to tf + using Lambda + pooling size + numfil=2'
+    a.epochs = 100
+    a.ranking_number = 316
+    a.iterations = 5
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 2
+    a.neural_distance = 'absolute'
+    a.datasets = ['viper']
+    a.pooling_size = [[2, 2], [2, 2]]
+    scn.super_main(a)
+
+
+def recreate_sota_4():
+    a = ProjectVariable()
+    a.experiment_name = 'try to recreate viper sota: set to tf + using Lambda + numfil=2'
+    a.epochs = 100
+    a.ranking_number = 316
+    a.iterations = 5
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 2
+    a.neural_distance = 'absolute'
+    a.datasets = ['viper']
+    scn.super_main(a)
+
+
+def recreate_sota_5():
+    a = ProjectVariable()
+    a.experiment_name = 'try to recreate viper sota: set to keras only 30 iters'
+    a.epochs = 100
+    a.ranking_number = 316
+    a.iterations = 30
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+    a.datasets = ['viper']
+    scn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
-    recreate_sota_2()
+    recreate_sota_5()
 
 main()
