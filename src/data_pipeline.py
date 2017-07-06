@@ -709,9 +709,6 @@ def read_plot_from_hdf5(swapped_list, h5_path):
         plt.imshow(thing)
 
 
-read_plot_from_hdf5('../data/VIPER/swapped_list_of_paths.txt', '../data/VIPER/viper.h5')
-
-
 def get_sequence_length_video_dataset(name):
     """
     Print the minimum sequence length and the maximum sequence length of the dataset,

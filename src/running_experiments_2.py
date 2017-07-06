@@ -1559,12 +1559,43 @@ def testing_cosine():
     scn.super_main(a)
 
 
+def recreate_sota_1():
+    a = ProjectVariable()
+    a.experiment_name = 'try to recreate viper sota: set to keras + using merge instead of Lambda + pooling size'
+    a.epochs = 100
+    a.ranking_number = 316
+    a.iterations = 5
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    a.datasets = ['viper']
+    a.pooling_size = [[2, 2], [2, 2]]
+    scn.super_main(a)
+
+
+def recreate_sota_2():
+    a = ProjectVariable()
+    a.experiment_name = 'try to recreate viper sota: set to tf + using Lambda + pooling size'
+    a.epochs = 100
+    a.ranking_number = 316
+    a.iterations = 5
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.numfil = 1
+    a.neural_distance = 'absolute'
+    a.datasets = ['viper']
+    a.pooling_size = [[2, 2], [2, 2]]
+    scn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
-    #
-    # if num == '1':
-    #     experiment_lstm_mooore()
-    testing_cosine()
+    recreate_sota_2()
 
 main()

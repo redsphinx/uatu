@@ -50,6 +50,15 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+6 july
+------
+. Trying to recreate the VIPER surpassing SOTA
+. When switching from TF to Keras, don't forget to change imports in CLR as well!!
+.. 2 things that could be to blame:
+		1) merge vs lambda layer
+		2) using keras instead of TF
+
+
 5 july
 ------
 . Documentation
