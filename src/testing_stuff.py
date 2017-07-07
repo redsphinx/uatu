@@ -488,3 +488,22 @@ def parent():
     folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK1'
     print(os.path.dirname(folder_path))
 
+
+def get_image_from_h5():
+    path_h5 = '../data/GRID/grid.h5'
+    h5thing = h5py.File(path_h5, 'r')
+    keys = list(np.genfromtxt('/home/gabi/PycharmProjects/uatu/data/GRID/swapped_list_of_paths.txt', dtype=None))
+
+    num = 10
+
+    for item in keys:
+        if num != 0:
+            print(item)
+            thingy = h5thing[item][:]
+            print(np.shape(thingy), type(thingy))
+            num -= 1
+        else:
+            break
+
+
+get_image_from_h5()

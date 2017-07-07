@@ -54,7 +54,7 @@ class ProjectVariable(object):
         # (horizontal, vertical) for downscaling with max-pooling. remember shape=(height,width)
         # self._pooling_size = [[1, 4, 2], [1, 2, 2]] # list for video stuff
         self._pooling_size = [[4, 2], [2, 2]]  # list for image stuff
-        # the activation function. choice of: 'relu', 'elu'
+        # the activation function. choice of: 'relu', 'elu', 'selu'
         self._activation_function = 'elu' # string
         # the loss function. choice of: 'categorical_crossentropy', 'kullback_leibler_divergence', 'mean_squared_error',
         # 'mean_absolute_error'

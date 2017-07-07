@@ -26,181 +26,140 @@ import numpy as np
 # os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 
-def add_activation_and_relu(model):
-    model.add(Activation('relu'))
-    model.add(MaxPool2D(pool_size=(2, 2)))
+def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name, first_layer=False):
+    """One-liner for adding: pooling + activation + batchnorm
+    :param model:       the model to add to
+    :return:            the model with added activation and max pooling
+    :param trainable:   boolean indicating if layer is trainable
+    """
+
+    if first_layer:
+        if adjustable.pooling_type == 'avg_pooling':
+            model.add(layers.AveragePooling2D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1])))
+        else:  # max_pooling
+            model.add(layers.MaxPool2D(pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1])))
+    else:
+        if adjustable.pooling_type == 'avg_pooling':
+            model.add(layers.AveragePooling2D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1])))
+        else:  # max_pooling
+            model.add(layers.MaxPool2D(pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1])))
+
+    model.add(layers.Activation(adjustable.activation_function))
+
+    if use_batch_norm:
+        model.add(layers.BatchNormalization(name=batch_norm_name, trainable=adjustable.trainable_bn))
     return model
 
 
-def cnn_model(numfil):
-    model = Sequential()
-    model.add(Conv2D(16*numfil, kernel_size=(3, 3), padding='same', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
-                                                                                 pc.NUM_CHANNELS), name='conv_1'))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(32*numfil, kernel_size=(3, 3), padding='same', name='conv_2'))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(64*numfil, kernel_size=(3, 3), padding='same', name='conv_3'))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(128*numfil, kernel_size=(3, 3), padding='same', name='conv_4'))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(256*numfil, kernel_size=(3, 3), padding='same', name='conv_5'))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(512*numfil, kernel_size=(3, 3), padding='same', name='conv_6'))
-    model = add_activation_and_relu(model)
-    model.add(Conv2D(1024*numfil, kernel_size=(3, 3), padding='same', name='conv_7'))
-    model.add(Activation('relu'))
+def create_cnn_model(adjustable):
+    """Implements a convolutional neural network
+    :return:                    a keras models.Sequential model
+    """
+    use_batch_norm = True if adjustable.head_type == 'batch_normalized' else False
 
-    model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
-    model.add(Flatten(name='cnn_flat'))
-    model.add(Dense(512))
-    model.add(Activation('relu'))
-    model.add(Dense(pc.NUM_CLASSES))
-    model.add(Activation('softmax'))
-    return model
+    # convolutional unit 1
+    model = models.Sequential()
+    if use_batch_norm == True:
+        model.add(layers.BatchNormalization(name='bn_1', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
+                                            trainable=adjustable.trainable_bn))
+        # model.add(layers.BatchNormalization(name='bn_1', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
+        #                              trainable=adjustable.trainable_bn))
+    model.add(layers.Conv2D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
+                     trainable=adjustable.trainable_12))
+    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
+    # convolutional unit 2
+    model.add(layers.Conv2D(32 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_2',
+                     trainable=adjustable.trainable_12))
+    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_3')
+    # convolutional unit 3
+    model.add(layers.Conv2D(64 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_3',
+                     trainable=adjustable.trainable_34))
+    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_4')
+    # convolutional unit 4
+    model.add(layers.Conv2D(128 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_4',
+                     trainable=adjustable.trainable_34))
+    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_5')
+    # convolutional unit 5
+    model.add(layers.Conv2D(256 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_5',
+                     trainable=adjustable.trainable_56))
+    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_6')
+    # convolutional unit 6
+    model.add(layers.Conv2D(512 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_6',
+                     trainable=adjustable.trainable_56))
+    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_7')
+    if adjustable.pooling_size == [[2, 2], [2, 2]]:
+        model.add(layers.Conv2D(1024 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_7',
+                         trainable=adjustable.trainable_56))
+        model.add(layers.Activation(adjustable.activation_function))
+        if use_batch_norm == True:
+            model.add(layers.BatchNormalization(name='bn_8', trainable=adjustable.trainable_bn))
 
-
-def cnn_model_2D_BN(numfil):
-    model = Sequential()
-    model.add(Conv2D(16*numfil, kernel_size=(3, 3), padding='same', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
-                                                                                 pc.NUM_CHANNELS), name='conv_1'))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_1'))
-    model.add(Conv2D(32*numfil, kernel_size=(3, 3), padding='same', name='conv_2'))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_2'))
-    model.add(Conv2D(64*numfil, kernel_size=(3, 3), padding='same', name='conv_3'))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_3'))
-    model.add(Conv2D(128*numfil, kernel_size=(3, 3), padding='same', name='conv_4'))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_4'))
-    model.add(Conv2D(256*numfil, kernel_size=(3, 3), padding='same', name='conv_5'))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_5'))
-    model.add(Conv2D(512*numfil, kernel_size=(3, 3), padding='same', name='conv_6'))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_6'))
-    model.add(Conv2D(1024*numfil, kernel_size=(3, 3), padding='same', name='conv_7'))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_7'))
-
-    model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
-    model.add(Flatten(name='cnn_flat'))
-    model.add(Dense(512))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_8'))
-    model.add(Dense(pc.NUM_CLASSES))
-    model.add(Activation('softmax'))
-    return model
+    model.add(layers.Flatten(name='cnn_flat'))
 
 
-def cnn_model_2d_conv_1d_filters(numfil):
-    model = Sequential()
-    model.add(Conv2D(16*numfil, kernel_size=(1, 3), padding='same', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH,
-                                                                                 pc.NUM_CHANNELS), name='conv_1_1'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(16*numfil, kernel_size=(3, 1), padding='same', name='conv_1_2'))
-    model = add_activation_and_relu(model)
+    model.add(layers.Dense(adjustable.neural_distance_layers[0], name='dense_1'))
+    model.add(layers.Activation(adjustable.activation_function))
+    model.add(layers.Dropout(pc.DROPOUT, name='dropout_1'))
+    model.add(layers.Dense(adjustable.neural_distance_layers[1], name='dense_2'))
+    model.add(layers.Activation(adjustable.activation_function))
+    model.add(layers.Dropout(pc.DROPOUT, name='dropout_2'))
+    model.add(layers.Dense(pc.NUM_CLASSES, name='output'))
+    model.add(layers.Activation('softmax'))
 
-    model.add(Conv2D(32*numfil, kernel_size=(1, 3), padding='same', name='conv_2_1'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(32*numfil, kernel_size=(3, 1), padding='same', name='conv_2_2'))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(64*numfil, kernel_size=(1, 3), padding='same', name='conv_3_1'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(64*numfil, kernel_size=(3, 1), padding='same', name='conv_3_2'))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(128*numfil, kernel_size=(1, 3), padding='same', name='conv_4_1'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(128*numfil, kernel_size=(3, 1), padding='same', name='conv_4_2'))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(256*numfil, kernel_size=(1, 3), padding='same', name='conv_5_1'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(256*numfil, kernel_size=(3, 1), padding='same', name='conv_5_2'))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(512*numfil, kernel_size=(1, 3), padding='same', name='conv_6_1'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(512*numfil, kernel_size=(3, 1), padding='same', name='conv_6_2'))
-    model = add_activation_and_relu(model)
-
-    model.add(Conv2D(1024*numfil, kernel_size=(1, 3), padding='same', name='conv_7_1'))
-    model.add(Activation('relu'))
-    model.add(Conv2D(1024*numfil, kernel_size=(3, 1), padding='same', name='conv_7_2'))
-    model.add(Activation('relu'))
-
-    model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
-    model.add(Flatten(name='cnn_flat'))
-    model.add(Dense(512))
-    model.add(Dense(pc.NUM_CLASSES))
-    model.add(Activation('softmax'))
+    if not adjustable.weights_name == None:
+        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.weights_name), by_name=True)
 
     return model
 
 
-def cnn_model_2d_conv_1d_filters_BN(train_data, do_dropout):
-    model = Sequential()
-    model.add(Conv2D(16, kernel_size=(1, 3), padding='same', input_shape=train_data.shape[1:], name='conv_1_1', use_bias=pc.USE_BIAS))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_1'))
-    model.add(Conv2D(16, kernel_size=(3, 1), padding='same', name='conv_1_2', use_bias=pc.USE_BIAS))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_2'))
+def train(adjustable, model, train_data, train_labels, h5_data):
+    if adjustable.use_cyclical_learning_rate:
 
-    model.add(Conv2D(32, kernel_size=(1, 3), padding='same', name='conv_2_1', use_bias=pc.USE_BIAS))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_3'))
-    model.add(Conv2D(32, kernel_size=(3, 1), padding='same', name='conv_2_2', use_bias=pc.USE_BIAS))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_4'))
+        clr = CyclicLR(step_size=(len(train_labels) / adjustable.batch_size) * 8, base_lr=adjustable.cl_min,
+                       max_lr=adjustable.cl_max)
 
-    model.add(Conv2D(64, kernel_size=(1, 3), padding='same', name='conv_3_1', use_bias=pc.USE_BIAS))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_5'))
-    model.add(Conv2D(64, kernel_size=(3, 1), padding='same', name='conv_3_2', use_bias=pc.USE_BIAS))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_6'))
+        train_data = ddl.grab_em_by_the_keys(train_data, h5_data)
 
-    model.add(Conv2D(128, kernel_size=(1, 3), padding='same', name='conv_4_1', use_bias=pc.USE_BIAS))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_7'))
-    model.add(Conv2D(128, kernel_size=(3, 1), padding='same', name='conv_4_2', use_bias=pc.USE_BIAS))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_8'))
+        train_data = np.asarray(train_data)
 
-    model.add(Conv2D(256, kernel_size=(1, 3), padding='same', name='conv_5_1', use_bias=pc.USE_BIAS))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_9'))
-    model.add(Conv2D(256, kernel_size=(3, 1), padding='same', name='conv_5_2', use_bias=pc.USE_BIAS))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_10'))
+        model.fit(train_data, train_labels,
+                  batch_size=adjustable.batch_size,
+                  epochs=1,
+                  validation_split=0.01,
+                  verbose=2,
+                  callbacks=[clr])
+    else:
+        train_data = ddl.grab_em_by_the_keys(train_data, h5_data)
+        train_data = np.asarray(train_data)
 
-    model.add(Conv2D(512, kernel_size=(1, 3), padding='same', name='conv_6_1', use_bias=pc.USE_BIAS))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_11'))
-    model.add(Conv2D(512, kernel_size=(3, 1), padding='same', name='conv_6_2', use_bias=pc.USE_BIAS))
-    model = add_activation_and_relu(model)
-    model.add(BatchNormalization(name='bn_12'))
+        model.fit(train_data, train_labels,
+                  batch_size=adjustable.batch_size,
+                  epochs=1,
+                  validation_split=0.01,
+                  verbose=2)
 
-    model.add(Conv2D(1024, kernel_size=(1, 3), padding='same', name='conv_7_1', use_bias=pc.USE_BIAS))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_13'))
-    model.add(Conv2D(1024, kernel_size=(3, 1), padding='same', name='conv_7_2', use_bias=pc.USE_BIAS))
-    model.add(Activation('relu'))
-    model.add(BatchNormalization(name='bn_14'))
 
-    if do_dropout:
-        model.add(Dropout(pc.DROPOUT, name='cnn_drop'))
-    model.add(Flatten(name='cnn_flat'))
-    model.add(Dense(512, use_bias=pc.USE_BIAS))
-    model.add(BatchNormalization(name='bn_15'))
-    model.add(Dense(pc.NUM_CLASSES, use_bias=pc.USE_BIAS))
-    model.add(Activation('softmax'))
+def main(adjustable, test_data, train_data):
+    """
 
-    return model
+    :param adjustable:      object of class ProjectVariable
+    :param test_data:       list of keys for test data
+    :param train_data:      list of keys for train data
+    """
+
+    model = create_cnn_model(adjustable)
+
+    nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+    model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+
+    for epoch in range(adjustable.epoch):
+        print('Epoch: %d/%d' % (epoch, adjustable.epoch))
+
+
+def super_main(adjustable):
+
+    all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
+    
 
 
 def main(experiment_name, weights_name, numfil, save_weights, epochs, batch_size, lr, data_type='hdf5'):

@@ -543,7 +543,6 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
     # print('CREATING KEY MAPPING')
     key_dataset_mapping = []
 
-    # FIXME: add thing to check if video is being used to get another folder key
     if len(h5_dataset_list) == 1:
 
         for key in key_list:

@@ -1631,7 +1631,7 @@ def recreate_sota_5():
     a.experiment_name = 'try to recreate viper sota: set to keras only 30 iters'
     a.epochs = 100
     a.ranking_number = 316
-    a.iterations = 30
+    a.iterations = 5
     a.batch_size = 32
     a.activation_function = 'elu'
     a.cl_min = 0.00005

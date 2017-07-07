@@ -123,7 +123,6 @@ def create_cost_module(inputs, adjustable):
             # features = layers.merge(inputs=inputs, mode=divide, output_shape=the_shape)
             features = layers.Lambda(divide)(inputs)
         elif adjustable.neural_distance == 'absolute':
-            # note: maybe this?
             # features = layers.merge(inputs=inputs, mode=absolute, output_shape=the_shape)
             features = layers.Lambda(absolute)(inputs)
         else:
@@ -315,10 +314,8 @@ def train_network_light(adjustable, model, final_training_data, final_training_l
 
         train_data = ddl.grab_em_by_the_keys(final_training_data, h5_data_list)
 
-        train_data = np.asarray(train_data)
 
-        # K.get/_session().run(tf.initialize_all_variables())
-        # keras.backend.get_session().run(tf.global_variables_initializer())
+        train_data = np.asarray(train_data)
 
         model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
                   batch_size=adjustable.batch_size,
