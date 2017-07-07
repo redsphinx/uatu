@@ -4,6 +4,20 @@ to the location of the image files.
 key_handling
 """
 
+"""
+Author:     Gabrielle Ras
+E-mail:     flambuyan@gmail.com
+
+File description:
+
+File has multiple functions:
+
+1) Transforms raw images and video to the specified format that we need to feed the network.
+2) Creates pairs of images and videos HDF5 datasets
+3) Saves image and video data to
+"""
+
+
 import numpy as np
 import project_constants as pc
 from scipy import ndimage
@@ -259,6 +273,7 @@ def load_in_array(adjustable, data_pos=None, data_neg=None, hdf5_file=None, data
             pass
 
 
+# used in unused methods
 def fetch_dummy_data():
     print('fetching data')
     path_pos = '../data/all_positives.txt'
@@ -270,6 +285,7 @@ def fetch_dummy_data():
     return list_pos, list_neg
 
 
+# unused
 def data_pos_to_hdf5():
     data_pos, data_neg = fetch_dummy_data()
     # amount = 40000
@@ -289,6 +305,7 @@ def data_pos_to_hdf5():
         print('time loading: %0.2f' % time_loading)
 
 
+# unused
 def data_neg_to_hdf5():
     data_pos, data_neg = fetch_dummy_data()
     # amount = 40000
@@ -309,6 +326,7 @@ def data_neg_to_hdf5():
         print('time loading: %0.2f' % time_loading)
 
 
+# unused
 def load_from_hdf5():
     h5_path = '../data/all_data_uncompressed.h5'
 
@@ -324,6 +342,7 @@ def load_from_hdf5():
         print('total time loading all neg: %0.2f' % total)
 
 
+# unused
 def txt_to_hdf5(text_file, hdf5_file_name):
     h5_path = os.path.join('../data/', hdf5_file_name)
 
