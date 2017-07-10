@@ -201,7 +201,7 @@ def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm
 
 def create_siamese_head(adjustable):
     """Implements 1 head of the siamese network.
-    :return:                    a keras models.Sequential model
+    :return:        a keras models.Sequential model
     """
     use_batch_norm = True if adjustable.head_type == 'batch_normalized' else False
 
@@ -210,8 +210,6 @@ def create_siamese_head(adjustable):
     if use_batch_norm == True:
         model.add(layers.BatchNormalization(name='bn_1', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
                                             trainable=adjustable.trainable_bn))
-        # model.add(layers.BatchNormalization(name='bn_1', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
-        #                              trainable=adjustable.trainable_bn))
     model.add(layers.Conv2D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
                      trainable=adjustable.trainable_12))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
@@ -241,7 +239,6 @@ def create_siamese_head(adjustable):
         model.add(layers.Activation(adjustable.activation_function))
         if use_batch_norm == True:
             model.add(layers.BatchNormalization(name='bn_8', trainable=adjustable.trainable_bn))
-            # model.add(layers.BatchNormalization(name='bn_8', trainable=adjustable.trainable_bn))
 
     model.add(layers.Flatten(name='cnn_flat'))
 

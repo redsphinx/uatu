@@ -66,8 +66,8 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. NICTA dataset has issues, images are too small
 . DONE fix bug in the confusion matrix code
 .. was not a bug, (1a,2b) != (1b,2a)
-. modify scnn for selu and alphadropout
-
+. DONE modify scnn for selu and alphadropout
+. fix priming.py
 
 
 6 july

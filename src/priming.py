@@ -1,15 +1,15 @@
-from tensorflow.contrib.keras import models
-from tensorflow.contrib.keras import layers
-import tensorflow.contrib.keras as keras
+# from tensorflow.contrib.keras import models
+# import tensorflow.contrib.keras as keras
 
-# from keras.models import load_model
+from keras import models
+import keras
+
 import numpy as np
 import dynamic_data_loading as ddl
 import project_constants as pc
 import data_pipeline as dp
 import project_utils as pu
 import os
-# import keras
 from scipy import ndimage
 from PIL import Image
 from skimage.util import random_noise
@@ -45,7 +45,6 @@ def flip(image):
     return image_2
 
 
-
 def create_and_save_augmented_images(keys, the_id, name):
     # augments data. saves data
 
@@ -63,8 +62,8 @@ def create_and_save_augmented_images(keys, the_id, name):
         path = None
 
 
-    # if not os.path.exists(path): os.mkdir(path)
-    if not os.path.exists(path): os.makedirs(path)
+    if not os.path.exists(path):
+        os.makedirs(path)
 
     for item in keys:
         image = Image.open(item)
@@ -139,6 +138,8 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         ranking_number = pc.RANKING_DICT[name]
     elif isinstance(adjustable.ranking_number, int):
         ranking_number = adjustable.ranking_number
+    else:
+        ranking_number = None
 
 
     for an_id in range(ranking_number):
