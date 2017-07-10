@@ -90,6 +90,8 @@ class ProjectVariable(object):
         self._ranking_time_name = None # string
         # the ranking number for each dataset
         self._ranking_number = 100 # str 'half' or actual int
+        # save cnn weights and model
+        self._cnn_save = False
         # unused
         # train on these datasets. Last dataset gets trained on and tested. the datasets before the last one
         # serve for transfer learning
@@ -542,3 +544,12 @@ class ProjectVariable(object):
     @sequence_length.setter
     def sequence_length(self, value):
         self._sequence_length = value
+        
+    # save cnn weights and model
+    @property
+    def cnn_save(self):
+        return self._cnn_save
+
+    @cnn_save.setter
+    def cnn_save(self, value):
+        self._cnn_save = value

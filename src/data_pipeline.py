@@ -7,8 +7,8 @@ File description:
 File has multiple functions:
 
 1) Transforms raw images and video to the specified format that we need to feed the network.
-2) Creates pairs of images and videos HDF5 datasets
-3) Saves image and video data to
+2) Creates pairs of images and videos and stored as text data
+3) Saves image and video data to HDF5
 """
 import numpy as np
 import os
@@ -981,3 +981,119 @@ def save_all_video_data_as_h5():
         og_list = '../data/%s/fullpath_sequence_names.txt' % name
         h5_path = '../data/%s/%s.h5' % (name, name)
         save_video_as_hdf5(swapped_list, og_list, h5_path)
+
+
+def fix_inria():
+    """
+    Crops INRIA dataset images around center point and saves in new folder.
+    Assuming the dataset is already downloaded.
+    Since we are using these images to pre-train we will use all the images, so no specific testing/training split
+    """
+    # 2416 images
+    path_train_positive = '/home/gabi/Documents/datasets/INRIAPerson/train_64x128_H96/pos'
+    # 1218 images
+    path_train_negative = '/home/gabi/Documents/datasets/INRIAPerson/train_64x128_H96/neg'
+    # 1132 images
+    path_test_positive = '/home/gabi/Documents/datasets/INRIAPerson/test_64x128_H96/pos'
+    # 453 images
+    path_test_negative = '/home/gabi/Documents/datasets/INRIAPerson/test_64x128_H96/neg'
+
+    parent_path = '/home/gabi/Documents/datasets/INRIAPerson'
+    fixed_positive = os.path.join(parent_path, 'fixed-pos')
+    fixed_negative = os.path.join(parent_path, 'fixed-neg')
+
+    if not os.path.exists(fixed_positive):
+        os.mkdir(fixed_positive)
+    if not os.path.exists(fixed_negative):
+        os.mkdir(fixed_negative)
+
+    # for positive images, we crop around the center
+    for path in [path_train_positive, path_test_positive]:
+        list_images = os.listdir(path)
+        for image in list_images:
+            old_image_path = os.path.join(path, image)
+            new_image_path = os.path.join(fixed_positive, image)
+            image_data = Image.open(old_image_path)
+            width, height = image_data.size
+
+            center_x = width / 2
+            center_y = height / 2
+            crop_x = center_x - pc.IMAGE_WIDTH / 2
+            crop_y = center_y - pc.IMAGE_HEIGHT / 2
+
+            cropped_image = image_data.crop((crop_x, crop_y, crop_x + pc.IMAGE_WIDTH, crop_y + pc.IMAGE_HEIGHT))
+            cropped_image.save(new_image_path)
+
+    # for negative images, we crop and do data augmentation by flipping the image horizontally
+    for path in [path_train_negative, path_test_negative]:
+        list_images = os.listdir(path)
+        for image in list_images:
+            old_image_path = os.path.join(path, image)
+            new_image_path = os.path.join(fixed_negative, image)
+            image_bare, suffix = image.split('.')
+            flipped_path = os.path.join(fixed_negative, image_bare + '_flipped.' + suffix)
+            image_data = Image.open(old_image_path)
+            width, height = image_data.size
+
+            center_x = width / 2
+            center_y = height / 2
+            crop_x = center_x - pc.IMAGE_WIDTH / 2
+            crop_y = center_y - pc.IMAGE_HEIGHT / 2
+
+            cropped_image = image_data.crop((crop_x, crop_y, crop_x + pc.IMAGE_WIDTH, crop_y + pc.IMAGE_HEIGHT))
+            cropped_image.save(new_image_path)
+
+            flipped_image = cropped_image.transpose(Image.FLIP_LEFT_RIGHT)
+            flipped_image.save(flipped_path)
+
+
+def make_human_data(fixed_path, label, storage_path):
+    if not os.path.exists(storage_path):
+        os.mkdir(storage_path)
+
+    all_keys = [os.path.join(fixed_path, item) for item in os.listdir(fixed_path)]
+    all_swapped_keys = [swap_for(item, '/', '+') for item in all_keys]
+
+    fullpath = os.path.join(storage_path, 'fullpath.txt')
+    swapped = os.path.join(storage_path, 'swapped.txt')
+
+    len_files = len(all_keys)
+
+    if os.path.exists(fullpath):
+        action = 'a'
+    else:
+        action = 'w'
+
+    with open(fullpath, action) as fp:
+        with open(swapped, action) as sw:
+            for item in range(len_files):
+                fp.write(all_keys[item] + ',%d' % label + '\n')
+                sw.write(all_swapped_keys[item] + ',%d' % label + '\n')
+
+
+def make_inria_data():
+    make_human_data('/home/gabi/Documents/datasets/INRIAPerson/fixed-pos', 1, '../data/INRIA')
+    make_human_data('/home/gabi/Documents/datasets/INRIAPerson/fixed-neg', 0, '../data/INRIA')
+
+
+def save_inria_data_as_hdf5():
+    fullpath = '../data/INRIA/fullpath.txt'
+    swapped = '../data/INRIA/swapped.txt'
+
+    parent_dir = os.path.dirname(fullpath)
+    h5_path = os.path.join(parent_dir, 'inria.h5')
+
+    if not os.path.exists(fullpath):
+        make_inria_data()
+
+    fullpath_list = list(np.genfromtxt(fullpath, dtype=None))
+    swapped_list = list(np.genfromtxt(swapped, dtype=None))
+
+    len_files = len(fullpath_list)
+
+    fullpath_list = [fullpath_list[item].split(',')[0] for item in range(len_files)]
+    swapped_list = [swapped_list[item].split(',')[0] for item in range(len_files)]
+
+    with h5py.File(h5_path, 'w') as myfile:
+        for item in range(len_files):
+            myfile.create_dataset(name=swapped_list[item], data=ndimage.imread(fullpath_list[item]))

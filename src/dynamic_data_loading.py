@@ -410,6 +410,8 @@ def get_dataset(name):
         dataset_h5 = h5py.File('../data/ilids-vid/ilids-vid.h5', 'r')
     elif name == 'prid2011':
         dataset_h5 = h5py.File('../data/prid2011/prid2011.h5', 'r')
+    elif name == 'inria':
+        dataset_h5 = h5py.File('../data/INRIA/inria.h5', 'r')
     else:
         dataset_h5 = None
 
@@ -557,10 +559,7 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
 
     else:
         h5_filenames = [str(item.file.filename.split('/')[-2]) for item in h5_dataset_list]
-        # print('keys in list: %d' % len(key_list))
-        cnt = 0
         for key in key_list:
-            # print('%d out of %d' % (cnt, len(key_list)))
             key_1 = key.split(',')[0]
             key_2 = key.split(',')[1]
             folder_key_1 = key_1.split('+')[-2]
@@ -574,8 +573,6 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
 
             key_dataset_mapping.append(mapping_1)
             key_dataset_mapping.append(mapping_2)
-            cnt += 1
-    # print('DONE with getting keys')
     return key_dataset_mapping
 
 
@@ -586,29 +583,20 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
     :return:
     """
 
-    # print('INSIDE GRABBING THE KEYS')
     # create mapping from keys to dataset
     key_dataset_mapping = create_key_dataset_mapping(key_list, h5_dataset_list)
     # isolate the different keys
-    # print('splitting 1')
     all_key_1 = [item.split(',')[0] for item in key_list]
-    # print('splitting 2')
     all_key_2 = [item.split(',')[1] for item in key_list]
-    # print('somethingg')
     all_keys_in_mapping = [item[0] for item in key_dataset_mapping]
     # # isolate the values
-    # print('only values')
     only_values = [item[1] for item in key_dataset_mapping]
     # get the index of the value that key in all_key points to
-    # print('getting index 1')
     # FIXME: taking incredibly fucking long if we do big ranking numbers
     # TODO: fix it, optimize it somehow so that we can run with bigger ranking numbers
     the_index_key_1 = [all_keys_in_mapping.index(key_1) for key_1 in all_key_1]
-    # print('getting index 2')
     the_index_key_2 = [all_keys_in_mapping.index(key_2) for key_2 in all_key_2]
     # get the values from the h5 file given the indices
-    # print('getting values 1')
-
     values_key_1 = []
     for item in range(len(all_key_1)):
         a = all_key_1[item]
@@ -617,9 +605,7 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
         values_key_1.append(c)
 
     values_key_1 = [only_values[the_index_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
-    # print('getting values 2')
     values_key_2 = [only_values[the_index_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
-    # print('DONE getting values')
     return values_key_1, values_key_2
 
 
@@ -818,3 +804,17 @@ def get_related_keys(adjustable, name_dataset, partition, seen_list, this_rankin
     keys = pos_keys + neg_keys
 
     return keys
+
+
+def get_human_data(keys, h5data):
+    h5data = h5data[0]
+    len_keys = len(keys)
+
+    thingy = []
+    for item in range(len_keys):
+        key = keys[item]
+        thingy.append(h5data[key][:,:,0:3])
+
+    thingy = np.asarray(thingy)
+
+    return thingy

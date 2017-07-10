@@ -23,6 +23,7 @@ from matplotlib.image import imsave
 from numpy.linalg import inv
 import urllib
 import zipfile
+from scipy import io
 
 
 def test_data_pipeline():
@@ -506,4 +507,24 @@ def get_image_from_h5():
             break
 
 
-get_image_from_h5()
+def test_load_mat_2():
+    path = '/home/gabi/Documents/datasets/MPII/mpii_human_pose_v1_u12_2/mpii_human_pose_v1_u12_1.mat'
+    # f = h5py.File('/home/gabi/Documents/datasets/MPII/mpii_human_pose_v1_u12_2/mpii_human_pose_v1_u12_1.mat', 'r')
+    the_file = io.loadmat(path)
+
+    release = the_file['RELEASE']
+    single_people = release['single_person']
+
+    print('asdf')
+
+
+def test_get_h5_data():
+    path = '../data/INRIA/inria.h5'
+    h5data = h5py.File(path, 'r')
+
+    key = '+home+gabi+Documents+datasets+INRIAPerson+fixed-pos+crop001812d.png'
+
+    print(h5data[key][:])
+
+
+test_get_h5_data()

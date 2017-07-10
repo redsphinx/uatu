@@ -164,11 +164,29 @@ def enter_in_log(adjustable, experiment_name, file_name, data_names, matrix_mean
         for dataset in range(len(data_names)):
             name = data_names[dataset]
             log_file.write('%s mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(matrix_means[dataset]).tolist(), decimals))))
-            log_file.write('%s mean ranking:        %s\n' % (name, str(reduce_float_length(np.asarray(ranking_means[dataset]).tolist(), decimals))))
-        for dataset in range(len(data_names)):
-            name = data_names[dataset]
             log_file.write('%s std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(matrix_std[dataset]).tolist(), decimals))))
-            log_file.write('%s std ranking:         %s\n' % (name, str(reduce_float_length(np.asarray(ranking_std[dataset]).tolist(), decimals))))
+            if ranking_means is not None:
+                log_file.write('%s mean ranking:        %s\n' % (name, str(reduce_float_length(np.asarray(ranking_means[dataset]).tolist(), decimals))))
+                log_file.write('%s std ranking:         %s\n' % (name, str(reduce_float_length(np.asarray(ranking_std[dataset]).tolist(), decimals))))
+
+        log_file.write('\n')
+
+
+def enter_in_log_cnn(adjustable, experiment_name, file_name, data_names, matrix_means, matrix_std, total_time):
+    if not os.path.exists(adjustable.log_file):
+        with open(adjustable.log_file, 'w') as my_file:
+            print('new log file made')
+
+    with open(adjustable.log_file, 'a') as log_file:
+        date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
+        log_file.write('\n')
+        log_file.write('name_of_experiment:         %s\n' % experiment_name)
+        log_file.write('file_name:                  %s\n' % file_name)
+        log_file.write('date:                       %s\n' % date)
+        log_file.write('duration:                   %f\n' % total_time)
+        log_file.write('%s mean tp,fp,tn,fn:    %s\n' % (data_names, str(matrix_means)))
+        log_file.write('%s std tp,fp,tn,fn:     %s\n' % (data_names, str(matrix_std)))
+
         log_file.write('\n')
 
 

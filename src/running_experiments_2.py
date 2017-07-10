@@ -4,6 +4,7 @@ from project_variables import ProjectVariable
 import priming as prime
 import os
 import siamese_rcnn as srcn
+import cnn_clean as cnn
 
 def test():
     a = ProjectVariable()
@@ -1641,9 +1642,18 @@ def recreate_sota_5():
     scn.super_main(a)
 
 
+def test_cnn():
+    a = ProjectVariable()
+    a.experiment_name = 'test cnn'
+    a.epochs = 10
+    a.iterations = 2
+    a.batch_size = 32
+    a.datasets = ['inria']
+    cnn.super_main(a)
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
-    recreate_sota_5()
+    test_cnn()
 
 main()
