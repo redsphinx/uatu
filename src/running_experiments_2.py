@@ -1651,9 +1651,27 @@ def test_cnn():
     a.datasets = ['inria']
     cnn.super_main(a)
 
+
+def scnn_fix_confusion_matrix():
+    a = ProjectVariable()
+    a.experiment_name = 'towards fixing confusion matrix'
+    a.epochs = 1
+    a.save_inbetween = True
+    a.save_points = []
+    a.ranking_number = 100
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+    a.datasets = ['viper']
+    scn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
-    test_cnn()
+    scnn_fix_confusion_matrix()
 
 main()

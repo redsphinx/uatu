@@ -50,15 +50,23 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+11 july
+-------
+. look at using MPII dataset for human shizzle
+. look into creating dataset with only 1 angle
+. do transfer learning with lower learning rate
+. make timedistributed srcnn
+.. with selu
+.. with alphadropout
+
+
 10 july
 -------
 . DONE fix cnn_clean.py
 .. NICTA dataset has issues, images are too small
-. make timedistributed srcnn
-.. with selu
-.. with alphadropout
-. do transfer learning with lower learning rate
-. fix bug in the confusion matrix code
+. DONE fix bug in the confusion matrix code
+.. was not a bug, (1a,2b) != (1b,2a)
+. modify scnn for selu and alphadropout
 
 
 

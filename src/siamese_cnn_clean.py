@@ -129,10 +129,16 @@ def create_cost_module(inputs, adjustable):
             features = None
         dense_layer = layers.Dense(adjustable.neural_distance_layers[0], name='dense_1', trainable=adjustable.trainable_cost_module)(features)
         activation = layers.Activation(adjustable.activation_function)(dense_layer)
-        dropout_layer = layers.Dropout(pc.DROPOUT)(activation)
+        if adjustable.activation == 'selu':
+            dropout_layer = layers.AlphaDropout(0.1)(activation)
+        else:
+            dropout_layer = layers.Dropout(pc.DROPOUT)(activation)
         dense_layer = layers.Dense(adjustable.neural_distance_layers[1], name='dense_2', trainable=adjustable.trainable_cost_module)(dropout_layer)
         activation = layers.Activation(adjustable.activation_function)(dense_layer)
-        dropout_layer = layers.Dropout(pc.DROPOUT)(activation)
+        if adjustable.activation == 'selu':
+            dropout_layer = layers.AlphaDropout(0.1)(activation)
+        else:
+            dropout_layer = layers.Dropout(pc.DROPOUT)(activation)
         output_layer = layers.Dense(pc.NUM_CLASSES, name='ouput')(dropout_layer)
         softmax = layers.Activation('softmax')(output_layer)
 
@@ -264,48 +270,6 @@ def create_siamese_network(adjustable):
     return model
 
 
-# unused
-def train_network(adjustable, model, step, validation_interval, train_data, train_labels, validation_data,
-                  validation_labels):
-    """Trains the siamese network.
-    :param model:                   the model that needs to be trained
-    :param step:                    the training step in an epoch
-    :param validation_interval:     indicates after how many steps validation takes place
-    :param train_data:              array containing the training data
-    :param train_labels:            array containing the training labels
-    :param validation_data:         array containing the validation data
-    :param validation_labels:       array containing the validation labels
-    """
-    if adjustable.use_cyclical_learning_rate:
-        clr = CyclicLR(step_size=(np.shape(train_data)[0] / adjustable.batch_size) * 8, base_lr=adjustable.cl_min, max_lr=adjustable.cl_max)
-        if step % validation_interval == 0:
-            model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-                      batch_size=adjustable.batch_size,
-                      epochs=1,
-                      validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
-                      verbose=2,
-                      callbacks=[clr])
-        else:
-            model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-                      batch_size=adjustable.batch_size,
-                      epochs=1,
-                      verbose=0,
-                      callbacks=[clr])
-    else:
-        if step % validation_interval == 0:
-            model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-                      batch_size=adjustable.batch_size,
-                      epochs=1,
-                      validation_data=([validation_data[:, 0], validation_data[:, 1]], validation_labels),
-                      verbose=2)
-        else:
-            model.fit([train_data[:, 0], train_data[:, 1]], train_labels,
-                      batch_size=adjustable.batch_size,
-                      epochs=1,
-                      verbose=0)
-
-
-
 def train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list):
     if adjustable.use_cyclical_learning_rate:
 
@@ -390,7 +354,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
 
         time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
-        # print('DONE WITH TRAINING')
 
         if adjustable.save_inbetween and adjustable.iterations == 1:
             if epoch+1 in adjustable.save_points:
@@ -486,8 +449,6 @@ def super_main(adjustable):
     else:
         ranking_number = None
 
-    the_dataset_name = adjustable.datasets[0]
-    # select which GPU to use, necessary to start tf session
     # arrays for storing results
     number_of_datasets = len(adjustable.datasets)
     name = np.zeros(number_of_datasets)
