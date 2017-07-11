@@ -1,7 +1,7 @@
 # from tensorflow.contrib.keras import models
 # import tensorflow.contrib.keras as keras
 
-from keras import models
+from keras import models, layers, optimizers, losses
 import keras
 
 import numpy as np
@@ -16,6 +16,8 @@ from skimage.util import random_noise
 from itertools import combinations
 import time
 import random
+
+import siamese_cnn_image as scn
 
 def zoom(image):
     the_image = image
@@ -58,7 +60,6 @@ def create_and_save_augmented_images(keys, the_id, name):
         path = '../data/VIPER/augmented/%s' % the_id
     elif name == 'prid450':
         path = '../data/prid450/augmented/%s' % the_id
-    # FIXME: add more datasets
     else:
         path = None
 
@@ -160,7 +161,6 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         elif name == 'prid450':
             partition = None
             folder_name = 'prid450'
-        # FIXME: add more datasets
         else:
             partition = None
             folder_name = None
@@ -216,7 +216,7 @@ def only_test(model, h5_dataset, this_ranking):
     return full_predictions
 
 
-def main(adjustable, all_ranking, names, path, model):
+def main(adjustable, all_ranking, names, model):
     confusion_matrices = []
     ranking_matrices = []
 
@@ -267,7 +267,6 @@ def super_main(adjustable):
         dataset_ranking = list(np.genfromtxt('../ranking_files/viper_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
     elif name == 'prid450':
         dataset_ranking = list(np.genfromtxt('../ranking_files/prid450_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
-    # FIXME: add more datasets
     else:
         dataset_ranking = None
     # all_ranking = [cuhk02_ranking, market_ranking]
@@ -290,13 +289,35 @@ def super_main(adjustable):
     #     names.append('caviar')
     #     names.append('prid450')
 
-    path = os.path.join('../model_weights', adjustable.load_model_name)
+    # path = os.path.join('../model_weights', adjustable.load_model_name)
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
 
     # FIXME: add this feature
     # TODO: add option to make a model from scratch, load weights and then compile. This way we can adjust the LR
 
-    model = models.load_model(path)
+    # model = models.load_model(path)
+
+    '''
+    '''
+
+    if adjustable.load_model_name is not None and adjustable.load_weights_name is None:
+        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
+    elif adjustable.load_weights_name is not None and adjustable.load_model_name is None:
+        model = scn.create_siamese_network(adjustable)
+
+        the_path = os.path.join('../model_weights', adjustable.load_weights_name)
+        model.load_weights(the_path, by_name=True)
+
+        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+            nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+            model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+        elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
+            rms = keras.optimizers.RMSprop()
+            model.compile(loss=scn.contrastive_loss, optimizer=rms, metrics=[scn.absolute_distance_difference])
+    else:
+        model = None
+    '''
+    '''
 
     # FIXME: set only test to 1 dataset
     number_of_datasets = len(names)
@@ -314,7 +335,7 @@ def super_main(adjustable):
     for iter in range(adjustable.iterations):
         print('-----ITERATION %d' % iter)
 
-        confusion, ranking = main(adjustable, all_ranking, names, path, model)
+        confusion, ranking = main(adjustable, all_ranking, names, model)
 
         confusion_matrices[iter] = confusion
         ranking_matrices[iter] = ranking
