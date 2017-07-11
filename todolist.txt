@@ -50,18 +50,25 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
-11 july
+12 july
 -------
 . look at using MPII dataset for human shizzle
 . look into creating dataset with only 1 angle
 . do transfer learning with lower learning rate
-. make timedistributed srcnn
+. continue fixing priming.py
+
+
+11 july
+-------
+. DONE make timedistributed srcnn
 .. with selu
 .. with alphadropout
 .. apply to the real code
 . run experiments:
 .. selu + alphadropout=0.05 + no batchnorm
 .. selu + alphadropout=0.05
+. check if cosine similarity correctly implemented: http://www.minerazzi.com/tutorials/cosine-similarity-tutorial.pdf
+. start fixing priming.py
 
 
 10 july

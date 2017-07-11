@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/log_0.txt" afterPath="$PROJECT_DIR$/src/log_0.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_variables.py" afterPath="$PROJECT_DIR$/src/project_variables.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments_2.py" afterPath="$PROJECT_DIR$/src/running_experiments_2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_image.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_image.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
     </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,9 +55,21 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4479452">
+    <splitter split-orientation="horizontal" split-proportion="0.565635">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="330">
+                  <caret line="90" column="19" lean-forward="false" selection-start-line="90" selection-start-column="19" selection-end-line="90" selection-end-column="19" />
+                  <folding>
+                    <element signature="e#0#12#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="siamese_cnn_video.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_video.py">
               <provider selected="true" editor-type-id="text-editor">
@@ -81,7 +92,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="455">
@@ -110,7 +121,7 @@
           <file leaf-file-name="log_0.txt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/log_0.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="410">
+                <state relative-caret-position="704">
                   <caret line="957" column="31" lean-forward="false" selection-start-line="957" selection-start-column="28" selection-end-line="957" selection-end-column="31" />
                   <folding />
                 </state>
@@ -246,11 +257,11 @@
         <option value="$PROJECT_DIR$/src/siamese_cnn_clean.py" />
         <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
         <option value="$PROJECT_DIR$/src/siamese_cnn_lstm.py" />
-        <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
         <option value="$PROJECT_DIR$/src/siamese_cnn_video.py" />
         <option value="$PROJECT_DIR$/src/project_variables.py" />
         <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
         <option value="$PROJECT_DIR$/src/log_0.txt" />
+        <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
       </list>
     </option>
   </component>
@@ -710,13 +721,13 @@
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22091782" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22091782" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24304268" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48608536" sideWeight="0.5032017" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39795917" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39795917" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1339381" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33580706" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -1095,16 +1106,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-405">
-          <caret line="385" column="27" lean-forward="true" selection-start-line="385" selection-start-column="27" selection-end-line="385" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_constants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
@@ -1133,7 +1134,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/log_0.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
+        <state relative-caret-position="704">
           <caret line="957" column="31" lean-forward="false" selection-start-line="957" selection-start-column="28" selection-end-line="957" selection-end-column="31" />
           <folding />
         </state>
@@ -1145,6 +1146,16 @@
           <caret line="1739" column="21" lean-forward="true" selection-start-line="1739" selection-start-column="21" selection-end-line="1739" selection-end-column="21" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="90" column="19" lean-forward="false" selection-start-line="90" selection-start-column="19" selection-end-line="90" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
