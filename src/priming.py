@@ -269,8 +269,6 @@ def super_main(adjustable):
         dataset_ranking = list(np.genfromtxt('../ranking_files/prid450_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
     else:
         dataset_ranking = None
-    # all_ranking = [cuhk02_ranking, market_ranking]
-    # names = ['cuhk02', 'market']
 
     all_ranking = [dataset_ranking]
     names = [name]

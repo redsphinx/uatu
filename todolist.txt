@@ -56,7 +56,15 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 . look into creating dataset with only 1 angle
 . do transfer learning with lower learning rate
 . continue fixing priming.py
+.. not done there is shit to fix in dynamic_data_loading.py
+. check if cosine similarity correctly implemented: http://www.minerazzi.com/tutorials/cosine-similarity-tutorial.pdf
+. optimize ranking shit
+.. so we can compare video on SOTA benchmarks
+. clean dynamic_data_loading.py
 
+
+For at home: run experiments with selu + alphadropout, they are in running_experiments_3 I think
+And some experiments with video stuff
 
 11 july
 -------
@@ -69,6 +77,8 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. selu + alphadropout=0.05
 . check if cosine similarity correctly implemented: http://www.minerazzi.com/tutorials/cosine-similarity-tutorial.pdf
 . start fixing priming.py
+.. I think we're done. needs to be tested and then we know
+.. NOPE not done there is shit to fix in dynamic_data_loading.py
 . optimize ranking shit
 .. so we can compare video on SOTA benchmarks
 

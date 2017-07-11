@@ -692,6 +692,7 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
         keys = [all_keys_in_order[item] for item in updated_indices]
         # TODO switch back
         # keys = [all_keys_in_order[item] for item in indices_seen_image]
+        # FIXME: add the other datasets
     else:
         keys = None
 
@@ -772,6 +773,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
             folder_name = 'GRID'
         else:
             folder_name = None
+        # FIXME: add more datasets
 
         # get the list of unique market IDs
         unique_ids = list(np.genfromtxt('../data/%s/unique_id_file.txt' % folder_name, dtype=None))
