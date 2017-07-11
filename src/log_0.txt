@@ -931,3 +931,43 @@ duration:                   149.477965
 inria mean tp,fp,tn,fn:    [ 181.5  185.5  152.   170. ]
 inria std tp,fp,tn,fn:     [  1.5   7.5  14.    8. ]
 
+
+name_of_experiment:         testing siamese video: 3D convolutions on ilids-vid
+file_name:                  siamese_cnn_video.pyc
+date:                       11/07/2017   17:15:42
+duration:                   109.546437
+ilids-vid mean tp,fp,tn,fn:    [30.0, 671.0, 199.0, 0.0]
+ilids-vid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+ilids-vid mean ranking:        [0.1, 0.23, 0.3, 0.3, 0.3, 0.3, 0.33, 0.37, 0.4, 0.43, 0.5, 0.53, 0.53, 0.6, 0.63, 0.63, 0.7, 0.7, 0.77, 0.77, 0.8, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+ilids-vid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         testing siamese video: cnn_lstm on ilids-vid
+file_name:                  siamese_cnn_video.pyc
+date:                       11/07/2017   17:19:29
+duration:                   146.808441
+ilids-vid mean tp,fp,tn,fn:    [18.0, 344.0, 526.0, 12.0]
+ilids-vid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+ilids-vid mean ranking:        [0.07, 0.17, 0.2, 0.23, 0.27, 0.27, 0.43, 0.5, 0.6, 0.6, 0.63, 0.7, 0.77, 0.83, 0.83, 0.9, 0.97, 0.97, 0.97, 0.97, 0.97, 0.97, 0.97, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+ilids-vid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         testing siamese video: 3D convolutions on prid2011
+file_name:                  siamese_cnn_video.pyc
+date:                       11/07/2017   17:29:09
+duration:                   431.424010
+prid2011 mean tp,fp,tn,fn:    [30.0, 399.0, 471.0, 0.0]
+prid2011 std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+prid2011 mean ranking:        [0.47, 0.67, 0.8, 0.87, 0.9, 0.93, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+prid2011 std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         testing siamese video: cnn_lstm on prid2011
+file_name:                  siamese_cnn_video.pyc
+date:                       11/07/2017   17:35:00
+duration:                   271.018722
+prid2011 mean tp,fp,tn,fn:    [30.0, 870.0, 0.0, 0.0]
+prid2011 std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+prid2011 mean ranking:        [0.03, 0.07, 0.13, 0.13, 0.17, 0.2, 0.3, 0.33, 0.37, 0.4, 0.43, 0.47, 0.5, 0.5, 0.53, 0.57, 0.63, 0.67, 0.67, 0.7, 0.7, 0.73, 0.77, 0.87, 0.87, 0.9, 0.9, 0.93, 0.93, 1.0]
+prid2011 std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+

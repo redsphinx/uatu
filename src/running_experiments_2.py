@@ -1,9 +1,9 @@
-import siamese_cnn_clean as scn
+import siamese_cnn_image as scn
 import sys
 from project_variables import ProjectVariable
 import priming as prime
 import os
-import siamese_rcnn as srcn
+import siamese_cnn_video as srcn
 import cnn_clean as cnn
 
 def test():
@@ -1669,11 +1669,81 @@ def scnn_fix_confusion_matrix():
     scn.super_main(a)
 
 
-    
+def test_siamese_video_1():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video: 3D convolutions on ilids-vid'
+    a.epochs = 2
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.datasets = ['ilids-vid']
+    a.video_head_type = '3d_convolution'
+    a.sequence_length = 22
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    a.ranking_number = 30
+    # a.dropout_rate = 0.5
+    # a.lstm_units = 64
+    srcn.super_main(a)
 
+
+def test_siamese_video_2():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video: cnn_lstm on ilids-vid'
+    a.epochs = 2
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['ilids-vid']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 22
+    # a.kernel = (3, 3, 3)
+    # a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    a.ranking_number = 30
+    a.dropout_rate = 0.05
+    a.lstm_units = 64
+    srcn.super_main(a)
+
+
+def test_siamese_video_3():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video: 3D convolutions on prid2011'
+    a.epochs = 2
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.datasets = ['prid2011']
+    a.video_head_type = '3d_convolution'
+    a.sequence_length = 20
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    a.ranking_number = 30
+    # a.dropout_rate = 0.5
+    # a.lstm_units = 64
+    srcn.super_main(a)
+
+
+def test_siamese_video_4():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video: cnn_lstm on prid2011'
+    a.epochs = 2
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['prid2011']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 20
+    # a.kernel = (3, 3, 3)
+    # a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    a.ranking_number = 30
+    a.dropout_rate = 0.05
+    a.lstm_units = 32
+    srcn.super_main(a)
+    
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
-    scnn_fix_confusion_matrix()
+    # scnn_fix_confusion_matrix()
+    test_siamese_video_4()
 
 main()

@@ -88,7 +88,7 @@ class ProjectVariable(object):
         self._name_indication = 'epoch' # string
         # timestamp of when the ranking file was made
         self._ranking_time_name = None # string
-        # the ranking number for each dataset
+        # the ranking number for each dataset. set to 30 when using video data
         self._ranking_number = 100 # str 'half' or actual int
         # save cnn weights and model
         self._cnn_save = False
@@ -116,6 +116,8 @@ class ProjectVariable(object):
         self._video_head_type = '3d_convolution'
         # rate of dropout. For AlphaDropout in combination with activation function 'selu', use 0.1 or 0.05
         self._dropout_rate = 0.5
+        # number of lstm units
+        self._lstm_units = 128
         
 
     @property
@@ -577,3 +579,12 @@ class ProjectVariable(object):
     @dropout_rate.setter
     def dropout_rate(self, value):
         self._dropout_rate = value
+
+    # number of lstm units
+    @property
+    def lstm_units(self):
+        return self._lstm_units
+
+    @lstm_units.setter
+    def lstm_units(self, value):
+        self._lstm_units = value
