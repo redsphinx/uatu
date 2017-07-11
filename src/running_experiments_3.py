@@ -154,39 +154,168 @@ def e_012():
     a.log_file = 'thesis_experiment_log.txt'
     scn.super_main(a)
 
+'''
+Experiments with selu, alpha dropout and removing batch norm
+'''
 
 
+def e_013():
+    a = ProjectVariable()
+    a.experiment_name = '013. viper: selu + alphadropout'
+    a.ranking_number = 316
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['viper']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
 
+
+def e_014():
+    a = ProjectVariable()
+    a.experiment_name = '014. grid: selu + alphadropout'
+    a.ranking_number = 125
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['grid']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_015():
+    a = ProjectVariable()
+    a.experiment_name = '015. prid450: selu + alphadropout'
+    a.ranking_number = 225
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_016():
+    a = ProjectVariable()
+    a.experiment_name = '016. caviar: selu + alphadropout'
+    a.ranking_number = 36
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['caviar']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+'''
+removing batchnorm
+'''
+
+def e_017():
+    a = ProjectVariable()
+    a.experiment_name = '017. viper: selu + alphadropout + no batchnorm'
+    a.ranking_number = 316
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['viper']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    scn.super_main(a)
+
+
+def e_018():
+    a = ProjectVariable()
+    a.experiment_name = '018. grid: selu + alphadropout + no batchnorm'
+    a.ranking_number = 125
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['grid']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    scn.super_main(a)
+
+
+def e_019():
+    a = ProjectVariable()
+    a.experiment_name = '019. prid450: selu + alphadropout + no batchnorm'
+    a.ranking_number = 225
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    scn.super_main(a)
+
+
+def e_020():
+    a = ProjectVariable()
+    a.experiment_name = '020. caviar: selu + alphadropout + no batchnorm'
+    a.ranking_number = 36
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['caviar']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    scn.super_main(a)
+
+'''
+alphadropout=0.05
+'''
+
+def e_021():
+    a = ProjectVariable()
+    a.experiment_name = '021. viper: selu + alphadropout=0.05 + no batchnorm'
+    a.ranking_number = 316
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['viper']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    scn.super_main(a)
+
+
+def e_022():
+    a = ProjectVariable()
+    a.experiment_name = '022. grid: selu + alphadropout=0.05 + no batchnorm'
+    a.ranking_number = 125
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['grid']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    scn.super_main(a)
+
+
+def e_023():
+    a = ProjectVariable()
+    a.experiment_name = '023. prid450: selu + alphadropout=0.05 + no batchnorm'
+    a.ranking_number = 225
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    scn.super_main(a)
+
+
+def e_024():
+    a = ProjectVariable()
+    a.experiment_name = '024. caviar: selu + alphadropout=0.05 + no batchnorm'
+    a.ranking_number = 36
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['caviar']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    scn.super_main(a)
 
 
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '1':
-        e_001()
-    if num == '2':
-        e_002()
-    if num == '3':
-        e_003()
-    if num == '4':
-        e_004()
-    if num == '5':
-        e_005()
-    if num == '6':
-        e_006()
-    if num == '7':
-        e_007()
-    if num == '8':
-        e_008()
-    if num == '9':
-        e_009()
-    if num == '10':
-        e_010()
-    if num == '11':
-        e_011()
-    if num == '12':
-        e_012()
-
+    if num == '21':
+        e_021()
+    if num == '22':
+        e_022()
+    if num == '23':
+        e_023()
+    if num == '24':
+        e_024()
 
 main()

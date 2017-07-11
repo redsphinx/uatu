@@ -80,6 +80,19 @@ def cosine_distance(vects):
     #         K.sum(K.square(x)) * K.sum(K.square(y)))
 
 
+def cosine_distance_normalized(vects):
+    """
+    Returns the normalized cosine distance between 2 feature vectors. Normalizing it makes it a formal distance metric.
+    :param vects:
+    :return:
+    """
+    x, y = vects
+
+    # similarity =
+
+    return K.sum(x * y, axis=1, keepdims=True) / K.sqrt(
+        K.sum(K.square(x), axis=1, keepdims=True) * K.sum(K.square(y), axis=1, keepdims=True))
+
 def cos_dist_output_shape(shapes):
     """ IDK what this does
     """
@@ -129,14 +142,14 @@ def create_cost_module(inputs, adjustable):
             features = None
         dense_layer = layers.Dense(adjustable.neural_distance_layers[0], name='dense_1', trainable=adjustable.trainable_cost_module)(features)
         activation = layers.Activation(adjustable.activation_function)(dense_layer)
-        if adjustable.activation == 'selu':
-            dropout_layer = layers.AlphaDropout(0.1)(activation)
+        if adjustable.activation_function == 'selu':
+            dropout_layer = layers.AlphaDropout(0.05)(activation)
         else:
             dropout_layer = layers.Dropout(pc.DROPOUT)(activation)
         dense_layer = layers.Dense(adjustable.neural_distance_layers[1], name='dense_2', trainable=adjustable.trainable_cost_module)(dropout_layer)
         activation = layers.Activation(adjustable.activation_function)(dense_layer)
-        if adjustable.activation == 'selu':
-            dropout_layer = layers.AlphaDropout(0.1)(activation)
+        if adjustable.activation_function == 'selu':
+            dropout_layer = layers.AlphaDropout(0.05)(activation)
         else:
             dropout_layer = layers.Dropout(pc.DROPOUT)(activation)
         output_layer = layers.Dense(pc.NUM_CLASSES, name='ouput')(dropout_layer)
@@ -210,7 +223,7 @@ def create_siamese_head(adjustable):
     if use_batch_norm == True:
         model.add(layers.BatchNormalization(name='bn_1', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
                                             trainable=adjustable.trainable_bn))
-    model.add(layers.Conv2D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
+    model.add(layers.Conv2D(16 * adjustable.numfil, input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS), kernel_size=adjustable.kernel, padding='same', name='conv_1',
                      trainable=adjustable.trainable_12))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
     # convolutional unit 2
