@@ -275,27 +275,10 @@ def super_main(adjustable):
     all_ranking = [dataset_ranking]
     names = [name]
 
-    # if adjustable.only_test:
-    #     viper_ranking = list(np.genfromtxt('viper_ranking.txt', dtype=None))
-    #     grid_ranking = list(np.genfromtxt('grid_ranking.txt', dtype=None))
-    #     caviar_ranking = list(np.genfromtxt('caviar_ranking.txt', dtype=None))
-    #     prid450_ranking = list(np.genfromtxt('prid450_ranking.txt', dtype=None))
-    #     all_ranking.append(viper_ranking)
-    #     all_ranking.append(grid_ranking)
-    #     all_ranking.append(caviar_ranking)
-    #     all_ranking.append(prid450_ranking)
-    #     names.append('viper')
-    #     names.append('grid')
-    #     names.append('caviar')
-    #     names.append('prid450')
-
-    # path = os.path.join('../model_weights', adjustable.load_model_name)
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
 
     # FIXME: add this feature
     # TODO: add option to make a model from scratch, load weights and then compile. This way we can adjust the LR
-
-    # model = models.load_model(path)
 
     '''
     '''
@@ -321,8 +304,6 @@ def super_main(adjustable):
 
     # FIXME: set only test to 1 dataset
     number_of_datasets = len(names)
-    if adjustable.only_test:
-        number_of_datasets = 6
 
     if adjustable.ranking_number == 'half':
         ranking_number = pc.RANKING_DICT[name]
