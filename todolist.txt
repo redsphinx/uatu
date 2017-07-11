@@ -69,6 +69,8 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. selu + alphadropout=0.05
 . check if cosine similarity correctly implemented: http://www.minerazzi.com/tutorials/cosine-similarity-tutorial.pdf
 . start fixing priming.py
+. optimize ranking shit
+.. so we can compare video on SOTA benchmarks
 
 
 10 july
@@ -79,7 +81,6 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. was not a bug, (1a,2b) != (1b,2a)
 . DONE modify scnn for selu and alphadropout
 . fix priming.py
-
 
 6 july
 ------

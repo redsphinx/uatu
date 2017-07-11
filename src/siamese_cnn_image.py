@@ -88,7 +88,7 @@ def cosine_distance_normalized(vects):
     """
     x, y = vects
     # FIXME: finish this
-    # similarity = 
+    # similarity =
 
     return K.sum(x * y, axis=1, keepdims=True) / K.sqrt(
         K.sum(K.square(x), axis=1, keepdims=True) * K.sum(K.square(y), axis=1, keepdims=True))

@@ -58,9 +58,9 @@ def create_and_save_augmented_images(keys, the_id, name):
         path = '../data/VIPER/augmented/%s' % the_id
     elif name == 'prid450':
         path = '../data/prid450/augmented/%s' % the_id
+    # FIXME: add more datasets
     else:
         path = None
-
 
     if not os.path.exists(path):
         os.makedirs(path)
@@ -160,6 +160,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         elif name == 'prid450':
             partition = None
             folder_name = 'prid450'
+        # FIXME: add more datasets
         else:
             partition = None
             folder_name = None
@@ -257,21 +258,22 @@ def super_main(adjustable):
     start = time.time()
 
     if name == 'cuhk02':
-        datset_ranking = list(np.genfromtxt('../ranking_files/cuhk02_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+        dataset_ranking = list(np.genfromtxt('../ranking_files/cuhk02_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
     elif name == 'market':
-        datset_ranking = list(np.genfromtxt('../ranking_files/market_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+        dataset_ranking = list(np.genfromtxt('../ranking_files/market_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
     elif name == 'grid':
-        datset_ranking = list(np.genfromtxt('../ranking_files/grid_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+        dataset_ranking = list(np.genfromtxt('../ranking_files/grid_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
     elif name == 'viper':
-        datset_ranking = list(np.genfromtxt('../ranking_files/viper_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+        dataset_ranking = list(np.genfromtxt('../ranking_files/viper_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
     elif name == 'prid450':
-        datset_ranking = list(np.genfromtxt('../ranking_files/prid450_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+        dataset_ranking = list(np.genfromtxt('../ranking_files/prid450_ranking_%s.txt' % adjustable.use_gpu, dtype=None))
+    # FIXME: add more datasets
     else:
-        datset_ranking = None
+        dataset_ranking = None
     # all_ranking = [cuhk02_ranking, market_ranking]
     # names = ['cuhk02', 'market']
 
-    all_ranking = [datset_ranking]
+    all_ranking = [dataset_ranking]
     names = [name]
 
     # if adjustable.only_test:
@@ -290,8 +292,13 @@ def super_main(adjustable):
 
     path = os.path.join('../model_weights', adjustable.load_model_name)
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
+
+    # FIXME: add this feature
+    # TODO: add option to make a model from scratch, load weights and then compile. This way we can adjust the LR
+
     model = models.load_model(path)
 
+    # FIXME: set only test to 1 dataset
     number_of_datasets = len(names)
     if adjustable.only_test:
         number_of_datasets = 6
