@@ -173,102 +173,174 @@ def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm
 
         if use_batch_norm:
             model.add(layers.BatchNormalization(name=batch_norm_name, trainable=adjustable.trainable_bn))
+
         return model
+
     elif adjustable.video_head_type == 'cnn_lstm':
-        # TODO: doooooooooooooooooooooooooooo
-        pass
+        if first_layer:
+            if adjustable.pooling_type == 'avg_pooling':
+                pooling = layers.AveragePooling2D(
+                    pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1]))(model)
+            else:  # max_pooling
+                pooling = layers.MaxPool2D(
+                    pool_size=(adjustable.pooling_size[0][0], adjustable.pooling_size[0][1]))(model)
+        else:
+            if adjustable.pooling_type == 'avg_pooling':
+                pooling = layers.AveragePooling2D(
+                    pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1]))(model)
+            else:  # max_pooling
+                pooling = layers.MaxPool2D(
+                    pool_size=(adjustable.pooling_size[1][0], adjustable.pooling_size[1][1]))(model)
+
+        activation = layers.Activation(adjustable.activation_function)(pooling)
+
+        return activation
 
 
 
-def create_siamese_head(adjustable):
-    """Implements 1 head of the siamese network.
+def create_siamese_branch(adjustable):
+    """Implements 1 branch of the siamese network.
     :return:                    a keras models.Sequential model
     """
-    use_batch_norm = True if adjustable.head_type == 'batch_normalized' else False
+    if adjustable.video_head_type == '3d_convolution':
+        use_batch_norm = True if adjustable.head_type == 'batch_normalized' else False
+        # convolutional unit 1
+        model = models.Sequential()
 
-    # convolutional unit 1
-    model = models.Sequential()
-
-    if use_batch_norm == True:
-        model.add(layers.BatchNormalization(name='bn_1', input_shape=(adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
-                                     trainable=adjustable.trainable_bn))
-    model.add(layers.Conv3D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
-                     trainable=adjustable.trainable_12))
-    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
-    # convolutional unit 2
-    model.add(layers.Conv3D(32 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_2',
-                     trainable=adjustable.trainable_12))
-    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_3')
-    # convolutional unit 3
-    model.add(layers.Conv3D(64 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_3',
-                     trainable=adjustable.trainable_34))
-    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_4')
-    # convolutional unit 4
-    model.add(layers.Conv3D(128 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_4',
-                     trainable=adjustable.trainable_34))
-    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_5')
-    # convolutional unit 5
-    model.add(layers.Conv3D(256 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_5',
-                     trainable=adjustable.trainable_56))
-    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_6')
-    # convolutional unit 6
-    model.add(layers.Conv3D(512 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_6',
-                     trainable=adjustable.trainable_56))
-    model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_7')
-    if adjustable.pooling_size == [[2, 2], [2, 2]]:
-        model.add(layers.Conv3D(1024 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_7',
-                         trainable=adjustable.trainable_56))
-        model.add(layers.Activation(adjustable.activation_function))
         if use_batch_norm == True:
-            model.add(layers.BatchNormalization(name='bn_8', trainable=adjustable.trainable_bn))
+            model.add(layers.BatchNormalization(name='bn_1', input_shape=(
+            adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
+                                                trainable=adjustable.trainable_bn))
+        model.add(layers.Conv3D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
+                         trainable=adjustable.trainable_12))
+        model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
+        # convolutional unit 2
+        model.add(layers.Conv3D(32 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_2',
+                         trainable=adjustable.trainable_12))
+        model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_3')
+        # convolutional unit 3
+        model.add(layers.Conv3D(64 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_3',
+                         trainable=adjustable.trainable_34))
+        model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_4')
+        # convolutional unit 4
+        model.add(layers.Conv3D(128 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_4',
+                         trainable=adjustable.trainable_34))
+        model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_5')
+        # convolutional unit 5
+        model.add(layers.Conv3D(256 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_5',
+                         trainable=adjustable.trainable_56))
+        model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_6')
+        # convolutional unit 6
+        model.add(layers.Conv3D(512 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_6',
+                         trainable=adjustable.trainable_56))
+        model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_7')
+        if adjustable.pooling_size == [[2, 2], [2, 2]]:
+            model.add(layers.Conv3D(1024 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_7',
+                             trainable=adjustable.trainable_56))
+            model.add(layers.Activation(adjustable.activation_function))
+            if use_batch_norm == True:
+                model.add(layers.BatchNormalization(name='bn_8', trainable=adjustable.trainable_bn))
 
-    model.add(layers.Flatten(name='cnn_flat'))
+        model.add(layers.Flatten(name='cnn_flat'))
 
 
-    if not adjustable.weights_name == None:
-        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.weights_name), by_name=True)
+        if not adjustable.weights_name == None:
+            model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.weights_name), by_name=True)
 
-    return model
+        return model
+
+    elif adjustable.video_head_type == 'cnn_lstm':
+        '''
+        Note: when using layers.TimeDistributed, layers.BatchNormalization is not used
+        It is recommended to use adjustable.activation_function = 'selu' and adjustable.dropout_rate = 0.05
+        '''
+        ################################################################################################################
+        #  (1) Define the CNN that will extract features from each image.
+        ################################################################################################################
+        input_cnn = layers.Input(shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+
+        # convolutional unit 1
+        conv_layer_1 = layers.Conv2D(filters=(16*adjustable.numfil),
+                                     kernel_size=adjustable.kernel,
+                                     padding='same',
+                                     name='conv_1',
+                                     trainable=adjustable.trainable_12)(input_cnn)
+        mp_layer_1 = add_activation_and_max_pooling(adjustable, model=conv_layer_1, use_batch_norm=None,
+                                                    batch_norm_name=None, first_layer=True)
+        # convolutional unit 2
+        conv_layer_2 = layers.Conv2D(filters=(32 * adjustable.numfil),
+                                     kernel_size=adjustable.kernel,
+                                     padding='same',
+                                     name='conv_2',
+                                     trainable=adjustable.trainable_12)(mp_layer_1)
+        mp_layer_2 = add_activation_and_max_pooling(adjustable, model=conv_layer_2, use_batch_norm=None,
+                                                    batch_norm_name=None, first_layer=False)
+        # convolutional unit 3
+        conv_layer_3 = layers.Conv2D(filters=(64 * adjustable.numfil),
+                                     kernel_size=adjustable.kernel,
+                                     padding='same',
+                                     name='conv_3',
+                                     trainable=adjustable.trainable_34)(mp_layer_2)
+        mp_layer_3 = add_activation_and_max_pooling(adjustable, model=conv_layer_3, use_batch_norm=None,
+                                                    batch_norm_name=None, first_layer=False)
+        # convolutional unit 4
+        conv_layer_4 = layers.Conv2D(filters=(128 * adjustable.numfil),
+                                     kernel_size=adjustable.kernel,
+                                     padding='same',
+                                     name='conv_4',
+                                     trainable=adjustable.trainable_34)(mp_layer_3)
+        mp_layer_4 = add_activation_and_max_pooling(adjustable, model=conv_layer_4, use_batch_norm=None,
+                                                    batch_norm_name=None, first_layer=False)
+        # convolutional unit 5
+        conv_layer_5 = layers.Conv2D(filters=(256 * adjustable.numfil),
+                                     kernel_size=adjustable.kernel,
+                                     padding='same',
+                                     name='conv_5',
+                                     trainable=adjustable.trainable_56)(mp_layer_4)
+        mp_layer_5 = add_activation_and_max_pooling(adjustable, model=conv_layer_5, use_batch_norm=None,
+                                                    batch_norm_name=None, first_layer=False)
+        # convolutional unit 6
+        conv_layer_6 = layers.Conv2D(filters=(512 * adjustable.numfil),
+                                     kernel_size=adjustable.kernel,
+                                     padding='same',
+                                     name='conv_6',
+                                     trainable=adjustable.trainable_56)(mp_layer_5)
+        mp_layer_6 = add_activation_and_max_pooling(adjustable, model=conv_layer_6, use_batch_norm=None,
+                                                    batch_norm_name=None, first_layer=False)
+
+        cnn_model = models.Model(inputs=input_cnn, outputs=mp_layer_6)
+
+        ################################################################################################################
+        #  (2) Define the branch of the siamese network. Here we include the LSTM
+        ################################################################################################################
+        input_branch = layers.Input(shape=(adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
+
+        time_distributed_cnn = layers.TimeDistributed(cnn_model)(input_branch)
+        reshape = layers.Reshape((adjustable.sequence_length, 512 * adjustable.numfil))(time_distributed_cnn)
+        # if there is time, experiment with the other parameters in the LSTM.
+        lstm = layers.LSTM(units=adjustable.lstm_units)(reshape)
+
+        siamese_branch = models.Model(inputs=input_branch, outputs=lstm)
+
+        return siamese_branch
 
 
 def create_siamese_network(adjustable):
-    """Creates the siamese network that works on pairs of images.
+    """Creates the siamese network that works on pairs of videos.
     :return:    Keras models.Sequential model
     """
     input_a = layers.Input(shape=(adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
     input_b = layers.Input(shape=(adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
 
-    siamese_head = create_siamese_head(adjustable)
+    siamese_branch = create_siamese_branch(adjustable)
 
-    processed_a = siamese_head(input_a)
-    processed_b = siamese_head(input_b)
+    processed_a = siamese_branch(input_a)
+    processed_b = siamese_branch(input_b)
 
     distance = create_cost_module([processed_a, processed_b], adjustable)
     model = models.Model([input_a, input_b], distance)
 
     return model
-
-
-def create_time_capable_siamese_network(adjustable):
-    """Creates siamese network that can handle pairs of sequence of images (so pairs of video)
-    :return:    Keras models.Sequential model
-    """
-    input_a = layers.Input(shape=(adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-    input_b = layers.Input(shape=(adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-
-    siamese_head = create_siamese_head(adjustable)
-
-    processed_a = layers.TimeDistributed(siamese_head)(input_a)
-    processed_b = layers.TimeDistributed(siamese_head)(input_b)
-
-    lstm_a = layers.LSTM(64, return_sequences=False)(processed_a)
-    lstm_b = layers.LSTM(64, return_sequences=False)(processed_b)
-
-    distance = create_cost_module([lstm_a, lstm_b], adjustable)
-    model = models.Model([input_a, input_b], distance)
-
-    return model
-
 
 
 def train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list):
@@ -302,6 +374,7 @@ def train_network_light(adjustable, model, final_training_data, final_training_l
 
 def absolute_distance_difference(y_true, y_pred):
     return abs(y_true - y_pred)
+
 
 def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
     """Runs a the whole training and testing phase
@@ -356,7 +429,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
 
         time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
-        # print('DONE WITH TRAINING')
 
         if adjustable.save_inbetween and adjustable.iterations == 1:
             if epoch+1 in adjustable.save_points:
@@ -376,7 +448,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                 model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
                 print('MODEL SAVED')
 
-    # if appropriate, skip the testing step
     confusion_matrices = []
     ranking_matrices = []
     names = []
@@ -451,7 +522,6 @@ def super_main(adjustable):
     else:
         ranking_number = None
 
-    the_dataset_name = adjustable.datasets[0]
     # select which GPU to use, necessary to start tf session
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
     # arrays for storing results

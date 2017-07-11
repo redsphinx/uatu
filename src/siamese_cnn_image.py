@@ -383,7 +383,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                 model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
                 print('MODEL SAVED')
 
-    # if appropriate, skip the testing step
     confusion_matrices = []
     ranking_matrices = []
     names = []
