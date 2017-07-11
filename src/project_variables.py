@@ -111,6 +111,12 @@ class ProjectVariable(object):
         # 22 for ilids-vid
         # 20 for prid2011
         self._sequence_length = 22
+        # set which type of video-processing siamese network we want
+        # choice of '3d_convolution' or 'cnn_lstm'
+        self._video_head_type = '3d_convolution'
+        # rate of dropout. For AlphaDropout in combination with activation function 'selu', use 0.1 or 0.05
+        self._dropout_rate = 0.5
+        
 
     @property
     def use_gpu(self):
@@ -553,3 +559,21 @@ class ProjectVariable(object):
     @cnn_save.setter
     def cnn_save(self, value):
         self._cnn_save = value
+
+    # choice of '3d_convolution' or 'cnn_lstm'
+    @property
+    def video_head_type(self):
+        return self._video_head_type
+
+    @video_head_type.setter
+    def video_head_type(self, value):
+        self._video_head_type = value
+        
+    # rate of dropout. For AlphaDropout in combination with activation function 'selu', use 0.1 or 0.05
+    @property
+    def dropout_rate(self):
+        return self._dropout_rate
+
+    @dropout_rate.setter
+    def dropout_rate(self, value):
+        self._dropout_rate = value

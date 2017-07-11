@@ -58,6 +58,7 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 . make timedistributed srcnn
 .. with selu
 .. with alphadropout
+.. apply to the real code
 . run experiments:
 .. selu + alphadropout=0.05 + no batchnorm
 .. selu + alphadropout=0.05
