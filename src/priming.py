@@ -219,6 +219,7 @@ def only_test(model, h5_dataset, this_ranking):
 def main(adjustable, all_ranking, names, model):
     confusion_matrices = []
     ranking_matrices = []
+    gregor_matrices = []
 
     for item in range(len(all_ranking)):
         name = names[item]
@@ -243,13 +244,19 @@ def main(adjustable, all_ranking, names, model):
             precision = 0
         confusion_matrices.append(matrix)
 
+        gregor_matrix = pu.make_gregor_matrix(adjustable, full_predictions, final_testing_labels)
+        gregor_matrices.append(gregor_matrix)
+        detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0))
+        false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
+
         ranking = pu.calculate_CMC(adjustable, full_predictions)
         ranking_matrices.append(ranking)
 
-        print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \n CMC: \n %s'
-              % (name, accuracy, precision, str(matrix), str(ranking)))
+        print(
+        '%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \nCMC: \n%s \nDetection rate: %s  False alarm: %s'
+        % (name, accuracy, precision, str(matrix), str(ranking), str(detection_rate), str(false_alarm)))
 
-    return confusion_matrices, ranking_matrices
+    return confusion_matrices, ranking_matrices, gregor_matrices
 
 
 def super_main(adjustable):
@@ -275,13 +282,10 @@ def super_main(adjustable):
 
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
 
-    # FIXME: add this feature
-    # TODO: add option to make a model from scratch, load weights and then compile. This way we can adjust the LR
-
     '''
     '''
 
-    if adjustable.load_model_name is not None and adjustable.load_weights_name is None:
+    if adjustable.load_model_name is not None:
         model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
     elif adjustable.load_weights_name is not None and adjustable.load_model_name is None:
         model = scn.create_siamese_network(adjustable)
@@ -310,14 +314,16 @@ def super_main(adjustable):
 
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
     ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, ranking_number))
+    gregor_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
 
     for iter in range(adjustable.iterations):
         print('-----ITERATION %d' % iter)
 
-        confusion, ranking = main(adjustable, all_ranking, names, model)
+        confusion, ranking, gregor = main(adjustable, all_ranking, names, model)
 
         confusion_matrices[iter] = confusion
         ranking_matrices[iter] = ranking
+        gregor_matrices[iter] = gregor
 
     stop = time.time()
     total_time = stop - start
@@ -326,23 +332,28 @@ def super_main(adjustable):
     matrix_std = np.zeros((number_of_datasets, 4))
     ranking_means = np.zeros((number_of_datasets, ranking_number))
     ranking_std = np.zeros((number_of_datasets, ranking_number))
+    gregor_matrix_means = np.zeros((number_of_datasets, 4))
+    gregor_matrix_std = np.zeros((number_of_datasets, 4))
 
     for dataset in range(number_of_datasets):
         matrices = np.zeros((adjustable.iterations, 4))
         rankings = np.zeros((adjustable.iterations, ranking_number))
+        g_matrices = np.zeros((adjustable.iterations, 4))
 
         for iter in range(adjustable.iterations):
             matrices[iter] = confusion_matrices[iter][dataset]
             rankings[iter] = ranking_matrices[iter][dataset]
+            g_matrices[iter] = gregor_matrices[iter][dataset]
 
         matrix_means[dataset] = np.mean(matrices, axis=0)
         matrix_std[dataset] = np.std(matrices, axis=0)
         ranking_means[dataset] = np.mean(rankings, axis=0)
         ranking_std[dataset] = np.std(rankings, axis=0)
+        gregor_matrix_means[dataset] = np.mean(g_matrices, axis=0)
+        gregor_matrix_std[dataset] = np.std(g_matrices, axis=0)
 
-    # note: TURN ON if you want to log results!!
     if adjustable.log_experiment:
         file_name = os.path.basename(__file__)
         pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, names, matrix_means, matrix_std, ranking_means,
                         ranking_std,
-                        total_time)
+                        total_time, gregor_matrix_means, gregor_matrix_std)

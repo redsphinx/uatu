@@ -105,6 +105,133 @@ def calculate_accuracy(predictions, labels):
     return acc
 
 
+def make_gregor_matrix(adjustable, predictions, labels):
+    predictions = threshold_predictions(adjustable, predictions)
+    tp, fp, tn, fn = 0, 0, 0, 0
+
+    # for each positive pair we have 9 negative pairs
+    magic_number = 9
+
+    pred_split_match = []
+    pred_split_mismatch = []
+    lab_split_match = []
+    lab_split_mismatch = []
+
+    # select a subset of negative pairs such that the ratio of positive to negative pairs in the test set is 1:10 resp.
+    if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+        len_data = len(labels)
+        # split the data into matches and mismatches
+        for item in range(len_data):
+            if labels[item][1] == 1:
+                lab_split_match.append(labels[item])
+                pred_split_match.append(predictions[item])
+            else:
+                lab_split_mismatch.append(labels[item])
+                pred_split_mismatch.append(predictions[item])
+
+        pred_mismatch_chosen = []
+        lab_mismatch_chosen = []
+
+        # from the mismatches select the first 9 negative pairs per ID
+        len_data = len(lab_split_match)
+        for item in range(len_data):
+            pairs_lab = lab_split_mismatch[item * magic_number:(item + 1) * magic_number]
+            pairs_pred = pred_split_mismatch[item * magic_number:(item + 1) * magic_number]
+            for pair in range(len(pairs_lab)):
+                lab_mismatch_chosen.append(pairs_lab[pair])
+                pred_mismatch_chosen.append(pairs_pred[pair])
+        predictions = pred_split_match + pred_mismatch_chosen
+        labels = lab_split_match + lab_mismatch_chosen
+
+        # now make the confusion matrix with this new test set
+        for lab in range(0, len(labels)):
+            if labels[lab][0] == 0:
+                if predictions[lab][0] == 0:
+                    tp += 1
+                else:
+                    fn += 1
+            elif labels[lab][0] == 1:
+                if predictions[lab][0] == 1:
+                    tn += 1
+                else:
+                    fp += 1
+
+    elif adjustable.cost_module_type == 'euclidean':
+        len_data = len(labels)
+        # split the data into matches and mismatches
+        for item in range(len_data):
+            if labels[item] == 0:
+                lab_split_match.append(labels[item])
+                pred_split_match.append(predictions[item])
+            else:
+                lab_split_mismatch.append(labels[item])
+                pred_split_mismatch.append(predictions[item])
+
+        pred_mismatch_chosen = []
+        lab_mismatch_chosen = []
+
+        # from the mismatches select the first 9 negative pairs per ID
+        len_data = len(lab_split_match)
+        for item in range(len_data):
+            pairs_lab = lab_split_mismatch[item * magic_number:(item + 1) * magic_number]
+            pairs_pred = pred_mismatch_chosen[item * magic_number:(item + 1) * magic_number]
+            for pair in range(len(pairs_lab)):
+                lab_mismatch_chosen.append(pairs_lab[pair])
+                pred_mismatch_chosen.append(pairs_pred[pair])
+        predictions = pred_split_match + pred_mismatch_chosen
+        labels = lab_split_match + lab_mismatch_chosen
+
+        for lab in range(0, len(labels)):
+            if labels[lab] == 0:
+                if predictions[lab] == 0:
+                    tp += 1  # t=1, p=1
+                else:
+                    fn += 1  # t=1, p=0
+            elif labels[lab] == 1:
+                if predictions[lab] == 1:
+                    tn += 1
+                else:
+                    fp += 1
+    elif adjustable.cost_module_type == 'cosine':
+        len_data = len(labels)
+        # split the data into matches and mismatches
+        for item in range(len_data):
+            if labels[item] == 1:
+                lab_split_match.append(labels[item])
+                pred_split_match.append(predictions[item])
+            else:
+                lab_split_mismatch.append(labels[item])
+                pred_split_mismatch.append(predictions[item])
+
+        pred_mismatch_chosen = []
+        lab_mismatch_chosen = []
+
+        # from the mismatches select the first 9 negative pairs per ID
+        len_data = len(lab_split_match)
+        for item in range(len_data):
+            pairs_lab = lab_split_mismatch[item * magic_number:(item + 1) * magic_number]
+            pairs_pred = pred_mismatch_chosen[item * magic_number:(item + 1) * magic_number]
+            for pair in range(len(pairs_lab)):
+                lab_mismatch_chosen.append(pairs_lab[pair])
+                pred_mismatch_chosen.append(pairs_pred[pair])
+        predictions = pred_split_match + pred_mismatch_chosen
+        labels = lab_split_match + lab_mismatch_chosen
+
+        for lab in range(0, len(labels)):
+            if labels[lab] == 1:
+                if predictions[lab] == 1:
+                    tp += 1  # t=1, p=1
+                else:
+                    fn += 1  # t=1, p=0
+            elif labels[lab] == -1:
+                if predictions[lab] == -1:
+                    tn += 1
+                else:
+                    fp += 1
+
+    return [tp, fp, tn, fn]
+
+
 def make_confusion_matrix(adjustable, predictions, labels):
     predictions = threshold_predictions(adjustable, predictions)
     tp, fp, tn, fn = 0, 0, 0, 0
@@ -134,13 +261,13 @@ def make_confusion_matrix(adjustable, predictions, labels):
                     fp += 1
     elif adjustable.cost_module_type == 'cosine':
         for lab in range(0, len(labels)):
-            if labels[lab] == -1:
-                if predictions[lab] == -1:
+            if labels[lab] == 1:
+                if predictions[lab] == 1:
                     tp += 1  # t=1, p=1
                 else:
                     fn += 1  # t=1, p=0
-            elif labels[lab] == 1:
-                if predictions[lab] == 1:
+            elif labels[lab] == -1:
+                if predictions[lab] == -1:
                     tn += 1
                 else:
                     fp += 1
@@ -148,12 +275,18 @@ def make_confusion_matrix(adjustable, predictions, labels):
     return [tp, fp, tn, fn]
 
 
-def enter_in_log(adjustable, experiment_name, file_name, data_names, matrix_means, matrix_std, ranking_means, ranking_std, total_time):
+def enter_in_log(adjustable, experiment_name, file_name, data_names, matrix_means, matrix_std, ranking_means,
+                 ranking_std, total_time, gregor_means, gregor_std):
     decimals = '.2f'
     if not os.path.exists(adjustable.log_file):
         with open(adjustable.log_file, 'w') as my_file:
             print('new log file made')
 
+    if gregor_means is not None:
+        gregor_matrix = gregor_means[0]
+        detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0))
+        false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
+    
     with open(adjustable.log_file, 'a') as log_file:
         date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
         log_file.write('\n')
@@ -168,7 +301,11 @@ def enter_in_log(adjustable, experiment_name, file_name, data_names, matrix_mean
             if ranking_means is not None:
                 log_file.write('%s mean ranking:        %s\n' % (name, str(reduce_float_length(np.asarray(ranking_means[dataset]).tolist(), decimals))))
                 log_file.write('%s std ranking:         %s\n' % (name, str(reduce_float_length(np.asarray(ranking_std[dataset]).tolist(), decimals))))
-
+            if gregor_means is not None:
+                log_file.write('%s G mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(gregor_means[dataset]).tolist(), decimals))))
+                log_file.write('%s G std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(gregor_std[dataset]).tolist(), decimals))))
+                log_file.write('%s detection rate (TP/(TP+FN)):      %s\n' % (name, str(detection_rate)))
+                log_file.write('%s false alarm (FP/(FP+TN)):        %s\n' % (name, str(false_alarm)))
         log_file.write('\n')
 
 
@@ -282,7 +419,7 @@ def flip_labels(data_list):
 
 
 def zero_to_min_one_labels(data_list):
-    """ Gets a list of pairs and labels and turns 0s to 1s and 1s to -1s
+    """ Gets a list of pairs and labels and turns 0s to -1s and 1s to 1s
     """
     column_1 = [item.strip().split(',')[0] for item in data_list]
     column_2 = [item.strip().split(',')[1] for item in data_list]
@@ -291,9 +428,9 @@ def zero_to_min_one_labels(data_list):
     new_labels = []
     for item in labels:
         if item == '0':
-            new_labels.append('1')
-        elif item == '1':
             new_labels.append('-1')
+        elif item == '1':
+            new_labels.append('1')
 
     data_list = [column_1[i] + ',' + column_2[i] + ',' + new_labels[i] for i in range(len(column_1))]
 

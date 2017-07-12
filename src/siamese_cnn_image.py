@@ -384,6 +384,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                 print('MODEL SAVED')
 
     confusion_matrices = []
+    gregor_matrices = []
     ranking_matrices = []
     names = []
 
@@ -424,22 +425,26 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         # print('MAKING CONFUSION MATRIX')
         # matrix = pu.make_confusion_matrix(predictions, test_labels)
         matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
+        confusion_matrices.append(matrix)
         accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
         if not matrix[0] == 0:
             precision = (matrix[0] * 1.0 / (matrix[0] + matrix[1] * 1.0))
         else:
             precision = 0
-        confusion_matrices.append(matrix)
+
+        gregor_matrix = pu.make_gregor_matrix(adjustable, predictions, final_testing_labels)
+        gregor_matrices.append(gregor_matrix)
+        detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0))
+        false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0))
 
         ranking = pu.calculate_CMC(adjustable, predictions)
         ranking_matrices.append(ranking)
 
-        print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \n CMC: \n %s'
-              % (name, accuracy, precision, str(matrix), str(ranking)))
-
+        print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \nCMC: \n%s \nDetection rate: %s  False alarm: %s'
+              % (name, accuracy, precision, str(matrix), str(ranking), str(detection_rate), str(false_alarm)))
 
     del model
-    return names, confusion_matrices, ranking_matrices
+    return names, confusion_matrices, ranking_matrices, gregor_matrices
 
 
 def super_main(adjustable):
@@ -463,6 +468,7 @@ def super_main(adjustable):
     name = np.zeros(number_of_datasets)
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
     ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, ranking_number))
+    gregor_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
 
     start = time.time()
     for iter in range(adjustable.iterations):
@@ -478,6 +484,7 @@ def super_main(adjustable):
                 ranking = pu.flip_labels(ranking)
                 training_pos = pu.flip_labels(training_pos)
                 training_neg = pu.flip_labels(training_neg)
+            # in case of cosine -1 means totally different and 1 is the same thing
             elif adjustable.cost_module_type == 'cosine':
                 ranking = pu.zero_to_min_one_labels(ranking)
                 training_pos = pu.zero_to_min_one_labels(training_pos)
@@ -492,11 +499,12 @@ def super_main(adjustable):
         print('%0.2f mins' % ((st-ss)/60))
         merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
         # run main
-        name, confusion_matrix, ranking_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
+        name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
                                                       merged_training_neg)
         # store results
         confusion_matrices[iter] = confusion_matrix
         ranking_matrices[iter] = ranking_matrix
+        gregor_matrices[iter] = gregor_matrix
 
     stop = time.time()
     total_time = stop - start
@@ -505,21 +513,29 @@ def super_main(adjustable):
     matrix_std = np.zeros((number_of_datasets, 4))
     ranking_means = np.zeros((number_of_datasets, ranking_number))
     ranking_std = np.zeros((number_of_datasets, ranking_number))
+    gregor_matrix_means = np.zeros((number_of_datasets, 4))
+    gregor_matrix_std = np.zeros((number_of_datasets, 4))
     # for each dataset, create confusion and ranking matrices
     for dataset in range(number_of_datasets):
         matrices = np.zeros((adjustable.iterations, 4))
         rankings = np.zeros((adjustable.iterations, ranking_number))
+        g_matrices = np.zeros((adjustable.iterations, 4))
 
         for iter in range(adjustable.iterations):
             matrices[iter] = confusion_matrices[iter][dataset]
             rankings[iter] = ranking_matrices[iter][dataset]
+            g_matrices[iter] = gregor_matrices[iter][dataset]
+
         # calculate the mean and std
         matrix_means[dataset] = np.mean(matrices, axis=0)
         matrix_std[dataset] = np.std(matrices, axis=0)
         ranking_means[dataset] = np.mean(rankings, axis=0)
         ranking_std[dataset] = np.std(rankings, axis=0)
+        gregor_matrix_means[dataset] = np.mean(g_matrices, axis=0)
+        gregor_matrix_std[dataset] = np.std(g_matrices, axis=0)
+
     # log the results
     if adjustable.log_experiment:
         file_name = os.path.basename(__file__)
         pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, name, matrix_means, matrix_std, ranking_means, ranking_std,
-                        total_time)
+                        total_time, gregor_matrix_means, gregor_matrix_std)

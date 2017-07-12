@@ -1652,23 +1652,6 @@ def test_cnn():
     cnn.super_main(a)
 
 
-def scnn_fix_confusion_matrix():
-    a = ProjectVariable()
-    a.experiment_name = 'towards fixing confusion matrix'
-    a.epochs = 1
-    a.save_inbetween = True
-    a.save_points = []
-    a.ranking_number = 100
-    a.iterations = 1
-    a.batch_size = 32
-    a.activation_function = 'elu'
-    a.cl_min = 0.00005
-    a.cl_max = 0.001
-    a.neural_distance = 'absolute'
-    a.datasets = ['viper']
-    scn.super_main(a)
-
-
 def test_siamese_video_1():
     a = ProjectVariable()
     a.experiment_name = 'testing siamese video: 3D convolutions on ilids-vid'
@@ -1739,11 +1722,50 @@ def test_siamese_video_4():
     a.dropout_rate = 0.05
     a.lstm_units = 32
     srcn.super_main(a)
-    
+
+
+def scnn_fix_confusion_matrix():
+    a = ProjectVariable()
+    a.experiment_name = 'towards fixing confusion matrix'
+    a.epochs = 10
+    a.save_inbetween = True
+    a.name_indication = 'dataset_name'
+    a.save_points = [10]
+    a.ranking_number = 50
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+    a.datasets = ['viper']
+    scn.super_main(a)
+
+
+def shit_priming():
+    a = ProjectVariable()
+    a.experiment_name = 'priming shit'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.priming = True
+    a.ranking_number = 50
+    # a.load_model_name = 'viper_model_%s.h5' % a.use_gpu
+    a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
+    a.datasets = ['viper']
+    a.prime_epochs = 10
+    a.batch_size = 32
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.000001
+    a.iterations = 1
+    prime.super_main(a)
+
+
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     # scnn_fix_confusion_matrix()
-    test_siamese_video_4()
+    # test_siamese_video_4()
+    shit_priming()
 
 main()

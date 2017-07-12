@@ -357,7 +357,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     :return:                truncated selection of the_list
     """
     selection = []
-    min_id_group_size = 100000
+    min_id_group_size = 10000000
     # keep track of which ids we ignore.
     ignore_id = []
 
@@ -471,11 +471,14 @@ def make_negative_pairs(pos_list, the_type):
 
     if the_type == 'ranking':
         ranking_list = []
+        # ranking_neg = []
         for img0 in range(len(list_0)):
             for img1 in range(len(list_1)):
                 num = 1 if img0 == img1 else 0
                 line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
                 ranking_list.append(line)
+                # if num == 0:
+                #     ranking_neg.append(line)
         return ranking_list
 
     elif the_type == 'training':

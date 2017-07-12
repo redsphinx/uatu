@@ -88,7 +88,7 @@ class ProjectVariable(object):
         self._name_indication = 'epoch' # string
         # timestamp of when the ranking file was made
         self._ranking_time_name = None # string
-        # the ranking number for each dataset. set to 30 when using video data
+        # the ranking number for each dataset. must be at least 10 because of gregor. set to 30 when using video data
         self._ranking_number = 100 # str 'half' or actual int
         # save cnn weights and model
         self._cnn_save = False

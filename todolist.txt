@@ -52,12 +52,21 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 
 12 july
 -------
+. DONE adapt confusion matrix calculations such that class balance rate of match/mismatch=0.1
+.. think it's done, needs testing
+. DONE make 2 new metrics:
+.. detection rate (or true positive as gregor calls it) = TP / (TP + FN)
+.. false alarm = FP / (FP + TN)
+. Run new experiments [home]
+. continue fixing priming.py
+.. not done there is shit to fix in dynamic_data_loading.py
+.. I think it's done. Now we debug!
 . look at using MPII dataset for human shizzle
 . look into creating dataset with only 1 angle
 . do transfer learning with lower learning rate
-. continue fixing priming.py
-.. not done there is shit to fix in dynamic_data_loading.py
 . check if cosine similarity correctly implemented: http://www.minerazzi.com/tutorials/cosine-similarity-tutorial.pdf
+.. flipped the labels in project_utils zero_to_min_one method: a mismatch should be indicated with a -1 because the cosine is a method of similarity and not distance. so the more alike something is, the higher the similarity.
+.. run new experiments with cosine omg.
 . optimize ranking shit
 .. so we can compare video on SOTA benchmarks
 . clean dynamic_data_loading.py

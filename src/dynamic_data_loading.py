@@ -692,7 +692,75 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
         keys = [all_keys_in_order[item] for item in updated_indices]
         # TODO switch back
         # keys = [all_keys_in_order[item] for item in indices_seen_image]
-        # FIXME: add the other datasets
+    elif name_dataset == 'prid450':
+
+        all_ids_in_order = list(np.genfromtxt('../data/prid450/id_all_file.txt', dtype=str))
+        indices_matching_id = [item for item in range(len(all_ids_in_order)) if all_ids_in_order[item] == the_id]
+
+        all_image_names = list(np.genfromtxt('../data/prid450/short_image_names_file.txt', dtype=None))
+        image_names_matching_id = [all_image_names[item] for item in indices_matching_id]
+        indices_seen_image = [image_names_matching_id.index(im) for im in seen_list for name in image_names_matching_id
+                              if im == name]
+
+        updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
+                           item not in indices_seen_image]
+
+        # truncate list to 4 images -- for faster testing
+        # add the probe
+        probe = all_image_names.index(seen_list[0])
+        updated_indices = updated_indices[0:2]
+        updated_indices += [probe]
+
+        all_keys_in_order = list(np.genfromtxt('../data/prid450/fullpath_image_names_file.txt', dtype=None))
+        keys = [all_keys_in_order[item] for item in updated_indices]
+        # TODO switch back
+        # keys = [all_keys_in_order[item] for item in indices_seen_image]
+    elif name_dataset == 'viper':
+
+        all_ids_in_order = list(np.genfromtxt('../data/VIPER/id_all_file.txt', dtype=str))
+        indices_matching_id = [item for item in range(len(all_ids_in_order)) if all_ids_in_order[item] == the_id]
+
+        all_image_names = list(np.genfromtxt('../data/VIPER/short_image_names_file.txt', dtype=None))
+        image_names_matching_id = [all_image_names[item] for item in indices_matching_id]
+        indices_seen_image = [image_names_matching_id.index(im) for im in seen_list for name in image_names_matching_id
+                              if im == name]
+
+        updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
+                           item not in indices_seen_image]
+
+        # truncate list to 4 images -- for faster testing
+        # add the probe
+        probe = all_image_names.index(seen_list[0])
+        updated_indices = updated_indices[0:2]
+        updated_indices += [probe]
+
+        all_keys_in_order = list(np.genfromtxt('../data/VIPER/fullpath_image_names_file.txt', dtype=None))
+        keys = [all_keys_in_order[item] for item in updated_indices]
+        # TODO switch back
+        # keys = [all_keys_in_order[item] for item in indices_seen_image]
+    elif name_dataset == 'caviar':
+
+        all_ids_in_order = list(np.genfromtxt('../data/caviar/id_all_file.txt', dtype=str))
+        indices_matching_id = [item for item in range(len(all_ids_in_order)) if all_ids_in_order[item] == the_id]
+
+        all_image_names = list(np.genfromtxt('../data/caviar/short_image_names_file.txt', dtype=None))
+        image_names_matching_id = [all_image_names[item] for item in indices_matching_id]
+        indices_seen_image = [image_names_matching_id.index(im) for im in seen_list for name in image_names_matching_id
+                              if im == name]
+
+        updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
+                           item not in indices_seen_image]
+
+        # truncate list to 4 images -- for faster testing
+        # add the probe
+        probe = all_image_names.index(seen_list[0])
+        updated_indices = updated_indices[0:2]
+        updated_indices += [probe]
+
+        all_keys_in_order = list(np.genfromtxt('../data/caviar/fullpath_image_names_file.txt', dtype=None))
+        keys = [all_keys_in_order[item] for item in updated_indices]
+        # TODO switch back
+        # keys = [all_keys_in_order[item] for item in indices_seen_image]
     else:
         keys = None
 
@@ -771,11 +839,16 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
             folder_name = 'market'
         elif name_dataset == 'grid':
             folder_name = 'GRID'
+        elif name_dataset == 'viper':
+            folder_name = 'VIPER'
+        elif name_dataset == 'prid450':
+            folder_name = 'prid450'
+        elif name_dataset == 'caviar':
+            folder_name = 'caviar'
         else:
             folder_name = None
-        # FIXME: add more datasets
 
-        # get the list of unique market IDs
+        # get the list of unique dataset IDs
         unique_ids = list(np.genfromtxt('../data/%s/unique_id_file.txt' % folder_name, dtype=None))
         # get list of swapped fullpath
         swapped_fullpath = list(np.genfromtxt('../data/%s/fullpath_image_names_file.txt' % folder_name, dtype=None))
