@@ -1,9 +1,9 @@
-import siamese_cnn_clean as scn
+import siamese_cnn_image as scn
 import sys
 from project_variables import ProjectVariable
 import priming as prime
 import os
-import siamese_rcnn as srcn
+import siamese_cnn_video as srcn
 
 
 '''
@@ -155,7 +155,7 @@ def e_012():
     scn.super_main(a)
 
 '''
-Experiments with selu, alpha dropout and removing batch norm
+Experiments with selu, alpha dropout 
 '''
 
 
@@ -305,17 +305,189 @@ def e_024():
     scn.super_main(a)
 
 
+'''
+Experiments with selu, alpha dropout=0.05 + batchnorm
+'''
+
+
+def e_025():
+    a = ProjectVariable()
+    a.experiment_name = '025. viper: selu + alphadropout=0.05 + batchnorm'
+    a.ranking_number = 316
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['viper']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.dropout_rate = 0.05
+    scn.super_main(a)
+
+
+def e_026():
+    a = ProjectVariable()
+    a.experiment_name = '026. grid: selu + alphadropout=0.05 + batchnorm'
+    a.ranking_number = 125
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['grid']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.dropout_rate = 0.05
+    scn.super_main(a)
+
+
+def e_027():
+    a = ProjectVariable()
+    a.experiment_name = '027. prid450: selu + alphadropout=0.05 + batchnorm'
+    a.ranking_number = 225
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.dropout_rate = 0.05
+    scn.super_main(a)
+
+
+def e_028():
+    a = ProjectVariable()
+    a.experiment_name = '028. caviar: selu + alphadropout=0.05 + batchnorm'
+    a.ranking_number = 36
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['caviar']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.dropout_rate = 0.05
+    scn.super_main(a)
+
+'''
+video data experiments
+'''
+
+def e_029():
+    a = ProjectVariable()
+    a.experiment_name = '029. 3D convolutions on ilids-vid'
+    a.epochs = 100
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.datasets = ['ilids-vid']
+    a.video_head_type = '3d_convolution'
+    a.sequence_length = 22
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    a.ranking_number = 30
+    srcn.super_main(a)
+
+
+def e_030():
+    a = ProjectVariable()
+    a.experiment_name = '030. cnn_lstm on ilids-vid, AD=0.05'
+    a.epochs = 100
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['ilids-vid']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 22
+    a.ranking_number = 30
+    a.dropout_rate = 0.05
+    a.lstm_units = 64
+    srcn.super_main(a)
+
+
+def e_031():
+    a = ProjectVariable()
+    a.experiment_name = '031. cnn_lstm on ilids-vid, AD=0.1'
+    a.epochs = 100
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['ilids-vid']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 22
+    a.ranking_number = 30
+    a.dropout_rate = 0.1
+    a.lstm_units = 64
+    srcn.super_main(a)
+
+
+def e_032():
+    a = ProjectVariable()
+    a.experiment_name = '032. 3D convolutions on prid2011'
+    a.epochs = 100
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.datasets = ['prid2011']
+    a.video_head_type = '3d_convolution'
+    a.sequence_length = 20
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    a.ranking_number = 30
+    srcn.super_main(a)
+
+
+def e_033():
+    a = ProjectVariable()
+    a.experiment_name = '033. cnn_lstm on prid2011, AD=0.05'
+    a.epochs = 100
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['prid2011']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 20
+    a.ranking_number = 30
+    a.dropout_rate = 0.05
+    a.lstm_units = 64
+    srcn.super_main(a)
+
+
+def e_034():
+    a = ProjectVariable()
+    a.experiment_name = '034. cnn_lstm on prid2011, AD=0.1'
+    a.epochs = 100
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['prid2011']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 20
+    a.ranking_number = 30
+    a.dropout_rate = 0.1
+    a.lstm_units = 64
+    srcn.super_main(a)
+
+
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '21':
-        e_021()
+    # if num == '21':
+        # e_021()
     if num == '22':
         e_022()
     if num == '23':
         e_023()
     if num == '24':
         e_024()
+    if num == '25':
+        e_025()
+    if num == '26':
+        e_026()
+    if num == '27':
+        e_027()
+    if num == '28':
+        e_028()
+    if num == '29':
+        e_029()
+    if num == '30':
+        e_030()
+    if num == '31':
+        e_031()
+    if num == '32':
+        e_032()
+    if num == '33':
+        e_033()
+    if num == '34':
+        e_034()
 
 main()
