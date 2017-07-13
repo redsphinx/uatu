@@ -174,7 +174,7 @@ def make_gregor_matrix(adjustable, predictions, labels):
         len_data = len(lab_split_match)
         for item in range(len_data):
             pairs_lab = lab_split_mismatch[item * magic_number:(item + 1) * magic_number]
-            pairs_pred = pred_mismatch_chosen[item * magic_number:(item + 1) * magic_number]
+            pairs_pred = pred_split_mismatch[item * magic_number:(item + 1) * magic_number]
             for pair in range(len(pairs_lab)):
                 lab_mismatch_chosen.append(pairs_lab[pair])
                 pred_mismatch_chosen.append(pairs_pred[pair])
@@ -210,7 +210,7 @@ def make_gregor_matrix(adjustable, predictions, labels):
         len_data = len(lab_split_match)
         for item in range(len_data):
             pairs_lab = lab_split_mismatch[item * magic_number:(item + 1) * magic_number]
-            pairs_pred = pred_mismatch_chosen[item * magic_number:(item + 1) * magic_number]
+            pairs_pred = pred_split_mismatch[item * magic_number:(item + 1) * magic_number]
             for pair in range(len(pairs_lab)):
                 lab_mismatch_chosen.append(pairs_lab[pair])
                 pred_mismatch_chosen.append(pairs_pred[pair])
@@ -328,7 +328,6 @@ def enter_in_log_cnn(adjustable, experiment_name, file_name, data_names, matrix_
 
 
 def calculate_CMC(adjustable, predictions):
-    # print('we are at CMC')
     if adjustable.ranking_number == 'half':
         the_dataset_name = adjustable.datasets[0]
         ranking_number = pc.RANKING_DICT[the_dataset_name]
@@ -349,27 +348,18 @@ def calculate_CMC(adjustable, predictions):
     tallies = np.zeros(ranking_number)
     final_ranking = []
 
-    # print('we are now getting ready to do the whole prediction shit')
     for row in range(len(predictions)):
         # get the indices by sorted values from high to low
-        # print('row: %d' % row)
-        start = time.time()
-
-        if adjustable.cost_module_type == 'neural_network':
+        if adjustable.cost_module_type in ['neural_network', 'cosine']:
             ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
                                                         reverse=True)]
         else:
+            # get the indices by sorted values from low to high
             ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1])]
 
-        # print('getting ranking matrix for row: %0.2f s' % (time.time()-start))
-
-        # start = time.time()
         list_form = ranking_matrix_abs[row].tolist()
         num = list_form.index(row)
         tallies[num] += 1
-        # print('doing rest of shit like tallies: %0.2f s' % (time.time() - start))
-
-    # print('end getting ranking')
 
     for tally in range(len(tallies)):
         percentage = sum(tallies[0:tally + 1]) * 1.0 / sum(tallies) * 1.0
