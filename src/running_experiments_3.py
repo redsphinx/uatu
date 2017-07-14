@@ -568,9 +568,9 @@ def e_039():
     a.log_file = 'thesis_experiment_log.txt'
     scn.super_main(a)
 
-
-# running again with rank 100 to see how rank affects the results
-
+'''
+Running again with rank 100 to see how rank affects the results
+'''
 
 def e_040():
     a = ProjectVariable()
@@ -810,52 +810,206 @@ def e_067():
     a.dropout_rate = 0.05
     scn.super_main(a)
 
+'''
+Experiments with priming LR
+'''
+
+def e_068():
+    a = ProjectVariable()
+    a.experiment_name = '068. priming on viper. no CLR. LR = 0.001'
+    a.log_file = 'thesis_experiment_log.txt'
+    a.priming = True
+    a.ranking_number = 316
+    a.load_weights_name = 'viper_weigths_0.h5'
+    a.datasets = ['viper']
+    a.prime_epochs = 5
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.001
+    a.iterations = 10
+    prime.super_main(a)
+
+
+def e_069():
+    a = ProjectVariable()
+    a.experiment_name = '069. priming on viper. no CLR. LR = 0.0001'
+    a.log_file = 'thesis_experiment_log.txt'
+    a.priming = True
+    a.ranking_number = 316
+    a.load_weights_name = 'viper_weigths_0.h5'
+    a.datasets = ['viper']
+    a.prime_epochs = 5
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.0001
+    a.iterations = 10
+    prime.super_main(a)
+
+
+def e_070():
+    a = ProjectVariable()
+    a.experiment_name = '070. priming on viper. no CLR. LR = 0.00001'
+    a.log_file = 'thesis_experiment_log.txt'
+    a.priming = True
+    a.ranking_number = 316
+    a.load_weights_name = 'viper_weigths_0.h5'
+    a.datasets = ['viper']
+    a.prime_epochs = 5
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.00001
+    a.iterations = 10
+    prime.super_main(a)
+
+
+def e_071():
+    a = ProjectVariable()
+    a.experiment_name = '071. priming on viper. no CLR. LR = 0.000001'
+    a.log_file = 'thesis_experiment_log.txt'
+    a.priming = True
+    a.ranking_number = 316
+    a.load_weights_name = 'viper_weigths_0.h5'
+    a.datasets = ['viper']
+    a.prime_epochs = 5
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.000001
+    a.iterations = 10
+    prime.super_main(a)
+
+
+def e_072():
+    a = ProjectVariable()
+    a.experiment_name = '072. priming on viper. no CLR. LR = 0.0000001'
+    a.log_file = 'thesis_experiment_log.txt'
+    a.priming = True
+    a.ranking_number = 316
+    a.load_weights_name = 'viper_weigths_0.h5'
+    a.datasets = ['viper']
+    a.prime_epochs = 5
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.0000001
+    a.iterations = 10
+    prime.super_main(a)
+
+
+def e_073():
+    a = ProjectVariable()
+    a.experiment_name = '073. priming on viper. no CLR. LR = 0.00000001'
+    a.log_file = 'thesis_experiment_log.txt'
+    a.priming = True
+    a.ranking_number = 316
+    a.load_weights_name = 'viper_weigths_0.h5'
+    a.datasets = ['viper']
+    a.prime_epochs = 5
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.00000001
+    a.iterations = 10
+    prime.super_main(a)
+
+
+def e_074():
+    a = ProjectVariable()
+    a.experiment_name = '074. pretend save viper for priming'
+    a.epochs = 100
+    # a.save_inbetween = True
+    # a.name_indication = 'dataset_name'
+    # a.save_points = [100]
+    a.ranking_number = 316
+    a.iterations = 1
+    a.activation_function = 'elu'
+    a.neural_distance = 'absolute'
+    a.datasets = ['viper']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+'''
+Experiments for gregor: run 30 times at rank 100
+'''
+
+def e_075():
+    a = ProjectVariable()
+    a.experiment_name = '075. prid450, euclidean, no CLR, rank=100'
+    a.ranking_number = 100
+    a.iterations = 30
+    a.datasets = ['prid450']
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_076():
+    a = ProjectVariable()
+    a.experiment_name = '076. prid450, normal settings, rank=100'
+    a.ranking_number = 100
+    a.iterations = 30
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_077():
+    a = ProjectVariable()
+    a.experiment_name = '077. prid450: selu + alphadropout=0.1'
+    a.ranking_number = 100
+    a.iterations = 30
+    a.activation_function = 'selu'
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.dropout_rate = 0.1
+    scn.super_main(a)
+
+
+def e_078():
+    a = ProjectVariable()
+    a.experiment_name = '078. prid450: selu + alphadropout=0.1 + no batchnorm'
+    a.ranking_number = 100
+    a.iterations = 30
+    a.activation_function = 'selu'
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    a.dropout_rate = 0.1
+    scn.super_main(a)
+
+
+def e_079():
+    a = ProjectVariable()
+    a.experiment_name = '079. prid450: selu + alphadropout=0.05 + no batchnorm'
+    a.ranking_number = 100
+    a.iterations = 30
+    a.activation_function = 'selu'
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    a.dropout_rate = 0.05
+    scn.super_main(a)
+
+
+def e_080():
+    a = ProjectVariable()
+    a.experiment_name = '080. prid450: selu + alphadropout=0.05 + batchnorm'
+    a.ranking_number = 100
+    a.iterations = 30
+    a.activation_function = 'selu'
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.dropout_rate = 0.05
+    scn.super_main(a)
+
 
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '40':
-        e_040()
-    if num == '41':
-        e_041()
-    if num == '42':
-        e_042()
-
-    if num == '49':
-        e_049()
-    if num == '50':
-        e_050()
-    if num == '51':
-        e_051()
-
-    if num == '53':
-        e_053()
-    if num == '54':
-        e_054()
-    if num == '55':
-        e_055()
-
-    if num == '57':
-        e_057()
-    if num == '58':
-        e_058()
-    if num == '59':
-        e_059()
-
-    if num == '61':
-        e_061()
-    if num == '62':
-        e_062()
-    if num == '63':
-        e_063()
-
-    if num == '65':
-        e_065()
-    if num == '66':
-        e_066()
-    if num == '67':
-        e_067()
-
+    if num == '75':
+        e_075()
+    if num == '76':
+        e_076()
+    if num == '77':
+        e_077()
+    if num == '78':
+        e_078()
+    if num == '79':
+        e_079()
+    if num == '80':
+        e_080()
 
 main()

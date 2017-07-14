@@ -381,7 +381,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
                 model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
                 model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
-                print('MODEL SAVED')
+                print('MODEL SAVED at epoch %d' % (epoch + 1))
 
     confusion_matrices = []
     gregor_matrices = []

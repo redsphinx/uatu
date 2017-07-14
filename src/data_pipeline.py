@@ -1100,3 +1100,42 @@ def save_inria_data_as_hdf5():
     with h5py.File(h5_path, 'w') as myfile:
         for item in range(len_files):
             myfile.create_dataset(name=swapped_list[item], data=ndimage.imread(fullpath_list[item]))
+
+
+def find_matching_angles():
+    # viper
+    # path_a = '/home/gabi/Documents/datasets/VIPeR/cam_a'
+    # path_b = '/home/gabi/Documents/datasets/VIPeR/cam_b'
+    # grid
+    path_a = '/home/gabi/Documents/datasets/GRID/probe'
+    path_b = '/home/gabi/Documents/datasets/GRID/valid-gallery'
+
+    list_a = os.listdir(path_a)
+    list_b = os.listdir(path_b)
+
+    list_a.sort()
+    list_b.sort()
+
+    len_data = len(list_a)
+
+    count = 0
+
+    for item in range(len_data):
+        # viper
+        # angle_a = list_a[item].split('.')[0].split('_')[-1]
+        # angle_b = list_b[item].split('.')[0].split('_')[-1]
+        num_a = list_a[item].split('.')[0].split('_')[1]
+        num_b = list_b[item].split('.')[0].split('_')[1]
+
+        id_a = list_a[item].split('.')[0].split('_')[0]
+        id_b = list_b[item].split('.')[0].split('_')[0]
+
+        # viper
+        # if angle_a == angle_b:
+        if id_a == id_b:
+            if num_a in ['1', '2'] and num_b in ['1', '2']:
+                print(list_a[item], list_b[item])
+                count += 1
+
+    print('Number of matching angles: %d' % count)
+

@@ -73,13 +73,13 @@ def create_and_save_augmented_images(keys, the_id, name):
         name_original = os.path.join(path, name_bare + '_original.png')
         image.save(name_original)
 
-        image_zoom = zoom(image)
-        name_zoom = os.path.join(path, name_bare + '_zoom.png')
-        image_zoom.save(name_zoom)
-
-        image_rotate = rotate(image)
-        name_rotate = os.path.join(path, name_bare + '_rotate.png')
-        image_rotate.save(name_rotate)
+        # image_zoom = zoom(image)
+        # name_zoom = os.path.join(path, name_bare + '_zoom.png')
+        # image_zoom.save(name_zoom)
+        #
+        # image_rotate = rotate(image)
+        # name_rotate = os.path.join(path, name_bare + '_rotate.png')
+        # image_rotate.save(name_rotate)
 
         # image_noise = noise(item)
         # name_noise = os.path.join(path, name_bare + '_noise.png')
@@ -191,7 +191,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         model.fit([prime_train[:, 0], prime_train[:, 1]], prime_labels,
                   batch_size=adjustable.batch_size,
                   epochs=adjustable.prime_epochs,
-                  verbose=2)
+                  verbose=0)
 
         # testing
         part_ranking = this_ranking[an_id * ranking_number:(an_id + 1) * ranking_number]

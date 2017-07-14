@@ -823,8 +823,8 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
             # for item in range(ranking_number)]
         rank_ordered_ids = []
 
-        for thingy in this_ranking:
-            print(thingy)
+        # for thingy in this_ranking:
+        #     print(thingy)
 
         for item in range(ranking_number):
             a = list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])
