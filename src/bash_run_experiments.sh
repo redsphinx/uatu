@@ -1,32 +1,28 @@
 #!/bin/sh
 
-#python running_experiments_3.py 1
-#python running_experiments_3.py 2
-#python running_experiments_3.py 3
-#python running_experiments_3.py 5
-#python running_experiments_3.py 6
-#python running_experiments_3.py 7
-#python running_experiments_3.py 9
-#python running_experiments_3.py 10
-#python running_experiments_3.py 11
-#python running_experiments_3.py 12
-#python running_experiments_3.py 13
-#python running_experiments_3.py 14
-#python running_experiments_3.py 15
-python running_experiments_3.py 17
-python running_experiments_3.py 18
-python running_experiments_3.py 19
-python running_experiments_3.py 21
-python running_experiments_3.py 22
-python running_experiments_3.py 23
-python running_experiments_3.py 25
-python running_experiments_3.py 26
-python running_experiments_3.py 27
-python running_experiments_3.py 35
-python running_experiments_3.py 36
-python running_experiments_3.py 37
-python running_experiments_3.py 38
-python running_experiments_3.py 39
+python running_experiments_3.py 40
+python running_experiments_3.py 41
+python running_experiments_3.py 42
+
+python running_experiments_3.py 49
+python running_experiments_3.py 50
+python running_experiments_3.py 51
+
+python running_experiments_3.py 53
+python running_experiments_3.py 54
+python running_experiments_3.py 55
+
+python running_experiments_3.py 57
+python running_experiments_3.py 58
+python running_experiments_3.py 59
+
+python running_experiments_3.py 61
+python running_experiments_3.py 62
+python running_experiments_3.py 63
+
+python running_experiments_3.py 65
+python running_experiments_3.py 66
+python running_experiments_3.py 67
 
 #try running cosine without batchnorm
 # - good idea but fix cosine first
