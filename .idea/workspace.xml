@@ -4,6 +4,9 @@
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/log_0.txt" afterPath="$PROJECT_DIR$/src/log_0.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments_2.py" afterPath="$PROJECT_DIR$/src/running_experiments_2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments_3.py" afterPath="$PROJECT_DIR$/src/running_experiments_3.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_image.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_image.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/visualize_filters.py" afterPath="$PROJECT_DIR$/src/visualize_filters.py" />
     </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -22,7 +25,7 @@
     <SUITE FILE_PATH="coverage/uatu$cnn.coverage" NAME="cnn Coverage Results" MODIFIED="1490872067235" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$cnn_clean.coverage" NAME="cnn_clean Coverage Results" MODIFIED="1493046867444" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$temp.coverage" NAME="temp Coverage Results" MODIFIED="1493830660785" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/uatu$running_experiments_2.coverage" NAME="running_experiments_2 Coverage Results" MODIFIED="1500392071341" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/uatu$running_experiments_2.coverage" NAME="running_experiments_2 Coverage Results" MODIFIED="1500395176351" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$siamese_cnn.coverage" NAME="siamese_cnn Coverage Results" MODIFIED="1490780987613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$running_experiments.coverage" NAME="running_experiments Coverage Results" MODIFIED="1496933347519" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$testing_stuff.coverage" NAME="testing_stuff Coverage Results" MODIFIED="1499692947864" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
@@ -37,8 +40,8 @@
     <SUITE FILE_PATH="coverage/uatu$gui.coverage" NAME="gui Coverage Results" MODIFIED="1499248275213" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$fun_plotting.coverage" NAME="fun_plotting Coverage Results" MODIFIED="1496752181186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$imdb.coverage" NAME="imdb Coverage Results" MODIFIED="1498647061186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples_src" />
-    <SUITE FILE_PATH="coverage/uatu$visualize_filters.coverage" NAME="visualize_filters Coverage Results" MODIFIED="1492533709292" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$gui_variables.coverage" NAME="gui_variables Coverage Results" MODIFIED="1498225958349" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/uatu$visualize_filters.coverage" NAME="visualize_filters Coverage Results" MODIFIED="1500397736310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$preprocessing.coverage" NAME="preprocessing Coverage Results" MODIFIED="1492176904808" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -58,6 +61,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="522">
+              <caret line="257" column="0" lean-forward="false" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="siamese_cnn_video.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/siamese_cnn_video.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -70,11 +85,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="498">
-              <caret line="1822" column="33" lean-forward="true" selection-start-line="1822" selection-start-column="33" selection-end-line="1822" selection-end-column="33" />
+            <state relative-caret-position="778">
+              <caret line="1831" column="26" lean-forward="true" selection-start-line="1831" selection-start-column="26" selection-end-line="1831" selection-end-column="26" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -82,10 +97,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="visualize_filters.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/visualize_filters.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="114" column="0" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/project_variables.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
+            <state relative-caret-position="-438">
               <caret line="38" column="13" lean-forward="true" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
               <folding />
             </state>
@@ -113,8 +138,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>prid450</find>
-      <find>normal</find>
       <find>confusion</find>
       <find>make_negative_pairs</find>
       <find>zip</find>
@@ -143,6 +166,8 @@
       <find>o</find>
       <find>comp</find>
       <find>lstm</find>
+      <find>pret</find>
+      <find>shit</find>
     </findStrings>
     <replaceStrings>
       <replace>make_combos</replace>
@@ -183,7 +208,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/experiment_log.txt" />
         <option value="$PROJECT_DIR$/src/running_experiments.py" />
         <option value="$PROJECT_DIR$/src/baseline_1.txt" />
         <option value="$PROJECT_DIR$/data/CUHK02/P3/id_all_file.txt" />
@@ -228,12 +252,13 @@
         <option value="$PROJECT_DIR$/src/data_pipeline.py" />
         <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
         <option value="$PROJECT_DIR$/src/priming.py" />
-        <option value="$PROJECT_DIR$/src/running_experiments_3.py" />
         <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
         <option value="$PROJECT_DIR$/src/project_variables.py" />
-        <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
         <option value="$PROJECT_DIR$/src/siamese_cnn_video.py" />
+        <option value="$PROJECT_DIR$/src/running_experiments_3.py" />
         <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
+        <option value="$PROJECT_DIR$/src/visualize_filters.py" />
+        <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
       </list>
     </option>
   </component>
@@ -244,7 +269,6 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1920" />
     <option name="y" value="24" />
     <option name="width" value="1920" />
     <option name="height" value="1176" />
@@ -294,6 +318,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uatu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uatu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model_weights" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -318,7 +356,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.running_experiments_2">
+  <component name="RunManager" selected="Python.visualize_filters">
     <configuration default="false" name="project_data_handling" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -355,24 +393,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="siamese_cnn_clean" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="uatu" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="running_experiments_3" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -405,6 +425,24 @@
       <module name="uatu" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/siamese_cnn_video.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="visualize_filters" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="uatu" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/visualize_filters.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -637,17 +675,17 @@
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.project_data_handling" />
       <item index="1" class="java.lang.String" itemvalue="Python.running_experiments_2" />
-      <item index="2" class="java.lang.String" itemvalue="Python.siamese_cnn_clean" />
-      <item index="3" class="java.lang.String" itemvalue="Python.running_experiments_3" />
-      <item index="4" class="java.lang.String" itemvalue="Python.siamese_cnn_video" />
+      <item index="2" class="java.lang.String" itemvalue="Python.running_experiments_3" />
+      <item index="3" class="java.lang.String" itemvalue="Python.siamese_cnn_video" />
+      <item index="4" class="java.lang.String" itemvalue="Python.visualize_filters" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.running_experiments_2" />
-        <item index="1" class="java.lang.String" itemvalue="Python.siamese_cnn_video" />
-        <item index="2" class="java.lang.String" itemvalue="Python.running_experiments_3" />
-        <item index="3" class="java.lang.String" itemvalue="Python.project_data_handling" />
-        <item index="4" class="java.lang.String" itemvalue="Python.siamese_cnn_clean" />
+        <item index="0" class="java.lang.String" itemvalue="Python.visualize_filters" />
+        <item index="1" class="java.lang.String" itemvalue="Python.running_experiments_2" />
+        <item index="2" class="java.lang.String" itemvalue="Python.siamese_cnn_video" />
+        <item index="3" class="java.lang.String" itemvalue="Python.running_experiments_3" />
+        <item index="4" class="java.lang.String" itemvalue="Python.project_data_handling" />
       </list>
     </recent_temporary>
   </component>
@@ -677,7 +715,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="24" width="1920" height="1176" extended-state="6" />
+    <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22091782" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -686,11 +724,11 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35714287" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42486086" sideWeight="0.49786553" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18463181" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33580706" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45918366" sideWeight="0.4967983" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5166976" sideWeight="0.4967983" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -782,6 +820,11 @@
           <line>829</line>
           <option name="timeStamp" value="1175" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/visualize_filters.py</url>
+          <line>106</line>
+          <option name="timeStamp" value="1186" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -793,7 +836,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="1176" />
+      <option name="time" value="1187" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -906,13 +949,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="600">
           <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/visualize_filters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1037">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1092,14 +1128,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments_3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1288">
-          <caret line="994" column="21" lean-forward="true" selection-start-line="994" selection-start-column="21" selection-end-line="994" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="226">
@@ -1118,12 +1146,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
+    <entry file="file://$PROJECT_DIR$/src/log_0.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="333" column="37" lean-forward="true" selection-start-line="333" selection-start-column="37" selection-end-line="333" selection-end-column="37" />
+        <state relative-caret-position="455">
+          <caret line="1255" column="36" lean-forward="false" selection-start-line="1255" selection-start-column="0" selection-end-line="1256" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-438">
+          <caret line="38" column="13" lean-forward="true" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/running_experiments_3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="807">
+          <caret line="1068" column="0" lean-forward="false" selection-start-line="1068" selection-start-column="0" selection-end-line="1068" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="778">
+          <caret line="1831" column="26" lean-forward="true" selection-start-line="1831" selection-start-column="26" selection-end-line="1831" selection-end-column="26" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1138,29 +1190,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/log_0.txt">
+    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="1255" column="36" lean-forward="false" selection-start-line="1255" selection-start-column="0" selection-end-line="1256" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="38" column="13" lean-forward="true" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="1822" column="33" lean-forward="true" selection-start-line="1822" selection-start-column="33" selection-end-line="1822" selection-end-column="33" />
+        <state relative-caret-position="522">
+          <caret line="257" column="0" lean-forward="false" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
           <folding>
-            <element signature="e#0#31#0" expanded="true" />
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/visualize_filters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="114" column="0" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

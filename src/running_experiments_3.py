@@ -1066,15 +1066,11 @@ def e_086():
     a.dropout_rate = 0.1
     scn.super_main(a)
 
-def main():
-    num = sys.argv[1]
-    print(sys.argv)
 
-    if num == '84':
-        e_084()
-    if num == '85':
-        e_085()
-    if num == '86':
-        e_086()
+
+def main():
+    # num = sys.argv[1]
+    # print(sys.argv)
+
 
 main()

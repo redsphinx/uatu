@@ -1817,11 +1817,27 @@ def test_siamese_video_7():
     a.lstm_units = 512
     srcn.super_main(a)
 
+
+def saving_scnn_image_weights():
+    a = ProjectVariable()
+    a.experiment_name = 'saving viper weights'
+    a.epochs = 100
+    a.save_inbetween = True
+    a.name_indication = 'dataset_name'
+    a.save_points = [100]
+    a.ranking_number = 100
+    a.iterations = 1
+    a.activation_function = 'elu'
+    a.neural_distance = 'absolute'
+    a.datasets = ['viper']
+    a.log_file = 'log_0.txt'
+    scn.super_main(a)
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     # scnn_fix_confusion_matrix()
     # test_siamese_video_4()
-    test_siamese_video_7()
+    saving_scnn_image_weights()
 
 main()

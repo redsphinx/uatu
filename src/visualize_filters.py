@@ -25,7 +25,9 @@ img_height = 64
 # (see model definition at keras/applications/vgg16.py)
 # layer_name = 'block5_conv1'
 
+parts_name = 'sequential_1'
 layer_name = 'conv_2'
+model_name = 'viper_model_0.h5'
 
 # util function to convert a tensor into a valid image
 
@@ -48,17 +50,34 @@ def deprocess_image(x):
     return x
 
 # build the VGG16 network with ImageNet weights
-model_location = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, 'cnn_model.h5')
+model_location = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name)
 model = load_model(model_location)
 print('Model loaded.')
 
 model.summary()
 
 # this is the placeholder for the input images
-input_img = model.input
+input_img = model.input[0]
 
 # get the symbolic outputs of each "key" layer (we gave them unique names).
 layer_dict = dict([(layer.name, layer) for layer in model.layers[1:]])
+
+parts = None
+
+for layer in model.layers[1:]:
+    print(layer.name)
+    if layer.name == parts_name:
+        parts = layer
+
+
+print(parts)
+
+yee = None
+
+for layer in parts.layers[1:]:
+    print(layer.name)
+    if layer.name == 'conv_2':
+        yee = layer
 
 
 def normalize(x):
@@ -75,11 +94,22 @@ for filter_index in range(0, 64):
 
     # we build a loss function that maximizes the activation
     # of the nth filter of the layer considered
-    layer_output = layer_dict[layer_name].output
+    # l_thing = layer_dict[parts_name]
+
+    # layer_output = layer_dict[layer_name].output
+    layer_output = yee.output
+    # layer_output = yee.weights
     if K.image_data_format() == 'channels_first':
         loss = K.mean(layer_output[:, filter_index, :, :])
     else:
         loss = K.mean(layer_output[:, :, :, filter_index])
+
+    print(np.shape(layer_output))
+
+    shit1 = layer_output[0]
+    shit2 = layer_output[0, 1]
+    shit3 = layer_output[0, 0, 0]
+    shit4 = layer_output[0, 0, 0, 0]
 
     # we compute the gradient of the input picture wrt this loss
     grads = K.gradients(loss, input_img)[0]
