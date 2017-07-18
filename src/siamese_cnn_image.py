@@ -327,20 +327,34 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         model.load_weights(the_path, by_name=True)
 
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+            if adjustable.optimizer == 'nadam':
+                the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+            elif adjustable.optimizer == 'sgd':
+                the_optimizer = 'sgd'
+            elif adjustable == 'rms':
+                the_optimizer = keras.optimizers.RMSprop()
+            else:
+                the_optimizer = None
             # model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
-            model.compile(loss=adjustable.loss_function, optimizer='sgd', metrics=['accuracy'])
+            model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
         elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             rms = keras.optimizers.RMSprop()
             model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
 
     else:
         model = create_siamese_network(adjustable)
+        if adjustable.optimizer == 'nadam':
+            the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+        elif adjustable.optimizer == 'sgd':
+            the_optimizer = 'sgd'
+        elif adjustable == 'rms':
+            the_optimizer = keras.optimizers.RMSprop()
+        else:
+            the_optimizer = None
 
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
             # model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
-            model.compile(loss=adjustable.loss_function, optimizer='sgd', metrics=['accuracy'])
+            model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
         elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             rms = keras.optimizers.RMSprop()
             model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])

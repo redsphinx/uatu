@@ -1759,13 +1759,67 @@ def shit_priming():
     prime.super_main(a)
 
 
+def test_siamese_video_5():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video: cnn_lstm on ilids-vid, no CLR'
+    a.epochs = 10
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['ilids-vid']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 22
+    a.ranking_number = 30
+    a.dropout_rate = 0.05
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.00001
+    a.optimizer = 'nadam'
+    a.lstm_units = 512
+    srcn.super_main(a)
 
+
+def test_siamese_video_6():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video: cnn_lstm on ilids-vid, no CLR + L2 regularizer in dense layers'
+    a.epochs = 30
+    a.iterations = 5
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['ilids-vid']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 22
+    a.ranking_number = 30
+    a.dropout_rate = 0.05
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.00001
+    a.optimizer = 'nadam'
+    a.lstm_units = 512
+    srcn.super_main(a)
+
+
+def test_siamese_video_7():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video: cnn_lstm on ilids-vid'
+    a.epochs = 10
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['ilids-vid']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 22
+    a.ranking_number = 30
+    a.dropout_rate = 0.05
+    # a.use_cyclical_learning_rate = False
+    # a.learning_rate = 0.00001
+    a.optimizer = 'nadam'
+    a.lstm_units = 512
+    srcn.super_main(a)
 
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     # scnn_fix_confusion_matrix()
     # test_siamese_video_4()
-    shit_priming()
+    test_siamese_video_6()
 
 main()

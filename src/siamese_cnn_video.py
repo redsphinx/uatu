@@ -1,7 +1,7 @@
 import keras
 from keras import models
 from keras import layers
-from keras import optimizers
+from keras import optimizers, regularizers
 import keras.backend as K
 from keras import initializers
 
@@ -111,13 +111,17 @@ def create_cost_module(inputs, adjustable):
             features = layers.Lambda(absolute)(inputs)
         else:
             features = None
-        dense_layer = layers.Dense(adjustable.neural_distance_layers[0], name='dense_1', trainable=adjustable.trainable_cost_module)(features)
+        dense_layer = layers.Dense(adjustable.neural_distance_layers[0],
+                                   name='dense_1',
+                                   trainable=adjustable.trainable_cost_module)(features)
         activation = layers.Activation(adjustable.activation_function)(dense_layer)
         if adjustable.activation_function == 'selu':
             dropout_layer = layers.AlphaDropout(adjustable.dropout_rate)(activation)
         else:
             dropout_layer = layers.Dropout(adjustable.dropout_rate)(activation)
-        dense_layer = layers.Dense(adjustable.neural_distance_layers[1], name='dense_2', trainable=adjustable.trainable_cost_module)(dropout_layer)
+        dense_layer = layers.Dense(adjustable.neural_distance_layers[1],
+                                   name='dense_2',
+                                   trainable=adjustable.trainable_cost_module)(dropout_layer)
         activation = layers.Activation(adjustable.activation_function)(dense_layer)
         if adjustable.activation_function == 'selu':
             dropout_layer = layers.AlphaDropout(adjustable.dropout_rate)(activation)
@@ -381,6 +385,16 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
                 ranking for each dataset
     """
+    if adjustable.optimizer == 'nadam':
+        the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+    elif adjustable.optimizer == 'sgd':
+        the_optimizer = 'sgd'
+    elif adjustable.optimizer == 'rms':
+        the_optimizer = keras.optimizers.RMSprop()
+    else:
+        the_optimizer = None
+
+    print(adjustable.optimizer, the_optimizer)
 
     if not adjustable.load_model_name == None:
         model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
@@ -392,8 +406,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         model.load_weights(the_path, by_name=True)
 
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-            model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+            model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
         elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             rms = keras.optimizers.RMSprop()
             model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
@@ -402,8 +415,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         model = create_siamese_network(adjustable)
 
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-            model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+            model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
         elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             rms = keras.optimizers.RMSprop()
             model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
@@ -588,4 +600,4 @@ def super_main(adjustable):
     if adjustable.log_experiment:
         file_name = os.path.basename(__file__)
         pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, name, matrix_means, matrix_std, ranking_means, ranking_std,
-                        total_time)
+                        total_time, None, None)

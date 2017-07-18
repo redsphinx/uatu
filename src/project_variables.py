@@ -118,6 +118,8 @@ class ProjectVariable(object):
         self._dropout_rate = 0.5
         # number of lstm units
         self._lstm_units = 128
+        # type of optimizer. choice between 'nadam' and 'sgd'
+        self._optimizer = 'nadam'
         
 
     @property
@@ -588,3 +590,12 @@ class ProjectVariable(object):
     @lstm_units.setter
     def lstm_units(self, value):
         self._lstm_units = value
+
+    # type of optimizer. choice between 'nadam' and 'sgd' and 'rms'
+    @property
+    def optimizer(self):
+        return self._optimizer
+
+    @optimizer.setter
+    def optimizer(self, value):
+        self._optimizer = value
