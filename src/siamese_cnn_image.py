@@ -328,7 +328,8 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
             nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-            model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+            # model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+            model.compile(loss=adjustable.loss_function, optimizer='sgd', metrics=['accuracy'])
         elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             rms = keras.optimizers.RMSprop()
             model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
@@ -338,7 +339,8 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
             nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-            model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+            # model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+            model.compile(loss=adjustable.loss_function, optimizer='sgd', metrics=['accuracy'])
         elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             rms = keras.optimizers.RMSprop()
             model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])

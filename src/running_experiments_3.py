@@ -995,21 +995,86 @@ def e_080():
     scn.super_main(a)
 
 
+def e_081():
+    a = ProjectVariable()
+    a.experiment_name = '081. viper, SGD, rank=316'
+    a.ranking_number = 316
+    a.iterations = 10
+    a.datasets = ['viper']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_082():
+    a = ProjectVariable()
+    a.experiment_name = '082. grid, SGD, rank=125'
+    a.ranking_number = 125
+    a.iterations = 10
+    a.datasets = ['grid']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+    
+
+def e_083():
+    a = ProjectVariable()
+    a.experiment_name = '083. prid450, SGD, rank=225'
+    a.ranking_number = 225
+    a.iterations = 10
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+'''
+selu + alphadropout=0.1 + no batchnorm + SGD
+'''
+
+def e_084():
+    a = ProjectVariable()
+    a.experiment_name = '085. viper: selu + alphadropout=0.1 + no batchnorm + SGD'
+    a.ranking_number = 316
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['viper']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    a.dropout_rate = 0.1
+    scn.super_main(a)
+
+
+def e_085():
+    a = ProjectVariable()
+    a.experiment_name = '085. grid: selu + alphadropout=0.1 + no batchnorm + SGD'
+    a.ranking_number = 125
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['grid']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    a.dropout_rate = 0.1
+    scn.super_main(a)
+
+
+def e_086():
+    a = ProjectVariable()
+    a.experiment_name = '086. prid450: selu + alphadropout=0.1 + no batchnorm + SGD'
+    a.ranking_number = 225
+    a.iterations = 10
+    a.activation_function = 'selu'
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    a.head_type = 'simple'
+    a.dropout_rate = 0.1
+    scn.super_main(a)
+
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '75':
-        e_075()
-    if num == '76':
-        e_076()
-    if num == '77':
-        e_077()
-    if num == '78':
-        e_078()
-    if num == '79':
-        e_079()
-    if num == '80':
-        e_080()
+    if num == '84':
+        e_084()
+    if num == '85':
+        e_085()
+    if num == '86':
+        e_086()
 
 main()
