@@ -1799,8 +1799,8 @@ def test_siamese_video_6():
 
 def test_siamese_video_7():
     a = ProjectVariable()
-    a.experiment_name = 'testing siamese video: cnn_lstm on ilids-vid'
-    a.epochs = 10
+    a.experiment_name = 'testing siamese video: cnn_lstm on ilids-vid, clr 0.00001-0.00005'
+    a.epochs = 30
     a.iterations = 1
     a.batch_size = 32
     a.activation_function = 'selu'
@@ -1809,6 +1809,8 @@ def test_siamese_video_7():
     a.sequence_length = 22
     a.ranking_number = 30
     a.dropout_rate = 0.05
+    a.cl_min = 0.000001
+    a.cl_max = 0.00005
     # a.use_cyclical_learning_rate = False
     # a.learning_rate = 0.00001
     a.optimizer = 'nadam'
@@ -1820,6 +1822,6 @@ def main():
     # print(sys.argv)
     # scnn_fix_confusion_matrix()
     # test_siamese_video_4()
-    test_siamese_video_6()
+    test_siamese_video_7()
 
 main()
