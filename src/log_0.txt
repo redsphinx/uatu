@@ -1392,3 +1392,11 @@ grid G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
 grid detection rate (TP/(TP+FN)):      0.992
 grid false alarm (FP/(FP+TN)):        0.484444444444
 
+
+name_of_experiment:         test cnn
+file_name:                  cnn_clean.pyc
+date:                       19/07/2017   13:30:55
+duration:                   185.793988
+inria mean tp,fp,tn,fn:    [ 173.5  175.   161.5  179. ]
+inria std tp,fp,tn,fn:     [  8.5   3.    5.5  11. ]
+

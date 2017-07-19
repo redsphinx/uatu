@@ -316,52 +316,53 @@ def absolute_distance_difference(y_true, y_pred):
     return abs(y_true - y_pred)
 
 
+def get_model(adjustable):
+    """
+    Returns a model depending on the specifications.
+    1. Loads a saved model + weights IF model name is specified
+    2. Creates the model from scratch, loads saved weights and compiles IF model name is not specified AND
+                                                                                model weights is specified
+    3. Creates the model from scratch and compiles IF nothing is indicated
+    :param adjustable:
+    :return:
+    """
+    if adjustable.optimizer == 'nadam':
+        the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+    elif adjustable.optimizer == 'sgd':
+        the_optimizer = keras.optimizers.SGD()
+    elif adjustable == 'rms':
+        the_optimizer = keras.optimizers.RMSprop()
+    else:
+        the_optimizer = None
+
+    # case 1
+    if adjustable.load_model_name is not None:
+        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
+
+    else:
+        # case 3
+        model = create_siamese_network(adjustable)
+
+        # case 2
+        if adjustable.load_weights_name is not None:
+            the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_weights_name)
+            model.load_weights(the_path, by_name=True)
+
+        # compile
+        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+            model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
+        elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
+            model.compile(loss=contrastive_loss, optimizer=the_optimizer, metrics=[absolute_distance_difference])
+
+    return model
+
+
 def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
     """Runs a the whole training and testing phase
     :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
                 ranking for each dataset
     """
-
-    if not adjustable.load_model_name == None:
-        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
-    elif not adjustable.load_weights_name == None:
-        model = create_siamese_network(adjustable)
-
-        the_path = os.path.join('../model_weights', adjustable.load_weights_name)
-        model.load_weights(the_path, by_name=True)
-
-        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            if adjustable.optimizer == 'nadam':
-                the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-            elif adjustable.optimizer == 'sgd':
-                the_optimizer = 'sgd'
-            elif adjustable == 'rms':
-                the_optimizer = keras.optimizers.RMSprop()
-            else:
-                the_optimizer = None
-            # model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
-            model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
-        elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
-            rms = keras.optimizers.RMSprop()
-            model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
-
-    else:
-        model = create_siamese_network(adjustable)
-        if adjustable.optimizer == 'nadam':
-            the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-        elif adjustable.optimizer == 'sgd':
-            the_optimizer = 'sgd'
-        elif adjustable == 'rms':
-            the_optimizer = keras.optimizers.RMSprop()
-        else:
-            the_optimizer = None
-
-        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            # model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
-            model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
-        elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
-            rms = keras.optimizers.RMSprop()
-            model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
+    model = get_model(adjustable)
 
     for epoch in range(adjustable.epochs):
         print('epoch %d/%d' % (epoch, adjustable.epochs))

@@ -120,6 +120,8 @@ def main(adjustable, test_data, train_data, h5_dataset):
     :param h5_dataset:      hdf5 dataset file in 'r' mode
     """
 
+
+
     model = create_cnn_model(adjustable)
 
     nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)

@@ -59,9 +59,11 @@ def cosine_distance(vects):
     """
     x, y = vects
 
+    # calculate cosine similarity
     cos_ang = K.sum(x * y, axis=1, keepdims=True) / K.sqrt(
         K.sum(K.square(x), axis=1, keepdims=True) * K.sum(K.square(y), axis=1, keepdims=True))
 
+    # normalize
     normalized_distance = np.arccos(cos_ang) / np.pi
 
     return normalized_distance

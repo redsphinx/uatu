@@ -1642,16 +1642,6 @@ def recreate_sota_5():
     scn.super_main(a)
 
 
-def test_cnn():
-    a = ProjectVariable()
-    a.experiment_name = 'test cnn'
-    a.epochs = 10
-    a.iterations = 2
-    a.batch_size = 32
-    a.datasets = ['inria']
-    cnn.super_main(a)
-
-
 def test_siamese_video_1():
     a = ProjectVariable()
     a.experiment_name = 'testing siamese video: 3D convolutions on ilids-vid'
@@ -1890,11 +1880,24 @@ def test_new_cosine():
     a.use_cyclical_learning_rate = False
     scn.super_main(a)
 
+
+def test_cnn():
+    a = ProjectVariable()
+    a.experiment_name = 'test cnn'
+    a.epochs = 10
+    a.iterations = 2
+    a.batch_size = 32
+    a.datasets = ['inria']
+    cnn.super_main(a)
+
+
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     #
     # if num == '1':
-    test_new_cosine()
+    test_cnn()
 
 main()
