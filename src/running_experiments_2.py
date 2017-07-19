@@ -1800,7 +1800,7 @@ def test_siamese_video_6():
 def test_siamese_video_7():
     a = ProjectVariable()
     a.experiment_name = 'testing siamese video: cnn_lstm on ilids-vid, clr 0.00001-0.00005'
-    a.epochs = 30
+    a.epochs = 100
     a.iterations = 1
     a.batch_size = 32
     a.activation_function = 'selu'
@@ -1809,12 +1809,54 @@ def test_siamese_video_7():
     a.sequence_length = 22
     a.ranking_number = 30
     a.dropout_rate = 0.05
-    a.cl_min = 0.000001
-    a.cl_max = 0.00005
-    # a.use_cyclical_learning_rate = False
-    # a.learning_rate = 0.00001
+    # a.cl_min = 0.000001
+    # a.cl_max = 0.00005
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.00001
     a.optimizer = 'nadam'
     a.lstm_units = 512
+    srcn.super_main(a)
+
+
+def test_siamese_video_8():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video: cnn_lstm on prid2011, clr 0.00001-0.00005'
+    a.epochs = 100
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['prid2011']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 20
+    a.ranking_number = 30
+    a.dropout_rate = 0.05
+    # a.cl_min = 0.000001
+    # a.cl_max = 0.00005
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.00001
+    a.optimizer = 'nadam'
+    a.lstm_units = 512
+    srcn.super_main(a)
+
+
+def test_siamese_video_9():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video: cnn_lstm on ilids-vid, clr 0.00001-0.00005'
+    a.epochs = 100
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+    a.datasets = ['ilids-vid']
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 22
+    a.ranking_number = 30
+    a.dropout_rate = 0.05
+    # a.cl_min = 0.000001
+    # a.cl_max = 0.00005
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.00001
+    a.optimizer = 'nadam'
+    a.lstm_units = 1024
     srcn.super_main(a)
 
 
@@ -1833,11 +1875,26 @@ def saving_scnn_image_weights():
     a.log_file = 'log_0.txt'
     scn.super_main(a)
 
+
+def test_new_cosine():
+    a = ProjectVariable()
+    a.experiment_name = 'testing normalized cosine distance'
+    a.epochs = 100
+    a.ranking_number = 125
+    a.iterations = 1
+    a.cost_module_type = 'cosine'
+    a.activation_function = 'relu'
+    a.neural_distance = 'absolute'
+    a.datasets = ['grid']
+    a.log_file = 'log_0.txt'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
-    # scnn_fix_confusion_matrix()
-    # test_siamese_video_4()
-    saving_scnn_image_weights()
+    #
+    # if num == '1':
+    test_new_cosine()
 
 main()

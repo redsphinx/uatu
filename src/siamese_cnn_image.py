@@ -79,7 +79,7 @@ def cosine_distance(vects):
     # return K.sum(x * y) / K.sqrt(
     #         K.sum(K.square(x)) * K.sum(K.square(y)))
 
-
+# note: fixed cosine
 def cosine_distance_normalized(vects):
     """
     Returns the normalized cosine distance between 2 feature vectors. Normalizing it makes it a formal distance metric.
@@ -87,11 +87,14 @@ def cosine_distance_normalized(vects):
     :return:
     """
     x, y = vects
-    # FIXME: finish this
-    # similarity =
-
-    return K.sum(x * y, axis=1, keepdims=True) / K.sqrt(
+    cos_ang = K.sum(x * y, axis=1, keepdims=True) / K.sqrt(
         K.sum(K.square(x), axis=1, keepdims=True) * K.sum(K.square(y), axis=1, keepdims=True))
+
+    normalized_distance = tf.acos(cos_ang) / tf.constant(3.141592653589793)
+
+    # normalized_distance = np.arccos(cos_ang) / np.pi
+
+    return normalized_distance
 
 def cos_dist_output_shape(shapes):
     """ IDK what this does
@@ -174,7 +177,8 @@ def create_cost_module(inputs, adjustable):
         return softmax
 
     elif adjustable.cost_module_type == 'cosine':
-        distance = layers.Lambda(cosine_distance)(inputs)
+        # distance = layers.Lambda(cosine_distance)(inputs)
+        distance = layers.Lambda(cosine_distance_normalized)(inputs)
         # distance = layers.Lambda(cosine_distance, output_shape=cos_dist_output_shape)(inputs)
         return distance
 
@@ -449,9 +453,18 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
             precision = 0
 
         gregor_matrix = pu.make_gregor_matrix(adjustable, predictions, final_testing_labels)
+        print(gregor_matrix)
         gregor_matrices.append(gregor_matrix)
-        detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0))
-        false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0))
+
+        if (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0) == 0:
+            detection_rate = 0
+        else:
+            detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0))
+
+        if (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0) == 0:
+            false_alarm = 0
+        else:
+            false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0))
 
         ranking = pu.calculate_CMC(adjustable, predictions)
         ranking_matrices.append(ranking)
@@ -496,15 +509,15 @@ def super_main(adjustable):
         for name in range(len(adjustable.datasets)):
             ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name], adjustable)
             # labels have different meanings in `euclidean` case, 0 for match and 1 for mismatch
-            if adjustable.cost_module_type == 'euclidean':
+            if adjustable.cost_module_type in ['euclidean', 'cosine']:
                 ranking = pu.flip_labels(ranking)
                 training_pos = pu.flip_labels(training_pos)
                 training_neg = pu.flip_labels(training_neg)
-            # in case of cosine -1 means totally different and 1 is the same thing
-            elif adjustable.cost_module_type == 'cosine':
-                ranking = pu.zero_to_min_one_labels(ranking)
-                training_pos = pu.zero_to_min_one_labels(training_pos)
-                training_neg = pu.zero_to_min_one_labels(training_neg)
+            # now we use cosine distance instead of similarity
+            # elif adjustable.cost_module_type == 'cosine':
+            #     ranking = pu.zero_to_min_one_labels(ranking)
+            #     training_pos = pu.zero_to_min_one_labels(training_pos)
+            #     training_neg = pu.zero_to_min_one_labels(training_neg)
 
             # data gets appended in order
             all_ranking.append(ranking)

@@ -62,7 +62,7 @@ def threshold_predictions(adjustable, predictions):
             new_predictions[item, np.argmax(predictions[item])] = 1
 
         return new_predictions
-    elif adjustable.cost_module_type == 'euclidean':
+    elif adjustable.cost_module_type in ['euclidean', 'cosine']:
         predictions = predictions.ravel()
         new_predictions = [0] * num_pred
         for item in range(num_pred):
@@ -73,20 +73,20 @@ def threshold_predictions(adjustable, predictions):
 
         new_predictions = np.asarray(new_predictions)
         return new_predictions
-    elif adjustable.cost_module_type == 'cosine':
-        predictions = predictions.ravel()
-        new_predictions = [0] * num_pred
-        for item in range(num_pred):
-            if predictions[item] < 0:
-                new_predictions[item] = -1
-            else:
-                new_predictions[item] = 1
+    # elif adjustable.cost_module_type == 'cosine':
+    #     predictions = predictions.ravel()
+    #     new_predictions = [0] * num_pred
+    #     for item in range(num_pred):
+    #         if predictions[item] < 0:
+    #             new_predictions[item] = -1
+    #         else:
+    #             new_predictions[item] = 1
+    #
+    #     new_predictions = np.asarray(new_predictions)
+    #     return new_predictions
 
-        new_predictions = np.asarray(new_predictions)
-        return new_predictions
 
-
-
+# unused
 def calculate_accuracy(predictions, labels):
     predictions = threshold_predictions(predictions)
     good = 0.0
@@ -156,7 +156,7 @@ def make_gregor_matrix(adjustable, predictions, labels):
                 else:
                     fp += 1
 
-    elif adjustable.cost_module_type == 'euclidean':
+    elif adjustable.cost_module_type in ['euclidean', 'cosine']:
         len_data = len(labels)
         # split the data into matches and mismatches
         for item in range(len_data):
@@ -192,42 +192,42 @@ def make_gregor_matrix(adjustable, predictions, labels):
                     tn += 1
                 else:
                     fp += 1
-    elif adjustable.cost_module_type == 'cosine':
-        len_data = len(labels)
-        # split the data into matches and mismatches
-        for item in range(len_data):
-            if labels[item] == 1:
-                lab_split_match.append(labels[item])
-                pred_split_match.append(predictions[item])
-            else:
-                lab_split_mismatch.append(labels[item])
-                pred_split_mismatch.append(predictions[item])
-
-        pred_mismatch_chosen = []
-        lab_mismatch_chosen = []
-
-        # from the mismatches select the first 9 negative pairs per ID
-        len_data = len(lab_split_match)
-        for item in range(len_data):
-            pairs_lab = lab_split_mismatch[item * magic_number:(item + 1) * magic_number]
-            pairs_pred = pred_split_mismatch[item * magic_number:(item + 1) * magic_number]
-            for pair in range(len(pairs_lab)):
-                lab_mismatch_chosen.append(pairs_lab[pair])
-                pred_mismatch_chosen.append(pairs_pred[pair])
-        predictions = pred_split_match + pred_mismatch_chosen
-        labels = lab_split_match + lab_mismatch_chosen
-
-        for lab in range(0, len(labels)):
-            if labels[lab] == 1:
-                if predictions[lab] == 1:
-                    tp += 1  # t=1, p=1
-                else:
-                    fn += 1  # t=1, p=0
-            elif labels[lab] == -1:
-                if predictions[lab] == -1:
-                    tn += 1
-                else:
-                    fp += 1
+    # elif adjustable.cost_module_type == 'cosine':
+    #     len_data = len(labels)
+    #     # split the data into matches and mismatches
+    #     for item in range(len_data):
+    #         if labels[item] == 1:
+    #             lab_split_match.append(labels[item])
+    #             pred_split_match.append(predictions[item])
+    #         else:
+    #             lab_split_mismatch.append(labels[item])
+    #             pred_split_mismatch.append(predictions[item])
+    #
+    #     pred_mismatch_chosen = []
+    #     lab_mismatch_chosen = []
+    #
+    #     # from the mismatches select the first 9 negative pairs per ID
+    #     len_data = len(lab_split_match)
+    #     for item in range(len_data):
+    #         pairs_lab = lab_split_mismatch[item * magic_number:(item + 1) * magic_number]
+    #         pairs_pred = pred_split_mismatch[item * magic_number:(item + 1) * magic_number]
+    #         for pair in range(len(pairs_lab)):
+    #             lab_mismatch_chosen.append(pairs_lab[pair])
+    #             pred_mismatch_chosen.append(pairs_pred[pair])
+    #     predictions = pred_split_match + pred_mismatch_chosen
+    #     labels = lab_split_match + lab_mismatch_chosen
+    #
+    #     for lab in range(0, len(labels)):
+    #         if labels[lab] == 1:
+    #             if predictions[lab] == 1:
+    #                 tp += 1  # t=1, p=1
+    #             else:
+    #                 fn += 1  # t=1, p=0
+    #         elif labels[lab] == -1:
+    #             if predictions[lab] == -1:
+    #                 tn += 1
+    #             else:
+    #                 fp += 1
 
     return [tp, fp, tn, fn]
 
@@ -247,7 +247,7 @@ def make_confusion_matrix(adjustable, predictions, labels):
                     tn += 1
                 else:
                     fp += 1
-    elif adjustable.cost_module_type == 'euclidean':
+    elif adjustable.cost_module_type in ['euclidean', 'cosine']:
         for lab in range(0, len(labels)):
             if labels[lab] == 0:
                 if predictions[lab] == 0:
@@ -259,18 +259,18 @@ def make_confusion_matrix(adjustable, predictions, labels):
                     tn += 1
                 else:
                     fp += 1
-    elif adjustable.cost_module_type == 'cosine':
-        for lab in range(0, len(labels)):
-            if labels[lab] == 1:
-                if predictions[lab] == 1:
-                    tp += 1  # t=1, p=1
-                else:
-                    fn += 1  # t=1, p=0
-            elif labels[lab] == -1:
-                if predictions[lab] == -1:
-                    tn += 1
-                else:
-                    fp += 1
+    # elif adjustable.cost_module_type == 'cosine':
+    #     for lab in range(0, len(labels)):
+    #         if labels[lab] == 1:
+    #             if predictions[lab] == 1:
+    #                 tp += 1  # t=1, p=1
+    #             else:
+    #                 fn += 1  # t=1, p=0
+    #         elif labels[lab] == -1:
+    #             if predictions[lab] == -1:
+    #                 tn += 1
+    #             else:
+    #                 fp += 1
 
     return [tp, fp, tn, fn]
 
@@ -284,8 +284,15 @@ def enter_in_log(adjustable, experiment_name, file_name, data_names, matrix_mean
 
     if gregor_means is not None:
         gregor_matrix = gregor_means[0]
-        detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0))
-        false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
+        if (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0) == 0:
+            detection_rate = 0
+        else:
+            detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0))
+
+        if (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0) == 0:
+            false_alarm = 0
+        else:
+            false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
     
     with open(adjustable.log_file, 'a') as log_file:
         date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
@@ -350,7 +357,7 @@ def calculate_CMC(adjustable, predictions):
 
     for row in range(len(predictions)):
         # get the indices by sorted values from high to low
-        if adjustable.cost_module_type in ['neural_network', 'cosine']:
+        if adjustable.cost_module_type in ['neural_network']:
             ranking_matrix_abs[row] = [i[0] for i in sorted(enumerate(predictions[row]), key=lambda x: x[1],
                                                         reverse=True)]
         else:
