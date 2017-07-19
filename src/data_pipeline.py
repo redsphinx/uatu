@@ -1138,4 +1138,3 @@ def find_matching_angles():
                 count += 1
 
     print('Number of matching angles: %d' % count)
-

@@ -508,12 +508,13 @@ def get_image_from_h5():
 
 
 def test_load_mat_2():
-    path = '/home/gabi/Documents/datasets/MPII/mpii_human_pose_v1_u12_2/mpii_human_pose_v1_u12_1.mat'
-    # f = h5py.File('/home/gabi/Documents/datasets/MPII/mpii_human_pose_v1_u12_2/mpii_human_pose_v1_u12_1.mat', 'r')
+    path = '/home/gabi/Documents/datasets/mpii-human-pose/mpii_human_pose_v1_u12_1.mat'
     the_file = io.loadmat(path)
 
     release = the_file['RELEASE']
     single_people = release['single_person']
+
+    print(type(the_file), type(release), type(single_people))
 
     print('asdf')
 
@@ -527,4 +528,28 @@ def test_get_h5_data():
     print(h5data[key][:])
 
 
-test_get_h5_data()
+def get_image_names_from_mat():
+    path = '/home/gabi/Documents/datasets/mpii-human-pose/mpii_human_pose_v1_u12_1.mat'
+    the_file = io.loadmat(path)
+    release = the_file['RELEASE']
+    annolist = release['annolist'][0, 0]
+    image_names = annolist['image'][0]
+
+    len_data = len(image_names)
+    # print('len_data: ', len_data)
+
+    # print(str(image_names[116][0][0][0][0]))
+
+    for item in range(200):
+        name = str(image_names[item][0][0][0][0])
+        print(item+1, name)
+
+
+
+def get_rectangle_for_single_human():
+    path = '/home/gabi/Documents/datasets/mpii-human-pose/mpii_human_pose_v1_u12_1.mat'
+    the_file = io.loadmat(path)
+    release = the_file['RELEASE']
+    person = release['single_person'][0, 0]
+
+get_image_names_from_mat()

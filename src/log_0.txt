@@ -1400,3 +1400,11 @@ duration:                   185.793988
 inria mean tp,fp,tn,fn:    [ 173.5  175.   161.5  179. ]
 inria std tp,fp,tn,fn:     [  8.5   3.    5.5  11. ]
 
+
+name_of_experiment:         test cnn and save
+file_name:                  cnn_human_detection.py
+date:                       19/07/2017   15:29:47
+duration:                   737.881615
+inria mean tp,fp,tn,fn:    [ 21.  13.  11.  23.]
+inria std tp,fp,tn,fn:     [ 0.  0.  0.  0.]
+

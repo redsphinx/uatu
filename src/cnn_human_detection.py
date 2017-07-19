@@ -111,21 +111,54 @@ def create_cnn_model(adjustable):
     return model
 
 
+def get_model(adjustable):
+    """
+    Returns a model depending on the specifications.
+    1. Loads a saved model + weights IF model name is specified
+    2. Creates the model from scratch, loads saved weights and compiles IF model name is not specified AND
+                                                                                model weights is specified
+    3. Creates the model from scratch and compiles IF nothing is indicated
+    :param adjustable:      object of class ProjectVariable
+    :return:                returns the model
+    """
+    if adjustable.optimizer == 'nadam':
+        the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+    elif adjustable.optimizer == 'sgd':
+        the_optimizer = keras.optimizers.SGD()
+    elif adjustable == 'rms':
+        the_optimizer = keras.optimizers.RMSprop()
+    else:
+        the_optimizer = None
+
+    # case 1
+    if adjustable.load_model_name is not None:
+        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
+
+    else:
+        # case 3
+        model = create_cnn_model(adjustable)
+
+        # case 2
+        if adjustable.load_weights_name is not None:
+            the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_weights_name)
+            model.load_weights(the_path, by_name=True)
+
+        # compile
+        model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
+
+    return model
+
+
 def main(adjustable, test_data, train_data, h5_dataset):
     """
-
+    Does stuff
     :param adjustable:      object of class ProjectVariable
     :param test_data:       list of keys for test data
     :param train_data:      list of keys for train data
     :param h5_dataset:      hdf5 dataset file in 'r' mode
     """
 
-
-
-    model = create_cnn_model(adjustable)
-
-    nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-    model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+    model = get_model(adjustable)
 
     len_train = len(train_data)
 
@@ -138,20 +171,16 @@ def main(adjustable, test_data, train_data, h5_dataset):
     if adjustable.use_cyclical_learning_rate:
         clr = CyclicLR(step_size=(len(labels_train) / adjustable.batch_size) * 8, base_lr=adjustable.cl_min,
                        max_lr=adjustable.cl_max)
-        model.fit(ddl.get_human_data(keys_train, h5_dataset),
-                  labels_train,
-                  epochs=adjustable.epochs,
-                  validation_split=0.1,
-                  batch_size=adjustable.batch_size,
-                  verbose=2,
-                  callbacks=[clr])
     else:
-        model.fit(ddl.get_human_data(keys_train, h5_dataset),
-                  labels_train,
-                  epochs=adjustable.epochs,
-                  validation_split=0.1,
-                  batch_size=adjustable.batch_size,
-                  verbose=2)
+        clr = None
+
+    model.fit(ddl.get_human_data(keys_train, h5_dataset),
+              labels_train,
+              epochs=adjustable.epochs,
+              validation_split=0.1,
+              batch_size=adjustable.batch_size,
+              verbose=2,
+              callbacks=[clr])
 
     # maybe save
     if adjustable.cnn_save and adjustable.iterations == 1:
@@ -198,7 +227,7 @@ def super_main(adjustable):
         random.shuffle(data_list)
 
         # let's say that we use % of the data to validate on
-        test_ratio = 0.1
+        test_ratio = 0.01
         test = data_list[0:int(test_ratio*len(data_list))]
         train = data_list[int(test_ratio*len(data_list)):]
 

@@ -4,7 +4,7 @@ from project_variables import ProjectVariable
 import priming as prime
 import os
 import siamese_cnn_video as srcn
-import cnn_clean as cnn
+import cnn_human_detection as cnn
 
 def test():
     a = ProjectVariable()
@@ -1891,6 +1891,19 @@ def test_cnn():
     cnn.super_main(a)
 
 
+def test_cnn_with_save():
+    a = ProjectVariable()
+    a.experiment_name = 'test cnn and save'
+    a.epochs = 100
+    a.batch_size = 32
+    a.name_indication = 'dataset_name'
+    a.save_points = [100]
+    a.ranking_number = 100
+    a.iterations = 1
+    a.datasets = ['inria']
+    cnn.super_main(a)
+
+
 
 
 def main():
@@ -1898,6 +1911,6 @@ def main():
     # print(sys.argv)
     #
     # if num == '1':
-    test_cnn()
+    test_cnn_with_save()
 
 main()
