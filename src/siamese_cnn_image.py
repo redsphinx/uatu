@@ -31,16 +31,10 @@ def euclidean_distance(vects):
     """ Returns the euclidean distance between the 2 feature vectors
     """
     x, y = vects
-    # diff = x - y
-    # sq = K.square(x - y)
-    # su = K.sum(K.square(x - y), axis=1, keepdims=True)
-    # sqrt = K.sqrt(K.sum(K.square(x - y), axis=1, keepdims=True))
-
     return K.sqrt(K.sum(K.square(x - y), axis=1, keepdims=True))
-    # return K.sqrt(tf.to_float(K.sum(K.square(x - y))))
 
 
-
+# unused
 def eucl_dist_output_shape(shapes):
     shape1, shape2 = shapes
     return (shape1[0], 1)
@@ -63,21 +57,22 @@ def contrastive_loss(y_true, y_pred):
     return loss
 
 
+# unused
 def compute_accuracy(predictions, labels):
     '''Compute classification accuracy with a fixed threshold on distances.
     '''
     return labels[predictions.ravel() < 0.5].mean()
 
 
-def cosine_distance(vects):
-    """ Returns the cosine distance between the 2 feature vectors
+# unused
+def cosine_similarity(vects):
+    """ Returns the cosine similarity between the 2 feature vectors
     """
     x, y = vects
 
     return K.sum(x * y, axis=1, keepdims=True) / K.sqrt(
         K.sum(K.square(x), axis=1, keepdims=True) * K.sum(K.square(y), axis=1, keepdims=True))
-    # return K.sum(x * y) / K.sqrt(
-    #         K.sum(K.square(x)) * K.sum(K.square(y)))
+
 
 # note: fixed cosine
 def cosine_distance_normalized(vects):
@@ -120,6 +115,7 @@ def create_cost_module(inputs, adjustable):
         output = abs(x[0] - x[1])
         return output
 
+    # unused
     def the_shape(shapes):
         shape1, shape2 = shapes
         a_shape = shape1
@@ -186,8 +182,6 @@ def create_cost_module(inputs, adjustable):
     #     ''' As proposed by Zhu et al. in https://arxiv.org/abs/1702.04858
     #     '''
     # elif adjustable.cost_module_type == 'kissme':
-
-
 
 
 def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name, first_layer=False):
@@ -259,10 +253,6 @@ def create_siamese_head(adjustable):
 
     model.add(layers.Flatten(name='cnn_flat'))
 
-
-    if not adjustable.weights_name == None:
-        model.load_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.weights_name), by_name=True)
-
     return model
 
 
@@ -284,35 +274,41 @@ def create_siamese_network(adjustable):
     return model
 
 
-def train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list):
+def train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list):
+    """
+    Trains the network.
+    :param adjustable:                  object of class ProjectVariable
+    :param model:                       the model
+    :param final_training_data:         list of pairs of images
+    :param final_training_labels:       list of labels belonging to final_training_data
+    :param h5_data_list:                the HDF5 data
+    :return:                            trained model
+    """
     if adjustable.use_cyclical_learning_rate:
 
         clr = CyclicLR(step_size=(len(final_training_labels) / adjustable.batch_size) * 8, base_lr=adjustable.cl_min,
                        max_lr=adjustable.cl_max)
-
-        train_data = ddl.grab_em_by_the_keys(final_training_data, h5_data_list)
-
-
-        train_data = np.asarray(train_data)
-
-        model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
-                  batch_size=adjustable.batch_size,
-                  epochs=1,
-                  validation_split=0.01,
-                  verbose=2,
-                  callbacks=[clr])
     else:
-        train_data = ddl.grab_em_by_the_keys(final_training_data, h5_data_list)
-        train_data = np.asarray(train_data)
+        clr = None
 
-        model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
-                  batch_size=adjustable.batch_size,
-                  epochs=1,
-                  validation_split=0.01,
-                  verbose=2)
+    train_data = ddl.grab_em_by_the_keys(final_training_data, h5_data_list)
+    train_data = np.asarray(train_data)
+
+    model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
+              batch_size=adjustable.batch_size,
+              epochs=1,
+              validation_split=0.01,
+              verbose=2,
+              callbacks=[clr])
 
 
 def absolute_distance_difference(y_true, y_pred):
+    """
+    Returns the absolute distance between two numbers
+    :param y_true:      The true number
+    :param y_pred:      The predicted number
+    :return:            the absolute distance between two numbers
+    """
     return abs(y_true - y_pred)
 
 
@@ -323,8 +319,8 @@ def get_model(adjustable):
     2. Creates the model from scratch, loads saved weights and compiles IF model name is not specified AND
                                                                                 model weights is specified
     3. Creates the model from scratch and compiles IF nothing is indicated
-    :param adjustable:
-    :return:
+    :param adjustable:      object of class ProjectVariable
+    :return:                returns the model
     """
     if adjustable.optimizer == 'nadam':
         the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
@@ -366,15 +362,18 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
 
     for epoch in range(adjustable.epochs):
         print('epoch %d/%d' % (epoch, adjustable.epochs))
+
+        ################################################################################################################
+        #   Prepare the training data
+        ################################################################################################################
+
         # sample from the big set of negative training instances
         random.shuffle(merged_training_neg)
         training_neg_sample = merged_training_neg[0:len(merged_training_pos)]
+
         # now we have the final list of keys to the instances we use for training
-
         final_training_data = merged_training_pos + training_neg_sample
-
         random.shuffle(final_training_data)
-
         final_training_data = pu.sideways_shuffle(final_training_data)
 
         final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
@@ -382,7 +381,11 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
             final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
-        train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
+        ################################################################################################################
+        #   Train the network, save if needed
+        ################################################################################################################
+
+        train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list)
 
         time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
 
@@ -392,8 +395,6 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                     model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
                     weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
                 elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
-                    # model_name = time_stamp + '_%s_model.h5' % adjustable.datasets[0]
-                    # weights_name = time_stamp + '_%s_weights.h5' % adjustable.datasets[0]
                     model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
                     weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
                 else:
@@ -409,18 +410,17 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     ranking_matrices = []
     names = []
 
-    # for test_set in range(test_sets):
     for dataset in range(len(adjustable.datasets)):
-        # name = test[test_set * 3]
+        ################################################################################################################
+        #   Prepare the testing/ranking data
+        ################################################################################################################
         name = adjustable.datasets[dataset]
         names.append(name)
         this_ranking = all_ranking[dataset]
-        # print('GRABBING BY THE KEYS')
         test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
         test_data = np.asarray(test_data)
 
-        # make a record of the ranking selection for each dataset
-        # for priming
+        # [for priming] make a record of the ranking selection for each dataset
         if adjustable.save_inbetween and adjustable.iterations == 1:
             # file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
             file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
@@ -429,22 +429,27 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                 for item in this_ranking:
                     my_file.write(item)
 
-        # print('final_testing_labels')
+        # prepare for testing the model
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
-
 
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
             print('more final testing labels')
             final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
-        # print('predictions')
+        ################################################################################################################
+        #   Test
+        ################################################################################################################
         predictions = model.predict([test_data[0, :], test_data[1, :]])
-        # print predictions
+
+        ################################################################################################################
+        #   Process the results
+        ################################################################################################################
+
         if adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             new_thing = zip(predictions, final_testing_labels)
             print(new_thing[0:50])
-        # print('MAKING CONFUSION MATRIX')
-        # matrix = pu.make_confusion_matrix(predictions, test_labels)
+
+        # create confusion matrix
         matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
         confusion_matrices.append(matrix)
         accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
@@ -453,6 +458,8 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         else:
             precision = 0
 
+        # [upon Gregor's request] create a 0.1 ratio version of the confusion matrix where for each positive instance
+        #                                                                              there are 9 negative instances
         gregor_matrix = pu.make_gregor_matrix(adjustable, predictions, final_testing_labels)
         print(gregor_matrix)
         gregor_matrices.append(gregor_matrix)
@@ -467,6 +474,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
         else:
             false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0))
 
+        # calculate the Cumulative Matching Characteristic
         ranking = pu.calculate_CMC(adjustable, predictions)
         ranking_matrices.append(ranking)
 
@@ -502,7 +510,7 @@ def super_main(adjustable):
 
     start = time.time()
     for iter in range(adjustable.iterations):
-        print('-----ITERATION %d' % iter)
+        print('-----EXPERIMENT ITERATION %d' % iter)
         # lists for storing intermediate results
         all_ranking, all_training_pos, all_training_neg = [], [], []
         # create training and ranking set for all datasets
@@ -514,11 +522,6 @@ def super_main(adjustable):
                 ranking = pu.flip_labels(ranking)
                 training_pos = pu.flip_labels(training_pos)
                 training_neg = pu.flip_labels(training_neg)
-            # now we use cosine distance instead of similarity
-            # elif adjustable.cost_module_type == 'cosine':
-            #     ranking = pu.zero_to_min_one_labels(ranking)
-            #     training_pos = pu.zero_to_min_one_labels(training_pos)
-            #     training_neg = pu.zero_to_min_one_labels(training_neg)
 
             # data gets appended in order
             all_ranking.append(ranking)
