@@ -50,6 +50,22 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+21 july
+-------
+
+experiment() -> running_experiments_<x>.py
+ProjectVariable.datasets -> super_main() -> siamese_cnn_image.py
+ProjectVariable.datasets -> load_datasets_from_h5() -> dynamic_data_loading.py == returns list containing h5 datasets
+dataset -> create_training_and_ranking_set() -> dynamic_data_loading.py == returns 3 lists: ranking, training_pos, training_neg
+training_pos, training_neg -> merge_datasets() -> dynamic_data_loading.py == returns 2 lists: merged_training_pos, merged_training_neg
+ranking, merged_training_pos, merged_training_neg -> main() -> siamese_cnn_image.py
+becomes final_training_data -> train_network() -> siamese_cnn_image.py 
+^^ -> grab_em_by_the_keys() -> dynamic_data_loading.py
+^^ -> create_key_dataset_mapping() -> dynamic_data_loading.py
+
+
+
+
 12 july
 -------
 . DONE adapt confusion matrix calculations such that class balance rate of match/mismatch=0.1

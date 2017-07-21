@@ -585,26 +585,56 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
 
     # create mapping from keys to dataset
     key_dataset_mapping = create_key_dataset_mapping(key_list, h5_dataset_list)
-    # isolate the different keys
-    all_key_1 = [item.split(',')[0] for item in key_list]
-    all_key_2 = [item.split(',')[1] for item in key_list]
-    all_keys_in_mapping = [item[0] for item in key_dataset_mapping]
-    # # isolate the values
-    only_values = [item[1] for item in key_dataset_mapping]
-    # get the index of the value that key in all_key points to
+    ################################################################################################################
+    #   isolate the different keys and values
+    ################################################################################################################
+    # all_key_1 = [item.split(',')[0] for item in key_list]
+    # all_key_2 = [item.split(',')[1] for item in key_list]
+    all_key_1 = []
+    all_key_2 = []
+    for item in key_list:
+        all_key_1.append(item.split(',')[0])
+        all_key_2.append(item.split(',')[1])
+
+    # all_keys_in_mapping = [item[0] for item in key_dataset_mapping]
+    # only_values = [item[1] for item in key_dataset_mapping]
+    all_keys_in_mapping = []
+    only_values = []
+    for item in key_dataset_mapping:
+        all_keys_in_mapping.append(item[0])
+        only_values.append(item[1])
+
+    ################################################################################################################
+    #   get the index of the value that key in all_key points to
+    ################################################################################################################
     # FIXME: taking incredibly fucking long if we do big ranking numbers
     # TODO: fix it, optimize it somehow so that we can run with bigger ranking numbers
-    the_index_key_1 = [all_keys_in_mapping.index(key_1) for key_1 in all_key_1]
-    the_index_key_2 = [all_keys_in_mapping.index(key_2) for key_2 in all_key_2]
-    # get the values from the h5 file given the indices
-    values_key_1 = []
-    for item in range(len(all_key_1)):
-        a = all_key_1[item]
-        b = the_index_key_1[item]
-        c = only_values[b][a][:]
-        values_key_1.append(c)
+    # the_index_key_1 = [all_keys_in_mapping.index(key_1) for key_1 in all_key_1]
+    the_index_key_1 = []
+    for key_1 in all_key_1:
+        the_index_key_1.append(all_keys_in_mapping.index(key_1))
 
+    # the_index_key_2 = [all_keys_in_mapping.index(key_2) for key_2 in all_key_2]
+    the_index_key_2 = []
+    for key_2 in all_key_2:
+        the_index_key_2.append(all_keys_in_mapping.index(key_2))
+
+    ################################################################################################################
+    #   get the values from the h5 file given the indices
+    ################################################################################################################
     values_key_1 = [only_values[the_index_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
+    len_all_key_1 = len(all_key_1)
+    values_key_1 = []
+    # for item in range(len_all_key_1):
+    #     a = all_key_1[item]
+    #     b = the_index_key_1[item]
+    #     c = only_values[b][a][:]
+    #     values_key_1.append(c)
+    for index in range(len_all_key_1):
+        # TODO: finish making this understandable
+        the_value = only_values[the_index_key_1[item]][all_key_1[item]][:]
+
+
     values_key_2 = [only_values[the_index_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
     return values_key_1, values_key_2
 
