@@ -288,9 +288,11 @@ def train_network(adjustable, model, final_training_data, final_training_labels,
 
         clr = CyclicLR(step_size=(len(final_training_labels) / adjustable.batch_size) * 8, base_lr=adjustable.cl_min,
                        max_lr=adjustable.cl_max)
+        call_back = [clr]
     else:
-        clr = None
+        call_back = None
 
+    # note for mixing data: I think this should still work
     train_data = ddl.grab_em_by_the_keys(final_training_data, h5_data_list)
     train_data = np.asarray(train_data)
 
@@ -299,7 +301,7 @@ def train_network(adjustable, model, final_training_data, final_training_labels,
               epochs=1,
               validation_split=0.01,
               verbose=2,
-              callbacks=[clr])
+              callbacks=call_back)
 
 
 def absolute_distance_difference(y_true, y_pred):
@@ -382,7 +384,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
             final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
         ################################################################################################################
-        #   Train the network, save if needed
+        #   Train the network, save if specified
         ################################################################################################################
 
         train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list)
@@ -410,6 +412,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     ranking_matrices = []
     names = []
 
+    # TODO: modify that this is only for the dataset that we test on
     for dataset in range(len(adjustable.datasets)):
         ################################################################################################################
         #   Prepare the testing/ranking data
@@ -496,11 +499,14 @@ def super_main(adjustable):
     if adjustable.ranking_number == 'half':
         the_dataset_name = adjustable.datasets[0]
         ranking_number = pc.RANKING_DICT[the_dataset_name]
+        # TODO: distinguish between datasets to train on and the one to test on
+        # the one to test on, we take their ranking number
     elif isinstance(adjustable.ranking_number, int):
         ranking_number = adjustable.ranking_number
     else:
         ranking_number = None
 
+    # TODO: make it only for the dataset we test on
     # arrays for storing results
     number_of_datasets = len(adjustable.datasets)
     name = np.zeros(number_of_datasets)
@@ -516,6 +522,8 @@ def super_main(adjustable):
         # create training and ranking set for all datasets
         ss = time.time()
         for name in range(len(adjustable.datasets)):
+            # TODO: only create ranking set for the dataset we test on
+            # TODO: make only training set for the datasets we train on: ddl.create_mixed_training_set()
             ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name], adjustable)
             # labels have different meanings in `euclidean` case, 0 for match and 1 for mismatch
             if adjustable.cost_module_type in ['euclidean', 'cosine']:
@@ -530,6 +538,7 @@ def super_main(adjustable):
         # put all the training data together
         st = time.time()
         print('%0.2f mins' % ((st-ss)/60))
+        # TODO: update ddl.merge_datasets()
         merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
         # run main
         name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,

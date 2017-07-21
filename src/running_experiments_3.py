@@ -1066,10 +1066,186 @@ def e_086():
     a.dropout_rate = 0.1
     scn.super_main(a)
 
+'''
+Saving models for transfer learning
+'''
+
+def e_087():
+    a = ProjectVariable()
+    a.experiment_name = '087. save viper for TL'
+    a.epochs = 100
+    a.save_inbetween = True
+    a.name_indication = 'dataset_name'
+    a.save_points = [100]
+    a.ranking_number = 10
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+    a.datasets = ['viper']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_088():
+    a = ProjectVariable()
+    a.experiment_name = '088. save grid for TL'
+    a.epochs = 100
+    a.save_inbetween = True
+    a.name_indication = 'dataset_name'
+    a.save_points = [100]
+    a.ranking_number = 10
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+    a.datasets = ['grid']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_089():
+    a = ProjectVariable()
+    a.experiment_name = '089. save prid450 for TL'
+    a.epochs = 100
+    a.save_inbetween = True
+    a.name_indication = 'dataset_name'
+    a.save_points = [100]
+    a.ranking_number = 10
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+    a.datasets = ['prid450']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_090():
+    a = ProjectVariable()
+    a.experiment_name = '090. save market for TL'
+    a.epochs = 100
+    a.save_inbetween = True
+    a.name_indication = 'dataset_name'
+    a.save_points = [100]
+    a.ranking_number = 10
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+    a.datasets = ['market']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_091():
+    a = ProjectVariable()
+    a.experiment_name = '091. save cuhk02 for TL'
+    a.epochs = 100
+    a.save_inbetween = True
+    a.name_indication = 'dataset_name'
+    a.save_points = [100]
+    a.ranking_number = 10
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+    a.datasets = ['cuhk02']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+'''
+Load trained weights and train network again
+'''
+
+def e_092():
+    a = ProjectVariable()
+    a.experiment_name = '092. viper > grid'
+    a.epochs = 100
+    # a.save_inbetween = True
+    # a.name_indication = 'dataset_name'
+    # a.save_points = [100]
+    a.ranking_number = 125
+    a.iterations = 10
+    a.batch_size = 32
+
+    a.load_weights_name = 'viper_weigths_base.h5'
+
+    a.activation_function = 'elu'
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+
+    a.datasets = ['grid']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_093():
+    a = ProjectVariable()
+    a.experiment_name = '093. viper > grid, no CLR'
+    a.epochs = 100
+    # a.save_inbetween = True
+    # a.name_indication = 'dataset_name'
+    # a.save_points = [100]
+    a.ranking_number = 125
+    a.iterations = 10
+    a.batch_size = 32
+
+    a.load_weights_name = 'viper_weigths_base.h5'
+
+    a.activation_function = 'elu'
+    a.use_cyclical_learning_rate = False
+    # a.cl_min = 0.00005
+    # a.cl_max = 0.001
+    a.neural_distance = 'absolute'
+
+    a.datasets = ['grid']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
+
+def e_094():
+    a = ProjectVariable()
+    a.experiment_name = '094. viper > grid, CLR lower'
+    a.epochs = 100
+    # a.save_inbetween = True
+    # a.name_indication = 'dataset_name'
+    # a.save_points = [100]
+    a.ranking_number = 125
+    a.iterations = 10
+    a.batch_size = 32
+
+    a.load_weights_name = 'viper_weigths_base.h5'
+
+    a.activation_function = 'elu'
+    # a.use_cyclical_learning_rate = False
+    a.cl_min = 0.000001
+    a.cl_max = 0.0001
+    a.neural_distance = 'absolute'
+
+    a.datasets = ['grid']
+    a.log_file = 'thesis_experiment_log.txt'
+    scn.super_main(a)
+
 
 def main():
     num = sys.argv[1]
     print(sys.argv)
+
+    if num == '94':
+        e_094()
 
 
 main()

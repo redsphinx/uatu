@@ -28,6 +28,7 @@ class ProjectVariable(object):
         self._numfil = 1  # int
         # the type of siamese head to implement. choice of: 'simple', 'batch_normalized'
         self._head_type = 'batch_normalized'# string
+        # unused
         # name of a weights h5 file to initialize the siamese head weights with trained weights from h5 file.
         # note: this is only for the siamese heads
         self._weights_name = None  # string

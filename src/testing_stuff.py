@@ -535,21 +535,81 @@ def get_image_names_from_mat():
     annolist = release['annolist'][0, 0]
     image_names = annolist['image'][0]
 
+    data_folder = '../data/mpii'
+    mapping_name_file = os.path.join(data_folder, 'mapping_name.txt')
+
+    if not os.path.exists(data_folder):
+        os.mkdir(data_folder)
+
     len_data = len(image_names)
-    # print('len_data: ', len_data)
 
-    # print(str(image_names[116][0][0][0][0]))
-
-    for item in range(200):
-        name = str(image_names[item][0][0][0][0])
-        print(item+1, name)
-
+    with open(mapping_name_file, 'w') as my_file:
+        for item in range(len_data):
+            name = str(image_names[item][0][0][0][0])
+            line = '%s,%s\n' % (item, name)
+            my_file.write(line)
 
 
-def get_rectangle_for_single_human():
+def get_rectangle_id_for_single_human():
     path = '/home/gabi/Documents/datasets/mpii-human-pose/mpii_human_pose_v1_u12_1.mat'
     the_file = io.loadmat(path)
     release = the_file['RELEASE']
-    person = release['single_person'][0, 0]
+    persons = release['single_person'][0, 0]
 
-get_image_names_from_mat()
+    data_folder = '../data/mpii'
+    mapping_rid_file = os.path.join(data_folder, 'mapping_rid.txt')
+
+    len_data = len(persons)
+
+    with open(mapping_rid_file, 'w') as my_file:
+        for item in range(len_data):
+            person = persons[item][0]
+            rids = range(len(person))
+            rids.append(len(person))
+            rids.pop(0)
+            line = '%s,%s\n' % (item, str(rids))
+            my_file.write(line)
+
+
+def get_rid_xy_for_single_human():
+    path = '/home/gabi/Documents/datasets/mpii-human-pose/mpii_human_pose_v1_u12_1.mat'
+    the_file = io.loadmat(path)
+    release = the_file['RELEASE']
+    annolist = release['annolist'][0, 0]
+    annorect = annolist['annorect'][0]
+
+    len_data = len(annorect)
+
+    for item in range(100):
+        a3 = annorect[item][0][0]
+
+        a3_len = len(a3)
+
+        if a3_len == 2:
+            xy = a3[1]
+            x = int(xy[0][0][0])
+            y = int(xy[0][0][1])
+            print(item, 'x', x, 'y', y)
+
+        elif a3_len > 2:
+            pass
+            # for i in range(a3_len):
+            #     print(a3[i])
+
+        asdf = 'asdf'
+
+    # data_folder = '../data/mpii'
+    # mapping_name_file = os.path.join(data_folder, 'mapping_name.txt')
+    #
+    # if not os.path.exists(data_folder):
+    #     os.mkdir(data_folder)
+    #
+    # len_data = len(image_names)
+    #
+    # with open(mapping_name_file, 'w') as my_file:
+    #     for item in range(len_data):
+    #         name = str(image_names[item][0][0][0][0])
+    #         line = '%s,%s\n' % (item, name)
+    #         my_file.write(line)
+
+# get_rid_xy_for_single_human()
