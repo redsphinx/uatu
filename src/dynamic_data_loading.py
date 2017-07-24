@@ -430,7 +430,7 @@ def load_datasets_from_h5(list_of_datasets):
 
         return h5_data
 
-def create_training_and_ranking_set(name, adjustable, ranking=None):
+def create_training_and_ranking_set(name, adjustable, do_ranking=True, do_training=True):
     """ Do this at the beginning of each iteration
     """
     if name == 'viper':
@@ -461,6 +461,8 @@ def create_training_and_ranking_set(name, adjustable, ranking=None):
         ranking, training_pos, training_neg = None, None, None
 
     return ranking, training_pos, training_neg
+
+
 
 
 def merge_datasets(adjustable, list_training_pos, list_training_neg, balance=False):

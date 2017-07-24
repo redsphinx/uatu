@@ -505,8 +505,8 @@ def super_main(adjustable):
     ################################################################################################################
     #   Set the ranking number.
     ################################################################################################################
-    if adjustable.dataset_test is None:
-        if adjustable.datasets_train is not None:
+    if dataset_test_h5 is None:
+        if datasets_train_h5 is not None:
             if adjustable.ranking_number is None:
                 print('Note: Only training will be performed.')
                 ranking_number = None
@@ -515,33 +515,33 @@ def super_main(adjustable):
                 print('Note: Only training will be performed.')
                 ranking_number = None
         else:
-            print('Error: No training data specified, ranking number defaults to `None`.')
-            ranking_number = None
+            print('Error: No training data specified.')
+            return
     else:
         print('Note: Testing (Ranking) will also be performed.')
         if adjustable.ranking_number == 'half':
-            ranking_number = pc.RANKING_DICT[adjustable.dataset_test]
+            ranking_number = pc.RANKING_DICT[dataset_test_h5[0]]
         elif isinstance(adjustable.ranking_number, int):
             ranking_number = adjustable.ranking_number
         else:
-            print('Error: Unknown configuration, ranking number defaults to `None`.')
-            ranking_number = None
+            print('Error: Unknown configuration.')
+            return
 
     ################################################################################################################
-    #   [IF dataset_test is not None] Create arrays in which we store the results
+    #   [IF dataset_test_h5 is not None] Create arrays in which we store the results
     ################################################################################################################
-    # DONE TODO: make it only for the dataset we test on
-    # arrays for storing results
     # number_of_datasets = len(adjustable.datasets)
-    if
+    if dataset_test_h5 is not None:
+        # number_of_datasets = 1
+        # name = np.zeros(number_of_datasets)
+        name = adjustable.dataset_test
+        confusion_matrices = np.zeros((adjustable.iterations, 4))
+        ranking_matrices = np.zeros((adjustable.iterations, ranking_number))
+        gregor_matrices = np.zeros((adjustable.iterations, 4))
 
-
-    number_of_datasets = 1
-    name = np.zeros(number_of_datasets)
-    confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
-    ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, ranking_number))
-    gregor_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
-
+    ################################################################################################################
+    #   Start a number of experiment iterations
+    ################################################################################################################
     start = time.time()
     for iter in range(adjustable.iterations):
         print('-----EXPERIMENT ITERATION %d' % iter)
@@ -550,35 +550,82 @@ def super_main(adjustable):
         # create training and ranking set for all datasets
         ss = time.time()
 
-        # DONE TODO: only create ranking set for the dataset we test on
-        # DONE TODO: make only training set for the datasets we train on: ddl.create_mixed_training_set()
-        # TODO: modify `ddl.create_training_and_ranking_set` to handle `ranking=False`
-        ################################################################################################################
-        #   Prepare data for the training sets only
-        ################################################################################################################
-        for index in range(len(adjustable.datasets_train)):
-            training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets_train[index],
-                                                                             adjustable, ranking=False)
-            if adjustable.cost_module_type in ['euclidean', 'cosine']:
-                training_pos = pu.flip_labels(training_pos)
-                training_neg = pu.flip_labels(training_neg)
 
-            all_training_pos.append(training_pos)
-            all_training_neg.append(training_neg)
-
+        if dataset_test_h5 is None:
+            print('Training using all data in datasets_train.')
         ################################################################################################################
-        #   Prepare data for the training and ranking on the test sets
+        #   Prepare data for when we only train using all data
         ################################################################################################################
-        ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.dataset_test, adjustable,
-                                                                                  ranking=True)
-        if adjustable.cost_module_type in ['euclidean', 'cosine']:
-            ranking = pu.flip_labels(ranking)
-            training_pos = pu.flip_labels(training_pos)
-            training_neg = pu.flip_labels(training_neg)
+            if datasets_train_h5 is not None:
+                for index in range(len(adjustable.datasets_train)):
+                    # TODO: modify `ddl.create_training_and_ranking_set` to handle `do_ranking=False`
+                    training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets_train[index],
+                                                                                     adjustable, do_ranking=False)
+                    if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                        training_pos = pu.flip_labels(training_pos)
+                        training_neg = pu.flip_labels(training_neg)
 
-        all_ranking.append(ranking)
-        all_training_pos.append(training_pos)
-        all_training_neg.append(training_neg)
+                    all_training_pos.append(training_pos)
+                    all_training_neg.append(training_neg)
+            else:
+                print('Error: no training data specified.')
+                return
+        else:
+            if adjustable.test_only == True:
+                print('Testing only using ranking set based on dataset_test.')
+                ########################################################################################################
+                #   Prepare data for when we ONLY test. Randomly get the data or load from a file if file exists
+                ########################################################################################################
+                # TODO: modify `ddl.create_training_and_ranking_set` to handle `do_training=False`
+                ranking = ddl.create_training_and_ranking_set(adjustable.dataset_test, adjustable, do_training=False)
+                if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                    ranking = pu.flip_labels(ranking)
+                all_ranking.append(ranking)
+            else:
+                if datasets_train_h5 is not None:
+                    print('Training and testing on multiple datasets.')
+                    ####################################################################################################
+                    #   Prepare data for when we train and test on multiple datasets
+                    ####################################################################################################
+                    for index in range(len(adjustable.datasets_train)):
+                        ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                            adjustable.datasets_train[index], adjustable)
+                        if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                            ranking = pu.flip_labels(ranking)
+                            training_pos = pu.flip_labels(training_pos)
+                            training_neg = pu.flip_labels(training_neg)
+
+                        all_ranking.append(ranking)
+                        all_training_pos.append(training_pos)
+                        all_training_neg.append(training_neg)
+
+                    ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                        adjustable.dataset_test, adjustable)
+                    if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                        ranking = pu.flip_labels(ranking)
+                        training_pos = pu.flip_labels(training_pos)
+                        training_neg = pu.flip_labels(training_neg)
+
+                    all_ranking.append(ranking)
+                    all_training_pos.append(training_pos)
+                    all_training_neg.append(training_neg)
+
+                else:
+                    print('Training and testing on a single dataset.')
+                    ####################################################################################################
+                    #   Prepare data for when we train and test on a single dataset
+                    ####################################################################################################
+                    ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                        adjustable.dataset_test, adjustable)
+                    if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                        ranking = pu.flip_labels(ranking)
+                        training_pos = pu.flip_labels(training_pos)
+                        training_neg = pu.flip_labels(training_neg)
+
+                    all_ranking.append(ranking)
+                    all_training_pos.append(training_pos)
+                    all_training_neg.append(training_neg)
+
 
         # for name in range(len(adjustable.datasets)):
         #     ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name], adjustable)
