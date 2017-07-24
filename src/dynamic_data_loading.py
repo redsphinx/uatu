@@ -421,11 +421,14 @@ def get_dataset(name):
 def load_datasets_from_h5(list_of_datasets):
     """ Do this at the beginning of the experiment
     """
-    h5_data = []
-    for dataset in list_of_datasets:
-        h5_data.append(get_dataset(dataset))
+    if list_of_datasets is None:
+        return None
+    else:
+        h5_data = []
+        for dataset in list_of_datasets:
+            h5_data.append(get_dataset(dataset))
 
-    return h5_data
+        return h5_data
 
 def create_training_and_ranking_set(name, adjustable, ranking=None):
     """ Do this at the beginning of each iteration

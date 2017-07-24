@@ -527,10 +527,15 @@ def super_main(adjustable):
             print('Error: Unknown configuration, ranking number defaults to `None`.')
             ranking_number = None
 
-
+    ################################################################################################################
+    #   [IF dataset_test is not None] Create arrays in which we store the results
+    ################################################################################################################
     # DONE TODO: make it only for the dataset we test on
     # arrays for storing results
     # number_of_datasets = len(adjustable.datasets)
+    if
+
+
     number_of_datasets = 1
     name = np.zeros(number_of_datasets)
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
