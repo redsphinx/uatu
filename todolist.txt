@@ -50,6 +50,13 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+24 july
+-------
+. fix pipelining for mixing data
+. optimize ranking
+
+
+
 21 july
 -------
 

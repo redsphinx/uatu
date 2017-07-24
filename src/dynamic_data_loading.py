@@ -623,17 +623,16 @@ def grab_em_by_the_keys(key_list, h5_dataset_list):
     #   get the values from the h5 file given the indices
     ################################################################################################################
     values_key_1 = [only_values[the_index_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
-    len_all_key_1 = len(all_key_1)
-    values_key_1 = []
+    # len_all_key_1 = len(all_key_1)
+    # values_key_1 = []
     # for item in range(len_all_key_1):
     #     a = all_key_1[item]
     #     b = the_index_key_1[item]
     #     c = only_values[b][a][:]
     #     values_key_1.append(c)
-    for index in range(len_all_key_1):
+    # for index in range(len_all_key_1):
         # TODO: finish making this understandable
-        the_value = only_values[the_index_key_1[item]][all_key_1[item]][:]
-
+        # the_value = only_values[the_index_key_1[item]][all_key_1[item]][:]
 
     values_key_2 = [only_values[the_index_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
     return values_key_1, values_key_2
