@@ -274,7 +274,8 @@ def create_siamese_network(adjustable):
     return model
 
 
-def train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list):
+def train_network(adjustable, model, final_training_data, final_training_labels, h5_train, h5_test):
+# def train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list):
     """
     Trains the network.
     :param adjustable:                  object of class ProjectVariable
@@ -284,6 +285,10 @@ def train_network(adjustable, model, final_training_data, final_training_labels,
     :param h5_data_list:                the HDF5 data
     :return:                            trained model
     """
+
+    # TODO: do something like this to merge the h5 data lists
+    # h5_data_list = h5_train + h5_test
+
     if adjustable.use_cyclical_learning_rate:
 
         clr = CyclicLR(step_size=(len(final_training_labels) / adjustable.batch_size) * 8, base_lr=adjustable.cl_min,
@@ -355,135 +360,251 @@ def get_model(adjustable):
     return model
 
 
+def get_negative_sample(train_pos, train_neg):
+    pass
+
+
+def get_final_training_data(adjustable, train_pos, train_neg):
+    pass
+
+
+def save_non_target_datasets_rankings():
+    pass
+
+
 # def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
 def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, merged_training_neg):
-    """Runs a the whole training and testing phase
+    """
+    Runs a the whole training and testing phase
+    :param adjustable:              object of class ProjectVariable
+    :param training_h5:             list of h5 training datasets
+    :param testing_h5:              list of h5 test/rank dataset
+    :param all_ranking:             list of ranking pair string paths to images
+    :param merged_training_pos:     list of training pos pair string paths to images
+    :param merged_training_neg:     list of training neg pair string paths to images
     :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
                 ranking for each dataset
     """
     model = get_model(adjustable)
 
-    for epoch in range(adjustable.epochs):
-        print('epoch %d/%d' % (epoch, adjustable.epochs))
+    if adjustable.test_only == False:
+        for epoch in range(adjustable.epochs):
+            print('Epoch %d/%d' % (epoch, adjustable.epochs))
+            ############################################################################################################
+            #   Prepare the training data
+            ############################################################################################################
+            # TODO: for each training set, do the sampling in new method get_negative_sample()
+            # TODO: create get_negative_sample()
+            training_neg_sample = get_negative_sample(merged_training_pos, merged_training_neg)
 
-        ################################################################################################################
-        #   Prepare the training data
-        ################################################################################################################
+            # sample from the big set of negative training instances
+            # random.shuffle(merged_training_neg)
+            # training_neg_sample = merged_training_neg[0:len(merged_training_pos)]
 
-        # sample from the big set of negative training instances
-        random.shuffle(merged_training_neg)
-        training_neg_sample = merged_training_neg[0:len(merged_training_pos)]
+            # now we have the final list of keys to the instances we use for training
+            # final_training_data = merged_training_pos + training_neg_sample
+            # random.shuffle(final_training_data)
+            # final_training_data = pu.sideways_shuffle(final_training_data)
+            # TODO: create get_final_training_data()
+            final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
 
-        # now we have the final list of keys to the instances we use for training
-        final_training_data = merged_training_pos + training_neg_sample
-        random.shuffle(final_training_data)
-        final_training_data = pu.sideways_shuffle(final_training_data)
+            final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
+                                     range(len(final_training_data))]
+            if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+                final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
-        final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
-                                 range(len(final_training_data))]
-        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
+            ################################################################################################################
+            #   Train the network, save if specified
+            ################################################################################################################
 
-        ################################################################################################################
-        #   Train the network, save if specified
-        ################################################################################################################
+            # train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list)
+            train_network(adjustable, model, final_training_data, final_training_labels, training_h5, testing_h5)
 
-        train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list)
+            time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
 
-        time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
+            if adjustable.save_inbetween and adjustable.iterations == 1:
+                if epoch + 1 in adjustable.save_points:
+                    if adjustable.name_indication == 'epoch':
+                        model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
+                        weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
+                    elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
+                        model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+                        weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+                    else:
+                        model_name = None
+                        weights_name = None
 
-        if adjustable.save_inbetween and adjustable.iterations == 1:
-            if epoch+1 in adjustable.save_points:
-                if adjustable.name_indication == 'epoch':
-                    model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
-                    weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
-                elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
-                    model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
-                    weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
-                else:
-                    model_name = None
-                    weights_name = None
+                    model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
+                    model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
+                    print('MODEL SAVED at epoch %d' % (epoch + 1))
 
-                model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
-                model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
-                print('MODEL SAVED at epoch %d' % (epoch + 1))
+            confusion_matrices = []
+            gregor_matrices = []
+            ranking_matrices = []
+            names = []
+    #
+    #     if all_ranking is None:
+    #         if training_h5 is not None:
+    #             # only train, using all datasets
+    #             # TODO: for each training set, do the sampling in new method get_negative_sample()
+    #             # TODO: create get_negative_sample()
+    #             training_neg_sample = get_negative_sample(merged_training_pos, merged_training_neg)
+    #             # TODO: create get_final_training_data()
+    #             final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
+    #
+    #             final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
+    #                                      range(len(final_training_data))]
+    #             pass
+    #         else:
+    #             print('ERROR')
+    #             return
+    #     else:
+    #         if adjustable.test_only == True:
+    #             # only test
+    #             pass
+    #         else:
+    #             if training_h5 is not None:
+    #                 # train on multiple datasets
+    #                 pass
+    #             else:
+    #                 # train on one dataset only
+    #                 pass
 
-    confusion_matrices = []
-    gregor_matrices = []
-    ranking_matrices = []
-    names = []
+        # ################################################################################################################
+        # #   Prepare the training data
+        # ################################################################################################################
+        #
+        # # TODO: for each training set, do the sampling in new method get_negative_sample()
+        # # TODO: create get_negative_sample()
+        # training_neg_sample = get_negative_sample(merged_training_pos, merged_training_neg)
+        #
+        # # sample from the big set of negative training instances
+        # # random.shuffle(merged_training_neg)
+        # # training_neg_sample = merged_training_neg[0:len(merged_training_pos)]
+        #
+        # # now we have the final list of keys to the instances we use for training
+        # # final_training_data = merged_training_pos + training_neg_sample
+        # # random.shuffle(final_training_data)
+        # # final_training_data = pu.sideways_shuffle(final_training_data)
+        # # TODO: create get_final_training_data()
+        # final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
+        #
+        # final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
+        #                          range(len(final_training_data))]
+        # if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+        #     final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
-    # TODO: modify that this is only for the dataset that we test on
-    for dataset in range(len(adjustable.datasets)):
-        ################################################################################################################
-        #   Prepare the testing/ranking data
-        ################################################################################################################
-        name = adjustable.datasets[dataset]
-        names.append(name)
-        this_ranking = all_ranking[dataset]
-        test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
-        test_data = np.asarray(test_data)
+        # ################################################################################################################
+        # #   Train the network, save if specified
+        # ################################################################################################################
+        #
+        # train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list)
+        #
+        # time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
+        #
+        # if adjustable.save_inbetween and adjustable.iterations == 1:
+        #     if epoch+1 in adjustable.save_points:
+        #         if adjustable.name_indication == 'epoch':
+        #             model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
+        #             weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
+        #         elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
+        #             model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+        #             weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+        #         else:
+        #             model_name = None
+        #             weights_name = None
+        #
+        #         model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
+        #         model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
+        #         print('MODEL SAVED at epoch %d' % (epoch + 1))
 
-        # [for priming] make a record of the ranking selection for each dataset
-        if adjustable.save_inbetween and adjustable.iterations == 1:
-            # file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
-            file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
-            file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
-            with open(file_name, 'w') as my_file:
-                for item in this_ranking:
-                    my_file.write(item)
+    # confusion_matrices = []
+    # gregor_matrices = []
+    # ranking_matrices = []
+    # names = []
 
-        # prepare for testing the model
-        final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
 
-        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            print('more final testing labels')
-            final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
+    if all_ranking is not None:
+        # TODO: go through all the ranking files and save all the ones before last. Only test on the last.
+        # TODO: create method save_non_target_datasets_rankings()
+        updated_ranking = save_non_target_datasets_rankings()
 
-        ################################################################################################################
-        #   Test
-        ################################################################################################################
-        predictions = model.predict([test_data[0, :], test_data[1, :]])
 
-        ################################################################################################################
-        #   Process the results
-        ################################################################################################################
+        # HERE WE ARE WHEN LEAVING OFFICE
 
-        if adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
-            new_thing = zip(predictions, final_testing_labels)
-            print(new_thing[0:50])
 
-        # create confusion matrix
-        matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
-        confusion_matrices.append(matrix)
-        accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
-        if not matrix[0] == 0:
-            precision = (matrix[0] * 1.0 / (matrix[0] + matrix[1] * 1.0))
-        else:
-            precision = 0
 
-        # [upon Gregor's request] create a 0.1 ratio version of the confusion matrix where for each positive instance
-        #                                                                              there are 9 negative instances
-        gregor_matrix = pu.make_gregor_matrix(adjustable, predictions, final_testing_labels)
-        print(gregor_matrix)
-        gregor_matrices.append(gregor_matrix)
+        # TODO: modify that this is only for the dataset that we test on
+        for dataset in range(len(adjustable.datasets)):
+            ################################################################################################################
+            #   Prepare the testing/ranking data
+            ################################################################################################################
+            name = adjustable.datasets[dataset]
+            names.append(name)
+            this_ranking = all_ranking[dataset]
+            test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
+            test_data = np.asarray(test_data)
 
-        if (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0) == 0:
-            detection_rate = 0
-        else:
-            detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0))
+            # [for priming] make a record of the ranking selection for each dataset
+            if adjustable.save_inbetween and adjustable.iterations == 1:
+                # file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
+                file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
+                file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
+                with open(file_name, 'w') as my_file:
+                    for item in this_ranking:
+                        my_file.write(item)
 
-        if (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0) == 0:
-            false_alarm = 0
-        else:
-            false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0))
+            # prepare for testing the model
+            final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
 
-        # calculate the Cumulative Matching Characteristic
-        ranking = pu.calculate_CMC(adjustable, predictions)
-        ranking_matrices.append(ranking)
+            if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+                print('more final testing labels')
+                final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
-        print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \nCMC: \n%s \nDetection rate: %s  False alarm: %s'
-              % (name, accuracy, precision, str(matrix), str(ranking), str(detection_rate), str(false_alarm)))
+            ################################################################################################################
+            #   Test
+            ################################################################################################################
+            predictions = model.predict([test_data[0, :], test_data[1, :]])
+
+            ################################################################################################################
+            #   Process the results
+            ################################################################################################################
+
+            if adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
+                new_thing = zip(predictions, final_testing_labels)
+                print(new_thing[0:50])
+
+            # create confusion matrix
+            matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
+            confusion_matrices.append(matrix)
+            accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
+            if not matrix[0] == 0:
+                precision = (matrix[0] * 1.0 / (matrix[0] + matrix[1] * 1.0))
+            else:
+                precision = 0
+
+            # [upon Gregor's request] create a 0.1 ratio version of the confusion matrix where for each positive instance
+            #                                                                              there are 9 negative instances
+            gregor_matrix = pu.make_gregor_matrix(adjustable, predictions, final_testing_labels)
+            print(gregor_matrix)
+            gregor_matrices.append(gregor_matrix)
+
+            if (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0) == 0:
+                detection_rate = 0
+            else:
+                detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0))
+
+            if (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0) == 0:
+                false_alarm = 0
+            else:
+                false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0))
+
+            # calculate the Cumulative Matching Characteristic
+            ranking = pu.calculate_CMC(adjustable, predictions)
+            ranking_matrices.append(ranking)
+
+            print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \nCMC: \n%s \nDetection rate: %s  False alarm: %s'
+                  % (name, accuracy, precision, str(matrix), str(ranking), str(detection_rate), str(false_alarm)))
 
     del model
     return names, confusion_matrices, ranking_matrices, gregor_matrices
@@ -592,6 +713,8 @@ def super_main(adjustable):
                     ####################################################################################################
                     #   Prepare data for when we train and test on multiple datasets
                     ####################################################################################################
+                    # TODO: remember that only the last ranking in the ranking matrix will be tested on.
+                    # The other rankings will be saved for only testing later.
                     for index in range(len(adjustable.datasets_train)):
                         ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
                             adjustable.datasets_train[index], adjustable)
@@ -620,8 +743,6 @@ def super_main(adjustable):
                     ####################################################################################################
                     #   Prepare data for when we train and test on a single dataset
                     ####################################################################################################
-                    # TODO: remember that only the last ranking in the ranking matrix will be tested on.
-                    # The other rankings will be saved for only testing later.
                     ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
                         adjustable.dataset_test, adjustable)
                     if adjustable.cost_module_type in ['euclidean', 'cosine']:
@@ -652,9 +773,12 @@ def super_main(adjustable):
         print('%0.2f mins' % ((st-ss)/60))
 
         ################################################################################################################
-        #   Merge the training data
+        #   Merge the training data.
+        #   Here we decide how to merge: to mix or to order by using adjustable.mix
+        #   Also for training on multiple datasets + testing: decide if we include test set in the training to be mixed:
+        #   by using adjustable.mix_with_test
         ################################################################################################################
-        # TODO: update ddl.merge_datasets()
+        # TODO: update ddl.merge_datasets(), what if empty list is given in parameters?
         merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
 
         ################################################################################################################

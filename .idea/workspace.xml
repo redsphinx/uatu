@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_image.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_image.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
     </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -56,14 +57,14 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.54375666">
+    <splitter split-orientation="horizontal" split-proportion="0.4941302">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="104">
-                  <caret line="664" column="31" lean-forward="true" selection-start-line="664" selection-start-column="31" selection-end-line="664" selection-end-column="31" />
+                <state relative-caret-position="599">
+                  <caret line="725" column="51" lean-forward="false" selection-start-line="725" selection-start-column="51" selection-end-line="725" selection-end-column="51" />
                   <folding>
                     <element signature="e#0#12#0" expanded="true" />
                   </folding>
@@ -100,8 +101,8 @@
           <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="540">
-                  <caret line="359" column="50" lean-forward="false" selection-start-line="359" selection-start-column="50" selection-end-line="359" selection-end-column="50" />
+                <state relative-caret-position="435">
+                  <caret line="532" column="41" lean-forward="false" selection-start-line="532" selection-start-column="41" selection-end-line="532" selection-end-column="41" />
                   <folding>
                     <element signature="e#0#12#0" expanded="true" />
                   </folding>
@@ -1200,8 +1201,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="664" column="31" lean-forward="true" selection-start-line="664" selection-start-column="31" selection-end-line="664" selection-end-column="31" />
+        <state relative-caret-position="435">
+          <caret line="532" column="41" lean-forward="false" selection-start-line="532" selection-start-column="41" selection-end-line="532" selection-end-column="41" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>

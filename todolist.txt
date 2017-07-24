@@ -62,7 +62,7 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 
 
 ###
-
+shit changed a lot. check the commit messages and the comments in the code.
 
 ###
 
