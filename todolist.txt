@@ -53,7 +53,10 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 24 july
 -------
 . fix pipelining for mixing data
+.. create variables dataset_train and dataset_test, to distinct between training and testing
+. fix siamese_cnn_{image, video}.py to contain options for mixing
 . optimize ranking
+. make a clear structure for thesis
 
 
 

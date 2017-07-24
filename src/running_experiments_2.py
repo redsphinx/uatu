@@ -1904,6 +1904,18 @@ def test_cnn_with_save():
     cnn.super_main(a)
 
 
+def test_mixing():
+    a = ProjectVariable()
+    a.experiment_name = 'test mixing'
+    a.epochs = 100
+    a.batch_size = 32
+    a.name_indication = 'dataset_name'
+    a.save_points = [100]
+    a.ranking_number = 100
+    a.iterations = 1
+    a.datasets_train = ['prid450', 'cuhk01']
+    a.dataset_test = 'viper'
+    scn.super_main(a)
 
 
 def main():
@@ -1911,6 +1923,6 @@ def main():
     # print(sys.argv)
     #
     # if num == '1':
-    test_cnn_with_save()
+    test_mixing()
 
 main()

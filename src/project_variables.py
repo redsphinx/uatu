@@ -62,8 +62,12 @@ class ProjectVariable(object):
         self._loss_function = 'categorical_crossentropy' # string
         # the type of pooling operation. choice of: 'avg_pooling' and 'max_pooling'
         self._pooling_type = 'max_pooling'
-        # the datasets to load. choice of: 'viper', 'cuhk01', 'cuhk02', 'market', 'grid', 'prid450', 'caviar'
-        self._datasets = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
+        # the datasets to train on, in order. choice of: 'viper', 'cuhk01', 'cuhk02', 'market', 'grid', 'prid450',
+        # 'caviar'. Can choose any number of datasets
+        self._datasets_train = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
+        # the datasets to test on. choice of: 'viper', 'cuhk01', 'cuhk02', 'market', 'grid', 'prid450', 'caviar'
+        # Can choose only 1 dataset
+        self._dataset_test = 'viper' # string
         # indicate if we wish to prime the network
         self._priming = False
         # for how many epochs we want to train on the priming train set
@@ -347,16 +351,25 @@ class ProjectVariable(object):
     def pooling_type(self, value):
         self._pooling_type = value
 
-    # self._datasets = None  # bool
+    # self._datasets_train = []  # list of strings
     @property
-    def datasets(self):
-        return self._datasets
+    def datasets_train(self):
+        return self._datasets_train
 
-    @datasets.setter
-    def datasets(self, value):
+    @datasets_train.setter
+    def datasets_train(self, value):
         if value == 'all':
             value = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
-        self._datasets = value
+        self.datasets_train = value
+
+    # self._dataset_test = ''  # string
+    @property
+    def dataset_test(self):
+        return self._dataset_test
+
+    @dataset_test.setter
+    def dataset_test(self, value):
+        self.dataset_test = value
 
     # self._priming = False  # bool
     @property
