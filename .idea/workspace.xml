@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic_data_loading.py" afterPath="$PROJECT_DIR$/src/dynamic_data_loading.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_image.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_image.py" />
     </list>
     <ignored path="uatu.iws" />
@@ -57,14 +56,14 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.65688366">
+    <splitter split-orientation="horizontal" split-proportion="0.54375666">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="539">
-                  <caret line="610" column="57" lean-forward="true" selection-start-line="610" selection-start-column="57" selection-end-line="610" selection-end-column="57" />
+                <state relative-caret-position="104">
+                  <caret line="664" column="31" lean-forward="true" selection-start-line="664" selection-start-column="31" selection-end-line="664" selection-end-column="31" />
                   <folding>
                     <element signature="e#0#12#0" expanded="true" />
                   </folding>
@@ -98,24 +97,22 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="364" column="0" lean-forward="false" selection-start-line="364" selection-start-column="0" selection-end-line="364" selection-end-column="0" />
+                <state relative-caret-position="540">
+                  <caret line="359" column="50" lean-forward="false" selection-start-line="359" selection-start-column="50" selection-end-line="359" selection-end-column="50" />
                   <folding>
                     <element signature="e#0#12#0" expanded="true" />
-                    <marker date="1500908637581" expanded="true" signature="24167:24231" ph="..." />
-                    <marker date="1500908637581" expanded="true" signature="25578:30539" ph="..." />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="284">
+                <state relative-caret-position="239">
                   <caret line="432" column="87" lean-forward="false" selection-start-line="432" selection-start-column="87" selection-end-line="432" selection-end-column="87" />
                   <folding />
                 </state>
@@ -145,8 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>video</find>
-      <find>sgd</find>
       <find>lstm_units</find>
       <find>o</find>
       <find>comp</find>
@@ -175,11 +170,10 @@
       <find>optimizer</find>
       <find>test</find>
       <find>adjustable.datasets_train</find>
+      <find>confusion_matrices</find>
+      <find>confusion</find>
     </findStrings>
     <replaceStrings>
-      <replace>a_dir</replace>
-      <replace>min_seq</replace>
-      <replace>cosine</replace>
       <replace>dp.</replace>
       <replace>normal settings</replace>
       <replace>save</replace>
@@ -207,6 +201,9 @@
       <replace>mix</replace>
       <replace>mix_with_test</replace>
       <replace>datasets_train_h5</replace>
+      <replace>ranking</replace>
+      <replace>ranking_matrices</replace>
+      <replace>gregor</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -1195,7 +1192,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
+        <state relative-caret-position="239">
           <caret line="432" column="87" lean-forward="false" selection-start-line="432" selection-start-column="87" selection-end-line="432" selection-end-column="87" />
           <folding />
         </state>
@@ -1203,8 +1200,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="539">
-          <caret line="610" column="57" lean-forward="true" selection-start-line="610" selection-start-column="57" selection-end-line="610" selection-end-column="57" />
+        <state relative-caret-position="104">
+          <caret line="664" column="31" lean-forward="true" selection-start-line="664" selection-start-column="31" selection-end-line="664" selection-end-column="31" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>

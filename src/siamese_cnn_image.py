@@ -538,6 +538,11 @@ def super_main(adjustable):
         confusion_matrices = np.zeros((adjustable.iterations, 4))
         ranking_matrices = np.zeros((adjustable.iterations, ranking_number))
         gregor_matrices = np.zeros((adjustable.iterations, 4))
+    else:
+        name = None
+        confusion_matrices = None
+        ranking_matrices = None
+        gregor_matrices = None
 
     ################################################################################################################
     #   Start a number of experiment iterations
@@ -615,6 +620,8 @@ def super_main(adjustable):
                     ####################################################################################################
                     #   Prepare data for when we train and test on a single dataset
                     ####################################################################################################
+                    # TODO: remember that only the last ranking in the ranking matrix will be tested on.
+                    # The other rankings will be saved for only testing later.
                     ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
                         adjustable.dataset_test, adjustable)
                     if adjustable.cost_module_type in ['euclidean', 'cosine']:
@@ -643,50 +650,71 @@ def super_main(adjustable):
 
         st = time.time()
         print('%0.2f mins' % ((st-ss)/60))
+
+        ################################################################################################################
+        #   Merge the training data
+        ################################################################################################################
         # TODO: update ddl.merge_datasets()
         merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
-        # run main
+
+        ################################################################################################################
+        #   Run main()
+        ################################################################################################################
         # name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
         #                                               merged_training_neg)
         # TODO: update `main()`
         name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, datasets_train_h5, dataset_test_h5,
                                                                      all_ranking, merged_training_pos,
                                                                      merged_training_neg)
-        # store results
-        confusion_matrices[iter] = confusion_matrix
-        ranking_matrices[iter] = ranking_matrix
-        gregor_matrices[iter] = gregor_matrix
+
+        if dataset_test_h5 is not None:
+            # store results
+            confusion_matrices[iter] = confusion_matrix
+            ranking_matrices[iter] = ranking_matrix
+            gregor_matrices[iter] = gregor_matrix
 
     stop = time.time()
     total_time = stop - start
 
-    matrix_means = np.zeros((number_of_datasets, 4))
-    matrix_std = np.zeros((number_of_datasets, 4))
-    ranking_means = np.zeros((number_of_datasets, ranking_number))
-    ranking_std = np.zeros((number_of_datasets, ranking_number))
-    gregor_matrix_means = np.zeros((number_of_datasets, 4))
-    gregor_matrix_std = np.zeros((number_of_datasets, 4))
-    # for each dataset, create confusion and ranking matrices
-    for dataset in range(number_of_datasets):
-        matrices = np.zeros((adjustable.iterations, 4))
-        rankings = np.zeros((adjustable.iterations, ranking_number))
-        g_matrices = np.zeros((adjustable.iterations, 4))
+    ################################################################################################################
+    #   Calculate the means and standard deviations and log the results
+    ################################################################################################################
 
-        for iter in range(adjustable.iterations):
-            matrices[iter] = confusion_matrices[iter][dataset]
-            rankings[iter] = ranking_matrices[iter][dataset]
-            g_matrices[iter] = gregor_matrices[iter][dataset]
+    matrix_means = np.mean(confusion_matrices, axis=0)
+    matrix_std = np.std(confusion_matrices, axis=0)
+    ranking_means = np.mean(ranking_matrices, axis=0)
+    ranking_std = np.std(ranking_matrices, axis=0)
+    gregor_matrix_means = np.mean(gregor_matrices, axis=0)
+    gregor_matrix_std = np.std(gregor_matrices, axis=0)
 
-        # calculate the mean and std
-        matrix_means[dataset] = np.mean(matrices, axis=0)
-        matrix_std[dataset] = np.std(matrices, axis=0)
-        ranking_means[dataset] = np.mean(rankings, axis=0)
-        ranking_std[dataset] = np.std(rankings, axis=0)
-        gregor_matrix_means[dataset] = np.mean(g_matrices, axis=0)
-        gregor_matrix_std[dataset] = np.std(g_matrices, axis=0)
+    # matrix_means = np.zeros((1, 4))
+    # matrix_std = np.zeros((1, 4))
+    # ranking_means = np.zeros((1, ranking_number))
+    # ranking_std = np.zeros((1, ranking_number))
+    # gregor_matrix_means = np.zeros((1, 4))
+    # gregor_matrix_std = np.zeros((1, 4))
+    #
+    # # for each dataset, create confusion and ranking matrices
+    # for dataset in range(number_of_datasets):
+    #     matrices = np.zeros((adjustable.iterations, 4))
+    #     rankings = np.zeros((adjustable.iterations, ranking_number))
+    #     g_matrices = np.zeros((adjustable.iterations, 4))
+    #
+    #     for iter in range(adjustable.iterations):
+    #         matrices[iter] = confusion_matrices[iter][dataset]
+    #         rankings[iter] = ranking_matrices[iter][dataset]
+    #         g_matrices[iter] = gregor_matrices[iter][dataset]
+    #
+    #     # calculate the mean and std
+    #     matrix_means[dataset] = np.mean(matrices, axis=0)
+    #     matrix_std[dataset] = np.std(matrices, axis=0)
+    #     ranking_means[dataset] = np.mean(rankings, axis=0)
+    #     ranking_std[dataset] = np.std(rankings, axis=0)
+    #     gregor_matrix_means[dataset] = np.mean(g_matrices, axis=0)
+    #     gregor_matrix_std[dataset] = np.std(g_matrices, axis=0)
 
     # log the results
     if adjustable.log_experiment:
         file_name = os.path.basename(__file__)
-        pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, name, matrix_means, matrix_std, ranking_means, ranking_std,
-                        total_time, gregor_matrix_means, gregor_matrix_std)
+        pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, gregor_matrix_means, gregor_matrix_std)
