@@ -61,6 +61,11 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 . make a clear structure for thesis
 
 
+###
+
+
+###
+
 
 21 july
 -------

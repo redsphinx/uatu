@@ -355,7 +355,8 @@ def get_model(adjustable):
     return model
 
 
-def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
+# def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
+def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, merged_training_neg):
     """Runs a the whole training and testing phase
     :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
                 ranking for each dataset
@@ -496,8 +497,13 @@ def super_main(adjustable):
     # note: this will always be 1 dataset
     # update on note: always 1 dataset_test, but multiple datasets_train
     # all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
-    datasets_train = ddl.load_datasets_from_h5(adjustable.datasets_train)
-    datset_test = ddl.load_datasets_from_h5([adjustable.dataset_test])
+    datasets_train_h5 = ddl.load_datasets_from_h5(adjustable.datasets_train)
+    dataset_test_h5 = ddl.load_datasets_from_h5([adjustable.dataset_test])
+
+    ################################################################################################################
+    #   Get instructions on what to do: train only on 1 dataset, train + test, train mixed, load mixed, etc
+    ################################################################################################################
+
 
     if adjustable.ranking_number == 'half':
         # the_dataset_name = adjustable.datasets[0]
@@ -578,7 +584,7 @@ def super_main(adjustable):
         # name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
         #                                               merged_training_neg)
         # TODO: update `main()`
-        name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, datasets_train, dataset_test,
+        name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, datasets_train_h5, dataset_test_h5,
                                                                      all_ranking, merged_training_pos,
                                                                      merged_training_neg)
         # store results

@@ -45,7 +45,7 @@ class ProjectVariable(object):
         # number of times to repeat experiment
         self._iterations = 10  # int
         # the experiment name
-        self._experiment_name = None  # string
+        self._experiment_name = 'no name'  # string
         # the base learning rate
         self._learning_rate = 0.00001 # float
         # the number of convolutional layers in the siamese head
@@ -64,10 +64,10 @@ class ProjectVariable(object):
         self._pooling_type = 'max_pooling'
         # the datasets to train on, in order. choice of: 'viper', 'cuhk01', 'cuhk02', 'market', 'grid', 'prid450',
         # 'caviar'. Can choose any number of datasets
-        self._datasets_train = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
+        self._datasets_train = None # list of strings
         # the datasets to test on. choice of: 'viper', 'cuhk01', 'cuhk02', 'market', 'grid', 'prid450', 'caviar'
         # Can choose only 1 dataset
-        self._dataset_test = 'viper' # string
+        self._dataset_test = None # string
         # indicate if we wish to prime the network
         self._priming = False
         # for how many epochs we want to train on the priming train set
@@ -77,10 +77,16 @@ class ProjectVariable(object):
         # name of the weights that we want to load.
         # note: this is for the entire network
         self._load_weights_name = None # string
-        # for priming. if True, indicates to only test. if False, training will happen as well
+        # if True test, will happen as well
+        self._test = True
+        # if True, indicates to only test. if False, training will happen as well
         self._only_test = False # bool
-        # for scnn. if True, indicates to only train. no ranking happens
+        # if True, indicates to only train. no ranking happens
         self._only_train = False  # bool
+        # if True, mix the data
+        self._mix = False
+        # if True, mix the dataset for the dataset we want to test wtih as well
+        self._mix_with_test = False
         # size of kernel in conv2D
         # self._kernel = (3, 3, 3) # tuple for video
         self._kernel = (3, 3)  # tuple for image
@@ -613,3 +619,31 @@ class ProjectVariable(object):
     @optimizer.setter
     def optimizer(self, value):
         self._optimizer = value
+
+    # if True test, will happen as well
+    @property
+    def test(self):
+        return self._test
+
+    @test.setter
+    def test(self, value):
+        self._test = value
+        
+    # if True, mix the data
+    @property
+    def mix(self):
+        return self._mix
+
+    @mix.setter
+    def mix(self, value):
+        self._mix = value
+    
+    
+    # if True, mix the dataset for the dataset we want to test wtih as well
+    @property
+    def mix_with_test(self):
+        return self._mix_with_test
+
+    @mix_with_test.setter
+    def mix_with_test(self, value):
+        self._mix_with_test = value
