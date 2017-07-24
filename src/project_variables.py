@@ -77,6 +77,7 @@ class ProjectVariable(object):
         # name of the weights that we want to load.
         # note: this is for the entire network
         self._load_weights_name = None # string
+        # unused
         # if True test, will happen as well
         self._test = True
         # if True, indicates to only test. if False, training will happen as well

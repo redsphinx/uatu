@@ -494,26 +494,39 @@ def super_main(adjustable):
     Note: set iterations to 1 if you want to save weights
     """
     # load the datasets from h5
-    # note: this will always be 1 dataset
-    # update on note: always 1 dataset_test, but multiple datasets_train
     # all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
+
+    ################################################################################################################
+    #   Load datasets, note: always 1 dataset_test, but multiple datasets_train
+    ################################################################################################################
     datasets_train_h5 = ddl.load_datasets_from_h5(adjustable.datasets_train)
     dataset_test_h5 = ddl.load_datasets_from_h5([adjustable.dataset_test])
 
     ################################################################################################################
-    #   Get instructions on what to do: train only on 1 dataset, train + test, train mixed, load mixed, etc
+    #   Set the ranking number.
     ################################################################################################################
-
-
-    if adjustable.ranking_number == 'half':
-        # the_dataset_name = adjustable.datasets[0]
-        ranking_number = pc.RANKING_DICT[adjustable.dataset_test]
-        # DONE TODO: distinguish between datasets to train on and the one to test on
-        # the one to test on, we take their ranking number
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
+    if adjustable.dataset_test is None:
+        if adjustable.datasets_train is not None:
+            if adjustable.ranking_number is None:
+                print('Note: Only training will be performed.')
+                ranking_number = None
+            else:
+                print('Warning: No ranking number needed, ranking number defaults to `None`.')
+                print('Note: Only training will be performed.')
+                ranking_number = None
+        else:
+            print('Error: No training data specified, ranking number defaults to `None`.')
+            ranking_number = None
     else:
-        ranking_number = None
+        print('Note: Testing (Ranking) will also be performed.')
+        if adjustable.ranking_number == 'half':
+            ranking_number = pc.RANKING_DICT[adjustable.dataset_test]
+        elif isinstance(adjustable.ranking_number, int):
+            ranking_number = adjustable.ranking_number
+        else:
+            print('Error: Unknown configuration, ranking number defaults to `None`.')
+            ranking_number = None
+
 
     # DONE TODO: make it only for the dataset we test on
     # arrays for storing results
