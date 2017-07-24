@@ -54,6 +54,8 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 -------
 . fix pipelining for mixing data
 .. create variables dataset_train and dataset_test, to distinct between training and testing
+.. don't mess with ddl.load_datasets_from_h5()
+
 . fix siamese_cnn_{image, video}.py to contain options for mixing
 . optimize ranking
 . make a clear structure for thesis

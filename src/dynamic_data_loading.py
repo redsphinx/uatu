@@ -427,7 +427,7 @@ def load_datasets_from_h5(list_of_datasets):
 
     return h5_data
 
-def create_training_and_ranking_set(name, adjustable):
+def create_training_and_ranking_set(name, adjustable, ranking=None):
     """ Do this at the beginning of each iteration
     """
     if name == 'viper':

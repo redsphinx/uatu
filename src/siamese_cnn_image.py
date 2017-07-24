@@ -494,21 +494,25 @@ def super_main(adjustable):
     """
     # load the datasets from h5
     # note: this will always be 1 dataset
-    all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
+    # update on note: always 1 dataset_test, but multiple datasets_train
+    # all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
+    datasets_train = ddl.load_datasets_from_h5(adjustable.datasets_train)
+    datset_test = ddl.load_datasets_from_h5([adjustable.dataset_test])
 
     if adjustable.ranking_number == 'half':
-        the_dataset_name = adjustable.datasets[0]
-        ranking_number = pc.RANKING_DICT[the_dataset_name]
-        # TODO: distinguish between datasets to train on and the one to test on
+        # the_dataset_name = adjustable.datasets[0]
+        ranking_number = pc.RANKING_DICT[adjustable.dataset_test]
+        # DONE TODO: distinguish between datasets to train on and the one to test on
         # the one to test on, we take their ranking number
     elif isinstance(adjustable.ranking_number, int):
         ranking_number = adjustable.ranking_number
     else:
         ranking_number = None
 
-    # TODO: make it only for the dataset we test on
+    # DONE TODO: make it only for the dataset we test on
     # arrays for storing results
-    number_of_datasets = len(adjustable.datasets)
+    # number_of_datasets = len(adjustable.datasets)
+    number_of_datasets = 1
     name = np.zeros(number_of_datasets)
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
     ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, ranking_number))
@@ -521,28 +525,62 @@ def super_main(adjustable):
         all_ranking, all_training_pos, all_training_neg = [], [], []
         # create training and ranking set for all datasets
         ss = time.time()
-        for name in range(len(adjustable.datasets)):
-            # TODO: only create ranking set for the dataset we test on
-            # TODO: make only training set for the datasets we train on: ddl.create_mixed_training_set()
-            ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name], adjustable)
-            # labels have different meanings in `euclidean` case, 0 for match and 1 for mismatch
+
+        # DONE TODO: only create ranking set for the dataset we test on
+        # DONE TODO: make only training set for the datasets we train on: ddl.create_mixed_training_set()
+        # TODO: modify `ddl.create_training_and_ranking_set` to handle `ranking=False`
+        ################################################################################################################
+        #   Prepare data for the training sets only
+        ################################################################################################################
+        for index in range(len(adjustable.datasets_train)):
+            training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets_train[index],
+                                                                             adjustable, ranking=False)
             if adjustable.cost_module_type in ['euclidean', 'cosine']:
-                ranking = pu.flip_labels(ranking)
                 training_pos = pu.flip_labels(training_pos)
                 training_neg = pu.flip_labels(training_neg)
 
-            # data gets appended in order
-            all_ranking.append(ranking)
             all_training_pos.append(training_pos)
             all_training_neg.append(training_neg)
-        # put all the training data together
+
+        ################################################################################################################
+        #   Prepare data for the training and ranking on the test sets
+        ################################################################################################################
+        ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.dataset_test, adjustable,
+                                                                                  ranking=True)
+        if adjustable.cost_module_type in ['euclidean', 'cosine']:
+            ranking = pu.flip_labels(ranking)
+            training_pos = pu.flip_labels(training_pos)
+            training_neg = pu.flip_labels(training_neg)
+
+        all_ranking.append(ranking)
+        all_training_pos.append(training_pos)
+        all_training_neg.append(training_neg)
+
+        # for name in range(len(adjustable.datasets)):
+        #     ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name], adjustable)
+        #     # labels have different meanings in `euclidean` case, 0 for match and 1 for mismatch
+        #     if adjustable.cost_module_type in ['euclidean', 'cosine']:
+        #         ranking = pu.flip_labels(ranking)
+        #         training_pos = pu.flip_labels(training_pos)
+        #         training_neg = pu.flip_labels(training_neg)
+        #
+        #     # data gets appended in order
+        #     all_ranking.append(ranking)
+        #     all_training_pos.append(training_pos)
+        #     all_training_neg.append(training_neg)
+        # # put all the training data together
+
         st = time.time()
         print('%0.2f mins' % ((st-ss)/60))
         # TODO: update ddl.merge_datasets()
         merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
         # run main
-        name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
-                                                      merged_training_neg)
+        # name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
+        #                                               merged_training_neg)
+        # TODO: update `main()`
+        name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, datasets_train, dataset_test,
+                                                                     all_ranking, merged_training_pos,
+                                                                     merged_training_neg)
         # store results
         confusion_matrices[iter] = confusion_matrix
         ranking_matrices[iter] = ranking_matrix
