@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic_data_loading.py" afterPath="$PROJECT_DIR$/src/dynamic_data_loading.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments_3.py" afterPath="$PROJECT_DIR$/src/running_experiments_3.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_image.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_image.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
     </list>
@@ -57,82 +59,62 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4941302">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="599">
-                  <caret line="725" column="51" lean-forward="false" selection-start-line="725" selection-start-column="51" selection-end-line="725" selection-end-column="51" />
-                  <folding>
-                    <element signature="e#0#12#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="600">
-                  <caret line="79" column="16" lean-forward="true" selection-start-line="79" selection-start-column="16" selection-end-line="79" selection-end-column="16" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="440">
-                  <caret line="1909" column="18" lean-forward="true" selection-start-line="1909" selection-start-column="18" selection-end-line="1909" selection-end-column="18" />
-                  <folding>
-                    <element signature="e#0#31#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="435">
-                  <caret line="532" column="41" lean-forward="false" selection-start-line="532" selection-start-column="41" selection-end-line="532" selection-end-column="41" />
-                  <folding>
-                    <element signature="e#0#12#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="239">
-                  <caret line="432" column="87" lean-forward="false" selection-start-line="432" selection-start-column="87" selection-end-line="432" selection-end-column="87" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="priming.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/priming.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="364">
-                  <caret line="211" column="37" lean-forward="true" selection-start-line="211" selection-start-column="37" selection-end-line="211" selection-end-column="37" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="632">
+              <caret line="691" column="21" lean-forward="true" selection-start-line="691" selection-start-column="21" selection-end-line="691" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="running_experiments_3.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/running_experiments_3.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1573">
+              <caret line="1909" column="18" lean-forward="true" selection-start-line="1909" selection-start-column="18" selection-end-line="1909" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="561" column="49" lean-forward="true" selection-start-line="561" selection-start-column="49" selection-end-line="561" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -143,8 +125,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>lstm_units</find>
-      <find>o</find>
       <find>comp</find>
       <find>lstm</find>
       <find>pret</find>
@@ -158,7 +138,6 @@
       <find>ranking</find>
       <find>Sequential</find>
       <find>thing</find>
-      <find>save</find>
       <find>weights</find>
       <find>train</find>
       <find>train_netw</find>
@@ -173,6 +152,9 @@
       <find>adjustable.datasets_train</find>
       <find>confusion_matrices</find>
       <find>confusion</find>
+      <find>save</find>
+      <find>main</find>
+      <find>gra</find>
     </findStrings>
     <replaceStrings>
       <replace>dp.</replace>
@@ -258,11 +240,11 @@
         <option value="$PROJECT_DIR$/src/cnn_human_detection.py" />
         <option value="$PROJECT_DIR$/data/mpii/mapping_rid.txt" />
         <option value="$PROJECT_DIR$/src/testing_stuff.py" />
-        <option value="$PROJECT_DIR$/src/running_experiments_3.py" />
         <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
         <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
         <option value="$PROJECT_DIR$/src/project_variables.py" />
         <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
+        <option value="$PROJECT_DIR$/src/running_experiments_3.py" />
         <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
       </list>
     </option>
@@ -802,7 +784,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
-          <line>863</line>
+          <line>868</line>
           <option name="timeStamp" value="1175" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1139,14 +1121,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments_3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="1204" column="0" lean-forward="true" selection-start-line="1204" selection-start-column="0" selection-end-line="1204" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/running_experiments_1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="320">
@@ -1167,7 +1141,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
+        <state relative-caret-position="1573">
           <caret line="1909" column="18" lean-forward="true" selection-start-line="1909" selection-start-column="18" selection-end-line="1909" selection-end-column="18" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
@@ -1175,37 +1149,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/running_experiments_3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="79" column="16" lean-forward="true" selection-start-line="79" selection-start-column="16" selection-end-line="79" selection-end-column="16" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/priming.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="211" column="37" lean-forward="true" selection-start-line="211" selection-start-column="37" selection-end-line="211" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="432" column="87" lean-forward="false" selection-start-line="432" selection-start-column="87" selection-end-line="432" selection-end-column="87" />
+        <state relative-caret-position="289">
+          <caret line="206" column="0" lean-forward="true" selection-start-line="206" selection-start-column="0" selection-end-line="206" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="532" column="41" lean-forward="false" selection-start-line="532" selection-start-column="41" selection-end-line="532" selection-end-column="41" />
+        <state relative-caret-position="632">
+          <caret line="691" column="21" lean-forward="true" selection-start-line="691" selection-start-column="21" selection-end-line="691" selection-end-column="21" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="561" column="49" lean-forward="true" selection-start-line="561" selection-start-column="49" selection-end-line="561" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>

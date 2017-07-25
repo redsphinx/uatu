@@ -365,10 +365,24 @@ def get_negative_sample(train_pos, train_neg):
 
 
 def get_final_training_data(adjustable, train_pos, train_neg):
+
     pass
 
 
-def save_non_target_datasets_rankings():
+def get_ranking(all_ranking):
+    updated_ranking = []
+    return updated_ranking
+
+
+def save_ranking(adjustable, list_rankings):
+    # [for priming] make a record of the ranking selection for each dataset
+    if adjustable.save_inbetween and adjustable.iterations == 1:
+        # file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
+        file_name = '%s_ranking_%s.txt' % (adjustable.dataset_test, adjustable.use_gpu)
+        file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
+        with open(file_name, 'w') as my_file:
+            for item in this_ranking:
+                my_file.write(item)
     pass
 
 
@@ -387,6 +401,9 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
     """
     model = get_model(adjustable)
 
+    ############################################################################################################
+    #   Training phase
+    ############################################################################################################
     if adjustable.test_only == False:
         for epoch in range(adjustable.epochs):
             print('Epoch %d/%d' % (epoch, adjustable.epochs))
@@ -413,13 +430,16 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
                 final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
-            ################################################################################################################
-            #   Train the network, save if specified
-            ################################################################################################################
+            ############################################################################################################
+            #   Train the network
+            ############################################################################################################
 
             # train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list)
             train_network(adjustable, model, final_training_data, final_training_labels, training_h5, testing_h5)
 
+            ############################################################################################################
+            #   Save the model + weights (if specified with adjustable.save_inbetween and adjustable.save_points)
+            ############################################################################################################
             time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
 
             if adjustable.save_inbetween and adjustable.iterations == 1:
@@ -438,10 +458,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
                     model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
                     print('MODEL SAVED at epoch %d' % (epoch + 1))
 
-            confusion_matrices = []
-            gregor_matrices = []
-            ranking_matrices = []
-            names = []
+
     #
     #     if all_ranking is None:
     #         if training_h5 is not None:
@@ -523,91 +540,103 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
     # ranking_matrices = []
     # names = []
 
-
+    ############################################################################################################
+    #   Testing phase
+    ############################################################################################################
     if all_ranking is not None:
+        confusion_matrices = []
+        gregor_matrices = []
+        ranking_matrices = []
         # TODO: go through all the ranking files and save all the ones before last. Only test on the last.
-        # TODO: create method save_non_target_datasets_rankings()
-        updated_ranking = save_non_target_datasets_rankings()
+        # TODO: create method get_ranking()
+        # TODO: creaet method save_ranking()
+        this_ranking, other_rankings = get_ranking(all_ranking)
+        save_ranking(adjustable, this_ranking)
+
+        if other_rankings is not None:
+            save_ranking(adjustable, other_rankings)
+
+        # all_ranking = save_non_target_datasets_rankings(all_ranking)
 
 
         # HERE WE ARE WHEN LEAVING OFFICE
 
 
 
-        # TODO: modify that this is only for the dataset that we test on
-        for dataset in range(len(adjustable.datasets)):
+        # DONE TODO: modify that this is only for the dataset that we test on
+        # dataset = 0
+        # name = adjustable.dataset_test
+        # for dataset in range(len(adjustable.datasets)):
             ################################################################################################################
             #   Prepare the testing/ranking data
             ################################################################################################################
-            name = adjustable.datasets[dataset]
-            names.append(name)
-            this_ranking = all_ranking[dataset]
-            test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
-            test_data = np.asarray(test_data)
+        # this_ranking = all_ranking[dataset]
 
-            # [for priming] make a record of the ranking selection for each dataset
-            if adjustable.save_inbetween and adjustable.iterations == 1:
-                # file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
-                file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
-                file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
-                with open(file_name, 'w') as my_file:
-                    for item in this_ranking:
-                        my_file.write(item)
+        # TODO: update ddl.grab_em_by_the_keys() with new parameters
+        # test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
+        test_data = ddl.grab_em_by_the_keys(this_ranking, training_h5, testing_h5)
+        test_data = np.asarray(test_data)
 
-            # prepare for testing the model
-            final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
 
-            if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-                print('more final testing labels')
-                final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
+        # prepare for testing the model
+        final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
 
-            ################################################################################################################
-            #   Test
-            ################################################################################################################
-            predictions = model.predict([test_data[0, :], test_data[1, :]])
+        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+            print('more final testing labels')
+            final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
-            ################################################################################################################
-            #   Process the results
-            ################################################################################################################
+        ################################################################################################################
+        #   Test
+        ################################################################################################################
+        predictions = model.predict([test_data[0, :], test_data[1, :]])
 
-            if adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
-                new_thing = zip(predictions, final_testing_labels)
-                print(new_thing[0:50])
+        ################################################################################################################
+        #   Process the results
+        ################################################################################################################
 
-            # create confusion matrix
-            matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
-            confusion_matrices.append(matrix)
-            accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
-            if not matrix[0] == 0:
-                precision = (matrix[0] * 1.0 / (matrix[0] + matrix[1] * 1.0))
-            else:
-                precision = 0
+        if adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
+            new_thing = zip(predictions, final_testing_labels)
+            print(new_thing[0:50])
 
-            # [upon Gregor's request] create a 0.1 ratio version of the confusion matrix where for each positive instance
-            #                                                                              there are 9 negative instances
-            gregor_matrix = pu.make_gregor_matrix(adjustable, predictions, final_testing_labels)
-            print(gregor_matrix)
-            gregor_matrices.append(gregor_matrix)
+        # create confusion matrix
+        matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
+        confusion_matrices.append(matrix)
+        accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
+        if not matrix[0] == 0:
+            precision = (matrix[0] * 1.0 / (matrix[0] + matrix[1] * 1.0))
+        else:
+            precision = 0
 
-            if (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0) == 0:
-                detection_rate = 0
-            else:
-                detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0))
+        # [upon Gregor's request] create a 0.1 ratio version of the confusion matrix where for each positive instance
+        #                                                                              there are 9 negative instances
+        gregor_matrix = pu.make_gregor_matrix(adjustable, predictions, final_testing_labels)
+        print(gregor_matrix)
+        gregor_matrices.append(gregor_matrix)
 
-            if (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0) == 0:
-                false_alarm = 0
-            else:
-                false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0))
+        if (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0) == 0:
+            detection_rate = 0
+        else:
+            detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0))
 
-            # calculate the Cumulative Matching Characteristic
-            ranking = pu.calculate_CMC(adjustable, predictions)
-            ranking_matrices.append(ranking)
+        if (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0) == 0:
+            false_alarm = 0
+        else:
+            false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0))
 
-            print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \nCMC: \n%s \nDetection rate: %s  False alarm: %s'
-                  % (name, accuracy, precision, str(matrix), str(ranking), str(detection_rate), str(false_alarm)))
+        # calculate the Cumulative Matching Characteristic
+        ranking = pu.calculate_CMC(adjustable, predictions)
+        ranking_matrices.append(ranking)
+
+        print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \nCMC: \n%s \nDetection rate: %s  False alarm: %s'
+              % (adjustable.dataset_test, accuracy, precision, str(matrix), str(ranking), str(detection_rate), str(false_alarm)))
+
+    else:
+        confusion_matrices = None
+        ranking_matrices = None
+        gregor_matrices = None
 
     del model
-    return names, confusion_matrices, ranking_matrices, gregor_matrices
+    return confusion_matrices, ranking_matrices, gregor_matrices
 
 
 def super_main(adjustable):
@@ -655,12 +684,12 @@ def super_main(adjustable):
     if dataset_test_h5 is not None:
         # number_of_datasets = 1
         # name = np.zeros(number_of_datasets)
-        name = adjustable.dataset_test
+        # name = adjustable.dataset_test
         confusion_matrices = np.zeros((adjustable.iterations, 4))
         ranking_matrices = np.zeros((adjustable.iterations, ranking_number))
         gregor_matrices = np.zeros((adjustable.iterations, 4))
     else:
-        name = None
+        # name = None
         confusion_matrices = None
         ranking_matrices = None
         gregor_matrices = None
@@ -676,12 +705,11 @@ def super_main(adjustable):
         # create training and ranking set for all datasets
         ss = time.time()
 
-
         if dataset_test_h5 is None:
             print('Training using all data in datasets_train.')
-        ################################################################################################################
-        #   Prepare data for when we only train using all data
-        ################################################################################################################
+            ############################################################################################################
+            #   Prepare data for when we only train using all data
+            ############################################################################################################
             if datasets_train_h5 is not None:
                 for index in range(len(adjustable.datasets_train)):
                     # TODO: modify `ddl.create_training_and_ranking_set` to handle `do_ranking=False`
@@ -787,7 +815,7 @@ def super_main(adjustable):
         # name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
         #                                               merged_training_neg)
         # TODO: update `main()`
-        name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, datasets_train_h5, dataset_test_h5,
+        confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, datasets_train_h5, dataset_test_h5,
                                                                      all_ranking, merged_training_pos,
                                                                      merged_training_neg)
 
@@ -804,12 +832,24 @@ def super_main(adjustable):
     #   Calculate the means and standard deviations and log the results
     ################################################################################################################
 
-    matrix_means = np.mean(confusion_matrices, axis=0)
-    matrix_std = np.std(confusion_matrices, axis=0)
-    ranking_means = np.mean(ranking_matrices, axis=0)
-    ranking_std = np.std(ranking_matrices, axis=0)
-    gregor_matrix_means = np.mean(gregor_matrices, axis=0)
-    gregor_matrix_std = np.std(gregor_matrices, axis=0)
+    if dataset_test_h5 is not None:
+        matrix_means = np.mean(confusion_matrices, axis=0)
+        matrix_std = np.std(confusion_matrices, axis=0)
+        ranking_means = np.mean(ranking_matrices, axis=0)
+        ranking_std = np.std(ranking_matrices, axis=0)
+        gregor_matrix_means = np.mean(gregor_matrices, axis=0)
+        gregor_matrix_std = np.std(gregor_matrices, axis=0)
+        name = adjustable.dataset_test
+    else:
+        matrix_means = None
+        matrix_std = None
+        ranking_means = None
+        ranking_std = None
+        gregor_matrix_means = None
+        gregor_matrix_std = None
+        name = None
+
+
 
     # matrix_means = np.zeros((1, 4))
     # matrix_std = np.zeros((1, 4))

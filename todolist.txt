@@ -50,6 +50,24 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+25 july
+-------
+. continue fixing pipeline for mixing data
+
+train_network()
+get_negative_sample
+get_final_training_data
+get_ranking
+save_ranking
+
+
+grab_em_by_the_keys()
+create_key_dataset_mapping()
+merge_datasets()
+create_training_and_ranking_set()
+load_datasets_from_h5()
+
+
 24 july
 -------
 . fix pipelining for mixing data
@@ -79,7 +97,6 @@ ranking, merged_training_pos, merged_training_neg -> main() -> siamese_cnn_image
 becomes final_training_data -> train_network() -> siamese_cnn_image.py 
 ^^ -> grab_em_by_the_keys() -> dynamic_data_loading.py
 ^^ -> create_key_dataset_mapping() -> dynamic_data_loading.py
-
 
 
 

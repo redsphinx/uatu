@@ -581,12 +581,17 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
     return key_dataset_mapping
 
 
-def grab_em_by_the_keys(key_list, h5_dataset_list):
+# TODO: update with new parameters `training_h5, testing_h5`
+def grab_em_by_the_keys(key_list, training_h5, testing_h5):
+# def grab_em_by_the_keys(key_list, h5_dataset_list):
     """ Returns a training set
     :param key_list:                list of keys
     :param key_dataset_mapping:     list of the participating h5 datasets
     :return:
     """
+
+    # TODO: make `training_h5, testing_h5` into h5_dataset_list
+
 
     # create mapping from keys to dataset
     key_dataset_mapping = create_key_dataset_mapping(key_list, h5_dataset_list)
