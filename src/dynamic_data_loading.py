@@ -443,7 +443,7 @@ def create_training_and_ranking_set(name, adjustable, do_ranking=True, do_traini
         ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.CUHK01_DATA_STORAGE, pc.CUHK01_FIXED,
                                                                   do_ranking, do_training, name)
     elif name == 'cuhk02':
-        ranking, training_pos, training_neg = dp.make_pairs_cuhk2(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_cuhk2(adjustable, do_ranking, do_training)
     elif name == 'market':
         ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.MARKET_DATA_STORAGE, pc.MARKET_FIXED,
                                                                   do_ranking, do_training, name)

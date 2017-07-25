@@ -611,12 +611,14 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
     return ranking, training_pos, training_neg
 
 
-def make_pairs_cuhk2(adjustable):
+def make_pairs_cuhk2(adjustable, do_ranking, do_training):
     """
     Makes pairs for CUHK02.
     This is needed because CUHK02 has 5 subdirectories.
-    If someone has time, just merge together the separate subdirectories and use method `make_image_pairs()` like how
-    I did on the other image datasets.
+    --
+    TODO: If someone has time, just merge together the separate subdirectories and use method `make_image_pairs()` like
+    how I did on the other image datasets.
+    --
 
     :param adjustable:      object of class ProjectVariable
     :return:                3 lists contianing labeled pairs, one list for ranking and two for training
@@ -624,6 +626,7 @@ def make_pairs_cuhk2(adjustable):
     top_project_data_storage = '../data/CUHK02'
     subdirs = ['P1', 'P2', 'P3', 'P4', 'P5']
     num_subdirs = len(subdirs)
+    name = 'cuhk02'
 
     # check if ranking_number is alright else fix it
     if adjustable.ranking_number == 'half':
@@ -670,33 +673,81 @@ def make_pairs_cuhk2(adjustable):
         if not os.path.exists(id_all_file):
             unique_id_and_all_images_cuhk2()
 
-        ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, 'cuhk02', 
-                                                        adapted_ranking_number)
+        if do_ranking is True and do_training is True:
+            ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, 'cuhk02',
+                                                            adapted_ranking_number)
 
-        ranking = make_negative_pairs(ranking_pos, 'ranking')
-        training_neg = make_negative_pairs(training_pos, 'training')
+            ranking = make_negative_pairs(ranking_pos, 'ranking')
+            training_neg = make_negative_pairs(training_pos, 'training')
 
-        ranking_all += ranking
-        training_pos_all += training_pos
-        training_neg_all += training_neg
+            ranking_all += ranking
+            training_pos_all += training_pos
+            training_neg_all += training_neg
+        elif do_ranking is False and do_training is False:
+            print('Error: ranking and training cannot both be false')
+            return
+        elif do_ranking is False and do_training is True:
+            # only train, only make the training files using all the data
+            training_pos = make_positive_pairs_training(id_all_file, unique_id_file, swapped_list_of_paths, name)
+            training_neg = make_negative_pairs(training_pos, 'training')
+            training_pos_all += training_pos
+            training_neg_all += training_neg
+            ranking_all = None
+        elif do_ranking is True and do_training is False:
+            # only test, only make the ranking file
+            # check first if there exists a ranking file of the correct name, load from it
+            ranking_file = '../ranking_files/%s_ranking_%s.txt' % (name, adjustable.use_gpu)
+            if not os.path.exists(ranking_file):
+                ranking_pos = make_positive_pairs_ranking(id_all_file, unique_id_file, swapped_list_of_paths, name,
+                                                          adapted_ranking_number)
+                ranking = make_negative_pairs(ranking_pos, 'ranking')
+                ranking_all += ranking
+            training_pos_all = None
+            training_neg_all = None
 
-    # merge together the ranking pairs in the proper way: such that we have N IDs and N^2 pairs where N pairs
-    # are positive
-    rank_all = []
-    for item in ranking_all:
-        the_label = int(item.strip().split(',')[-1])
-        if the_label == 1:
-            rank_all.append(item)
+    if do_ranking is True and do_training is False:
+        # only test, only make the ranking file
+        # check first if there exists a ranking file of the correct name, load from it
+        ranking_file = '../ranking_files/%s_ranking_%s.txt' % (name, adjustable.use_gpu)
+        if os.path.exists(ranking_file):
+            print('Loading ranking from file: `%s`' % ranking_file)
+            rank_all = list(np.genfromtxt(ranking_file, dtype=None))
+        else:
+            # merge together the ranking pairs in the proper way: such that we have N IDs and N^2 pairs where N pairs
+            # are positive
+            rank_all = []
+            for item in ranking_all:
+                the_label = int(item.strip().split(',')[-1])
+                if the_label == 1:
+                    rank_all.append(item)
 
-    list_0 = [rank_all[index].split(',')[0] for index in range(len(rank_all))]
-    list_1 = [rank_all[index].split(',')[1] for index in range(len(rank_all))]
+            list_0 = [rank_all[index].split(',')[0] for index in range(len(rank_all))]
+            list_1 = [rank_all[index].split(',')[1] for index in range(len(rank_all))]
 
-    rank_all = []
-    for img0 in range(len(list_0)):
-        for img1 in range(len(list_1)):
-            num = 1 if img0 == img1 else 0
-            line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
-            rank_all.append(line)
+            rank_all = []
+            for img0 in range(len(list_0)):
+                for img1 in range(len(list_1)):
+                    num = 1 if img0 == img1 else 0
+                    line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
+                    rank_all.append(line)
+    elif do_ranking is True and do_training is True:
+        # merge together the ranking pairs in the proper way: such that we have N IDs and N^2 pairs where N pairs
+        # are positive
+        rank_all = []
+        for item in ranking_all:
+            the_label = int(item.strip().split(',')[-1])
+            if the_label == 1:
+                rank_all.append(item)
+
+        list_0 = [rank_all[index].split(',')[0] for index in range(len(rank_all))]
+        list_1 = [rank_all[index].split(',')[1] for index in range(len(rank_all))]
+
+        rank_all = []
+        for img0 in range(len(list_0)):
+            for img1 in range(len(list_1)):
+                num = 1 if img0 == img1 else 0
+                line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
+                rank_all.append(line)
 
     return rank_all, training_pos_all, training_neg_all
 
