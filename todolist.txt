@@ -62,10 +62,10 @@ save_ranking
 
 
 grab_em_by_the_keys()
-create_key_dataset_mapping()
-merge_datasets()
-create_training_and_ranking_set()
-load_datasets_from_h5()
+DONE create_key_dataset_mapping()
+DONE merge_datasets()
+ create_training_and_ranking_set()
+DONE load_datasets_from_h5()
 
 
 24 july

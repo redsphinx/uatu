@@ -432,6 +432,7 @@ def load_datasets_from_h5(list_of_datasets):
         return h5_data
 
 
+# TODO
 def create_training_and_ranking_set(name, adjustable, do_ranking=True, do_training=True):
     """ Do this at the beginning of each iteration
     """
@@ -465,8 +466,8 @@ def create_training_and_ranking_set(name, adjustable, do_ranking=True, do_traini
     return ranking, training_pos, training_neg
 
 
-# TODO
-def merge_datasets(adjustable, list_training_pos, list_training_neg, balance=False):
+# DONE TODO
+def merge_datasets(adjustable, list_training_pos, list_training_neg):
     """ Merges specified datasets by shuffling together the positive and negative training instances.
         There will be many more negative instances than positive instances. This method needs to be excecuted
         once, right after 'create_trainin_and_ranking_set()'.
@@ -478,67 +479,72 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg, balance=Fal
                                     and positive instances.
     """
 
-
     if len(list_training_pos) == len(list_training_neg):
         number_of_datasets = len(list_training_neg)
     else:
-        print('ERROR in merge_datasets()')
+        print('Error: the number of datasets is inconsistent')
         return
 
-    # number_of_datasets = len(adjustable.datasets)
+    if adjustable.only_test == True:
+        # only test, nothing to do
+        merged_training_pos = None
+        merged_training_neg = None
+    else:
+        # train
+        merged_training_pos = []
+        merged_training_neg = []
 
-    if number_of_datasets > 0:
-        if number_of_datasets == 1:
-            # check adjustable.dataset_test is None
-            # only train with 1 dataset, use all data
-            # train + test on a single dataset
-
-            pass
+        if number_of_datasets == 0:
+            print('Error: no training datasets have been specified')
+            return
+        elif number_of_datasets == 1:
+            # can be train + test on only 1 dataset
+            # can be only train on 1 dataset
+            # mixing doesn't matter
+            merged_training_pos = list_training_pos[0]
+            merged_training_neg = list_training_neg[0]
+            random.shuffle(merged_training_pos)
+            random.shuffle(merged_training_neg)
         else:
-            # check adjustable.dataset_test is None
-            # only train with > 1 datasets, use all data
-            # train + test on > 1 datasets, last dataset is the test one
-            # mix y/n, include test data y/n
-            pass
-    else:
-        # only test, don't train
-        pass
+            # can be train + test on multiple datasets
+            # can be only train on multiple datasets
+            # mixing does matter
+            if adjustable.mix == True:
+                # shuffle the data with each other
+                # here we need to know if we only train or train+test
+                if adjustable.dataset_test is None:
+                    # only train, shuffle the data
+                    # choice: don't balance
+                    for index in range(number_of_datasets):
+                        merged_training_pos += list_training_pos[index]
+                        merged_training_neg += list_training_neg[index]
+                    random.shuffle(merged_training_pos)
+                    random.shuffle(merged_training_neg)
+                else:
+                    if adjustable.mix_with_test == True:
+                        # mix with the test
+                        for index in range(number_of_datasets):
+                            merged_training_pos += list_training_pos[index]
+                            merged_training_neg += list_training_neg[index]
+                        random.shuffle(merged_training_pos)
+                        random.shuffle(merged_training_neg)
+                    else:
+                        # don't mix with the test (which is at the end)
+                        for index in range(number_of_datasets-1):
+                            merged_training_pos += list_training_pos[index]
+                            merged_training_neg += list_training_neg[index]
+                        random.shuffle(merged_training_pos)
+                        random.shuffle(merged_training_neg)
 
-
-
-    # -----------------------------------------------------------------------------------------------------
-
-    merged_training_pos = []
-    merged_training_neg = []
-
-    # balance the datasets such that each dataset has the same presence in the training set
-    count_pos = [len(item) for item in list_training_pos]
-    min_pos_1 = min(count_pos)
-    count_neg = [len(item) for item in list_training_neg]
-    min_neg_1 = min(count_neg)
-
-    if number_of_datasets > 1:
-        for dataset in range(number_of_datasets):
-            pos = list_training_pos[dataset]
-            neg = list_training_neg[dataset]
-            random.shuffle(pos)
-            random.shuffle(neg)
-
-            if balance:
-                min_pos = min_pos_1
-                min_neg = min_neg_1
+                        merged_training_pos += list_training_pos[-1]
+                        merged_training_neg += list_training_neg[-1]
             else:
-                min_pos = len(list_training_pos[dataset])
-                min_neg = len(list_training_neg[dataset])
+                # train in order.
+                # number of datasets don't matter
+                for index in range(number_of_datasets):
+                    merged_training_pos += list_training_pos[index]
+                    merged_training_neg += list_training_neg[index]
 
-            merged_training_pos = merged_training_pos + pos[0:min_pos]
-            merged_training_neg = merged_training_neg + neg[0:min_neg]
-    else:
-        merged_training_pos = list_training_pos[0]
-        merged_training_neg = list_training_neg[0]
-
-    random.shuffle(merged_training_pos)
-    random.shuffle(merged_training_neg)
     return merged_training_pos, merged_training_neg
 
 
@@ -570,8 +576,8 @@ def get_dataset_to_map(name, data_list, data_names):
     return data_list[data_names.index(dataset)]
 
 
-# TODO
-# leave this be
+# DONE TODO
+# leave this be, make sure to feed it with a h5_dataset_list
 def create_key_dataset_mapping(key_list, h5_dataset_list):
     """ Creates a mapping from the keys to the datasets. This way we know where to find each key
     :param key_list:            list of keys in form of tuples with a label "img1,img2,1"
