@@ -286,7 +286,7 @@ def train_network(adjustable, model, final_training_data, final_training_labels,
     :return:                            trained model
     """
 
-    # TODO: do something like this to merge the h5 data lists
+    # DONE TODO: do something like this to merge the h5 data lists
     # h5_data_list = h5_train + h5_test
 
     if adjustable.use_cyclical_learning_rate:
@@ -298,7 +298,7 @@ def train_network(adjustable, model, final_training_data, final_training_labels,
         call_back = None
 
     # note for mixing data: I think this should still work
-    train_data = ddl.grab_em_by_the_keys(final_training_data, h5_data_list)
+    train_data = ddl.grab_em_by_the_keys(final_training_data, h5_train, h5_test)
     train_data = np.asarray(train_data)
 
     model.fit([train_data[0, :], train_data[1, :]], final_training_labels,

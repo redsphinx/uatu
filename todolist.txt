@@ -63,17 +63,16 @@ get_ranking
 save_ranking
 
 
-grab_em_by_the_keys()
+DONE grab_em_by_the_keys()
 DONE create_key_dataset_mapping()
 DONE merge_datasets()
- create_training_and_ranking_set()
+DONE create_training_and_ranking_set()
 DONE load_datasets_from_h5()
 
 
-make_pairs_image
-make_positive_pairs
-
-make_pairs_cuhk2
+DONE make_pairs_image
+DONE make_positive_pairs
+DONE make_pairs_cuhk2
 
 
 24 july

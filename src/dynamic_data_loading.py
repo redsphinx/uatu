@@ -432,7 +432,7 @@ def load_datasets_from_h5(list_of_datasets):
         return h5_data
 
 
-# TODO
+# DONE TODO
 def create_training_and_ranking_set(name, adjustable, do_ranking=True, do_training=True):
     """ Do this at the beginning of each iteration
     """
@@ -617,17 +617,24 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
     return key_dataset_mapping
 
 
-# TODO: update with new parameters `training_h5, testing_h5`
+# DONE TODO: update with new parameters `training_h5, testing_h5`
 def grab_em_by_the_keys(key_list, training_h5, testing_h5):
 # def grab_em_by_the_keys(key_list, h5_dataset_list):
     """ Returns a training set
     :param key_list:                list of keys
-    :param key_dataset_mapping:     list of the participating h5 datasets
     :return:
     """
 
-    # TODO: make `training_h5, testing_h5` into h5_dataset_list
+    # DONE TODO: make `training_h5, testing_h5` into h5_dataset_list
+    h5_dataset_list = []
 
+    if training_h5 is not None:
+        for index in range(len(training_h5)):
+            h5_dataset_list.append(training_h5[index])
+
+    if testing_h5 is not None:
+        for index in range(len(testing_h5)):
+            h5_dataset_list.append(testing_h5[index])
 
     # create mapping from keys to dataset
     key_dataset_mapping = create_key_dataset_mapping(key_list, h5_dataset_list)
