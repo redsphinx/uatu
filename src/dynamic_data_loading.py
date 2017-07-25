@@ -418,6 +418,7 @@ def get_dataset(name):
     return dataset_h5
 
 
+# DONE TODO
 def load_datasets_from_h5(list_of_datasets):
     """ Do this at the beginning of the experiment
     """
@@ -429,6 +430,7 @@ def load_datasets_from_h5(list_of_datasets):
             h5_data.append(get_dataset(dataset))
 
         return h5_data
+
 
 def create_training_and_ranking_set(name, adjustable, do_ranking=True, do_training=True):
     """ Do this at the beginning of each iteration
@@ -463,8 +465,7 @@ def create_training_and_ranking_set(name, adjustable, do_ranking=True, do_traini
     return ranking, training_pos, training_neg
 
 
-
-
+# TODO
 def merge_datasets(adjustable, list_training_pos, list_training_neg, balance=False):
     """ Merges specified datasets by shuffling together the positive and negative training instances.
         There will be many more negative instances than positive instances. This method needs to be excecuted
@@ -476,7 +477,36 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg, balance=Fal
     :return:                        Two lists composed of the specified compositions of the data for negative
                                     and positive instances.
     """
-    number_of_datasets = len(adjustable.datasets)
+
+
+    if len(list_training_pos) == len(list_training_neg):
+        number_of_datasets = len(list_training_neg)
+    else:
+        print('ERROR in merge_datasets()')
+        return
+
+    # number_of_datasets = len(adjustable.datasets)
+
+    if number_of_datasets > 0:
+        if number_of_datasets == 1:
+            # check adjustable.dataset_test is None
+            # only train with 1 dataset, use all data
+            # train + test on a single dataset
+
+            pass
+        else:
+            # check adjustable.dataset_test is None
+            # only train with > 1 datasets, use all data
+            # train + test on > 1 datasets, last dataset is the test one
+            # mix y/n, include test data y/n
+            pass
+    else:
+        # only test, don't train
+        pass
+
+
+
+    # -----------------------------------------------------------------------------------------------------
 
     merged_training_pos = []
     merged_training_neg = []
@@ -540,14 +570,14 @@ def get_dataset_to_map(name, data_list, data_names):
     return data_list[data_names.index(dataset)]
 
 
-
+# TODO
+# leave this be
 def create_key_dataset_mapping(key_list, h5_dataset_list):
     """ Creates a mapping from the keys to the datasets. This way we know where to find each key
     :param key_list:            list of keys in form of tuples with a label "img1,img2,1"
     :param h5_dataset_list:     list of the h5 datasets to search in
     :return:                    a mapping from the keys to the datasets
     """
-    # print('CREATING KEY MAPPING')
     key_dataset_mapping = []
 
     if len(h5_dataset_list) == 1:
