@@ -580,6 +580,14 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
 
         ranking = make_negative_pairs(ranking_pos, 'ranking')
         training_neg = make_negative_pairs(training_pos, 'training')
+
+        # save if specified
+        if adjustable.save_inbetween and adjustable.iterations == 1:
+            file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
+            file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
+            write_to_file(file_name, ranking)
+
+
     elif do_ranking is False and do_training is False:
         print('Error: ranking and training cannot both be false')
         return
@@ -748,6 +756,12 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training):
                 num = 1 if img0 == img1 else 0
                 line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
                 rank_all.append(line)
+
+        # save if specified
+        if adjustable.save_inbetween and adjustable.iterations == 1:
+            file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
+            file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
+            write_to_file(file_name, ranking)
 
     return rank_all, training_pos_all, training_neg_all
 

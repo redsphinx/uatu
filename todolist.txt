@@ -56,11 +56,11 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 
 TODO: do something such that we can choose ranking numbers for each dataset that we train with
 
-train_network()
-get_negative_sample
+DONE train_network()
+DONE get_negative_sample
+
+TODO fix the positives in the samples
 get_final_training_data
-get_ranking
-save_ranking
 
 
 DONE grab_em_by_the_keys()

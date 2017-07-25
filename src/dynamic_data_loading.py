@@ -536,14 +536,19 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
                         random.shuffle(merged_training_pos)
                         random.shuffle(merged_training_neg)
 
-                        merged_training_pos += list_training_pos[-1]
-                        merged_training_neg += list_training_neg[-1]
+                        # note: make this a 2 dimensional list because the order matters
+                        merged_training_pos = [merged_training_pos]
+                        merged_training_neg = [merged_training_neg]
+
+                        merged_training_pos.append(list_training_pos[-1])
+                        merged_training_neg.append(list_training_neg[-1])
             else:
                 # train in order.
                 # number of datasets don't matter
                 for index in range(number_of_datasets):
-                    merged_training_pos += list_training_pos[index]
-                    merged_training_neg += list_training_neg[index]
+                    # note: make this a 2 dimensional list because the order matters
+                    merged_training_pos.append(list_training_pos[index])
+                    merged_training_neg.append(list_training_neg[index])
 
     return merged_training_pos, merged_training_neg
 
@@ -975,3 +980,5 @@ def get_human_data(keys, h5data):
     thingy = np.asarray(thingy)
 
     return thingy
+
+

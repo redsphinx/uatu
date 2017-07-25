@@ -360,8 +360,56 @@ def get_model(adjustable):
     return model
 
 
-def get_negative_sample(train_pos, train_neg):
-    pass
+def get_negative_sample(adjustable, train_pos, train_neg):
+    number_of_datasets = len(train_pos)
+
+    negative = []
+
+    if adjustable.only_test == True:
+        # only test, nothing to do
+        print('Only testing, nothing to train here.')
+    else:
+        # train
+        if number_of_datasets == 0:
+            print('Error: no training datasets have been specified')
+            return
+        elif number_of_datasets == 1:
+            # normal shuffle, just take subset
+            random.shuffle(train_neg)
+            negative = train_neg[0:len(train_pos)]
+        else:
+            # can be train + test on multiple datasets
+            # can be only train on multiple datasets
+            # mixing does matter
+            if adjustable.mix == True:
+                # shuffle the data with each other
+                # here we need to know if we only train or train+test
+                if adjustable.dataset_test is None:
+                    # normal shuffle, just take subset
+                    random.shuffle(train_neg)
+                    negative = train_neg[0:len(train_pos)]
+                else:
+                    if adjustable.mix_with_test == True:
+                        # mix with the test
+                        # normal shuffle, just take subset
+                        random.shuffle(train_neg)
+                        negative = train_neg[0:len(train_pos)]
+                    else:
+                        # don't mix with the test (which is at the end)
+                        # for each partition, shuffle and get a subset
+                        for index in range(len(train_neg)):
+                            random.shuffle(train_neg[index])
+                            negative += train_neg[index][0:len(train_pos[index])]
+
+            else:
+                # train in order.
+                # number of datasets don't matter
+                # for each partition, shuffle and get a subset
+                for index in range(len(train_neg)):
+                    random.shuffle(train_neg[index])
+                    negative += train_neg[index][0:len(train_pos[index])]
+
+    return negative
 
 
 def get_final_training_data(adjustable, train_pos, train_neg):
@@ -370,20 +418,8 @@ def get_final_training_data(adjustable, train_pos, train_neg):
 
 
 def get_ranking(all_ranking):
-    updated_ranking = []
+    updated_ranking = all_ranking[-1]
     return updated_ranking
-
-
-def save_ranking(adjustable, list_rankings):
-    # [for priming] make a record of the ranking selection for each dataset
-    if adjustable.save_inbetween and adjustable.iterations == 1:
-        # file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
-        file_name = '%s_ranking_%s.txt' % (adjustable.dataset_test, adjustable.use_gpu)
-        file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
-        with open(file_name, 'w') as my_file:
-            for item in this_ranking:
-                my_file.write(item)
-    pass
 
 
 # def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
@@ -412,7 +448,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             ############################################################################################################
             # TODO: for each training set, do the sampling in new method get_negative_sample()
             # TODO: create get_negative_sample()
-            training_neg_sample = get_negative_sample(merged_training_pos, merged_training_neg)
+            training_neg_sample = get_negative_sample(adjustable, merged_training_pos, merged_training_neg)
 
             # sample from the big set of negative training instances
             # random.shuffle(merged_training_neg)
@@ -547,14 +583,8 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
         confusion_matrices = []
         gregor_matrices = []
         ranking_matrices = []
-        # TODO: go through all the ranking files and save all the ones before last. Only test on the last.
-        # TODO: create method get_ranking()
-        # TODO: creaet method save_ranking()
-        this_ranking, other_rankings = get_ranking(all_ranking)
-        save_ranking(adjustable, this_ranking)
-
-        if other_rankings is not None:
-            save_ranking(adjustable, other_rankings)
+        # DONE TODO: go through all the ranking files and save all the ones before last. Only test on the last.
+        this_ranking = all_ranking[-1]
 
         # all_ranking = save_non_target_datasets_rankings(all_ranking)
 
@@ -572,7 +602,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             ################################################################################################################
         # this_ranking = all_ranking[dataset]
 
-        # TODO: update ddl.grab_em_by_the_keys() with new parameters
+        # DONE TODO: update ddl.grab_em_by_the_keys() with new parameters
         # test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
         test_data = ddl.grab_em_by_the_keys(this_ranking, training_h5, testing_h5)
         test_data = np.asarray(test_data)

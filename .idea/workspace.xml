@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data_pipeline.py" afterPath="$PROJECT_DIR$/src/data_pipeline.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic_data_loading.py" afterPath="$PROJECT_DIR$/src/dynamic_data_loading.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_image.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_image.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
@@ -58,14 +59,14 @@
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.49466383">
+    <splitter split-orientation="horizontal" split-proportion="0.49252936">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="619">
-                  <caret line="746" column="71" lean-forward="false" selection-start-line="746" selection-start-column="71" selection-end-line="746" selection-end-column="71" />
+                <state relative-caret-position="30">
+                  <caret line="412" column="0" lean-forward="true" selection-start-line="412" selection-start-column="0" selection-end-line="412" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#12#0" expanded="true" />
                   </folding>
@@ -83,12 +84,20 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="212">
-                  <caret line="624" column="12" lean-forward="true" selection-start-line="624" selection-start-column="12" selection-end-line="624" selection-end-column="12" />
-                  <folding />
+                <state relative-caret-position="77">
+                  <caret line="620" column="49" lean-forward="false" selection-start-line="620" selection-start-column="49" selection-end-line="620" selection-end-column="49" />
+                  <folding>
+                    <marker date="1501003459549" expanded="true" signature="19894:22914" ph="..." />
+                    <marker date="1501003459549" expanded="true" signature="20492:22914" ph="..." />
+                    <marker date="1501003459549" expanded="true" signature="20672:22525" ph="..." />
+                    <marker date="1501003459549" expanded="true" signature="21278:22525" ph="..." />
+                    <marker date="1501003459549" expanded="true" signature="21741:22525" ph="..." />
+                    <marker date="1501003459549" expanded="true" signature="22544:22914" ph="..." />
+                    <marker date="1501003459549" expanded="true" signature="22769:22914" ph="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -97,8 +106,12 @@
             <entry file="file://$PROJECT_DIR$/src/data_pipeline.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="334">
-                  <caret line="572" column="50" lean-forward="true" selection-start-line="572" selection-start-column="50" selection-end-line="572" selection-end-column="50" />
-                  <folding />
+                  <caret line="572" column="50" lean-forward="false" selection-start-line="572" selection-start-column="50" selection-end-line="572" selection-end-column="50" />
+                  <folding>
+                    <marker date="1501001268893" expanded="true" signature="26303:26621" ph="..." />
+                    <marker date="1501001268893" expanded="true" signature="34166:34916" ph="..." />
+                    <marker date="1501001268893" expanded="true" signature="34714:34916" ph="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -110,8 +123,8 @@
           <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="540">
-                  <caret line="316" column="65" lean-forward="true" selection-start-line="316" selection-start-column="65" selection-end-line="316" selection-end-column="65" />
+                <state relative-caret-position="345">
+                  <caret line="454" column="53" lean-forward="false" selection-start-line="454" selection-start-column="14" selection-end-line="454" selection-end-column="53" />
                   <folding>
                     <element signature="e#0#12#0" expanded="true" />
                   </folding>
@@ -132,8 +145,8 @@
           <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="274">
-                  <caret line="434" column="7" lean-forward="false" selection-start-line="434" selection-start-column="7" selection-end-line="434" selection-end-column="7" />
+                <state relative-caret-position="724">
+                  <caret line="548" column="84" lean-forward="false" selection-start-line="548" selection-start-column="84" selection-end-line="548" selection-end-column="84" />
                   <folding />
                 </state>
               </provider>
@@ -143,17 +156,7 @@
             <entry file="file://$PROJECT_DIR$/src/data_pipeline.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="214">
-                  <caret line="548" column="16" lean-forward="false" selection-start-line="548" selection-start-column="16" selection-end-line="548" selection-end-column="16" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="priming.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/priming.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="214">
-                  <caret line="267" column="120" lean-forward="true" selection-start-line="266" selection-start-column="4" selection-end-line="267" selection-end-column="120" />
+                  <caret line="548" column="4" lean-forward="false" selection-start-line="548" selection-start-column="4" selection-end-line="548" selection-end-column="4" />
                   <folding />
                 </state>
               </provider>
@@ -349,20 +352,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -831,7 +820,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
-          <line>911</line>
+          <line>916</line>
           <option name="timeStamp" value="1175" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -868,13 +857,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/data/ilids-vid/swapped_fullpath_names.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="2" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/gui_variables.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
@@ -1196,6 +1178,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="40" column="24" lean-forward="true" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ranking_files/grid_ranking_0.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/priming.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="214">
@@ -1207,34 +1205,38 @@
     <entry file="file://$PROJECT_DIR$/src/data_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="334">
-          <caret line="572" column="50" lean-forward="true" selection-start-line="572" selection-start-column="50" selection-end-line="572" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="40" column="24" lean-forward="true" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="619">
-          <caret line="746" column="71" lean-forward="false" selection-start-line="746" selection-start-column="71" selection-end-line="746" selection-end-column="71" />
+          <caret line="572" column="50" lean-forward="false" selection-start-line="572" selection-start-column="50" selection-end-line="572" selection-end-column="50" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <marker date="1501001268893" expanded="true" signature="26303:26621" ph="..." />
+            <marker date="1501001268893" expanded="true" signature="34166:34916" ph="..." />
+            <marker date="1501001268893" expanded="true" signature="34714:34916" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="624" column="12" lean-forward="true" selection-start-line="624" selection-start-column="12" selection-end-line="624" selection-end-column="12" />
-          <folding />
+        <state relative-caret-position="77">
+          <caret line="620" column="49" lean-forward="false" selection-start-line="620" selection-start-column="49" selection-end-line="620" selection-end-column="49" />
+          <folding>
+            <marker date="1501003459549" expanded="true" signature="19894:22914" ph="..." />
+            <marker date="1501003459549" expanded="true" signature="20492:22914" ph="..." />
+            <marker date="1501003459549" expanded="true" signature="20672:22525" ph="..." />
+            <marker date="1501003459549" expanded="true" signature="21278:22525" ph="..." />
+            <marker date="1501003459549" expanded="true" signature="21741:22525" ph="..." />
+            <marker date="1501003459549" expanded="true" signature="22544:22914" ph="..." />
+            <marker date="1501003459549" expanded="true" signature="22769:22914" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="412" column="0" lean-forward="true" selection-start-line="412" selection-start-column="0" selection-end-line="412" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
