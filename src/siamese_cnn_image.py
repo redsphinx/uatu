@@ -412,6 +412,17 @@ def get_negative_sample(adjustable, train_pos, train_neg):
     return negative
 
 
+def fix_positives(positives):
+    positives_fixed = []
+    if len(np.shape(positives)) > 1:
+        for index in range(len(positives)):
+            positives_fixed += positives[index]
+    else:
+        positives_fixed = positives
+            
+    return positives_fixed
+
+
 def get_final_training_data(adjustable, train_pos, train_neg):
 
     pass
@@ -449,6 +460,9 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             # TODO: for each training set, do the sampling in new method get_negative_sample()
             # TODO: create get_negative_sample()
             training_neg_sample = get_negative_sample(adjustable, merged_training_pos, merged_training_neg)
+
+            # TODO: fix the positive samples
+            merged_training_pos = fix_positives(merged_training_pos)
 
             # sample from the big set of negative training instances
             # random.shuffle(merged_training_neg)

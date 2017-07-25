@@ -59,7 +59,7 @@ TODO: do something such that we can choose ranking numbers for each dataset that
 DONE train_network()
 DONE get_negative_sample
 
-TODO fix the positives in the samples
+DONE TODO fix the positives in the samples
 get_final_training_data
 
 
