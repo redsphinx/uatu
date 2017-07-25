@@ -402,6 +402,58 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     return selection, min_id_group_size, unique_ids
 
 
+def make_positive_pairs_training(id_all_file, unique_id_file, swapped_list_of_paths, dataset_name):
+    # load the image data from saved txt files
+    train_ids = list(np.genfromtxt(unique_id_file, dtype=None))
+    all_train_ids = list(np.genfromtxt(id_all_file, dtype=None))
+    training_ids_pos = list(np.genfromtxt(swapped_list_of_paths, dtype=None))
+
+    # -- Create combinations and store the positive matches for training
+    # You could increase this but then you'll get a lot more data
+    upper_bound = 3
+    training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
+                                                                      upper_bound, dataset_name)
+    training_ids_pos = create_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
+
+    # shuffle so that each time we get different first occurences for when making negative pairs
+    rd.shuffle(training_ids_pos)
+
+    return training_ids_pos
+
+
+def make_positive_pairs_ranking(id_all_file, unique_id_file, swapped_list_of_paths, dataset_name, ranking_number):
+    # load the image data from saved txt files
+    unique_id = list(np.genfromtxt(unique_id_file, dtype=None))
+    id_all = list(np.genfromtxt(id_all_file, dtype=None))
+    fullpath_image_names = list(np.genfromtxt(swapped_list_of_paths, dtype=None))
+
+    # -- Next we want to randomly select a ranking set and a training set where an ID can only be in one of the sets.
+    # select at random a subset for ranking by drawing indices from a uniform distribution
+    start = rd.randrange(0, len(unique_id) - ranking_number)
+    stop = start + ranking_number
+    # get the matching start and stop indices to determine where to slice the list
+    index_start = id_all.index(unique_id[start])
+    index_stop = id_all.index(unique_id[stop])
+    # slice the list to create a set for ranking and a set for training
+    ranking_ids_pos = fullpath_image_names[index_start:index_stop]
+
+    # get the chosen unique IDs and all IDs
+    ranking_ids = unique_id[start:stop]
+    all_ranking_ids = id_all[index_start:index_stop]
+
+    # -- Create combinations and store the positive matches for ranking
+    # select upper bound for images per ID. Has to be 2 for ranking.
+    upper_bound = 2
+    ranking_ids_pos, min_group_size_rank, ranking_ids = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids,
+                                                                      upper_bound, dataset_name)
+    ranking_ids_pos = create_positive_combinations(ranking_ids_pos, ranking_ids, upper_bound, min_group_size_rank)
+
+    # shuffle so that each time we get different first occurences for when making negative pairs
+    rd.shuffle(ranking_ids_pos)
+
+    return ranking_ids_pos
+
+
 def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, dataset_name, ranking_number):
     """
     Creates positive labeled pairs for training and ranking set.
@@ -494,12 +546,15 @@ def make_negative_pairs(pos_list, the_type):
         return training_neg
 
 
-def make_pairs_image(adjustable, project_data_storage, fixed_path):
+def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, do_training, name):
     """
     Makes pairs for the specified image dataset.
     :param adjustable:              object of class ProjectVariable
     :param project_data_storage:    string path to dataset processed data
     :param fixed_path:              string path to fixed dataset
+    :param do_ranking:              bool
+    :param do_training:             bool
+    :param name:                    string name of the dataset
     :return:                        3 lists contianing labeled pairs, one list for ranking and two for training
     """
     if not os.path.exists(project_data_storage):
@@ -513,17 +568,45 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path):
         make_image_data_files(fixed_path, project_data_storage)
 
     if adjustable.ranking_number == 'half':
-        ranking_number = pc.RANKING_DICT[adjustable.datasets[0]]
+        ranking_number = pc.RANKING_DICT[name]
     elif isinstance(adjustable.ranking_number, int):
         ranking_number = adjustable.ranking_number
     else:
         ranking_number = None
 
-    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths,
-                                                    adjustable.datasets[0], ranking_number)
+    if do_ranking is True and do_training is True:
+        ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths,
+                                                        name, ranking_number)
 
-    ranking = make_negative_pairs(ranking_pos, 'ranking')
-    training_neg = make_negative_pairs(training_pos, 'training')
+        ranking = make_negative_pairs(ranking_pos, 'ranking')
+        training_neg = make_negative_pairs(training_pos, 'training')
+    elif do_ranking is False and do_training is False:
+        print('Error: ranking and training cannot both be false')
+        return
+    elif do_ranking is False and do_training is True:
+        # only train, only make the training files using all the data
+        training_pos = make_positive_pairs_training(id_all_file, unique_id_file, swapped_list_of_paths, name)
+        training_neg = make_negative_pairs(training_pos, 'training')
+
+        ranking = None
+    elif do_ranking is True and do_training is False:
+        # only test, only make the ranking file
+        # check first if there exists a ranking file of the correct name, load from it
+        ranking_file = '../ranking_files/%s_ranking_%s.txt' % (name, adjustable.use_gpu)
+        if os.path.exists(ranking_file):
+            print('Loading ranking from file: `%s`' % ranking_file)
+            ranking = list(np.genfromtxt(ranking_file, dtype=None))
+        else:
+            ranking_pos = make_positive_pairs_ranking(id_all_file, unique_id_file, swapped_list_of_paths, name,
+                                                      ranking_number)
+            ranking = make_negative_pairs(ranking_pos, 'ranking')
+
+        training_pos = None
+        training_neg = None
+
+    else:
+        print('Error: some kind of dark magic happened')
+        return
 
     return ranking, training_pos, training_neg
 

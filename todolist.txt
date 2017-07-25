@@ -54,6 +54,8 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 -------
 . continue fixing pipeline for mixing data
 
+TODO: do something such that we can choose ranking numbers for each dataset that we train with
+
 train_network()
 get_negative_sample
 get_final_training_data
@@ -66,6 +68,12 @@ DONE create_key_dataset_mapping()
 DONE merge_datasets()
  create_training_and_ranking_set()
 DONE load_datasets_from_h5()
+
+
+make_pairs_image
+make_positive_pairs
+
+make_pairs_cuhk2
 
 
 24 july
