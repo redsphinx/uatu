@@ -50,6 +50,13 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+26 july
+-------
+. continue fixing pipeline for mixing data
+. do something such that we can choose ranking numbers for each dataset that we train with
+. optimize mapping
+
+
 25 july
 -------
 . continue fixing pipeline for mixing data
@@ -60,7 +67,7 @@ DONE train_network()
 DONE get_negative_sample
 
 DONE TODO fix the positives in the samples
-get_final_training_data
+DONE get_final_training_data
 
 
 DONE grab_em_by_the_keys()

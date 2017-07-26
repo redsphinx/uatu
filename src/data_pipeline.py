@@ -567,6 +567,7 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
     if not os.path.exists(id_all_file):
         make_image_data_files(fixed_path, project_data_storage)
 
+    # TODO: fix adjustable.ranking_number
     if adjustable.ranking_number == 'half':
         ranking_number = pc.RANKING_DICT[name]
     elif isinstance(adjustable.ranking_number, int):
@@ -586,7 +587,6 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
             file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
             file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
             write_to_file(file_name, ranking)
-
 
     elif do_ranking is False and do_training is False:
         print('Error: ranking and training cannot both be false')
@@ -636,6 +636,7 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training):
     num_subdirs = len(subdirs)
     name = 'cuhk02'
 
+    # TODO: fix adjustable.ranking_number
     # check if ranking_number is alright else fix it
     if adjustable.ranking_number == 'half':
         adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)
@@ -665,7 +666,7 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training):
 
     # for each subdirectory make positive and negative pairs
     for a_dir in subdirs:
-
+        # TODO: fix adjustable.ranking_number
         if adjustable.ranking_number == 'half':
             adapted_ranking_number = pc.RANKING_CUHK02_PARTS[a_dir]
 
@@ -1085,7 +1086,7 @@ def make_pairs_video(adjustable):
     id_all_file = os.path.join(path, 'id_all.txt')
     unique_id_file = os.path.join(path, 'unique_id.txt')
     swapped_fullpath_file = os.path.join(path, 'swapped_fullpath_names.txt')
-
+    # TODO: fix adjustable.ranking_number
     ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_fullpath_file,
                                                     adjustable.datasets[0], adjustable.ranking_number)
 

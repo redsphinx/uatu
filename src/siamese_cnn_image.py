@@ -91,6 +91,7 @@ def cosine_distance_normalized(vects):
 
     return normalized_distance
 
+
 def cos_dist_output_shape(shapes):
     """ IDK what this does
     """
@@ -103,6 +104,7 @@ def create_cost_module(inputs, adjustable):
     :param inputs:          list containing feature tensor from each siamese head
     :return:                some type of distance
     """
+
     def subtract(x):
         output = x[0] - x[1]
         return output
@@ -139,13 +141,15 @@ def create_cost_module(inputs, adjustable):
             features = layers.Lambda(absolute)(inputs)
         else:
             features = None
-        dense_layer = layers.Dense(adjustable.neural_distance_layers[0], name='dense_1', trainable=adjustable.trainable_cost_module)(features)
+        dense_layer = layers.Dense(adjustable.neural_distance_layers[0], name='dense_1',
+                                   trainable=adjustable.trainable_cost_module)(features)
         activation = layers.Activation(adjustable.activation_function)(dense_layer)
         if adjustable.activation_function == 'selu':
             dropout_layer = layers.AlphaDropout(adjustable.dropout_rate)(activation)
         else:
             dropout_layer = layers.Dropout(adjustable.dropout_rate)(activation)
-        dense_layer = layers.Dense(adjustable.neural_distance_layers[1], name='dense_2', trainable=adjustable.trainable_cost_module)(dropout_layer)
+        dense_layer = layers.Dense(adjustable.neural_distance_layers[1], name='dense_2',
+                                   trainable=adjustable.trainable_cost_module)(dropout_layer)
         activation = layers.Activation(adjustable.activation_function)(dense_layer)
         if adjustable.activation_function == 'selu':
             dropout_layer = layers.AlphaDropout(adjustable.dropout_rate)(activation)
@@ -178,10 +182,10 @@ def create_cost_module(inputs, adjustable):
         # distance = layers.Lambda(cosine_distance, output_shape=cos_dist_output_shape)(inputs)
         return distance
 
-    # elif adjustable.cost_module_type == 'DHSL':
-    #     ''' As proposed by Zhu et al. in https://arxiv.org/abs/1702.04858
-    #     '''
-    # elif adjustable.cost_module_type == 'kissme':
+        # elif adjustable.cost_module_type == 'DHSL':
+        #     ''' As proposed by Zhu et al. in https://arxiv.org/abs/1702.04858
+        #     '''
+        # elif adjustable.cost_module_type == 'kissme':
 
 
 def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name, first_layer=False):
@@ -221,32 +225,33 @@ def create_siamese_head(adjustable):
     if use_batch_norm == True:
         model.add(layers.BatchNormalization(name='bn_1', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
                                             trainable=adjustable.trainable_bn))
-    model.add(layers.Conv2D(16 * adjustable.numfil, input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS), kernel_size=adjustable.kernel, padding='same', name='conv_1',
-                     trainable=adjustable.trainable_12))
+    model.add(layers.Conv2D(16 * adjustable.numfil, input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
+                            kernel_size=adjustable.kernel, padding='same', name='conv_1',
+                            trainable=adjustable.trainable_12))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
     # convolutional unit 2
     model.add(layers.Conv2D(32 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_2',
-                     trainable=adjustable.trainable_12))
+                            trainable=adjustable.trainable_12))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_3')
     # convolutional unit 3
     model.add(layers.Conv2D(64 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_3',
-                     trainable=adjustable.trainable_34))
+                            trainable=adjustable.trainable_34))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_4')
     # convolutional unit 4
     model.add(layers.Conv2D(128 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_4',
-                     trainable=adjustable.trainable_34))
+                            trainable=adjustable.trainable_34))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_5')
     # convolutional unit 5
     model.add(layers.Conv2D(256 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_5',
-                     trainable=adjustable.trainable_56))
+                            trainable=adjustable.trainable_56))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_6')
     # convolutional unit 6
     model.add(layers.Conv2D(512 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_6',
-                     trainable=adjustable.trainable_56))
+                            trainable=adjustable.trainable_56))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_7')
     if adjustable.pooling_size == [[2, 2], [2, 2]]:
         model.add(layers.Conv2D(1024 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_7',
-                         trainable=adjustable.trainable_56))
+                                trainable=adjustable.trainable_56))
         model.add(layers.Activation(adjustable.activation_function))
         if use_batch_norm == True:
             model.add(layers.BatchNormalization(name='bn_8', trainable=adjustable.trainable_bn))
@@ -275,7 +280,7 @@ def create_siamese_network(adjustable):
 
 
 def train_network(adjustable, model, final_training_data, final_training_labels, h5_train, h5_test):
-# def train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list):
+    # def train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list):
     """
     Trains the network.
     :param adjustable:                  object of class ProjectVariable
@@ -399,7 +404,7 @@ def get_negative_sample(adjustable, train_pos, train_neg):
                         # for each partition, shuffle and get a subset
                         for index in range(len(train_neg)):
                             random.shuffle(train_neg[index])
-                            negative += train_neg[index][0:len(train_pos[index])]
+                            negative.append(train_neg[index][0:len(train_pos[index])])
 
             else:
                 # train in order.
@@ -407,7 +412,7 @@ def get_negative_sample(adjustable, train_pos, train_neg):
                 # for each partition, shuffle and get a subset
                 for index in range(len(train_neg)):
                     random.shuffle(train_neg[index])
-                    negative += train_neg[index][0:len(train_pos[index])]
+                    negative.append(train_neg[index][0:len(train_pos[index])])
 
     return negative
 
@@ -419,13 +424,65 @@ def fix_positives(positives):
             positives_fixed += positives[index]
     else:
         positives_fixed = positives
-            
+
     return positives_fixed
 
 
-def get_final_training_data(adjustable, train_pos, train_neg):
+# final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
 
-    pass
+
+def get_final_training_data(adjustable, train_pos, train_neg):
+    final_training_data = []
+
+    number_of_datasets = len(train_pos)
+
+    if adjustable.only_test == True:
+        # only test, nothing to do
+        print('Only testing, nothing to train here.')
+    else:
+        # train
+        if number_of_datasets == 0:
+            print('Error: no training datasets have been specified')
+            return
+        elif number_of_datasets == 1:
+            # normal shuffle, just take subset
+            final_training_data = train_pos + train_neg
+            random.shuffle(final_training_data)
+        else:
+            # can be train + test on multiple datasets
+            # can be only train on multiple datasets
+            # mixing does matter
+            if adjustable.mix == True:
+                # shuffle the data with each other
+                # here we need to know if we only train or train+test
+                if adjustable.dataset_test is None:
+                    # normal shuffle, just take subset
+                    final_training_data = train_pos + train_neg
+                    random.shuffle(final_training_data)
+                else:
+                    if adjustable.mix_with_test == True:
+                        # mix with the test
+                        # normal shuffle, just take subset
+                        final_training_data = train_pos + train_neg
+                        random.shuffle(final_training_data)
+                    else:
+                        # don't mix with the test (which is at the end)
+                        # for each partition, shuffle and get a subset
+                        for index in range(len(train_neg)):
+                            partition = train_pos[index] + train_neg[index]
+                            random.shuffle(partition)
+                            final_training_data += partition
+
+            else:
+                # train in order.
+                # number of datasets don't matter
+                # for each partition, shuffle and get a subset
+                for index in range(len(train_neg)):
+                    partition = train_pos[index] + train_neg[index]
+                    random.shuffle(partition)
+                    final_training_data += partition
+
+    return final_training_data
 
 
 def get_ranking(all_ranking):
@@ -458,11 +515,11 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             #   Prepare the training data
             ############################################################################################################
             # TODO: for each training set, do the sampling in new method get_negative_sample()
-            # TODO: create get_negative_sample()
+            # DONE TODO: create get_negative_sample()
             training_neg_sample = get_negative_sample(adjustable, merged_training_pos, merged_training_neg)
 
-            # TODO: fix the positive samples
-            merged_training_pos = fix_positives(merged_training_pos)
+            # DONE TODO: fix the positive samples
+            # merged_training_pos = fix_positives(merged_training_pos)
 
             # sample from the big set of negative training instances
             # random.shuffle(merged_training_neg)
@@ -472,7 +529,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             # final_training_data = merged_training_pos + training_neg_sample
             # random.shuffle(final_training_data)
             # final_training_data = pu.sideways_shuffle(final_training_data)
-            # TODO: create get_final_training_data()
+            # DONE TODO: create get_final_training_data()
             final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
 
             final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
@@ -509,81 +566,81 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
                     print('MODEL SAVED at epoch %d' % (epoch + 1))
 
 
-    #
-    #     if all_ranking is None:
-    #         if training_h5 is not None:
-    #             # only train, using all datasets
-    #             # TODO: for each training set, do the sampling in new method get_negative_sample()
-    #             # TODO: create get_negative_sample()
-    #             training_neg_sample = get_negative_sample(merged_training_pos, merged_training_neg)
-    #             # TODO: create get_final_training_data()
-    #             final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
-    #
-    #             final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
-    #                                      range(len(final_training_data))]
-    #             pass
-    #         else:
-    #             print('ERROR')
-    #             return
-    #     else:
-    #         if adjustable.test_only == True:
-    #             # only test
-    #             pass
-    #         else:
-    #             if training_h5 is not None:
-    #                 # train on multiple datasets
-    #                 pass
-    #             else:
-    #                 # train on one dataset only
-    #                 pass
+                    #
+                    #     if all_ranking is None:
+                    #         if training_h5 is not None:
+                    #             # only train, using all datasets
+                    #             # TODO: for each training set, do the sampling in new method get_negative_sample()
+                    #             # TODO: create get_negative_sample()
+                    #             training_neg_sample = get_negative_sample(merged_training_pos, merged_training_neg)
+                    #             # TODO: create get_final_training_data()
+                    #             final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
+                    #
+                    #             final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
+                    #                                      range(len(final_training_data))]
+                    #             pass
+                    #         else:
+                    #             print('ERROR')
+                    #             return
+                    #     else:
+                    #         if adjustable.test_only == True:
+                    #             # only test
+                    #             pass
+                    #         else:
+                    #             if training_h5 is not None:
+                    #                 # train on multiple datasets
+                    #                 pass
+                    #             else:
+                    #                 # train on one dataset only
+                    #                 pass
 
-        # ################################################################################################################
-        # #   Prepare the training data
-        # ################################################################################################################
-        #
-        # # TODO: for each training set, do the sampling in new method get_negative_sample()
-        # # TODO: create get_negative_sample()
-        # training_neg_sample = get_negative_sample(merged_training_pos, merged_training_neg)
-        #
-        # # sample from the big set of negative training instances
-        # # random.shuffle(merged_training_neg)
-        # # training_neg_sample = merged_training_neg[0:len(merged_training_pos)]
-        #
-        # # now we have the final list of keys to the instances we use for training
-        # # final_training_data = merged_training_pos + training_neg_sample
-        # # random.shuffle(final_training_data)
-        # # final_training_data = pu.sideways_shuffle(final_training_data)
-        # # TODO: create get_final_training_data()
-        # final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
-        #
-        # final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
-        #                          range(len(final_training_data))]
-        # if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-        #     final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
+                    # ################################################################################################################
+                    # #   Prepare the training data
+                    # ################################################################################################################
+                    #
+                    # # TODO: for each training set, do the sampling in new method get_negative_sample()
+                    # # TODO: create get_negative_sample()
+                    # training_neg_sample = get_negative_sample(merged_training_pos, merged_training_neg)
+                    #
+                    # # sample from the big set of negative training instances
+                    # # random.shuffle(merged_training_neg)
+                    # # training_neg_sample = merged_training_neg[0:len(merged_training_pos)]
+                    #
+                    # # now we have the final list of keys to the instances we use for training
+                    # # final_training_data = merged_training_pos + training_neg_sample
+                    # # random.shuffle(final_training_data)
+                    # # final_training_data = pu.sideways_shuffle(final_training_data)
+                    # # TODO: create get_final_training_data()
+                    # final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
+                    #
+                    # final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
+                    #                          range(len(final_training_data))]
+                    # if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+                    #     final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
 
-        # ################################################################################################################
-        # #   Train the network, save if specified
-        # ################################################################################################################
-        #
-        # train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list)
-        #
-        # time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
-        #
-        # if adjustable.save_inbetween and adjustable.iterations == 1:
-        #     if epoch+1 in adjustable.save_points:
-        #         if adjustable.name_indication == 'epoch':
-        #             model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
-        #             weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
-        #         elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
-        #             model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
-        #             weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
-        #         else:
-        #             model_name = None
-        #             weights_name = None
-        #
-        #         model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
-        #         model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
-        #         print('MODEL SAVED at epoch %d' % (epoch + 1))
+                    # ################################################################################################################
+                    # #   Train the network, save if specified
+                    # ################################################################################################################
+                    #
+                    # train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list)
+                    #
+                    # time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
+                    #
+                    # if adjustable.save_inbetween and adjustable.iterations == 1:
+                    #     if epoch+1 in adjustable.save_points:
+                    #         if adjustable.name_indication == 'epoch':
+                    #             model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
+                    #             weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
+                    #         elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
+                    #             model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+                    #             weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+                    #         else:
+                    #             model_name = None
+                    #             weights_name = None
+                    #
+                    #         model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
+                    #         model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
+                    #         print('MODEL SAVED at epoch %d' % (epoch + 1))
 
     # confusion_matrices = []
     # gregor_matrices = []
@@ -611,16 +668,15 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
         # dataset = 0
         # name = adjustable.dataset_test
         # for dataset in range(len(adjustable.datasets)):
-            ################################################################################################################
-            #   Prepare the testing/ranking data
-            ################################################################################################################
+        ################################################################################################################
+        #   Prepare the testing/ranking data
+        ################################################################################################################
         # this_ranking = all_ranking[dataset]
 
         # DONE TODO: update ddl.grab_em_by_the_keys() with new parameters
         # test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
         test_data = ddl.grab_em_by_the_keys(this_ranking, training_h5, testing_h5)
         test_data = np.asarray(test_data)
-
 
         # prepare for testing the model
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
@@ -657,22 +713,24 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
         print(gregor_matrix)
         gregor_matrices.append(gregor_matrix)
 
-        if (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0) == 0:
+        if (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0) == 0:
             detection_rate = 0
         else:
-            detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0]*1.0 + gregor_matrix[3]*1.0))
+            detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0))
 
-        if (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0) == 0:
+        if (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0) == 0:
             false_alarm = 0
         else:
-            false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1]*1.0 + gregor_matrix[2]*1.0))
+            false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
 
         # calculate the Cumulative Matching Characteristic
         ranking = pu.calculate_CMC(adjustable, predictions)
         ranking_matrices.append(ranking)
 
-        print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \nCMC: \n%s \nDetection rate: %s  False alarm: %s'
-              % (adjustable.dataset_test, accuracy, precision, str(matrix), str(ranking), str(detection_rate), str(false_alarm)))
+        print(
+        '%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \nCMC: \n%s \nDetection rate: %s  False alarm: %s'
+        % (
+        adjustable.dataset_test, accuracy, precision, str(matrix), str(ranking), str(detection_rate), str(false_alarm)))
 
     else:
         confusion_matrices = None
@@ -701,7 +759,7 @@ def super_main(adjustable):
     ################################################################################################################
     if dataset_test_h5 is None:
         if datasets_train_h5 is not None:
-            if adjustable.ranking_number is None:
+            if adjustable.ranking_number_test is None:
                 print('Note: Only training will be performed.')
                 ranking_number = None
             else:
@@ -713,9 +771,9 @@ def super_main(adjustable):
             return
     else:
         print('Note: Testing (Ranking) will also be performed.')
-        if adjustable.ranking_number == 'half':
+        if adjustable.ranking_number_test == 'half':
             ranking_number = pc.RANKING_DICT[dataset_test_h5[0]]
-        elif isinstance(adjustable.ranking_number, int):
+        elif isinstance(adjustable.ranking_number_test, int):
             ranking_number = adjustable.ranking_number
         else:
             print('Error: Unknown configuration.')
@@ -827,7 +885,6 @@ def super_main(adjustable):
                     all_training_pos.append(training_pos)
                     all_training_neg.append(training_neg)
 
-
         # for name in range(len(adjustable.datasets)):
         #     ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name], adjustable)
         #     # labels have different meanings in `euclidean` case, 0 for match and 1 for mismatch
@@ -843,7 +900,7 @@ def super_main(adjustable):
         # # put all the training data together
 
         st = time.time()
-        print('%0.2f mins' % ((st-ss)/60))
+        print('%0.2f mins' % ((st - ss) / 60))
 
         ################################################################################################################
         #   Merge the training data.
@@ -861,8 +918,8 @@ def super_main(adjustable):
         #                                               merged_training_neg)
         # TODO: update `main()`
         confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, datasets_train_h5, dataset_test_h5,
-                                                                     all_ranking, merged_training_pos,
-                                                                     merged_training_neg)
+                                                               all_ranking, merged_training_pos,
+                                                               merged_training_neg)
 
         if dataset_test_h5 is not None:
             # store results
@@ -893,8 +950,6 @@ def super_main(adjustable):
         gregor_matrix_means = None
         gregor_matrix_std = None
         name = None
-
-
 
     # matrix_means = np.zeros((1, 4))
     # matrix_std = np.zeros((1, 4))

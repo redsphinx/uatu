@@ -590,12 +590,19 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
     :return:                    a mapping from the keys to the datasets
     """
     key_dataset_mapping = []
+    mapping_1 = {}
+    mapping_2 = {}
 
     if len(h5_dataset_list) == 1:
+
 
         for key in key_list:
             key_1 = key.split(',')[0]
             key_2 = key.split(',')[1]
+
+            # TODO: dictionary
+            mapping_1[key_1] = h5_dataset_list[0]
+            mapping_2[key_2] = h5_dataset_list[0]
 
             mapping_1 = [key_1, h5_dataset_list[0]]
             mapping_2 = [key_2, h5_dataset_list[0]]
@@ -614,11 +621,13 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
             dataset_key_1 = get_dataset_to_map(folder_key_1, h5_dataset_list, h5_filenames)
             dataset_key_2 = get_dataset_to_map(folder_key_2, h5_dataset_list, h5_filenames)
 
+            # TODO: dictionary
             mapping_1 = [key_1, dataset_key_1]
             mapping_2 = [key_2, dataset_key_2]
 
             key_dataset_mapping.append(mapping_1)
             key_dataset_mapping.append(mapping_2)
+    # TODO: figure out if we really need a list here, dictionary would be much better
     return key_dataset_mapping
 
 
@@ -642,6 +651,8 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
             h5_dataset_list.append(testing_h5[index])
 
     # create mapping from keys to dataset
+    # TODO: see if we can optimize the creation of `key_list`
+    # TODO: avoid running loops as much as possible
     key_dataset_mapping = create_key_dataset_mapping(key_list, h5_dataset_list)
     ################################################################################################################
     #   isolate the different keys and values
@@ -656,10 +667,10 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
 
     # all_keys_in_mapping = [item[0] for item in key_dataset_mapping]
     # only_values = [item[1] for item in key_dataset_mapping]
-    all_keys_in_mapping = []
+    only_keys = []
     only_values = []
     for item in key_dataset_mapping:
-        all_keys_in_mapping.append(item[0])
+        only_keys.append(item[0])
         only_values.append(item[1])
 
     ################################################################################################################
@@ -668,19 +679,25 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
     # FIXME: taking incredibly fucking long if we do big ranking numbers
     # TODO: fix it, optimize it somehow so that we can run with bigger ranking numbers
     # the_index_key_1 = [all_keys_in_mapping.index(key_1) for key_1 in all_key_1]
-    the_index_key_1 = []
-    for key_1 in all_key_1:
-        the_index_key_1.append(all_keys_in_mapping.index(key_1))
+    '''
+    the_index_key_1
+    all_key_1
+    only_keys
 
-    # the_index_key_2 = [all_keys_in_mapping.index(key_2) for key_2 in all_key_2]
-    the_index_key_2 = []
-    for key_2 in all_key_2:
-        the_index_key_2.append(all_keys_in_mapping.index(key_2))
+    '''
+    the_index_of_key_1 = list(np.zeros(len(all_key_1), dtype=int))
+    for index in range(len(all_key_1)):
+        the_index_of_key_1[index] = (only_keys.index(all_key_1[index]))
+
+    the_index_of_key_2 = list(np.zeros(len(all_key_2), dtype=int))
+    for index in range(len(all_key_2)):
+        the_index_of_key_2[index] = (only_keys.index(all_key_2[index]))
+
 
     ################################################################################################################
     #   get the values from the h5 file given the indices
     ################################################################################################################
-    values_key_1 = [only_values[the_index_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
+    values_key_1 = [only_values[the_index_of_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
     # len_all_key_1 = len(all_key_1)
     # values_key_1 = []
     # for item in range(len_all_key_1):
@@ -692,7 +709,7 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
         # TODO: finish making this understandable
         # the_value = only_values[the_index_key_1[item]][all_key_1[item]][:]
 
-    values_key_2 = [only_values[the_index_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
+    values_key_2 = [only_values[the_index_of_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
     return values_key_1, values_key_2
 
 
@@ -980,5 +997,4 @@ def get_human_data(keys, h5data):
     thingy = np.asarray(thingy)
 
     return thingy
-
 

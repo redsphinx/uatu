@@ -6,6 +6,7 @@ import os
 import siamese_cnn_video as srcn
 import cnn_human_detection as cnn
 
+
 def test():
     a = ProjectVariable()
     a.experiment_name = 'test'
@@ -135,7 +136,6 @@ def experiment_007():
     scn.super_main(a)
 
 
-
 def experiment_order_viper_2():
     a = ProjectVariable()
     a.experiment_name = 'train on viper'
@@ -152,6 +152,7 @@ def experiment_order_viper_2():
     a.name_indication = 'dataset_name'
     a.batch_size = 32
     scn.super_main(a)
+
 
 def experiment_order_cuhk02_2():
     a = ProjectVariable()
@@ -212,16 +213,14 @@ def something_prime():
     prime.super_main(a)
 
 
-
 def experiment_008():
     a = ProjectVariable()
     a.experiment_name = '008. train on cuhk02 only baseline'
     a.datasets = ['cuhk02']
-    a.epochs = 100 # rem
-    a.iterations = 10 # rem
+    a.epochs = 100  # rem
+    a.iterations = 10  # rem
     a.ranking_number = 100
     scn.super_main(a)
-
 
 
 def experiment_009():
@@ -248,8 +247,8 @@ def experiment_010():
     a.experiment_name = '010. train on market only baseline'
     a.datasets = ['market']
     a.ranking_number = 100
-    a.epochs = 100 # rem
-    a.iterations = 10 # rem
+    a.epochs = 100  # rem
+    a.iterations = 10  # rem
     scn.super_main(a)
 
 
@@ -277,8 +276,8 @@ def experiment_012():
     a.experiment_name = '012. train on prid450 only baseline'
     a.datasets = ['prid450']
     a.ranking_number = 100
-    a.epochs = 100 # rem
-    a.iterations = 10 # rem
+    a.epochs = 100  # rem
+    a.iterations = 10  # rem
     scn.super_main(a)
 
 
@@ -360,6 +359,7 @@ def experiment_test():
     a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
     scn.super_main(a)
 
+
 #################################################################################################
 #    BASELINE
 #################################################################################################
@@ -371,8 +371,8 @@ def e_001():
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.datasets = ['viper']
     scn.super_main(a)
-    
-    
+
+
 def e_002():
     a = ProjectVariable()
     a.experiment_name = '002. baseline market'
@@ -380,7 +380,7 @@ def e_002():
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.datasets = ['market']
     scn.super_main(a)
-    
+
 
 def e_003():
     a = ProjectVariable()
@@ -389,7 +389,7 @@ def e_003():
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.datasets = ['cuhk02']
     scn.super_main(a)
-    
+
 
 def e_004():
     a = ProjectVariable()
@@ -398,8 +398,8 @@ def e_004():
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.datasets = ['grid']
     scn.super_main(a)
-    
-    
+
+
 def e_005():
     a = ProjectVariable()
     a.experiment_name = '005. baseline prid450'
@@ -417,6 +417,7 @@ def e_006():
     a.log_file = 'log_%s.txt' % a.use_gpu
     a.datasets = ['caviar']
     scn.super_main(a)
+
 
 #################################################################################################
 #    TRAIN ON VIPER, FULL NETWORK
@@ -466,8 +467,8 @@ def e_008():
     a.datasets = ['cuhk02']
     a.load_weights_name = 'viper_weigths_%s.h5' % a.use_gpu
     scn.super_main(a)
-    
-    
+
+
 def e_009():
     a = ProjectVariable()
     a.experiment_name = '009. train on viper -> grid (full network)'
@@ -670,6 +671,7 @@ def e_016():
     a.trainable_56 = False
     scn.super_main(a)
 
+
 #################################################################################################
 #    TRAIN ON CUHK02, FULL NETWORK
 #################################################################################################
@@ -787,6 +789,7 @@ def e_021():
     a.datasets = ['caviar']
     a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
     scn.super_main(a)
+
 
 #################################################################################################
 #    TRAIN ON CUHK02, ONLY CLASSIFIER
@@ -921,6 +924,7 @@ def e_026():
     a.trainable_56 = False
     scn.super_main(a)
 
+
 #################################################################################################
 #    TRAIN ON CUHK02, MARKET, FULL NETWORK
 #################################################################################################
@@ -944,7 +948,7 @@ def e_027():
     a.load_weights_name = 'cuhk02_weigths_%s.h5' % a.use_gpu
     a.datasets = ['market']
     scn.super_main(a)
-    
+
     a.ranking_number = 100
     a.save_inbetween = False
     a.log_experiment = True
@@ -1182,7 +1186,7 @@ def e_035():
     a.save_inbetween = False
     a.priming = True
     a.load_model_name = 'market_model_%s.h5' % a.use_gpu
-    a.load_weights_name = 'market_weigths_%s.h5'  % a.use_gpu
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
     a.datasets = ['market']
     a.prime_epochs = 5
     a.batch_size = 32
@@ -1235,7 +1239,7 @@ def e_037():
     a.save_inbetween = False
     a.priming = True
     a.load_model_name = 'market_model_%s.h5' % a.use_gpu
-    a.load_weights_name = 'market_weigths_%s.h5'  % a.use_gpu
+    a.load_weights_name = 'market_weigths_%s.h5' % a.use_gpu
     a.datasets = ['market']
     a.prime_epochs = 10
     a.batch_size = 32
@@ -1503,6 +1507,7 @@ def experiment_lstm():
 
     # a.datasets = ['ilids-vid']
     # srcn.super_main(a)
+
 
 def experiment_lstm_more():
     a = ProjectVariable()
@@ -1906,15 +1911,16 @@ def test_cnn_with_save():
 
 def test_mixing():
     a = ProjectVariable()
-    a.experiment_name = 'test mixing'
+    a.experiment_name = 'test mixing: train + test multiple datasets'
     a.epochs = 100
     a.batch_size = 32
     a.name_indication = 'dataset_name'
     a.save_points = [100]
     a.ranking_number = 100
     a.iterations = 1
-    a.datasets_train = ['prid450', 'cuhk01']
+    a.datasets_train = ['prid450', 'grid']
     a.dataset_test = 'viper'
+
     scn.super_main(a)
 
 
@@ -1925,4 +1931,29 @@ def main():
     # if num == '1':
     test_mixing()
 
+
 main()
+
+'''
+From scratch:
+a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==True'
+a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==False'
+a.experiment_name = 'test mixing: train + test multiple datasets + mix==False (+ mix_with_test==True)'
+
+a.experiment_name = 'test mixing: train + test single datasets'
+
+a.experiment_name = 'test mixing: only test'
+a.experiment_name = 'test mixing: only train on multiple dataset'
+a.experiment_name = 'test mixing: only train on single dataset'
+
+Load data:
+a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==True'
+a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==False'
+a.experiment_name = 'test mixing: train + test multiple datasets + mix==False (+ mix_with_test==True)'
+
+a.experiment_name = 'test mixing: train + test single datasets'
+
+a.experiment_name = 'test mixing: only test'
+a.experiment_name = 'test mixing: only train on multiple dataset'
+a.experiment_name = 'test mixing: only train on single dataset'
+'''
