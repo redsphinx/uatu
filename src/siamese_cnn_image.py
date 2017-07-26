@@ -677,18 +677,18 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
 
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            print('more final testing labels')
             final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
         ################################################################################################################
         #   Test
         ################################################################################################################
+        print('Testing...')
         predictions = model.predict([test_data[0, :], test_data[1, :]])
 
         ################################################################################################################
         #   Process the results
         ################################################################################################################
-
+        print('Processing results...')
         if adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             new_thing = zip(predictions, final_testing_labels)
             print(new_thing[0:50])
@@ -810,9 +810,10 @@ def super_main(adjustable):
             if datasets_train_h5 is not None:
                 for index in range(len(adjustable.datasets_train)):
                     # DONE TODO: modify `ddl.create_training_and_ranking_set` to handle `do_ranking=False`
-                    # TODO: add ranking_variable parameter to create_training_and_ranking_set
+                    # DONE TODO: add ranking_variable parameter to create_training_and_ranking_set
                     training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets_train[index],
-                                                                                     adjustable, do_ranking=False)
+                                                                                     adjustable, ranking_variable=None,
+                                                                                     do_ranking=False)
                     if adjustable.cost_module_type in ['euclidean', 'cosine']:
                         training_pos = pu.flip_labels(training_pos)
                         training_neg = pu.flip_labels(training_neg)
@@ -829,9 +830,11 @@ def super_main(adjustable):
                 ########################################################################################################
                 #   Prepare data for when we ONLY test. Randomly get the data or load from a file if file exists
                 ########################################################################################################
-                # TODO: modify `ddl.create_training_and_ranking_set` to handle `do_training=False`
-                # TODO: add ranking_variable parameter to create_training_and_ranking_set
-                ranking = ddl.create_training_and_ranking_set(adjustable.dataset_test, adjustable, do_training=False)
+                # DONE TODO: modify `ddl.create_training_and_ranking_set` to handle `do_training=False`
+                # DONE TODO: add ranking_variable parameter to create_training_and_ranking_set
+                ranking = ddl.create_training_and_ranking_set(adjustable.dataset_test, adjustable,
+                                                              ranking_variable=adjustable.ranking_number_test,
+                                                              do_training=False)
                 if adjustable.cost_module_type in ['euclidean', 'cosine']:
                     ranking = pu.flip_labels(ranking)
                 all_ranking.append(ranking)
@@ -839,13 +842,15 @@ def super_main(adjustable):
                 if datasets_train_h5 is not None:
                     print('Training and testing on multiple datasets.')
                     ####################################################################################################
-                    #   Prepare data for when we train and test on multiple datasets
+                    #   Prepare data for when we train on multiple datasets and test
                     ####################################################################################################
                     # note: remember that only the last ranking in the ranking matrix will be tested on.
-                    # TODO: add ranking_variable parameter to create_training_and_ranking_set
+                    # DONE TODO: add ranking_variable parameter to create_training_and_ranking_set
                     for index in range(len(adjustable.datasets_train)):
                         ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
-                            adjustable.datasets_train[index], adjustable)
+                            adjustable.datasets_train[index],
+                            adjustable,
+                            ranking_variable=adjustable.ranking_number_train[index])
                         if adjustable.cost_module_type in ['euclidean', 'cosine']:
                             ranking = pu.flip_labels(ranking)
                             training_pos = pu.flip_labels(training_pos)
@@ -854,9 +859,10 @@ def super_main(adjustable):
                         all_ranking.append(ranking)
                         all_training_pos.append(training_pos)
                         all_training_neg.append(training_neg)
-                    # TODO: add ranking_variable parameter to create_training_and_ranking_set
+
+                    # DONE TODO: add ranking_variable parameter to create_training_and_ranking_set
                     ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
-                        adjustable.dataset_test, adjustable)
+                        adjustable.dataset_test, adjustable, ranking_variable=adjustable.ranking_number_test)
                     if adjustable.cost_module_type in ['euclidean', 'cosine']:
                         ranking = pu.flip_labels(ranking)
                         training_pos = pu.flip_labels(training_pos)
@@ -871,9 +877,9 @@ def super_main(adjustable):
                     ####################################################################################################
                     #   Prepare data for when we train and test on a single dataset
                     ####################################################################################################
-                    # TODO: add ranking_variable parameter to create_training_and_ranking_set
+                    # DONE TODO: add ranking_variable parameter to create_training_and_ranking_set
                     ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
-                        adjustable.dataset_test, adjustable)
+                        adjustable.dataset_test, adjustable, ranking_variable=adjustable.ranking_number_test)
                     if adjustable.cost_module_type in ['euclidean', 'cosine']:
                         ranking = pu.flip_labels(ranking)
                         training_pos = pu.flip_labels(training_pos)

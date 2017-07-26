@@ -53,10 +53,10 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 26 july
 -------
 . continue fixing pipeline for mixing data
-. do something such that we can choose ranking numbers for each dataset that we train with
+. semi-DONE do something such that we can choose ranking numbers for each dataset that we train with
 	
-	make_pairs_image
-	make_pairs_cuhk2 2x
+	DONE make_pairs_image
+	DONE make_pairs_cuhk2 2x
 	make_pairs_video
 
 TODO: add ranking_variable parameter to create_training_and_ranking_set	/ make_pairs_image + make_pairs_cuhk02

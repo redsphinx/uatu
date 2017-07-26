@@ -433,29 +433,29 @@ def load_datasets_from_h5(list_of_datasets):
 
 
 # DONE TODO
-def create_training_and_ranking_set(name, adjustable, do_ranking=True, do_training=True):
+def create_training_and_ranking_set(name, adjustable, ranking_variable, do_ranking=True, do_training=True):
     """ Do this at the beginning of each iteration
     """
     if name == 'viper':
         ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.VIPER_DATA_STORAGE, pc.VIPER_FIXED,
-                                                                  do_ranking, do_training, name)
+                                                                  do_ranking, do_training, name, ranking_variable)
     elif name == 'cuhk01':
         ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.CUHK01_DATA_STORAGE, pc.CUHK01_FIXED,
-                                                                  do_ranking, do_training, name)
+                                                                  do_ranking, do_training, name, ranking_variable)
     elif name == 'cuhk02':
-        ranking, training_pos, training_neg = dp.make_pairs_cuhk2(adjustable, do_ranking, do_training)
+        ranking, training_pos, training_neg = dp.make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable)
     elif name == 'market':
         ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.MARKET_DATA_STORAGE, pc.MARKET_FIXED,
-                                                                  do_ranking, do_training, name)
+                                                                  do_ranking, do_training, name, ranking_variable)
     elif name == 'caviar':
         ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.CAVIAR_DATA_STORAGE, pc.CAVIAR_FIXED,
-                                                                  do_ranking, do_training, name)
+                                                                  do_ranking, do_training, name, ranking_variable)
     elif name == 'grid':
         ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.GRID_DATA_STORAGE, pc.GRID_FIXED,
-                                                                  do_ranking, do_training, name)
+                                                                  do_ranking, do_training, name, ranking_variable)
     elif name == 'prid450':
         ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.PRID450_DATA_STORAGE, pc.PRID450_FIXED,
-                                                                  do_ranking, do_training, name)
+                                                                  do_ranking, do_training, name, ranking_variable)
     elif name == 'ilids-vid':
         ranking, training_pos, training_neg = dp.make_pairs_video(adjustable)
     elif name == 'prid2011':
