@@ -1923,9 +1923,9 @@ def test_pipeline_1():
 
 def test_pipeline_2():
     a = ProjectVariable()
-    a.experiment_name = 'test pipeline 2: train + test multiple datasets, mix==True, mix_with_test=False, no saving, 1 iteration'
-    a.iterations = 1
-    a.epochs = 1
+    a.experiment_name = 'test pipeline 2: train + test multiple datasets, mix==False, no saving, 2 iterations'
+    a.iterations = 2
+    a.epochs = 3
 
     a.datasets_train = ['prid450', 'grid']
     a.dataset_test = 'viper'
@@ -1935,25 +1935,69 @@ def test_pipeline_2():
     scn.super_main(a)
 
 
+def test_pipeline_3():
+    a = ProjectVariable()
+    a.experiment_name = 'test pipeline 3: train + test multiple datasets, mix==True, mix_with_test=False, no saving, 2 iterations'
+    a.iterations = 2
+    a.epochs = 3
+
+    a.datasets_train = ['prid450', 'grid']
+    a.dataset_test = 'viper'
+    a.ranking_number_train = [50, 50]
+    a.ranking_number_test = 50
+    a.mix = True
+
+    scn.super_main(a)
+
+
+def test_pipeline_4():
+    a = ProjectVariable()
+    a.experiment_name = 'test pipeline 4: train + test multiple datasets, mix==True, mix_with_test=True, no saving, 2 iterations'
+    a.iterations = 2
+    a.epochs = 3
+
+    a.datasets_train = ['prid450', 'grid']
+    a.dataset_test = 'viper'
+    a.ranking_number_train = [50, 50]
+    a.ranking_number_test = 50
+    a.mix = True
+    a.mix_with_test = True
+
+    scn.super_main(a)
+
+
+def test_pipeline_5():
+    a = ProjectVariable()
+    a.experiment_name = 'test pipeline 5: only test, make new ranking file, no saving, 2 iterations'
+    a.iterations = 2
+    a.epochs = 1
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+    a.only_test = True
+
+    scn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     #
     # if num == '1':
-    test_pipeline_2()
+    test_pipeline_5()
 
 
 main()
 
 '''
 From scratch:
-a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==True'
-a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==False'
+--WORKING-- a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==True' --WORKING--
+--WORKING-- a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==False' --WORKING--
 --WORKING-- a.experiment_name = 'test mixing: train + test multiple datasets + mix==False (+ mix_with_test==False)' --WORKING--
 
 --WORKING-- a.experiment_name = 'test mixing: train + test single dataset' --WORKING--
 
-a.experiment_name = 'test mixing: only test'
+--WORKING-- a.experiment_name = 'test mixing: only test' --WORKING--
 a.experiment_name = 'test mixing: only train on multiple dataset'
 a.experiment_name = 'test mixing: only train on single dataset'
 

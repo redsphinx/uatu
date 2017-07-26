@@ -858,9 +858,11 @@ def super_main(adjustable):
                 ########################################################################################################
                 # DONE TODO: modify `ddl.create_training_and_ranking_set` to handle `do_training=False`
                 # DONE TODO: add ranking_variable parameter to create_training_and_ranking_set
-                ranking = ddl.create_training_and_ranking_set(adjustable.dataset_test, adjustable,
+                ranking, tmp1, tmp2 = ddl.create_training_and_ranking_set(adjustable.dataset_test, adjustable,
                                                               ranking_variable=adjustable.ranking_number_test,
                                                               do_training=False)
+                del tmp1, tmp2
+
                 if adjustable.cost_module_type in ['euclidean', 'cosine']:
                     ranking = pu.flip_labels(ranking)
                 all_ranking.append(ranking)

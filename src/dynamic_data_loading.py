@@ -484,14 +484,17 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
     """
     check = 0
     if list_training_pos == [] or list_training_pos is None:
-        print('Error: No positive training list given')
+        print('Warning: No positive training list given')
         check += 1
     if list_training_neg == [] or list_training_neg is None:
-        print('Error: No negative training list given')
+        print('Warning: No negative training list given')
         check += 1
     if check == 2:
-        print('Error: No training list given. I quit!')
-        return
+        if adjustable.only_test is True:
+            return None, None
+        else:
+            print('Error: No training list given. I quit!')
+            return
 
     if len(list_training_pos) == len(list_training_neg):
         number_of_datasets = len(list_training_neg)

@@ -1464,3 +1464,115 @@ viper G std tp,fp,tn,fn:     [0.5, 5.0, 5.0, 0.5]
 viper detection rate (TP/(TP+FN)):      0.85
 viper false alarm (FP/(FP+TN)):        0.36
 
+
+name_of_experiment:         test pipeline 3: train + test multiple datasets, mix==True, mix_with_test=False, no saving, 1 iteration
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   15:42:07
+duration:                   237.454626
+viper mean tp,fp,tn,fn:    [47.0, 1879.0, 571.0, 3.0]
+viper std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper mean ranking:        [0.04, 0.08, 0.12, 0.12, 0.16, 0.24, 0.24, 0.28, 0.28, 0.32, 0.34, 0.34, 0.4, 0.48, 0.48, 0.56, 0.58, 0.6, 0.64, 0.64, 0.66, 0.68, 0.7, 0.72, 0.72, 0.72, 0.72, 0.76, 0.76, 0.76, 0.78, 0.78, 0.82, 0.82, 0.88, 0.88, 0.9, 0.9, 0.92, 0.92, 0.92, 0.92, 0.92, 0.92, 0.94, 0.94, 0.96, 0.98, 1.0, 1.0]
+viper std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+viper G mean tp,fp,tn,fn:    [47.0, 329.0, 121.0, 3.0]
+viper G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper detection rate (TP/(TP+FN)):      0.94
+viper false alarm (FP/(FP+TN)):        0.731111111111
+
+
+name_of_experiment:         test pipeline 3: train + test multiple datasets, mix==True, mix_with_test=False, no saving, 2 iterations
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   15:43:58
+duration:                   60.986920
+viper mean tp,fp,tn,fn:    [35.5, 691.0, 1759.0, 14.5]
+viper std tp,fp,tn,fn:     [1.5, 211.0, 211.0, 1.5]
+viper mean ranking:        [0.15, 0.22, 0.37, 0.44, 0.5, 0.54, 0.55, 0.56, 0.57, 0.59, 0.61, 0.63, 0.63, 0.67, 0.69, 0.71, 0.73, 0.76, 0.81, 0.83, 0.85, 0.85, 0.88, 0.88, 0.89, 0.89, 0.89, 0.89, 0.89, 0.89, 0.9, 0.91, 0.92, 0.93, 0.94, 0.94, 0.95, 0.95, 0.95, 0.97, 0.97, 0.97, 0.97, 0.98, 0.98, 0.98, 1.0, 1.0, 1.0, 1.0]
+viper std ranking:         [0.05, 0.12, 0.15, 0.12, 0.14, 0.12, 0.13, 0.14, 0.13, 0.15, 0.15, 0.17, 0.17, 0.19, 0.21, 0.19, 0.19, 0.16, 0.11, 0.09, 0.09, 0.09, 0.08, 0.08, 0.07, 0.07, 0.07, 0.07, 0.07, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+viper G mean tp,fp,tn,fn:    [35.5, 114.0, 336.0, 14.5]
+viper G std tp,fp,tn,fn:     [1.5, 56.0, 56.0, 1.5]
+viper detection rate (TP/(TP+FN)):      0.71
+viper false alarm (FP/(FP+TN)):        0.253333333333
+
+
+name_of_experiment:         test pipeline 4: train + test multiple datasets, mix==True, mix_with_test=True, no saving, 1 iteration
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   15:47:15
+duration:                   17.779385
+viper mean tp,fp,tn,fn:    [27.0, 1148.0, 1302.0, 23.0]
+viper std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper mean ranking:        [0.02, 0.08, 0.14, 0.16, 0.2, 0.22, 0.26, 0.28, 0.3, 0.32, 0.32, 0.32, 0.32, 0.34, 0.36, 0.38, 0.4, 0.42, 0.44, 0.44, 0.44, 0.5, 0.52, 0.52, 0.54, 0.56, 0.56, 0.58, 0.64, 0.68, 0.7, 0.7, 0.74, 0.78, 0.78, 0.8, 0.8, 0.8, 0.86, 0.86, 0.86, 0.9, 0.92, 0.96, 0.98, 0.98, 0.98, 0.98, 1.0, 1.0]
+viper std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+viper G mean tp,fp,tn,fn:    [27.0, 266.0, 184.0, 23.0]
+viper G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper detection rate (TP/(TP+FN)):      0.54
+viper false alarm (FP/(FP+TN)):        0.591111111111
+
+
+name_of_experiment:         test pipeline 4: train + test multiple datasets, mix==True, mix_with_test=True, no saving, 2 iterations
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   15:49:14
+duration:                   61.449541
+viper mean tp,fp,tn,fn:    [25.5, 551.5, 1898.5, 24.5]
+viper std tp,fp,tn,fn:     [0.5, 11.5, 11.5, 0.5]
+viper mean ranking:        [0.1, 0.16, 0.21, 0.25, 0.33, 0.36, 0.39, 0.43, 0.48, 0.51, 0.54, 0.59, 0.61, 0.64, 0.64, 0.69, 0.71, 0.74, 0.76, 0.78, 0.79, 0.82, 0.83, 0.84, 0.85, 0.86, 0.89, 0.91, 0.91, 0.92, 0.93, 0.93, 0.93, 0.95, 0.96, 0.96, 0.97, 0.97, 0.97, 0.97, 0.97, 0.97, 0.97, 0.98, 0.98, 0.99, 0.99, 1.0, 1.0, 1.0]
+viper std ranking:         [0.0, 0.02, 0.01, 0.01, 0.03, 0.02, 0.03, 0.03, 0.06, 0.03, 0.04, 0.05, 0.05, 0.06, 0.06, 0.05, 0.03, 0.02, 0.0, 0.02, 0.01, 0.0, 0.01, 0.02, 0.01, 0.02, 0.01, 0.01, 0.01, 0.02, 0.03, 0.03, 0.03, 0.01, 0.0, 0.0, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.0, 0.0, 0.01, 0.01, 0.0, 0.0, 0.0]
+viper G mean tp,fp,tn,fn:    [25.5, 103.5, 346.5, 24.5]
+viper G std tp,fp,tn,fn:     [0.5, 19.5, 19.5, 0.5]
+viper detection rate (TP/(TP+FN)):      0.51
+viper false alarm (FP/(FP+TN)):        0.23
+
+
+name_of_experiment:         test pipeline 5: only test, load ranking from existing file, no saving, 1 iteration
+file_name:                  siamese_cnn_image.py
+date:                       26/07/2017   16:13:42
+duration:                   129.891932
+viper mean tp,fp,tn,fn:    [7.0, 27.0, 63.0, 3.0]
+viper std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper mean ranking:        [0.2, 0.4, 0.5, 0.6, 0.8, 0.8, 0.9, 1.0, 1.0, 1.0]
+viper std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+viper G mean tp,fp,tn,fn:    [7.0, 27.0, 63.0, 3.0]
+viper G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper detection rate (TP/(TP+FN)):      0.7
+viper false alarm (FP/(FP+TN)):        0.3
+
+
+name_of_experiment:         test pipeline 5: only test, load ranking from existing file, no saving, 2 iterations
+file_name:                  siamese_cnn_image.py
+date:                       26/07/2017   16:14:35
+duration:                   4.392769
+viper mean tp,fp,tn,fn:    [4.0, 31.0, 59.0, 6.0]
+viper std tp,fp,tn,fn:     [1.0, 3.0, 3.0, 1.0]
+viper mean ranking:        [0.15, 0.2, 0.2, 0.35, 0.5, 0.65, 0.75, 0.75, 0.85, 1.0]
+viper std ranking:         [0.05, 0.1, 0.1, 0.05, 0.0, 0.05, 0.05, 0.05, 0.05, 0.0]
+viper G mean tp,fp,tn,fn:    [4.0, 31.0, 59.0, 6.0]
+viper G std tp,fp,tn,fn:     [1.0, 3.0, 3.0, 1.0]
+viper detection rate (TP/(TP+FN)):      0.4
+viper false alarm (FP/(FP+TN)):        0.344444444444
+
+
+name_of_experiment:         test pipeline 5: only test, make new ranking file, no saving, 1 iteration
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   16:15:53
+duration:                   3.016230
+viper mean tp,fp,tn,fn:    [1.0, 14.0, 76.0, 9.0]
+viper std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper mean ranking:        [0.1, 0.1, 0.1, 0.1, 0.3, 0.4, 0.5, 0.8, 1.0, 1.0]
+viper std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+viper G mean tp,fp,tn,fn:    [1.0, 14.0, 76.0, 9.0]
+viper G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper detection rate (TP/(TP+FN)):      0.1
+viper false alarm (FP/(FP+TN)):        0.155555555556
+
+
+name_of_experiment:         test pipeline 5: only test, make new ranking file, no saving, 2 iterations
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   16:16:44
+duration:                   28.364858
+viper mean tp,fp,tn,fn:    [30.0, 2886.0, 7014.0, 70.0]
+viper std tp,fp,tn,fn:     [11.0, 723.0, 723.0, 11.0]
+viper mean ranking:        [0.0, 0.01, 0.01, 0.02, 0.04, 0.04, 0.06, 0.07, 0.09, 0.1, 0.11, 0.12, 0.14, 0.14, 0.15, 0.17, 0.17, 0.21, 0.21, 0.22, 0.23, 0.23, 0.24, 0.24, 0.24, 0.26, 0.26, 0.28, 0.29, 0.29, 0.29, 0.3, 0.3, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.41, 0.42, 0.43, 0.45, 0.45, 0.45, 0.46, 0.46, 0.48, 0.49, 0.49, 0.49, 0.52, 0.53, 0.53, 0.54, 0.54, 0.54, 0.54, 0.55, 0.56, 0.57, 0.61, 0.62, 0.65, 0.67, 0.68, 0.68, 0.7, 0.71, 0.73, 0.74, 0.74, 0.74, 0.76, 0.77, 0.77, 0.77, 0.77, 0.79, 0.79, 0.8, 0.8, 0.82, 0.83, 0.85, 0.86, 0.87, 0.88, 0.89, 0.9, 0.9, 0.91, 0.93, 0.94, 0.95, 0.96, 0.98, 0.98, 0.99, 1.0]
+viper std ranking:         [0.0, 0.01, 0.0, 0.0, 0.01, 0.01, 0.0, 0.01, 0.01, 0.03, 0.04, 0.02, 0.03, 0.02, 0.04, 0.04, 0.03, 0.03, 0.03, 0.04, 0.03, 0.03, 0.04, 0.04, 0.04, 0.03, 0.04, 0.06, 0.06, 0.06, 0.06, 0.05, 0.04, 0.05, 0.04, 0.04, 0.04, 0.04, 0.03, 0.03, 0.04, 0.04, 0.04, 0.05, 0.05, 0.04, 0.05, 0.06, 0.05, 0.05, 0.05, 0.04, 0.04, 0.03, 0.02, 0.02, 0.02, 0.02, 0.01, 0.02, 0.01, 0.0, 0.01, 0.02, 0.02, 0.03, 0.03, 0.02, 0.03, 0.04, 0.04, 0.04, 0.04, 0.03, 0.03, 0.03, 0.03, 0.02, 0.02, 0.02, 0.01, 0.01, 0.02, 0.02, 0.03, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.03, 0.03, 0.03, 0.01, 0.01, 0.01, 0.0]
+viper G mean tp,fp,tn,fn:    [30.0, 221.5, 678.5, 70.0]
+viper G std tp,fp,tn,fn:     [11.0, 64.5, 64.5, 11.0]
+viper detection rate (TP/(TP+FN)):      0.3
+viper false alarm (FP/(FP+TN)):        0.246111111111
+
