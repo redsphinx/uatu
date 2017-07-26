@@ -1909,17 +1909,14 @@ def test_cnn_with_save():
     cnn.super_main(a)
 
 
-def test_mixing():
+def test_pipeline_1():
     a = ProjectVariable()
-    a.experiment_name = 'test mixing: train + test multiple datasets'
-    a.epochs = 100
-    a.batch_size = 32
-    a.name_indication = 'dataset_name'
-    a.save_points = [100]
-    a.ranking_number = 100
+    a.experiment_name = 'test pipeline 1: train + test single dataset, no saving'
     a.iterations = 1
-    a.datasets_train = ['prid450', 'grid']
+    a.epochs = 3
+
     a.dataset_test = 'viper'
+    a.ranking_number_test = 100
 
     scn.super_main(a)
 
@@ -1929,7 +1926,7 @@ def main():
     # print(sys.argv)
     #
     # if num == '1':
-    test_mixing()
+    test_pipeline_1()
 
 
 main()
@@ -1940,7 +1937,7 @@ a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + m
 a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==False'
 a.experiment_name = 'test mixing: train + test multiple datasets + mix==False (+ mix_with_test==True)'
 
-a.experiment_name = 'test mixing: train + test single datasets'
+--WORKING-- a.experiment_name = 'test mixing: train + test single dataset' --WORKING--
 
 a.experiment_name = 'test mixing: only test'
 a.experiment_name = 'test mixing: only train on multiple dataset'

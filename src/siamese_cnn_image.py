@@ -366,7 +366,19 @@ def get_model(adjustable):
 
 
 def get_negative_sample(adjustable, train_pos, train_neg):
-    number_of_datasets = len(train_pos)
+    # number_of_datasets = len(train_pos)
+    if isinstance(train_pos, list):
+        shape = np.shape(train_pos)
+        if len(shape) == 1:
+            number_of_datasets = 1
+        elif len(shape) > 1:
+            number_of_datasets = len(train_pos)
+        else:
+            print('Warning: something weird is happening')
+            return
+    else:
+        print('Error: train_pos must be a list')
+        return
 
     negative = []
 
@@ -432,9 +444,21 @@ def fix_positives(positives):
 
 
 def get_final_training_data(adjustable, train_pos, train_neg):
-    final_training_data = []
+    # number_of_datasets = len(train_pos)
+    if isinstance(train_pos, list):
+        shape = np.shape(train_pos)
+        if len(shape) == 1:
+            number_of_datasets = 1
+        elif len(shape) > 1:
+            number_of_datasets = len(train_pos)
+        else:
+            print('Warning: something weird is happening')
+            return
+    else:
+        print('Error: train_pos must be a list')
+        return
 
-    number_of_datasets = len(train_pos)
+    final_training_data = []
 
     if adjustable.only_test == True:
         # only test, nothing to do
@@ -509,7 +533,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
     ############################################################################################################
     #   Training phase
     ############################################################################################################
-    if adjustable.test_only == False:
+    if adjustable.only_test == False:
         for epoch in range(adjustable.epochs):
             print('Epoch %d/%d' % (epoch, adjustable.epochs))
             ############################################################################################################
@@ -541,7 +565,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             ############################################################################################################
             #   Train the network
             ############################################################################################################
-
+            print('Training...')
             # train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list)
             train_network(adjustable, model, final_training_data, final_training_labels, training_h5, testing_h5)
 
@@ -581,7 +605,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
                     #             print('ERROR')
                     #             return
                     #     else:
-                    #         if adjustable.test_only == True:
+                    #         if adjustable.only_test == True:
                     #             # only test
                     #             pass
                     #         else:
@@ -651,6 +675,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
         ranking_matrices = []
         # DONE TODO: go through all the ranking files and save all the ones before last. Only test on the last.
         this_ranking = all_ranking[-1]
+        del all_ranking
 
         # all_ranking = save_non_target_datasets_rankings(all_ranking)
 
@@ -671,7 +696,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
         # DONE TODO: update ddl.grab_em_by_the_keys() with new parameters
         # test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
         test_data = ddl.grab_em_by_the_keys(this_ranking, training_h5, testing_h5)
-        test_data = np.asarray(test_data)
+        # test_data = np.asarray(test_data)
 
         # prepare for testing the model
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
@@ -695,7 +720,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
 
         # create confusion matrix
         matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
-        confusion_matrices.append(matrix)
+        # confusion_matrices.append(matrix)
         accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
         if not matrix[0] == 0:
             precision = (matrix[0] * 1.0 / (matrix[0] + matrix[1] * 1.0))
@@ -706,7 +731,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
         #                                                                              there are 9 negative instances
         gregor_matrix = pu.make_gregor_matrix(adjustable, predictions, final_testing_labels)
         print(gregor_matrix)
-        gregor_matrices.append(gregor_matrix)
+        # gregor_matrices.append(gregor_matrix)
 
         if (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0) == 0:
             detection_rate = 0
@@ -719,8 +744,9 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
 
         # calculate the Cumulative Matching Characteristic
+        # TODO: fix ranking number in CMC
         ranking = pu.calculate_CMC(adjustable, predictions)
-        ranking_matrices.append(ranking)
+        # ranking_matrices.append(ranking)
 
         print(
         '%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \nCMC: \n%s \nDetection rate: %s  False alarm: %s'
@@ -728,12 +754,13 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
         adjustable.dataset_test, accuracy, precision, str(matrix), str(ranking), str(detection_rate), str(false_alarm)))
 
     else:
-        confusion_matrices = None
-        ranking_matrices = None
-        gregor_matrices = None
+        matrix = None
+        ranking = None
+        gregor_matrix = None
 
     del model
-    return confusion_matrices, ranking_matrices, gregor_matrices
+    return matrix, ranking, gregor_matrix
+    # return confusion_matrices, ranking_matrices, gregor_matrices
 
 
 def super_main(adjustable):
@@ -769,7 +796,7 @@ def super_main(adjustable):
         if adjustable.ranking_number_test == 'half':
             ranking_number = pc.RANKING_DICT[dataset_test_h5[0]]
         elif isinstance(adjustable.ranking_number_test, int):
-            ranking_number = adjustable.ranking_number
+            ranking_number = adjustable.ranking_number_test
         else:
             print('Error: Unknown configuration.')
             return
@@ -824,8 +851,8 @@ def super_main(adjustable):
                 print('Error: no training data specified.')
                 return
         else:
-            # fix issue where it can be datasets_train != none + test_only == true
-            if adjustable.test_only == True:
+            # fix issue where it can be datasets_train != none + only_test == true
+            if adjustable.only_test == True:
                 print('Testing only using ranking set based on dataset_test.')
                 ########################################################################################################
                 #   Prepare data for when we ONLY test. Randomly get the data or load from a file if file exists
@@ -927,6 +954,7 @@ def super_main(adjustable):
 
         if dataset_test_h5 is not None:
             # store results
+            aaaa = np.shape(confusion_matrices)
             confusion_matrices[iter] = confusion_matrix
             ranking_matrices[iter] = ranking_matrix
             gregor_matrices[iter] = gregor_matrix

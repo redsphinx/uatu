@@ -369,7 +369,7 @@ class ProjectVariable(object):
     def datasets_train(self, value):
         if value == 'all':
             value = ['viper', 'cuhk02', 'market', 'grid', 'prid450', 'caviar']
-        self.datasets_train = value
+        self._datasets_train = value
 
     # self._dataset_test = ''  # string
     @property
@@ -378,7 +378,7 @@ class ProjectVariable(object):
 
     @dataset_test.setter
     def dataset_test(self, value):
-        self.dataset_test = value
+        self._dataset_test = value
 
     # self._priming = False  # bool
     @property

@@ -773,7 +773,7 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
         # the_value = only_values[the_index_key_1[item]][all_key_1[item]][:]
 
     # values_key_2 = [only_values[the_index_of_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
-    return values_key_1, values_key_2
+    return np.asarray((values_key_1, values_key_2))
 
 
 def get_positive_keys(name_dataset, partition, the_id, seen_list):

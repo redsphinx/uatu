@@ -275,7 +275,7 @@ def make_confusion_matrix(adjustable, predictions, labels):
     return [tp, fp, tn, fn]
 
 
-def enter_in_log(adjustable, experiment_name, file_name, data_names, matrix_means, matrix_std, ranking_means,
+def enter_in_log(adjustable, experiment_name, file_name, name, matrix_means, matrix_std, ranking_means,
                  ranking_std, total_time, gregor_means, gregor_std):
     decimals = '.2f'
     if not os.path.exists(adjustable.log_file):
@@ -283,7 +283,7 @@ def enter_in_log(adjustable, experiment_name, file_name, data_names, matrix_mean
             print('new log file made')
 
     if gregor_means is not None:
-        gregor_matrix = gregor_means[0]
+        gregor_matrix = gregor_means
         if (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0) == 0:
             detection_rate = 0
         else:
@@ -293,6 +293,9 @@ def enter_in_log(adjustable, experiment_name, file_name, data_names, matrix_mean
             false_alarm = 0
         else:
             false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
+    else:
+        detection_rate = None
+        false_alarm = None
     
     with open(adjustable.log_file, 'a') as log_file:
         date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
@@ -301,18 +304,17 @@ def enter_in_log(adjustable, experiment_name, file_name, data_names, matrix_mean
         log_file.write('file_name:                  %s\n' % file_name)
         log_file.write('date:                       %s\n' % date)
         log_file.write('duration:                   %f\n' % total_time)
-        for dataset in range(len(data_names)):
-            name = data_names[dataset]
-            log_file.write('%s mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(matrix_means[dataset]).tolist(), decimals))))
-            log_file.write('%s std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(matrix_std[dataset]).tolist(), decimals))))
-            if ranking_means is not None:
-                log_file.write('%s mean ranking:        %s\n' % (name, str(reduce_float_length(np.asarray(ranking_means[dataset]).tolist(), decimals))))
-                log_file.write('%s std ranking:         %s\n' % (name, str(reduce_float_length(np.asarray(ranking_std[dataset]).tolist(), decimals))))
-            if gregor_means is not None:
-                log_file.write('%s G mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(gregor_means[dataset]).tolist(), decimals))))
-                log_file.write('%s G std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(gregor_std[dataset]).tolist(), decimals))))
-                log_file.write('%s detection rate (TP/(TP+FN)):      %s\n' % (name, str(detection_rate)))
-                log_file.write('%s false alarm (FP/(FP+TN)):        %s\n' % (name, str(false_alarm)))
+
+        log_file.write('%s mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(matrix_means).tolist(), decimals))))
+        log_file.write('%s std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(matrix_std).tolist(), decimals))))
+        if ranking_means is not None:
+            log_file.write('%s mean ranking:        %s\n' % (name, str(reduce_float_length(np.asarray(ranking_means).tolist(), decimals))))
+            log_file.write('%s std ranking:         %s\n' % (name, str(reduce_float_length(np.asarray(ranking_std).tolist(), decimals))))
+        if gregor_means is not None:
+            log_file.write('%s G mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(gregor_means).tolist(), decimals))))
+            log_file.write('%s G std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(gregor_std).tolist(), decimals))))
+            log_file.write('%s detection rate (TP/(TP+FN)):      %s\n' % (name, str(detection_rate)))
+            log_file.write('%s false alarm (FP/(FP+TN)):        %s\n' % (name, str(false_alarm)))
         log_file.write('\n')
 
 
@@ -333,13 +335,13 @@ def enter_in_log_cnn(adjustable, experiment_name, file_name, data_names, matrix_
 
         log_file.write('\n')
 
-
+# TODO: fix ranking number
 def calculate_CMC(adjustable, predictions):
-    if adjustable.ranking_number == 'half':
+    if adjustable.ranking_number_test == 'half':
         the_dataset_name = adjustable.datasets[0]
         ranking_number = pc.RANKING_DICT[the_dataset_name]
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
+    elif isinstance(adjustable.ranking_number_test, int):
+        ranking_number = adjustable.ranking_number_test
     else:
         ranking_number = None
 
