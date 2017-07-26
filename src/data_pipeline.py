@@ -546,7 +546,7 @@ def make_negative_pairs(pos_list, the_type):
         return training_neg
 
 
-def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, do_training, name):
+def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, do_training, name, ranking_variable):
     """
     Makes pairs for the specified image dataset.
     :param adjustable:              object of class ProjectVariable
@@ -555,7 +555,9 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
     :param do_ranking:              bool
     :param do_training:             bool
     :param name:                    string name of the dataset
-    :return:                        3 lists contianing labeled pairs, one list for ranking and two for training
+    :param ranking_variable:        the variable from which to read the ranking number.
+                                    can be adjustable.ranking_number_train or adjustable.ranking_number_test
+    :return:                        (3?) list(s) containing labeled pairs, one list for ranking and two for training
     """
     if not os.path.exists(project_data_storage):
         os.mkdir(project_data_storage)
@@ -567,11 +569,11 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
     if not os.path.exists(id_all_file):
         make_image_data_files(fixed_path, project_data_storage)
 
-    # TODO: fix adjustable.ranking_number
-    if adjustable.ranking_number == 'half':
+    # DONE TODO: fix adjustable.ranking_number
+    if ranking_variable == 'half':
         ranking_number = pc.RANKING_DICT[name]
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
+    elif isinstance(ranking_variable, int):
+        ranking_number = ranking_variable
     else:
         ranking_number = None
 
@@ -619,7 +621,7 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
     return ranking, training_pos, training_neg
 
 
-def make_pairs_cuhk2(adjustable, do_ranking, do_training):
+def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
     """
     Makes pairs for CUHK02.
     This is needed because CUHK02 has 5 subdirectories.
@@ -636,25 +638,23 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training):
     num_subdirs = len(subdirs)
     name = 'cuhk02'
 
-    # TODO: fix adjustable.ranking_number
+    # DONE TODO: fix adjustable.ranking_number
     # check if ranking_number is alright else fix it
-    if adjustable.ranking_number == 'half':
+    if ranking_variable == 'half':
         adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)
-    elif isinstance(adjustable.ranking_number, int):
-        if adjustable.ranking_number >= num_subdirs:
-            if adjustable.ranking_number % num_subdirs != 0:
-                print('cuhk02 ranking number must be divisible by %d: changing ranking number from %d to %d'
-                      % (num_subdirs, adjustable.ranking_number, adjustable.ranking_number / num_subdirs))
-                adjustable.ranking_number /= num_subdirs
-                adapted_ranking_number = adjustable.ranking_number
+    elif isinstance(ranking_variable, int):
+        if ranking_variable >= num_subdirs:
+            if ranking_variable % num_subdirs != 0:
+                print('Error: cuhk02 ranking number must be divisible by %d.\n Recommended: change ranking number from %d to %d'
+                      % (num_subdirs, ranking_variable, ranking_variable / num_subdirs))
+                return
 
             else:
-                adapted_ranking_number = adjustable.ranking_number / num_subdirs
-        elif adjustable.ranking_number < len(subdirs):
-            print('cuhk02 ranking number must be at least %d and divisible by %d: changing ranking number from %d to %d'
-                  % (num_subdirs, num_subdirs, adjustable.ranking_number, num_subdirs))
-            adjustable.ranking_number = num_subdirs
-            adapted_ranking_number = adjustable.ranking_number
+                adapted_ranking_number = ranking_variable / num_subdirs
+        elif ranking_variable < len(subdirs):
+            print('Error: cuhk02 ranking number must be at least %d.\n Recommended: change ranking number from %d to %d'
+                  % (num_subdirs, ranking_variable, num_subdirs))
+            return
         else:
             adapted_ranking_number = None
     else:
@@ -666,8 +666,8 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training):
 
     # for each subdirectory make positive and negative pairs
     for a_dir in subdirs:
-        # TODO: fix adjustable.ranking_number
-        if adjustable.ranking_number == 'half':
+        # DONE TODO: fix adjustable.ranking_number
+        if ranking_variable == 'half':
             adapted_ranking_number = pc.RANKING_CUHK02_PARTS[a_dir]
 
         project_data_storage = os.path.join(top_project_data_storage, a_dir)
@@ -701,7 +701,7 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training):
             training_neg = make_negative_pairs(training_pos, 'training')
             training_pos_all += training_pos
             training_neg_all += training_neg
-            ranking_all = None
+            rank_all = None
         elif do_ranking is True and do_training is False:
             # only test, only make the ranking file
             # check first if there exists a ranking file of the correct name, load from it
@@ -711,9 +711,15 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training):
                                                           adapted_ranking_number)
                 ranking = make_negative_pairs(ranking_pos, 'ranking')
                 ranking_all += ranking
+            else:
+                rank_all = None
             training_pos_all = None
             training_neg_all = None
+        else:
+            print('Error: voodoo')
+            return
 
+    # fix the ranking
     if do_ranking is True and do_training is False:
         # only test, only make the ranking file
         # check first if there exists a ranking file of the correct name, load from it
@@ -739,6 +745,7 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training):
                     num = 1 if img0 == img1 else 0
                     line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
                     rank_all.append(line)
+
     elif do_ranking is True and do_training is True:
         # merge together the ranking pairs in the proper way: such that we have N IDs and N^2 pairs where N pairs
         # are positive
@@ -762,7 +769,9 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training):
         if adjustable.save_inbetween and adjustable.iterations == 1:
             file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
             file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
-            write_to_file(file_name, ranking)
+            write_to_file(file_name, rank_all)
+    else:
+        rank_all = None
 
     return rank_all, training_pos_all, training_neg_all
 
