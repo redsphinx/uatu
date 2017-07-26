@@ -2030,12 +2030,50 @@ def test_pipeline_9():
     scn.super_main(a)
 
 
+def test_pipeline_10():
+    a = ProjectVariable()
+    a.experiment_name = 'test pipeline 10: train only on viper then save'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.epochs = 2
+    a.save_points = [2]
+    # TODO: fix a.name_indication = 'dataset_name'
+    a.name_indication = 'epoch'
+
+    a.datasets_train = ['viper']
+    scn.super_main(a)
+
+
+def test_pipeline_11():
+    a = ProjectVariable()
+    a.experiment_name = 'test pipeline 11: load weights viper and train only on grid'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_26072017_1735_epoch_2_weigths.h5'
+    a.epochs = 2
+
+    a.datasets_train = ['grid']
+    scn.super_main(a)
+
+
+def test_pipeline_12():
+    a = ProjectVariable()
+    a.experiment_name = 'test pipeline 11: load weights viper and test only on grid'
+    a.iterations = 1
+    a.load_weights_name = 'scnn_26072017_1735_epoch_2_weigths.h5'
+    a.ranking_number_test = 10
+
+    a.dataset_test = 'grid'
+    a.only_test = True
+    scn.super_main(a)
+
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     #
     # if num == '1':
-    test_pipeline_9()
+    test_pipeline_12()
 
 
 main()

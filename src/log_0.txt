@@ -1594,3 +1594,43 @@ file_name:                  siamese_cnn_image.py
 date:                       26/07/2017   17:20:04
 duration:                   131.022292
 
+
+name_of_experiment:         test pipeline 10: train only on viper then save
+file_name:                  siamese_cnn_image.py
+date:                       26/07/2017   17:35:01
+duration:                   15.467732
+
+
+name_of_experiment:         test pipeline 11: load weights viper and train only on grid
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   17:38:25
+duration:                   10.658949
+
+
+name_of_experiment:         test pipeline 11: load weights viper and test only on grid
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   17:40:51
+duration:                   3.222769
+grid mean tp,fp,tn,fn:    [7.0, 72.0, 18.0, 3.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.0, 0.0, 0.2, 0.2, 0.3, 0.5, 0.6, 0.7, 0.9, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+grid G mean tp,fp,tn,fn:    [7.0, 72.0, 18.0, 3.0]
+grid G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid detection rate (TP/(TP+FN)):      0.7
+grid false alarm (FP/(FP+TN)):        0.8
+
+
+name_of_experiment:         test pipeline 11: load weights viper and test only on grid
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   17:41:03
+duration:                   3.141831
+grid mean tp,fp,tn,fn:    [7.0, 72.0, 18.0, 3.0]
+grid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid mean ranking:        [0.0, 0.0, 0.2, 0.2, 0.3, 0.5, 0.6, 0.7, 0.9, 1.0]
+grid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+grid G mean tp,fp,tn,fn:    [7.0, 72.0, 18.0, 3.0]
+grid G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid detection rate (TP/(TP+FN)):      0.7
+grid false alarm (FP/(FP+TN)):        0.8
+

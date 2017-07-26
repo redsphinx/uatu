@@ -577,7 +577,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             #   Save the model + weights (if specified with adjustable.save_inbetween and adjustable.save_points)
             ############################################################################################################
             time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
-
+            # TODO: fix datasets
             if adjustable.save_inbetween and adjustable.iterations == 1:
                 if epoch + 1 in adjustable.save_points:
                     if adjustable.name_indication == 'epoch':
