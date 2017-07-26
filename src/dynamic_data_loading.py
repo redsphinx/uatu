@@ -698,6 +698,8 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
             h5_dataset_list.append(testing_h5[index])
 
     # create mapping from keys to dataset
+    # TODO: make it work with the dictionry
+
     # TODO: see if we can optimize the creation of `key_list`
     # TODO: avoid running loops as much as possible
     key_dataset_mapping = create_key_dataset_mapping(key_list, h5_dataset_list)
@@ -714,11 +716,11 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
 
     # all_keys_in_mapping = [item[0] for item in key_dataset_mapping]
     # only_values = [item[1] for item in key_dataset_mapping]
-    only_keys = []
-    only_values = []
-    for item in key_dataset_mapping:
-        only_keys.append(item[0])
-        only_values.append(item[1])
+    # only_keys = []
+    # only_values = []
+    # for item in key_dataset_mapping:
+    #     only_keys.append(item[0])
+    #     only_values.append(item[1])
 
     ################################################################################################################
     #   get the index of the value that key in all_key points to
@@ -732,19 +734,33 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
     only_keys
 
     '''
-    the_index_of_key_1 = list(np.zeros(len(all_key_1), dtype=int))
-    for index in range(len(all_key_1)):
-        the_index_of_key_1[index] = (only_keys.index(all_key_1[index]))
-
-    the_index_of_key_2 = list(np.zeros(len(all_key_2), dtype=int))
-    for index in range(len(all_key_2)):
-        the_index_of_key_2[index] = (only_keys.index(all_key_2[index]))
+    # the_index_of_key_1 = list(np.zeros(len(all_key_1), dtype=int))
+    # for index in range(len(all_key_1)):
+    #     the_index_of_key_1[index] = (only_keys.index(all_key_1[index]))
+    #
+    # the_index_of_key_2 = list(np.zeros(len(all_key_2), dtype=int))
+    # for index in range(len(all_key_2)):
+    #     the_index_of_key_2[index] = (only_keys.index(all_key_2[index]))
 
 
     ################################################################################################################
     #   get the values from the h5 file given the indices
     ################################################################################################################
-    values_key_1 = [only_values[the_index_of_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
+    values_key_1 = []
+    values_key_2 = []
+    for index in range(len(key_list)):
+        dataset_h5_object = key_dataset_mapping[all_key_1[index]]
+        the_image = dataset_h5_object[all_key_1[index]][:]
+        values_key_1.append(the_image)
+
+        dataset_h5_object = key_dataset_mapping[all_key_2[index]]
+        the_image = dataset_h5_object[all_key_2[index]][:]
+        values_key_2.append(the_image)
+
+
+
+
+    # values_key_1 = [only_values[the_index_of_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
     # len_all_key_1 = len(all_key_1)
     # values_key_1 = []
     # for item in range(len_all_key_1):
@@ -756,7 +772,7 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
         # TODO: finish making this understandable
         # the_value = only_values[the_index_key_1[item]][all_key_1[item]][:]
 
-    values_key_2 = [only_values[the_index_of_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
+    # values_key_2 = [only_values[the_index_of_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
     return values_key_1, values_key_2
 
 

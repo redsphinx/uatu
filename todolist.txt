@@ -63,7 +63,8 @@ DONE TODO: add ranking_variable parameter to create_training_and_ranking_set	/ m
 DONE TODO: add ranking_variable parameter to create_training_and_ranking_set	
 
 
-. optimize mapping
+. DONE optimize mapping
+.. converted things to dictionary
 
 
 25 july
