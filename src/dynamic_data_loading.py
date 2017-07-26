@@ -426,8 +426,12 @@ def load_datasets_from_h5(list_of_datasets):
         return None
     else:
         h5_data = []
-        for dataset in list_of_datasets:
-            h5_data.append(get_dataset(dataset))
+
+        if isinstance(list_of_datasets, str):
+            h5_data.append(get_dataset(list_of_datasets))
+        else:
+            for dataset in list_of_datasets:
+                h5_data.append(get_dataset(dataset))
 
         return h5_data
 
@@ -564,10 +568,17 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
 
 
 def get_dataset_to_map(name, data_list, data_names):
+    """
+    Get the dataset
+    :param name:            string, name of the dataset folder in ../data
+    :param data_list:       list with h5py object(s) containing the data
+    :param data_names:      list of strings containing path of the physical location of the h5py object on disk
+    :return:                h5py object containing a dataset
+    """
 
     # get hdf dataset filename, used only for pairs of images
     # split on '/' get second to last item
-    # mathc with name
+    # match with name
     # return data_list[indexof(match)]
 
     if name == 'padded':
@@ -588,55 +599,79 @@ def get_dataset_to_map(name, data_list, data_names):
         print("sorry, we don't serve '%s'. would you like some fries with that?" % name)
         dataset = None
 
-    return data_list[data_names.index(dataset)]
+    # get the index at which the correct path to the h5_object is stored
+    index_in_data_names_for_dataset = data_names.index(dataset)
+    # fetch the h5_object given the index at which it is stored
+    h5_object = data_list[index_in_data_names_for_dataset]
+
+    # return data_list[data_names.index(dataset)]
+    return h5_object
 
 
 # DONE TODO
 # leave this be, make sure to feed it with a h5_dataset_list
 def create_key_dataset_mapping(key_list, h5_dataset_list):
-    """ Creates a mapping from the keys to the datasets. This way we know where to find each key
+    """ Creates a mapping from the keys to the datasets.
     :param key_list:            list of keys in form of tuples with a label "img1,img2,1"
     :param h5_dataset_list:     list of the h5 datasets to search in
-    :return:                    a mapping from the keys to the datasets
+    :return:                    dictionary, a mapping from the keys to the datasets
     """
-    key_dataset_mapping = []
-    mapping_1 = {}
-    mapping_2 = {}
+    # key_dataset_mapping = []
+    key_dataset_mapping = {}
+    # mapping_1 = {}
+    # mapping_2 = {}
 
     if len(h5_dataset_list) == 1:
 
-
         for key in key_list:
             key_1 = key.split(',')[0]
             key_2 = key.split(',')[1]
 
-            # TODO: dictionary
-            mapping_1[key_1] = h5_dataset_list[0]
-            mapping_2[key_2] = h5_dataset_list[0]
+            # DONE TODO: dictionary
+            key_dataset_mapping[key_1] = h5_dataset_list[0]
+            key_dataset_mapping[key_2] = h5_dataset_list[0]
 
-            mapping_1 = [key_1, h5_dataset_list[0]]
-            mapping_2 = [key_2, h5_dataset_list[0]]
-
-            key_dataset_mapping.append(mapping_1)
-            key_dataset_mapping.append(mapping_2)
+            # mapping_1[key_1] = h5_dataset_list[0]
+            # mapping_2[key_2] = h5_dataset_list[0]
+            #
+            # mapping_1 = [key_1, h5_dataset_list[0]]
+            # mapping_2 = [key_2, h5_dataset_list[0]]
+            #
+            # key_dataset_mapping.append(mapping_1)
+            # key_dataset_mapping.append(mapping_2)
 
     else:
-        h5_filenames = [str(item.file.filename.split('/')[-2]) for item in h5_dataset_list]
+        # get the physical location storing the h5 datasets
+        h5_filenames = []
+        for item in h5_dataset_list:
+            # split to obtain the dataset folder
+            the_filename = item.file.filename.split('/')[-2]
+            the_filename = str(the_filename)
+            h5_filenames.append(the_filename)
+
+        # h5_filenames = [str(item.file.filename.split('/')[-2]) for item in h5_dataset_list]
+
         for key in key_list:
             key_1 = key.split(',')[0]
             key_2 = key.split(',')[1]
+
+            # split the key to get the dataset folder
             folder_key_1 = key_1.split('+')[-2]
             folder_key_2 = key_2.split('+')[-2]
 
+            # get the h5 object containing the dataset for key_n
             dataset_key_1 = get_dataset_to_map(folder_key_1, h5_dataset_list, h5_filenames)
             dataset_key_2 = get_dataset_to_map(folder_key_2, h5_dataset_list, h5_filenames)
 
-            # TODO: dictionary
-            mapping_1 = [key_1, dataset_key_1]
-            mapping_2 = [key_2, dataset_key_2]
+            # DONE TODO: dictionary
+            # mapping_1 = [key_1, dataset_key_1]
+            # mapping_2 = [key_2, dataset_key_2]
+            #
+            # key_dataset_mapping.append(mapping_1)
+            # key_dataset_mapping.append(mapping_2)
+            key_dataset_mapping[key_1] = dataset_key_1
+            key_dataset_mapping[key_2] = dataset_key_2
 
-            key_dataset_mapping.append(mapping_1)
-            key_dataset_mapping.append(mapping_2)
     # TODO: figure out if we really need a list here, dictionary would be much better
     return key_dataset_mapping
 
@@ -646,10 +681,12 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
 # def grab_em_by_the_keys(key_list, h5_dataset_list):
     """ Returns a training set
     :param key_list:                list of keys
+    :param training_h5:             list of string with paths to h5 datasets
+    :param testing_h5:              list of string with paths to h5 datasets
     :return:
     """
 
-    # DONE TODO: make `training_h5, testing_h5` into h5_dataset_list
+    # DONE TODO: make `training_h5, testing_h5` into single h5_dataset_list
     h5_dataset_list = []
 
     if training_h5 is not None:

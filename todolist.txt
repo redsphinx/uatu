@@ -59,8 +59,8 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 	DONE make_pairs_cuhk2 2x
 	make_pairs_video
 
-TODO: add ranking_variable parameter to create_training_and_ranking_set	/ make_pairs_image + make_pairs_cuhk02
-TODO: add ranking_variable parameter to create_training_and_ranking_set	
+DONE TODO: add ranking_variable parameter to create_training_and_ranking_set	/ make_pairs_image + make_pairs_cuhk02
+DONE TODO: add ranking_variable parameter to create_training_and_ranking_set	
 
 
 . optimize mapping

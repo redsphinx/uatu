@@ -496,8 +496,8 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
     """
     Runs a the whole training and testing phase
     :param adjustable:              object of class ProjectVariable
-    :param training_h5:             list of h5 training datasets
-    :param testing_h5:              list of h5 test/rank dataset
+    :param training_h5:             list of h5py object(s) containing training datasets
+    :param testing_h5:              list of h5py object containing test/rank dataset
     :param all_ranking:             list of ranking pair string paths to images
     :param merged_training_pos:     list of training pos pair string paths to images
     :param merged_training_neg:     list of training neg pair string paths to images
@@ -747,7 +747,7 @@ def super_main(adjustable):
     #   Load datasets, note: always 1 dataset_test, but multiple datasets_train
     ################################################################################################################
     datasets_train_h5 = ddl.load_datasets_from_h5(adjustable.datasets_train)
-    dataset_test_h5 = ddl.load_datasets_from_h5([adjustable.dataset_test])
+    dataset_test_h5 = ddl.load_datasets_from_h5(adjustable.dataset_test)
 
     ################################################################################################################
     #   Set the ranking number.
