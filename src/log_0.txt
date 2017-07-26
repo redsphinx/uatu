@@ -1576,3 +1576,21 @@ viper G std tp,fp,tn,fn:     [11.0, 64.5, 64.5, 11.0]
 viper detection rate (TP/(TP+FN)):      0.3
 viper false alarm (FP/(FP+TN)):        0.246111111111
 
+
+name_of_experiment:         test pipeline 6: only train on multiple datasets, no mixing, no saving, 1 iteration
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   16:36:20
+duration:                   12.884485
+
+
+name_of_experiment:         test pipeline 7: only train on multiple datasets, with mixing, no saving, 1 iteration
+file_name:                  siamese_cnn_image.pyc
+date:                       26/07/2017   16:48:38
+duration:                   12.794073
+
+
+name_of_experiment:         test pipeline 8: only train on single dataset, no mixing, no saving, 1 iteration
+file_name:                  siamese_cnn_image.py
+date:                       26/07/2017   17:20:04
+duration:                   131.022292
+

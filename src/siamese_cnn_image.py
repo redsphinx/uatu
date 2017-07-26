@@ -368,9 +368,9 @@ def get_model(adjustable):
 def get_negative_sample(adjustable, train_pos, train_neg):
     # number_of_datasets = len(train_pos)
     if isinstance(train_pos, list):
-        if type(train_pos[0] == list):
+        if type(train_pos[0]) == list:
             number_of_datasets = len(train_pos)
-        elif type(train_pos[0] == int):
+        elif type(train_pos[0]) == str:
             number_of_datasets = 1
         else:
             print('Warning: something weird is happening')
@@ -421,9 +421,14 @@ def get_negative_sample(adjustable, train_pos, train_neg):
                 # train in order.
                 # number of datasets don't matter
                 # for each partition, shuffle and get a subset
-                for index in range(len(train_neg)):
-                    random.shuffle(train_neg[index])
-                    negative.append(train_neg[index][0:len(train_pos[index])])
+                if type(train_neg[0]) == list:
+                    for index in range(len(train_neg)):
+                        random.shuffle(train_neg[index])
+                        negative.append(train_neg[index][0:len(train_pos[index])])
+                elif type(train_neg[0]) == str:
+                    random.shuffle(train_neg)
+                    negative.append(train_neg[0:len(train_pos)])
+
 
     return negative
 
@@ -446,9 +451,9 @@ def get_final_training_data(adjustable, train_pos, train_neg):
     # number_of_datasets = len(train_pos)
 
     if isinstance(train_pos, list):
-        if type(train_pos[0] == list):
+        if type(train_pos[0]) == list:
             number_of_datasets = len(train_pos)
-        elif type(train_pos[0] == int):
+        elif type(train_pos[0]) == str:
             number_of_datasets = 1
         else:
             print('Warning: something weird is happening')
@@ -837,7 +842,7 @@ def super_main(adjustable):
                 for index in range(len(adjustable.datasets_train)):
                     # DONE TODO: modify `ddl.create_training_and_ranking_set` to handle `do_ranking=False`
                     # DONE TODO: add ranking_variable parameter to create_training_and_ranking_set
-                    training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets_train[index],
+                    ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets_train[index],
                                                                                      adjustable, ranking_variable=None,
                                                                                      do_ranking=False)
                     if adjustable.cost_module_type in ['euclidean', 'cosine']:
@@ -846,6 +851,8 @@ def super_main(adjustable):
 
                     all_training_pos.append(training_pos)
                     all_training_neg.append(training_neg)
+                    del ranking
+                all_ranking = None
             else:
                 print('Error: no training data specified.')
                 return

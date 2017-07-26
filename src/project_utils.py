@@ -305,8 +305,9 @@ def enter_in_log(adjustable, experiment_name, file_name, name, matrix_means, mat
         log_file.write('date:                       %s\n' % date)
         log_file.write('duration:                   %f\n' % total_time)
 
-        log_file.write('%s mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(matrix_means).tolist(), decimals))))
-        log_file.write('%s std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(matrix_std).tolist(), decimals))))
+        if matrix_means is not None:
+            log_file.write('%s mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(matrix_means).tolist(), decimals))))
+            log_file.write('%s std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(matrix_std).tolist(), decimals))))
         if ranking_means is not None:
             log_file.write('%s mean ranking:        %s\n' % (name, str(reduce_float_length(np.asarray(ranking_means).tolist(), decimals))))
             log_file.write('%s std ranking:         %s\n' % (name, str(reduce_float_length(np.asarray(ranking_std).tolist(), decimals))))
