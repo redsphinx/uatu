@@ -368,11 +368,10 @@ def get_model(adjustable):
 def get_negative_sample(adjustable, train_pos, train_neg):
     # number_of_datasets = len(train_pos)
     if isinstance(train_pos, list):
-        shape = np.shape(train_pos)
-        if len(shape) == 1:
-            number_of_datasets = 1
-        elif len(shape) > 1:
+        if type(train_pos[0] == list):
             number_of_datasets = len(train_pos)
+        elif type(train_pos[0] == int):
+            number_of_datasets = 1
         else:
             print('Warning: something weird is happening')
             return
@@ -445,12 +444,12 @@ def fix_positives(positives):
 
 def get_final_training_data(adjustable, train_pos, train_neg):
     # number_of_datasets = len(train_pos)
+
     if isinstance(train_pos, list):
-        shape = np.shape(train_pos)
-        if len(shape) == 1:
-            number_of_datasets = 1
-        elif len(shape) > 1:
+        if type(train_pos[0] == list):
             number_of_datasets = len(train_pos)
+        elif type(train_pos[0] == int):
+            number_of_datasets = 1
         else:
             print('Warning: something weird is happening')
             return

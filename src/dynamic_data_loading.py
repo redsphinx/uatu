@@ -559,10 +559,12 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
             else:
                 # train in order.
                 # number of datasets don't matter
-                for index in range(number_of_datasets):
-                    # note: make this a 2 dimensional list because the order matters
-                    merged_training_pos.append(list_training_pos[index])
-                    merged_training_neg.append(list_training_neg[index])
+                merged_training_pos = list_training_pos
+                merged_training_neg = list_training_neg
+                # for index in range(number_of_datasets):
+                #     # note: make this a 2 dimensional list because the order matters
+                #     merged_training_pos.append(list_training_pos[index])
+                #     merged_training_neg.append(list_training_neg[index])
 
     return merged_training_pos, merged_training_neg
 
