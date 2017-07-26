@@ -439,6 +439,7 @@ def get_final_training_data(adjustable, train_pos, train_neg):
     if adjustable.only_test == True:
         # only test, nothing to do
         print('Only testing, nothing to train here.')
+        final_training_data = None
     else:
         # train
         if number_of_datasets == 0:
@@ -514,7 +515,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             ############################################################################################################
             #   Prepare the training data
             ############################################################################################################
-            # TODO: for each training set, do the sampling in new method get_negative_sample()
+            # DONE TODO: for each training set, do the sampling in new method get_negative_sample()
             # DONE TODO: create get_negative_sample()
             training_neg_sample = get_negative_sample(adjustable, merged_training_pos, merged_training_neg)
 
@@ -570,10 +571,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
                     #     if all_ranking is None:
                     #         if training_h5 is not None:
                     #             # only train, using all datasets
-                    #             # TODO: for each training set, do the sampling in new method get_negative_sample()
-                    #             # TODO: create get_negative_sample()
                     #             training_neg_sample = get_negative_sample(merged_training_pos, merged_training_neg)
-                    #             # TODO: create get_final_training_data()
                     #             final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
                     #
                     #             final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
@@ -598,8 +596,6 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
                     # #   Prepare the training data
                     # ################################################################################################################
                     #
-                    # # TODO: for each training set, do the sampling in new method get_negative_sample()
-                    # # TODO: create get_negative_sample()
                     # training_neg_sample = get_negative_sample(merged_training_pos, merged_training_neg)
                     #
                     # # sample from the big set of negative training instances
@@ -610,7 +606,6 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
                     # # final_training_data = merged_training_pos + training_neg_sample
                     # # random.shuffle(final_training_data)
                     # # final_training_data = pu.sideways_shuffle(final_training_data)
-                    # # TODO: create get_final_training_data()
                     # final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
                     #
                     # final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
@@ -814,7 +809,7 @@ def super_main(adjustable):
             ############################################################################################################
             if datasets_train_h5 is not None:
                 for index in range(len(adjustable.datasets_train)):
-                    # TODO: modify `ddl.create_training_and_ranking_set` to handle `do_ranking=False`
+                    # DONE TODO: modify `ddl.create_training_and_ranking_set` to handle `do_ranking=False`
                     training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets_train[index],
                                                                                      adjustable, do_ranking=False)
                     if adjustable.cost_module_type in ['euclidean', 'cosine']:
@@ -844,7 +839,7 @@ def super_main(adjustable):
                     ####################################################################################################
                     #   Prepare data for when we train and test on multiple datasets
                     ####################################################################################################
-                    # TODO: remember that only the last ranking in the ranking matrix will be tested on.
+                    # note: remember that only the last ranking in the ranking matrix will be tested on.
                     # The other rankings will be saved for only testing later.
                     for index in range(len(adjustable.datasets_train)):
                         ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
@@ -908,7 +903,7 @@ def super_main(adjustable):
         #   Also for training on multiple datasets + testing: decide if we include test set in the training to be mixed:
         #   by using adjustable.mix_with_test
         ################################################################################################################
-        # TODO: update ddl.merge_datasets(), what if empty list is given in parameters?
+        # DONE TODO: update ddl.merge_datasets(), what if empty list is given in parameters?
         merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
 
         ################################################################################################################
@@ -916,7 +911,7 @@ def super_main(adjustable):
         ################################################################################################################
         # name, confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
         #                                               merged_training_neg)
-        # TODO: update `main()`
+        # DONE TODO: update `main()`
         confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, datasets_train_h5, dataset_test_h5,
                                                                all_ranking, merged_training_pos,
                                                                merged_training_neg)
