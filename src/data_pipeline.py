@@ -557,7 +557,7 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
     :param name:                    string name of the dataset
     :param ranking_variable:        the variable from which to read the ranking number.
                                     can be adjustable.ranking_number_train or adjustable.ranking_number_test
-    :return:                        (3?) list(s) containing labeled pairs, one list for ranking and two for training
+    :return:                        3 lists containing labeled pairs, one list for ranking and two for training
     """
     if not os.path.exists(project_data_storage):
         os.mkdir(project_data_storage)
@@ -1084,24 +1084,79 @@ def make_video_data_files(name):
             my_file.write('%s\n' % unique_id[item])
 
 
-def make_pairs_video(adjustable):
+# DONE TODO: adjustable.datasets
+def make_pairs_video(adjustable, project_data_storage, fixed_path, do_ranking, do_training, name, ranking_variable):
     """
     Makes pairs for the specified video dataset.
-    :param adjustable:  object of class ProjectVariable
-    :return:            3 lists contianing labeled pairs, one list for ranking and two for training
+    :param adjustable:              object of class ProjectVariable
+    :param project_data_storage:    string path to dataset processed data
+    :param fixed_path:              string path to fixed dataset
+    :param do_ranking:              bool
+    :param do_training:             bool
+    :param name:                    string name of the dataset
+    :param ranking_variable:        the variable from which to read the ranking number.
+                                    can be adjustable.ranking_number_train or adjustable.ranking_number_test
+    :return:                        3 lists containing labeled pairs, one list for ranking and two for training
     """
-    path = '../data/%s' % adjustable.datasets[0]
+    if not os.path.exists(project_data_storage):
+        os.mkdir(project_data_storage)
 
-    id_all_file = os.path.join(path, 'id_all.txt')
-    unique_id_file = os.path.join(path, 'unique_id.txt')
-    swapped_fullpath_file = os.path.join(path, 'swapped_fullpath_names.txt')
-    # TODO: fix adjustable.ranking_number
-    ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_fullpath_file,
-                                                    adjustable.datasets[0], adjustable.ranking_number)
+    id_all_file = os.path.join(project_data_storage, 'id_all.txt')
+    unique_id_file = os.path.join(project_data_storage, 'unique_id.txt')
+    swapped_fullpath_file = os.path.join(project_data_storage, 'swapped_fullpath_names.txt')
 
-    ranking = make_negative_pairs(ranking_pos, 'ranking')
+    if not os.path.exists(id_all_file):
+        make_video_data_files(fixed_path)
 
-    training_neg = make_negative_pairs(training_pos, 'training')
+    # DONE TODO: fix adjustable.ranking_number
+    if ranking_variable == 'half':
+        # TODO: implement this for video data
+        ranking_number = pc.RANKING_DICT[name]
+    elif isinstance(ranking_variable, int):
+        ranking_number = ranking_variable
+    else:
+        ranking_number = None
+
+    if do_ranking is True and do_training is True:
+        ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_fullpath_file,
+                                                        name, ranking_number)
+
+        ranking = make_negative_pairs(ranking_pos, 'ranking')
+        training_neg = make_negative_pairs(training_pos, 'training')
+
+        # save if specified
+        if adjustable.save_inbetween and adjustable.iterations == 1:
+            file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
+            file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
+            write_to_file(file_name, ranking)
+
+    elif do_ranking is False and do_training is False:
+        print('Error: ranking and training cannot both be false')
+        return
+    elif do_ranking is False and do_training is True:
+        # only train, only make the training files using all the data
+        training_pos = make_positive_pairs_training(id_all_file, unique_id_file, swapped_fullpath_file, name)
+        training_neg = make_negative_pairs(training_pos, 'training')
+
+        ranking = None
+    elif do_ranking is True and do_training is False:
+        # only test, only make the ranking file
+        # check first if there exists a ranking file of the correct name, load from it
+        ranking_file = '../ranking_files/%s_ranking_%s.txt' % (name, adjustable.use_gpu)
+        if os.path.exists(ranking_file):
+            print('Loading ranking from file: `%s`' % ranking_file)
+            ranking = list(np.genfromtxt(ranking_file, dtype=None))
+        else:
+            ranking_pos = make_positive_pairs_ranking(id_all_file, unique_id_file, swapped_fullpath_file, name,
+                                                      ranking_number)
+            ranking = make_negative_pairs(ranking_pos, 'ranking')
+
+        training_pos = None
+        training_neg = None
+
+    else:
+        print('Error: some kind of dark magic happened')
+        return
 
     return ranking, training_pos, training_neg
 

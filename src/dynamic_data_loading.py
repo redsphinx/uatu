@@ -460,17 +460,21 @@ def create_training_and_ranking_set(name, adjustable, ranking_variable, do_ranki
     elif name == 'prid450':
         ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.PRID450_DATA_STORAGE, pc.PRID450_FIXED,
                                                                   do_ranking, do_training, name, ranking_variable)
+    # TODO
     elif name == 'ilids-vid':
-        ranking, training_pos, training_neg = dp.make_pairs_video(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_video(adjustable, pc.ILIDS_DATA_STORAGE, pc.ILIDS_FIXED,
+                                                                  do_ranking, do_training, name, ranking_variable)
+    # TODO
     elif name == 'prid2011':
-        ranking, training_pos, training_neg = dp.make_pairs_video(adjustable)
+        ranking, training_pos, training_neg = dp.make_pairs_video(adjustable, pc.PRID2011_DATA_STORAGE,
+                                                                  pc.PRID2011_FIXED, do_ranking, do_training, name,
+                                                                  ranking_variable)
     else:
         ranking, training_pos, training_neg = None, None, None
 
     return ranking, training_pos, training_neg
 
 
-# DONE TODO
 def merge_datasets(adjustable, list_training_pos, list_training_neg):
     """ Merges specified datasets by shuffling together the positive and negative training instances.
         There will be many more negative instances than positive instances. This method needs to be excecuted
@@ -609,22 +613,16 @@ def get_dataset_to_map(name, data_list, data_names):
     # fetch the h5_object given the index at which it is stored
     h5_object = data_list[index_in_data_names_for_dataset]
 
-    # return data_list[data_names.index(dataset)]
     return h5_object
 
 
-# DONE TODO
-# leave this be, make sure to feed it with a h5_dataset_list
 def create_key_dataset_mapping(key_list, h5_dataset_list):
     """ Creates a mapping from the keys to the datasets.
     :param key_list:            list of keys in form of tuples with a label "img1,img2,1"
     :param h5_dataset_list:     list of the h5 datasets to search in
     :return:                    dictionary, a mapping from the keys to the datasets
     """
-    # key_dataset_mapping = []
     key_dataset_mapping = {}
-    # mapping_1 = {}
-    # mapping_2 = {}
 
     if len(h5_dataset_list) == 1:
 
@@ -632,18 +630,8 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
             key_1 = key.split(',')[0]
             key_2 = key.split(',')[1]
 
-            # DONE TODO: dictionary
             key_dataset_mapping[key_1] = h5_dataset_list[0]
             key_dataset_mapping[key_2] = h5_dataset_list[0]
-
-            # mapping_1[key_1] = h5_dataset_list[0]
-            # mapping_2[key_2] = h5_dataset_list[0]
-            #
-            # mapping_1 = [key_1, h5_dataset_list[0]]
-            # mapping_2 = [key_2, h5_dataset_list[0]]
-            #
-            # key_dataset_mapping.append(mapping_1)
-            # key_dataset_mapping.append(mapping_2)
 
     else:
         # get the physical location storing the h5 datasets
@@ -654,7 +642,6 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
             the_filename = str(the_filename)
             h5_filenames.append(the_filename)
 
-        # h5_filenames = [str(item.file.filename.split('/')[-2]) for item in h5_dataset_list]
 
         for key in key_list:
             key_1 = key.split(',')[0]
@@ -668,20 +655,12 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
             dataset_key_1 = get_dataset_to_map(folder_key_1, h5_dataset_list, h5_filenames)
             dataset_key_2 = get_dataset_to_map(folder_key_2, h5_dataset_list, h5_filenames)
 
-            # DONE TODO: dictionary
-            # mapping_1 = [key_1, dataset_key_1]
-            # mapping_2 = [key_2, dataset_key_2]
-            #
-            # key_dataset_mapping.append(mapping_1)
-            # key_dataset_mapping.append(mapping_2)
             key_dataset_mapping[key_1] = dataset_key_1
             key_dataset_mapping[key_2] = dataset_key_2
 
-    # TODO: figure out if we really need a list here, dictionary would be much better
     return key_dataset_mapping
 
 
-# DONE TODO: update with new parameters `training_h5, testing_h5`
 def grab_em_by_the_keys(key_list, training_h5, testing_h5):
 # def grab_em_by_the_keys(key_list, h5_dataset_list):
     """ Returns a training set
@@ -691,7 +670,6 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
     :return:
     """
 
-    # DONE TODO: make `training_h5, testing_h5` into single h5_dataset_list
     h5_dataset_list = []
 
     if training_h5 is not None:
@@ -703,53 +681,19 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
             h5_dataset_list.append(testing_h5[index])
 
     # create mapping from keys to dataset
-    # TODO: make it work with the dictionry
-
-    # TODO: see if we can optimize the creation of `key_list`
-    # TODO: avoid running loops as much as possible
     key_dataset_mapping = create_key_dataset_mapping(key_list, h5_dataset_list)
+
     ################################################################################################################
     #   isolate the different keys and values
     ################################################################################################################
-    # all_key_1 = [item.split(',')[0] for item in key_list]
-    # all_key_2 = [item.split(',')[1] for item in key_list]
     all_key_1 = []
     all_key_2 = []
     for item in key_list:
         all_key_1.append(item.split(',')[0])
         all_key_2.append(item.split(',')[1])
 
-    # all_keys_in_mapping = [item[0] for item in key_dataset_mapping]
-    # only_values = [item[1] for item in key_dataset_mapping]
-    # only_keys = []
-    # only_values = []
-    # for item in key_dataset_mapping:
-    #     only_keys.append(item[0])
-    #     only_values.append(item[1])
-
     ################################################################################################################
-    #   get the index of the value that key in all_key points to
-    ################################################################################################################
-    # FIXME: taking incredibly fucking long if we do big ranking numbers
-    # TODO: fix it, optimize it somehow so that we can run with bigger ranking numbers
-    # the_index_key_1 = [all_keys_in_mapping.index(key_1) for key_1 in all_key_1]
-    '''
-    the_index_key_1
-    all_key_1
-    only_keys
-
-    '''
-    # the_index_of_key_1 = list(np.zeros(len(all_key_1), dtype=int))
-    # for index in range(len(all_key_1)):
-    #     the_index_of_key_1[index] = (only_keys.index(all_key_1[index]))
-    #
-    # the_index_of_key_2 = list(np.zeros(len(all_key_2), dtype=int))
-    # for index in range(len(all_key_2)):
-    #     the_index_of_key_2[index] = (only_keys.index(all_key_2[index]))
-
-
-    ################################################################################################################
-    #   get the values from the h5 file given the indices
+    #   get the values from the h5 file
     ################################################################################################################
     values_key_1 = []
     values_key_2 = []
@@ -762,22 +706,6 @@ def grab_em_by_the_keys(key_list, training_h5, testing_h5):
         the_image = dataset_h5_object[all_key_2[index]][:]
         values_key_2.append(the_image)
 
-
-
-
-    # values_key_1 = [only_values[the_index_of_key_1[item]][all_key_1[item]][:] for item in range(len(all_key_1))]
-    # len_all_key_1 = len(all_key_1)
-    # values_key_1 = []
-    # for item in range(len_all_key_1):
-    #     a = all_key_1[item]
-    #     b = the_index_key_1[item]
-    #     c = only_values[b][a][:]
-    #     values_key_1.append(c)
-    # for index in range(len_all_key_1):
-        # TODO: finish making this understandable
-        # the_value = only_values[the_index_key_1[item]][all_key_1[item]][:]
-
-    # values_key_2 = [only_values[the_index_of_key_2[item]][all_key_2[item]][:] for item in range(len(all_key_2))]
     return np.asarray((values_key_1, values_key_2))
 
 

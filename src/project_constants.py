@@ -74,3 +74,9 @@ GRID_FIXED = '/home/gabi/Documents/datasets/GRID/fixed_grid'
 
 PRID450_DATA_STORAGE = '../data/prid450'
 PRID450_FIXED = '/home/gabi/Documents/datasets/PRID450/fixed_prid'
+
+PRID2011_DATA_STORAGE = '../data/prid2011'
+PRID2011_FIXED = '/home/gabi/Documents/datasets/prid2011-fixed'
+
+ILIDS_DATA_STORAGE = '../data/ilids-vid'
+ILIDS_FIXED = '/home/gabi/Documents/datasets/ilids-vid-fixed'

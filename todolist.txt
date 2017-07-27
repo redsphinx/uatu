@@ -53,6 +53,9 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 27 july
 -------
 . fix for siamese_cnn_video
+.. DONE high level stuff
+.. low level stuff 
+
 . fix for priming
 . (maybe fix for cnn_clean)
 . clean up code
