@@ -2051,7 +2051,7 @@ def test_pipeline_11():
     a.load_weights_name = 'scnn_26072017_1735_epoch_2_weigths.h5'
     a.epochs = 2
 
-    a.datasets_train = ['grid']
+    a.datasets_train = ['cuhk02']
     scn.super_main(a)
 
 
@@ -2067,13 +2067,139 @@ def test_pipeline_12():
     scn.super_main(a)
 
 
+def mixing_no_batchnorm_1():
+    a = ProjectVariable()
+    a.experiment_name = 'mixing no BN 1: train on viper, grid, market'
+    a.iterations = 1
+    a.epochs = 100
+    a.save_inbetween = True
+    a.save_points = [100]
+    # TODO: fix a.name_indication = 'dataset_name'
+    a.name_indication = 'epoch'
+
+    a.datasets_train = ['viper', 'grid', 'market']
+    a.mix = True
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    scn.super_main(a)
+
+
+def mixing_no_batchnorm_2():
+    a = ProjectVariable()
+    a.experiment_name = 'mixing no BN 2: train on viper, grid, market and prid450 + test + mix_with_test=True'
+    a.iterations = 5
+    a.epochs = 100
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # # TODO: fix a.name_indication = 'dataset_name'
+    # a.name_indication = 'epoch'
+
+    a.datasets_train = ['viper', 'grid', 'market']
+    a.ranking_number_train = [10, 10, 10]
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.mix = True
+    a.mix_with_test = True
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    scn.super_main(a)
+
+
+def mixing_no_batchnorm_3():
+    a = ProjectVariable()
+    a.experiment_name = 'mixing no BN 3: train on viper, grid, market and prid450 + test + mix_with_test=False, batch_size=128'
+    a.iterations = 10
+    a.epochs = 100
+    a.batch_size = 128
+    # a.save_inbetween = True
+    # a.save_points = [100]
+    # # TODO: fix a.name_indication = 'dataset_name'
+    # a.name_indication = 'epoch'
+
+    a.datasets_train = ['viper', 'grid', 'market']
+    a.ranking_number_train = [10, 10, 10]
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.mix = True
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    scn.super_main(a)
+
+
+def mixing_no_batchnorm_4():
+    a = ProjectVariable()
+    a.experiment_name = 'mixing no BN 4: retrain network from exp. `mixing no BN 1` on prid450'
+    a.iterations = 10
+    a.epochs = 100
+    a.batch_size = 32
+
+    a.load_weights_name = 'scnn_26072017_1834_epoch_100_weigths.h5'
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    scn.super_main(a)
+
+
+def order_many_datasets_1():
+    a = ProjectVariable()
+    a.experiment_name = 'order many datasets 1: train on viper, grid, market in order + no batchnorm'
+    a.iterations = 1
+    a.epochs = 100
+    a.save_inbetween = True
+    a.save_points = [100]
+    # TODO: fix a.name_indication = 'dataset_name'
+    a.name_indication = 'epoch'
+
+    a.datasets_train = ['viper', 'grid', 'market']
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    scn.super_main(a)
+
+
+def order_many_datasets_2():
+    a = ProjectVariable()
+    a.experiment_name = 'order on many datasets 2: retrain network from exp. `order many datasets 1` on prid450'
+    a.iterations = 10
+    a.epochs = 100
+    a.batch_size = 32
+
+    a.load_weights_name = 'scnn_27072017_1135_epoch_100_weigths.h5'
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    scn.super_main(a)
+
 
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     #
     # if num == '1':
-    test_pipeline_12()
+    order_many_datasets_2()
 
 
 main()

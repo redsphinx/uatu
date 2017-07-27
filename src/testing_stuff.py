@@ -613,3 +613,19 @@ def get_rid_xy_for_single_human():
     #         my_file.write(line)
 
 # get_rid_xy_for_single_human()
+
+def look_weights():
+    path = '/home/gabi/PycharmProjects/uatu/model_weights/scnn_26072017_1834_epoch_100_weigths.h5'
+    h5file = h5py.File(path, 'r')
+
+    stuff = h5file['sequential_1']
+
+    for i in range(len(stuff.keys())):
+        k = stuff.keys()[i]
+        print(k)
+        p = 'sequential_1' + '/' + k
+        for ii in range(len(h5file[p].keys())):
+            print(h5file[p].keys()[ii])
+
+
+    print('shit')
