@@ -679,7 +679,8 @@ def super_main(adjustable):
     else:
         print('Note: Testing (Ranking) will also be performed.')
         if adjustable.ranking_number_test == 'half':
-            ranking_number = pc.RANKING_DICT[dataset_test_h5[0]]
+            print(dataset_test_h5)
+            ranking_number = pc.RANKING_DICT[adjustable.dataset_test]
         elif isinstance(adjustable.ranking_number_test, int):
             ranking_number = adjustable.ranking_number_test
         else:

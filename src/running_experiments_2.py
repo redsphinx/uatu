@@ -2194,12 +2194,54 @@ def order_many_datasets_2():
     scn.super_main(a)
 
 
+def test_video():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video'
+    a.epochs = 2
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'selu'
+
+    # a.dataset_test = 'ilids-vid'
+    # a.ranking_number_test = 10
+
+    a.datasets_train = ['prid2011']
+    a.ranking_number_train = [10]
+
+    a.video_head_type = 'cnn_lstm'
+    a.sequence_length = 20
+    # a.kernel = (3, 3, 3)
+    # a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+
+    a.dropout_rate = 0.05
+    a.head_type = 'simple'
+    # a.lstm_units = 64
+    srcn.super_main(a)
+
+
+def test_cuhk02():
+    a = ProjectVariable()
+    a.experiment_name = 'test market train + test'
+    a.iterations = 1
+    a.epochs = 1
+    a.batch_size = 128
+
+    a.dataset_test = 'market'
+    a.ranking_number_test = 'half'
+
+    # a.head_type = 'simple'
+    # a.activation_function = 'selu'
+    # a.dropout_rate = 0.05
+
+    scn.super_main(a)
+
+
 def main():
-    # num = sys.argv[1]
-    # print(sys.argv)
-    #
-    # if num == '1':
-    order_many_datasets_2()
+    num = sys.argv[1]
+    print(sys.argv)
+
+    if num == '1':
+        test_cuhk02()
 
 
 main()

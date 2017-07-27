@@ -222,8 +222,10 @@ def create_siamese_branch(adjustable):
             model.add(layers.BatchNormalization(name='bn_1', input_shape=(
             adjustable.sequence_length, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
                                                 trainable=adjustable.trainable_bn))
-        model.add(layers.Conv3D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
-                         trainable=adjustable.trainable_12))
+        model.add(layers.Conv3D(16 * adjustable.numfil, input_shape=(adjustable.sequence_length, pc.IMAGE_HEIGHT,
+                                                                     pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
+                                kernel_size=adjustable.kernel, padding='same', name='conv_1',
+                                trainable=adjustable.trainable_12))
         model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
         # convolutional unit 2
         model.add(layers.Conv3D(32 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_2',
