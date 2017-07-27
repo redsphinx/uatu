@@ -50,6 +50,15 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+27 july
+-------
+. fix for siamese_cnn_video
+. fix for priming
+. clean up code
+. get code ready for experimentation
+. prepare experiments
+
+
 26 july
 -------
 . continue fixing pipeline for mixing data
