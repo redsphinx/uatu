@@ -735,8 +735,8 @@ def super_main(adjustable):
                 #   Prepare data for when we ONLY test. Randomly get the data or load from a file if file exists
                 ########################################################################################################
                 ranking, tmp1, tmp2 = ddl.create_training_and_ranking_set(adjustable.dataset_test, adjustable,
-                                                              ranking_variable=adjustable.ranking_number_test,
-                                                              do_training=False)
+                                                                          ranking_variable=adjustable.ranking_number_test,
+                                                                          do_training=False)
                 del tmp1, tmp2
 
                 if adjustable.cost_module_type in ['euclidean', 'cosine']:

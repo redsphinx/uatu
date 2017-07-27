@@ -54,6 +54,7 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 -------
 . fix for siamese_cnn_video
 . fix for priming
+. (maybe fix for cnn_clean)
 . clean up code
 . get code ready for experimentation
 . prepare experiments

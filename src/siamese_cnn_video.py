@@ -453,6 +453,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
                 if adjustable.name_indication == 'epoch':
                     model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
                     weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
+                    # TODO: adjustable.datasets
                 elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
                     # model_name = time_stamp + '_%s_model.h5' % adjustable.datasets[0]
                     # weights_name = time_stamp + '_%s_weights.h5' % adjustable.datasets[0]
@@ -470,6 +471,7 @@ def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_trai
     ranking_matrices = []
     names = []
 
+    # TODO: adjustable.datasets
     for dataset in range(len(adjustable.datasets)):
         # name = test[test_set * 3]
         name = adjustable.datasets[dataset]
@@ -528,10 +530,18 @@ def super_main(adjustable):
     """Runs main for a specified iterations. Useful for experiment running.
     Note: set iterations to 1 if you want to save weights
     """
-    # load the datasets from h5
-    # note: this will always be 1 dataset
-    all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
+    ################################################################################################################
+    #   Load datasets, note: always 1 dataset_test, but multiple datasets_train
+    ################################################################################################################
+    # DONE TODO: adjustable.datasets
+    # all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
+    datasets_train_h5 = ddl.load_datasets_from_h5(adjustable.datasets_train)
+    dataset_test_h5 = ddl.load_datasets_from_h5(adjustable.dataset_test)
 
+    ################################################################################################################
+    #   Set the ranking number.
+    ################################################################################################################
+    # TODO: adjustable.ranking_number
     if adjustable.ranking_number == 'half':
         the_dataset_name = adjustable.datasets[0]
         ranking_number = pc.RANKING_DICT[the_dataset_name]
@@ -543,6 +553,7 @@ def super_main(adjustable):
     # select which GPU to use, necessary to start tf session
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
     # arrays for storing results
+    # TODO: adjustable.datasets
     number_of_datasets = len(adjustable.datasets)
     name = np.zeros(number_of_datasets)
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
@@ -555,6 +566,7 @@ def super_main(adjustable):
         all_ranking, all_training_pos, all_training_neg = [], [], []
         # create training and ranking set for all datasets
         ss = time.time()
+        # TODO: adjustable.datasets
         for name in range(len(adjustable.datasets)):
             ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name], adjustable)
             # labels have different meanings in `euclidean` case, 0 for match and 1 for mismatch
