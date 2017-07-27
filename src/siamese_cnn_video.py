@@ -94,6 +94,7 @@ def create_cost_module(inputs, adjustable):
         output = abs(x[0] - x[1])
         return output
 
+    # unused
     def the_shape(shapes):
         shape1, shape2 = shapes
         a_shape = shape1
@@ -353,269 +354,591 @@ def create_siamese_network(adjustable):
     return model
 
 
-def train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list):
+
+def train_network(adjustable, model, final_training_data, final_training_labels, h5_train, h5_test):
+    # def train_network(adjustable, model, final_training_data, final_training_labels, h5_data_list):
+    """
+    Trains the network.
+    :param adjustable:                  object of class ProjectVariable
+    :param model:                       the model
+    :param final_training_data:         list of pairs of images
+    :param final_training_labels:       list of labels belonging to final_training_data
+    :param h5_train:                    list of h5py objects with the training data
+    :param h5_test:                     list of 1 h5py object with the testing data
+    :return:                            trained model
+    """
     if adjustable.use_cyclical_learning_rate:
 
         clr = CyclicLR(step_size=(len(final_training_labels) / adjustable.batch_size) * 8, base_lr=adjustable.cl_min,
                        max_lr=adjustable.cl_max)
-
-        train_data = ddl.grab_em_by_the_keys(final_training_data, h5_data_list)
-
-        train_data = np.asarray(train_data)
-
-        print(np.shape(train_data))
-
-        model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
-                  batch_size=adjustable.batch_size,
-                  epochs=1,
-                  validation_split=0.01,
-                  verbose=2,
-                  callbacks=[clr])
+        call_back = [clr]
     else:
-        train_data = ddl.grab_em_by_the_keys(final_training_data, h5_data_list)
-        train_data = np.asarray(train_data)
+        call_back = None
 
-        model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
-                  batch_size=adjustable.batch_size,
-                  epochs=1,
-                  validation_split=0.01,
-                  verbose=2)
+    train_data = ddl.grab_em_by_the_keys(final_training_data, h5_train, h5_test)
+    train_data = np.asarray(train_data)
+
+    model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
+              batch_size=adjustable.batch_size,
+              epochs=1,
+              validation_split=0.01,
+              verbose=2,
+              callbacks=call_back)
 
 
 def absolute_distance_difference(y_true, y_pred):
+    """
+    Returns the absolute distance between two numbers
+    :param y_true:      The true number
+    :param y_pred:      The predicted number
+    :return:            the absolute distance between two numbers
+    """
     return abs(y_true - y_pred)
 
 
-def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
-    """Runs a the whole training and testing phase
-    :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
-                ranking for each dataset
+def get_model(adjustable):
+    """
+    Returns a model depending on the specifications.
+    1. Loads a saved model + weights IF model name is specified
+    2. Creates the model from scratch, loads saved weights and compiles IF model name is not specified AND
+                                                                                model weights is specified
+    3. Creates the model from scratch and compiles IF nothing is indicated
+
+    :param adjustable:      object of class ProjectVariable
+    :return:                returns the model
     """
     if adjustable.optimizer == 'nadam':
         the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
     elif adjustable.optimizer == 'sgd':
-        the_optimizer = 'sgd'
-    elif adjustable.optimizer == 'rms':
+        the_optimizer = keras.optimizers.SGD()
+    elif adjustable == 'rms':
         the_optimizer = keras.optimizers.RMSprop()
     else:
         the_optimizer = None
 
-    print(adjustable.optimizer, the_optimizer)
-
-    if not adjustable.load_model_name == None:
+    # case 1
+    if adjustable.load_model_name is not None:
         model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
-    elif not adjustable.load_weights_name == None:
-        # model = create_time_capable_siamese_network(adjustable)
-        model = create_siamese_network(adjustable)
-
-        the_path = os.path.join('../model_weights', adjustable.load_weights_name)
-        model.load_weights(the_path, by_name=True)
-
-        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
-        elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
-            rms = keras.optimizers.RMSprop()
-            model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
 
     else:
+        # case 3
         model = create_siamese_network(adjustable)
 
+        # case 2
+        if adjustable.load_weights_name is not None:
+            the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_weights_name)
+            model.load_weights(the_path, by_name=True)
+
+        # compile
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
             model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
         elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
-            rms = keras.optimizers.RMSprop()
-            model.compile(loss=contrastive_loss, optimizer=rms, metrics=[absolute_distance_difference])
+            model.compile(loss=contrastive_loss, optimizer=the_optimizer, metrics=[absolute_distance_difference])
 
-    for epoch in range(adjustable.epochs):
-        print('epoch %d/%d' % (epoch, adjustable.epochs))
-        # sample from the big set of negative training instances
-        random.shuffle(merged_training_neg)
-        training_neg_sample = merged_training_neg[0:len(merged_training_pos)]
-        # now we have the final list of keys to the instances we use for training
+    return model
 
-        final_training_data = merged_training_pos + training_neg_sample
 
-        random.shuffle(final_training_data)
+def get_negative_sample(adjustable, train_pos, train_neg):
+    # number_of_datasets = len(train_pos)
+    if isinstance(train_pos, list):
+        if type(train_pos[0]) == list:
+            number_of_datasets = len(train_pos)
+        elif type(train_pos[0]) == str:
+            number_of_datasets = 1
+        else:
+            print('Warning: something weird is happening')
+            return
+    else:
+        print('Error: train_pos must be a list')
+        return
 
-        final_training_data = pu.sideways_shuffle(final_training_data)
+    negative = []
 
-        final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
-                                 range(len(final_training_data))]
-        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
-
-        train_network_light(adjustable, model, final_training_data, final_training_labels, h5_data_list)
-
-        time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
-
-        if adjustable.save_inbetween and adjustable.iterations == 1:
-            if epoch+1 in adjustable.save_points:
-                if adjustable.name_indication == 'epoch':
-                    model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
-                    weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
-                    # TODO: adjustable.datasets
-                elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
-                    # model_name = time_stamp + '_%s_model.h5' % adjustable.datasets[0]
-                    # weights_name = time_stamp + '_%s_weights.h5' % adjustable.datasets[0]
-                    model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
-                    weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+    if adjustable.only_test == True:
+        # only test, nothing to do
+        print('Only testing, nothing to train here.')
+    else:
+        # train
+        if number_of_datasets == 0:
+            print('Error: no training datasets have been specified')
+            return
+        elif number_of_datasets == 1:
+            # normal shuffle, just take subset
+            random.shuffle(train_neg)
+            negative = train_neg[0:len(train_pos)]
+        else:
+            # can be train + test on multiple datasets
+            # can be only train on multiple datasets
+            # mixing does matter
+            if adjustable.mix == True:
+                # shuffle the data with each other
+                # here we need to know if we only train or train+test
+                if adjustable.dataset_test is None:
+                    # normal shuffle, just take subset
+                    random.shuffle(train_neg)
+                    negative = train_neg[0:len(train_pos)]
                 else:
-                    model_name = None
-                    weights_name = None
+                    if adjustable.mix_with_test == True:
+                        # mix with the test
+                        # normal shuffle, just take subset
+                        random.shuffle(train_neg)
+                        negative = train_neg[0:len(train_pos)]
+                    else:
+                        # don't mix with the test (which is at the end)
+                        # for each partition, shuffle and get a subset
+                        for index in range(len(train_neg)):
+                            random.shuffle(train_neg[index])
+                            negative.append(train_neg[index][0:len(train_pos[index])])
 
-                model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
-                model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
-                print('MODEL SAVED')
+            else:
+                # train in order.
+                # number of datasets don't matter
+                # for each partition, shuffle and get a subset
+                if type(train_neg[0]) == list:
+                    for index in range(len(train_neg)):
+                        random.shuffle(train_neg[index])
+                        negative.append(train_neg[index][0:len(train_pos[index])])
+                elif type(train_neg[0]) == str:
+                    random.shuffle(train_neg)
+                    negative.append(train_neg[0:len(train_pos)])
 
-    confusion_matrices = []
-    ranking_matrices = []
-    names = []
+    return negative
 
-    # TODO: adjustable.datasets
-    for dataset in range(len(adjustable.datasets)):
-        # name = test[test_set * 3]
-        name = adjustable.datasets[dataset]
-        names.append(name)
-        this_ranking = all_ranking[dataset]
-        # print('GRABBING BY THE KEYS')
-        test_data = ddl.grab_em_by_the_keys(this_ranking, h5_data_list)
-        test_data = np.asarray(test_data)
 
-        # make a record of the ranking selection for each dataset
-        # for priming
-        if adjustable.save_inbetween and adjustable.iterations == 1:
-            # file_name = '%s_ranking_%s.txt' % (name, adjustable.ranking_time_name)
-            file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
-            file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
-            with open(file_name, 'w') as my_file:
-                for item in this_ranking:
-                    my_file.write(item)
+def fix_positives(positives):
+    """
+    Makes a single list from the list of lists of data
+    :param positives:   list containing list(s) of positive training data
+    :return:            a single list containing the positive training data
+    """
+    positives_fixed = []
+    if len(np.shape(positives)) > 1:
+        for index in range(len(positives)):
+            positives_fixed += positives[index]
+    else:
+        positives_fixed = positives
 
-        # print('final_testing_labels')
+    return positives_fixed
+
+
+def get_final_training_data(adjustable, train_pos, train_neg):
+    """
+    Merges the positive and negative training data together accordingly
+    :param adjustable:      object of class ProjectVariable
+    :param train_pos:       list of string pairs containing keys and labels of the positive training data
+    :param train_neg:       list of string pairs containing keys and labels of the negative training data
+    :return:                returns a single list of string pairs containing keys and labels of the training data
+    """
+    if isinstance(train_pos, list):
+        if type(train_pos[0]) == list:
+            number_of_datasets = len(train_pos)
+        elif type(train_pos[0]) == str:
+            number_of_datasets = 1
+        else:
+            print('Warning: something weird is happening')
+            return
+    else:
+        print('Error: train_pos must be a list')
+        return
+
+    final_training_data = []
+
+    if adjustable.only_test == True:
+        # only test, nothing to do
+        print('Only testing, nothing to train here.')
+        final_training_data = None
+    else:
+        # train
+        if number_of_datasets == 0:
+            print('Error: no training datasets have been specified')
+            return
+        elif number_of_datasets == 1:
+            # normal shuffle, just take subset
+            final_training_data = train_pos + train_neg
+            random.shuffle(final_training_data)
+        else:
+            # can be train + test on multiple datasets
+            # can be only train on multiple datasets
+            # mixing does matter
+            if adjustable.mix == True:
+                # shuffle the data with each other
+                # here we need to know if we only train or train+test
+                if adjustable.dataset_test is None:
+                    # normal shuffle, just take subset
+                    final_training_data = train_pos + train_neg
+                    random.shuffle(final_training_data)
+                else:
+                    if adjustable.mix_with_test == True:
+                        # mix with the test
+                        # normal shuffle, just take subset
+                        final_training_data = train_pos + train_neg
+                        random.shuffle(final_training_data)
+                    else:
+                        # don't mix with the test (which is at the end)
+                        # for each partition, shuffle and get a subset
+                        for index in range(len(train_neg)):
+                            partition = train_pos[index] + train_neg[index]
+                            random.shuffle(partition)
+                            final_training_data += partition
+
+            else:
+                # train in order.
+                # number of datasets don't matter
+                # for each partition, shuffle and get a subset
+                for index in range(len(train_neg)):
+                    partition = train_pos[index] + train_neg[index]
+                    random.shuffle(partition)
+                    final_training_data += partition
+
+    return final_training_data
+
+
+def get_ranking(all_ranking):
+    updated_ranking = all_ranking[-1]
+    return updated_ranking
+
+
+def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, merged_training_neg):
+    """
+    Runs a the whole training and testing phase
+    :param adjustable:              object of class ProjectVariable
+    :param training_h5:             list of h5py object(s) containing training datasets
+    :param testing_h5:              list of h5py object containing test/rank dataset
+    :param all_ranking:             list of ranking pair string paths to images
+    :param merged_training_pos:     list of training pos pair string paths to images
+    :param merged_training_neg:     list of training neg pair string paths to images
+    :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
+                ranking for each dataset
+    """
+    ############################################################################################################
+    #   Set GPU
+    ############################################################################################################
+    os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
+
+    ############################################################################################################
+    #   Create model
+    ############################################################################################################
+    model = get_model(adjustable)
+
+    ############################################################################################################
+    #   Training phase
+    ############################################################################################################
+    if adjustable.only_test == False:
+        for epoch in range(adjustable.epochs):
+            print('Epoch %d/%d' % (epoch, adjustable.epochs))
+            ############################################################################################################
+            #   Prepare the training data
+            ############################################################################################################
+            training_neg_sample = get_negative_sample(adjustable, merged_training_pos, merged_training_neg)
+            final_training_data = get_final_training_data(adjustable, merged_training_pos, training_neg_sample)
+
+            final_training_labels = [int(final_training_data[item].strip().split(',')[-1]) for item in
+                                     range(len(final_training_data))]
+            if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+                final_training_labels = keras.utils.to_categorical(final_training_labels, pc.NUM_CLASSES)
+
+            ############################################################################################################
+            #   Train the network
+            ############################################################################################################
+            train_network(adjustable, model, final_training_data, final_training_labels, training_h5, testing_h5)
+
+            ############################################################################################################
+            #   Save the model + weights (if specified with adjustable.save_inbetween and adjustable.save_points)
+            ############################################################################################################
+            time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
+            # TODO: fix dataset name
+            if adjustable.save_inbetween and adjustable.iterations == 1:
+                if epoch + 1 in adjustable.save_points:
+                    if adjustable.name_indication == 'epoch':
+                        model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
+                        weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
+                    elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
+                        model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+                        weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+                    else:
+                        model_name = None
+                        weights_name = None
+
+                    model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
+                    model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))
+                    print('MODEL SAVED at epoch %d' % (epoch + 1))
+
+    ############################################################################################################
+    #   Testing phase
+    ############################################################################################################
+    if all_ranking is not None:
+        this_ranking = all_ranking[-1]
+        del all_ranking
+
+        ################################################################################################################
+        #   Prepare the testing/ranking data
+        ################################################################################################################
+        test_data = ddl.grab_em_by_the_keys(this_ranking, training_h5, testing_h5)
+
+        # prepare for testing the model
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
 
-
         if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            print('more final testing labels')
             final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
-        # print('predictions')
+        ################################################################################################################
+        #   Test
+        ################################################################################################################
+        print('Testing...')
         predictions = model.predict([test_data[0, :], test_data[1, :]])
-        # print predictions
+
+        ################################################################################################################
+        #   Process the results
+        ################################################################################################################
+        print('Processing results...')
         if adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
             new_thing = zip(predictions, final_testing_labels)
             print(new_thing[0:50])
-        # print('MAKING CONFUSION MATRIX')
-        # matrix = pu.make_confusion_matrix(predictions, test_labels)
+
+        # create confusion matrix
         matrix = pu.make_confusion_matrix(adjustable, predictions, final_testing_labels)
         accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
         if not matrix[0] == 0:
             precision = (matrix[0] * 1.0 / (matrix[0] + matrix[1] * 1.0))
         else:
             precision = 0
-        confusion_matrices.append(matrix)
 
+        # [upon Gregor's request] create a 0.1 ratio version of the confusion matrix where for each positive instance
+        #                                                                              there are 9 negative instances
+        gregor_matrix = pu.make_gregor_matrix(adjustable, predictions, final_testing_labels)
+        print(gregor_matrix)
+
+        if (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0) == 0:
+            detection_rate = 0
+        else:
+            detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0))
+
+        if (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0) == 0:
+            false_alarm = 0
+        else:
+            false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
+
+        # calculate the Cumulative Matching Characteristic
         ranking = pu.calculate_CMC(adjustable, predictions)
-        ranking_matrices.append(ranking)
 
-        print('%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \n CMC: \n %s'
-              % (name, accuracy, precision, str(matrix), str(ranking)))
+        print(
+        '%s accuracy: %0.2f   precision: %0.2f   confusion matrix: %s \nCMC: \n%s \nDetection rate: %s  False alarm: %s'
+        % (
+        adjustable.dataset_test, accuracy, precision, str(matrix), str(ranking), str(detection_rate), str(false_alarm)))
 
+    else:
+        matrix = None
+        ranking = None
+        gregor_matrix = None
 
     del model
-    return names, confusion_matrices, ranking_matrices
+    return matrix, ranking, gregor_matrix
 
 
 def super_main(adjustable):
     """Runs main for a specified iterations. Useful for experiment running.
     Note: set iterations to 1 if you want to save weights
     """
+
     ################################################################################################################
     #   Load datasets, note: always 1 dataset_test, but multiple datasets_train
     ################################################################################################################
-    # DONE TODO: adjustable.datasets
-    # all_h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
     datasets_train_h5 = ddl.load_datasets_from_h5(adjustable.datasets_train)
     dataset_test_h5 = ddl.load_datasets_from_h5(adjustable.dataset_test)
 
     ################################################################################################################
     #   Set the ranking number.
     ################################################################################################################
-    # TODO: adjustable.ranking_number
-    if adjustable.ranking_number == 'half':
-        the_dataset_name = adjustable.datasets[0]
-        ranking_number = pc.RANKING_DICT[the_dataset_name]
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
+    if dataset_test_h5 is None:
+        if datasets_train_h5 is not None:
+            if adjustable.ranking_number_test is None:
+                print('Note: Only training will be performed.')
+                ranking_number = None
+            else:
+                print('Warning: No ranking number needed, ranking number defaults to `None`.')
+                print('Note: Only training will be performed.')
+                ranking_number = None
+        else:
+            print('Error: No training data specified.')
+            return
     else:
-        ranking_number = None
+        print('Note: Testing (Ranking) will also be performed.')
+        if adjustable.ranking_number_test == 'half':
+            ranking_number = pc.RANKING_DICT[dataset_test_h5[0]]
+        elif isinstance(adjustable.ranking_number_test, int):
+            ranking_number = adjustable.ranking_number_test
+        else:
+            print('Error: Unknown configuration.')
+            return
 
-    # select which GPU to use, necessary to start tf session
-    os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
-    # arrays for storing results
-    # TODO: adjustable.datasets
-    number_of_datasets = len(adjustable.datasets)
-    name = np.zeros(number_of_datasets)
-    confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
-    ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, ranking_number))
+    ################################################################################################################
+    #   [IF dataset_test_h5 is not None] Create arrays in which we store the results
+    ################################################################################################################
+    if dataset_test_h5 is not None:
+        confusion_matrices = np.zeros((adjustable.iterations, 4))
+        ranking_matrices = np.zeros((adjustable.iterations, ranking_number))
+        gregor_matrices = np.zeros((adjustable.iterations, 4))
+    else:
+        confusion_matrices = None
+        ranking_matrices = None
+        gregor_matrices = None
 
+    ################################################################################################################
+    #   Start a number of experiment iterations
+    ################################################################################################################
     start = time.time()
     for iter in range(adjustable.iterations):
-        print('-----ITERATION %d' % iter)
+        print('------------------------------------------------------------------------------------------------------\n'
+              'EXPERIMENT ITERATION %d\n'
+              '------------------------------------------------------------------------------------------------------'
+              % iter)
         # lists for storing intermediate results
         all_ranking, all_training_pos, all_training_neg = [], [], []
         # create training and ranking set for all datasets
         ss = time.time()
-        # TODO: adjustable.datasets
-        for name in range(len(adjustable.datasets)):
-            ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(adjustable.datasets[name], adjustable)
-            # labels have different meanings in `euclidean` case, 0 for match and 1 for mismatch
-            if adjustable.cost_module_type == 'euclidean':
-                ranking = pu.flip_labels(ranking)
-                training_pos = pu.flip_labels(training_pos)
-                training_neg = pu.flip_labels(training_neg)
-            elif adjustable.cost_module_type == 'cosine':
-                ranking = pu.zero_to_min_one_labels(ranking)
-                training_pos = pu.zero_to_min_one_labels(training_pos)
-                training_neg = pu.zero_to_min_one_labels(training_neg)
+        # lists for storing intermediate results
+        all_ranking, all_training_pos, all_training_neg = [], [], []
+        # create training and ranking set for all datasets
+        ss = time.time()
 
-            # data gets appended in order
-            all_ranking.append(ranking)
-            all_training_pos.append(training_pos)
-            all_training_neg.append(training_neg)
-        # put all the training data together
+        if dataset_test_h5 is None:
+            print('Training using all data in datasets_train.')
+            ############################################################################################################
+            #   Prepare data for when we only train using all data
+            ############################################################################################################
+            if datasets_train_h5 is not None:
+                for index in range(len(adjustable.datasets_train)):
+                    ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                        adjustable.datasets_train[index],
+                        adjustable, ranking_variable=None,
+                        do_ranking=False)
+                    if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                        training_pos = pu.flip_labels(training_pos)
+                        training_neg = pu.flip_labels(training_neg)
+
+                    all_training_pos.append(training_pos)
+                    all_training_neg.append(training_neg)
+                    del ranking
+                all_ranking = None
+            else:
+                print('Error: no training data specified.')
+                return
+        else:
+            # TODO: fix issue where it can be datasets_train != none + only_test == true
+            if adjustable.only_test == True:
+                print('Testing only using ranking set based on dataset_test.')
+
+                ########################################################################################################
+                #   Prepare data for when we ONLY test. Randomly get the data or load from a file if file exists
+                ########################################################################################################
+                ranking, tmp1, tmp2 = ddl.create_training_and_ranking_set(adjustable.dataset_test, adjustable,
+                                                                          ranking_variable=adjustable.ranking_number_test,
+                                                                          do_training=False)
+                del tmp1, tmp2
+
+                if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                    ranking = pu.flip_labels(ranking)
+                all_ranking.append(ranking)
+            else:
+                if datasets_train_h5 is not None:
+                    print('Training and testing on multiple datasets.')
+
+                    ####################################################################################################
+                    #   Prepare data for when we train on multiple datasets and test
+                    ####################################################################################################
+                    # note: remember that only the last ranking in the ranking matrix will be tested on.
+                    for index in range(len(adjustable.datasets_train)):
+                        ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                            adjustable.datasets_train[index],
+                            adjustable,
+                            ranking_variable=adjustable.ranking_number_train[index])
+                        if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                            ranking = pu.flip_labels(ranking)
+                            training_pos = pu.flip_labels(training_pos)
+                            training_neg = pu.flip_labels(training_neg)
+
+                        all_ranking.append(ranking)
+                        all_training_pos.append(training_pos)
+                        all_training_neg.append(training_neg)
+
+                    ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                        adjustable.dataset_test, adjustable, ranking_variable=adjustable.ranking_number_test)
+                    if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                        ranking = pu.flip_labels(ranking)
+                        training_pos = pu.flip_labels(training_pos)
+                        training_neg = pu.flip_labels(training_neg)
+
+                    all_ranking.append(ranking)
+                    all_training_pos.append(training_pos)
+                    all_training_neg.append(training_neg)
+
+                else:
+                    print('Training and testing on a single dataset.')
+
+                    ####################################################################################################
+                    #   Prepare data for when we train and test on a single dataset
+                    ####################################################################################################
+                    ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                        adjustable.dataset_test, adjustable, ranking_variable=adjustable.ranking_number_test)
+                    if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                        ranking = pu.flip_labels(ranking)
+                        training_pos = pu.flip_labels(training_pos)
+                        training_neg = pu.flip_labels(training_neg)
+
+                    all_ranking.append(ranking)
+                    all_training_pos.append(training_pos)
+                    all_training_neg.append(training_neg)
+
         st = time.time()
-        print('%0.2f mins' % ((st-ss)/60))
+        print('%0.2f mins' % ((st - ss) / 60))
+
+        ################################################################################################################
+        #   Merge the training data.
+        #   Here we decide how to merge: to mix or to order by using adjustable.mix
+        #   Also for training on multiple datasets + testing: decide if we include test set in the training to be mixed:
+        #   by using adjustable.mix_with_test
+        ################################################################################################################
         merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
-        # run main
-        name, confusion_matrix, ranking_matrix = main(adjustable, all_h5_datasets, all_ranking, merged_training_pos,
-                                                      merged_training_neg)
-        # store results
-        confusion_matrices[iter] = confusion_matrix
-        ranking_matrices[iter] = ranking_matrix
+
+        ################################################################################################################
+        #   Run main()
+        ################################################################################################################
+        confusion_matrix, ranking_matrix, gregor_matrix = main(adjustable, datasets_train_h5, dataset_test_h5,
+                                                               all_ranking, merged_training_pos,
+                                                               merged_training_neg)
+
+        if dataset_test_h5 is not None:
+            # store results
+            confusion_matrices[iter] = confusion_matrix
+            ranking_matrices[iter] = ranking_matrix
+            gregor_matrices[iter] = gregor_matrix
 
     stop = time.time()
     total_time = stop - start
 
-    matrix_means = np.zeros((number_of_datasets, 4))
-    matrix_std = np.zeros((number_of_datasets, 4))
-    ranking_means = np.zeros((number_of_datasets, ranking_number))
-    ranking_std = np.zeros((number_of_datasets, ranking_number))
-    # for each dataset, create confusion and ranking matrices
-    for dataset in range(number_of_datasets):
-        matrices = np.zeros((adjustable.iterations, 4))
-        rankings = np.zeros((adjustable.iterations, ranking_number))
+    ################################################################################################################
+    #   Calculate the means and standard deviations and log the results
+    ################################################################################################################
 
-        for iter in range(adjustable.iterations):
-            matrices[iter] = confusion_matrices[iter][dataset]
-            rankings[iter] = ranking_matrices[iter][dataset]
-        # calculate the mean and std
-        matrix_means[dataset] = np.mean(matrices, axis=0)
-        matrix_std[dataset] = np.std(matrices, axis=0)
-        ranking_means[dataset] = np.mean(rankings, axis=0)
-        ranking_std[dataset] = np.std(rankings, axis=0)
+    if dataset_test_h5 is not None:
+        matrix_means = np.mean(confusion_matrices, axis=0)
+        matrix_std = np.std(confusion_matrices, axis=0)
+        ranking_means = np.mean(ranking_matrices, axis=0)
+        ranking_std = np.std(ranking_matrices, axis=0)
+        gregor_matrix_means = np.mean(gregor_matrices, axis=0)
+        gregor_matrix_std = np.std(gregor_matrices, axis=0)
+        name = adjustable.dataset_test
+    else:
+        matrix_means = None
+        matrix_std = None
+        ranking_means = None
+        ranking_std = None
+        gregor_matrix_means = None
+        gregor_matrix_std = None
+        name = None
+
     # log the results
     if adjustable.log_experiment:
         file_name = os.path.basename(__file__)
-        pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, name, matrix_means, matrix_std, ranking_means, ranking_std,
-                        total_time, None, None)
+        pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, gregor_matrix_means, gregor_matrix_std)

@@ -24,8 +24,6 @@ import h5py
 from clr_callback import *
 import random
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-
 
 def euclidean_distance(vects):
     """ Returns the euclidean distance between the 2 feature vectors
@@ -515,7 +513,6 @@ def get_ranking(all_ranking):
     return updated_ranking
 
 
-# def main(adjustable, h5_data_list, all_ranking, merged_training_pos, merged_training_neg):
 def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, merged_training_neg):
     """
     Runs a the whole training and testing phase
@@ -528,6 +525,14 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
     :return:    array of dataset names, array containing the confusion matrix for each dataset, array containing the
                 ranking for each dataset
     """
+    ############################################################################################################
+    #   Set GPU
+    ############################################################################################################
+    os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
+
+    ############################################################################################################
+    #   Create model
+    ############################################################################################################
     model = get_model(adjustable)
 
     ############################################################################################################
@@ -550,7 +555,6 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             ############################################################################################################
             #   Train the network
             ############################################################################################################
-            print('Training...')
             train_network(adjustable, model, final_training_data, final_training_labels, training_h5, testing_h5)
 
             ############################################################################################################
@@ -699,7 +703,10 @@ def super_main(adjustable):
     ################################################################################################################
     start = time.time()
     for iter in range(adjustable.iterations):
-        print('-----EXPERIMENT ITERATION %d' % iter)
+        print('------------------------------------------------------------------------------------------------------\n'
+              'EXPERIMENT ITERATION %d\n'
+              '------------------------------------------------------------------------------------------------------'
+              % iter)
         # lists for storing intermediate results
         all_ranking, all_training_pos, all_training_neg = [], [], []
         # create training and ranking set for all datasets
