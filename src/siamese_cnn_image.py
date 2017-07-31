@@ -562,17 +562,25 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             ############################################################################################################
             time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
             # TODO: fix dataset name
+			# note: for now we will just specify the name of the saved file ourselves
             if adjustable.save_inbetween and adjustable.iterations == 1:
                 if epoch + 1 in adjustable.save_points:
-                    if adjustable.name_indication == 'epoch':
-                        model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
-                        weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
-                    elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
-                        model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
-                        weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+					if adjustable.name_of_saved_file is not None:
+                        model_name = '%s_model.h5'
+                        weights_name = '%s_weights.h5'
                     else:
-                        model_name = None
-                        weights_name = None
+                        print('Error: name of file to be saved not specified.')
+                        return
+
+                    # if adjustable.name_indication == 'epoch':
+                        # model_name = time_stamp + '_epoch_%s_model.h5' % str(epoch + 1)
+                        # weights_name = time_stamp + '_epoch_%s_weigths.h5' % str(epoch + 1)
+                    # elif adjustable.name_indication == 'dataset_name' and len(adjustable.datasets) == 1:
+                        # model_name = '%s_model_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+                        # weights_name = '%s_weigths_%s.h5' % (adjustable.datasets[0], adjustable.use_gpu)
+                    # else:
+                        # model_name = None
+                        # weights_name = None
 
                     model.save(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, model_name))
                     model.save_weights(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, weights_name))

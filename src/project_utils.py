@@ -339,7 +339,7 @@ def enter_in_log_cnn(adjustable, experiment_name, file_name, data_names, matrix_
 # TODO: fix ranking number
 def calculate_CMC(adjustable, predictions):
     if adjustable.ranking_number_test == 'half':
-        the_dataset_name = adjustable.datasets[0]
+        the_dataset_name = adjustable.dataset_test
         ranking_number = pc.RANKING_DICT[the_dataset_name]
     elif isinstance(adjustable.ranking_number_test, int):
         ranking_number = adjustable.ranking_number_test

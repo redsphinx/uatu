@@ -2236,12 +2236,51 @@ def test_cuhk02():
     scn.super_main(a)
 
 
+def test_market_1():
+    a = ProjectVariable()
+    a.experiment_name = 'test market 1: train only on all datasets, mix=True, no batchnorm, save'
+    a.iterations = 1
+    a.epochs = 200
+    a.batch_size = 128
+
+    a.datasets_train = ['grid', 'viper', 'cuhk02', 'prid450']
+    a.mix = True
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    a.save_inbetween = True
+    a.save_points = [50, 100, 150, 200]
+
+    scn.super_main(a)
+
+
+def test_market_2():
+    a = ProjectVariable()
+    a.experiment_name = 'test market 2: load model weights from exp. `test market 1`, train + test on market'
+    a.load_weights_name = 'scnn_27072017_2030_epoch_200_weigths.h5'
+    a.epochs = 100
+    a.iterations = 10
+
+    a.dataset_test = 'market'
+    a.ranking_number_test = 'half'
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    scn.super_main(a)
+
+
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
     if num == '1':
-        test_cuhk02()
+        test_market_1()
+    if num == '2':
+        test_market_2()
 
 
 main()

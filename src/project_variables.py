@@ -99,6 +99,8 @@ class ProjectVariable(object):
         # what to add to the save file name when saving model and/or weigths
         # choice of 'epoch', 'dataset_name'
         self._name_indication = 'epoch'  # string
+        # what to name the saved file
+        self._name_of_saved_file = None
         # timestamp of when the ranking file was made
         self._ranking_time_name = None  # string
         # the ranking number for each dataset. must be at least 10 because of gregor. set to 30 when using video data
@@ -658,3 +660,12 @@ class ProjectVariable(object):
     @mix_with_test.setter
     def mix_with_test(self, value):
         self._mix_with_test = value
+
+    # what to name the saved file
+    @property
+    def name_of_saved_file(self):
+        return self._name_of_saved_file
+
+    @name_of_saved_file.setter
+    def name_of_saved_file(self, value):
+        self._name_of_saved_file = value
