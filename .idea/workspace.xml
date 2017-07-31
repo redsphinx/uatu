@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bash_run_experiments.sh" afterPath="$PROJECT_DIR$/src/bash_run_experiments.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments_2.py" afterPath="$PROJECT_DIR$/src/running_experiments_2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_image.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_image.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_video.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_video.py" />
     </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,21 +61,21 @@
     <splitter split-orientation="horizontal" split-proportion="0.4967983">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="649">
-                  <caret line="568" column="50" lean-forward="true" selection-start-line="568" selection-start-column="50" selection-end-line="568" selection-end-column="50" />
+                <state relative-caret-position="604">
+                  <caret line="565" column="63" lean-forward="false" selection-start-line="565" selection-start-column="63" selection-end-line="565" selection-end-column="63" />
                   <folding>
                     <element signature="e#0#12#0" expanded="true" />
-                    <marker date="1501523541694" expanded="true" signature="21447:29953" ph="..." />
-                    <marker date="1501523541694" expanded="true" signature="26061:26081" ph="..." />
+                    <marker date="1501524559574" expanded="true" signature="21447:29974" ph="..." />
+                    <marker date="1501524559574" expanded="true" signature="26082:26102" ph="..." />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="bash_run_experiments.sh" pinned="false" current-in-tab="true">
+          <file leaf-file-name="bash_run_experiments.sh" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="255">
@@ -121,14 +121,14 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="siamese_cnn_video.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="siamese_cnn_video.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_video.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3045">
-                  <caret line="226" column="93" lean-forward="false" selection-start-line="226" selection-start-column="93" selection-end-line="226" selection-end-column="93" />
+                <state relative-caret-position="409">
+                  <caret line="659" column="0" lean-forward="true" selection-start-line="659" selection-start-column="0" selection-end-line="659" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#12#0" expanded="true" />
-                    <marker date="1501237175184" expanded="true" signature="27627:36041" ph="..." />
+                    <marker date="1501524663354" expanded="true" signature="27627:36056" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -144,7 +144,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="823">
@@ -315,11 +315,11 @@
         <option value="$PROJECT_DIR$/src/project_constants.py" />
         <option value="$PROJECT_DIR$/src/data_pipeline.py" />
         <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
-        <option value="$PROJECT_DIR$/src/siamese_cnn_video.py" />
         <option value="$PROJECT_DIR$/src/planned_experiments.txt" />
-        <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
         <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
         <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
+        <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
+        <option value="$PROJECT_DIR$/src/siamese_cnn_video.py" />
       </list>
     </option>
   </component>
@@ -765,7 +765,7 @@
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23425826" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23425826" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24953617" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.364564" sideWeight="0.50426894" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1141,17 +1141,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_video.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3045">
-          <caret line="226" column="93" lean-forward="false" selection-start-line="226" selection-start-column="93" selection-end-line="226" selection-end-column="93" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-            <marker date="1501237175184" expanded="true" signature="27627:36041" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1184,14 +1173,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="649">
-          <caret line="568" column="50" lean-forward="true" selection-start-line="568" selection-start-column="50" selection-end-line="568" selection-end-column="50" />
+        <state relative-caret-position="604">
+          <caret line="565" column="63" lean-forward="false" selection-start-line="565" selection-start-column="63" selection-end-line="565" selection-end-column="63" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-            <marker date="1501523541694" expanded="true" signature="21447:29953" ph="..." />
-            <marker date="1501523541694" expanded="true" signature="26061:26081" ph="..." />
+            <marker date="1501524559574" expanded="true" signature="21447:29974" ph="..." />
+            <marker date="1501524559574" expanded="true" signature="26082:26102" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1206,11 +1203,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
+    <entry file="file://$PROJECT_DIR$/src/siamese_cnn_video.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="409">
+          <caret line="659" column="0" lean-forward="true" selection-start-line="659" selection-start-column="0" selection-end-line="659" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+            <marker date="1501524663354" expanded="true" signature="27627:36056" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
