@@ -2273,15 +2273,152 @@ def test_market_2():
     scn.super_main(a)
 
 
+# 0	CLR vs. LR with decay
+#
+# no CLR
+# 0_0	no CLR: lr=0.001, decay=0.95
+def ex_000():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 000: viper, no CLR: lr=0.001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 316
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.001
+
+    scn.super_main(a)
+
+# 0_1	no CLR: lr=0.0001, decay=0.95
+def ex_001():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 001: viper, no CLR: lr=0.0001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 316
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.0001
+
+    scn.super_main(a)
+
+# 0_2	no CLR: lr=0.00001, decay=0.95
+def ex_002():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 002: viper, no CLR: lr=0.00001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 316
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.00001
+
+    scn.super_main(a)
+
+# 0_3	no CLR: lr=0.000001, decay=0.95
+def ex_003():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 003: viper, no CLR: lr=0.000001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 316
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.000001
+
+    scn.super_main(a)
+#
+# with CLR
+# 0_4	with CLR: min=0.000001, max=0.00001
+def ex_004():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 004: viper, with CLR: min=0.000001, max=0.00001'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 316
+
+    a.cl_min = 0.000001
+    a.cl_max = 0.00001
+
+    scn.super_main(a)
+
+# 0_5	with CLR: min=0.00001, max=0.0001
+def ex_005():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 005: viper, with CLR: min=0.00001, max=0.0001'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 316
+
+    a.cl_min = 0.00001
+    a.cl_max = 0.0001
+
+    scn.super_main(a)
+
+# 0_6	with CLR: min=0.0001, max=0.001
+def ex_006():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 006: viper, with CLR: min=0.0001, max=0.001'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 316
+
+    a.cl_min = 0.0001
+    a.cl_max = 0.001
+
+    scn.super_main(a)
+
+# 0_7	with CLR: min=0.00005, max=0.001 [BASELINE]
+def ex_007():
+    a = ProjectVariable()
+    a.experiment_name = 'with CLR: min=0.00005, max=0.001 [BASELINE]'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 316
+
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+
+    scn.super_main(a)
+
+
+
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
+    if num == '0':
+        ex_000()
     if num == '1':
-        test_market_1()
+        ex_001()
     if num == '2':
-        test_market_2()
-
+        ex_002()
+    if num == '3':
+        ex_003()
+    if num == '4':
+        ex_004()
+    if num == '5':
+        ex_005()
+    if num == '6':
+        ex_006()
+    if num == '7':
+        ex_007()
 
 main()
 

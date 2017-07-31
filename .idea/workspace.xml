@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_image.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_image.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bash_run_experiments.sh" afterPath="$PROJECT_DIR$/src/bash_run_experiments.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments_2.py" afterPath="$PROJECT_DIR$/src/running_experiments_2.py" />
     </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,11 +61,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.4967983">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="664">
-                  <caret line="569" column="54" lean-forward="true" selection-start-line="569" selection-start-column="54" selection-end-line="569" selection-end-column="54" />
+                <state relative-caret-position="649">
+                  <caret line="568" column="50" lean-forward="true" selection-start-line="568" selection-start-column="50" selection-end-line="568" selection-end-column="50" />
                   <folding>
                     <element signature="e#0#12#0" expanded="true" />
                     <marker date="1501523541694" expanded="true" signature="21447:29953" ph="..." />
@@ -74,11 +75,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="bash_run_experiments.sh" pinned="false" current-in-tab="false">
+          <file leaf-file-name="bash_run_experiments.sh" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="150">
-                  <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+                <state relative-caret-position="255">
+                  <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -143,13 +144,13 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="194">
-                  <caret line="2233" column="12" lean-forward="false" selection-start-line="2233" selection-start-column="12" selection-end-line="2233" selection-end-column="12" />
+                <state relative-caret-position="823">
+                  <caret line="2411" column="18" lean-forward="false" selection-start-line="2411" selection-start-column="18" selection-end-line="2411" selection-end-column="18" />
                   <folding>
-                    <marker date="1501184004160" expanded="true" signature="59291:59294" ph="..." />
+                    <marker date="1501524287746" expanded="true" signature="62087:62089" ph="..." />
                   </folding>
                 </state>
               </provider>
@@ -165,7 +166,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="planned_experiments.txt" pinned="false" current-in-tab="true">
+          <file leaf-file-name="planned_experiments.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/planned_experiments.txt">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="659">
@@ -198,7 +199,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>adjustable.datasets_train</find>
       <find>confusion_matrices</find>
       <find>confusion</find>
       <find>main</find>
@@ -228,6 +228,7 @@
       <find>video</find>
       <find>8</find>
       <find>9</find>
+      <find>ex_</find>
     </findStrings>
     <replaceStrings>
       <replace>alphadropout=0.1</replace>
@@ -315,10 +316,10 @@
         <option value="$PROJECT_DIR$/src/data_pipeline.py" />
         <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
         <option value="$PROJECT_DIR$/src/siamese_cnn_video.py" />
-        <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
-        <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
         <option value="$PROJECT_DIR$/src/planned_experiments.txt" />
         <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
+        <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
+        <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
       </list>
     </option>
   </component>
@@ -1151,16 +1152,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="2233" column="12" lean-forward="false" selection-start-line="2233" selection-start-column="12" selection-end-line="2233" selection-end-column="12" />
-          <folding>
-            <marker date="1501184004160" expanded="true" signature="59291:59294" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1185,14 +1176,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/data_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5085">
@@ -1203,13 +1186,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="664">
-          <caret line="569" column="54" lean-forward="true" selection-start-line="569" selection-start-column="54" selection-end-line="569" selection-end-column="54" />
+        <state relative-caret-position="649">
+          <caret line="568" column="50" lean-forward="true" selection-start-line="568" selection-start-column="50" selection-end-line="568" selection-end-column="50" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
             <marker date="1501523541694" expanded="true" signature="21447:29953" ph="..." />
             <marker date="1501523541694" expanded="true" signature="26061:26081" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="823">
+          <caret line="2411" column="18" lean-forward="false" selection-start-line="2411" selection-start-column="18" selection-end-line="2411" selection-end-column="18" />
+          <folding>
+            <marker date="1501524287746" expanded="true" signature="62087:62089" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
