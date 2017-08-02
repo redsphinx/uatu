@@ -2273,6 +2273,8 @@ def test_market_2():
     scn.super_main(a)
 
 
+# --------------------------------------------------------------------------------------------
+
 # 0	CLR vs. LR with decay
 #
 # no CLR
@@ -2385,7 +2387,7 @@ def ex_006():
 # 0_7	with CLR: min=0.00005, max=0.001 [BASELINE]
 def ex_007():
     a = ProjectVariable()
-    a.experiment_name = 'with CLR: min=0.00005, max=0.001 [BASELINE]'
+    a.experiment_name = 'experiment 007: with CLR: min=0.00005, max=0.001 [BASELINE]'
     a.epochs = 100
     a.iterations = 30
 
@@ -2398,29 +2400,286 @@ def ex_007():
     scn.super_main(a)
 
 
+# --------------------------------------------------------------------------------------------
+
+# 0	CLR vs. LR with decay
+#
+# no CLR
+# 0_0	no CLR: lr=0.001, decay=0.95
+def ex_008():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 008: grid, no CLR: lr=0.001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 125
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.001
+
+    scn.super_main(a)
+
+# 0_1	no CLR: lr=0.0001, decay=0.95
+def ex_009():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 009: grid, no CLR: lr=0.0001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 125
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.0001
+
+    scn.super_main(a)
+
+# 0_2	no CLR: lr=0.00001, decay=0.95
+def ex_010():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 010: grid, no CLR: lr=0.00001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 125
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.00001
+
+    scn.super_main(a)
+
+# 0_3	no CLR: lr=0.000001, decay=0.95
+def ex_011():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 011: grid, no CLR: lr=0.000001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 125
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.000001
+
+    scn.super_main(a)
+#
+# with CLR
+# 0_4	with CLR: min=0.000001, max=0.00001
+def ex_012():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 012: grid, with CLR: min=0.000001, max=0.00001'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 125
+
+    a.cl_min = 0.000001
+    a.cl_max = 0.00001
+
+    scn.super_main(a)
+
+# 0_5	with CLR: min=0.00001, max=0.0001
+def ex_013():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 013: grid, with CLR: min=0.00001, max=0.0001'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 125
+
+    a.cl_min = 0.00001
+    a.cl_max = 0.0001
+
+    scn.super_main(a)
+
+# 0_6	with CLR: min=0.0001, max=0.001
+def ex_014():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 014: grid, with CLR: min=0.0001, max=0.001'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 125
+
+    a.cl_min = 0.0001
+    a.cl_max = 0.001
+
+    scn.super_main(a)
+
+# 0_7	with CLR: min=0.00005, max=0.001 [BASELINE]
+def ex_015():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 015: with CLR: min=0.00005, max=0.001 [BASELINE]'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 125
+
+    a.cl_min = 0.00005
+    a.cl_max = 0.001
+
+    scn.super_main(a)
+
+
+# --------------------------------------------------------------------------------------------
+
+# 0	CLR vs. LR with decay
+#
+# no CLR
+# 0_0	no CLR: lr=0.001, decay=0.95
+def ex_016():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 016: prid450, no CLR: lr=0.001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.001
+
+    scn.super_main(a)
+
+# 0_1	no CLR: lr=0.0001, decay=0.95
+def ex_017():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 017: prid450, no CLR: lr=0.0001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.0001
+
+    scn.super_main(a)
+
+# 0_2	no CLR: lr=0.00001, decay=0.95
+def ex_018():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 018: prid450, no CLR: lr=0.00001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.00001
+
+    scn.super_main(a)
+
+# 0_3	no CLR: lr=0.000001, decay=0.95
+def ex_019():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 019: prid450, no CLR: lr=0.000001, decay=0.95'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.use_cyclical_learning_rate = False
+    a.learning_rate = 0.000001
+
+    scn.super_main(a)
+#
+# with CLR
+# 0_4	with CLR: min=0.000001, max=0.00001
+def ex_020():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 020: prid450, with CLR: min=0.000001, max=0.00001'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.cl_min = 0.000001
+    a.cl_max = 0.00001
+
+    scn.super_main(a)
+
+# 0_5	with CLR: min=0.00001, max=0.0001
+def ex_021():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 021: prid450, with CLR: min=0.00001, max=0.0001'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.cl_min = 0.00001
+    a.cl_max = 0.0001
+
+    scn.super_main(a)
+
+# 0_6	with CLR: min=0.0001, max=0.001
+def ex_022():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 022: prid450, with CLR: min=0.0001, max=0.001'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.cl_min = 0.0001
+    a.cl_max = 0.001
+
+    scn.super_main(a)
+
+# 0_7	with CLR: min=0.00005, max=0.001 [BASELINE]
+def ex_023():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 023: with CLR: min=0.00005, max=0.001 [BASELINE]'
+    a.epochs = 100
+    a.iterations = 1
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 10
+
+    # a.cl_min = 0.00005
+    # a.cl_max = 0.001
+
+    a.log_experiment = False
+
+    scn.super_main(a)
+
 
 def main():
-    num = sys.argv[1]
-    print(sys.argv)
-
-    if num == '0':
-        ex_000()
-    if num == '1':
-        ex_001()
-    if num == '2':
-        ex_002()
-    if num == '3':
-        ex_003()
-    if num == '4':
-        ex_004()
-    if num == '5':
-        ex_005()
-    if num == '6':
-        ex_006()
-    if num == '7':
-        ex_007()
+    # num = sys.argv[1]
+    # print(sys.argv)
+    #
+    # if num == '16':
+    #     ex_016()
+    # if num == '17':
+    #     ex_017()
+    # if num == '18':
+    #     ex_018()
+    # if num == '19':
+    #     ex_019()
+    # if num == '20':
+    #     ex_020()
+    # if num == '21':
+    #     ex_021()
+    # if num == '22':
+    #     ex_022()
+    # if num == '23':
+    #     ex_023()
+    ex_023()
 
 main()
+
 
 '''
 From scratch:
@@ -2445,3 +2704,25 @@ a.experiment_name = 'test mixing: only test'
 a.experiment_name = 'test mixing: only train on multiple dataset'
 a.experiment_name = 'test mixing: only train on single dataset'
 '''
+
+# final_training_data = pu.sideways_shuffle(final_training_data)
+# def sideways_shuffle(data_list):
+#     """ Data comes in already shuffled but only horizontally. I think that the order matters because the features get
+#         concatenated. And in `combinations` the first item gets paired with others while always being in the left column
+#         So we take half of the rows and swap the locations of item1, item2. Labels don't change. And then we shuffle the
+#         list again.
+#     """
+#     cutoff = len(data_list) / 2
+#     to_be_shuffled = data_list[0:cutoff]
+#
+#     column_1 = [item.strip().split(',')[0] for item in to_be_shuffled]
+#     column_2 = [item.strip().split(',')[1] for item in to_be_shuffled]
+#     labels = [item.strip().split(',')[-1] for item in to_be_shuffled]
+#
+#     shuffled_list = [column_2[i] + ',' + column_1[i] + ',' + labels[i] for i in range(cutoff)]
+#
+#     data_list[0:cutoff] = shuffled_list
+#
+#     shuffle(data_list)
+#
+#     return data_list

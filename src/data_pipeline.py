@@ -480,7 +480,7 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
     index_stop = id_all.index(unique_id[stop])
     # slice the list to create a set for ranking and a set for training
     ranking_ids_pos = fullpath_image_names[index_start:index_stop]
-    training_ids_pos = fullpath_image_names[0:index_start] + fullpath_image_names[index_start:]
+    training_ids_pos = fullpath_image_names[0:index_start] + fullpath_image_names[index_stop:]
 
     # get the chosen unique IDs and all IDs
     train_ids = unique_id[0:start] + unique_id[stop:]

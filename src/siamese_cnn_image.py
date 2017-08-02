@@ -291,7 +291,7 @@ def train_network(adjustable, model, final_training_data, final_training_labels,
         call_back = None
 
     train_data = ddl.grab_em_by_the_keys(final_training_data, h5_train, h5_test)
-    train_data = np.asarray(train_data)
+    # train_data = np.asarray(train_data)
 
     model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
               batch_size=adjustable.batch_size,
