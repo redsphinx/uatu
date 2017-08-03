@@ -50,6 +50,16 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+3 aug
+-----
+. add sideways shuffle to main script
+. write out all the experiments in a script
+. start running part of the experiments on this machine
+. check with the other guys
+.. if possible, start running the video experiments on the other machine
+. write thesis introduction
+
+
 31 july
 -------
 . make experiments
