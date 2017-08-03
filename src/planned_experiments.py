@@ -5,6 +5,8 @@ import priming as prime
 import os
 import siamese_cnn_video as srcn
 import cnn_human_detection as cnn
+import project_utils as pu
+import numpy as np
 # ------------------------------------------------------------------------------------
 # experiments images -> siamese_cnn_image.py
 # ------------------------------------------------------------------------------------
@@ -444,12 +446,12 @@ def ex_3_0_3():
 #
 # ------------------------------------------------------------------------------------
 #
-# 4	training: mix all datasets including test (note: vital)
+# 4	training: mix [viper, grid, prid450] including test (note: vital)
 #
 # 4_0	no batchnorm
 def ex_4_0_0():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 4_0_0: test=viper, train=all-cuhk01, no batchnorm, using selu + alphadropout=0.05'
+    a.experiment_name = 'experiment 4_0_0: test=viper, train=[grid, prid450], no batchnorm, using selu + alphadropout=0.05'
     a.epochs = 100
     a.iterations = 30
 
@@ -460,8 +462,8 @@ def ex_4_0_0():
     a.dataset_test = 'viper'
     a.ranking_number_test = 316
     
-    a.datasets_train = ['market', 'grid', 'prid450', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['grid', 'prid450']
+    a.ranking_number_train = [5, 5]
     
     a.mix = True
     a.mix_with_test = True
@@ -471,7 +473,7 @@ def ex_4_0_0():
 
 def ex_4_0_1():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 4_0_1: test=grid, train=all-cuhk01, no batchnorm, using selu + alphadropout=0.05'
+    a.experiment_name = 'experiment 4_0_1: test=grid, train=[viper, prid450], no batchnorm, using selu + alphadropout=0.05'
     a.epochs = 100
     a.iterations = 30
 
@@ -482,8 +484,8 @@ def ex_4_0_1():
     a.dataset_test = 'grid'
     a.ranking_number_test = 125
 
-    a.datasets_train = ['market', 'viper', 'prid450', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['viper', 'prid450']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
     a.mix_with_test = True
@@ -492,7 +494,7 @@ def ex_4_0_1():
 
 def ex_4_0_2():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 4_0_2: test=prid450, train=all-cuhk01, no batchnorm, using selu + alphadropout=0.05'
+    a.experiment_name = 'experiment 4_0_2: test=prid450, train=[viper, grid], no batchnorm, using selu + alphadropout=0.05'
     a.epochs = 100
     a.iterations = 30
 
@@ -503,8 +505,8 @@ def ex_4_0_2():
     a.dataset_test = 'prid450'
     a.ranking_number_test = 225
 
-    a.datasets_train = ['market', 'viper', 'grid', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['viper', 'grid']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
     a.mix_with_test = True
@@ -515,15 +517,15 @@ def ex_4_0_2():
 # 4_1 with batchnorm
 def ex_4_1_0():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 4_1_0: test=viper, train=all-cuhk01, with batchnorm'
+    a.experiment_name = 'experiment 4_1_0: test=viper, train=[grid, prid450], with batchnorm'
     a.epochs = 100
     a.iterations = 30
 
     a.dataset_test = 'viper'
     a.ranking_number_test = 316
 
-    a.datasets_train = ['market', 'grid', 'prid450', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['grid', 'prid450']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
     a.mix_with_test = True
@@ -533,15 +535,15 @@ def ex_4_1_0():
 
 def ex_4_1_1():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 4_1_1: test=grid, train=all-cuhk01, with batchnorm'
+    a.experiment_name = 'experiment 4_1_1: test=grid, train=[viper, prid450], with batchnorm'
     a.epochs = 100
     a.iterations = 30
 
     a.dataset_test = 'grid'
     a.ranking_number_test = 125
 
-    a.datasets_train = ['market', 'viper', 'prid450', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['viper', 'prid450']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
     a.mix_with_test = True
@@ -551,15 +553,15 @@ def ex_4_1_1():
 
 def ex_4_1_2():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 4_1_2: test=prid450, train=all-cuhk01, with batchnorm'
+    a.experiment_name = 'experiment 4_1_2: test=prid450, train=[viper, grid], with batchnorm'
     a.epochs = 100
     a.iterations = 30
 
     a.dataset_test = 'prid450'
     a.ranking_number_test = 225
 
-    a.datasets_train = ['market', 'viper', 'grid', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['viper', 'grid']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
     a.mix_with_test = True
@@ -574,7 +576,7 @@ def ex_4_1_2():
 # 5_0	no batch_norm
 def ex_5_0_0():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 5_0_0: test=viper, train=all-cuhk01, no batchnorm'
+    a.experiment_name = 'experiment 5_0_0: test=viper, train=[grid, prid450], no batchnorm'
     a.epochs = 100
     a.iterations = 30
 
@@ -585,8 +587,8 @@ def ex_5_0_0():
     a.dataset_test = 'viper'
     a.ranking_number_test = 316
 
-    a.datasets_train = ['market', 'grid', 'prid450', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['grid', 'prid450']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
 
@@ -595,7 +597,7 @@ def ex_5_0_0():
 
 def ex_5_0_1():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 5_0_1: test=grid, train=all-cuhk01, no batchnorm'
+    a.experiment_name = 'experiment 5_0_1: test=grid, train=[viper, prid450], no batchnorm'
     a.epochs = 100
     a.iterations = 30
 
@@ -606,8 +608,8 @@ def ex_5_0_1():
     a.dataset_test = 'grid'
     a.ranking_number_test = 125
 
-    a.datasets_train = ['market', 'viper', 'prid450', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['viper', 'prid450']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
 
@@ -616,7 +618,7 @@ def ex_5_0_1():
 
 def ex_5_0_2():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 5_0_2: test=prid450, train=all-cuhk01, no batchnorm'
+    a.experiment_name = 'experiment 5_0_2: test=prid450, train=[viper, grid], no batchnorm'
     a.epochs = 100
     a.iterations = 30
 
@@ -627,8 +629,8 @@ def ex_5_0_2():
     a.dataset_test = 'prid450'
     a.ranking_number_test = 225
 
-    a.datasets_train = ['market', 'viper', 'grid', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['viper', 'grid']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
 
@@ -637,15 +639,15 @@ def ex_5_0_2():
 # 5_1	with batch_norm
 def ex_5_1_0():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 5_1_0: test=viper, train=all-cuhk01, with batchnorm'
+    a.experiment_name = 'experiment 5_1_0: test=viper, train=[grid, prid450], with batchnorm'
     a.epochs = 100
     a.iterations = 30
 
     a.dataset_test = 'viper'
     a.ranking_number_test = 316
 
-    a.datasets_train = ['market', 'grid', 'prid450', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['grid', 'prid450']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
 
@@ -654,15 +656,15 @@ def ex_5_1_0():
 
 def ex_5_1_1():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 5_1_1: test=grid, train=all-cuhk01, with batchnorm'
+    a.experiment_name = 'experiment 5_1_1: test=grid, train=[viper, prid450], with batchnorm'
     a.epochs = 100
     a.iterations = 30
 
     a.dataset_test = 'grid'
     a.ranking_number_test = 125
 
-    a.datasets_train = ['market', 'viper', 'prid450', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['viper', 'prid450']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
 
@@ -671,15 +673,15 @@ def ex_5_1_1():
 
 def ex_5_1_2():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 5_1_2: test=prid450, train=all-cuhk01, with batchnorm'
+    a.experiment_name = 'experiment 5_1_2: test=prid450, train=[viper, grid], with batchnorm'
     a.epochs = 100
     a.iterations = 30
 
     a.dataset_test = 'prid450'
     a.ranking_number_test = 225
 
-    a.datasets_train = ['market', 'viper', 'grid', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+    a.datasets_train = ['viper', 'grid']
+    a.ranking_number_train = [5, 5]
 
     a.mix = True
 
@@ -691,77 +693,416 @@ def ex_5_1_2():
 # so the network will learn on mixed data and then retrain on the target train dataset
 #
 # 6_0	no batch_norm
-def ex_5_0_0():
+def ex_6_0_0():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'viper'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+
+        a.datasets_train = ['grid', 'prid450']
+        a.mix = True
+
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'g_p_mix'
+
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+
+        a.log_experiment = False
+
+        scn.super_main(a)
+
+        # then load + retrain
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+
+        a.load_weights_name = 'g_p_mix'
+
+        a.log_experiment = False
+
+        a.dataset_test = 'viper'
+        a.ranking_number_test = 316
+
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
     a = ProjectVariable()
-    a.experiment_name = 'experiment 5_0_0: test=viper, train=all-cuhk01, no batchnorm'
-    a.epochs = 100
-    a.iterations = 30
+    a.experiment_name = 'experiment 6_0_0: train only=[grid, prid450], no batchnorm, mix then retrain on test=viper'
 
-    a.head_type = 'simple'
-    a.activation_function = 'selu'
-    a.dropout_rate = 0.05
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
 
-    a.dataset_test = 'viper'
-    a.ranking_number_test = 316
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
 
-    a.datasets_train = ['market', 'grid', 'prid450', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+def ex_6_0_1():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'grid'
+    iterations = 30
 
-    a.mix = True
+    for iter in range(iterations):
+        # first train on the datasets and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
 
-    scn.super_main(a)
+        a.datasets_train = ['viper', 'prid450']
+        a.mix = True
 
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'v_p_mix'
 
-def ex_5_0_1():
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+
+        a.log_experiment = False
+
+        scn.super_main(a)
+
+        # then load + retrain
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+
+        a.load_weights_name = 'v_p_mix'
+
+        a.log_experiment = False
+
+        a.dataset_test = 'grid'
+        a.ranking_number_test = 125
+
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
     a = ProjectVariable()
-    a.experiment_name = 'experiment 5_0_1: test=grid, train=all-cuhk01, no batchnorm'
-    a.epochs = 100
-    a.iterations = 30
+    a.experiment_name = 'experiment 6_0_1: train only=[viper, prid450], no batchnorm, mix then retrain on test=grid'
 
-    a.head_type = 'simple'
-    a.activation_function = 'selu'
-    a.dropout_rate = 0.05
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
 
-    a.dataset_test = 'grid'
-    a.ranking_number_test = 125
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
 
-    a.datasets_train = ['market', 'viper', 'prid450', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
+def ex_6_0_2():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'prid450'
+    iterations = 30
 
-    a.mix = True
+    for iter in range(iterations):
+        # first train on the datasets and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
 
-    scn.super_main(a)
+        a.datasets_train = ['viper', 'grid']
+        a.mix = True
 
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'v_g_mix'
 
-def ex_5_0_2():
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+
+        a.log_experiment = False
+
+        scn.super_main(a)
+
+        # then load + retrain
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+
+        a.load_weights_name = 'v_g_mix'
+
+        a.log_experiment = False
+
+        a.dataset_test = 'prid450'
+        a.ranking_number_test = 225
+
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
     a = ProjectVariable()
-    a.experiment_name = 'experiment 5_0_2: test=prid450, train=all-cuhk01, no batchnorm'
-    a.epochs = 100
-    a.iterations = 30
+    a.experiment_name = 'experiment 6_0_2: train only=[viper, grid], no batchnorm, mix then retrain on test=prid450'
 
-    a.head_type = 'simple'
-    a.activation_function = 'selu'
-    a.dropout_rate = 0.05
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
 
-    a.dataset_test = 'prid450'
-    a.ranking_number_test = 225
-
-    a.datasets_train = ['market', 'viper', 'grid', 'cuhk02']
-    a.ranking_number_train = [5, 5, 5, 5]
-
-    a.mix = True
-
-    scn.super_main(a)
-
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
 
 # 6_1	with batch_norm
+def ex_6_1_0():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'viper'
+    iterations = 30
 
+    for iter in range(iterations):
+        # first train on the datasets and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+
+        a.datasets_train = ['grid', 'prid450']
+        a.mix = True
+
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'g_p_mix'
+
+        a.log_experiment = False
+
+        scn.super_main(a)
+
+        # then load + retrain
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+
+        a.load_weights_name = 'g_p_mix'
+
+        a.log_experiment = False
+
+        a.dataset_test = 'viper'
+        a.ranking_number_test = 316
+
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 6_1_0: train only=[grid, prid450], with batchnorm, mix then retrain on test=viper'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+def ex_6_1_1():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'grid'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+
+        a.datasets_train = ['viper', 'prid450']
+        a.mix = True
+
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'v_p_mix'
+
+        a.log_experiment = False
+
+        scn.super_main(a)
+
+        # then load + retrain
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+
+        a.load_weights_name = 'v_p_mix'
+
+        a.log_experiment = False
+
+        a.dataset_test = 'grid'
+        a.ranking_number_test = 125
+
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 6_1_1: train only=[viper, prid450], with batchnorm, mix then retrain on test=grid'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+def ex_6_1_2():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'prid450'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+
+        a.datasets_train = ['viper', 'grid']
+        a.mix = True
+
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'v_g_mix'
+
+        a.log_experiment = False
+
+        scn.super_main(a)
+
+        # then load + retrain
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+
+        a.load_weights_name = 'v_g_mix'
+
+        a.log_experiment = False
+
+        a.dataset_test = 'prid450'
+        a.ranking_number_test = 225
+
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 6_1_2: train only=[viper, grid], with batchnorm, mix then retrain on test=prid450'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
 
 # ------------------------------------------------------------------------------------
 #
 # 7	training: train on all ordered for subset={viper, grid, prid450} (note: vital)
 #
 # 7_0 train order: grid, prid450, viper
+
+
 # 7_1 train order: prid450, grid, viper
 # 7_2 train order: grid, viper, prid450
 # 7_3 train order: viper, grid, prid450

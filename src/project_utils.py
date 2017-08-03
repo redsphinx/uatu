@@ -282,8 +282,10 @@ def enter_in_log(adjustable, experiment_name, file_name, name, matrix_means, mat
         with open(adjustable.log_file, 'w') as my_file:
             print('new log file made')
 
-    if gregor_means is not None:
-        gregor_matrix = gregor_means
+    if matrix_means is not None:
+    # if gregor_means is not None:
+    #     gregor_matrix = gregor_means
+        gregor_matrix = matrix_means
         if (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0) == 0:
             detection_rate = 0
         else:
@@ -308,14 +310,14 @@ def enter_in_log(adjustable, experiment_name, file_name, name, matrix_means, mat
         if matrix_means is not None:
             log_file.write('%s mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(matrix_means).tolist(), decimals))))
             log_file.write('%s std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(matrix_std).tolist(), decimals))))
+            log_file.write('%s detection rate (TP/(TP+FN)):      %s\n' % (name, str(detection_rate)))
+            log_file.write('%s false alarm (FP/(FP+TN)):        %s\n' % (name, str(false_alarm)))
         if ranking_means is not None:
             log_file.write('%s mean ranking:        %s\n' % (name, str(reduce_float_length(np.asarray(ranking_means).tolist(), decimals))))
             log_file.write('%s std ranking:         %s\n' % (name, str(reduce_float_length(np.asarray(ranking_std).tolist(), decimals))))
         if gregor_means is not None:
             log_file.write('%s G mean tp,fp,tn,fn:    %s\n' % (name, str(reduce_float_length(np.asarray(gregor_means).tolist(), decimals))))
             log_file.write('%s G std tp,fp,tn,fn:     %s\n' % (name, str(reduce_float_length(np.asarray(gregor_std).tolist(), decimals))))
-            log_file.write('%s detection rate (TP/(TP+FN)):      %s\n' % (name, str(detection_rate)))
-            log_file.write('%s false alarm (FP/(FP+TN)):        %s\n' % (name, str(false_alarm)))
         log_file.write('\n')
 
 

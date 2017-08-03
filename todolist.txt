@@ -52,14 +52,18 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 
 3 aug
 -----
-. add sideways shuffle to main script
+. [DONE] add sideways shuffle to main script
 .. loss is going down, but the results are still shit
 ... debug sideways_shuffle
 ... run the old script again for sanity
+. [SOLVED] performance issue in prid450 is caused by 
+	1) removing sideways shuffle 
+	2) feeding wrong slice of data containing the labeled pair of images that are part of test set, during training
 
 . write out all the experiments in a script
 .. decided to also run experiments on cuhk01
 ... check if the methods for cuhk01 work
+.. wrote ugly way to train, save and the retrain. see if it works
 
 . start running part of the experiments on this machine
 . check with the other guys

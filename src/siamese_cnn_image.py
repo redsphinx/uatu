@@ -686,7 +686,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
     return matrix, ranking, gregor_matrix
 
 
-def super_main(adjustable):
+def super_main(adjustable, get_data=False):
     """Runs main for a specified iterations. Useful for experiment running.
     Note: set iterations to 1 if you want to save weights
     """
@@ -889,3 +889,6 @@ def super_main(adjustable):
         file_name = os.path.basename(__file__)
         pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, name, matrix_means, matrix_std,
                         ranking_means, ranking_std, total_time, gregor_matrix_means, gregor_matrix_std)
+
+    if get_data == True:
+        return ranking_means, matrix_means, total_time
