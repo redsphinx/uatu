@@ -2667,6 +2667,17 @@ def test_sideshuf():
     scn.super_main(a)
 
 
+def test_sideshuf_idxstart():
+    a = ProjectVariable()
+    a.experiment_name = 'side shuffle activated + index_start'
+    a.iterations = 10
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+
+    scn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
@@ -2687,7 +2698,7 @@ def main():
     #     ex_022()
     # if num == '23':
     #     ex_023()
-    test_sideshuf()
+    test_sideshuf_idxstart()
 
 main()
 

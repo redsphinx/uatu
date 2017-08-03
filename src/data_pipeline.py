@@ -363,9 +363,18 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
 
     for the_id in unique_ids:
         # get the indices for the matching IDs
-        id_group = [i for i, x in enumerate(all_ids) if x == the_id]
+        # id_group = [i for i, x in enumerate(all_ids) if x == the_id]
+        id_group = []
+        for i, x in enumerate(all_ids):
+            if x == the_id:
+                id_group.append((i))
+
         # get the fullpaths for each matching ID at the indices
-        full_path_group = [the_list[i] for i in id_group]
+        # full_path_group = [the_list[i] for i in id_group]
+        full_path_group = []
+        for i in id_group:
+            full_path_group.append(the_list[i])
+
         # update min_id_group_size
         # if dataset is large and has a lot of large id groups(>num) then ignore the id groups that are smaller than num
         if dataset_name in {'market', 'cuhk02', 'caviar', 'prid2011', 'ilids-vid'}:
@@ -480,7 +489,10 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
     index_stop = id_all.index(unique_id[stop])
     # slice the list to create a set for ranking and a set for training
     ranking_ids_pos = fullpath_image_names[index_start:index_stop]
+
+    # training_ids_pos = fullpath_image_names[0:index_start] + fullpath_image_names[index_start:]
     training_ids_pos = fullpath_image_names[0:index_start] + fullpath_image_names[index_stop:]
+
 
     # get the chosen unique IDs and all IDs
     train_ids = unique_id[0:start] + unique_id[stop:]
@@ -500,6 +512,7 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
     upper_bound = 3
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
+
     training_ids_pos = create_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
 
     # shuffle so that each time we get different first occurences for when making negative pairs

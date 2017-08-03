@@ -691,6 +691,69 @@ def ex_5_1_2():
 # so the network will learn on mixed data and then retrain on the target train dataset
 #
 # 6_0	no batch_norm
+def ex_5_0_0():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 5_0_0: test=viper, train=all-cuhk01, no batchnorm'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 316
+
+    a.datasets_train = ['market', 'grid', 'prid450', 'cuhk02']
+    a.ranking_number_train = [5, 5, 5, 5]
+
+    a.mix = True
+
+    scn.super_main(a)
+
+
+def ex_5_0_1():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 5_0_1: test=grid, train=all-cuhk01, no batchnorm'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 125
+
+    a.datasets_train = ['market', 'viper', 'prid450', 'cuhk02']
+    a.ranking_number_train = [5, 5, 5, 5]
+
+    a.mix = True
+
+    scn.super_main(a)
+
+
+def ex_5_0_2():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 5_0_2: test=prid450, train=all-cuhk01, no batchnorm'
+    a.epochs = 100
+    a.iterations = 30
+
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 225
+
+    a.datasets_train = ['market', 'viper', 'grid', 'cuhk02']
+    a.ranking_number_train = [5, 5, 5, 5]
+
+    a.mix = True
+
+    scn.super_main(a)
+
+
 # 6_1	with batch_norm
 
 
