@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="" />
+    <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/planned_experiments.txt" afterPath="$PROJECT_DIR$/src/planned_experiments.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_utils.py" afterPath="$PROJECT_DIR$/src/project_utils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_variables.py" afterPath="$PROJECT_DIR$/src/project_variables.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments_2.py" afterPath="$PROJECT_DIR$/src/running_experiments_2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_image.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_image.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
+    </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -30,7 +38,7 @@
     <SUITE FILE_PATH="coverage/uatu$testing_keras.coverage" NAME="testing_keras Coverage Results" MODIFIED="1491389634422" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples_src" />
     <SUITE FILE_PATH="coverage/uatu$cnn_clean.coverage" NAME="cnn_clean Coverage Results" MODIFIED="1493046867444" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$temp.coverage" NAME="temp Coverage Results" MODIFIED="1493830660785" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
-    <SUITE FILE_PATH="coverage/uatu$running_experiments_2.coverage" NAME="running_experiments_2 Coverage Results" MODIFIED="1501685691729" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
+    <SUITE FILE_PATH="coverage/uatu$running_experiments_2.coverage" NAME="running_experiments_2 Coverage Results" MODIFIED="1501754301430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$siamese_cnn.coverage" NAME="siamese_cnn Coverage Results" MODIFIED="1490780987613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$running_experiments.coverage" NAME="running_experiments Coverage Results" MODIFIED="1496933347519" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />
     <SUITE FILE_PATH="coverage/uatu$example_siamese.coverage" NAME="example_siamese Coverage Results" MODIFIED="1496316294940" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples_src" />
@@ -50,110 +58,140 @@
     <option name="SHOW_EMPTY_GROUPS" value="false" />
     <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/06-07_src/dynamic_data_loading.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="551">
+                    <caret line="521" column="71" lean-forward="true" selection-start-line="521" selection-start-column="71" selection-end-line="521" selection-end-column="71" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="running_experiments_3.py" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/06-07_src/running_experiments_3.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="50">
+                    <caret line="169" column="25" lean-forward="true" selection-start-line="169" selection-start-column="25" selection-end-line="169" selection-end-column="25" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="project_constants.py" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/06-07_src/project_constants.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="1065">
+                    <caret line="75" column="66" lean-forward="false" selection-start-line="75" selection-start-column="66" selection-end-line="75" selection-end-column="66" />
+                    <folding>
+                      <element signature="e#0#23#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/06-07_src/siamese_cnn_clean.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="675">
+                    <caret line="406" column="68" lean-forward="true" selection-start-line="406" selection-start-column="68" selection-end-line="406" selection-end-column="68" />
+                    <folding>
+                      <element signature="e#0#12#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="project_utils.py" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/06-07_src/project_utils.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="375">
+                    <caret line="228" column="0" lean-forward="true" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="uatu" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/06-07_src/dynamic_data_loading.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="161">
-                  <caret line="495" column="24" lean-forward="true" selection-start-line="495" selection-start-column="24" selection-end-line="495" selection-end-column="24" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="thesis_experiment_log.txt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/06-07_src/thesis_experiment_log.txt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="530">
-                  <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="running_experiments_3.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/06-07_src/running_experiments_3.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="50">
-                  <caret line="169" column="25" lean-forward="true" selection-start-line="169" selection-start-column="25" selection-end-line="169" selection-end-column="25" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/06-07_src/siamese_cnn_clean.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="165">
-                  <caret line="205" column="31" lean-forward="false" selection-start-line="205" selection-start-column="31" selection-end-line="205" selection-end-column="31" />
-                  <folding>
-                    <element signature="e#0#12#0" expanded="true" />
-                    <marker date="1501702978818" expanded="true" signature="11923:12681" ph="..." />
-                    <marker date="1501702978818" expanded="true" signature="12531:12681" ph="..." />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="project_constants.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/06-07_src/project_constants.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1125">
-                  <caret line="75" column="66" lean-forward="false" selection-start-line="75" selection-start-column="66" selection-end-line="75" selection-end-column="66" />
-                  <folding>
-                    <element signature="e#0#23#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="207" column="19" lean-forward="false" selection-start-line="207" selection-start-column="19" selection-end-line="207" selection-end-column="19" />
-                  <folding>
-                    <element signature="e#0#12#0" expanded="true" />
-                    <marker date="1501687369334" expanded="true" signature="26084:26104" ph="..." />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="325">
-                  <caret line="134" column="22" lean-forward="false" selection-start-line="134" selection-start-column="18" selection-end-line="134" selection-end-column="22" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="379">
-                  <caret line="626" column="4" lean-forward="true" selection-start-line="626" selection-start-column="4" selection-end-line="660" selection-end-column="30" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="577" column="0" lean-forward="false" selection-start-line="577" selection-start-column="0" selection-end-line="577" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#12#0" expanded="true" />
+                <marker date="1501754108718" expanded="true" signature="27464:27484" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="project_utils.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/project_utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="172">
+              <caret line="392" column="0" lean-forward="true" selection-start-line="392" selection-start-column="0" selection-end-line="392" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="92">
+              <caret line="674" column="31" lean-forward="true" selection-start-line="674" selection-start-column="31" selection-end-line="674" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="2670" column="23" lean-forward="true" selection-start-line="2670" selection-start-column="23" selection-end-line="2670" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="641" column="25" lean-forward="true" selection-start-line="641" selection-start-column="25" selection-end-line="641" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="planned_experiments.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/planned_experiments.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="23" column="35" lean-forward="true" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -164,9 +202,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>grab</find>
-      <find>datasets</find>
-      <find>pos</find>
       <find>test_only</find>
       <find>_mix</find>
       <find>merge_dataset</find>
@@ -194,9 +229,11 @@
       <find>e_011</find>
       <find>prid450</find>
       <find>drop</find>
+      <find>name_of_saved_file</find>
+      <find>clr</find>
+      <find>side</find>
     </findStrings>
     <replaceStrings>
-      <replace>alphadropout=0.1</replace>
       <replace>alphadropout=0.05</replace>
       <replace>video_head_type</replace>
       <replace>dropout_rate</replace>
@@ -226,6 +263,7 @@
       <replace>only_test</replace>
       <replace>9</replace>
       <replace>10</replace>
+      <replace>sideways_shuffle</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -234,7 +272,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/gui.py" />
         <option value="$PROJECT_DIR$/ranking_files/cuhk02_testing.txt" />
         <option value="$PROJECT_DIR$/ranking_files/market_testing.txt" />
         <option value="$PROJECT_DIR$/examples_src/imdb.py" />
@@ -256,8 +293,6 @@
         <option value="$PROJECT_DIR$/src/cnn_human_detection.py" />
         <option value="$PROJECT_DIR$/data/mpii/mapping_rid.txt" />
         <option value="$PROJECT_DIR$/src/running_experiments_3.py" />
-        <option value="$PROJECT_DIR$/src/project_variables.py" />
-        <option value="$PROJECT_DIR$/src/project_utils.py" />
         <option value="$PROJECT_DIR$/src/testing_stuff.py" />
         <option value="$PROJECT_DIR$/src/priming.py" />
         <option value="$PROJECT_DIR$/src/train_test.py" />
@@ -267,8 +302,6 @@
         <option value="$PROJECT_DIR$/src/siamese_cnn_video.py" />
         <option value="$PROJECT_DIR$/src/log_0.txt" />
         <option value="$PROJECT_DIR$/src/data_pipeline.py" />
-        <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
-        <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/06-07_src/siamese_cnn_video.py" />
         <option value="$PROJECT_DIR$/06-07_src/clr_callback.py" />
@@ -282,9 +315,14 @@
         <option value="$PROJECT_DIR$/06-07_src/bash_run_experiments.sh" />
         <option value="$PROJECT_DIR$/src/dynamic_data_loading.py" />
         <option value="$PROJECT_DIR$/06-07_src/dynamic_data_loading.py" />
-        <option value="$PROJECT_DIR$/06-07_src/siamese_cnn_clean.py" />
         <option value="$PROJECT_DIR$/06-07_src/running_experiments_3.py" />
         <option value="$PROJECT_DIR$/06-07_src/thesis_experiment_log.txt" />
+        <option value="$PROJECT_DIR$/src/project_variables.py" />
+        <option value="$PROJECT_DIR$/06-07_src/siamese_cnn_clean.py" />
+        <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
+        <option value="$PROJECT_DIR$/src/planned_experiments.py" />
+        <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
+        <option value="$PROJECT_DIR$/src/project_utils.py" />
       </list>
     </option>
   </component>
@@ -383,7 +421,7 @@
       <recent name="$PROJECT_DIR$/images" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.running_experiments_3">
+  <component name="RunManager" selected="Python.running_experiments_2">
     <configuration default="false" name="running_experiments_2" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -708,8 +746,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.running_experiments_3" />
-        <item index="1" class="java.lang.String" itemvalue="Python.running_experiments_2" />
+        <item index="0" class="java.lang.String" itemvalue="Python.running_experiments_2" />
+        <item index="1" class="java.lang.String" itemvalue="Python.running_experiments_3" />
         <item index="2" class="java.lang.String" itemvalue="Python.testing_stuff" />
         <item index="3" class="java.lang.String" itemvalue="Python.siamese_cnn_image" />
         <item index="4" class="java.lang.String" itemvalue="Python.visualize_filters" />
@@ -751,11 +789,11 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39703155" sideWeight="0.49573106" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20170757" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40816328" sideWeight="0.49573106" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20170757" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33580706" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4239332" sideWeight="0.4967983" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.512987" sideWeight="0.4967983" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -805,115 +843,120 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/testing_stuff.py</url>
           <line>495</line>
           <option name="timeStamp" value="1145" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/visualize_filters.py</url>
           <line>106</line>
           <option name="timeStamp" value="1186" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/testing_stuff.py</url>
           <line>620</line>
           <option name="timeStamp" value="1287" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
           <line>406</line>
           <option name="timeStamp" value="1290" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_cnn_image.py</url>
-          <line>793</line>
+          <line>821</line>
           <option name="timeStamp" value="1295" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
           <line>459</line>
           <option name="timeStamp" value="1296" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/data_pipeline.py</url>
           <line>561</line>
           <option name="timeStamp" value="1297" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/data_pipeline.py</url>
           <line>358</line>
           <option name="timeStamp" value="1299" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/data_pipeline.py</url>
           <line>330</line>
           <option name="timeStamp" value="1300" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/data_pipeline.py</url>
           <line>482</line>
           <option name="timeStamp" value="1302" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/data_pipeline.py</url>
           <line>401</line>
           <option name="timeStamp" value="1305" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/data_pipeline.py</url>
           <line>345</line>
           <option name="timeStamp" value="1306" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/data_pipeline.py</url>
           <line>523</line>
           <option name="timeStamp" value="1310" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/data_pipeline.py</url>
           <line>533</line>
           <option name="timeStamp" value="1311" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/data_pipeline.py</url>
           <line>545</line>
           <option name="timeStamp" value="1312" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/dynamic_data_loading.py</url>
           <line>488</line>
           <option name="timeStamp" value="1313" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_cnn_image.py</url>
-          <line>530</line>
+          <line>558</line>
           <option name="timeStamp" value="1314" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_cnn_image.py</url>
-          <line>324</line>
+          <line>330</line>
           <option name="timeStamp" value="1315" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_cnn_image.py</url>
-          <line>591</line>
+          <line>619</line>
           <option name="timeStamp" value="1326" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/siamese_cnn_image.py</url>
-          <line>603</line>
+          <line>631</line>
           <option name="timeStamp" value="1327" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/project_utils.py</url>
           <line>235</line>
           <option name="timeStamp" value="1328" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+        <line-breakpoint suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/src/project_utils.py</url>
           <line>74</line>
           <option name="timeStamp" value="1330" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/siamese_cnn_image.py</url>
+          <line>477</line>
+          <option name="timeStamp" value="1335" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -926,7 +969,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="1331" />
+      <option name="time" value="1336" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
@@ -1131,26 +1174,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/planned_experiments.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="659">
-          <caret line="71" column="8" lean-forward="false" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/thesis_experiment_log.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="125" column="0" lean-forward="false" selection-start-line="125" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="58" column="0" lean-forward="false" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1175,14 +1202,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="11" column="9" lean-forward="false" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="517" column="9" lean-forward="false" selection-start-line="517" selection-start-column="9" selection-end-line="517" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -1219,14 +1238,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/06-07_src/project_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1018">
-          <caret line="314" column="21" lean-forward="false" selection-start-line="314" selection-start-column="21" selection-end-line="314" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/06-07_src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1018">
@@ -1251,16 +1262,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/06-07_src/project_constants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1125">
-          <caret line="75" column="66" lean-forward="false" selection-start-line="75" selection-start-column="66" selection-end-line="75" selection-end-column="66" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/06-07_src/data_pipeline.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-99">
@@ -1268,42 +1269,6 @@
           <folding>
             <element signature="e#294#312#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="134" column="22" lean-forward="false" selection-start-line="134" selection-start-column="18" selection-end-line="134" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="626" column="4" lean-forward="true" selection-start-line="626" selection-start-column="4" selection-end-line="660" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/06-07_src/siamese_cnn_clean.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="205" column="31" lean-forward="false" selection-start-line="205" selection-start-column="31" selection-end-line="205" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-            <marker date="1501702978818" expanded="true" signature="11923:12681" ph="..." />
-            <marker date="1501702978818" expanded="true" signature="12531:12681" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/06-07_src/running_experiments_3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50">
-          <caret line="169" column="25" lean-forward="true" selection-start-line="169" selection-start-column="25" selection-end-line="169" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1315,22 +1280,98 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/06-07_src/running_experiments_3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="169" column="25" lean-forward="true" selection-start-line="169" selection-start-column="25" selection-end-line="169" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/06-07_src/project_constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1065">
+          <caret line="75" column="66" lean-forward="false" selection-start-line="75" selection-start-column="66" selection-end-line="75" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/06-07_src/dynamic_data_loading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="495" column="24" lean-forward="true" selection-start-line="495" selection-start-column="24" selection-end-line="495" selection-end-column="24" />
+        <state relative-caret-position="551">
+          <caret line="521" column="71" lean-forward="true" selection-start-line="521" selection-start-column="71" selection-end-line="521" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/06-07_src/project_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="228" column="0" lean-forward="true" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/06-07_src/siamese_cnn_clean.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="406" column="68" lean-forward="true" selection-start-line="406" selection-start-column="68" selection-end-line="406" selection-end-column="68" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/planned_experiments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="23" column="35" lean-forward="true" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="641" column="25" lean-forward="true" selection-start-line="641" selection-start-column="25" selection-end-line="641" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="392" column="0" lean-forward="true" selection-start-line="392" selection-start-column="0" selection-end-line="392" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="207" column="19" lean-forward="false" selection-start-line="207" selection-start-column="19" selection-end-line="207" selection-end-column="19" />
+        <state relative-caret-position="195">
+          <caret line="577" column="0" lean-forward="false" selection-start-line="577" selection-start-column="0" selection-end-line="577" selection-end-column="0" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
-            <marker date="1501687369334" expanded="true" signature="26084:26104" ph="..." />
+            <marker date="1501754108718" expanded="true" signature="27464:27484" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="2670" column="23" lean-forward="true" selection-start-line="2670" selection-start-column="23" selection-end-line="2670" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="674" column="31" lean-forward="true" selection-start-line="674" selection-start-column="31" selection-end-line="674" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>

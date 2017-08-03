@@ -215,9 +215,12 @@ def create_siamese_head(adjustable):
     if use_batch_norm == True:
         model.add(layers.BatchNormalization(name='bn_1', input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
                                             trainable=adjustable.trainable_bn))
-    model.add(layers.Conv2D(16 * adjustable.numfil, input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
-                            kernel_size=adjustable.kernel, padding='same', name='conv_1',
-                            trainable=adjustable.trainable_12))
+        model.add(layers.Conv2D(16 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_1',
+                                trainable=adjustable.trainable_12))
+    else:
+        model.add(layers.Conv2D(16 * adjustable.numfil, input_shape=(pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS),
+                                kernel_size=adjustable.kernel, padding='same', name='conv_1',
+                                trainable=adjustable.trainable_12))
     model = add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm_name='bn_2', first_layer=True)
     # convolutional unit 2
     model.add(layers.Conv2D(32 * adjustable.numfil, kernel_size=adjustable.kernel, padding='same', name='conv_2',
@@ -282,23 +285,26 @@ def train_network(adjustable, model, final_training_data, final_training_labels,
     :param h5_test:                     list of 1 h5py object with the testing data
     :return:                            trained model
     """
+    train_data = ddl.grab_em_by_the_keys(final_training_data, h5_train, h5_test)
+    # train_data = np.asarray(train_data)
+
     if adjustable.use_cyclical_learning_rate:
 
         clr = CyclicLR(step_size=(len(final_training_labels) / adjustable.batch_size) * 8, base_lr=adjustable.cl_min,
                        max_lr=adjustable.cl_max)
-        call_back = [clr]
+        model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
+                  batch_size=adjustable.batch_size,
+                  epochs=1,
+                  validation_split=0.01,
+                  verbose=2,
+                  callbacks=[clr])
+
     else:
-        call_back = None
-
-    train_data = ddl.grab_em_by_the_keys(final_training_data, h5_train, h5_test)
-    # train_data = np.asarray(train_data)
-
-    model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
-              batch_size=adjustable.batch_size,
-              epochs=1,
-              validation_split=0.01,
-              verbose=2,
-              callbacks=call_back)
+        model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
+                  batch_size=adjustable.batch_size,
+                  epochs=1,
+                  validation_split=0.01,
+                  verbose=2)
 
 
 def absolute_distance_difference(y_true, y_pred):
@@ -471,6 +477,10 @@ def get_final_training_data(adjustable, train_pos, train_neg):
             # normal shuffle, just take subset
             final_training_data = train_pos + train_neg
             random.shuffle(final_training_data)
+
+            if adjustable.sideways_shuffle == True:
+                final_training_data = pu.sideways_shuffle(final_training_data)
+            random.shuffle(final_training_data)
         else:
             # can be train + test on multiple datasets
             # can be only train on multiple datasets
@@ -482,11 +492,19 @@ def get_final_training_data(adjustable, train_pos, train_neg):
                     # normal shuffle, just take subset
                     final_training_data = train_pos + train_neg
                     random.shuffle(final_training_data)
+
+                    if adjustable.sideways_shuffle == True:
+                        final_training_data = pu.sideways_shuffle(final_training_data)
+                    random.shuffle(final_training_data)
                 else:
                     if adjustable.mix_with_test == True:
                         # mix with the test
                         # normal shuffle, just take subset
                         final_training_data = train_pos + train_neg
+                        random.shuffle(final_training_data)
+
+                        if adjustable.sideways_shuffle == True:
+                            final_training_data = pu.sideways_shuffle(final_training_data)
                         random.shuffle(final_training_data)
                     else:
                         # don't mix with the test (which is at the end)
@@ -494,6 +512,11 @@ def get_final_training_data(adjustable, train_pos, train_neg):
                         for index in range(len(train_neg)):
                             partition = train_pos[index] + train_neg[index]
                             random.shuffle(partition)
+
+                            if adjustable.sideways_shuffle == True:
+                                partition = pu.sideways_shuffle(partition)
+                            random.shuffle(partition)
+
                             final_training_data += partition
 
             else:
@@ -503,6 +526,11 @@ def get_final_training_data(adjustable, train_pos, train_neg):
                 for index in range(len(train_neg)):
                     partition = train_pos[index] + train_neg[index]
                     random.shuffle(partition)
+
+                    if adjustable.sideways_shuffle == True:
+                        partition = pu.sideways_shuffle(partition)
+                    random.shuffle(partition)
+
                     final_training_data += partition
 
     return final_training_data

@@ -390,17 +390,17 @@ def sideways_shuffle(data_list):
         list again.
     """
     cutoff = len(data_list) / 2
-    to_be_shuffled = data_list[0:cutoff]
 
-    column_1 = [item.strip().split(',')[0] for item in to_be_shuffled]
-    column_2 = [item.strip().split(',')[1] for item in to_be_shuffled]
-    labels = [item.strip().split(',')[-1] for item in to_be_shuffled]
-
-    shuffled_list = [column_2[i] + ',' + column_1[i] + ',' + labels[i] for i in range(cutoff)]
+    shuffled_list = []
+    for item in range(cutoff):
+        pair_a = data_list[item].strip().split(',')[0]
+        pair_b = data_list[item].strip().split(',')[1]
+        label = data_list[item].strip().split(',')[-1]
+        shuffled_list.append('%s,%s,%s' % (pair_b, pair_a, label))
 
     data_list[0:cutoff] = shuffled_list
 
-    shuffle(data_list)
+    # shuffle(data_list)
 
     return data_list
 

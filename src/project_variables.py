@@ -138,6 +138,8 @@ class ProjectVariable(object):
         self._lstm_units = 128
         # type of optimizer. choice between 'nadam' and 'sgd'
         self._optimizer = 'nadam'
+        # if true, swaps the order of half of the pairs in the training set
+        self._sideways_shuffle = True
 
     @property
     def use_gpu(self):
@@ -669,3 +671,12 @@ class ProjectVariable(object):
     @name_of_saved_file.setter
     def name_of_saved_file(self, value):
         self._name_of_saved_file = value
+
+    # if true, swaps the order of half of the pairs in the training set
+    @property
+    def sideways_shuffle(self):
+        return self._sideways_shuffle
+
+    @sideways_shuffle.setter
+    def sideways_shuffle(self, value):
+        self._sideways_shuffle = value
