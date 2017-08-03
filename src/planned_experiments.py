@@ -1098,49 +1098,918 @@ def ex_6_1_2():
 
 # ------------------------------------------------------------------------------------
 #
-# 7	training: train on all ordered for subset={viper, grid, prid450} (note: vital)
-#
-# 7_0 train order: grid, prid450, viper
+# 7	training: train on all ordered for subset={viper, grid, prid450}, with batchnorm (note: vital)
+# so train on dataset A, save, then B, save then train+test on C
 
+# 7_0 train order: grid, prid450, viper
+def ex_7_0():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'viper'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['grid']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'grid'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'grid'
+        a.datasets_train = ['prid450']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'prid450'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'prid450'
+        a.dataset_test = 'viper'
+        a.ranking_number_test = 316
+        a.log_experiment = False
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 7_0: train only then save on each dataset [grid, prid450]. load, retrain and test=viper'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
 
 # 7_1 train order: prid450, grid, viper
+def ex_7_1():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'viper'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['prid450']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'prid450'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'prid450'
+        a.datasets_train = ['grid']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'grid'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'grid'
+        a.dataset_test = 'viper'
+        a.ranking_number_test = 316
+        a.log_experiment = False
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 7_1: train only then save on each dataset [prid450, grid]. load, retrain and test=viper'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
 # 7_2 train order: grid, viper, prid450
+def ex_7_2():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'prid450'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['grid']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'grid'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'grid'
+        a.datasets_train = ['viper']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'viper'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'viper'
+        a.dataset_test = 'prid450'
+        a.ranking_number_test = 225
+        a.log_experiment = False
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 7_2: train only then save on each dataset [grid, viper]. load, retrain and test=prid450'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
 # 7_3 train order: viper, grid, prid450
+def ex_7_3():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'prid450'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['viper']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'viper'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'viper'
+        a.datasets_train = ['grid']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'grid'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'grid'
+        a.dataset_test = 'prid450'
+        a.ranking_number_test = 225
+        a.log_experiment = False
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 7_3: train only then save on each dataset [viper, grid]. load, retrain and test=prid450'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
 # 7_4 train order: viper, prid450, grid
+def ex_7_4():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'grid'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['viper']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'viper'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'viper'
+        a.datasets_train = ['prid450']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'prid450'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'prid450'
+        a.dataset_test = 'grid'
+        a.ranking_number_test = 225
+        a.log_experiment = False
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 7_4: train only then save on each dataset [viper, prid450]. load, retrain and test=grid'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
 # 7_5 train order: prid450, viper, grid
-#
+def ex_7_5():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'grid'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['prid450']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'prid450'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'prid450'
+        a.datasets_train = ['viper']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'viper'
+        a.log_experiment = False
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'viper'
+        a.dataset_test = 'grid'
+        a.ranking_number_test = 225
+        a.log_experiment = False
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 7_5: train only then save on each dataset [prid450, viper]. load, retrain and test=grid'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
 # ------------------------------------------------------------------------------------
 #
-# 8   priming (note: vital)
+# 8	training: train on all ordered for subset={viper, grid, prid450}, no batchnorm (note: vital)
+# so train on dataset A, save, then B, save then train+test on C
+
+# 8_0 train order: grid, prid450, viper
+def ex_8_0():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'viper'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['grid']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'grid'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'grid'
+        a.datasets_train = ['prid450']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'prid450'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'prid450'
+        a.dataset_test = 'viper'
+        a.ranking_number_test = 316
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 8_0: train only then save on each dataset [grid, prid450]. load, retrain and test=viper'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+# 8_1 train order: prid450, grid, viper
+def ex_8_1():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'viper'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['prid450']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'prid450'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'prid450'
+        a.datasets_train = ['grid']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'grid'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'grid'
+        a.dataset_test = 'viper'
+        a.ranking_number_test = 316
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 8_1: train only then save on each dataset [prid450, grid]. load, retrain and test=viper'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+# 8_2 train order: grid, viper, prid450
+def ex_8_2():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'prid450'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['grid']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'grid'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'grid'
+        a.datasets_train = ['viper']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'viper'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'viper'
+        a.dataset_test = 'prid450'
+        a.ranking_number_test = 225
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 8_2: train only then save on each dataset [grid, viper]. load, retrain and test=prid450'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+# 8_3 train order: viper, grid, prid450
+def ex_8_3():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'prid450'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['viper']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'viper'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'viper'
+        a.datasets_train = ['grid']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'grid'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'grid'
+        a.dataset_test = 'prid450'
+        a.ranking_number_test = 225
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 8_3: train only then save on each dataset [viper, grid]. load, retrain and test=prid450'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+# 8_4 train order: viper, prid450, grid
+def ex_8_4():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'grid'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['viper']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'viper'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'viper'
+        a.datasets_train = ['prid450']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'prid450'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'prid450'
+        a.dataset_test = 'grid'
+        a.ranking_number_test = 225
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 8_4: train only then save on each dataset [viper, prid450]. load, retrain and test=grid'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+# 8_5 train order: prid450, viper, grid
+def ex_8_5():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'grid'
+    iterations = 30
+
+    for iter in range(iterations):
+        # first train on the datasets A and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.datasets_train = ['prid450']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'prid450'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste B and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'prid450'
+        a.datasets_train = ['viper']
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'viper'
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        scn.super_main(a)
+
+        # then load + retrain on dataste C and train + test
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.epochs = 100
+        a.iterations = 1
+        a.load_weights_name = 'viper'
+        a.dataset_test = 'grid'
+        a.ranking_number_test = 225
+        a.log_experiment = False
+        a.head_type = 'simple'
+        a.activation_function = 'selu'
+        a.dropout_rate = 0.05
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 8_5: train only then save on each dataset [prid450, viper]. load, retrain and test=grid'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+
+
+# ------------------------------------------------------------------------------------
 #
-# 8_0 TODO
+# 9   priming (note: vital)
+#
+# 9_0 TODO
 #
 #
 # ------------------------------------------------------------------------------------
 # experiments video -> siamese_cnn_video.py (note: vital)
 # ------------------------------------------------------------------------------------
 #
-# 9	3D convolution vs. cnn_lstm (single dataset)
+# 10	3D convolution vs. cnn_lstm (single dataset)
 #
-# 9_0	video_head_type=3d_convolution, no batchnorm
-# 9_1	video_head_type=3d_convolution, with batchnorm
-# 9_2	video_head_type=cnn_lstm
-#
-# ------------------------------------------------------------------------------------
-#
-# 10	training: mixing all datasets, including test
-#
-# 10_0	3d_conv, no batchnorm
-# 10_1	3d_conv, with batchnorm
-# 10_2	cnn_lstm
+# 10_0	video_head_type=3d_convolution, no batchnorm
+# 10_1	video_head_type=3d_convolution, with batchnorm
+# 10_2	video_head_type=cnn_lstm
 #
 # ------------------------------------------------------------------------------------
 #
-# 11 	training: retrain network on test
+# 11	training: mixing all datasets, including test
 #
 # 11_0	3d_conv, no batchnorm
 # 11_1	3d_conv, with batchnorm
 # 11_2	cnn_lstm
+#
+# ------------------------------------------------------------------------------------
+#
+# 12 	training: retrain network on test
+#
+# 12_0	3d_conv, no batchnorm
+# 12_1	3d_conv, with batchnorm
+# 12_2	cnn_lstm
 #
 #
 #

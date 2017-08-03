@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/planned_experiments.py" afterPath="$PROJECT_DIR$/src/planned_experiments.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_utils.py" afterPath="$PROJECT_DIR$/src/project_utils.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/siamese_cnn_image.py" afterPath="$PROJECT_DIR$/src/siamese_cnn_image.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/todolist.txt" afterPath="$PROJECT_DIR$/todolist.txt" />
     </list>
     <ignored path="uatu.iws" />
@@ -160,8 +158,8 @@
           <file leaf-file-name="planned_experiments.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/planned_experiments.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="525">
-                  <caret line="1103" column="0" lean-forward="true" selection-start-line="1103" selection-start-column="0" selection-end-line="1103" selection-end-column="0" />
+                <state relative-caret-position="359">
+                  <caret line="1952" column="29" lean-forward="false" selection-start-line="1952" selection-start-column="29" selection-end-line="1952" selection-end-column="29" />
                   <folding>
                     <element signature="e#0#31#0" expanded="true" />
                   </folding>
@@ -241,10 +239,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ex_</find>
-      <find>positi</find>
-      <find>make_pos</find>
-      <find>0_7</find>
       <find>BASELINE</find>
       <find>1_0</find>
       <find>neural_</find>
@@ -271,13 +265,15 @@
       <find>prid450</find>
       <find>m_v_p_c2</find>
       <find>no batchnorm</find>
+      <find>8</find>
+      <find>7_</find>
+      <find>no bat</find>
+      <find>8_0</find>
     </findStrings>
     <replaceStrings>
-      <replace>gregor</replace>
       <replace>neg</replace>
       <replace>ranking_variable</replace>
       <replace>only_test</replace>
-      <replace>9</replace>
       <replace>10</replace>
       <replace>sideways_shuffle</replace>
       <replace>1_0</replace>
@@ -303,6 +299,8 @@
       <replace>grid</replace>
       <replace>m_v_g_c2</replace>
       <replace>with batchnorm</replace>
+      <replace>9</replace>
+      <replace>8_</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -1373,8 +1371,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/planned_experiments.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="1103" column="0" lean-forward="true" selection-start-line="1103" selection-start-column="0" selection-end-line="1103" selection-end-column="0" />
+        <state relative-caret-position="359">
+          <caret line="1952" column="29" lean-forward="false" selection-start-line="1952" selection-start-column="29" selection-end-line="1952" selection-end-column="29" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

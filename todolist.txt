@@ -64,11 +64,14 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. decided to also run experiments on cuhk01
 ... check if the methods for cuhk01 work
 .. wrote ugly way to train, save and the retrain. see if it works
+.. make the ranking=100
+... in the end run against benchmark
 
 . start running part of the experiments on this machine
 . check with the other guys
 .. if possible, start running the video experiments on the other machine
-. write thesis introduction
+
+. [HOME] write thesis introduction
 
 
 31 july
