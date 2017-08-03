@@ -1976,8 +1976,6 @@ def ex_8_5():
         pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
                         ranking_means, ranking_std, total_time, None, None)
 
-
-
 # ------------------------------------------------------------------------------------
 #
 # 9   priming (note: vital)
@@ -1992,14 +1990,116 @@ def ex_8_5():
 # 10	3D convolution vs. cnn_lstm (single dataset)
 #
 # 10_0	video_head_type=3d_convolution, no batchnorm
+def ex_10_0_0():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 10_0_0: video_head_type=3d_convolution on ilids, no batchnorm'
+    a.epochs = 200
+    a.iterations = 30
+    a.dataset_test = 'ilids-vid'
+    a.ranking_number_test = 30
+    a.sequence_length = 22
+    a.video_head_type = '3d_convolution'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+    srcn.super_main(a)
+
+def ex_10_0_1():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 10_0_1: video_head_type=3d_convolution on prid2011, no batchnorm'
+    a.epochs = 200
+    a.iterations = 30
+    a.dataset_test = 'prid2011'
+    a.ranking_number_test = 30
+    a.sequence_length = 20
+    a.video_head_type = '3d_convolution'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+    srcn.super_main(a)
+
+
 # 10_1	video_head_type=3d_convolution, with batchnorm
+def ex_10_1_0():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 10_1_0: video_head_type=3d_convolution on ilids, with batchnorm'
+    a.epochs = 200
+    a.iterations = 30
+    a.dataset_test = 'ilids-vid'
+    a.ranking_number_test = 30
+    a.sequence_length = 22
+    a.video_head_type = '3d_convolution'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+
+    srcn.super_main(a)
+
+def ex_10_1_1():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 10_1_1: video_head_type=3d_convolution on prid2011, with batchnorm'
+    a.epochs = 200
+    a.iterations = 30
+    a.dataset_test = 'prid2011'
+    a.ranking_number_test = 30
+    a.sequence_length = 20
+    a.video_head_type = '3d_convolution'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    srcn.super_main(a)
+
+
 # 10_2	video_head_type=cnn_lstm
-#
+def ex_10_2_0():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 10_2_0: video_head_type=cnn_lstm on ilids'
+    a.epochs = 200
+    a.iterations = 30
+    a.dataset_test = 'ilids-vid'
+    a.ranking_number_test = 30
+    a.sequence_length = 22
+    a.video_head_type = 'cnn_lstm'
+    srcn.super_main(a)
+
+
+def ex_10_2_1():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 10_2_1: video_head_type=cnn_lstm on prid2011'
+    a.epochs = 200
+    a.iterations = 30
+    a.dataset_test = 'prid2011'
+    a.ranking_number_test = 30
+    a.sequence_length = 20
+    a.video_head_type = 'cnn_lstm'
+    srcn.super_main(a)
+
 # ------------------------------------------------------------------------------------
 #
 # 11	training: mixing all datasets, including test
 #
 # 11_0	3d_conv, no batchnorm
+# TODO: figure out the sequence number when mixing video data
+# draft:
+def ex_11_2_0():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 11_2_0: video_head_type=3d_convolution on ilids'
+    a.epochs = 200
+    a.iterations = 30
+    a.dataset_test = 'ilids-vid'
+    a.ranking_number_test = 30
+    a.sequence_length = 22
+    a.video_head_type = '3d_convolution'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    a.head_type = 'simple'
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+    srcn.super_main(a)
+
+
 # 11_1	3d_conv, with batchnorm
 # 11_2	cnn_lstm
 #

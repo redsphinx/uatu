@@ -53,80 +53,6 @@
     <option name="SHOW_EMPTY_GROUPS" value="false" />
     <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
   </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file leaf-file-name="running_experiments_3.py" pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/06-07_src/running_experiments_3.py">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="450">
-                    <caret line="237" column="120" lean-forward="true" selection-start-line="237" selection-start-column="120" selection-end-line="237" selection-end-column="120" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="project_constants.py" pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/06-07_src/project_constants.py">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="1065">
-                    <caret line="75" column="66" lean-forward="false" selection-start-line="75" selection-start-column="66" selection-end-line="75" selection-end-column="66" />
-                    <folding>
-                      <element signature="e#0#23#0" expanded="true" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="siamese_cnn_clean.py" pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/06-07_src/siamese_cnn_clean.py">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="420">
-                    <caret line="395" column="0" lean-forward="true" selection-start-line="395" selection-start-column="0" selection-end-line="395" selection-end-column="0" />
-                    <folding>
-                      <element signature="e#0#12#0" expanded="true" />
-                    </folding>
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="thesis_experiment_log.txt" pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/06-07_src/thesis_experiment_log.txt">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="945">
-                    <caret line="76" column="33" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="data_pipeline.py" pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/06-07_src/data_pipeline.py">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="450">
-                    <caret line="431" column="20" lean-forward="false" selection-start-line="431" selection-start-column="4" selection-end-line="431" selection-end-column="20" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="project_utils.py" pinned="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/06-07_src/project_utils.py">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="905">
-                    <caret line="266" column="1" lean-forward="false" selection-start-line="253" selection-start-column="0" selection-end-line="266" selection-end-column="1" />
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="uatu" />
@@ -158,8 +84,8 @@
           <file leaf-file-name="planned_experiments.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/planned_experiments.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="359">
-                  <caret line="1952" column="29" lean-forward="false" selection-start-line="1952" selection-start-column="29" selection-end-line="1952" selection-end-column="29" />
+                <state relative-caret-position="495">
+                  <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
                   <folding>
                     <element signature="e#0#31#0" expanded="true" />
                   </folding>
@@ -186,24 +112,24 @@
           <file leaf-file-name="running_experiments_3.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/running_experiments_3.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="570">
-                  <caret line="493" column="0" lean-forward="true" selection-start-line="493" selection-start-column="0" selection-end-line="493" selection-end-column="0" />
+                <state relative-caret-position="299">
+                  <caret line="410" column="60" lean-forward="true" selection-start-line="410" selection-start-column="60" selection-end-line="410" selection-end-column="60" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="project_variables.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/project_variables.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="390">
-                  <caret line="102" column="20" lean-forward="false" selection-start-line="102" selection-start-column="14" selection-end-line="102" selection-end-column="20" />
+                <state relative-caret-position="661">
+                  <caret line="142" column="0" lean-forward="true" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="siamese_cnn_image.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/siamese_cnn_image.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="929">
@@ -239,9 +165,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>BASELINE</find>
-      <find>1_0</find>
-      <find>neural_</find>
       <find>neural_distance</find>
       <find>1_1</find>
       <find>subtract</find>
@@ -269,6 +192,9 @@
       <find>7_</find>
       <find>no bat</find>
       <find>8_0</find>
+      <find>lstm</find>
+      <find>batchno</find>
+      <find>sim</find>
     </findStrings>
     <replaceStrings>
       <replace>neg</replace>
@@ -1300,14 +1226,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/06-07_src/running_experiments_3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="237" column="120" lean-forward="true" selection-start-line="237" selection-start-column="120" selection-end-line="237" selection-end-column="120" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="329">
@@ -1315,22 +1233,6 @@
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments_3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="493" column="0" lean-forward="true" selection-start-line="493" selection-start-column="0" selection-end-line="493" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="102" column="20" lean-forward="false" selection-start-line="102" selection-start-column="14" selection-end-line="102" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1369,10 +1271,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/running_experiments_3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="410" column="60" lean-forward="true" selection-start-line="410" selection-start-column="60" selection-end-line="410" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="661">
+          <caret line="142" column="0" lean-forward="true" selection-start-line="142" selection-start-column="0" selection-end-line="142" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/06-07_src/running_experiments_3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="237" column="120" lean-forward="true" selection-start-line="237" selection-start-column="120" selection-end-line="237" selection-end-column="120" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/planned_experiments.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="1952" column="29" lean-forward="false" selection-start-line="1952" selection-start-column="29" selection-end-line="1952" selection-end-column="29" />
+        <state relative-caret-position="495">
+          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

@@ -66,6 +66,8 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. wrote ugly way to train, save and the retrain. see if it works
 .. make the ranking=100
 ... in the end run against benchmark
+.. turn on sideways shuffle in video
+.. figure out sequence number when mixing video data
 
 . start running part of the experiments on this machine
 . check with the other guys
