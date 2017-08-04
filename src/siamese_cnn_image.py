@@ -347,7 +347,7 @@ def get_model(adjustable):
 
         # case 2
         if adjustable.load_weights_name is not None:
-            the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_weights_name)
+            the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, '%s_weights.h5' % adjustable.load_weights_name)
             model.load_weights(the_path, by_name=True)
 
         # compile
@@ -594,8 +594,8 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             if adjustable.save_inbetween and adjustable.iterations == 1:
                 if epoch + 1 in adjustable.save_points:
                     if adjustable.name_of_saved_file is not None:
-                        model_name = '%s_model.h5'
-                        weights_name = '%s_weights.h5'
+                        model_name = '%s_model.h5' % adjustable.name_of_saved_file
+                        weights_name = '%s_weights.h5' % adjustable.name_of_saved_file
                     else:
                         print('Error: name of file to be saved not specified.')
                         return

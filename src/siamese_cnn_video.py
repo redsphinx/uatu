@@ -558,6 +558,10 @@ def get_final_training_data(adjustable, train_pos, train_neg):
             # normal shuffle, just take subset
             final_training_data = train_pos + train_neg
             random.shuffle(final_training_data)
+
+            if adjustable.sideways_shuffle == True:
+                final_training_data = pu.sideways_shuffle(final_training_data)
+                random.shuffle(final_training_data)
         else:
             # can be train + test on multiple datasets
             # can be only train on multiple datasets
@@ -569,11 +573,19 @@ def get_final_training_data(adjustable, train_pos, train_neg):
                     # normal shuffle, just take subset
                     final_training_data = train_pos + train_neg
                     random.shuffle(final_training_data)
+
+                    if adjustable.sideways_shuffle == True:
+                        final_training_data = pu.sideways_shuffle(final_training_data)
+                    random.shuffle(final_training_data)
                 else:
                     if adjustable.mix_with_test == True:
                         # mix with the test
                         # normal shuffle, just take subset
                         final_training_data = train_pos + train_neg
+                        random.shuffle(final_training_data)
+
+                        if adjustable.sideways_shuffle == True:
+                            final_training_data = pu.sideways_shuffle(final_training_data)
                         random.shuffle(final_training_data)
                     else:
                         # don't mix with the test (which is at the end)
@@ -581,6 +593,11 @@ def get_final_training_data(adjustable, train_pos, train_neg):
                         for index in range(len(train_neg)):
                             partition = train_pos[index] + train_neg[index]
                             random.shuffle(partition)
+
+                            if adjustable.sideways_shuffle == True:
+                                partition = pu.sideways_shuffle(partition)
+                            random.shuffle(partition)
+
                             final_training_data += partition
 
             else:
@@ -590,6 +607,11 @@ def get_final_training_data(adjustable, train_pos, train_neg):
                 for index in range(len(train_neg)):
                     partition = train_pos[index] + train_neg[index]
                     random.shuffle(partition)
+
+                    if adjustable.sideways_shuffle == True:
+                        partition = pu.sideways_shuffle(partition)
+                    random.shuffle(partition)
+
                     final_training_data += partition
 
     return final_training_data
@@ -950,3 +972,4 @@ def super_main(adjustable):
         file_name = os.path.basename(__file__)
         pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, name, matrix_means, matrix_std,
                         ranking_means, ranking_std, total_time, gregor_matrix_means, gregor_matrix_std)
+

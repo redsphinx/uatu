@@ -50,6 +50,13 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+4 aug
+-----
+. there is still a bug in the code, find it
+.. run the old code for baseline
+. find out why selu not work
+
+
 3 aug
 -----
 . [DONE] add sideways shuffle to main script
@@ -80,7 +87,6 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 -------
 . make experiments
 . set up testing script
-
 
 
 27 july

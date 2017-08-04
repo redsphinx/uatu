@@ -29,7 +29,7 @@ def ex_0_7_0():
     a.epochs = 100
     a.iterations = 30
     a.dataset_test = 'viper'
-    a.ranking_number_test = 316
+    a.ranking_number_test = 100
     scn.super_main(a)
 
 def ex_0_7_1():
@@ -38,7 +38,7 @@ def ex_0_7_1():
     a.epochs = 100
     a.iterations = 30
     a.dataset_test = 'grid'
-    a.ranking_number_test = 125
+    a.ranking_number_test = 100
     scn.super_main(a)
 
 def ex_0_7_2():
@@ -47,7 +47,7 @@ def ex_0_7_2():
     a.epochs = 100
     a.iterations = 30
     a.dataset_test = 'prid450'
-    a.ranking_number_test = 225
+    a.ranking_number_test = 100
     scn.super_main(a)
 
 def ex_0_7_3():
@@ -56,7 +56,7 @@ def ex_0_7_3():
     a.epochs = 100
     a.iterations = 30
     a.dataset_test = 'cuhk01'
-    a.ranking_number_test = 485
+    a.ranking_number_test = 100
     scn.super_main(a)
 
 def ex_0_7_4():
@@ -65,7 +65,7 @@ def ex_0_7_4():
     a.epochs = 100
     a.iterations = 30
     a.dataset_test = 'cuhk02'
-    a.ranking_number_test = 'half'
+    a.ranking_number_test = 100
     scn.super_main(a)
 
 def ex_0_7_5():
@@ -74,7 +74,7 @@ def ex_0_7_5():
     a.epochs = 100
     a.iterations = 30
     a.dataset_test = 'market'
-    a.ranking_number_test = 750
+    a.ranking_number_test = 100
     scn.super_main(a)
 
 # ------------------------------------------------------------------------------------
