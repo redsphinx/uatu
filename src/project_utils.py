@@ -9,7 +9,9 @@ from shutil import copyfile
 import shutil
 import time
 from random import shuffle
-from tensorflow.contrib import keras
+# from tensorflow.contrib import keras
+import keras
+# from keras import optimizers, models
 
 # recursively transform list into tuple
 def tupconv(lst):
@@ -470,3 +472,4 @@ def get_data(pairs, dataset, number_of_data=100):
     labs = keras.utils.to_categorical(labs, 2)
 
     return refs, labs
+

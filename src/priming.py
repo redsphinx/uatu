@@ -135,12 +135,13 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
     """
     full_predictions = np.zeros((len(this_ranking), 2))
     
-    if adjustable.ranking_number == 'half':
+    if adjustable.ranking_number_test == 'half':
         ranking_number = pc.RANKING_DICT[name]
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
+    elif isinstance(adjustable.ranking_number_test, int):
+        ranking_number = adjustable.ranking_number_test
     else:
-        ranking_number = None
+        print("ranking_number_test must be 'half' or an int")
+        return
 
 
     for an_id in range(ranking_number):
@@ -185,7 +186,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         # training
         prime_train, prime_labels = load_augmented_images(list_augmented_images_long)
 
-        weight_path = os.path.join('../model_weights', adjustable.load_weights_name)
+        weight_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, '%s_weights.h5' % adjustable.load_weights_name)
         model.load_weights(weight_path, by_name=True)
 
         model.fit([prime_train[:, 0], prime_train[:, 1]], prime_labels,
@@ -195,7 +196,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
 
         # testing
         part_ranking = this_ranking[an_id * ranking_number:(an_id + 1) * ranking_number]
-        test_data = ddl.grab_em_by_the_keys(part_ranking, h5_dataset)
+        test_data = ddl.grab_em_by_the_keys(part_ranking, None, h5_dataset)
 
         test_data = np.asarray(test_data)
 
@@ -208,7 +209,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
 def only_test(model, h5_dataset, this_ranking):
     """ Only runs testing
     """
-    test_data = ddl.grab_em_by_the_keys(this_ranking, h5_dataset)
+    test_data = ddl.grab_em_by_the_keys(this_ranking, None, h5_dataset)
     test_data = np.asarray(test_data)
     part_prediction = model.predict([test_data[0], test_data[1]])
     full_predictions = part_prediction
@@ -259,8 +260,51 @@ def main(adjustable, all_ranking, names, model):
     return confusion_matrices, ranking_matrices, gregor_matrices
 
 
+def get_model(adjustable):
+    """
+    Returns a model depending on the specifications.
+    1. Loads a saved model + weights IF model name is specified
+    2. Creates the model from scratch, loads saved weights and compiles IF model name is not specified AND
+                                                                                model weights is specified
+    3. Creates the model from scratch and compiles IF nothing is indicated
+
+    :param adjustable:      object of class ProjectVariable
+    :return:                returns the model
+    """
+    if adjustable.optimizer == 'nadam':
+        the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+    elif adjustable.optimizer == 'sgd':
+        the_optimizer = keras.optimizers.SGD()
+    elif adjustable == 'rms':
+        the_optimizer = keras.optimizers.RMSprop()
+    else:
+        the_optimizer = None
+
+    # case 1
+    if adjustable.load_model_name is not None:
+        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
+
+    else:
+        # case 3
+        model = scn.create_siamese_network(adjustable)
+
+        # case 2
+        if adjustable.load_weights_name is not None:
+            the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, '%s_weights.h5' % adjustable.load_weights_name)
+            model.load_weights(the_path, by_name=True)
+
+        # compile
+        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+            model.compile(loss=adjustable.loss_function, optimizer=the_optimizer, metrics=['accuracy'])
+        elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
+            model.compile(loss=scn.contrastive_loss, optimizer=the_optimizer, metrics=[scn.absolute_distance_difference])
+
+    return model
+
+
 def super_main(adjustable):
-    name = adjustable.datasets[0]
+    name = adjustable.dataset_test
+    # name = adjustable.datasets[0]
     print('name: %s' % name)
     start = time.time()
 
@@ -284,33 +328,40 @@ def super_main(adjustable):
 
     '''
     '''
-
-    if adjustable.load_model_name is not None:
-        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
-    elif adjustable.load_weights_name is not None and adjustable.load_model_name is None:
-        model = scn.create_siamese_network(adjustable)
-
-        the_path = os.path.join('../model_weights', adjustable.load_weights_name)
-        model.load_weights(the_path, by_name=True)
-
-        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-            model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
-        elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
-            rms = keras.optimizers.RMSprop()
-            model.compile(loss=scn.contrastive_loss, optimizer=rms, metrics=[scn.absolute_distance_difference])
-    else:
-        model = None
+    model = get_model(adjustable)
+    # if adjustable.load_model_name is not None:
+    #     model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
+    # elif adjustable.load_weights_name is not None and adjustable.load_model_name is None:
+    #     model = scn.create_siamese_network(adjustable)
+    # 
+    #     the_path = os.path.join('../model_weights', adjustable.load_weights_name)
+    #     model.load_weights(the_path, by_name=True)
+    # 
+    #     if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+    #         nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+    #         model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
+    #     elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
+    #         rms = keras.optimizers.RMSprop()
+    #         model.compile(loss=scn.contrastive_loss, optimizer=rms, metrics=[scn.absolute_distance_difference])
+    # else:
+    #     model = None
     '''
     '''
 
-    # FIXME: set only test to 1 dataset
-    number_of_datasets = len(names)
+    # number_of_datasets = len(names)
+    number_of_datasets = 1
 
-    if adjustable.ranking_number == 'half':
+    # if adjustable.ranking_number == 'half':
+    #     ranking_number = pc.RANKING_DICT[name]
+    # elif isinstance(adjustable.ranking_number, int):
+    #     ranking_number = adjustable.ranking_number
+    if adjustable.ranking_number_test == 'half':
         ranking_number = pc.RANKING_DICT[name]
-    elif isinstance(adjustable.ranking_number, int):
-        ranking_number = adjustable.ranking_number
+    elif isinstance(adjustable.ranking_number_test, int):
+        ranking_number = adjustable.ranking_number_test
+    else:
+        print("ranking_number_test must be 'half' or an int")
+        return
 
     confusion_matrices = np.zeros((adjustable.iterations, number_of_datasets, 4))
     ranking_matrices = np.zeros((adjustable.iterations, number_of_datasets, ranking_number))
@@ -351,6 +402,13 @@ def super_main(adjustable):
         ranking_std[dataset] = np.std(rankings, axis=0)
         gregor_matrix_means[dataset] = np.mean(g_matrices, axis=0)
         gregor_matrix_std[dataset] = np.std(g_matrices, axis=0)
+
+    matrix_means = matrix_means[0]
+    matrix_std = matrix_std[0]
+    ranking_means = ranking_means[0]
+    ranking_std = ranking_std[0]
+    gregor_matrix_means = gregor_matrix_means[0]
+    gregor_matrix_std = gregor_matrix_std[0]
 
     if adjustable.log_experiment:
         file_name = os.path.basename(__file__)

@@ -909,12 +909,13 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
             # get the key with the index and append to the list
             negative_keys.append(swapped_fullpath[index])
     else:
-        if adjustable.ranking_number == 'half':
+        if adjustable.ranking_number_test == 'half':
             ranking_number = pc.RANKING_DICT[name_dataset]
-        elif isinstance(adjustable.ranking_number, int):
-            ranking_number = adjustable.ranking_number
+        elif isinstance(adjustable.ranking_number_test, int):
+            ranking_number = adjustable.ranking_number_test
         else:
-            ranking_number = None
+            print("ranking_number_test must be 'half' or an int")
+            return
 
         # print('ranking number: %s' % str(ranking_number))
 
