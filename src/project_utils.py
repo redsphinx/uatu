@@ -13,6 +13,7 @@ from random import shuffle
 import keras
 # from keras import optimizers, models
 
+# unused
 # recursively transform list into tuple
 def tupconv(lst):
     tuplst = []
@@ -26,6 +27,7 @@ def tupconv(lst):
     return tuple(tuplst)
 
 
+# unused
 # used to calculate error
 def error_rate(predictions, labels):
     """Return the error rate based on dense predictions and sparse labels."""
@@ -35,6 +37,7 @@ def error_rate(predictions, labels):
         predictions.shape[0])
 
 
+# unused
 def get_wrong_predictions():
     folder = 'wrong_predictions'
 
@@ -194,42 +197,6 @@ def make_gregor_matrix(adjustable, predictions, labels):
                     tn += 1
                 else:
                     fp += 1
-    # elif adjustable.cost_module_type == 'cosine':
-    #     len_data = len(labels)
-    #     # split the data into matches and mismatches
-    #     for item in range(len_data):
-    #         if labels[item] == 1:
-    #             lab_split_match.append(labels[item])
-    #             pred_split_match.append(predictions[item])
-    #         else:
-    #             lab_split_mismatch.append(labels[item])
-    #             pred_split_mismatch.append(predictions[item])
-    #
-    #     pred_mismatch_chosen = []
-    #     lab_mismatch_chosen = []
-    #
-    #     # from the mismatches select the first 9 negative pairs per ID
-    #     len_data = len(lab_split_match)
-    #     for item in range(len_data):
-    #         pairs_lab = lab_split_mismatch[item * magic_number:(item + 1) * magic_number]
-    #         pairs_pred = pred_split_mismatch[item * magic_number:(item + 1) * magic_number]
-    #         for pair in range(len(pairs_lab)):
-    #             lab_mismatch_chosen.append(pairs_lab[pair])
-    #             pred_mismatch_chosen.append(pairs_pred[pair])
-    #     predictions = pred_split_match + pred_mismatch_chosen
-    #     labels = lab_split_match + lab_mismatch_chosen
-    #
-    #     for lab in range(0, len(labels)):
-    #         if labels[lab] == 1:
-    #             if predictions[lab] == 1:
-    #                 tp += 1  # t=1, p=1
-    #             else:
-    #                 fn += 1  # t=1, p=0
-    #         elif labels[lab] == -1:
-    #             if predictions[lab] == -1:
-    #                 tn += 1
-    #             else:
-    #                 fp += 1
 
     return [tp, fp, tn, fn]
 
@@ -261,18 +228,6 @@ def make_confusion_matrix(adjustable, predictions, labels):
                     tn += 1
                 else:
                     fp += 1
-    # elif adjustable.cost_module_type == 'cosine':
-    #     for lab in range(0, len(labels)):
-    #         if labels[lab] == 1:
-    #             if predictions[lab] == 1:
-    #                 tp += 1  # t=1, p=1
-    #             else:
-    #                 fn += 1  # t=1, p=0
-    #         elif labels[lab] == -1:
-    #             if predictions[lab] == -1:
-    #                 tn += 1
-    #             else:
-    #                 fp += 1
 
     return [tp, fp, tn, fn]
 
@@ -473,3 +428,43 @@ def get_data(pairs, dataset, number_of_data=100):
 
     return refs, labs
 
+
+def my_join(list_strings):
+    """
+    Makes 1 string from a list of strings
+    :param list_strings:    list of strings
+    :return:                string concatenated from all strings in the list_strings in order
+    """
+    awesome_string = ''
+    for item in list_strings:
+        awesome_string += item
+    return awesome_string
+
+
+def swap_for(the_thing, a, b):
+    """
+    Takes a string and swaps each character 'a' for character 'b', where the characters are specified
+    :param the_thing:   full string
+    :param a:           string
+    :param b:           string
+    :return:            string with swapped characters
+    """
+    the_thing = list(the_thing)
+    for item in range(len(the_thing)):
+        if the_thing[item] == a:
+            the_thing[item] = b
+
+    the_thing = my_join(the_thing)
+
+    return str(the_thing)
+
+
+def write_to_file(filepath, data):
+    """
+    Writes data to file
+    :param filepath:    string path to file
+    :param data:        a list with the data to write. list must be one-dimensional
+    """
+    with open(filepath, 'w') as myfile:
+        for i in range(len(data)):
+            myfile.write(str(data[i]) + '\n')

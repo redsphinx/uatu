@@ -15,235 +15,14 @@ import random as rd
 import h5py
 import matplotlib.pyplot as plt
 from scipy import ndimage
-from shutil import copyfile
 from PIL import Image
 from random import randint
 import random
-
-
 import project_constants as pc
+import project_utils as pu
 
 
-def fix_viper():
-    """
-    Assuming the VIPeR data is already downloaded and extracted, put all images in a single folder and pad the
-    width with zeros.
-    """
-    original_folder_path = '/home/gabi/Documents/datasets/VIPeR'
-    padded_folder_path = '/home/gabi/Documents/datasets/VIPeR/padded'
 
-    if not os.path.exists(padded_folder_path):
-        os.mkdir(padded_folder_path)
-
-    cams = ['cam_a', 'cam_b']
-    for folder in cams:
-        cam_path = os.path.join(original_folder_path, str(folder))
-        padded_cam_path = padded_folder_path
-        num = 'a' if folder == 'cam_a' else 'b'
-        for the_file in os.listdir(cam_path):
-            img = Image.open(os.path.join(cam_path, the_file))
-            new_img = Image.new('RGB', (pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), (255, 255, 255))
-
-            img_width, img_height = img.size
-            new_img_width, new_img_height = new_img.size
-            padding_width = (new_img_width-img_width)/2
-            padding_height = (new_img_height-img_height)/2
-
-            new_img.paste(img, box=(padding_width, padding_height))
-
-            filename = the_file.split('_')[0] + '_' + str(num) + '.bmp'
-            filename = os.path.join(padded_cam_path, filename)
-            new_img.save(filename)
-
-
-def fix_cuhk01():
-    """
-    Assuming the CUHK01 data is already downloaded and extracted, put all images in a single folder and resizes
-    the images from 160x60 to 128x64.
-    """
-    folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK1'
-    new_path = os.path.dirname(folder_path)
-
-    list_images = os.listdir(folder_path)
-    name_folder = folder_path.split('/')[-1]
-    new_folder_path = os.path.join(new_path, 'cropped_' + str(name_folder))
-    if not os.path.exists(new_folder_path):
-        os.makedirs(new_folder_path)
-
-    for image_path in list_images:
-        img = Image.open(os.path.join(folder_path, image_path))
-        img = img.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
-        img.save(os.path.join(new_folder_path, image_path))
-
-
-def fix_cuhk02():
-    """
-    Assuming the CUHK02 data is already downloaded and extracted, put all images in a single folder and resizes
-    the images from 160x60 to 128x64. Notice the weird layout of the folder structure. We leave the dataset partitioned
-    in 5 parts.
-    """
-    folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK2'
-    cropped_folder_path = os.path.join(os.path.dirname(folder_path), 'cropped_CUHK2')
-    if not os.path.exists(cropped_folder_path):
-        os.mkdir(cropped_folder_path)
-
-    subdirs = os.listdir(folder_path)
-
-    for a_dir in subdirs:
-        if not os.path.exists(os.path.join(cropped_folder_path, a_dir)):
-            os.makedirs(os.path.join(cropped_folder_path, a_dir, 'all'))
-
-    cameras = ['cam1', 'cam2']
-
-    for a_dir in subdirs:
-        for cam in cameras:
-            original_images_path = os.path.join(folder_path, a_dir, cam)
-            cropped_images_path = os.path.join(cropped_folder_path, a_dir, 'all')
-            images = [a_file for a_file in os.listdir(original_images_path) if a_file.endswith('.png')]
-            for ind in range(len(images)):
-                image = os.path.join(original_images_path, images[ind])
-                cropped_image = os.path.join(cropped_images_path, images[ind])
-                img = Image.open(image)
-                img = img.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
-                img.save(cropped_image)
-
-
-def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
-    """
-    Assuming the images have been downloaded and extracted.
-    Makes the images in the CAVIAR4REID, GRID and PRID450 in the correct size of 128x64
-    :param all_images:          list of image names
-    :param folder_path:         string, the directory of the extracted images
-    :param fixed_folder_path:   string, the directory of the standardized images
-    :param the_mod:             string, modifier to add to the image name, so `image_a` where `the_mod = '_a'`
-    """
-
-    def modify(name, a_mod):
-        return name.split('.')[0].split('_')[-1] + a_mod + name.split('.')[-1]
-
-    for image in all_images:
-        original_image_path = os.path.join(folder_path, image)
-
-        if the_mod is not None:
-            modified_image_path = os.path.join(fixed_folder_path, modify(image, the_mod))
-        else:
-            modified_image_path = os.path.join(fixed_folder_path, image)
-        the_image = Image.open(original_image_path)
-        image_width, image_height = the_image.size
-
-        if image_width < pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT:
-            case = 1
-        elif image_width > pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT:
-            case = 2
-
-        elif image_width < pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT:
-            case = 3
-        elif image_width > pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT:
-            case = 4
-
-        elif image_width < pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT:
-            case = 1
-        elif image_width > pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT:
-            case = 2
-
-        elif image_width == pc.IMAGE_WIDTH and image_height > pc.IMAGE_HEIGHT:
-            case = 2
-        elif image_width == pc.IMAGE_WIDTH and image_height < pc.IMAGE_HEIGHT:
-            case = 1
-
-        elif image_width == pc.IMAGE_WIDTH and image_height == pc.IMAGE_HEIGHT:
-            case = 5
-        else:
-            case = None
-
-        # if dimensions are bigger than WIDTH, HEIGHT then resize
-        # if dimensions are smaller then pad with zeros
-        if case == 2:
-            the_image = the_image.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
-            the_image.save(modified_image_path)
-        elif case == 1 or case == 3 or case == 4:
-            if case == 3:
-                the_image = the_image.resize((image_width, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
-            elif case == 4:
-                the_image = the_image.resize((pc.IMAGE_WIDTH, image_height), Image.ANTIALIAS)
-            padding_width = (pc.IMAGE_WIDTH - the_image.size[0]) / 2
-            padding_height = (pc.IMAGE_HEIGHT - the_image.size[1]) / 2
-            new_img = Image.new('RGB', (pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), (255, 255, 255))
-            new_img.paste(the_image, box=(padding_width, padding_height))
-            new_img.save(modified_image_path)
-        elif case == 5:
-            the_image.save(modified_image_path)
-
-
-def fix_caviar():
-    """
-    Assuming the CAVIAR4REID data is already downloaded and extracted, standardizes images to 128x64.
-    """
-    folder_path = '/home/gabi/Documents/datasets/CAVIAR4REID/original'
-    fixed_folder_path = os.path.join(os.path.dirname(folder_path), 'fixed_caviar')
-    if not os.path.exists(fixed_folder_path):
-        os.mkdir(fixed_folder_path)
-
-    all_images = os.listdir(folder_path)
-    standardize(all_images, folder_path, fixed_folder_path)
-
-
-def fix_grid():
-    """
-    Assuming the GRID data is already downloaded and extracted, standardizes images to 128x64.
-    """
-    folder_path = '/home/gabi/Documents/datasets/GRID'
-    probe = os.path.join(folder_path, 'probe')
-    gallery = os.path.join(folder_path, 'gallery')
-
-    probe_list = os.listdir(probe)
-    gallery_list = os.listdir(gallery)
-
-    # trim the gallery list and remove items with '0000' in the path, these are identities that do not belong to a pair
-    proper_gallery_list = [item for item in gallery_list if not item[0:4] == '0000']
-
-    fixed_folder_path = os.path.join(os.path.dirname(probe), 'fixed_grid')
-    if not os.path.exists(fixed_folder_path):
-        os.mkdir(fixed_folder_path)
-
-    # standardize will put probe and gallery in the same fixed folder
-    standardize(probe_list, probe, fixed_folder_path)
-    standardize(proper_gallery_list, gallery, fixed_folder_path)
-
-
-def fix_prid450():
-    """
-    Assuming the PRID450 data is already downloaded and extracted, standardizes images to 128x64.
-    """
-    folder_path = '/home/gabi/Documents/datasets/PRID450'
-    cam_a = os.path.join(folder_path, 'cam_a')
-    cam_b = os.path.join(folder_path, 'cam_b')
-
-    cam_a_list = os.listdir(cam_a)
-    cam_b_list = os.listdir(cam_b)
-
-    # trim the dataset to contain only RGB color images
-    proper_cam_a_list = [item for item in cam_a_list if item.split('_')[0] == 'img']
-    proper_cam_b_list = [item for item in cam_b_list if item.split('_')[0] == 'img']
-
-    fixed_folder_path = os.path.join(os.path.dirname(cam_a), 'fixed_prid')
-    if not os.path.exists(fixed_folder_path):
-        os.mkdir(fixed_folder_path)
-
-    # standardize will put probe and gallery in the same fixed folder
-    standardize(proper_cam_a_list, cam_a, fixed_folder_path, '_a.')
-    standardize(proper_cam_b_list, cam_b, fixed_folder_path, '_b.')
-
-
-def write_to_file(filepath, data):
-    """
-    Writes data to file
-    :param filepath:    string path to file
-    :param data:        a list with the data to write. list must be one-dimensional
-    """
-    with open(filepath, 'w') as myfile:
-        for i in range(len(data)):
-            myfile.write(str(data[i]) + '\n')
 
 
 def make_image_data_files(fixed_dataset_path, project_data_storage):
@@ -270,17 +49,17 @@ def make_image_data_files(fixed_dataset_path, project_data_storage):
     fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
     swapped_list_of_paths = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
 
-    write_to_file(id_all_file, id_all)
-    write_to_file(unique_id_file, unique_id)
-    write_to_file(short_image_names_file, short_image_names)
-    write_to_file(fullpath_image_names_file, fullpath_image_names)
+    pu.write_to_file(id_all_file, id_all)
+    pu.write_to_file(unique_id_file, unique_id)
+    pu.write_to_file(short_image_names_file, short_image_names)
+    pu.write_to_file(fullpath_image_names_file, fullpath_image_names)
     with open(swapped_list_of_paths, 'w') as myfile:
         for item in fullpath_image_names:
-            item_name = swap_for(item, '/', '+')
+            item_name = pu.swap_for(item, '/', '+')
             myfile.write(item_name + '\n')
 
 
-def unique_id_and_all_images_cuhk2():
+def make_image_data_cuhk2():
     """
     Creates 5 text files, one for each partition in CUHK02:
     id_all_file.txt                 contains the all unique IDs in order
@@ -311,17 +90,17 @@ def unique_id_and_all_images_cuhk2():
         fullpath_image_names_file = os.path.join(project_data_storage, 'fullpath_image_names_file.txt')
         swapped_list_of_paths = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
 
-        write_to_file(id_all_file, id_all)
-        write_to_file(unique_id_file, unique_id)
-        write_to_file(short_image_names_file, short_image_names)
-        write_to_file(fullpath_image_names_file, fullpath_image_names)
+        pu.write_to_file(id_all_file, id_all)
+        pu.write_to_file(unique_id_file, unique_id)
+        pu.write_to_file(short_image_names_file, short_image_names)
+        pu.write_to_file(fullpath_image_names_file, fullpath_image_names)
         with open(swapped_list_of_paths, 'w') as myfile:
             for item in fullpath_image_names:
-                item_name = swap_for(item, '/', '+')
+                item_name = pu.swap_for(item, '/', '+')
                 myfile.write(item_name + '\n')
 
 
-def create_positive_combinations(fullpath, unique_ids, num, smallest_id_group):
+def make_positive_combinations(fullpath, unique_ids, num, smallest_id_group):
     """
     Makes positive pairs for images (or sequences in the case of video data)
     :param fullpath:            list of fullpath names
@@ -424,7 +203,7 @@ def make_positive_pairs_training(id_all_file, unique_id_file, swapped_list_of_pa
     upper_bound = 3
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
-    training_ids_pos = create_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
+    training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
 
     # shuffle so that each time we get different first occurences for when making negative pairs
     rd.shuffle(training_ids_pos)
@@ -457,7 +236,7 @@ def make_positive_pairs_ranking(id_all_file, unique_id_file, swapped_list_of_pat
     upper_bound = 2
     ranking_ids_pos, min_group_size_rank, ranking_ids = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids,
                                                                       upper_bound, dataset_name)
-    ranking_ids_pos = create_positive_combinations(ranking_ids_pos, ranking_ids, upper_bound, min_group_size_rank)
+    ranking_ids_pos = make_positive_combinations(ranking_ids_pos, ranking_ids, upper_bound, min_group_size_rank)
 
     # shuffle so that each time we get different first occurences for when making negative pairs
     rd.shuffle(ranking_ids_pos)
@@ -507,7 +286,7 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
     upper_bound = 2
     ranking_ids_pos, min_group_size_rank, ranking_ids = pre_selection(ranking_ids_pos, ranking_ids, all_ranking_ids,
                                                                       upper_bound, dataset_name)
-    ranking_ids_pos = create_positive_combinations(ranking_ids_pos, ranking_ids, upper_bound, min_group_size_rank)
+    ranking_ids_pos = make_positive_combinations(ranking_ids_pos, ranking_ids, upper_bound, min_group_size_rank)
 
     # -- Create combinations and store the positive matches for training
     # You could increase this but then you'll get a lot more data
@@ -515,7 +294,7 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
 
-    training_ids_pos = create_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
+    training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
 
     # shuffle so that each time we get different first occurences for when making negative pairs
     rd.shuffle(ranking_ids_pos)
@@ -603,7 +382,7 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
         if adjustable.save_inbetween and adjustable.iterations == 1:
             file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
             file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
-            write_to_file(file_name, ranking)
+            pu.write_to_file(file_name, ranking)
 
     elif do_ranking is False and do_training is False:
         print('Error: ranking and training cannot both be false')
@@ -695,7 +474,7 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
         swapped_list_of_paths = os.path.join(project_data_storage, 'swapped_list_of_paths.txt')
 
         if not os.path.exists(id_all_file):
-            unique_id_and_all_images_cuhk2()
+            make_image_data_cuhk2()
 
         if do_ranking is True and do_training is True:
             ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, 'cuhk02',
@@ -784,90 +563,14 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
         if adjustable.save_inbetween and adjustable.iterations == 1:
             file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
             file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
-            write_to_file(file_name, rank_all)
+            pu.write_to_file(file_name, rank_all)
     else:
         rank_all = None
 
     return rank_all, training_pos_all, training_neg_all
 
 
-def my_join(list_strings):
-    """
-    Makes 1 string from a list of strings
-    :param list_strings:    list of strings
-    :return:                string concatenated from all strings in the list_strings in order
-    """
-    awesome_string = ''
-    for item in list_strings:
-        awesome_string += item
-    return awesome_string
 
-
-def swap_for(the_thing, a, b):
-    """
-    Takes a string and swaps each character 'a' for character 'b', where the characters are specified
-    :param the_thing:   full string
-    :param a:           string
-    :param b:           string
-    :return:            string with swapped characters
-    """
-    the_thing = list(the_thing)
-    for item in range(len(the_thing)):
-        if the_thing[item] == a:
-            the_thing[item] = b
-
-    the_thing = my_join(the_thing)
-
-    return str(the_thing)
-
-
-def save_image_data_as_hdf5(file_list_of_paths, h5_path):
-    """
-    Saves image data as HDF5 (h5) file.
-    :param file_list_of_paths:  string of path to 'fullpath_image_names_file.txt'
-    :param h5_path:             string path to save location of h5 file
-    """
-    list_of_paths = list(np.genfromtxt(file_list_of_paths, dtype=None).tolist())
-    swapped_list_of_paths = list(np.genfromtxt(os.path.join(os.path.dirname(file_list_of_paths),
-                                                            'swapped_list_of_paths.txt')))
-
-    action = 'a' if os.path.exists(h5_path) else 'w'
-
-    with h5py.File(h5_path, action) as myfile:
-        for item in range(len(list_of_paths)):
-            myfile.create_dataset(name=swapped_list_of_paths[item], data=ndimage.imread(list_of_paths[item]))
-
-
-def save_all_image_datasets_as_hdf5():
-    """
-    Saves all image datasets as HDF5 (h5) files.
-    Run this method when you don't have the image data h5 files
-    """
-    save_image_data_as_hdf5('../data/GRID/fullpath_image_names_file.txt', '../data/GRID/grid.h5')
-    print('saved grid')
-
-    save_image_data_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450.h5')
-    print('saved prid450')
-
-    save_image_data_as_hdf5('../data/caviar/fullpath_image_names_file.txt', '../data/caviar/caviar.h5')
-    print('saved caviar')
-
-    save_image_data_as_hdf5('../data/VIPER/fullpath_image_names_file.txt', '../data/VIPER/viper.h5')
-    print('saved viper')
-
-    subdirs = [item for item in os.listdir('../data/CUHK02') if not item.split('.')[-1] == 'txt']
-    cuhk2_path = '../data/CUHK02'
-    for a_dir in subdirs:
-        the_full = os.path.join(cuhk2_path, a_dir, 'fullpath_image_names_file.txt')
-        the_h5 = os.path.join(cuhk2_path, 'cuhk02.h5')
-        save_image_data_as_hdf5(the_full, the_h5)
-    print('saved cuhk02')
-
-    save_image_data_as_hdf5('../data/CUHK/fullpath_image_names_file.txt', '../data/CUHK/cuhk01.h5')
-    print('saved cuhk01')
-
-    save_image_data_as_hdf5('../data/market/fullpath_image_names_file.txt', '../data/market/market.h5')
-    print('saved market')
 
 
 def read_plot_from_hdf5(swapped_list, h5_path):
@@ -917,91 +620,7 @@ def get_sequence_length_video_dataset(name):
           % (name, str(number_of_persons), min_seq_len, max_seq_len))
 
 
-def fix_video_dataset(name, min_seq):
-    """
-    Make all sequences of same length and store them in a new folder
-    :param name:        name of the video dataset: 'ilids-vid' or 'prid2011'
-    :param min_seq:     minimal sequence length
-    """
-    old_path = '/home/gabi/Documents/datasets/%s' % name
 
-    # make new directory
-    new_path = '/home/gabi/Documents/datasets/%s-fixed' % name
-    if not os.path.exists(new_path):
-        os.mkdir(new_path)
-
-    # get the cameras
-    cams = os.listdir(old_path)
-
-    for cam in cams:
-        if cam == 'cam1':
-            cam_new = 'cam_a'
-        elif cam == 'cam2':
-            cam_new = 'cam_b'
-        else:
-            cam_new = cam
-        new_cam_path = os.path.join(new_path, cam_new)
-        if not os.path.exists(new_cam_path):
-            os.mkdir(new_cam_path)
-        old_cam_path = os.path.join(old_path, cam)
-        persons = os.listdir(old_cam_path)
-
-        # list the persons
-        for person in persons:
-            if len(person.split('_')) == 1:
-                new_person = list(person)[-3:]
-                new_person = my_join(new_person)
-                new_person = int(new_person)
-                new_person = 'person_%04d' % new_person
-            else:
-                new_person = person
-
-            old_person_path = os.path.join(old_cam_path, person)
-            images = sorted(os.listdir(old_person_path))
-
-            # number of images in sequence
-            number_images = len(images)
-
-            # only continue if sequence has more than min_seq number of frames
-            if number_images >= min_seq:
-                new_person_path = os.path.join(new_cam_path, new_person)
-                if not os.path.exists(new_person_path):
-                    os.mkdir(new_person_path)
-
-                possible_sequence_cuts = number_images / min_seq
-
-                # depending on how many cuts we can make
-                for sequence in range(possible_sequence_cuts):
-                    sequence_path = os.path.join(new_person_path, 'sequence_%03d' % sequence)
-                    if not os.path.exists(sequence_path):
-                        os.mkdir(sequence_path)
-
-                    sample_images = images[sequence * min_seq: min_seq + sequence * min_seq]
-                    number_sample_images = len(sample_images)
-
-                    for s_i in range(number_sample_images):
-                        old_image = os.path.join(old_person_path, sample_images[s_i])
-                        name_s_i = '%03d.png' % s_i
-                        new_image = os.path.join(sequence_path, name_s_i)
-
-                        # copy file
-                        copyfile(old_image, new_image)
-            else:
-                print(old_person_path, number_images)
-
-
-def fix_prid2011():
-    """ turn into
-        prid2011-fixed / cam_x / person_xxx / sequence_xxx / xxx.png
-    """
-    fix_video_dataset('prid2011', 20)
-
-
-def fix_ilids():
-    """ turn into
-        ilids-vid-fixed / cam_x / person_xxx / sequence_xxx / xxx.png
-    """
-    fix_video_dataset('ilids-vid', 22)
 
 
 def make_video_data_files(name):
@@ -1043,7 +662,7 @@ def make_video_data_files(name):
                 list_id_all.append(the_id)
                 list_id_as_int.append(int(the_id))
                 # swapped
-                swapped = swap_for(sequence_path, '/', '+')
+                swapped = pu.swap_for(sequence_path, '/', '+')
                 list_swapped_unique.append(swapped)
 
     zipped = zip(list_id_as_int, list_id_all, list_unique_sequences, list_swapped_unique)
@@ -1143,7 +762,7 @@ def make_pairs_video(adjustable, project_data_storage, fixed_path, do_ranking, d
         if adjustable.save_inbetween and adjustable.iterations == 1:
             file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
             file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
-            write_to_file(file_name, ranking)
+            pu.write_to_file(file_name, ranking)
 
     elif do_ranking is False and do_training is False:
         print('Error: ranking and training cannot both be false')
@@ -1176,114 +795,12 @@ def make_pairs_video(adjustable, project_data_storage, fixed_path, do_ranking, d
     return ranking, training_pos, training_neg
 
 
-def save_video_as_hdf5(swapped_list, original_list,  h5_path):
-    """
-    Saves video data as HDF5 (h5) file
-    :param swapped_list:    string path to swapped_fullpath_names.txt
-    :param original_list:   string path to fullpath_sequence_names.txt
-    :param h5_path:         string path to save location of h5 file
-    """
-    og_list_path = list(np.genfromtxt(original_list, dtype=None))
-    list_of_paths = list(np.genfromtxt(swapped_list, dtype=None))
-
-    with h5py.File(h5_path, 'w') as myfile:
-        for item in range(len(list_of_paths)):
-            # load all images in the sequence
-            images = os.listdir(og_list_path[item])
-            images.sort()
-            len_images = len(images)
-            image_arr = np.zeros((len_images, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
-            for i in range(len_images):
-                image_path = os.path.join(og_list_path[item], images[i])
-                image_arr[i] = ndimage.imread(image_path)
-
-            myfile.create_dataset(name=list_of_paths[item], data=image_arr)
-
-
-def save_all_video_data_as_h5():
-    """
-    Saves all video datasets as HDF5 (h5) files.
-    Run this method when you don't have the video data h5 files
-    """
-    names = ['ilids-vid', 'prid2011']
-
-    for name in names:
-        swapped_list = '../data/%s/swapped_fullpath_names.txt' % name
-        og_list = '../data/%s/fullpath_sequence_names.txt' % name
-        h5_path = '../data/%s/%s.h5' % (name, name)
-        save_video_as_hdf5(swapped_list, og_list, h5_path)
-
-
-def fix_inria():
-    """
-    Crops INRIA dataset images around center point and saves in new folder.
-    Assuming the dataset is already downloaded.
-    Since we are using these images to pre-train we will use all the images, so no specific testing/training split
-    """
-    # 2416 images
-    path_train_positive = '/home/gabi/Documents/datasets/INRIAPerson/train_64x128_H96/pos'
-    # 1218 images
-    path_train_negative = '/home/gabi/Documents/datasets/INRIAPerson/train_64x128_H96/neg'
-    # 1132 images
-    path_test_positive = '/home/gabi/Documents/datasets/INRIAPerson/test_64x128_H96/pos'
-    # 453 images
-    path_test_negative = '/home/gabi/Documents/datasets/INRIAPerson/test_64x128_H96/neg'
-
-    parent_path = '/home/gabi/Documents/datasets/INRIAPerson'
-    fixed_positive = os.path.join(parent_path, 'fixed-pos')
-    fixed_negative = os.path.join(parent_path, 'fixed-neg')
-
-    if not os.path.exists(fixed_positive):
-        os.mkdir(fixed_positive)
-    if not os.path.exists(fixed_negative):
-        os.mkdir(fixed_negative)
-
-    # for positive images, we crop around the center
-    for path in [path_train_positive, path_test_positive]:
-        list_images = os.listdir(path)
-        for image in list_images:
-            old_image_path = os.path.join(path, image)
-            new_image_path = os.path.join(fixed_positive, image)
-            image_data = Image.open(old_image_path)
-            width, height = image_data.size
-
-            center_x = width / 2
-            center_y = height / 2
-            crop_x = center_x - pc.IMAGE_WIDTH / 2
-            crop_y = center_y - pc.IMAGE_HEIGHT / 2
-
-            cropped_image = image_data.crop((crop_x, crop_y, crop_x + pc.IMAGE_WIDTH, crop_y + pc.IMAGE_HEIGHT))
-            cropped_image.save(new_image_path)
-
-    # for negative images, we crop and do data augmentation by flipping the image horizontally
-    for path in [path_train_negative, path_test_negative]:
-        list_images = os.listdir(path)
-        for image in list_images:
-            old_image_path = os.path.join(path, image)
-            new_image_path = os.path.join(fixed_negative, image)
-            image_bare, suffix = image.split('.')
-            flipped_path = os.path.join(fixed_negative, image_bare + '_flipped.' + suffix)
-            image_data = Image.open(old_image_path)
-            width, height = image_data.size
-
-            center_x = width / 2
-            center_y = height / 2
-            crop_x = center_x - pc.IMAGE_WIDTH / 2
-            crop_y = center_y - pc.IMAGE_HEIGHT / 2
-
-            cropped_image = image_data.crop((crop_x, crop_y, crop_x + pc.IMAGE_WIDTH, crop_y + pc.IMAGE_HEIGHT))
-            cropped_image.save(new_image_path)
-
-            flipped_image = cropped_image.transpose(Image.FLIP_LEFT_RIGHT)
-            flipped_image.save(flipped_path)
-
-
 def make_human_data(fixed_path, label, storage_path):
     if not os.path.exists(storage_path):
         os.mkdir(storage_path)
 
     all_keys = [os.path.join(fixed_path, item) for item in os.listdir(fixed_path)]
-    all_swapped_keys = [swap_for(item, '/', '+') for item in all_keys]
+    all_swapped_keys = [pu.swap_for(item, '/', '+') for item in all_keys]
 
     fullpath = os.path.join(storage_path, 'fullpath.txt')
     swapped = os.path.join(storage_path, 'swapped.txt')
@@ -1307,27 +824,6 @@ def make_inria_data():
     make_human_data('/home/gabi/Documents/datasets/INRIAPerson/fixed-neg', 0, '../data/INRIA')
 
 
-def save_inria_data_as_hdf5():
-    fullpath = '../data/INRIA/fullpath.txt'
-    swapped = '../data/INRIA/swapped.txt'
-
-    parent_dir = os.path.dirname(fullpath)
-    h5_path = os.path.join(parent_dir, 'inria.h5')
-
-    if not os.path.exists(fullpath):
-        make_inria_data()
-
-    fullpath_list = list(np.genfromtxt(fullpath, dtype=None))
-    swapped_list = list(np.genfromtxt(swapped, dtype=None))
-
-    len_files = len(fullpath_list)
-
-    fullpath_list = [fullpath_list[item].split(',')[0] for item in range(len_files)]
-    swapped_list = [swapped_list[item].split(',')[0] for item in range(len_files)]
-
-    with h5py.File(h5_path, 'w') as myfile:
-        for item in range(len_files):
-            myfile.create_dataset(name=swapped_list[item], data=ndimage.imread(fullpath_list[item]))
 
 
 def find_matching_angles():
@@ -1858,7 +1354,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
         rank_ordered_partitions = [this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-3]
                                    for item in range(pc.RANKING_DICT['cuhk02'])]
         rank_ordered_ids = [
-            my_join(list(this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-1])[0:4])
+            pu.my_join(list(this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-1])[0:4])
             for item in range(pc.RANKING_DICT['cuhk02'])]
         # create list in the form of [(partition, id), ...]
         joined_unique = list(set(zip(rank_ordered_partitions, rank_ordered_ids)))
@@ -1910,7 +1406,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
         for item in range(ranking_number):
             a = list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])
             # print('a: %s' % str(a))
-            b = my_join(a[0:4])
+            b = pu.my_join(a[0:4])
             # print('b: %s' % str(b))
             rank_ordered_ids.append(b)
 
