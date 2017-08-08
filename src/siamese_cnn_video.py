@@ -13,7 +13,8 @@ from keras import initializers
 # from tensorflow.contrib.keras import initializers
 # import tensorflow as tf
 
-import dynamic_data_loading as ddl
+# import dynamic_data_loading as ddl
+import data_pipeline as dp
 import project_constants as pc
 import project_utils as pu
 import os
@@ -377,7 +378,7 @@ def train_network(adjustable, model, final_training_data, final_training_labels,
     else:
         call_back = None
 
-    train_data = ddl.grab_em_by_the_keys(final_training_data, h5_train, h5_test)
+    train_data = dp.grab_em_by_the_keys(final_training_data, h5_train, h5_test)
     train_data = np.asarray(train_data)
 
     model.fit([train_data[0, :], train_data[1, :]], final_training_labels,
@@ -704,7 +705,7 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
         ################################################################################################################
         #   Prepare the testing/ranking data
         ################################################################################################################
-        test_data = ddl.grab_em_by_the_keys(this_ranking, training_h5, testing_h5)
+        test_data = dp.grab_em_by_the_keys(this_ranking, training_h5, testing_h5)
 
         # prepare for testing the model
         final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
@@ -774,8 +775,8 @@ def super_main(adjustable):
     ################################################################################################################
     #   Load datasets, note: always 1 dataset_test, but multiple datasets_train
     ################################################################################################################
-    datasets_train_h5 = ddl.load_datasets_from_h5(adjustable.datasets_train)
-    dataset_test_h5 = ddl.load_datasets_from_h5(adjustable.dataset_test)
+    datasets_train_h5 = dp.load_datasets_from_h5(adjustable.datasets_train)
+    dataset_test_h5 = dp.load_datasets_from_h5(adjustable.dataset_test)
 
     ################################################################################################################
     #   Set the ranking number.
@@ -839,7 +840,7 @@ def super_main(adjustable):
             ############################################################################################################
             if datasets_train_h5 is not None:
                 for index in range(len(adjustable.datasets_train)):
-                    ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                    ranking, training_pos, training_neg = dp.create_training_and_ranking_set(
                         adjustable.datasets_train[index],
                         adjustable, ranking_variable=None,
                         do_ranking=False)
@@ -861,7 +862,7 @@ def super_main(adjustable):
                 ########################################################################################################
                 #   Prepare data for when we ONLY test. Randomly get the data or load from a file if file exists
                 ########################################################################################################
-                ranking, tmp1, tmp2 = ddl.create_training_and_ranking_set(adjustable.dataset_test, adjustable,
+                ranking, tmp1, tmp2 = dp.create_training_and_ranking_set(adjustable.dataset_test, adjustable,
                                                                           ranking_variable=adjustable.ranking_number_test,
                                                                           do_training=False)
                 del tmp1, tmp2
@@ -878,7 +879,7 @@ def super_main(adjustable):
                     ####################################################################################################
                     # note: remember that only the last ranking in the ranking matrix will be tested on.
                     for index in range(len(adjustable.datasets_train)):
-                        ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                        ranking, training_pos, training_neg = dp.create_training_and_ranking_set(
                             adjustable.datasets_train[index],
                             adjustable,
                             ranking_variable=adjustable.ranking_number_train[index])
@@ -891,7 +892,7 @@ def super_main(adjustable):
                         all_training_pos.append(training_pos)
                         all_training_neg.append(training_neg)
 
-                    ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                    ranking, training_pos, training_neg = dp.create_training_and_ranking_set(
                         adjustable.dataset_test, adjustable, ranking_variable=adjustable.ranking_number_test)
                     if adjustable.cost_module_type in ['euclidean', 'cosine']:
                         ranking = pu.flip_labels(ranking)
@@ -908,7 +909,7 @@ def super_main(adjustable):
                     ####################################################################################################
                     #   Prepare data for when we train and test on a single dataset
                     ####################################################################################################
-                    ranking, training_pos, training_neg = ddl.create_training_and_ranking_set(
+                    ranking, training_pos, training_neg = dp.create_training_and_ranking_set(
                         adjustable.dataset_test, adjustable, ranking_variable=adjustable.ranking_number_test)
                     if adjustable.cost_module_type in ['euclidean', 'cosine']:
                         ranking = pu.flip_labels(ranking)
@@ -928,7 +929,7 @@ def super_main(adjustable):
         #   Also for training on multiple datasets + testing: decide if we include test set in the training to be mixed:
         #   by using adjustable.mix_with_test
         ################################################################################################################
-        merged_training_pos, merged_training_neg = ddl.merge_datasets(adjustable, all_training_pos, all_training_neg)
+        merged_training_pos, merged_training_neg = dp.merge_datasets(adjustable, all_training_pos, all_training_neg)
 
         ################################################################################################################
         #   Run main()

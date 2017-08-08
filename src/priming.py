@@ -5,7 +5,7 @@ from keras import models, layers, optimizers, losses
 import keras
 
 import numpy as np
-import dynamic_data_loading as ddl
+# import dynamic_data_loading as ddl
 import project_constants as pc
 import data_pipeline as dp
 import project_utils as pu
@@ -171,7 +171,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         seen = [image_1, image_2]
         the_id = dp.my_join(list(image_1)[0:4])
 
-        list_related_keys = ddl.get_related_keys(adjustable, name, partition, seen, this_ranking, the_id)
+        list_related_keys = dp.get_related_keys(adjustable, name, partition, seen, this_ranking, the_id)
         path = '../data/%s/augmented/%s' % (folder_name, the_id)
 
         if os.path.exists(path):
@@ -196,7 +196,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
 
         # testing
         part_ranking = this_ranking[an_id * ranking_number:(an_id + 1) * ranking_number]
-        test_data = ddl.grab_em_by_the_keys(part_ranking, None, h5_dataset)
+        test_data = dp.grab_em_by_the_keys(part_ranking, None, h5_dataset)
 
         test_data = np.asarray(test_data)
 
@@ -209,7 +209,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
 def only_test(model, h5_dataset, this_ranking):
     """ Only runs testing
     """
-    test_data = ddl.grab_em_by_the_keys(this_ranking, None, h5_dataset)
+    test_data = dp.grab_em_by_the_keys(this_ranking, None, h5_dataset)
     test_data = np.asarray(test_data)
     part_prediction = model.predict([test_data[0], test_data[1]])
     full_predictions = part_prediction
@@ -226,7 +226,7 @@ def main(adjustable, all_ranking, names, model):
         name = names[item]
         this_ranking = all_ranking[item]
 
-        h5_dataset = ddl.load_datasets_from_h5([name])
+        h5_dataset = dp.load_datasets_from_h5([name])
         if adjustable.only_test:
             full_predictions = only_test(model, h5_dataset, this_ranking)
         else:

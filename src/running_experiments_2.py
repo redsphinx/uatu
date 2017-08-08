@@ -2837,12 +2837,12 @@ def save_4_priming():
     # first train model and save
     a = ProjectVariable()
     a.log_experiment = False
-    a.save_inbetween = True
-    a.save_points = [50]
-    a.name_of_saved_file = 'priming_on_prid450'
+    # a.save_inbetween = True
+    # a.save_points = [50]
+    # a.name_of_saved_file = 'priming_on_prid450'
     a.dataset_test = 'prid450'
-    a.ranking_number_test = 100
-    a.epochs = 50
+    a.ranking_number_test = 10
+    a.epochs = 10
     a.iterations = 1
 
     scn.super_main(a)
@@ -2857,8 +2857,8 @@ def priming():
     a.prime_epochs = 10
     a.use_cyclical_learning_rate = False
     a.learning_rate = 0.00001
-    a.iterations = 5
-    # a.only_test = True
+    a.iterations = 1
+    a.only_test = True
     prime.super_main(a)
 
 
@@ -2866,8 +2866,8 @@ def priming():
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
-    # save_4_priming()
-    priming()
+    save_4_priming()
+    # priming()
 
 main()
 

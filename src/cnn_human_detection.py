@@ -13,7 +13,8 @@ from keras import optimizers
 
 import project_constants as pc
 import project_utils as pu
-import dynamic_data_loading as ddl
+import data_pipeline as dp
+# import dynamic_data_loading as ddl
 from clr_callback import *
 
 import time
@@ -174,7 +175,7 @@ def main(adjustable, test_data, train_data, h5_dataset):
     else:
         clr = None
 
-    model.fit(ddl.get_human_data(keys_train, h5_dataset),
+    model.fit(dp.get_human_data(keys_train, h5_dataset),
               labels_train,
               epochs=adjustable.epochs,
               validation_split=0.1,
@@ -197,7 +198,7 @@ def main(adjustable, test_data, train_data, h5_dataset):
 
     keys_test = [train_data[item].split(',')[0] for item in range(len_test)]
 
-    predictions = model.predict(ddl.get_human_data(keys_test, h5_dataset))
+    predictions = model.predict(dp.get_human_data(keys_test, h5_dataset))
 
     matrix = pu.make_confusion_matrix(adjustable, predictions, labels_test)
     accuracy = (matrix[0] + matrix[2]) * 1.0 / (sum(matrix) * 1.0)
@@ -211,7 +212,7 @@ def main(adjustable, test_data, train_data, h5_dataset):
 
 
 def super_main(adjustable):
-    h5_datasets = ddl.load_datasets_from_h5(adjustable.datasets)
+    h5_datasets = dp.load_datasets_from_h5(adjustable.datasets)
     if adjustable.datasets[0] == 'inria':
         data_list = list(np.genfromtxt('../data/INRIA/swapped.txt', dtype=None))
     else:
