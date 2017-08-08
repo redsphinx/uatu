@@ -101,6 +101,7 @@ def make_specific_balanced_set_given_pos_neg(dataset_pos, dataset_neg, positives
         return  balanced_data, new_data_list_pos, new_data_list_neg
 
 
+# unused
 def make_slice_queue(data_size, batch_size):
     if not data_size > batch_size:
         print('Error: train_size smaller than batch_size')
@@ -115,6 +116,7 @@ def make_slice_queue(data_size, batch_size):
     return queue
 
 
+# unused
 # NOTE: assume a 20 ranking
 def make_ranking_test(rank_list_pos, data):
     if data == 'cuhk':
@@ -152,6 +154,8 @@ def make_ranking_test(rank_list_pos, data):
     return ranking_test
 
 
+
+# unused
 '''
 ASSUMPTION: there is a positive and negative list in each dataset
 if there are no positives or negatives in the dataset, then merge the set with another set that contains these
@@ -208,6 +212,7 @@ def make_validation_test_list(total_data_list_pos, total_data_list_neg, val_perc
             return val_list, test_list, total_data_list_pos, total_data_list_neg
 
 
+# unused
 def make_train_batches(total_data_list_pos, total_data_list_neg, data_type='hdf5'):
     random.shuffle(total_data_list_pos)
     random.shuffle(total_data_list_neg)
@@ -223,6 +228,7 @@ def make_train_batches(total_data_list_pos, total_data_list_neg, data_type='hdf5
         return total_data_list
 
 
+# unused
 def load_in_array(adjustable, data_pos=None, data_neg=None, hdf5_file=None, data_list=None, heads=1,
                   data_type='hdf5'):
     if heads == 1:
@@ -418,7 +424,6 @@ def get_dataset(name):
     return dataset_h5
 
 
-# DONE TODO
 def load_datasets_from_h5(list_of_datasets):
     """ Do this at the beginning of the experiment
     """
@@ -436,7 +441,6 @@ def load_datasets_from_h5(list_of_datasets):
         return h5_data
 
 
-# DONE TODO
 def create_training_and_ranking_set(name, adjustable, ranking_variable, do_ranking=True, do_training=True):
     """ Do this at the beginning of each iteration
     """
@@ -460,11 +464,9 @@ def create_training_and_ranking_set(name, adjustable, ranking_variable, do_ranki
     elif name == 'prid450':
         ranking, training_pos, training_neg = dp.make_pairs_image(adjustable, pc.PRID450_DATA_STORAGE, pc.PRID450_FIXED,
                                                                   do_ranking, do_training, name, ranking_variable)
-    # TODO
     elif name == 'ilids-vid':
         ranking, training_pos, training_neg = dp.make_pairs_video(adjustable, pc.ILIDS_DATA_STORAGE, pc.ILIDS_FIXED,
                                                                   do_ranking, do_training, name, ranking_variable)
-    # TODO
     elif name == 'prid2011':
         ranking, training_pos, training_neg = dp.make_pairs_video(adjustable, pc.PRID2011_DATA_STORAGE,
                                                                   pc.PRID2011_FIXED, do_ranking, do_training, name,

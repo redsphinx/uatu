@@ -50,6 +50,13 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+8 aug
+-----
+. data augment the positive training instances
+.. add a pair of the same image
+. start writing the tutorial
+
+
 4 aug
 -----
 . there is still a bug in the code, find it
