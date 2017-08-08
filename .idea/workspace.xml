@@ -2,7 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/dynamic_data_loading.py" afterPath="$PROJECT_DIR$/src/dynamic_data_loading.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/experiment_results_for_thesis.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/experiments_thesis.py" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/dynamic_data_loading.py" afterPath="$PROJECT_DIR$/unused_files/dynamic_data_loading.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/experiment_log_1.txt" afterPath="$PROJECT_DIR$/unused_files/experiment_log_1.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/experiment_log_2.txt" afterPath="$PROJECT_DIR$/unused_files/experiment_log_2.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/old_scnn.py" afterPath="$PROJECT_DIR$/unused_files/old_scnn.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/preprocess_human_data.py" afterPath="$PROJECT_DIR$/unused_files/preprocess_human_data.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/project_variables_baseline_1.py" afterPath="$PROJECT_DIR$/unused_files/project_variables_baseline_1.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/summary_priming_confusion.txt" afterPath="$PROJECT_DIR$/unused_files/summary_priming_confusion.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/summary_priming_ranking.txt" afterPath="$PROJECT_DIR$/unused_files/summary_priming_ranking.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/summary_priming_ranking_131-160.txt" afterPath="$PROJECT_DIR$/unused_files/summary_priming_ranking_131-160.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/thesis_experiment_log.txt" afterPath="$PROJECT_DIR$/unused_files/thesis_experiment_log.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/visualize_filters.py" afterPath="$PROJECT_DIR$/unused_files/visualize_filters.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="uatu.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,7 +76,7 @@
           <file leaf-file-name="project_utils.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/project_utils.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="299">
+                <state relative-caret-position="313">
                   <caret line="426" column="46" lean-forward="true" selection-start-line="426" selection-start-column="46" selection-end-line="426" selection-end-column="46" />
                   <folding>
                     <element signature="e#26#44#0" expanded="true" />
@@ -72,11 +85,71 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="data_pipeline.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="cnn_human_detection.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/cnn_human_detection.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="479">
+                  <caret line="216" column="58" lean-forward="false" selection-start-line="216" selection-start-column="54" selection-end-line="216" selection-end-column="58" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="dynamic_data_loading.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/unused_files/dynamic_data_loading.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="600">
+                  <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/.gitignore">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="165">
+                  <caret line="11" column="9" lean-forward="false" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="preprocess_human_data.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/unused_files/preprocess_human_data.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="15">
+                  <caret line="46" column="20" lean-forward="true" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="presentation_experiments.txt" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/presentation_experiments.txt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="thesis_experiment_log.txt" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/unused_files/thesis_experiment_log.txt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="-15616">
+                  <caret line="125" column="0" lean-forward="false" selection-start-line="125" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="data_pipeline.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/data_pipeline.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="799">
-                  <caret line="1187" column="4" lean-forward="false" selection-start-line="1187" selection-start-column="4" selection-end-line="1187" selection-end-column="4" />
+                <state relative-caret-position="289">
+                  <caret line="1153" column="0" lean-forward="true" selection-start-line="1153" selection-start-column="0" selection-end-line="1153" selection-end-column="0" />
                   <folding>
                     <element signature="e#295#313#0" expanded="true" />
                   </folding>
@@ -216,7 +289,6 @@
         <option value="$PROJECT_DIR$/src/project_constants.py" />
         <option value="$PROJECT_DIR$/src/planned_experiments.txt" />
         <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/06-07_src/siamese_cnn_video.py" />
         <option value="$PROJECT_DIR$/06-07_src/clr_callback.py" />
         <option value="$PROJECT_DIR$/06-07_src/priming.py" />
@@ -246,6 +318,7 @@
         <option value="$PROJECT_DIR$/src/data_pipeline.py" />
         <option value="$PROJECT_DIR$/src/save_data_as_hdf5.py" />
         <option value="$PROJECT_DIR$/src/project_utils.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -290,20 +363,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -319,15 +378,16 @@
     <property name="last_opened_file_path" value="/media/gabi/WINDOWS/thales/uatu" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/unused_files" />
+      <recent name="$PROJECT_DIR$/examples_src" />
+      <recent name="$PROJECT_DIR$/ranking_files/08062017_1146-1254" />
+      <recent name="$PROJECT_DIR$/images" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/06-07_src" />
       <recent name="$PROJECT_DIR$/images" />
       <recent name="$PROJECT_DIR$/src" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/examples_src" />
-      <recent name="$PROJECT_DIR$/ranking_files/08062017_1146-1254" />
-      <recent name="$PROJECT_DIR$/images" />
     </key>
   </component>
   <component name="RunManager" selected="Python.running_experiments_2">
@@ -362,7 +422,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="uatu" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/visualize_filters.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/unused_files/visualize_filters.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -690,9 +750,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="24" width="1920" height="1176" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23959444" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23959444" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24953617" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.364564" sideWeight="0.50426894" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -738,7 +798,7 @@
           <option name="timeStamp" value="1145" />
         </line-breakpoint>
         <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/visualize_filters.py</url>
+          <url>file://$PROJECT_DIR$/unused_files/visualize_filters.py</url>
           <line>106</line>
           <option name="timeStamp" value="1186" />
         </line-breakpoint>
@@ -786,7 +846,7 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/experiment_log_1.txt">
+    <entry file="file://$PROJECT_DIR$/unused_files/experiment_log_1.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1905">
           <caret line="2114" column="29" lean-forward="true" selection-start-line="2114" selection-start-column="29" selection-end-line="2114" selection-end-column="29" />
@@ -814,7 +874,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/visualize_filters.py">
+    <entry file="file://$PROJECT_DIR$/unused_files/visualize_filters.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="583">
           <caret line="120" column="52" lean-forward="true" selection-start-line="120" selection-start-column="52" selection-end-line="120" selection-end-column="52" />
@@ -876,24 +936,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/thesis_experiment_log.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="125" column="0" lean-forward="false" selection-start-line="125" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/clr_callback.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="23" column="65" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="9" lean-forward="false" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -997,18 +1043,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/experiment_log_2.txt">
+    <entry file="file://$PROJECT_DIR$/unused_files/experiment_log_2.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="64" column="69" lean-forward="false" selection-start-line="64" selection-start-column="69" selection-end-line="64" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/experiment_results_for_thesis.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1021,43 +1059,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/experiments_thesis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="14" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/old_scnn.py">
+    <entry file="file://$PROJECT_DIR$/unused_files/old_scnn.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/planned_experiments.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/preprocess_human_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1457">
-          <caret line="46" column="20" lean-forward="true" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/presentation_experiments.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1103,23 +1113,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/cnn_human_detection.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="479">
-          <caret line="216" column="58" lean-forward="false" selection-start-line="216" selection-start-column="54" selection-end-line="216" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/priming.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="163">
           <caret line="162" column="28" lean-forward="true" selection-start-line="162" selection-start-column="28" selection-end-line="162" selection-end-column="28" />
-          <folding>
-            <element signature="e#90#142#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1128,16 +1126,6 @@
         <state relative-caret-position="329">
           <caret line="85" column="54" lean-forward="false" selection-start-line="85" selection-start-column="47" selection-end-line="85" selection-end-column="54" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dynamic_data_loading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding>
-            <element signature="e#144#162#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1162,26 +1150,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="426" column="46" lean-forward="true" selection-start-line="426" selection-start-column="46" selection-end-line="426" selection-end-column="46" />
-          <folding>
-            <element signature="e#26#44#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/data_pipeline.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="1187" column="4" lean-forward="false" selection-start-line="1187" selection-start-column="4" selection-end-line="1187" selection-end-column="4" />
-          <folding>
-            <element signature="e#295#313#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/save_data_as_hdf5.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="43">
@@ -1199,6 +1167,90 @@
           <folding>
             <element signature="e#158#167#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/project_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="426" column="46" lean-forward="true" selection-start-line="426" selection-start-column="46" selection-end-line="426" selection-end-column="46" />
+          <folding>
+            <element signature="e#26#44#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/cnn_human_detection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="479">
+          <caret line="216" column="58" lean-forward="false" selection-start-line="216" selection-start-column="54" selection-end-line="216" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/experiment_results_for_thesis.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data_pipeline.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="1153" column="0" lean-forward="true" selection-start-line="1153" selection-start-column="0" selection-end-line="1153" selection-end-column="0" />
+          <folding>
+            <element signature="e#295#313#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/experiments_thesis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="14" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unused_files/dynamic_data_loading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unused_files/preprocess_human_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="46" column="20" lean-forward="true" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/presentation_experiments.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unused_files/thesis_experiment_log.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-15616">
+          <caret line="125" column="0" lean-forward="false" selection-start-line="125" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="9" lean-forward="false" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>
