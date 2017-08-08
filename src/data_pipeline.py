@@ -4,10 +4,8 @@ E-mail:     flambuyan@gmail.com
 
 File has multiple functions:
 
-1) Preprocesses raw images and video 
-2) Saves image and video data to HDF5
-3) Creates pairs of images and videos and stored as text data
-4) Performs manipulations with data pairs (image and video)
+1) Creates pairs of images and videos and stored as text data
+2) Performs manipulations with data pairs (image and video)
 """
 import numpy as np
 import os
@@ -20,9 +18,6 @@ from random import randint
 import random
 import project_constants as pc
 import project_utils as pu
-
-
-
 
 
 def make_image_data_files(fixed_dataset_path, project_data_storage):
@@ -100,13 +95,15 @@ def make_image_data_cuhk2():
                 myfile.write(item_name + '\n')
 
 
-def make_positive_combinations(fullpath, unique_ids, num, smallest_id_group):
+def make_positive_combinations(fullpath, unique_ids, num, smallest_id_group, type='rank', augment_equal=False):
     """
     Makes positive pairs for images (or sequences in the case of video data)
     :param fullpath:            list of fullpath names
     :param unique_ids:          list of unique IDs
     :param num:                 int number of image per unique ID (sets a boundary)
     :param smallest_id_group:   int size of the smallest set of images per ID
+    :param type:                string 'train' or 'rank'. indicates making combos for training or ranking
+    :param augment_equal:       bool. indicates to augment with pairs of the same images
     :return:                    a list of matching pairs with label 'item_a,item_b,1'
     """
     if num > smallest_id_group:
@@ -120,10 +117,27 @@ def make_positive_combinations(fullpath, unique_ids, num, smallest_id_group):
             combo_list.append(thing)
             thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 2] + ',1\n')
             combo_list.append(thing)
+
+            # make augmented data to increase the number of positives in the dataset
+            if augment_equal == True:
+                thing = str(fullpath[num * item] + ',' + fullpath[num * item] + ',1\n')
+                combo_list.append(thing)
+                thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 1] + ',1\n')
+                combo_list.append(thing)
+                thing = str(fullpath[num * item + 2] + ',' + fullpath[num * item + 2] + ',1\n')
+                combo_list.append(thing)
+
     elif num == 2:
         for item in range(num_ids):
-            thing = str(fullpath[num*item] + ',' + fullpath[num*item+1] + ',1\n')
+            thing = str(fullpath[num * item] + ',' + fullpath[num * item + 1] + ',1\n')
             combo_list.append(thing)
+
+            if type == 'train' and augment_equal == True:
+                thing = str(fullpath[num * item] + ',' + fullpath[num * item] + ',1\n')
+                combo_list.append(thing)
+                thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 1] + ',1\n')
+                combo_list.append(thing)
+
     return combo_list
 
 
@@ -171,7 +185,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
             else:
                 ignore_id.append(the_id)
         else:
-            if min_id_group_size > len(id_group): 
+            if min_id_group_size > len(id_group):
                 min_id_group_size = len(id_group)
             if num > len(id_group):
                 # if the number of allowed images is greater than the number of matching ID images,
@@ -203,7 +217,8 @@ def make_positive_pairs_training(id_all_file, unique_id_file, swapped_list_of_pa
     upper_bound = 3
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
-    training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
+    training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train,
+                                                  type='train')
 
     # shuffle so that each time we get different first occurences for when making negative pairs
     rd.shuffle(training_ids_pos)
@@ -263,7 +278,7 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
 
     # -- Next we want to randomly select a ranking set and a training set where an ID can only be in one of the sets.
     # select at random a subset for ranking by drawing indices from a uniform distribution
-    start = rd.randrange(0, len(unique_id)-ranking_number)
+    start = rd.randrange(0, len(unique_id) - ranking_number)
     stop = start + ranking_number
     # get the matching start and stop indices to determine where to slice the list
     index_start = id_all.index(unique_id[start])
@@ -273,7 +288,6 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
 
     # training_ids_pos = fullpath_image_names[0:index_start] + fullpath_image_names[index_start:]
     training_ids_pos = fullpath_image_names[0:index_start] + fullpath_image_names[index_stop:]
-
 
     # get the chosen unique IDs and all IDs
     train_ids = unique_id[0:start] + unique_id[stop:]
@@ -294,7 +308,8 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
 
-    training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
+    training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train,
+                                                  type='train')
 
     # shuffle so that each time we get different first occurences for when making negative pairs
     rd.shuffle(ranking_ids_pos)
@@ -363,7 +378,6 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
     if not os.path.exists(id_all_file):
         make_image_data_files(fixed_path, project_data_storage)
 
-    # DONE TODO: fix adjustable.ranking_number
     if ranking_variable == 'half':
         ranking_number = pc.RANKING_DICT[name]
     elif isinstance(ranking_variable, int):
@@ -439,8 +453,9 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
     elif isinstance(ranking_variable, int):
         if ranking_variable >= num_subdirs:
             if ranking_variable % num_subdirs != 0:
-                print('Error: cuhk02 ranking number must be divisible by %d.\n Recommended: change ranking number from %d to %d'
-                      % (num_subdirs, ranking_variable, ranking_variable / num_subdirs))
+                print(
+                'Error: cuhk02 ranking number must be divisible by %d.\n Recommended: change ranking number from %d to %d'
+                % (num_subdirs, ranking_variable, ranking_variable / num_subdirs))
                 return
 
             else:
@@ -477,7 +492,8 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
             make_image_data_cuhk2()
 
         if do_ranking is True and do_training is True:
-            ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, 'cuhk02',
+            ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths,
+                                                            'cuhk02',
                                                             adapted_ranking_number)
 
             ranking = make_negative_pairs(ranking_pos, 'ranking')
@@ -570,9 +586,6 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
     return rank_all, training_pos_all, training_neg_all
 
 
-
-
-
 def read_plot_from_hdf5(swapped_list, h5_path):
     """
     Check if the data was loaded correctly by plotting it. To see plots, run in debug mode with
@@ -618,9 +631,6 @@ def get_sequence_length_video_dataset(name):
 
     print('dataset: %s\nnumber of persons: %s\nmin seq length: %d\nmax seq length: %d'
           % (name, str(number_of_persons), min_seq_len, max_seq_len))
-
-
-
 
 
 def make_video_data_files(name):
@@ -698,14 +708,14 @@ def make_video_data_files(name):
 
     for i in range(numm):
 
-            list_thing = lists[i]
-            file_thing = files[i]
+        list_thing = lists[i]
+        file_thing = files[i]
 
-            with open(file_thing, 'w') as my_file:
-                num = len(list_thing)
-                for item in range(num):
-                    if item not in loners:
-                        my_file.write('%s\n' % list_thing[item])
+        with open(file_thing, 'w') as my_file:
+            num = len(list_thing)
+            for item in range(num):
+                if item not in loners:
+                    my_file.write('%s\n' % list_thing[item])
 
     list_id_all = list(np.genfromtxt(id_all, dtype=None))
     unique_id = list(set(list_id_all))
@@ -824,8 +834,6 @@ def make_inria_data():
     make_human_data('/home/gabi/Documents/datasets/INRIAPerson/fixed-neg', 0, '../data/INRIA')
 
 
-
-
 def find_matching_angles():
     # viper
     # path_a = '/home/gabi/Documents/datasets/VIPeR/cam_a'
@@ -920,31 +928,31 @@ def create_training_and_ranking_set(name, adjustable, ranking_variable, do_ranki
     """
     if name == 'viper':
         ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.VIPER_DATA_STORAGE, pc.VIPER_FIXED,
-                                                                  do_ranking, do_training, name, ranking_variable)
+                                                               do_ranking, do_training, name, ranking_variable)
     elif name == 'cuhk01':
         ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.CUHK01_DATA_STORAGE, pc.CUHK01_FIXED,
-                                                                  do_ranking, do_training, name, ranking_variable)
+                                                               do_ranking, do_training, name, ranking_variable)
     elif name == 'cuhk02':
         ranking, training_pos, training_neg = make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable)
     elif name == 'market':
         ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.MARKET_DATA_STORAGE, pc.MARKET_FIXED,
-                                                                  do_ranking, do_training, name, ranking_variable)
+                                                               do_ranking, do_training, name, ranking_variable)
     elif name == 'caviar':
         ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.CAVIAR_DATA_STORAGE, pc.CAVIAR_FIXED,
-                                                                  do_ranking, do_training, name, ranking_variable)
+                                                               do_ranking, do_training, name, ranking_variable)
     elif name == 'grid':
         ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.GRID_DATA_STORAGE, pc.GRID_FIXED,
-                                                                  do_ranking, do_training, name, ranking_variable)
+                                                               do_ranking, do_training, name, ranking_variable)
     elif name == 'prid450':
         ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.PRID450_DATA_STORAGE, pc.PRID450_FIXED,
-                                                                  do_ranking, do_training, name, ranking_variable)
+                                                               do_ranking, do_training, name, ranking_variable)
     elif name == 'ilids-vid':
         ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.ILIDS_DATA_STORAGE, pc.ILIDS_FIXED,
-                                                                  do_ranking, do_training, name, ranking_variable)
+                                                               do_ranking, do_training, name, ranking_variable)
     elif name == 'prid2011':
         ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.PRID2011_DATA_STORAGE,
-                                                                  pc.PRID2011_FIXED, do_ranking, do_training, name,
-                                                                  ranking_variable)
+                                                               pc.PRID2011_FIXED, do_ranking, do_training, name,
+                                                               ranking_variable)
     else:
         ranking, training_pos, training_neg = None, None, None
 
@@ -1027,7 +1035,7 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
                         random.shuffle(merged_training_neg)
                     else:
                         # don't mix with the test (which is at the end)
-                        for index in range(number_of_datasets-1):
+                        for index in range(number_of_datasets - 1):
                             merged_training_pos += list_training_pos[index]
                             merged_training_neg += list_training_neg[index]
                         random.shuffle(merged_training_pos)
@@ -1118,7 +1126,6 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
             the_filename = str(the_filename)
             h5_filenames.append(the_filename)
 
-
         for key in key_list:
             key_1 = key.split(',')[0]
             key_2 = key.split(',')[1]
@@ -1138,7 +1145,7 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
 
 
 def grab_em_by_the_keys(key_list, training_h5, testing_h5):
-# def grab_em_by_the_keys(key_list, h5_dataset_list):
+    # def grab_em_by_the_keys(key_list, h5_dataset_list):
     """ Returns a training set
     :param key_list:                list of keys
     :param training_h5:             list of string with paths to h5 datasets
@@ -1211,7 +1218,6 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
         updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
                            item not in updated_indices_seen]
 
-
         all_partition_keys_in_order = list(
             np.genfromtxt('../data/CUHK02/%s/fullpath_image_names_file.txt' % partition, dtype=None))
         keys = [all_partition_keys_in_order[item] for item in updated_indices]
@@ -1232,7 +1238,7 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
         # truncate list to 4 images -- for faster testing
         # add the probe
         probe = all_image_names.index(seen_list[0])
-# FIXME why is this set to 2?
+        # FIXME why is this set to 2?
         updated_indices = updated_indices[0:2]
         updated_indices += [probe]
 
@@ -1351,10 +1357,12 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
     number_positive_keys = len(positive_keys)
 
     if name_dataset == 'cuhk02':
-        rank_ordered_partitions = [this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-3]
-                                   for item in range(pc.RANKING_DICT['cuhk02'])]
+        rank_ordered_partitions = [
+            this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-3]
+            for item in range(pc.RANKING_DICT['cuhk02'])]
         rank_ordered_ids = [
-            pu.my_join(list(this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-1])[0:4])
+            pu.my_join(
+                list(this_ranking[item * pc.RANKING_DICT['cuhk02'] + item].strip().split(',')[0].split('+')[-1])[0:4])
             for item in range(pc.RANKING_DICT['cuhk02'])]
         # create list in the form of [(partition, id), ...]
         joined_unique = list(set(zip(rank_ordered_partitions, rank_ordered_ids)))
@@ -1372,7 +1380,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
             # get list of all ids
             all_ids = list(np.genfromtxt('../data/CUHK02/%s/id_all_file.txt' % p, dtype=None))
             # at random choose an id from that list
-            index = randint(0, len(unique_ids)-1)
+            index = randint(0, len(unique_ids) - 1)
             chosen = unique_ids.pop(index)
             # check if id already in ranking list
             i = 1
@@ -1393,9 +1401,9 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
             print("ranking_number_test must be 'half' or an int")
             return
 
-        # print('ranking number: %s' % str(ranking_number))
+            # print('ranking number: %s' % str(ranking_number))
 
-        # rank_ordered_ids = [
+            # rank_ordered_ids = [
             # dp.my_join(list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])[0:4])
             # for item in range(ranking_number)]
         rank_ordered_ids = []
@@ -1434,7 +1442,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
 
         for num in range(number_positive_keys):
             # at random choose an id from that list
-            index = randint(0, len(unique_ids)-1)
+            index = randint(0, len(unique_ids) - 1)
             chosen = unique_ids.pop(index)
             # check if id already in ranking list
             i = 1
@@ -1465,9 +1473,8 @@ def get_human_data(keys, h5data):
     thingy = []
     for item in range(len_keys):
         key = keys[item]
-        thingy.append(h5data[key][:,:,0:3])
+        thingy.append(h5data[key][:, :, 0:3])
 
     thingy = np.asarray(thingy)
 
     return thingy
-

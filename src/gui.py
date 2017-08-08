@@ -1,9 +1,11 @@
 from gui_variables import GuiVariable
 from Tkinter import Button, Label, PhotoImage
 import tkFileDialog as filedialog
-from tensorflow.contrib.keras import models
+# from tensorflow.contrib.keras import models
+from keras import models
 import numpy as np
 import h5py as h5
+import os
 import project_utils as pu
 from PIL import Image
 from PIL import ImageTk
@@ -49,6 +51,7 @@ def initialize(b):
 
 
 def load_model(gv):
+    os.environ["CUDA_VISIBLE_DEVICES"] = '0'
     model_path = filedialog.askopenfilename(initialdir='../model_weights')
     # model_path = filedialog.askopenfilename(initialdir='/home/gabi/PycharmProjects/testhings/models_weights')
     model_name = model_path.strip().split('/')[-1]

@@ -421,7 +421,8 @@ def get_model(adjustable):
 
     # case 1
     if adjustable.load_model_name is not None:
-        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
+        the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, '%s_model.h5' % adjustable.load_model_name)
+        model = models.load_model(the_path)
 
     else:
         # case 3

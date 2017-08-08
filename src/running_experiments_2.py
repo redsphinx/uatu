@@ -2862,12 +2862,42 @@ def priming():
     prime.super_main(a)
 
 
+def test_augmenting():
+    a = ProjectVariable()
+    a.experiment_name = 'testing augmenting'
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+    a.iterations = 3
+    scn.super_main(a)
+
+
+def test_no_augmenting():
+    a = ProjectVariable()
+    a.experiment_name = 'testing no augmenting'
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+    a.iterations = 3
+    scn.super_main(a)
+
+
+def load_model_test():
+    a = ProjectVariable()
+    a.experiment_name = 'loading a trained model'
+    a.load_model_name = 'priming_on_viper'
+    a.dataset_test = 'viper'
+    a.only_test = True
+    a.ranking_number_test = 100
+    a.iterations = 1
+    scn.super_main(a)
+
 
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
-    save_4_priming()
+    # save_4_priming()
     # priming()
+    # test_no_augmenting()
+    load_model_test()
 
 main()
 
