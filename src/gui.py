@@ -116,6 +116,15 @@ def do_prediction_1(gv):
     test_pair = gv.test[gv.step_position]
     test_pair = np.array([test_pair])
 
+    # For streaming data, edit here
+    # test_pair = np.array(np.shape(1, 2, 128, 64, 3))
+    # test_pair[0] = some image of 128x64x3
+    # test_pair[1] = some image of 128x64x3
+    # for multiple models
+    # for model in models:
+    #     predictions.append(model.predict(test))
+
+
     prediction = gv.model.predict([test_pair[:, 0], test_pair[:, 1]])
     prediction = reduce_float_length([prediction[0][1]], '.2f')
     prediction = prediction[0]

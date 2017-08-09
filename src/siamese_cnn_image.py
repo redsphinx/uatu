@@ -597,8 +597,8 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             if adjustable.save_inbetween and adjustable.iterations == 1:
                 if epoch + 1 in adjustable.save_points:
                     if adjustable.name_of_saved_file is not None:
-                        model_name = '%s_model.h5' % adjustable.name_of_saved_file
-                        weights_name = '%s_weights.h5' % adjustable.name_of_saved_file
+                        model_name = '%s_epoch_%d_model.h5' % (adjustable.name_of_saved_file, epoch + 1)
+                        weights_name = '%s_epoch_%d_weights.h5' % (adjustable.name_of_saved_file, epoch + 1)
                     else:
                         print('Error: name of file to be saved not specified.')
                         return

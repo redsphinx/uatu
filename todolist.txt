@@ -49,12 +49,122 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Python libraries
 .. Nvidia CUDA drivers + library versions
 
+9 aug
+-----
+. figure out issue with lstm
+. put results we have so far in thesis
+. write thesis introduction																																																																																																																																								
+
+===============================================================================================
+thesis structure
+===============================================================================================
+
+Abstract----------------------------------------------------------------------------------------
+
+Introduction------------------------------------------------------------------------------------
+
+	General introduction: person re-id in tracking system
+		" There's a tracking problem and Thales uses a particle filter and they want to know if 
+		deep learning can be useful to this particle filter on the problem of person re-id "
+		" The more sensors, the better for the particle filter. "
+		" The reason that this problem is important is because deep learning is pretty cool and it'd 
+		be cool to know if it works in certain circumstances cuz DL has benefits. "
+		" In  general we want to know if it works in this specific circumstances because that would
+		be realistic. "
+		" In the next section we'll go more into detail about all the things we just mentioned. "
+	
+	Background
+		Particle filter	
+		" explains how it works "
+		The specific environmental setting
+		" talk about the environment where gregor sees it used and mention the number of people
+		present on the camera "
+		Person re-id
+		" explains the problem, formulates it mathematically and explains jargon "
+		Underlying problems in re-id
+		" Mention problems in current re-id research relating to the environmental setting "
+		Neural Networks and deep learning
+		" explain the ins and outs briefly on neural networks and deep learning "
+	
+	
+	Research questions
+		" Go into detail on the vague questions from the previous section, explicitly state the 
+		questions "
+		
+	Organisation of the rest of thesis
+		" mention the chapters and say what we will talk about in each of them, briefly, giving
+		a quick overview "
+	
+	
+
+Literature Review-------------------------------------------------------------------------------
+	
+	General introduction
+		" state that this part is the literature review and that its purpose is to expand on the 
+		state of research on the research questions. What people have done before "
+		
+	Per research question
+		" Go in detail about what has been done and state explicitly their shortcomings and why
+		 what I am doing is a little bit different "
+	
+	Ending paragraph
+		" state what we have done and what we'll do next "
+
+Methods-----------------------------------------------------------------------------------------
+	
+	General introduction
+		" state what this section will explain "
+	
+	Performance measures
+		" state with methods we wanna test to see if these performance measures are improved and
+		then explain the performance measures "
+	
+	Data preparation
+		" talk about what I did with the data and why "
+		
+	Make a section per research question
+		" repeat the research question and explain how we see the problem different from what has 
+		been done so far and why. and then explain the experiment setup to tackle this question"
+	
+	Ending paragraph
+		" state in the next chapter we will look at the results of the experiments "
+
+Results-----------------------------------------------------------------------------------------
+	
+	Make a section per research question
+		" present the results "
+	
+
+Discussion--------------------------------------------------------------------------------------
+	
+	" This is the heart of the dissertation and must be more than descriptive.
+	This chapter develops analytic and critical thinking on primary results and
+	analysis with reference to theoretical arguments grounded in the literature
+	review. You should try to highlight where there are major differences and
+	similarities from the literature or between different groups. Where a model or
+	framework of analysis has been used or is being developed you should
+	highlight the main relationships as well as explaining the reason and
+	significance behind features or decisions being discussed. "
+
+Conclusion--------------------------------------------------------------------------------------
+	
+	Main conclusion area
+	
+	Future work
+
+===============================================================================================
+
+
+
+
+
+
 
 8 aug
 -----
-. data augment the positive training instances
+. DONE data augment the positive training instances
 .. add a pair of the same image
-. start writing the tutorial
+. DONE start writing the tutorial
 
 
 4 aug

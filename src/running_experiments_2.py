@@ -2891,13 +2891,84 @@ def load_model_test():
     scn.super_main(a)
 
 
+def augmentation_1():
+    a = ProjectVariable()
+    a.experiment_name = 'augmenting positive data 1. on viper + concatenation'
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+    a.iterations = 5
+    a.neural_distance = 'concatenate'
+    scn.super_main(a)
+
+
+def augmentation_2():
+    a = ProjectVariable()
+    a.experiment_name = 'augmenting positive data 2. on grid + concatenation'
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 100
+    a.iterations = 5
+    a.neural_distance = 'concatenate'
+    scn.super_main(a)
+
+
+def augmentation_3():
+    a = ProjectVariable()
+    a.experiment_name = 'augmenting positive data 3. on prid450 + concatenation'
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+    a.iterations = 5
+    a.neural_distance = 'concatenate'
+    scn.super_main(a)
+
+'/home/gabi/Documents/datasets/VIPeR/padded/000_a.bmp'
+
+
+def load_and_retrain():
+    a = ProjectVariable()
+    a.experiment_name = 'Load weights and retrain + test on prid450'
+
+    a.load_weights_name = 'viper_epoch_50'
+
+    a.iterations = 10
+    a.log_file = 'experiment_log.txt'
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+
+    scn.super_main(a)
+
+
+def ex_10_2_0():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 10_2_0: video_head_type=cnn_lstm on ilids, 512'
+    a.epochs = 50
+    a.iterations = 1
+    a.dataset_test = 'ilids-vid'
+    a.ranking_number_test = 30
+    a.sequence_length = 22
+    a.video_head_type = 'cnn_lstm'
+    a.dropout_rate = 0.05
+    a.activation_function = 'selu'
+    a.lstm_units = 512
+    a.use_cyclical_learning_rate = False
+    srcn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     # save_4_priming()
     # priming()
     # test_no_augmenting()
-    load_model_test()
+    # load_model_test()
+    # if num == '1':
+    #     ex_10_2_0()
+    # if num == '2':
+    #     augmentation_2()
+    # if num == '3':
+    #     augmentation_3()
+    ex_10_2_0()
+
 
 main()
 

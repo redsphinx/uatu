@@ -1,4 +1,5 @@
 import tensorflow as tf
+import keras
 import os
 # import keras
 # from keras.models import Sequential, Model
@@ -131,7 +132,7 @@ def test_restoring():
 
 
 def test_keras():
-    keras.backend.backend()
+    print(keras.__version__)
 
 
 def test_my_first_keras_model():
@@ -629,3 +630,6 @@ def look_weights():
 
 
     print('shit')
+
+
+test_keras()

@@ -2358,3 +2358,45 @@ viper std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.
 viper G mean tp,fp,tn,fn:    [34.0, 40.0, 860.0, 66.0]
 viper G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
 
+
+name_of_experiment:         experiment 10_2_0: video_head_type=cnn_lstm on ilids, 128
+file_name:                  siamese_cnn_video.pyc
+date:                       09/08/2017   14:58:48
+duration:                   1285.248393
+ilids-vid mean tp,fp,tn,fn:    [13.0, 136.0, 734.0, 17.0]
+ilids-vid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+ilids-vid detection rate (TP/(TP+FN)):      0.433333333333
+ilids-vid false alarm (FP/(FP+TN)):        0.15632183908
+ilids-vid mean ranking:        [0.1, 0.1, 0.2, 0.33, 0.47, 0.5, 0.53, 0.57, 0.63, 0.63, 0.63, 0.67, 0.7, 0.83, 0.83, 0.9, 0.9, 0.93, 0.93, 0.93, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+ilids-vid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ilids-vid G mean tp,fp,tn,fn:    [13.0, 43.0, 227.0, 17.0]
+ilids-vid G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         experiment 10_2_0: video_head_type=cnn_lstm on ilids, 256
+file_name:                  siamese_cnn_video.pyc
+date:                       09/08/2017   15:20:51
+duration:                   1284.336992
+ilids-vid mean tp,fp,tn,fn:    [13.0, 173.0, 697.0, 17.0]
+ilids-vid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+ilids-vid detection rate (TP/(TP+FN)):      0.433333333333
+ilids-vid false alarm (FP/(FP+TN)):        0.198850574713
+ilids-vid mean ranking:        [0.17, 0.27, 0.27, 0.33, 0.37, 0.43, 0.47, 0.53, 0.53, 0.53, 0.53, 0.53, 0.57, 0.67, 0.73, 0.8, 0.8, 0.83, 0.83, 0.83, 0.83, 0.83, 0.87, 0.9, 0.9, 0.93, 0.93, 0.97, 1.0, 1.0]
+ilids-vid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ilids-vid G mean tp,fp,tn,fn:    [13.0, 58.0, 212.0, 17.0]
+ilids-vid G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         experiment 10_2_0: video_head_type=cnn_lstm on ilids, 512
+file_name:                  siamese_cnn_video.pyc
+date:                       09/08/2017   15:43:46
+duration:                   1297.255262
+ilids-vid mean tp,fp,tn,fn:    [13.0, 118.0, 752.0, 17.0]
+ilids-vid std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+ilids-vid detection rate (TP/(TP+FN)):      0.433333333333
+ilids-vid false alarm (FP/(FP+TN)):        0.135632183908
+ilids-vid mean ranking:        [0.17, 0.23, 0.33, 0.37, 0.47, 0.5, 0.57, 0.57, 0.6, 0.6, 0.63, 0.67, 0.7, 0.7, 0.7, 0.77, 0.8, 0.83, 0.9, 0.93, 0.97, 0.97, 0.97, 0.97, 0.97, 1.0, 1.0, 1.0, 1.0, 1.0]
+ilids-vid std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ilids-vid G mean tp,fp,tn,fn:    [13.0, 42.0, 228.0, 17.0]
+ilids-vid G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+
