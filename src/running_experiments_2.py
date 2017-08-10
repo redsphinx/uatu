@@ -2954,6 +2954,44 @@ def ex_10_2_0():
     srcn.super_main(a)
 
 
+def numfil_0():
+    a = ProjectVariable()
+    a.experiment_name = 'numfil 0: make numfil=2 + concatenation'
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+    a.iterations = 5
+    a.neural_distance = 'concatenate'
+    a.numfil = 2
+    scn.super_main(a)
+
+
+def numfil_1():
+    a = ProjectVariable()
+    a.experiment_name = 'numfil 1: make numfil=2 + absolute'
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+    a.iterations = 5
+    a.neural_distance = 'absolute'
+    a.numfil = 2
+    scn.super_main(a)
+
+
+def saving_models():
+    a = ProjectVariable()
+    a.experiment_name = 'saving model: market'
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_of_saved_file = 'priming_on_%s' % a.dataset_test
+
+    a.neural_distance = 'concatenate'
+    a.numfil = 2
+    scn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
@@ -2967,7 +3005,7 @@ def main():
     #     augmentation_2()
     # if num == '3':
     #     augmentation_3()
-    ex_10_2_0()
+    saving_models()
 
 
 main()

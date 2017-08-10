@@ -49,10 +49,17 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Python libraries
 .. Nvidia CUDA drivers + library versions
 
+
+10 aug
+------
+. put results we have so far in thesis
+. write thesis introduction
+. write literature review
+
+
 9 aug
 -----
-. figure out issue with lstm
-. put results we have so far in thesis
+. DONE figure out issue with lstm
 . write thesis introduction																																																																																																																																								
 
 ===============================================================================================
