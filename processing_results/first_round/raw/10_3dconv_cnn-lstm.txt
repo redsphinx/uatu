@@ -1,0 +1,92 @@
+ex_10_2_0   done
+
+name_of_experiment:         experiment 10_2_0: video_head_type=cnn_lstm on ilids
+file_name:                  siamese_cnn_video.pyc
+date:                       10/08/2017   20:08:19
+duration:                   14850.002883
+ilids-vid mean tp,fp,tn,fn:    [8.2, 59.0, 811.0, 21.8]
+ilids-vid std tp,fp,tn,fn:     [1.72, 15.28, 15.28, 1.72]
+ilids-vid detection rate (TP/(TP+FN)):      0.273333333333
+ilids-vid false alarm (FP/(FP+TN)):        0.067816091954
+ilids-vid mean ranking:        [0.18, 0.26, 0.38, 0.43, 0.51, 0.55, 0.61, 0.66, 0.69, 0.74, 0.79, 0.84, 0.85, 0.86, 0.87, 0.9, 0.91, 0.93, 0.94, 0.95, 0.95, 0.96, 0.98, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+ilids-vid std ranking:         [0.04, 0.05, 0.09, 0.09, 0.09, 0.09, 0.11, 0.09, 0.09, 0.08, 0.07, 0.08, 0.1, 0.1, 0.09, 0.07, 0.07, 0.07, 0.05, 0.05, 0.05, 0.05, 0.03, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ilids-vid G mean tp,fp,tn,fn:    [8.2, 16.8, 253.2, 21.8]
+ilids-vid G std tp,fp,tn,fn:     [1.72, 4.21, 4.21, 1.72]
+
+
+ex_10_0_0   done
+ex_10_2_1   done
+
+name_of_experiment:         experiment 10_0_0: video_head_type=3d_convolution on ilids, no batchnorm
+file_name:                  siamese_cnn_video.pyc
+date:                       09/08/2017   05:41:42
+duration:                   46700.849983
+ilids-vid mean tp,fp,tn,fn:    [15.0, 62.6, 807.4, 15.0]
+ilids-vid std tp,fp,tn,fn:     [8.15, 41.44, 41.44, 8.15]
+ilids-vid detection rate (TP/(TP+FN)):      0.5
+ilids-vid false alarm (FP/(FP+TN)):        0.0719540229885
+ilids-vid mean ranking:        [0.43, 0.54, 0.62, 0.65, 0.67, 0.71, 0.74, 0.75, 0.77, 0.81, 0.82, 0.84, 0.86, 0.87, 0.89, 0.9, 0.91, 0.91, 0.92, 0.93, 0.95, 0.95, 0.96, 0.97, 0.97, 0.99, 0.99, 0.99, 0.99, 1.0]
+ilids-vid std ranking:         [0.1, 0.13, 0.13, 0.15, 0.16, 0.18, 0.19, 0.19, 0.17, 0.17, 0.18, 0.15, 0.17, 0.15, 0.14, 0.14, 0.14, 0.14, 0.13, 0.12, 0.09, 0.09, 0.08, 0.07, 0.05, 0.03, 0.01, 0.01, 0.01, 0.0]
+ilids-vid G mean tp,fp,tn,fn:    [15.0, 21.6, 248.4, 15.0]
+ilids-vid G std tp,fp,tn,fn:     [8.15, 17.33, 17.33, 8.15]
+
+
+name_of_experiment:         experiment 10_2_1: video_head_type=cnn_lstm on prid2011
+file_name:                  siamese_cnn_video.pyc
+date:                       10/08/2017   22:37:29
+duration:                   23797.511447
+prid2011 mean tp,fp,tn,fn:    [14.4, 45.4, 824.6, 15.6]
+prid2011 std tp,fp,tn,fn:     [2.33, 20.22, 20.22, 2.33]
+prid2011 detection rate (TP/(TP+FN)):      0.48
+prid2011 false alarm (FP/(FP+TN)):        0.052183908046
+prid2011 mean ranking:        [0.39, 0.54, 0.62, 0.68, 0.7, 0.72, 0.76, 0.79, 0.81, 0.83, 0.85, 0.86, 0.87, 0.87, 0.89, 0.89, 0.92, 0.93, 0.93, 0.95, 0.95, 0.95, 0.95, 0.97, 0.97, 0.97, 0.98, 0.98, 1.0, 1.0]
+prid2011 std ranking:         [0.16, 0.12, 0.1, 0.12, 0.12, 0.12, 0.11, 0.11, 0.1, 0.11, 0.11, 0.12, 0.12, 0.12, 0.11, 0.1, 0.08, 0.07, 0.07, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.03, 0.03, 0.0, 0.0]
+prid2011 G mean tp,fp,tn,fn:    [14.4, 12.4, 257.6, 15.6]
+prid2011 G std tp,fp,tn,fn:     [2.33, 4.67, 4.67, 2.33]
+
+
+ex_10_0_1   done
+
+name_of_experiment:         experiment 10_0_1: video_head_type=3d_convolution on prid2011, no batchnorm
+file_name:                  siamese_cnn_video.pyc
+date:                       10/08/2017   13:13:25
+duration:                   160200.280895
+prid2011 mean tp,fp,tn,fn:    [17.2, 12.2, 857.8, 12.8]
+prid2011 std tp,fp,tn,fn:     [9.0, 11.75, 11.75, 9.0]
+prid2011 detection rate (TP/(TP+FN)):      0.573333333333
+prid2011 false alarm (FP/(FP+TN)):        0.0140229885057
+prid2011 mean ranking:        [0.76, 0.8, 0.82, 0.84, 0.87, 0.89, 0.9, 0.92, 0.92, 0.93, 0.93, 0.93, 0.93, 0.93, 0.95, 0.95, 0.95, 0.96, 0.97, 0.97, 0.97, 0.97, 0.97, 0.97, 0.97, 0.99, 0.99, 0.99, 0.99, 1.0]
+prid2011 std ranking:         [0.08, 0.11, 0.1, 0.1, 0.08, 0.06, 0.07, 0.06, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.01, 0.0]
+prid2011 G mean tp,fp,tn,fn:    [17.2, 4.8, 265.2, 12.8]
+prid2011 G std tp,fp,tn,fn:     [9.0, 3.97, 3.97, 9.0]
+
+
+ex_10_1_0   done
+ex_10_1_1   done
+
+name_of_experiment:         experiment 10_1_0: video_head_type=3d_convolution on ilids, with batchnorm
+file_name:                  siamese_cnn_video.pyc
+date:                       09/08/2017   06:26:49
+duration:                   49400.129340
+ilids-vid mean tp,fp,tn,fn:    [16.0, 38.8, 831.2, 14.0]
+ilids-vid std tp,fp,tn,fn:     [4.69, 15.3, 15.3, 4.69]
+ilids-vid detection rate (TP/(TP+FN)):      0.533333333333
+ilids-vid false alarm (FP/(FP+TN)):        0.0445977011494
+ilids-vid mean ranking:        [0.46, 0.65, 0.73, 0.77, 0.81, 0.83, 0.86, 0.89, 0.91, 0.93, 0.93, 0.95, 0.96, 0.96, 0.97, 0.97, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 1.0]
+ilids-vid std ranking:         [0.06, 0.06, 0.1, 0.08, 0.06, 0.07, 0.09, 0.06, 0.06, 0.06, 0.05, 0.04, 0.04, 0.04, 0.03, 0.03, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.0]
+ilids-vid G mean tp,fp,tn,fn:    [16.0, 11.6, 258.4, 14.0]
+ilids-vid G std tp,fp,tn,fn:     [4.69, 7.42, 7.42, 4.69]
+
+
+name_of_experiment:         experiment 10_1_1: video_head_type=3d_convolution on prid2011, with batchnorm
+file_name:                  siamese_cnn_video.pyc
+date:                       10/08/2017   15:33:48
+duration:                   119207.728989
+prid2011 mean tp,fp,tn,fn:    [25.0, 18.2, 851.8, 5.0]
+prid2011 std tp,fp,tn,fn:     [2.9, 6.05, 6.05, 2.9]
+prid2011 detection rate (TP/(TP+FN)):      0.833333333333
+prid2011 false alarm (FP/(FP+TN)):        0.0209195402299
+prid2011 mean ranking:        [0.79, 0.85, 0.87, 0.89, 0.91, 0.93, 0.93, 0.94, 0.94, 0.95, 0.96, 0.97, 0.97, 0.97, 0.97, 0.97, 0.97, 0.98, 0.98, 0.98, 0.98, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 1.0, 1.0]
+prid2011 std ranking:         [0.09, 0.11, 0.1, 0.08, 0.08, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.0, 0.0]
+prid2011 G mean tp,fp,tn,fn:    [25.0, 5.8, 264.2, 5.0]
+prid2011 G std tp,fp,tn,fn:     [2.9, 2.48, 2.48, 2.9]

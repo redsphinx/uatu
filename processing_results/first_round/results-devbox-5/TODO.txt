@@ -1,0 +1,111 @@
+TODO
+
+DONE remove redundant files
+
+DONE make 4 bash run files
+
+DONE put all experiments with video in them 
+
+WORKS - check out why selu not work 
+
+DONE change epochs to 	300 for images or 200+100
+			500 for videos
+
+DONE see if make pairs video has bug in it
+
+add cuhk01 LATER
+
+09-08: removed CLR from experiments with LSTM
+TODO: run the LSTMs
+!turn off data augmenting!
+--
+
+
+
+
+gpu 0
+ex_6_0_0    done
+ex_6_0_1    done
+ex_6_0_2    done
+ex_6_1_0    done
+ex_6_1_1    done
+ex_6_1_2    done
+ex_7_0      done
+ex_7_1      done
+ex_7_2      done
+ex_7_3      done
+ex_7_4      done
+ex_7_5      done
+ex_1_0_0    done
+ex_1_1_0    done
+ex_1_2_0    done
+ex_1_3_0    done
+ex_1_4_0    done
+ex_1_5_0    done
+aug_0_0     done
+aug_0_1     done
+aug_0_2     done
+ex_10_2_0   done
+
+
+gpu 1
+1_0_1   done
+1_1_1   done
+1_2_1   done
+1_3_1   done
+1_4_1   done
+1_5_1   done
+2_0_0   done
+2_0_1   done
+2_0_2   done
+2_1_0   done
+2_1_1   done
+2_1_2   done
+ex_10_0_0   done
+aug_1_0 done
+aug_1_1 done
+aug_1_2 done
+ex_10_2_1   done
+
+gpu 2
+1_0_2   done
+1_1_2   done
+1_2_2   done
+1_3_2   done
+1_4_2   done
+1_5_2   done
+ex_5_0_0    done
+ex_5_0_1    done
+ex_5_0_2    done
+ex_5_1_0    done
+ex_5_1_1    done
+ex_5_1_2    done
+ex_8_0  done
+ex_8_1  done
+ex_8_2  done
+ex_10_0_1   done
+
+
+gpu 3
+ex_4_0_0	done, but will redo experiment with epochs=100 inst. of 300 and iterations=20 inst. of 30
+ex_4_0_1	done, but will redo experiment with epochs=100 inst. of 300 and iterations=20 inst. of 30
+ex_4_0_2	done, but will redo experiment with epochs=100 inst. of 300 and iterations=20 inst. of 30
+ex_4_1_0	done, but will redo experiment with epochs=100 inst. of 300 and iterations=20 inst. of 30
+ex_4_1_1	done, but will redo experiment with epochs=100 inst. of 300 and iterations=20 inst. of 30
+ex_4_0_0    done
+ex_4_0_1    done
+ex_4_0_2    done
+ex_4_1_0    done
+ex_4_1_1    done
+ex_4_1_2    done
+ex_8_3  done
+ex_8_4  done
+ex_8_5  done
+2_0_0   done but used optimizer=nadam instead of rms, redo experiment on gpu 0
+2_0_1   done but used optimizer=nadam instead of rms, redo experiment on gpu 0
+2_0_2   done but used optimizer=nadam instead of rms, redo experiment on gpu 0
+2_1_0   done but used optimizer=nadam instead of rms, redo experiment on gpu 0
+2_1_1   done but used optimizer=nadam instead of rms, redo experiment on gpu 0
+2_1_2   done but used optimizer=nadam instead of rms, redo experiment on gpu 0
+ex_10_1_0   done
+ex_10_1_1   done
