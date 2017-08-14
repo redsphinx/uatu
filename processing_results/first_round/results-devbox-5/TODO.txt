@@ -46,6 +46,10 @@ aug_0_0     done
 aug_0_1     done
 aug_0_2     done
 ex_10_2_0   done
+ex_4_2_0
+ex_4_2_1
+ex_4_2_2
+ex_9_3
 
 
 gpu 1
@@ -66,6 +70,11 @@ aug_1_0 done
 aug_1_1 done
 aug_1_2 done
 ex_10_2_1   done
+ex_5_2_0
+ex_5_2_1
+ex_5_2_2
+ex_9_4
+
 
 gpu 2
 1_0_2   done
@@ -84,6 +93,10 @@ ex_8_0  done
 ex_8_1  done
 ex_8_2  done
 ex_10_0_1   done
+ex_6_2_0
+ex_6_2_1
+ex_6_2_2
+ex_9_5
 
 
 gpu 3
@@ -109,3 +122,7 @@ ex_8_5  done
 2_1_2   done but used optimizer=nadam instead of rms, redo experiment on gpu 0
 ex_10_1_0   done
 ex_10_1_1   done
+ex_9_0
+ex_9_1
+ex_9_2
+

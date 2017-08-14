@@ -2992,21 +2992,51 @@ def saving_models():
     scn.super_main(a)
 
 
-def main():
-    # num = sys.argv[1]
-    # print(sys.argv)
-    # save_4_priming()
-    # priming()
-    # test_no_augmenting()
-    # load_model_test()
-    # if num == '1':
-    #     ex_10_2_0()
-    # if num == '2':
-    #     augmentation_2()
-    # if num == '3':
-    #     augmentation_3()
-    saving_models()
+def augment_2_0():
+    a = ProjectVariable()
+    a.experiment_name = 'aug 2_0: with positive data augmentation, train+test on viper, neural distance=add'
+    a.use_gpu = '0'
+    a.log_file = 'log_0.txt'
+    a.epochs = 100
+    a.iterations = 20
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+    a.neural_distance = 'add'
+    scn.super_main(a)
 
+
+def augment_2_1():
+    a = ProjectVariable()
+    a.experiment_name = 'aug 2_1: with positive data augmentation, train+test on grid, neural distance=add'
+    a.use_gpu = '0'
+    a.log_file = 'log_0.txt'
+    a.epochs = 100
+    a.iterations = 20
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 100
+    a.neural_distance = 'add'
+    scn.super_main(a)
+
+
+def augment_2_2():
+    a = ProjectVariable()
+    a.experiment_name = 'aug 2_2: with positive data augmentation, train+test on prid450, neural distance=add'
+    a.use_gpu = '0'
+    a.log_file = 'log_0.txt'
+    a.epochs = 100
+    a.iterations = 20
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+    a.neural_distance = 'add'
+    scn.super_main(a)
+
+
+def main():
+    num = sys.argv[1]
+    print(sys.argv)
+    if num == '2_0': augment_2_0()
+    if num == '2_1': augment_2_1()
+    if num == '2_2': augment_2_2()
 
 main()
 
