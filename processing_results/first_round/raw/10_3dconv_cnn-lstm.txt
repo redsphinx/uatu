@@ -60,6 +60,20 @@ prid2011 std ranking:         [0.08, 0.11, 0.1, 0.1, 0.08, 0.06, 0.07, 0.06, 0.0
 prid2011 G mean tp,fp,tn,fn:    [17.2, 4.8, 265.2, 12.8]
 prid2011 G std tp,fp,tn,fn:     [9.0, 3.97, 3.97, 9.0]
 
+accidentally ran it again, but whatever, more data:
+name_of_experiment:         experiment 10_0_1: video_head_type=3d_convolution on prid2011, no batchnorm
+file_name:                  siamese_cnn_video.pyc
+date:                       14/08/2017   22:54:11
+duration:                   22029.345837
+prid2011 mean tp,fp,tn,fn:    [21.4, 46.0, 824.0, 8.6]
+prid2011 std tp,fp,tn,fn:     [4.45, 30.44, 30.44, 4.45]
+prid2011 detection rate (TP/(TP+FN)):      0.713333333333
+prid2011 false alarm (FP/(FP+TN)):        0.0528735632184
+prid2011 mean ranking:        [0.69, 0.77, 0.79, 0.82, 0.85, 0.87, 0.88, 0.88, 0.89, 0.89, 0.89, 0.9, 0.9, 0.91, 0.91, 0.91, 0.91, 0.92, 0.93, 0.94, 0.94, 0.94, 0.95, 0.96, 0.96, 0.96, 0.97, 0.99, 1.0, 1.0]
+prid2011 std ranking:         [0.2, 0.2, 0.18, 0.18, 0.18, 0.16, 0.16, 0.16, 0.17, 0.16, 0.16, 0.14, 0.14, 0.13, 0.13, 0.13, 0.13, 0.12, 0.09, 0.09, 0.09, 0.09, 0.07, 0.05, 0.05, 0.05, 0.04, 0.01, 0.0, 0.0]
+prid2011 G mean tp,fp,tn,fn:    [21.4, 14.0, 256.0, 8.6]
+prid2011 G std tp,fp,tn,fn:     [4.45, 12.28, 12.28, 4.45]
+
 
 ex_10_1_0   done
 ex_10_1_1   done
