@@ -3384,8 +3384,9 @@ def ex_10_4():
     a.kernel = (3, 3, 3)
     a.pooling_size = [[1, 4, 2], [1, 2, 2]]
 
-    a.dataset_test = 'ilids-vid'
+    a.dataset_test = 'ilids-vid-20'
     a.ranking_number_test = 10
+    a.sequence_length = 20
 
     a.datasets_train = ['prid2011']
     a.ranking_number_train = [5]

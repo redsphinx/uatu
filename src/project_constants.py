@@ -80,3 +80,6 @@ PRID2011_FIXED = '/home/gabi/Documents/datasets/prid2011-fixed'
 
 ILIDS_DATA_STORAGE = '../data/ilids-vid'
 ILIDS_FIXED = '/home/gabi/Documents/datasets/ilids-vid-fixed'
+
+ILIDS_20_DATA_STORAGE = '../data/ilids-vid-20'
+ILIDS_20_FIXED = '/home/gabi/Documents/datasets/ilids-vid-fixed-20'

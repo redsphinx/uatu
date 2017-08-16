@@ -12,7 +12,6 @@ from PIL import ImageTk
 import time
 
 
-
 def reduce_float_length(a_list, decimals):
     for i in range(len(a_list)):
         a_list[i] = float(format(a_list[i], decimals))

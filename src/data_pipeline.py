@@ -172,7 +172,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
 
         # update min_id_group_size
         # if dataset is large and has a lot of large id groups(>num) then ignore the id groups that are smaller than num
-        if dataset_name in {'market', 'cuhk02', 'caviar', 'prid2011', 'ilids-vid'}:
+        if dataset_name in {'market', 'cuhk02', 'caviar', 'prid2011', 'ilids-vid', 'ilids-vid-20'}:
             if len(id_group) >= num:
                 # print('length id group: %d, num: %d' % (len(id_group), num))
                 if min_id_group_size > len(id_group):
@@ -644,6 +644,7 @@ def make_video_data_files(name):
     :param name:                    string name of the video dataset: 'ilids-vid' or 'prid2011'
     """
     path = '/home/gabi/Documents/datasets/%s-fixed' % name
+    # path = '/home/gabi/Documents/datasets/%s-fixed-20' % name
 
     data_folder = '../data/%s' % name
     if not os.path.exists(data_folder):
@@ -896,6 +897,8 @@ def get_dataset(name):
         dataset_h5 = h5py.File('../data/prid450/prid450.h5', 'r')
     elif name == 'ilids-vid':
         dataset_h5 = h5py.File('../data/ilids-vid/ilids-vid.h5', 'r')
+    elif name == 'ilids-vid-20':
+        dataset_h5 = h5py.File('../data/ilids-vid-20/ilids-vid-20.h5', 'r')
     elif name == 'prid2011':
         dataset_h5 = h5py.File('../data/prid2011/prid2011.h5', 'r')
     elif name == 'inria':
@@ -948,6 +951,9 @@ def create_training_and_ranking_set(name, adjustable, ranking_variable, do_ranki
                                                                do_ranking, do_training, name, ranking_variable)
     elif name == 'ilids-vid':
         ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.ILIDS_DATA_STORAGE, pc.ILIDS_FIXED,
+                                                               do_ranking, do_training, name, ranking_variable)
+    elif name == 'ilids-vid-20':
+        ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.ILIDS_20_DATA_STORAGE, pc.ILIDS_20_FIXED,
                                                                do_ranking, do_training, name, ranking_variable)
     elif name == 'prid2011':
         ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.PRID2011_DATA_STORAGE,
@@ -1092,6 +1098,8 @@ def get_dataset_to_map(name, data_list, data_names):
         dataset = 'prid2011'
     elif name == 'ilids-vid-fixed':
         dataset = 'ilids-vid'
+    elif name == 'ilids-vid-fixed-20':
+        dataset = 'ilids-vid-20'
     else:
         print("sorry, we don't serve '%s'. would you like some fries with that?" % name)
         dataset = None
@@ -1130,7 +1138,7 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
             the_filename = str(the_filename)
             h5_filenames.append(the_filename)
 
-        if 'prid2011' in h5_filenames or 'ilids-vid' in h5_filenames:
+        if 'prid2011' in h5_filenames or 'ilids-vid' in h5_filenames or 'ilids-vid-20' in h5_filenames:
             place = 4
         else:
             place = 2

@@ -310,6 +310,14 @@ def fix_ilids():
     fix_video_dataset('ilids-vid', 22)
 
 
+def fix_ilids_for_mixing_20():
+    """ for mixing data with prid2011, sequences must be of same length
+        turn into
+        ilids-vid-fixed-20 / cam_x / person_xxx / sequence_xxx / xxx.png
+    """
+    fix_video_dataset('ilids-vid', 20)
+
+
 def fix_inria():
     """
     Crops INRIA dataset images around center point and saves in new folder.
