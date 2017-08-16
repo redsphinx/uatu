@@ -1,0 +1,26 @@
+name_of_experiment:         experiment 10_3_0: video_head_type=3d_convolution on ilids, with batchnorm, with concatenation
+file_name:                  siamese_cnn_video.pyc
+date:                       15/08/2017   20:32:04
+duration:                   13794.363593
+ilids-vid mean tp,fp,tn,fn:    [22.2, 123.8, 746.2, 7.8]
+ilids-vid std tp,fp,tn,fn:     [1.72, 36.57, 36.57, 1.72]
+ilids-vid detection rate (TP/(TP+FN)):      0.74
+ilids-vid false alarm (FP/(FP+TN)):        0.142298850575
+ilids-vid mean ranking:        [0.4, 0.57, 0.68, 0.73, 0.76, 0.79, 0.82, 0.85, 0.85, 0.85, 0.9, 0.91, 0.92, 0.94, 0.95, 0.97, 0.97, 0.98, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 0.99, 1.0, 1.0, 1.0, 1.0, 1.0]
+ilids-vid std ranking:         [0.04, 0.05, 0.06, 0.08, 0.07, 0.07, 0.06, 0.07, 0.05, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.02, 0.02, 0.03, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0]
+ilids-vid G mean tp,fp,tn,fn:    [22.2, 33.0, 237.0, 7.8]
+ilids-vid G std tp,fp,tn,fn:     [1.72, 6.23, 6.23, 1.72]
+
+
+name_of_experiment:         experiment 10_3_1: video_head_type=3d_convolution on prid2011, with batchnorm, with concatenation
+file_name:                  siamese_cnn_video.pyc
+date:                       16/08/2017   03:33:53
+duration:                   25306.330494
+prid2011 mean tp,fp,tn,fn:    [25.8, 50.6, 819.4, 4.2]
+prid2011 std tp,fp,tn,fn:     [3.06, 27.14, 27.14, 3.06]
+prid2011 detection rate (TP/(TP+FN)):      0.86
+prid2011 false alarm (FP/(FP+TN)):        0.0581609195402
+prid2011 mean ranking:        [0.78, 0.86, 0.89, 0.9, 0.91, 0.91, 0.91, 0.91, 0.91, 0.93, 0.93, 0.94, 0.95, 0.95, 0.96, 0.97, 0.97, 0.97, 0.97, 0.97, 0.97, 0.97, 0.98, 0.98, 0.98, 0.98, 0.99, 0.99, 0.99, 1.0]
+prid2011 std ranking:         [0.13, 0.11, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.09, 0.09, 0.08, 0.08, 0.07, 0.05, 0.04, 0.04, 0.04, 0.04, 0.04, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 0.01, 0.01, 0.01, 0.0]
+prid2011 G mean tp,fp,tn,fn:    [25.8, 13.0, 257.0, 4.2]
+prid2011 G std tp,fp,tn,fn:     [3.06, 6.48, 6.48, 3.06]

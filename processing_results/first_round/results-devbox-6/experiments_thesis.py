@@ -390,6 +390,79 @@ def ex_10_0_1():
     srcn.super_main(a)
 
 
+# 10_3	video_head_type=3d_convolution, with batchnorm, with concatenation
+def ex_10_3_0():
+    a = ProjectVariable()
+    a.use_gpu = '3'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 10_3_0: video_head_type=3d_convolution on ilids, with batchnorm, with concatenation'
+    a.neural_distance = 'concatenate'
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'ilids-vid'
+    a.ranking_number_test = 30
+    a.sequence_length = 22
+    a.video_head_type = '3d_convolution'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    srcn.super_main(a)
+
+
+def ex_10_3_1():
+    a = ProjectVariable()
+    a.use_gpu = '3'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 10_3_1: video_head_type=3d_convolution on prid2011, with batchnorm, with concatenation'
+    a.neural_distance = 'concatenate'
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'prid2011'
+    a.ranking_number_test = 30
+    a.sequence_length = 20
+    a.video_head_type = '3d_convolution'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    srcn.super_main(a)
+
+
+# 10_4	video_head_type=cnn_lstm, with concatenation
+def ex_10_4_0():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 10_2_0: video_head_type=cnn_lstm on ilids, with concatenation'
+    a.neural_distance = 'concatenate'
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'ilids-vid'
+    a.ranking_number_test = 30
+    a.sequence_length = 22
+    a.video_head_type = 'cnn_lstm'
+    a.use_cyclical_learning_rate = False
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+    a.lstm_units = 256
+    srcn.super_main(a)
+
+
+def ex_10_4_1():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 10_2_1: video_head_type=cnn_lstm on prid2011, with concatenation'
+    a.neural_distance = 'concatenate'
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'prid2011'
+    a.ranking_number_test = 30
+    a.sequence_length = 20
+    a.video_head_type = 'cnn_lstm'
+    a.use_cyclical_learning_rate = False
+    a.activation_function = 'selu'
+    a.dropout_rate = 0.05
+    a.lstm_units = 256
+    srcn.super_main(a)
+
 # 10_1	video_head_type=3d_convolution, with batchnorm
 def ex_10_1_0():
     a = ProjectVariable()
@@ -3436,6 +3509,8 @@ def main():
     if num == '2_1_1': ex_2_1_1()
     if num == '2_1_2': ex_2_1_2()
     if num == '9_5': ex_9_5()
+    if num == '10_3_0': ex_10_3_0()
+    if num == '10_3_1': ex_10_3_1()
 
 
 main()

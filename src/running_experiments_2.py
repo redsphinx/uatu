@@ -3031,36 +3031,380 @@ def augment_2_2():
     scn.super_main(a)
 
 
+# 4_3, with batchnorm, with neural_distance=concatenation
+def ex_4_3_0():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 4_3_0: test=viper, train=[grid, prid450], with batchnorm, neural_d=concatenate'
+    a.epochs = 100
+    a.iterations = 20
+    a.neural_distance = 'concatenate'
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+
+    a.datasets_train = ['grid', 'prid450']
+    a.ranking_number_train = [5, 5]
+
+    a.mix = True
+    a.mix_with_test = True
+
+    scn.super_main(a)
+
+
+def ex_4_3_1():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 4_3_1: test=grid, train=[viper, prid450], with batchnorm, neural_d=concatenate'
+    a.epochs = 100
+    a.iterations = 20
+    a.neural_distance = 'concatenate'
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 100
+
+    a.datasets_train = ['viper', 'prid450']
+    a.ranking_number_train = [5, 5]
+
+    a.mix = True
+    a.mix_with_test = True
+
+    scn.super_main(a)
+
+
+def ex_4_3_2():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 4_3_2: test=prid450, train=[viper, grid], with batchnorm, neural_d=concatenate'
+    a.epochs = 100
+    a.iterations = 20
+    a.neural_distance = 'concatenate'
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+
+    a.datasets_train = ['viper', 'grid']
+    a.ranking_number_train = [5, 5]
+
+    a.mix = True
+    a.mix_with_test = True
+
+    scn.super_main(a)
+
+
+# 5_3	with batch_norm, with neural_distance=concatenate
+def ex_5_3_0():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 5_3_0: test=viper, train=[grid, prid450], with batchnorm, neural_d=concatenate'
+    a.epochs = 100
+    a.iterations = 20
+    a.neural_distance = 'concatenate'
+
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+
+    a.datasets_train = ['grid', 'prid450']
+    a.ranking_number_train = [5, 5]
+
+    a.mix = True
+
+    scn.super_main(a)
+
+
+def ex_5_3_1():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 5_3_1: test=grid, train=[viper, prid450], with batchnorm, neural_d=concatenate'
+    a.epochs = 100
+    a.iterations = 20
+    a.neural_distance = 'concatenate'
+
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 100
+
+    a.datasets_train = ['viper', 'prid450']
+    a.ranking_number_train = [5, 5]
+
+    a.mix = True
+
+    scn.super_main(a)
+
+
+def ex_5_3_2():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 5_3_2: test=prid450, train=[viper, grid], with batchnorm, neural_d=concatenate'
+    a.epochs = 100
+    a.iterations = 20
+    a.neural_distance = 'concatenate'
+
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+
+    a.datasets_train = ['viper', 'grid']
+    a.ranking_number_train = [5, 5]
+
+    a.mix = True
+
+    scn.super_main(a)
+
+
+# 6_3	with batch_norm, neural_distance=concatenate
+def ex_6_3_0():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'viper'
+    iterations = 20
+
+    for itera in range(iterations):
+        # first train on the datasets and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.use_gpu = '0'
+        a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+        a.epochs = 100
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+
+        a.datasets_train = ['grid', 'prid450']
+        a.mix = True
+
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'g_p_mix'
+
+        a.log_experiment = False
+
+        scn.super_main(a)
+
+        # then load + retrain
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.use_gpu = '0'
+        a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+        a.epochs = 100
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+
+        a.load_weights_name = 'g_p_mix'
+
+        a.log_experiment = False
+
+        a.dataset_test = 'viper'
+        a.ranking_number_test = 100
+
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 6_3_0: train only=[grid, prid450], with batchnorm, neural_d=concatenate, mix then retrain on test=viper'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+
+def ex_6_3_1():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'grid'
+    iterations = 20
+
+    for itera in range(iterations):
+        # first train on the datasets and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.use_gpu = '0'
+        a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+        a.epochs = 100
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+
+        a.datasets_train = ['viper', 'prid450']
+        a.mix = True
+
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'v_p_mix'
+
+        a.log_experiment = False
+
+        scn.super_main(a)
+
+        # then load + retrain
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.use_gpu = '0'
+        a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+        a.epochs = 100
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+
+        a.load_weights_name = 'v_p_mix'
+
+        a.log_experiment = False
+
+        a.dataset_test = 'grid'
+        a.ranking_number_test = 100
+
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 6_3_1: train only=[viper, prid450], with batchnorm, neural_d=concatenate, mix then retrain on test=grid'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+
+def ex_6_3_2():
+    all_confusion = []
+    all_cmc = []
+    total_time = 0
+    name = 'prid450'
+    iterations = 20
+
+    for itera in range(iterations):
+        # first train on the datasets and save
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.use_gpu = '0'
+        a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+        a.epochs = 100
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+
+        a.datasets_train = ['viper', 'grid']
+        a.mix = True
+
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = 'v_g_mix'
+
+        a.log_experiment = False
+
+        scn.super_main(a)
+
+        # then load + retrain
+        # -----------------------------------------------------------------------------------------------------------
+        a = ProjectVariable()
+        a.use_gpu = '0'
+        a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+        a.epochs = 100
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+
+        a.load_weights_name = 'v_g_mix'
+
+        a.log_experiment = False
+
+        a.dataset_test = 'prid450'
+        a.ranking_number_test = 100
+
+        confusion, cmc, the_time = scn.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        all_confusion.append(confusion)
+        all_cmc.append(cmc)
+        total_time += the_time
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 6_3_2: train only=[viper, grid], with batchnorm, neural_d=concatenate, mix then retrain on test=prid450'
+
+    # get the means
+    # TODO: debug this, check if it works
+    matrix_means = np.mean(all_confusion, axis=0)
+    matrix_std = np.std(all_confusion, axis=0)
+    ranking_means = np.mean(all_cmc, axis=0)
+    ranking_std = np.std(all_cmc, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
+                        ranking_means, ranking_std, total_time, None, None)
+
+
+# try to run experiment where we mix data for video
+def ex_10_4():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.experiment_name = 'see if we can mix video data'
+    a.epochs = 1
+    a.iterations = 1
+    a.neural_distance = 'concatenate'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+
+    a.dataset_test = 'ilids-vid'
+    a.ranking_number_test = 10
+
+    a.datasets_train = ['prid2011']
+    a.ranking_number_train = [5]
+
+    a.mix = True
+    a.mix_with_test = True
+
+    srcn.super_main(a)
+
+
+
+
+
 def main():
-    num = sys.argv[1]
-    print(sys.argv)
-    if num == '2_0': augment_2_0()
-    if num == '2_1': augment_2_1()
-    if num == '2_2': augment_2_2()
+    # num = sys.argv[1]
+    # print(sys.argv)
+    # if num == '10_4': ex_10_4()
+    ex_10_4()
 
 main()
 
 
-'''
-From scratch:
---WORKING-- a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==True' --WORKING--
---WORKING-- a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==False' --WORKING--
---WORKING-- a.experiment_name = 'test mixing: train + test multiple datasets + mix==False (+ mix_with_test==False)' --WORKING--
-
---WORKING-- a.experiment_name = 'test mixing: train + test single dataset' --WORKING--
-
---WORKING-- a.experiment_name = 'test mixing: only test' --WORKING--
---WORKING-- a.experiment_name = 'test mixing: only train on multiple dataset, no mixing' --WORKING--
---WORKING-- a.experiment_name = 'test mixing: only train on multiple dataset, with mixing' --WORKING--
-
-Load data:
-a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==True'
-a.experiment_name = 'test mixing: train + test multiple datasets + mix==True + mix_with_test==False'
-a.experiment_name = 'test mixing: train + test multiple datasets + mix==False (+ mix_with_test==True)'
-
-a.experiment_name = 'test mixing: train + test single datasets'
-
-a.experiment_name = 'test mixing: only test'
-a.experiment_name = 'test mixing: only train on multiple dataset'
-a.experiment_name = 'test mixing: only train on single dataset'
-'''

@@ -1060,6 +1060,7 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
     return merged_training_pos, merged_training_neg
 
 
+# TODO: fix for mixing video data
 def get_dataset_to_map(name, data_list, data_names):
     """
     Get the dataset
@@ -1073,7 +1074,6 @@ def get_dataset_to_map(name, data_list, data_names):
     # split on '/' get second to last item
     # match with name
     # return data_list[indexof(match)]
-
     if name == 'padded':
         dataset = 'VIPER'
     elif name == 'identities':
@@ -1088,6 +1088,10 @@ def get_dataset_to_map(name, data_list, data_names):
         dataset = 'prid450'
     elif name == 'fixed_grid':
         dataset = 'GRID'
+    elif name == 'prid2011-fixed':
+        dataset = 'prid2011'
+    elif name == 'ilids-vid-fixed':
+        dataset = 'ilids-vid'
     else:
         print("sorry, we don't serve '%s'. would you like some fries with that?" % name)
         dataset = None
@@ -1126,13 +1130,18 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
             the_filename = str(the_filename)
             h5_filenames.append(the_filename)
 
+        if 'prid2011' in h5_filenames or 'ilids-vid' in h5_filenames:
+            place = 4
+        else:
+            place = 2
+
         for key in key_list:
             key_1 = key.split(',')[0]
             key_2 = key.split(',')[1]
 
             # split the key to get the dataset folder
-            folder_key_1 = key_1.split('+')[-2]
-            folder_key_2 = key_2.split('+')[-2]
+            folder_key_1 = key_1.split('+')[-place]
+            folder_key_2 = key_2.split('+')[-place]
 
             # get the h5 object containing the dataset for key_n
             dataset_key_1 = get_dataset_to_map(folder_key_1, h5_dataset_list, h5_filenames)

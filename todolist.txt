@@ -50,6 +50,18 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Nvidia CUDA drivers + library versions
 
 
+16 aug
+------
+. process results
+.. put them in tables in latex
+. write thesis
+.. go over thesis and write down things TODO
+. see if it's possible to mix video data
+. write down priming experiments
+
+8200, 22, 
+
+
 10 aug
 ------
 . put results we have so far in thesis
@@ -81,19 +93,19 @@ Introduction--------------------------------------------------------------------
 		" In the next section we'll go more into detail about all the things we just mentioned. "
 	
 	Background
-		Particle filter	
-		" explains how it works "
+		Person re-id
+		" explains the problem, formulates it mathematically and explains jargon "
 		The specific environmental setting
 		" talk about the environment where gregor sees it used and mention the number of people
 		present on the camera "
-		Person re-id
-		" explains the problem, formulates it mathematically and explains jargon "
-		Underlying problems in re-id
-		" Mention problems in current re-id research relating to the environmental setting "
+		Particle filter	
+		" explains how it works "
 		Neural Networks and deep learning
 		" explain the ins and outs briefly on neural networks and deep learning "
-	
-	
+		Underlying problems in re-id
+		" Mention problems in current re-id research relating to the environmental setting "
+		
+		
 	Research questions
 		" Go into detail on the vague questions from the previous section, explicitly state the 
 		questions "
@@ -122,7 +134,7 @@ Methods-------------------------------------------------------------------------
 	General introduction
 		" state what this section will explain "
 	
-	Performance measures
+	!!Performance measures-[removed]-> moved to the background
 		" state with methods we wanna test to see if these performance measures are improved and
 		then explain the performance measures "
 	
