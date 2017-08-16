@@ -3385,7 +3385,7 @@ def ex_10_4():
     a.pooling_size = [[1, 4, 2], [1, 2, 2]]
 
     a.dataset_test = 'ilids-vid-20'
-    a.ranking_number_test = 10
+    a.ranking_number_test = 30
     a.sequence_length = 20
 
     a.datasets_train = ['prid2011']
@@ -3395,9 +3395,6 @@ def ex_10_4():
     a.mix_with_test = True
 
     srcn.super_main(a)
-
-
-
 
 
 def main():
