@@ -49,6 +49,28 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Python libraries
 .. Nvidia CUDA drivers + library versions
 
+17 aug
+. WRITE DAMMIT
+
+~ I made a todo list ~
+background: person re-id: TODO: merge parts of commented text below with the current person re-id text
+background: indoor setup: TODO: make diagram to illustrate setup
+background: neural networks and deep learning: TODO: (1) add section headers to make it more clear\\(2) talk about 3D convolutions and LSTM\\(3) talk about CLR\\(4) talk about batchnormalization\\(5) talk about dropout\\(6) talk about maxpooling
+background: relevant problems in person re-id: TODO: rewrite this section to focus more on why the problem is a problem on it's own and don't talk about authors and prior work so much. Then in the literature review we can talk about what has been done before.
+background: problem formulation: TODO: Merge this with underlying problem 'distance functions'
+background: distance functions: TODO: Merge this with underlying problem 'distance functions'
+background: research questions: TODO: rewrite this section more fitting to how we rewrote the previous section 'underlying problems'
+
+literature review: TODO: rewrite the underlying problems section to focus on the problems. And then here we can mention the sources who tried dealing with said problems, their apparent shortcomings. And how our research questions seem to target something that's a little bit different.
+
+methods: TODO: (1) explicitely explain the 'why' to each decision even if reasoning appears silly.\\(2) Rewrite the introduction to this chapter
+
+datasets: image datasets: TODO: say why we chose these datasets and what makes them nice or not nice or challenging whatever.
+datasets: video datasets: TODO: say why we chose these datasets and what makes them nice or not nice or challenging whatever.
+datasets: class imbalance problem: TODO: (1) explain in more detail how we sample the negatives. (2) make a diagram for sampling
+
+experiments and results: TODO: (1) explain all decisions in detail and motivate\\(2) enter results in the tables\\(3) say how to read results
+experiments and results: make generic siamese diagram
 
 16 aug
 ------
