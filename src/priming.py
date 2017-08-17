@@ -3,7 +3,6 @@
 
 from keras import models, layers, optimizers, losses
 import keras
-
 import numpy as np
 # import dynamic_data_loading as ddl
 import project_constants as pc
@@ -16,8 +15,9 @@ from skimage.util import random_noise
 from itertools import combinations
 import time
 import random
-
 import siamese_cnn_image as scn
+from clr_callback import *
+
 
 def zoom(image):
     the_image = image
@@ -169,7 +169,7 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         image_1 = this_ranking[matching_pair_index].strip().split(',')[0].split('+')[-1]
         image_2 = this_ranking[matching_pair_index].strip().split(',')[1].split('+')[-1]
         seen = [image_1, image_2]
-        the_id = dp.my_join(list(image_1)[0:4])
+        the_id = pu.my_join(list(image_1)[0:4])
 
         list_related_keys = dp.get_related_keys(adjustable, name, partition, seen, this_ranking, the_id)
         path = '../data/%s/augmented/%s' % (folder_name, the_id)
@@ -186,13 +186,30 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         # training
         prime_train, prime_labels = load_augmented_images(list_augmented_images_long)
 
+        # model is compiled in get_model
         weight_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, '%s_weights.h5' % adjustable.load_weights_name)
         model.load_weights(weight_path, by_name=True)
 
-        model.fit([prime_train[:, 0], prime_train[:, 1]], prime_labels,
-                  batch_size=adjustable.batch_size,
-                  epochs=adjustable.prime_epochs,
-                  verbose=0)
+        if adjustable.use_cyclical_learning_rate:
+            # choose step_size=8, because number of samples < batchsize, so per epoch there is 1 step
+            # paper recommends multiplying steps/epoch by a number between 2-10. so we choose 8
+            # clr = CyclicLR(step_size=(len(prime_labels) / adjustable.batch_size) * 8,
+            clr=CyclicLR(step_size=8,
+                           base_lr=adjustable.cl_min,
+                           max_lr=adjustable.cl_max)
+
+            model.fit([prime_train[:, 0], prime_train[:, 1]], prime_labels,
+                      batch_size=adjustable.batch_size,
+                      epochs=adjustable.prime_epochs,
+                      callbacks=[clr],
+                      verbose=0)
+
+        else:
+            model.fit([prime_train[:, 0], prime_train[:, 1]], prime_labels,
+                      batch_size=adjustable.batch_size,
+                      epochs=adjustable.prime_epochs,
+                      verbose=0)
+
 
         # testing
         part_ranking = this_ranking[an_id * ranking_number:(an_id + 1) * ranking_number]
@@ -247,8 +264,11 @@ def main(adjustable, all_ranking, names, model):
 
         gregor_matrix = pu.make_gregor_matrix(adjustable, full_predictions, final_testing_labels)
         gregor_matrices.append(gregor_matrix)
-        detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0))
-        false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
+
+        # detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0))
+        detection_rate, false_alarm = pu.calculate_TPR_FPR(matrix)
+        # false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
+
 
         ranking = pu.calculate_CMC(adjustable, full_predictions)
         ranking_matrices.append(ranking)
@@ -282,7 +302,7 @@ def get_model(adjustable):
 
     # case 1
     if adjustable.load_model_name is not None:
-        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
+        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, '%s_model.h5' % adjustable.load_model_name))
 
     else:
         # case 3
@@ -302,7 +322,7 @@ def get_model(adjustable):
     return model
 
 
-def super_main(adjustable):
+def super_main(adjustable, get_data=False):
     name = adjustable.dataset_test
     # name = adjustable.datasets[0]
     print('name: %s' % name)
@@ -415,3 +435,6 @@ def super_main(adjustable):
         pu.enter_in_log(adjustable, adjustable.experiment_name, file_name, names, matrix_means, matrix_std, ranking_means,
                         ranking_std,
                         total_time, gregor_matrix_means, gregor_matrix_std)
+
+    if get_data == True:
+        return ranking_means, matrix_means, total_time

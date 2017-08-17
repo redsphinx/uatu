@@ -197,7 +197,6 @@ def ex_1_4_0():
     a.neural_distance = 'add'
     scn.super_main(a)
 
-
 def ex_1_4_1():
     a = ProjectVariable()
     a.experiment_name = 'experiment 1_4_1: grid, neural_distance=add'
@@ -209,7 +208,6 @@ def ex_1_4_1():
     a.ranking_number_test = 100
     a.neural_distance = 'add'
     scn.super_main(a)
-
 
 def ex_1_4_2():
     a = ProjectVariable()
@@ -237,7 +235,6 @@ def ex_1_5_0():
     a.neural_distance = 'multiply'
     scn.super_main(a)
 
-
 def ex_1_5_1():
     a = ProjectVariable()
     a.experiment_name = 'experiment 1_5_1: grid, neural_distance=multiply'
@@ -250,7 +247,6 @@ def ex_1_5_1():
     a.neural_distance = 'multiply'
     scn.super_main(a)
 
-
 def ex_1_5_2():
     a = ProjectVariable()
     a.experiment_name = 'experiment 1_5_2: prid450, neural_distance=multiply'
@@ -262,7 +258,6 @@ def ex_1_5_2():
     a.ranking_number_test = 100
     a.neural_distance = 'multiply'
     scn.super_main(a)
-
 
 # ------------------------------------------------------------------------------------
 #
@@ -282,7 +277,6 @@ def ex_2_0_0():
     a.use_cyclical_learning_rate = False
     scn.super_main(a)
 
-
 def ex_2_0_1():
     a = ProjectVariable()
     a.experiment_name = 'experiment 2_0_1: grid, cost_module_type=euclidean, lr=0.00001'
@@ -295,7 +289,6 @@ def ex_2_0_1():
     a.cost_module_type = 'euclidean'
     a.use_cyclical_learning_rate = False
     scn.super_main(a)
-
 
 def ex_2_0_2():
     a = ProjectVariable()
@@ -325,7 +318,6 @@ def ex_2_1_0():
     a.use_cyclical_learning_rate = False
     scn.super_main(a)
 
-
 def ex_2_1_1():
     a = ProjectVariable()
     a.experiment_name = 'experiment 2_1_1: grid, cost_module_type=cosine, lr=0.00001'
@@ -338,7 +330,6 @@ def ex_2_1_1():
     a.cost_module_type = 'cosine'
     a.use_cyclical_learning_rate = False
     scn.super_main(a)
-
 
 def ex_2_1_2():
     a = ProjectVariable()
@@ -471,7 +462,6 @@ def ex_10_4_1():
     a.dropout_rate = 0.05
     a.lstm_units = 256
     srcn.super_main(a)
-
 
 # 10_1	video_head_type=3d_convolution, with batchnorm
 def ex_10_1_0():
@@ -940,6 +930,7 @@ def ex_5_2_2():
     scn.super_main(a)
 
 
+
 # ------------------------------------------------------------------------------------
 #
 # 6	training: train on all mixed, exclude test. Then retrain trained network on the test. (note: vital)
@@ -1012,6 +1003,7 @@ def ex_6_0_0():
     a.experiment_name = 'experiment 6_0_0: train only=[grid, prid450], no batchnorm, mix then retrain on test=viper'
 
     # get the means
+    # TODO: debug this, check if it works
     matrix_means = np.mean(all_confusion, axis=0)
     matrix_std = np.std(all_confusion, axis=0)
     ranking_means = np.mean(all_cmc, axis=0)
@@ -1389,7 +1381,6 @@ def ex_6_1_2():
         pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
                         ranking_means, ranking_std, total_time, None, None)
 
-
 # 6_2, no batchnorm, no selu, no AD
 def ex_6_2_0():
     all_confusion = []
@@ -1462,7 +1453,6 @@ def ex_6_2_0():
         pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
                         ranking_means, ranking_std, total_time, None, None)
 
-
 def ex_6_2_1():
     all_confusion = []
     all_cmc = []
@@ -1533,7 +1523,6 @@ def ex_6_2_1():
         file_name = os.path.basename(__file__)
         pu.enter_in_log(a, a.experiment_name, file_name, name, matrix_means, matrix_std,
                         ranking_means, ranking_std, total_time, None, None)
-
 
 def ex_6_2_2():
     all_confusion = []
@@ -3524,7 +3513,7 @@ def ex_11_3():
     a.mix_with_test = True
 
     scn.super_main(a)
-
+    
 
 def ex_11_4():
     a = ProjectVariable()
@@ -3641,7 +3630,6 @@ def ex_12_4():
     a.name_of_saved_file = 'single_cuhk02'
 
     scn.super_main(a)
-
 
 # ex_13_0, train various networks baseline concatenation
 # Train on single datasets + concatenation
@@ -3831,956 +3819,6 @@ def ex_14_4():
 
     scn.super_main(a)
 
-# 15_0, train, save, prime w 5 epochs, CLR same
-def ex_15_0_0():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'viper'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '0'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-    
-        a.dataset_test = 'viper'
-        a.ranking_number_test = 100
-    
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'viper'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '0'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-    
-        a.priming = True
-        a.prime_epochs = 5
-    
-        a.dataset_test = 'viper'
-        a.ranking_number_test = 100
-    
-        a.load_model_name = 'viper_epoch_10'
-        a.load_weights_name = 'viper_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-        
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '0'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_0_0: priming on viper. epoch=5. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                        ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                        ranking_means_primed, ranking_std_primed, total_time)
-
-
-def ex_15_0_1():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'grid'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '1'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'grid'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'grid'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '1'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 5
-
-        a.dataset_test = 'grid'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'grid_epoch_10'
-        a.load_weights_name = 'grid_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '1'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_0_1: priming on grid. epoch=5. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
-def ex_15_0_2():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'prid450'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '3'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'prid450'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'prid450'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '3'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 5
-
-        a.dataset_test = 'prid450'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'prid450_epoch_10'
-        a.load_weights_name = 'prid450_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '3'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_0_2: priming on prid450. epoch=5. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
-
-# 15_1, train, save, prime w 10 epochs, CLR same
-def ex_15_1_0():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'viper'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '0'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'viper'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'viper'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '0'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 10
-
-        a.dataset_test = 'viper'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'viper_epoch_10'
-        a.load_weights_name = 'viper_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '0'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_1_0: priming on viper. epoch=10. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
-
-def ex_15_1_1():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'grid'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '1'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'grid'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'grid'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '1'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 10
-
-        a.dataset_test = 'grid'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'grid_epoch_10'
-        a.load_weights_name = 'grid_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '1'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_1_1: priming on grid. epoch=10. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
-
-def ex_15_1_2():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'prid450'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '2'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'prid450'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'prid450'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '2'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 10
-
-        a.dataset_test = 'prid450'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'prid450_epoch_10'
-        a.load_weights_name = 'prid450_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '2'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_1_2: priming on prid450. epoch=10. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
-
-# 15_2, train, save, prime w 5 epochs, CLR diff
-def ex_15_2_0():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'viper'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '0'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'viper'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'viper'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '0'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 5
-        a.cl_min = 0.000001
-        a.cl_max = 0.0001
-
-        a.dataset_test = 'viper'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'viper_epoch_10'
-        a.load_weights_name = 'viper_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '0'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_2_0: priming on viper. epoch=5. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
-
-def ex_15_2_1():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'grid'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '1'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'grid'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'grid'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '1'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 5
-        a.cl_min = 0.000001
-        a.cl_max = 0.0001
-
-        a.dataset_test = 'grid'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'grid_epoch_10'
-        a.load_weights_name = 'grid_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '1'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_2_1: priming on grid. epoch=5. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
-
-def ex_15_2_2():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'prid450'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '2'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'prid450'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'prid450'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '2'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 5
-        a.cl_min = 0.000001
-        a.cl_max = 0.0001
-
-        a.dataset_test = 'prid450'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'prid450_epoch_10'
-        a.load_weights_name = 'prid450_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '2'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_2_2: priming on prid450. epoch=5. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
-
-# 15_3, train, save, prime w 5 epochs, CLR diff
-def ex_15_3_0():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'viper'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '0'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'viper'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'viper'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '0'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 10
-        a.cl_min = 0.000001
-        a.cl_max = 0.0001
-
-        a.dataset_test = 'viper'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'viper_epoch_10'
-        a.load_weights_name = 'viper_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '0'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_3_0: priming on viper. epoch=10. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
-
-def ex_15_3_1():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'grid'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '1'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'grid'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'grid'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '1'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 10
-        a.cl_min = 0.000001
-        a.cl_max = 0.0001
-
-        a.dataset_test = 'grid'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'grid_epoch_10'
-        a.load_weights_name = 'grid_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '1'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_3_1: priming on grid. epoch=10. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
-
-def ex_15_3_2():
-    all_confusion_base = []
-    all_cmc_base = []
-    total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
-    name = 'prid450'
-    iterations = 20
-
-    for itera in range(iterations):
-        # ----------------------------
-        # train and save model+weigths
-        # ----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '2'
-        a.epochs = 100
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.dataset_test = 'prid450'
-        a.ranking_number_test = 100
-
-        a.save_inbetween = True
-        a.save_points = [100]
-        a.name_of_saved_file = 'prid450'
-        a.log_experiment = False
-        ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
-        a = ProjectVariable()
-        a.use_gpu = '2'
-        a.iterations = 1
-        a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 10
-        a.cl_min = 0.000001
-        a.cl_max = 0.0001
-
-        a.dataset_test = 'prid450'
-        a.ranking_number_test = 100
-
-        a.load_model_name = 'prid450_epoch_10'
-        a.load_weights_name = 'prid450_epoch_10'
-        a.log_experiment = False
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        all_confusion_base.append(matrix_means_base)
-        all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        total_time += tt_base + tt_primed
-
-    # calculate the mean information and the std
-    # ---------------------------------------------------------------------------------------------------------------
-    a = ProjectVariable()
-    a.use_gpu = '2'
-    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_3_2: priming on prid450. epoch=10. CLR w same min max vals '
-    # get the means for base
-    matrix_means_base = np.mean(all_confusion_base, axis=0)
-    matrix_std_base = np.std(all_confusion_base, axis=0)
-    ranking_means_base = np.mean(all_cmc_base, axis=0)
-    ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
-
-    if a.log_experiment:
-        file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
-
 
 
 def main():
@@ -4815,10 +3853,6 @@ def main():
     if num == '11_2': ex_11_2()
     if num == '11_3': ex_11_3()
     if num == '11_4': ex_11_4()
-    if num == '15_0_0': ex_15_0_0()
-    if num == '15_1_0': ex_15_1_0()
-    if num == '15_2_0': ex_15_2_0()
-    if num == '15_3_0': ex_15_3_0()
 
     # gpu 1
     if num == '10_1_0': ex_10_1_0()
@@ -4851,10 +3885,6 @@ def main():
     if num == '13_2': ex_13_2()
     if num == '13_3': ex_13_3()
     if num == '13_4': ex_13_4()
-    if num == '15_0_1': ex_15_0_1()
-    if num == '15_1_1': ex_15_1_1()
-    if num == '15_2_1': ex_15_2_1()
-    if num == '15_3_1': ex_15_3_1()
 
     # gpu 2
     if num == '10_2_0': ex_10_2_0()
@@ -4877,10 +3907,6 @@ def main():
     if num == '6_3_0': ex_6_3_0()
     if num == '6_3_1': ex_6_3_1()
     if num == '6_3_2': ex_6_3_2()
-    if num == '15_0_2': ex_15_0_2()
-    if num == '15_1_2': ex_15_1_2()
-    if num == '15_2_2': ex_15_2_2()
-    if num == '15_3_2': ex_15_3_2()
 
     # gpu 3
     if num == '4_0_0': ex_4_0_0()
@@ -4914,4 +3940,4 @@ def main():
     if num == '14_4': ex_14_4()
 
 
-# main()
+main()

@@ -232,6 +232,67 @@ def make_confusion_matrix(adjustable, predictions, labels):
     return [tp, fp, tn, fn]
 
 
+def calculate_TPR_FPR(matrix):
+    if (matrix[0] * 1.0 + matrix[3] * 1.0) == 0:
+        TPR = 0
+    else:
+        TPR = (matrix[0] * 1.0 / (matrix[0] * 1.0 + matrix[3] * 1.0))
+
+    if (matrix[1] * 1.0 + matrix[2] * 1.0) == 0:
+        FPR = 0
+    else:
+        FPR = (matrix[1] * 1.0 / (matrix[1] * 1.0 + matrix[2] * 1.0))
+
+    return TPR, FPR
+
+
+def enter_in_log_priming(adjustable, experiment_name, file_name, name, matrix_means_base, matrix_std_base,
+                        ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
+                        ranking_means_primed, ranking_std_primed, total_time):
+    decimals = '.2f'
+    if not os.path.exists(adjustable.log_file):
+        with open(adjustable.log_file, 'w') as my_file:
+            print('new log file made')
+
+    TPR_base, FPR_base = calculate_TPR_FPR(matrix_means_base)
+    TPR_primed, FPR_primed = calculate_TPR_FPR(matrix_means_primed)
+
+    with open(adjustable.log_file, 'a') as log_file:
+        date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
+        log_file.write('\n')
+        log_file.write('name_of_experiment:         %s\n' % experiment_name)
+        log_file.write('file_name:                  %s\n' % file_name)
+        log_file.write('date:                       %s\n' % date)
+        log_file.write('duration:                   %f\n' % total_time)
+    
+        # base results
+        log_file.write('%s base mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_base).tolist(), decimals))))
+        log_file.write('%s base std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_base).tolist(), decimals))))
+        log_file.write('%s base detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_base)))
+        log_file.write('%s base false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_base)))
+        
+        log_file.write('%s base mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_base).tolist(), decimals))))
+        log_file.write('%s base std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_base).tolist(), decimals))))
+        # primed results
+        log_file.write('%s primed mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_primed).tolist(), decimals))))
+        log_file.write('%s primed std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_primed).tolist(), decimals))))
+        log_file.write('%s primed detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_primed)))
+        log_file.write('%s primed false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_primed)))
+
+        log_file.write('%s primed mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_primed).tolist(), decimals))))
+        log_file.write('%s primed std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_primed).tolist(), decimals))))
+
+        log_file.write('\n')
+
+
 def enter_in_log(adjustable, experiment_name, file_name, name, matrix_means, matrix_std, ranking_means,
                  ranking_std, total_time, gregor_means, gregor_std):
     decimals = '.2f'

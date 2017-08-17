@@ -95,7 +95,7 @@ def make_image_data_cuhk2():
                 myfile.write(item_name + '\n')
 
 
-def make_positive_combinations(fullpath, unique_ids, num, smallest_id_group, type='rank', augment_equal=True):
+def make_positive_combinations(fullpath, unique_ids, num, smallest_id_group, type='rank', augment_equal=False):
     """
     Makes positive pairs for images (or sequences in the case of video data)
     :param fullpath:            list of fullpath names
