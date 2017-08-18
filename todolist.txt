@@ -49,11 +49,17 @@ Discussion: what to do about issue using timedistributed + batchnorm?
 .. Python libraries
 .. Nvidia CUDA drivers + library versions
 
+18 aug
+. WRITE DAMMIT
+.. go through all items in the todo list and do them
+. 16:00 -> make new experiments
+
 17 aug
 . WRITE DAMMIT
 
 ~ I made a todo list ~
-background: person re-id: TODO: merge parts of commented text below with the current person re-id text
+DONE background: person re-id: TODO: merge parts of commented text below with the current person re-id text
+background: person re-id: TODO: create image showing the re-id process
 background: indoor setup: TODO: make diagram to illustrate setup
 background: neural networks and deep learning: TODO: (1) add section headers to make it more clear\\(2) talk about 3D convolutions and LSTM\\(3) talk about CLR\\(4) talk about batchnormalization\\(5) talk about dropout\\(6) talk about maxpooling
 background: relevant problems in person re-id: TODO: rewrite this section to focus more on why the problem is a problem on it's own and don't talk about authors and prior work so much. Then in the literature review we can talk about what has been done before.
@@ -70,7 +76,16 @@ datasets: video datasets: TODO: say why we chose these datasets and what makes t
 datasets: class imbalance problem: TODO: (1) explain in more detail how we sample the negatives. (2) make a diagram for sampling
 
 experiments and results: TODO: (1) explain all decisions in detail and motivate\\(2) enter results in the tables\\(3) say how to read results
-experiments and results: make generic siamese diagram
+experiments and results: TODO make generic siamese diagram
+experiments and results: distance...: TODO explain why 1
+experiments and results: distance...: TODO explain why 2
+experiments and results: strategies...: TODO: explicitely say why it's realistic.
+experiments and results: strategies...: TODO: fix this image \ref{fig:mix}
+experiments and results: strategies...: setting 1...: TODO: explain SELUs at some point before this.
+experiments and results: video...: TODO: put data in table. talk more explicitely about these experiments and what the fuck it is they serve. maybe compare the prid2011 with prid450 cuz that would be relevant. You'd be saying how using video thingies is better on the same dataset using somewhat same architecture. Yeah say that you want to compare the performance on video vs image directly by using prid2011 and prid450. and say that to extra check which architecture works better we also use ilids. \\ add experiment where the sequence length increases gradually
+
+discussion: TODO: interpret the results and BE MORE THAN DESCRIPTIVE and say why shit makes sense and why it doesn't. ground arguments in existing literature
+
 
 16 aug
 ------

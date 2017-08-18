@@ -1,10 +1,11 @@
 import tensorflow as tf
 import keras
+from keras import models
 import os
 # import keras
 # from keras.models import Sequential, Model
 # from keras.layers import Dense, Dropout, Activation, LSTM, Embedding, Input
-# os.environ["CUDA_VISIBLE_DEVICES"]="0"
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 import numpy as np
 from PIL import Image
 # from keras.models import load_model
@@ -25,7 +26,8 @@ from numpy.linalg import inv
 import urllib
 import zipfile
 from scipy import io
-
+import scipy
+from scipy.misc import imread
 
 def test_data_pipeline():
     path = '/home/gabi/Documents/datasets/humans/1/per00001.jpg'
@@ -632,4 +634,31 @@ def look_weights():
     print('shit')
 
 
-test_keras()
+def compare_image():
+
+    img_1_path = '/home/gabi/Documents/datasets/GRID/fixed_grid/0001_1_25004_107_32_106_221.jpeg'
+    img_2_path = '/home/gabi/Documents/datasets/GRID/fixed_grid/0001_2_25023_116_134_128_330.jpeg'
+    img_3_path = '/home/gabi/Documents/datasets/GRID/fixed_grid/0002_1_25008_169_19_94_224.jpeg'
+
+
+    pair = np.zeros((1, 2, 128, 64, 3))
+
+    img_1 = imread(img_1_path)
+    img_2 = imread(img_2_path)
+    img_3 = imread(img_3_path)
+
+
+    pair[0, 0] = img_1
+    print(np.shape(pair[0, 0]))
+    pair[0, 1] = img_2
+
+
+    model = models.load_model('/home/gabi/PycharmProjects/uatu/model_weights/priming_on_viper_epoch_100_model.h5')
+
+    prediction = model.predict([pair[:, 0], pair[:, 1]])
+    print(prediction)
+    pair[0, 1] = img_3
+    prediction = model.predict([pair[:, 0], pair[:, 1]])
+    print(prediction)
+
+# compare_image()
