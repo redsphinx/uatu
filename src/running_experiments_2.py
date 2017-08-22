@@ -3397,11 +3397,36 @@ def ex_10_4():
     srcn.super_main(a)
 
 
+def whuwhu():
+    a = ProjectVariable()
+    a.experiment_name = 'no dropout'
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+    a.iterations = 10
+    a.neural_distance = 'concatenate'
+    a.numfil = 1
+    a.dropout_rate = 0
+    scn.super_main(a)
+
+
+def ex_2_0_0():
+    a = ProjectVariable()
+    a.experiment_name = '2_0: euclidean with nadam. no CLR. decay=0.004'
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+    a.iterations = 10
+    a.use_cyclical_learning_rate = False
+    
+
+    scn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     # if num == '10_4': ex_10_4()
-    ex_10_4()
+    # ex_10_4()
+    whuwhu()
 
 main()
 

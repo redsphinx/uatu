@@ -661,4 +661,37 @@ def compare_image():
     prediction = model.predict([pair[:, 0], pair[:, 1]])
     print(prediction)
 
-# compare_image()
+
+def dataset_mean():
+
+
+    # Access all PNG files in directory
+    # allfiles = os.listdir(os.getcwd())
+    the_path = '/home/gabi/PycharmProjects/uatu/src/dataset_averages'
+    allfiles = os.listdir(the_path)
+    imlist = [os.path.join(the_path, item) for item in allfiles]
+
+    # imlist = [filename for filename in allfiles if filename[-4:] in [".png", ".PNG"]]
+    # imlist = [filename for filename in allfiles if filename[-5:] in [".jpeg"]]
+
+    # Assuming all images are the same size, get dimensions of first image
+    w, h = Image.open(imlist[0]).size
+    N = len(imlist)
+
+    # Create a nparray of floats to store the average (assume RGB images)
+    arr = np.zeros((h, w, 3), np.float)
+
+    # Build up average pixel intensities, casting each image as an array of floats
+    for im in imlist:
+        imarr = np.array(Image.open(im), dtype=np.float)
+        arr = arr + imarr / N
+
+    # Round values in array and cast as 8-bit integer
+    arr = np.array(np.round(arr), dtype=np.uint8)
+
+    # Generate, save and preview final image
+    out = Image.fromarray(arr, mode="RGB")
+    out.save("Average_all.png")
+    out.show()
+
+dataset_mean()
