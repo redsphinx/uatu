@@ -330,10 +330,10 @@ def get_model(adjustable):
     :return:                returns the model
     """
     if adjustable.optimizer == 'nadam':
-        the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
+        the_optimizer = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=adjustable.decay)
     elif adjustable.optimizer == 'sgd':
         the_optimizer = keras.optimizers.SGD()
-    elif adjustable == 'rms':
+    elif adjustable.optimizer == 'rms':
         the_optimizer = keras.optimizers.RMSprop()
     else:
         the_optimizer = None

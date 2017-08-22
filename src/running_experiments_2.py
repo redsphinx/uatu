@@ -3409,15 +3409,151 @@ def whuwhu():
     scn.super_main(a)
 
 
+# 2_0 decay=0.004 instead of 0.95. seeing if decay will change anything euclidean
 def ex_2_0_0():
     a = ProjectVariable()
-    a.experiment_name = '2_0: euclidean with nadam. no CLR. decay=0.004'
+    a.experiment_name = '2_0_0: euclidean with nadam. no CLR. decay=0.004'
     a.dataset_test = 'viper'
     a.ranking_number_test = 100
-    a.iterations = 10
+    a.iterations = 20
+    a.cost_module_type = 'euclidean'
     a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
+
+def ex_2_0_1():
+    a = ProjectVariable()
+    a.experiment_name = '2_0_1: euclidean with nadam. no CLR. decay=0.004'
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
     
 
+def ex_2_0_2():
+    a = ProjectVariable()
+    a.experiment_name = '2_0_2: euclidean with nadam. no CLR. decay=0.004'
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
+
+# 2_1 decay=0 instead of 0.95 + rmsprop instead of nadam euclidean
+def ex_2_1_0():
+    a = ProjectVariable()
+    a.experiment_name = '2_1_0: euclidean with rms. no CLR. decay=0'
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.decay = 0
+    scn.super_main(a)
+
+
+def ex_2_1_1():
+    a = ProjectVariable()
+    a.experiment_name = '2_1_1: euclidean with rms. no CLR. decay=0'
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.decay = 0
+    scn.super_main(a)
+
+
+def ex_2_1_2():
+    a = ProjectVariable()
+    a.experiment_name = '2_1_2: euclidean with rms. no CLR. decay=0'
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.decay = 0
+    scn.super_main(a)
+
+
+# 2_2 decay=0.004 instead of 0.95. seeing if decay will change anything cosine
+def ex_2_2_0():
+    a = ProjectVariable()
+    a.experiment_name = '2_2_0: cosine with nadam. no CLR. decay=0.004'
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'cosine'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
+
+def ex_2_2_1():
+    a = ProjectVariable()
+    a.experiment_name = '2_2_1: cosine with nadam. no CLR. decay=0.004'
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'cosine'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
+
+def ex_2_2_2():
+    a = ProjectVariable()
+    a.experiment_name = '2_2_2: cosine with nadam. no CLR. decay=0.004'
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'cosine'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
+
+# 2_3 decay=0 instead of 0.95 + rmsprop instead of nadam. cosine
+def ex_2_3_0():
+    a = ProjectVariable()
+    a.experiment_name = '2_3_0: cosine with rms. no CLR. decay=0'
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'cosine'
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.decay = 0
+    scn.super_main(a)
+
+
+def ex_2_3_1():
+    a = ProjectVariable()
+    a.experiment_name = '2_3_1: cosine with rms. no CLR. decay=0'
+    a.dataset_test = 'grid'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'cosine'
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.decay = 0
+    scn.super_main(a)
+
+
+def ex_2_3_2():
+    a = ProjectVariable()
+    a.experiment_name = '2_3_2: cosine with rms. no CLR. decay=0'
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 100
+    a.iterations = 20
+    a.cost_module_type = 'cosine'
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.decay = 0
     scn.super_main(a)
 
 
@@ -3426,8 +3562,17 @@ def main():
     # print(sys.argv)
     # if num == '10_4': ex_10_4()
     # ex_10_4()
-    whuwhu()
+    # ex_2_0_0()
+    # ex_2_0_1()
+    # ex_2_0_2()
+    ex_2_1_0()
+    ex_2_1_1()
+    ex_2_1_2()
+    ex_2_2_0()
+    ex_2_2_1()
+    ex_2_2_2()
+    ex_2_3_0()
+    ex_2_3_1()
+    ex_2_3_2()
 
 main()
-
-

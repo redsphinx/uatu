@@ -140,6 +140,11 @@ class ProjectVariable(object):
         self._optimizer = 'nadam'
         # if true, swaps the order of half of the pairs in the training set
         self._sideways_shuffle = True
+        # decay for the optimizers. set to 0 for RMSprop
+        self._decay = 0.004 # float
+
+
+
 
     @property
     def use_gpu(self):
@@ -680,3 +685,12 @@ class ProjectVariable(object):
     @sideways_shuffle.setter
     def sideways_shuffle(self, value):
         self._sideways_shuffle = value
+
+    # decay for the optimizers. set to 0 for RMSprop
+    @property
+    def decay(self):
+        return self._decay
+
+    @decay.setter
+    def decay(self, value):
+        self._decay = value
