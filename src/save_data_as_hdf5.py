@@ -100,6 +100,16 @@ def save_all_video_data_as_h5():
         save_video_as_hdf5(swapped_list, og_list, h5_path)
 
 
+def save_prid2011_450_as_hdf5():
+    name = 'prid2011_450'
+
+    swapped_list = '../data/%s/swapped_fullpath_names.txt' % name
+    og_list = '../data/%s/fullpath_sequence_names.txt' % name
+    h5_path = '../data/%s/%s.h5' % (name, name)
+    save_video_as_hdf5(swapped_list, og_list, h5_path)
+    print('saved prid2011_450')
+
+
 def save_inria_data_as_hdf5():
     fullpath = '../data/INRIA/fullpath.txt'
     swapped = '../data/INRIA/swapped.txt'
@@ -121,3 +131,5 @@ def save_inria_data_as_hdf5():
     with h5py.File(h5_path, 'w') as myfile:
         for item in range(len_files):
             myfile.create_dataset(name=swapped_list[item], data=ndimage.imread(fullpath_list[item]))
+
+

@@ -54,6 +54,11 @@ def make_image_data_files(fixed_dataset_path, project_data_storage):
             myfile.write(item_name + '\n')
 
 
+def make_image_data_prid400():
+    pass
+
+
+
 def make_image_data_cuhk2():
     """
     Creates 5 text files, one for each partition in CUHK02:
@@ -727,6 +732,56 @@ def make_video_data_files(name):
     with open(id_unique, 'w') as my_file:
         for item in range(len(unique_id)):
             my_file.write('%s\n' % unique_id[item])
+
+
+def make_prid2011_450_data():
+    # from prid2011 make a subset with 450 identities
+
+    path_prid2011_450 = '../data/prid2011_450'
+    if not os.path.exists(path_prid2011_450):
+        os.mkdir(path_prid2011_450)
+
+    # get the prid2011 data
+    name = 'prid2011'
+    fullpath_unique_sequences = '../data/%s/fullpath_sequence_names.txt' % name
+    id_all = '../data/%s/id_all.txt' % name
+    swapped_unique = '../data/%s/swapped_fullpath_names.txt' % name
+    id_unique = '../data/%s/unique_id.txt' % name
+
+    # define paths to the new files
+    new_name = 'prid2011_450'
+    new_fullpath_unique_sequences = '../data/%s/fullpath_sequence_names.txt' % new_name
+    new_id_all = '../data/%s/id_all.txt' % new_name
+    new_swapped_unique = '../data/%s/swapped_fullpath_names.txt' % new_name
+    new_id_unique = '../data/%s/unique_id.txt' % new_name
+
+    # select firt 450 identities
+    id_unique_list = list(np.genfromtxt(id_unique, dtype=None))
+    id_unique_list = id_unique_list[0:450]
+    # sanity check
+    print('len new 450 list: ', len(id_unique_list))
+    # read the other files
+    fullpath = list(np.genfromtxt(fullpath_unique_sequences, dtype=None))
+    id_a = list(np.genfromtxt(id_all, dtype=None))
+    swapped = list(np.genfromtxt(swapped_unique, dtype=None))
+    # for Id on the truncated id list, truncate the other files accordingly
+    for item in id_unique_list:
+        # text_id = '%04d' % item
+        indices = [i for i, x in enumerate(id_a) if x == item]
+        for index in indices:
+            with open(new_fullpath_unique_sequences, 'a') as myfile:
+                line = fullpath[index]
+                myfile.write(line + '\n')
+            with open(new_id_all, 'a') as myfile:
+                line = id_a[index]
+                line = '%04d' % line
+                myfile.write(line + '\n')
+            with open(new_swapped_unique, 'a') as myfile:
+                line = swapped[index]
+                myfile.write(line + '\n')
+        with open(new_id_unique, 'a') as myfile:
+            line = str(item)
+            myfile.write(line + '\n')
 
 
 # DONE TODO: adjustable.datasets

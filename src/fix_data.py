@@ -255,6 +255,7 @@ def fix_video_dataset(name, min_seq):
         # list the persons
         for person in persons:
             if len(person.split('_')) == 1:
+                # if the name id has 1 int
                 new_person = list(person)[-3:]
                 new_person = pu.my_join(new_person)
                 new_person = int(new_person)
@@ -380,3 +381,4 @@ def fix_inria():
 
             flipped_image = cropped_image.transpose(Image.FLIP_LEFT_RIGHT)
             flipped_image.save(flipped_path)
+

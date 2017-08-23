@@ -1,3 +1,5 @@
+# a file for making test methods to investigate whatever
+
 import tensorflow as tf
 import keras
 from keras import models
@@ -663,7 +665,7 @@ def compare_image():
 
 
 def dataset_mean():
-
+    # gets mean of a dataset and saves it
 
     # Access all PNG files in directory
     # allfiles = os.listdir(os.getcwd())
@@ -694,4 +696,37 @@ def dataset_mean():
     out.save("Average_all.png")
     out.show()
 
-dataset_mean()
+
+def find_matches(file_1, file_2):
+    f1 = list(np.genfromtxt(file_1, dtype=None))
+    f2 = list(np.genfromtxt(file_2, dtype=None))
+
+    f1_id = [item.strip().split('/')[-1].split('_')[-1] for item in f1]
+    f2_id = [item.strip().split('/')[-1].split('_')[-1] for item in f2]
+
+    inters = set(f1_id).intersection(f2_id)
+
+    print('intersection: ', len(inters))
+
+    f1_diff = set(f1_id) - set(inters)
+    f2_diff = set(f2_id) - set(inters)
+    
+    count_f1 = 0
+    for item in f1_diff:
+        index_f1_id = f1_id.index(item)
+        f1_path = f1[index_f1_id]
+        num_of_images = len(os.listdir(f1_path))
+        if num_of_images > 40:
+            count_f1 += 1
+    print('count f1: ', count_f1)
+
+    count_f2 = 0
+    for item in f2_diff:
+        index_f2_id = f2_id.index(item)
+        f2_path = f2[index_f2_id]
+        num_of_images = len(os.listdir(f2_path))
+        if num_of_images > 40:
+            count_f2 += 1
+    print('count f2: ', count_f2)
+
+    print('total: ', len(inters) + count_f1 + count_f2)
