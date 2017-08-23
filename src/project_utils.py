@@ -291,6 +291,164 @@ def enter_in_log_priming(adjustable, experiment_name, file_name, name, matrix_me
             name, str(reduce_float_length(np.asarray(ranking_std_primed).tolist(), decimals))))
 
         log_file.write('\n')
+        
+
+def enter_in_log_priming_augment(adjustable, experiment_name, file_name, name, 
+                                        matrix_means_base, matrix_std_base, ranking_means_base, ranking_std_base,
+                                        matrix_means_primed_5_clr_same, matrix_std_primed_5_clr_same,
+                                        ranking_means_primed_5_clr_same, ranking_std_primed_5_clr_same,
+                                        matrix_means_primed_10_clr_same, matrix_std_primed_10_clr_same,
+                                        ranking_means_primed_10_clr_same, ranking_std_primed_10_clr_same,
+                                        matrix_means_primed_5_clr_diff, matrix_std_primed_5_clr_diff,
+                                        ranking_means_primed_5_clr_diff, ranking_std_primed_5_clr_diff,
+                                        matrix_means_primed_10_clr_diff, matrix_std_primed_10_clr_diff,
+                                        ranking_means_primed_10_clr_diff, ranking_std_primed_10_clr_diff,
+                                        matrix_means_primed_5_lr_00001, matrix_std_primed_5_lr_00001,
+                                        ranking_means_primed_5_lr_00001, ranking_std_primed_5_lr_00001,
+                                        matrix_means_primed_10_lr_00001, matrix_std_primed_10_lr_00001,
+                                        ranking_means_primed_10_lr_00001, ranking_std_primed_10_lr_00001,
+                                        matrix_means_primed_5_lr_000001, matrix_std_primed_5_lr_000001,
+                                        ranking_means_primed_5_lr_000001, ranking_std_primed_5_lr_000001,
+                                        matrix_means_primed_10_lr_000001, matrix_std_primed_10_lr_000001,
+                                        ranking_means_primed_10_lr_000001, ranking_std_primed_10_lr_000001,
+                                        total_time):
+    decimals = '.2f'
+    if not os.path.exists(adjustable.log_file):
+        with open(adjustable.log_file, 'w') as my_file:
+            print('new log file made')
+
+    TPR_base, FPR_base = calculate_TPR_FPR(matrix_means_base)
+    TPR_primed_5_clr_same, FPR_primed_5_clr_same = calculate_TPR_FPR(matrix_means_primed_5_clr_same)
+    TPR_primed_10_clr_same, FPR_primed_10_clr_same = calculate_TPR_FPR(matrix_means_primed_10_clr_same)
+    TPR_primed_5_clr_diff, FPR_primed_5_clr_diff = calculate_TPR_FPR(matrix_means_primed_5_clr_diff)
+    TPR_primed_10_clr_diff, FPR_primed_10_clr_diff = calculate_TPR_FPR(matrix_means_primed_10_clr_diff)
+    TPR_primed_5_lr_00001, FPR_primed_5_lr_00001 = calculate_TPR_FPR(matrix_means_primed_5_lr_00001)
+    TPR_primed_10_lr_00001, FPR_primed_10_lr_00001 = calculate_TPR_FPR(matrix_means_primed_10_lr_00001)
+    TPR_primed_5_lr_000001, FPR_primed_5_lr_000001 = calculate_TPR_FPR(matrix_means_primed_5_lr_000001)
+    TPR_primed_10_lr_000001, FPR_primed_10_lr_000001 = calculate_TPR_FPR(matrix_means_primed_10_lr_000001)
+
+    with open(adjustable.log_file, 'a') as log_file:
+        date = str(time.strftime("%d/%m/%Y")) + "   " + str(time.strftime("%H:%M:%S"))
+        log_file.write('\n')
+        log_file.write('name_of_experiment:         %s\n' % experiment_name)
+        log_file.write('file_name:                  %s\n' % file_name)
+        log_file.write('date:                       %s\n' % date)
+        log_file.write('duration:                   %f\n' % total_time)
+
+        # base results
+        log_file.write('%s base mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_base).tolist(), decimals))))
+        log_file.write('%s base std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_base).tolist(), decimals))))
+        log_file.write('%s base detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_base)))
+        log_file.write('%s base false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_base)))
+        log_file.write('%s base mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_base).tolist(), decimals))))
+        log_file.write('%s base std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_base).tolist(), decimals))))
+        # primed results 5 clr same
+        log_file.write('%s primed 5 clr same mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_primed_5_clr_same).tolist(), decimals))))
+        log_file.write('%s primed 5 clr same std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_primed_5_clr_same).tolist(), decimals))))
+        log_file.write('%s primed 5 clr same detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_primed_5_clr_same)))
+        log_file.write('%s primed 5 clr same false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_primed_5_clr_same)))
+        log_file.write('%s primed 5 clr same mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_primed_5_clr_same).tolist(), decimals))))
+        log_file.write('%s primed 5 clr same std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_primed_5_clr_same).tolist(), decimals))))
+        # primed results 10 clr same
+        log_file.write('%s primed 10 clr same mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_primed_10_clr_same).tolist(), decimals))))
+        log_file.write('%s primed 10 clr same std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_primed_10_clr_same).tolist(), decimals))))
+        log_file.write('%s primed 10 clr same detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_primed_10_clr_same)))
+        log_file.write('%s primed 10 clr same false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_primed_10_clr_same)))
+        log_file.write('%s primed 10 clr same mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_primed_10_clr_same).tolist(), decimals))))
+        log_file.write('%s primed 10 clr same std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_primed_10_clr_same).tolist(), decimals))))
+        # primed results 5 clr diff
+        log_file.write('%s primed 5 clr diff mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_primed_5_clr_diff).tolist(), decimals))))
+        log_file.write('%s primed 5 clr diff std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_primed_5_clr_diff).tolist(), decimals))))
+        log_file.write(
+            '%s primed 5 clr diff detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_primed_5_clr_diff)))
+        log_file.write(
+            '%s primed 5 clr diff false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_primed_5_clr_diff)))
+        log_file.write('%s primed 5 clr diff mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_primed_5_clr_diff).tolist(), decimals))))
+        log_file.write('%s primed 5 clr diff std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_primed_5_clr_diff).tolist(), decimals))))
+        # primed results 10 clr diff
+        log_file.write('%s primed 10 clr diff mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_primed_10_clr_diff).tolist(), decimals))))
+        log_file.write('%s primed 10 clr diff std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_primed_10_clr_diff).tolist(), decimals))))
+        log_file.write(
+            '%s primed 10 clr diff detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_primed_10_clr_diff)))
+        log_file.write(
+            '%s primed 10 clr diff false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_primed_10_clr_diff)))
+        log_file.write('%s primed 10 clr diff mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_primed_10_clr_diff).tolist(), decimals))))
+        log_file.write('%s primed 10 clr diff std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_primed_10_clr_diff).tolist(), decimals))))
+        ##
+        # primed results 5 lr 0.00001
+        log_file.write('%s primed 5 lr 0.00001 mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_primed_5_lr_00001).tolist(), decimals))))
+        log_file.write('%s primed 5 lr 0.00001 std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_primed_5_lr_00001).tolist(), decimals))))
+        log_file.write(
+            '%s primed 5 lr 0.00001 detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_primed_5_lr_00001)))
+        log_file.write(
+            '%s primed 5 lr 0.00001 false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_primed_5_lr_00001)))
+        log_file.write('%s primed 5 lr 0.00001 mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_primed_5_lr_00001).tolist(), decimals))))
+        log_file.write('%s primed 5 lr 0.00001 std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_primed_5_lr_00001).tolist(), decimals))))
+        # primed results 10 lr 0.00001
+        log_file.write('%s primed 10 lr 0.00001 mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_primed_10_lr_00001).tolist(), decimals))))
+        log_file.write('%s primed 10 lr 0.00001 std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_primed_10_lr_00001).tolist(), decimals))))
+        log_file.write(
+            '%s primed 10 lr 0.00001 detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_primed_10_lr_00001)))
+        log_file.write(
+            '%s primed 10 lr 0.00001 false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_primed_10_lr_00001)))
+        log_file.write('%s primed 10 lr 0.00001 mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_primed_10_lr_00001).tolist(), decimals))))
+        log_file.write('%s primed 10 lr 0.00001 std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_primed_10_lr_00001).tolist(), decimals))))
+        # primed results 5 lr 0.000001
+        log_file.write('%s primed 5 lr 0.000001 mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_primed_5_lr_000001).tolist(), decimals))))
+        log_file.write('%s primed 5 lr 0.000001 std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_primed_5_lr_000001).tolist(), decimals))))
+        log_file.write(
+            '%s primed 5 lr 0.000001 detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_primed_5_lr_000001)))
+        log_file.write(
+            '%s primed 5 lr 0.000001 false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_primed_5_lr_000001)))
+        log_file.write('%s primed 5 lr 0.000001 mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_primed_5_lr_000001).tolist(), decimals))))
+        log_file.write('%s primed 5 lr 0.000001 std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_primed_5_lr_000001).tolist(), decimals))))
+        # primed results 10 lr 0.000001
+        log_file.write('%s primed 10 lr 0.000001 mean tp,fp,tn,fn:    %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_means_primed_10_lr_000001).tolist(), decimals))))
+        log_file.write('%s primed 10 lr 0.000001 std tp,fp,tn,fn:     %s\n' % (
+            name, str(reduce_float_length(np.asarray(matrix_std_primed_10_lr_000001).tolist(), decimals))))
+        log_file.write(
+            '%s primed 10 lr 0.000001 detection rate (TP/(TP+FN)):      %s\n' % (name, str(TPR_primed_10_lr_000001)))
+        log_file.write(
+            '%s primed 10 lr 0.000001 false alarm (FP/(FP+TN)):        %s\n' % (name, str(FPR_primed_10_lr_000001)))
+        log_file.write('%s primed 10 lr 0.000001 mean ranking:        %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_means_primed_10_lr_000001).tolist(), decimals))))
+        log_file.write('%s primed 10 lr 0.000001 std ranking:         %s\n' % (
+            name, str(reduce_float_length(np.asarray(ranking_std_primed_10_lr_000001).tolist(), decimals))))
+
+        log_file.write('\n')
 
 
 def enter_in_log(adjustable, experiment_name, file_name, name, matrix_means, matrix_std, ranking_means,

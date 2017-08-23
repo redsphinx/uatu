@@ -17,6 +17,7 @@ import time
 import random
 import siamese_cnn_image as scn
 from clr_callback import *
+import shutil
 
 
 def zoom(image):
@@ -209,11 +210,18 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
         list_related_keys = dp.get_related_keys(adjustable, name, partition, seen, this_ranking, the_id)
         path = '../data/%s/augmented/%s' % (folder_name, the_id)
 
+
         if os.path.exists(path):
-            if len(os.listdir(path)) == 0:
-                create_and_save_augmented_images(list_related_keys, the_id, name)
-        else:
-            create_and_save_augmented_images(list_related_keys, the_id, name)
+            # remove the folder
+            shutil.rmtree(path, ignore_errors=True)
+
+        create_and_save_augmented_images(list_related_keys, the_id, name)
+
+        # if os.path.exists(path):
+        #     if len(os.listdir(path)) == 0:
+        #         create_and_save_augmented_images(list_related_keys, the_id, name)
+        # else:
+        #     create_and_save_augmented_images(list_related_keys, the_id, name)
 
         list_augmented_images_short = os.listdir(path)
         list_augmented_images_long = [os.path.join(path, item) for item in list_augmented_images_short]
