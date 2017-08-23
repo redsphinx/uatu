@@ -18,6 +18,7 @@ from random import randint
 import random
 import project_constants as pc
 import project_utils as pu
+import time
 
 
 def make_image_data_files(fixed_dataset_path, project_data_storage):
@@ -177,7 +178,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
 
         # update min_id_group_size
         # if dataset is large and has a lot of large id groups(>num) then ignore the id groups that are smaller than num
-        if dataset_name in {'market', 'cuhk02', 'caviar', 'prid2011', 'ilids-vid', 'ilids-vid-20'}:
+        if dataset_name in {'market', 'cuhk02', 'caviar', 'prid2011', 'ilids-vid', 'ilids-vid-20', 'prid2011_450'}:
             if len(id_group) >= num:
                 # print('length id group: %d, num: %d' % (len(id_group), num))
                 if min_id_group_size > len(id_group):
@@ -958,6 +959,8 @@ def get_dataset(name):
         dataset_h5 = h5py.File('../data/prid2011/prid2011.h5', 'r')
     elif name == 'inria':
         dataset_h5 = h5py.File('../data/INRIA/inria.h5', 'r')
+    elif name == 'prid2011_450':
+        dataset_h5 = h5py.File('../data/prid2011_450/prid2011_450.h5', 'r')
     else:
         dataset_h5 = None
 
@@ -1014,6 +1017,11 @@ def create_training_and_ranking_set(name, adjustable, ranking_variable, do_ranki
         ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.PRID2011_DATA_STORAGE,
                                                                pc.PRID2011_FIXED, do_ranking, do_training, name,
                                                                ranking_variable)
+    elif name == 'prid2011_450':
+        ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.PRID2011_450_DATA_STORAGE,
+                                                               pc.PRID2011_FIXED, do_ranking, do_training, name,
+                                                               ranking_variable)
+
     else:
         ranking, training_pos, training_neg = None, None, None
 
@@ -1122,7 +1130,7 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
 
 
 # TODO: fix for mixing video data
-def get_dataset_to_map(name, data_list, data_names):
+def get_dataset_to_map(name, data_list, data_names, name_extra):
     """
     Get the dataset
     :param name:            string, name of the dataset folder in ../data
@@ -1149,12 +1157,14 @@ def get_dataset_to_map(name, data_list, data_names):
         dataset = 'prid450'
     elif name == 'fixed_grid':
         dataset = 'GRID'
-    elif name == 'prid2011-fixed':
+    elif name == 'prid2011-fixed' and name_extra == 'prid2011':
         dataset = 'prid2011'
     elif name == 'ilids-vid-fixed':
         dataset = 'ilids-vid'
     elif name == 'ilids-vid-fixed-20':
         dataset = 'ilids-vid-20'
+    elif name == 'prid2011-fixed' and name_extra == 'prid2011_450':
+        dataset = 'prid2011_450'
     else:
         print("sorry, we don't serve '%s'. would you like some fries with that?" % name)
         dataset = None
@@ -1193,9 +1203,20 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
             the_filename = str(the_filename)
             h5_filenames.append(the_filename)
 
-        if 'prid2011' in h5_filenames or 'ilids-vid' in h5_filenames or 'ilids-vid-20' in h5_filenames:
+        if 'prid2011' in h5_filenames:
             place = 4
+            name_extra = 'prid2011'
+        elif 'ilids-vid' in h5_filenames:
+            place = 4
+            name_extra = None
+        elif 'ilids-vid-20' in h5_filenames:
+            place = 4
+            name_extra = None
+        elif 'prid2011_450' in h5_filenames:
+            place = 4
+            name_extra = 'prid2011_450'
         else:
+            name_extra = None
             place = 2
 
         for key in key_list:
@@ -1207,8 +1228,8 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
             folder_key_2 = key_2.split('+')[-place]
 
             # get the h5 object containing the dataset for key_n
-            dataset_key_1 = get_dataset_to_map(folder_key_1, h5_dataset_list, h5_filenames)
-            dataset_key_2 = get_dataset_to_map(folder_key_2, h5_dataset_list, h5_filenames)
+            dataset_key_1 = get_dataset_to_map(folder_key_1, h5_dataset_list, h5_filenames, name_extra)
+            dataset_key_2 = get_dataset_to_map(folder_key_2, h5_dataset_list, h5_filenames, name_extra)
 
             key_dataset_mapping[key_1] = dataset_key_1
             key_dataset_mapping[key_2] = dataset_key_2

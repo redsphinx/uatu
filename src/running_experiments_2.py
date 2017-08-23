@@ -3557,22 +3557,26 @@ def ex_2_3_2():
     scn.super_main(a)
 
 
+def test_prid2011_450():
+    a = ProjectVariable()
+    a.experiment_name = 'testing siamese video: 3D convolutions on prid2011, ranking number=308'
+    a.epochs = 1
+    a.iterations = 1
+    a.batch_size = 32
+    a.activation_function = 'elu'
+    a.dataset_test = 'prid2011'
+    a.video_head_type = '3d_convolution'
+    a.sequence_length = 20
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    a.ranking_number_test = '308'
+    srcn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     # if num == '10_4': ex_10_4()
-    # ex_10_4()
-    # ex_2_0_0()
-    # ex_2_0_1()
-    # ex_2_0_2()
-    ex_2_1_0()
-    ex_2_1_1()
-    ex_2_1_2()
-    ex_2_2_0()
-    ex_2_2_1()
-    ex_2_2_2()
-    ex_2_3_0()
-    ex_2_3_1()
-    ex_2_3_2()
+    test_prid2011_450()
 
 main()

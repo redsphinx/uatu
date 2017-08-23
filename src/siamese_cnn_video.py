@@ -23,7 +23,7 @@ import time
 import h5py
 from clr_callback import *
 import random
-
+import math
 
 def euclidean_distance(vects):
     """ Returns the euclidean distance between the 2 feature vectors
@@ -672,7 +672,6 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
             #   Save the model + weights (if specified with adjustable.save_inbetween and adjustable.save_points)
             ############################################################################################################
             time_stamp = time.strftime('scnn_%d%m%Y_%H%M')
-            # TODO: fix dataset name
             if adjustable.save_inbetween and adjustable.iterations == 1:
                 if epoch + 1 in adjustable.save_points:
                     if adjustable.name_of_saved_file is not None:
@@ -706,19 +705,59 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
         ################################################################################################################
         #   Prepare the testing/ranking data
         ################################################################################################################
-        test_data = dp.grab_em_by_the_keys(this_ranking, training_h5, testing_h5)
-
-        # prepare for testing the model
-        final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
-
-        if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-            final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
+        # test_data = dp.grab_em_by_the_keys(this_ranking, training_h5, testing_h5)
+        #
+        # # prepare for testing the model
+        # final_testing_labels = [int(this_ranking[item].strip().split(',')[-1]) for item in range(len(this_ranking))]
+        #
+        # if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+        #     final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
         ################################################################################################################
         #   Test
         ################################################################################################################
         print('Testing...')
-        predictions = model.predict([test_data[0, :], test_data[1, :]])
+        # here we have a bottle neck when using large ranking numbers. Because the list is big we will load a shitton
+        # of data at once.
+        # modified to make this lighter on the memory usage so we can use big ranking numbers.
+        # so instead of passing the list in one go, we split the list in manageable pieces.
+
+        max_list_size = 500
+        len_test_data = max(np.shape(this_ranking))
+        print('length list test data: ', len_test_data)
+
+        # partitions = len_test_data / max_list_size + 1
+        partitions = int(math.ceil(len_test_data / (max_list_size*1.0)))
+        total_predictions = np.zeros((len_test_data, 2))
+        total_final_labels = np.zeros((len_test_data, 2))
+
+        for part in range(partitions):
+            b = part * max_list_size
+            if (1 + part) * max_list_size > len_test_data:
+                e = len_test_data
+            else:
+                e = (1 + part) * max_list_size
+
+            ranking_partition = this_ranking[b:e]
+
+            test_data = dp.grab_em_by_the_keys(ranking_partition, training_h5, testing_h5)
+
+            # prepare for testing the model
+            final_testing_labels = [int(ranking_partition[item].strip().split(',')[-1]) for item in range(len(ranking_partition))]
+
+            if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
+                final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
+
+            predictions = model.predict([test_data[0, :], test_data[1, :]])
+            total_predictions[b:e] = predictions
+            total_final_labels[b:e] = final_testing_labels
+            # total_predictions.append(predictions)
+            # total_final_labels.append(final_testing_labels)
+
+        predictions = total_predictions
+        final_testing_labels = total_final_labels
+        del total_predictions
+        del total_final_labels
 
         ################################################################################################################
         #   Process the results
