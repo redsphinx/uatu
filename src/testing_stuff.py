@@ -30,6 +30,7 @@ import zipfile
 from scipy import io
 import scipy
 from scipy.misc import imread
+import project_constants as pc
 
 def test_data_pipeline():
     path = '/home/gabi/Documents/datasets/humans/1/per00001.jpg'
@@ -730,3 +731,53 @@ def find_matches(file_1, file_2):
     print('count f2: ', count_f2)
 
     print('total: ', len(inters) + count_f1 + count_f2)
+
+
+def zoom(image):
+    the_image = image
+    image_2 = the_image.crop((5, 5, 59, 123))
+    image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+    return image_2
+
+
+def rotate(image):
+    the_image = image
+    image_2 = the_image.rotate(4)
+    image_2 = image_2.crop((5, 5, 59, 123))
+    image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+    return image_2
+
+
+def flip_zoom(image):
+    the_image = image
+    image_2 = the_image.transpose(Image.FLIP_LEFT_RIGHT)
+    image_2 = image_2.crop((5, 5, 59, 123))
+    image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+    return image_2
+
+
+def flip_rotate(image):
+    the_image = image
+    image_2 = the_image.transpose(Image.FLIP_LEFT_RIGHT)
+    image_2 = image_2.rotate(4)
+    image_2 = image_2.crop((5, 5, 59, 123))
+    image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+    return image_2
+
+
+def test_augmentation():
+    image_path = '/home/gabi/Documents/datasets/GRID/fixed_grid/0009_2_25226_176_72_87_246.jpeg'
+    image = Image.open(image_path)
+    plt.imshow(image)
+
+    image_zoom = zoom(image)
+    plt.imshow(image_zoom)
+
+    image_rotate = rotate(image)
+    plt.imshow(image_rotate)
+
+    image_flip_zoom = flip_zoom(image)
+    plt.imshow(image_flip_zoom)
+
+    image_flip_rotate = flip_rotate(image)
+    plt.imshow(image_flip_rotate)

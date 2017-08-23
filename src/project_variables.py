@@ -142,6 +142,8 @@ class ProjectVariable(object):
         self._sideways_shuffle = True
         # decay for the optimizers. set to 0 for RMSprop
         self._decay = 0.004 # float
+        # have this many times negative as there are positive primings
+        self.negative_priming_ratio = 1
 
 
 
@@ -694,3 +696,11 @@ class ProjectVariable(object):
     @decay.setter
     def decay(self, value):
         self._decay = value
+        
+    @property
+    def negative_priming_ratio(self):
+        return self._negative_priming_ratio
+
+    @negative_priming_ratio.setter
+    def negative_priming_ratio(self, value):
+        self._negative_priming_ratio = value

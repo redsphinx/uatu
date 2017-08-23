@@ -1447,7 +1447,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
         get negative keys. get key that could have been seen before in the training set, but that is not an id in
         the test set
     """
-    number_positive_keys = len(positive_keys)
+    number_positive_keys = adjustable.negative_priming_ratio * len(positive_keys)
 
     if name_dataset == 'cuhk02':
         rank_ordered_partitions = [

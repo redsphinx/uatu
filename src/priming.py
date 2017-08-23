@@ -21,29 +21,44 @@ from clr_callback import *
 
 def zoom(image):
     the_image = image
-    image_width, image_height = the_image.size
-    image_2 = the_image.crop((image_width*0.15, image_height*0.15, image_width*0.85, image_height*0.85))
+    image_2 = the_image.crop((5, 5, 59, 123))
     image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
     return image_2
 
 
 def rotate(image):
     the_image = image
-    image_2 = the_image.rotate(20)
-    image_width, image_height = the_image.size
-    image_2 = image_2.crop((image_width * 0.15, image_height * 0.15, image_width * 0.85, image_height * 0.85))
+    image_2 = the_image.rotate(4)
+    image_2 = image_2.crop((5, 5, 59, 123))
     image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
     return image_2
-
-def noise(path):
-    the_image = ndimage.imread(path)
-    image_2 = random_noise(the_image)
-    return image_2
-
 
 def flip(image):
     the_image = image
     image_2 = the_image.transpose(Image.FLIP_LEFT_RIGHT)
+    return image_2
+
+def flip_zoom(image):
+    the_image = image
+    image_2 = the_image.transpose(Image.FLIP_LEFT_RIGHT)
+    image_2 = image_2.crop((5, 5, 59, 123))
+    image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+    return image_2
+
+
+def flip_rotate(image):
+    the_image = image
+    image_2 = the_image.transpose(Image.FLIP_LEFT_RIGHT)
+    image_2 = image_2.rotate(4)
+    image_2 = image_2.crop((5, 5, 59, 123))
+    image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+    return image_2
+
+
+# unused
+def noise(path):
+    the_image = ndimage.imread(path)
+    image_2 = random_noise(the_image)
     return image_2
 
 
@@ -73,21 +88,31 @@ def create_and_save_augmented_images(keys, the_id, name):
         name_original = os.path.join(path, name_bare + '_original.png')
         image.save(name_original)
 
-        # image_zoom = zoom(image)
-        # name_zoom = os.path.join(path, name_bare + '_zoom.png')
-        # image_zoom.save(name_zoom)
-        #
-        # image_rotate = rotate(image)
-        # name_rotate = os.path.join(path, name_bare + '_rotate.png')
-        # image_rotate.save(name_rotate)
+        image_zoom = zoom(image)
+        name_zoom = os.path.join(path, name_bare + '_zoom.png')
+        image_zoom.save(name_zoom)
+
+        image_rotate = rotate(image)
+        name_rotate = os.path.join(path, name_bare + '_rotate.png')
+        image_rotate.save(name_rotate)
+
+        image_vertical_flip = flip(image)
+        name_flip = os.path.join(path, name_bare + '_flip.png')
+        image_vertical_flip.save(name_flip)
+
+        image_flip_zoom = flip_zoom(image)
+        name_flip_zoom = os.path.join(path, name_bare + '_flip_zoom.png')
+        image_flip_zoom.save(name_flip_zoom)
+
+        image_flip_rotate = flip_rotate(image)
+        name_flip_rotate = os.path.join(path, name_bare + '_flip_rotate.png')
+        image_flip_rotate.save(name_flip_rotate)
 
         # image_noise = noise(item)
         # name_noise = os.path.join(path, name_bare + '_noise.png')
         # imsave(name_noise, image_noise)
 
-        image_vertical_flip = flip(image)
-        name_flip = os.path.join(path, name_bare + '_flip.png')
-        image_vertical_flip.save(name_flip)
+
 
 
 def is_match(comb):
@@ -115,14 +140,24 @@ def load_augmented_images(list_augmented_images):
     data = np.zeros((len(combos), 2, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, 3))
     labels = []
 
+    match_count = 0
+    mismatch_count = 0
+
     for comb in range(len(combos)):
         image_1 = ndimage.imread(combos[comb][0])
         image_2 = ndimage.imread(combos[comb][1])
 
         labels.append(is_match(combos[comb]))
+        if is_match(combos[comb]):
+            match_count += 1
+        else:
+            mismatch_count += 1
 
         data[comb][0] = image_1[:, :, 0:3]
         data[comb][1] = image_2[:, :, 0:3]
+
+    print('match: ', match_count)
+    print('mismatch: ', mismatch_count)
 
     labels = keras.utils.to_categorical(labels, pc.NUM_CLASSES)
     return data, labels

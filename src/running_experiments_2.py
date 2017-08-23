@@ -3573,10 +3573,89 @@ def test_prid2011_450():
     srcn.super_main(a)
 
 
+def ex_15_0_0():
+    all_confusion_base = []
+    all_cmc_base = []
+    total_time = 0
+    all_confusion_primed = []
+    all_cmc_primed = []
+    name = 'viper'
+    iterations = 1
+
+    for itera in range(iterations):
+        # ----------------------------
+        # train and save model+weigths
+        # ----------------------------
+        # a = ProjectVariable()
+        # a.use_gpu = '0'
+        # a.epochs = 100
+        # a.iterations = 1
+        # a.neural_distance = 'concatenate'
+        #
+        # a.dataset_test = 'viper'
+        # a.ranking_number_test = 316
+        #
+        # a.save_inbetween = True
+        # a.save_points = [100]
+        # a.name_of_saved_file = 'viper'
+        # a.log_experiment = False
+        # ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
+        # -----------------------------
+        # load weights, do priming
+        # -----------------------------
+        a = ProjectVariable()
+        a.use_gpu = '0'
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+
+        a.priming = True
+        a.prime_epochs = 5
+
+        a.dataset_test = 'viper'
+        a.ranking_number_test = 316
+
+        a.load_model_name = 'viper_epoch_100'
+        a.load_weights_name = 'viper_epoch_100'
+        a.log_experiment = False
+        a.negative_priming_ratio = 2
+        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
+
+        # store the intermediary results
+        # -----------------------------------------------------------------------------------------------------------
+        # all_confusion_base.append(matrix_means_base)
+        # all_cmc_base.append(ranking_means_base)
+        all_confusion_primed.append(matrix_means_primed)
+        all_cmc_primed.append(ranking_means_primed)
+        # total_time += tt_base + tt_primed
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 15_0_0: priming on viper. epoch=5. CLR w same min max vals '
+    # get the means for base
+    matrix_means_base = np.mean(all_confusion_base, axis=0)
+    matrix_std_base = np.std(all_confusion_base, axis=0)
+    ranking_means_base = np.mean(all_cmc_base, axis=0)
+    ranking_std_base = np.std(all_cmc_base, axis=0)
+    # get the means for primed
+    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
+    matrix_std_primed = np.std(all_confusion_primed, axis=0)
+    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
+    ranking_std_primed = np.std(all_cmc_primed, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
+                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
+                                ranking_means_primed, ranking_std_primed, total_time)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
     # if num == '10_4': ex_10_4()
-    test_prid2011_450()
+    ex_15_0_0()
 
 main()
