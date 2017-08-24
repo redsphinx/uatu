@@ -311,6 +311,7 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
     # -- Create combinations and store the positive matches for training
     # You could increase this but then you'll get a lot more data
     upper_bound = 3
+    # FIXME: remember we changed this to make prid2011_450 have the same amount of trianing instances
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
 

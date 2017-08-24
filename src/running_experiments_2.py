@@ -4441,13 +4441,261 @@ def ex_22_2():
                                         ranking_means_primed_10_lr_000001, ranking_std_primed_10_lr_000001,
                                         total_time)
 
+def ex_20_0():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'log_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 20_0: video_head_type=3d_convolution on prid2011_450, batchnorm, with concatenation, dataset has 700 training instances'
+    a.neural_distance = 'concatenate'
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'prid2011_450'
+    a.ranking_number_test = 100
+    a.sequence_length = 20
+    a.video_head_type = '3d_convolution'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    srcn.super_main(a)
+
+# euclidean
+def ex_23_0_0():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_0_0: market, cost_module_type=euclidean, lr=0.00001'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
+
+def ex_23_0_1():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_0_1: cuhk02, cost_module_type=euclidean, lr=0.00001'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+    
+# cosine
+def ex_23_1_0():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_1_0: market, cost_module_type=cosine, lr=0.00001'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.cost_module_type = 'cosine'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
+
+def ex_23_1_1():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_1_1: cuhk02, cost_module_type=cosine, lr=0.00001'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.cost_module_type = 'cosine'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
+# concatenate
+def ex_23_2_0():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_0: market, neural_distance=concatenate'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.neural_distance = 'concatenate'
+    scn.super_main(a)
+
+
+def ex_23_2_1():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_1: cuhk02, neural_distance=concatenate'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 100
+    a.neural_distance = 'concatenate'
+    scn.super_main(a)
+
+
+# absolute
+def ex_23_2_2():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_2: market, neural_distance=absolute'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+def ex_23_2_3():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_3: cuhk02, neural_distance=absolute'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 100
+    a.neural_distance = 'absolute'
+    scn.super_main(a)
+
+
+# add
+def ex_23_2_4():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_4: market, neural_distance=add'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.neural_distance = 'add'
+    scn.super_main(a)
+
+
+def ex_23_2_5():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_5: cuhk02, neural_distance=add'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 100
+    a.neural_distance = 'add'
+    scn.super_main(a)
+
+
+# subtract
+def ex_23_2_6():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_6: market, neural_distance=subtract'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.neural_distance = 'subtract'
+    scn.super_main(a)
+
+
+def ex_23_2_7():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_7: cuhk02, neural_distance=subtract'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 100
+    a.neural_distance = 'subtract'
+    scn.super_main(a)
+
+
+# multiply
+def ex_23_2_8():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_8: market, neural_distance=multiply'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.neural_distance = 'multiply'
+    scn.super_main(a)
+
+
+def ex_23_2_9():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_9: cuhk02, neural_distance=multiply'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 100
+    a.neural_distance = 'multiply'
+    scn.super_main(a)
+
+
+# divide
+def ex_23_2_10():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_10: market, neural_distance=divide'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.neural_distance = 'divide'
+    scn.super_main(a)
+
+
+def ex_23_2_11():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 23_2_11: cuhk02, neural_distance=divide'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 100
+    a.neural_distance = 'divide'
+    scn.super_main(a)
+
 
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '22_0': ex_22_0()
-    if num == '22_1': ex_22_1()
-    if num == '22_2': ex_22_2()
+    if num == '23_0_0': ex_23_0_0()
+    if num == '23_0_1': ex_23_0_1()
+    if num == '23_1_0': ex_23_1_0()
+    if num == '23_1_1': ex_23_1_1()
+    if num == '23_2_0': ex_23_2_0()
+    if num == '23_2_1': ex_23_2_1()
+    if num == '23_2_2': ex_23_2_2()
+    if num == '23_2_3': ex_23_2_3()
+    if num == '23_2_4': ex_23_2_4()
+    if num == '23_2_5': ex_23_2_5()
+    if num == '23_2_6': ex_23_2_6()
+    if num == '23_2_7': ex_23_2_7()
+    if num == '23_2_8': ex_23_2_8()
+    if num == '23_2_9': ex_23_2_9()
+    if num == '23_2_10': ex_23_2_10()
+    if num == '23_2_11': ex_23_2_11()
+    # if num == '22_1': ex_22_1()
+    # if num == '22_2': ex_22_2()
 
 main()
