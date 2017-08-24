@@ -8691,7 +8691,39 @@ def ex_21_2():
                                         ranking_means_primed_10_lr_000001, ranking_std_primed_10_lr_000001,
                                         total_time)
 
-# 22 priming with augmented data, ratio = 90% 8
+# run benchmarks with the videos
+def ex_22_0():
+    a = ProjectVariable()
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 22_0: video_head_type=3d_convolution on prid2011 for benchmark'
+    a.neural_distance = 'concatenate'
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'prid2011'
+    a.ranking_number_test = 308
+    a.sequence_length = 20
+    a.video_head_type = '3d_convolution'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    srcn.super_main(a)
+
+
+def ex_22_1():
+    a = ProjectVariable()
+    a.use_gpu = '2'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 22_1: video_head_type=3d_convolution on ilids-vid-20 for benchmark'
+    a.neural_distance = 'concatenate'
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'ilids-vid-20'
+    a.ranking_number_test = 150
+    a.sequence_length = 20
+    a.video_head_type = '3d_convolution'
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    srcn.super_main(a)
 
 
 def main():
@@ -8744,6 +8776,7 @@ def main():
     if num == '19_3_0': ex_19_3_0()
     if num == '20_0': ex_20_0()
     if num == '21_0': ex_21_0()
+    if num == '22_0': ex_22_0()
 
     # gpu 1
     if num == '10_1_0': ex_10_1_0()
@@ -8833,6 +8866,7 @@ def main():
     if num == '19_2_2': ex_19_2_2()
     if num == '19_3_2': ex_19_3_2()
     if num == '21_2': ex_21_2()
+    if num == '22_1': ex_22_1()
 
     # gpu 3
     if num == '4_0_0': ex_4_0_0()

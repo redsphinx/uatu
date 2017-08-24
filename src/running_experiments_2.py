@@ -3573,89 +3573,881 @@ def test_prid2011_450():
     srcn.super_main(a)
 
 
-def ex_15_0_0():
+# 22 priming with augmented data, ratio = 50%
+
+def ex_22_0():
     all_confusion_base = []
     all_cmc_base = []
     total_time = 0
-    all_confusion_primed = []
-    all_cmc_primed = []
+    all_confusion_primed_5_clr_same = []
+    all_cmc_primed_5_clr_same = []
+
+    all_confusion_primed_10_clr_same = []
+    all_cmc_primed_10_clr_same = []
+
+    all_confusion_primed_5_clr_diff = []
+    all_cmc_primed_5_clr_diff = []
+
+    all_confusion_primed_10_clr_diff = []
+    all_cmc_primed_10_clr_diff = []
+
+    all_confusion_primed_5_lr_00001 = []
+    all_cmc_primed_5_lr_00001 = []
+
+    all_confusion_primed_10_lr_00001 = []
+    all_cmc_primed_10_lr_00001 = []
+
+    all_confusion_primed_5_lr_000001 = []
+    all_cmc_primed_5_lr_000001 = []
+
+    all_confusion_primed_10_lr_000001 = []
+    all_cmc_primed_10_lr_000001 = []
     name = 'viper'
-    iterations = 1
+    iterations = 20
+    gpu = '0'
 
     for itera in range(iterations):
         # ----------------------------
         # train and save model+weigths
         # ----------------------------
-        # a = ProjectVariable()
-        # a.use_gpu = '0'
-        # a.epochs = 100
-        # a.iterations = 1
-        # a.neural_distance = 'concatenate'
-        #
-        # a.dataset_test = 'viper'
-        # a.ranking_number_test = 316
-        #
-        # a.save_inbetween = True
-        # a.save_points = [100]
-        # a.name_of_saved_file = 'viper'
-        # a.log_experiment = False
-        # ranking_means_base, matrix_means_base, tt_base = scn.super_main(a, get_data=True)
-        # -----------------------------
-        # load weights, do priming
-        # -----------------------------
         a = ProjectVariable()
-        a.use_gpu = '0'
+        a.use_gpu = gpu
+        a.epochs = 100
         a.iterations = 1
         a.neural_distance = 'concatenate'
-
-        a.priming = True
-        a.prime_epochs = 5
-
-        a.dataset_test = 'viper'
-        a.ranking_number_test = 316
-
-        a.load_model_name = 'viper_epoch_100'
-        a.load_weights_name = 'viper_epoch_100'
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = name
         a.log_experiment = False
-        a.negative_priming_ratio = 2
-        ranking_means_primed, matrix_means_primed, tt_primed = prime.super_main(a, get_data=True)
-
-        # store the intermediary results
-        # -----------------------------------------------------------------------------------------------------------
-        # all_confusion_base.append(matrix_means_base)
-        # all_cmc_base.append(ranking_means_base)
-        all_confusion_primed.append(matrix_means_primed)
-        all_cmc_primed.append(ranking_means_primed)
-        # total_time += tt_base + tt_primed
+        rank, matrix, tim = scn.super_main(a, get_data=True)
+        all_cmc_base.append(rank)
+        all_confusion_base.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, CLR same
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_clr_same.append(rank)
+        all_confusion_primed_5_clr_same.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, CLR same
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_clr_same.append(rank)
+        all_confusion_primed_10_clr_same.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, CLR diff
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.cl_min = 0.000001
+        a.cl_max = 0.0001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_clr_diff.append(rank)
+        all_confusion_primed_5_clr_diff.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, CLR diff
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.cl_min = 0.000001
+        a.cl_max = 0.0001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_clr_diff.append(rank)
+        all_confusion_primed_10_clr_diff.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, LR=0.00001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.use_cyclical_learning_rate = False
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_lr_00001.append(rank)
+        all_confusion_primed_5_lr_00001.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, LR=0.00001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.use_cyclical_learning_rate = False
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_lr_00001.append(rank)
+        all_confusion_primed_10_lr_00001.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, LR=0.000001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.use_cyclical_learning_rate = False
+        a.learning_rate = 0.000001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_lr_000001.append(rank)
+        all_confusion_primed_5_lr_000001.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, LR=0.000001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.use_cyclical_learning_rate = False
+        a.learning_rate = 0.000001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_lr_000001.append(rank)
+        all_confusion_primed_10_lr_000001.append(matrix)
+        total_time += tim
 
     # calculate the mean information and the std
     # ---------------------------------------------------------------------------------------------------------------
     a = ProjectVariable()
-    a.use_gpu = '0'
+    a.use_gpu = gpu
     a.log_file = 'thesis_results_%s.txt' % a.use_gpu
-    a.experiment_name = 'experiment 15_0_0: priming on viper. epoch=5. CLR w same min max vals '
+    a.experiment_name = 'experiment 22_0: priming on %s with augmented data. ratio 1:1' % name
     # get the means for base
     matrix_means_base = np.mean(all_confusion_base, axis=0)
     matrix_std_base = np.std(all_confusion_base, axis=0)
     ranking_means_base = np.mean(all_cmc_base, axis=0)
     ranking_std_base = np.std(all_cmc_base, axis=0)
-    # get the means for primed
-    matrix_means_primed = np.mean(all_confusion_primed, axis=0)
-    matrix_std_primed = np.std(all_confusion_primed, axis=0)
-    ranking_means_primed = np.mean(all_cmc_primed, axis=0)
-    ranking_std_primed = np.std(all_cmc_primed, axis=0)
+    # get the means and std for primed 5 epochs CLR same
+    matrix_means_primed_5_clr_same = np.mean(all_confusion_primed_5_clr_same, axis=0)
+    matrix_std_primed_5_clr_same = np.std(all_confusion_primed_5_clr_same, axis=0)
+    ranking_means_primed_5_clr_same = np.mean(all_cmc_primed_5_clr_same, axis=0)
+    ranking_std_primed_5_clr_same = np.std(all_cmc_primed_5_clr_same, axis=0)
+    # get the means and std for primed 10 epochs CLR same
+    matrix_means_primed_10_clr_same = np.mean(all_confusion_primed_10_clr_same, axis=0)
+    matrix_std_primed_10_clr_same = np.std(all_confusion_primed_10_clr_same, axis=0)
+    ranking_means_primed_10_clr_same = np.mean(all_cmc_primed_10_clr_same, axis=0)
+    ranking_std_primed_10_clr_same = np.std(all_cmc_primed_10_clr_same, axis=0)
+    # get the means and std for primed 5 epochs CLR diff
+    matrix_means_primed_5_clr_diff = np.mean(all_confusion_primed_5_clr_diff, axis=0)
+    matrix_std_primed_5_clr_diff = np.std(all_confusion_primed_5_clr_diff, axis=0)
+    ranking_means_primed_5_clr_diff = np.mean(all_cmc_primed_5_clr_diff, axis=0)
+    ranking_std_primed_5_clr_diff = np.std(all_cmc_primed_5_clr_diff, axis=0)
+    # get the means and std for primed 10 epochs CLR diff
+    matrix_means_primed_10_clr_diff = np.mean(all_confusion_primed_10_clr_diff, axis=0)
+    matrix_std_primed_10_clr_diff = np.std(all_confusion_primed_10_clr_diff, axis=0)
+    ranking_means_primed_10_clr_diff = np.mean(all_cmc_primed_10_clr_diff, axis=0)
+    ranking_std_primed_10_clr_diff = np.std(all_cmc_primed_10_clr_diff, axis=0)
+
+    # get the means and std for primed 5 epochs Lr 0.00001
+    matrix_means_primed_5_lr_00001 = np.mean(all_confusion_primed_5_lr_00001, axis=0)
+    matrix_std_primed_5_lr_00001 = np.std(all_confusion_primed_5_lr_00001, axis=0)
+    ranking_means_primed_5_lr_00001 = np.mean(all_cmc_primed_5_lr_00001, axis=0)
+    ranking_std_primed_5_lr_00001 = np.std(all_cmc_primed_5_lr_00001, axis=0)
+    # get the means and std for primed 10 epochs Lr 0.00001
+    matrix_means_primed_10_lr_00001 = np.mean(all_confusion_primed_10_lr_00001, axis=0)
+    matrix_std_primed_10_lr_00001 = np.std(all_confusion_primed_10_lr_00001, axis=0)
+    ranking_means_primed_10_lr_00001 = np.mean(all_cmc_primed_10_lr_00001, axis=0)
+    ranking_std_primed_10_lr_00001 = np.std(all_cmc_primed_10_lr_00001, axis=0)
+    # get the means and std for primed 5 epochs Lr 0.000001
+    matrix_means_primed_5_lr_000001 = np.mean(all_confusion_primed_5_lr_000001, axis=0)
+    matrix_std_primed_5_lr_000001 = np.std(all_confusion_primed_5_lr_000001, axis=0)
+    ranking_means_primed_5_lr_000001 = np.mean(all_cmc_primed_5_lr_000001, axis=0)
+    ranking_std_primed_5_lr_000001 = np.std(all_cmc_primed_5_lr_000001, axis=0)
+    # get the means and std for primed 10 epochs Lr 0.000001
+    matrix_means_primed_10_lr_000001 = np.mean(all_confusion_primed_10_lr_000001, axis=0)
+    matrix_std_primed_10_lr_000001 = np.std(all_confusion_primed_10_lr_000001, axis=0)
+    ranking_means_primed_10_lr_000001 = np.mean(all_cmc_primed_10_lr_000001, axis=0)
+    ranking_std_primed_10_lr_000001 = np.std(all_cmc_primed_10_lr_000001, axis=0)
 
     if a.log_experiment:
         file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming(a, a.experiment_name, file_name, name, matrix_means_base, matrix_std_base,
-                                ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
-                                ranking_means_primed, ranking_std_primed, total_time)
+        pu.enter_in_log_priming_augment(a, a.experiment_name, file_name, name,
+                                        matrix_means_base, matrix_std_base, ranking_means_base, ranking_std_base,
+                                        matrix_means_primed_5_clr_same, matrix_std_primed_5_clr_same,
+                                        ranking_means_primed_5_clr_same, ranking_std_primed_5_clr_same,
+                                        matrix_means_primed_10_clr_same, matrix_std_primed_10_clr_same,
+                                        ranking_means_primed_10_clr_same, ranking_std_primed_10_clr_same,
+                                        matrix_means_primed_5_clr_diff, matrix_std_primed_5_clr_diff,
+                                        ranking_means_primed_5_clr_diff, ranking_std_primed_5_clr_diff,
+                                        matrix_means_primed_10_clr_diff, matrix_std_primed_10_clr_diff,
+                                        ranking_means_primed_10_clr_diff, ranking_std_primed_10_clr_diff,
+                                        matrix_means_primed_5_lr_00001, matrix_std_primed_5_lr_00001,
+                                        ranking_means_primed_5_lr_00001, ranking_std_primed_5_lr_00001,
+                                        matrix_means_primed_10_lr_00001, matrix_std_primed_10_lr_00001,
+                                        ranking_means_primed_10_lr_00001, ranking_std_primed_10_lr_00001,
+                                        matrix_means_primed_5_lr_000001, matrix_std_primed_5_lr_000001,
+                                        ranking_means_primed_5_lr_000001, ranking_std_primed_5_lr_000001,
+                                        matrix_means_primed_10_lr_000001, matrix_std_primed_10_lr_000001,
+                                        ranking_means_primed_10_lr_000001, ranking_std_primed_10_lr_000001,
+                                        total_time)
+
+
+def ex_22_1():
+    all_confusion_base = []
+    all_cmc_base = []
+    total_time = 0
+    all_confusion_primed_5_clr_same = []
+    all_cmc_primed_5_clr_same = []
+
+    all_confusion_primed_10_clr_same = []
+    all_cmc_primed_10_clr_same = []
+
+    all_confusion_primed_5_clr_diff = []
+    all_cmc_primed_5_clr_diff = []
+
+    all_confusion_primed_10_clr_diff = []
+    all_cmc_primed_10_clr_diff = []
+
+    all_confusion_primed_5_lr_00001 = []
+    all_cmc_primed_5_lr_00001 = []
+
+    all_confusion_primed_10_lr_00001 = []
+    all_cmc_primed_10_lr_00001 = []
+
+    all_confusion_primed_5_lr_000001 = []
+    all_cmc_primed_5_lr_000001 = []
+
+    all_confusion_primed_10_lr_000001 = []
+    all_cmc_primed_10_lr_000001 = []
+    name = 'grid'
+    iterations = 20
+    gpu = '0'
+
+    for itera in range(iterations):
+        # ----------------------------
+        # train and save model+weigths
+        # ----------------------------
+        a = ProjectVariable()
+        a.use_gpu = gpu
+        a.epochs = 100
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = name
+        a.log_experiment = False
+        rank, matrix, tim = scn.super_main(a, get_data=True)
+        all_cmc_base.append(rank)
+        all_confusion_base.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, CLR same
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_clr_same.append(rank)
+        all_confusion_primed_5_clr_same.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, CLR same
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_clr_same.append(rank)
+        all_confusion_primed_10_clr_same.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, CLR diff
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.cl_min = 0.000001
+        a.cl_max = 0.0001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_clr_diff.append(rank)
+        all_confusion_primed_5_clr_diff.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, CLR diff
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.cl_min = 0.000001
+        a.cl_max = 0.0001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_clr_diff.append(rank)
+        all_confusion_primed_10_clr_diff.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, LR=0.00001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.use_cyclical_learning_rate = False
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_lr_00001.append(rank)
+        all_confusion_primed_5_lr_00001.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, LR=0.00001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.use_cyclical_learning_rate = False
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_lr_00001.append(rank)
+        all_confusion_primed_10_lr_00001.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, LR=0.000001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.use_cyclical_learning_rate = False
+        a.learning_rate = 0.000001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_lr_000001.append(rank)
+        all_confusion_primed_5_lr_000001.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, LR=0.000001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.use_cyclical_learning_rate = False
+        a.learning_rate = 0.000001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_lr_000001.append(rank)
+        all_confusion_primed_10_lr_000001.append(matrix)
+        total_time += tim
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.use_gpu = gpu
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 22_1: priming on %s with augmented data. ratio 1:1' % name
+    # get the means for base
+    matrix_means_base = np.mean(all_confusion_base, axis=0)
+    matrix_std_base = np.std(all_confusion_base, axis=0)
+    ranking_means_base = np.mean(all_cmc_base, axis=0)
+    ranking_std_base = np.std(all_cmc_base, axis=0)
+    # get the means and std for primed 5 epochs CLR same
+    matrix_means_primed_5_clr_same = np.mean(all_confusion_primed_5_clr_same, axis=0)
+    matrix_std_primed_5_clr_same = np.std(all_confusion_primed_5_clr_same, axis=0)
+    ranking_means_primed_5_clr_same = np.mean(all_cmc_primed_5_clr_same, axis=0)
+    ranking_std_primed_5_clr_same = np.std(all_cmc_primed_5_clr_same, axis=0)
+    # get the means and std for primed 10 epochs CLR same
+    matrix_means_primed_10_clr_same = np.mean(all_confusion_primed_10_clr_same, axis=0)
+    matrix_std_primed_10_clr_same = np.std(all_confusion_primed_10_clr_same, axis=0)
+    ranking_means_primed_10_clr_same = np.mean(all_cmc_primed_10_clr_same, axis=0)
+    ranking_std_primed_10_clr_same = np.std(all_cmc_primed_10_clr_same, axis=0)
+    # get the means and std for primed 5 epochs CLR diff
+    matrix_means_primed_5_clr_diff = np.mean(all_confusion_primed_5_clr_diff, axis=0)
+    matrix_std_primed_5_clr_diff = np.std(all_confusion_primed_5_clr_diff, axis=0)
+    ranking_means_primed_5_clr_diff = np.mean(all_cmc_primed_5_clr_diff, axis=0)
+    ranking_std_primed_5_clr_diff = np.std(all_cmc_primed_5_clr_diff, axis=0)
+    # get the means and std for primed 10 epochs CLR diff
+    matrix_means_primed_10_clr_diff = np.mean(all_confusion_primed_10_clr_diff, axis=0)
+    matrix_std_primed_10_clr_diff = np.std(all_confusion_primed_10_clr_diff, axis=0)
+    ranking_means_primed_10_clr_diff = np.mean(all_cmc_primed_10_clr_diff, axis=0)
+    ranking_std_primed_10_clr_diff = np.std(all_cmc_primed_10_clr_diff, axis=0)
+
+    # get the means and std for primed 5 epochs Lr 0.00001
+    matrix_means_primed_5_lr_00001 = np.mean(all_confusion_primed_5_lr_00001, axis=0)
+    matrix_std_primed_5_lr_00001 = np.std(all_confusion_primed_5_lr_00001, axis=0)
+    ranking_means_primed_5_lr_00001 = np.mean(all_cmc_primed_5_lr_00001, axis=0)
+    ranking_std_primed_5_lr_00001 = np.std(all_cmc_primed_5_lr_00001, axis=0)
+    # get the means and std for primed 10 epochs Lr 0.00001
+    matrix_means_primed_10_lr_00001 = np.mean(all_confusion_primed_10_lr_00001, axis=0)
+    matrix_std_primed_10_lr_00001 = np.std(all_confusion_primed_10_lr_00001, axis=0)
+    ranking_means_primed_10_lr_00001 = np.mean(all_cmc_primed_10_lr_00001, axis=0)
+    ranking_std_primed_10_lr_00001 = np.std(all_cmc_primed_10_lr_00001, axis=0)
+    # get the means and std for primed 5 epochs Lr 0.000001
+    matrix_means_primed_5_lr_000001 = np.mean(all_confusion_primed_5_lr_000001, axis=0)
+    matrix_std_primed_5_lr_000001 = np.std(all_confusion_primed_5_lr_000001, axis=0)
+    ranking_means_primed_5_lr_000001 = np.mean(all_cmc_primed_5_lr_000001, axis=0)
+    ranking_std_primed_5_lr_000001 = np.std(all_cmc_primed_5_lr_000001, axis=0)
+    # get the means and std for primed 10 epochs Lr 0.000001
+    matrix_means_primed_10_lr_000001 = np.mean(all_confusion_primed_10_lr_000001, axis=0)
+    matrix_std_primed_10_lr_000001 = np.std(all_confusion_primed_10_lr_000001, axis=0)
+    ranking_means_primed_10_lr_000001 = np.mean(all_cmc_primed_10_lr_000001, axis=0)
+    ranking_std_primed_10_lr_000001 = np.std(all_cmc_primed_10_lr_000001, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log_priming_augment(a, a.experiment_name, file_name, name,
+                                        matrix_means_base, matrix_std_base, ranking_means_base, ranking_std_base,
+                                        matrix_means_primed_5_clr_same, matrix_std_primed_5_clr_same,
+                                        ranking_means_primed_5_clr_same, ranking_std_primed_5_clr_same,
+                                        matrix_means_primed_10_clr_same, matrix_std_primed_10_clr_same,
+                                        ranking_means_primed_10_clr_same, ranking_std_primed_10_clr_same,
+                                        matrix_means_primed_5_clr_diff, matrix_std_primed_5_clr_diff,
+                                        ranking_means_primed_5_clr_diff, ranking_std_primed_5_clr_diff,
+                                        matrix_means_primed_10_clr_diff, matrix_std_primed_10_clr_diff,
+                                        ranking_means_primed_10_clr_diff, ranking_std_primed_10_clr_diff,
+                                        matrix_means_primed_5_lr_00001, matrix_std_primed_5_lr_00001,
+                                        ranking_means_primed_5_lr_00001, ranking_std_primed_5_lr_00001,
+                                        matrix_means_primed_10_lr_00001, matrix_std_primed_10_lr_00001,
+                                        ranking_means_primed_10_lr_00001, ranking_std_primed_10_lr_00001,
+                                        matrix_means_primed_5_lr_000001, matrix_std_primed_5_lr_000001,
+                                        ranking_means_primed_5_lr_000001, ranking_std_primed_5_lr_000001,
+                                        matrix_means_primed_10_lr_000001, matrix_std_primed_10_lr_000001,
+                                        ranking_means_primed_10_lr_000001, ranking_std_primed_10_lr_000001,
+                                        total_time)
+
+
+def ex_22_2():
+    all_confusion_base = []
+    all_cmc_base = []
+    total_time = 0
+    all_confusion_primed_5_clr_same = []
+    all_cmc_primed_5_clr_same = []
+
+    all_confusion_primed_10_clr_same = []
+    all_cmc_primed_10_clr_same = []
+
+    all_confusion_primed_5_clr_diff = []
+    all_cmc_primed_5_clr_diff = []
+
+    all_confusion_primed_10_clr_diff = []
+    all_cmc_primed_10_clr_diff = []
+
+    all_confusion_primed_5_lr_00001 = []
+    all_cmc_primed_5_lr_00001 = []
+
+    all_confusion_primed_10_lr_00001 = []
+    all_cmc_primed_10_lr_00001 = []
+
+    all_confusion_primed_5_lr_000001 = []
+    all_cmc_primed_5_lr_000001 = []
+
+    all_confusion_primed_10_lr_000001 = []
+    all_cmc_primed_10_lr_000001 = []
+    name = 'prid450'
+    iterations = 20
+    gpu = '0'
+
+    for itera in range(iterations):
+        # ----------------------------
+        # train and save model+weigths
+        # ----------------------------
+        a = ProjectVariable()
+        a.use_gpu = gpu
+        a.epochs = 100
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.save_inbetween = True
+        a.save_points = [100]
+        a.name_of_saved_file = name
+        a.log_experiment = False
+        rank, matrix, tim = scn.super_main(a, get_data=True)
+        all_cmc_base.append(rank)
+        all_confusion_base.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, CLR same
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_clr_same.append(rank)
+        all_confusion_primed_5_clr_same.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, CLR same
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_clr_same.append(rank)
+        all_confusion_primed_10_clr_same.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, CLR diff
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.cl_min = 0.000001
+        a.cl_max = 0.0001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_clr_diff.append(rank)
+        all_confusion_primed_5_clr_diff.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, CLR diff
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.cl_min = 0.000001
+        a.cl_max = 0.0001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_clr_diff.append(rank)
+        all_confusion_primed_10_clr_diff.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, LR=0.00001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.use_cyclical_learning_rate = False
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_lr_00001.append(rank)
+        all_confusion_primed_5_lr_00001.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, LR=0.00001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.use_cyclical_learning_rate = False
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_lr_00001.append(rank)
+        all_confusion_primed_10_lr_00001.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 5 epochs, LR=0.000001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 5
+        a.use_cyclical_learning_rate = False
+        a.learning_rate = 0.000001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_5_lr_000001.append(rank)
+        all_confusion_primed_5_lr_000001.append(matrix)
+        total_time += tim
+        # -----------------------------
+        # load weights, do priming, 10 epochs, LR=0.000001
+        # -----------------------------
+        a = ProjectVariable()
+        a.negative_priming_ratio = 8
+        a.prime_epochs = 10
+        a.use_cyclical_learning_rate = False
+        a.learning_rate = 0.000001
+        a.use_gpu = gpu
+        a.iterations = 1
+        a.neural_distance = 'concatenate'
+        a.priming = True
+        a.dataset_test = name
+        a.ranking_number_test = 100
+        a.load_model_name = '%s_epoch_100' % name
+        a.load_weights_name = '%s_epoch_100' % name
+        a.log_experiment = False
+        rank, matrix, tim = prime.super_main(a, get_data=True)
+        all_cmc_primed_10_lr_000001.append(rank)
+        all_confusion_primed_10_lr_000001.append(matrix)
+        total_time += tim
+
+    # calculate the mean information and the std
+    # ---------------------------------------------------------------------------------------------------------------
+    a = ProjectVariable()
+    a.use_gpu = gpu
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.experiment_name = 'experiment 22_2: priming on %s with augmented data. ratio 1:1' % name
+    # get the means for base
+    matrix_means_base = np.mean(all_confusion_base, axis=0)
+    matrix_std_base = np.std(all_confusion_base, axis=0)
+    ranking_means_base = np.mean(all_cmc_base, axis=0)
+    ranking_std_base = np.std(all_cmc_base, axis=0)
+    # get the means and std for primed 5 epochs CLR same
+    matrix_means_primed_5_clr_same = np.mean(all_confusion_primed_5_clr_same, axis=0)
+    matrix_std_primed_5_clr_same = np.std(all_confusion_primed_5_clr_same, axis=0)
+    ranking_means_primed_5_clr_same = np.mean(all_cmc_primed_5_clr_same, axis=0)
+    ranking_std_primed_5_clr_same = np.std(all_cmc_primed_5_clr_same, axis=0)
+    # get the means and std for primed 10 epochs CLR same
+    matrix_means_primed_10_clr_same = np.mean(all_confusion_primed_10_clr_same, axis=0)
+    matrix_std_primed_10_clr_same = np.std(all_confusion_primed_10_clr_same, axis=0)
+    ranking_means_primed_10_clr_same = np.mean(all_cmc_primed_10_clr_same, axis=0)
+    ranking_std_primed_10_clr_same = np.std(all_cmc_primed_10_clr_same, axis=0)
+    # get the means and std for primed 5 epochs CLR diff
+    matrix_means_primed_5_clr_diff = np.mean(all_confusion_primed_5_clr_diff, axis=0)
+    matrix_std_primed_5_clr_diff = np.std(all_confusion_primed_5_clr_diff, axis=0)
+    ranking_means_primed_5_clr_diff = np.mean(all_cmc_primed_5_clr_diff, axis=0)
+    ranking_std_primed_5_clr_diff = np.std(all_cmc_primed_5_clr_diff, axis=0)
+    # get the means and std for primed 10 epochs CLR diff
+    matrix_means_primed_10_clr_diff = np.mean(all_confusion_primed_10_clr_diff, axis=0)
+    matrix_std_primed_10_clr_diff = np.std(all_confusion_primed_10_clr_diff, axis=0)
+    ranking_means_primed_10_clr_diff = np.mean(all_cmc_primed_10_clr_diff, axis=0)
+    ranking_std_primed_10_clr_diff = np.std(all_cmc_primed_10_clr_diff, axis=0)
+
+    # get the means and std for primed 5 epochs Lr 0.00001
+    matrix_means_primed_5_lr_00001 = np.mean(all_confusion_primed_5_lr_00001, axis=0)
+    matrix_std_primed_5_lr_00001 = np.std(all_confusion_primed_5_lr_00001, axis=0)
+    ranking_means_primed_5_lr_00001 = np.mean(all_cmc_primed_5_lr_00001, axis=0)
+    ranking_std_primed_5_lr_00001 = np.std(all_cmc_primed_5_lr_00001, axis=0)
+    # get the means and std for primed 10 epochs Lr 0.00001
+    matrix_means_primed_10_lr_00001 = np.mean(all_confusion_primed_10_lr_00001, axis=0)
+    matrix_std_primed_10_lr_00001 = np.std(all_confusion_primed_10_lr_00001, axis=0)
+    ranking_means_primed_10_lr_00001 = np.mean(all_cmc_primed_10_lr_00001, axis=0)
+    ranking_std_primed_10_lr_00001 = np.std(all_cmc_primed_10_lr_00001, axis=0)
+    # get the means and std for primed 5 epochs Lr 0.000001
+    matrix_means_primed_5_lr_000001 = np.mean(all_confusion_primed_5_lr_000001, axis=0)
+    matrix_std_primed_5_lr_000001 = np.std(all_confusion_primed_5_lr_000001, axis=0)
+    ranking_means_primed_5_lr_000001 = np.mean(all_cmc_primed_5_lr_000001, axis=0)
+    ranking_std_primed_5_lr_000001 = np.std(all_cmc_primed_5_lr_000001, axis=0)
+    # get the means and std for primed 10 epochs Lr 0.000001
+    matrix_means_primed_10_lr_000001 = np.mean(all_confusion_primed_10_lr_000001, axis=0)
+    matrix_std_primed_10_lr_000001 = np.std(all_confusion_primed_10_lr_000001, axis=0)
+    ranking_means_primed_10_lr_000001 = np.mean(all_cmc_primed_10_lr_000001, axis=0)
+    ranking_std_primed_10_lr_000001 = np.std(all_cmc_primed_10_lr_000001, axis=0)
+
+    if a.log_experiment:
+        file_name = os.path.basename(__file__)
+        pu.enter_in_log_priming_augment(a, a.experiment_name, file_name, name,
+                                        matrix_means_base, matrix_std_base, ranking_means_base, ranking_std_base,
+                                        matrix_means_primed_5_clr_same, matrix_std_primed_5_clr_same,
+                                        ranking_means_primed_5_clr_same, ranking_std_primed_5_clr_same,
+                                        matrix_means_primed_10_clr_same, matrix_std_primed_10_clr_same,
+                                        ranking_means_primed_10_clr_same, ranking_std_primed_10_clr_same,
+                                        matrix_means_primed_5_clr_diff, matrix_std_primed_5_clr_diff,
+                                        ranking_means_primed_5_clr_diff, ranking_std_primed_5_clr_diff,
+                                        matrix_means_primed_10_clr_diff, matrix_std_primed_10_clr_diff,
+                                        ranking_means_primed_10_clr_diff, ranking_std_primed_10_clr_diff,
+                                        matrix_means_primed_5_lr_00001, matrix_std_primed_5_lr_00001,
+                                        ranking_means_primed_5_lr_00001, ranking_std_primed_5_lr_00001,
+                                        matrix_means_primed_10_lr_00001, matrix_std_primed_10_lr_00001,
+                                        ranking_means_primed_10_lr_00001, ranking_std_primed_10_lr_00001,
+                                        matrix_means_primed_5_lr_000001, matrix_std_primed_5_lr_000001,
+                                        ranking_means_primed_5_lr_000001, ranking_std_primed_5_lr_000001,
+                                        matrix_means_primed_10_lr_000001, matrix_std_primed_10_lr_000001,
+                                        ranking_means_primed_10_lr_000001, ranking_std_primed_10_lr_000001,
+                                        total_time)
 
 
 def main():
-    # num = sys.argv[1]
-    # print(sys.argv)
-    # if num == '10_4': ex_10_4()
-    ex_15_0_0()
+    num = sys.argv[1]
+    print(sys.argv)
+
+    if num == '22_0': ex_22_0()
+    if num == '22_1': ex_22_1()
+    if num == '22_2': ex_22_2()
 
 main()
