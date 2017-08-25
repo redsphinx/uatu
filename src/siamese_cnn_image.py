@@ -341,8 +341,9 @@ def get_model(adjustable):
 
     # case 1
     if adjustable.load_model_name is not None:
-        print('here!')
         the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, '%s_model.h5' % adjustable.load_model_name)
+        # alternative:
+        # the_path = adjustable.load_model_name
         model = models.load_model(the_path)
 
     else:
@@ -652,8 +653,15 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
 
         # partitions = len_test_data / max_list_size + 1
         partitions = int(math.ceil(len_test_data / (max_list_size * 1.0)))
-        total_predictions = np.zeros((len_test_data, 2))
-        total_final_labels = np.zeros((len_test_data, 2))
+
+        # FIXME: issue when euclidean and cosine.
+        if adjustable.cost_module_type in ['euclidean', 'cosine']:
+            width = 1
+        else:
+            width = 2
+
+        total_predictions = np.zeros((len_test_data, width))
+        total_final_labels = np.zeros((len_test_data, width))
 
         for part in range(partitions):
             b = part * max_list_size

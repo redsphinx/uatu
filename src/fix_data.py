@@ -12,7 +12,7 @@ import project_constants as pc
 import project_utils as pu
 
 
-def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
+def standardize(all_images, folder_path, fixed_folder_path, the_mod=None, the_extra_mod=None):
     """
     Assuming the images have been downloaded and extracted.
     Makes the images in the CAVIAR4REID, GRID and PRID450 in the correct size of 128x64
@@ -28,10 +28,15 @@ def standardize(all_images, folder_path, fixed_folder_path, the_mod=None):
     for image in all_images:
         original_image_path = os.path.join(folder_path, image)
 
-        if the_mod is not None:
+        if the_mod == 'ilids-vid-image':
+            image = image.split('/')[-1]
+            image = pu.my_join(list(image.split('.')[0])[-3:])
+            modified_image_path = os.path.join(fixed_folder_path, image + the_extra_mod + 'png')
+        elif the_mod is not None:
             modified_image_path = os.path.join(fixed_folder_path, modify(image, the_mod))
         else:
             modified_image_path = os.path.join(fixed_folder_path, image)
+
         the_image = Image.open(original_image_path)
         image_width, image_height = the_image.size
 
@@ -137,7 +142,7 @@ def fix_cuhk02():
     the images from 160x60 to 128x64. Notice the weird layout of the folder structure. We leave the dataset partitioned
     in 5 parts.
     """
-    folder_path = '/home/gabi/Documents/datasets/CUHK/CUHK2'
+    folder_path = '/home/gabi/Documents/datasets/CUHK02'
     cropped_folder_path = os.path.join(os.path.dirname(folder_path), 'cropped_CUHK2')
     if not os.path.exists(cropped_folder_path):
         os.mkdir(cropped_folder_path)
@@ -203,7 +208,7 @@ def fix_prid450():
     """
     Assuming the PRID450 data is already downloaded and extracted, standardizes images to 128x64.
     """
-    folder_path = '/home/gabi/Documents/datasets/PRID450'
+    folder_path = '/home/gabi/Documents/datasets/prid450'
     cam_a = os.path.join(folder_path, 'cam_a')
     cam_b = os.path.join(folder_path, 'cam_b')
 
@@ -215,6 +220,64 @@ def fix_prid450():
     proper_cam_b_list = [item for item in cam_b_list if item.split('_')[0] == 'img']
 
     fixed_folder_path = os.path.join(os.path.dirname(cam_a), 'fixed_prid')
+    if not os.path.exists(fixed_folder_path):
+        os.mkdir(fixed_folder_path)
+
+    # standardize will put probe and gallery in the same fixed folder
+    standardize(proper_cam_a_list, cam_a, fixed_folder_path, '_a.')
+    standardize(proper_cam_b_list, cam_b, fixed_folder_path, '_b.')
+
+
+def fix_ilids_vid_image():
+    """
+    Assuming the iLIDS-vid image data is already downloaded and extracted, standardizes images to 128x64.
+    """
+    folder_path = '/home/gabi/Documents/datasets/ilids-vid-image'
+    cam_a = os.path.join(folder_path, 'cam1')
+    cam_b = os.path.join(folder_path, 'cam2')
+
+    cam_a_list = os.listdir(cam_a)
+    cam_b_list = os.listdir(cam_b)
+
+    # each individual image is in a folder, let's deal with this
+    proper_cam_a_list = []
+    for item in cam_a_list:
+        item_path = os.path.join(folder_path, cam_a, item)
+        image_name = os.listdir(item_path)[0]
+
+        # image_name = pu.my_join(list(image_name.split('.')[0])[-3:]) + '_a.png'
+
+        image_path = os.path.join(item, image_name)
+        proper_cam_a_list.append(image_path)
+
+    proper_cam_b_list = []
+    for item in cam_b_list:
+        item_path = os.path.join(folder_path, cam_b, item)
+        image_name = os.listdir(item_path)[0]
+        image_path = os.path.join(item, image_name)
+        proper_cam_b_list.append(image_path)
+
+    fixed_folder_path = os.path.join(os.path.dirname(cam_a), 'fixed_ilids-vid-image')
+    if not os.path.exists(fixed_folder_path):
+        os.mkdir(fixed_folder_path)
+
+    # standardize will put probe and gallery in the same fixed folder
+    standardize(proper_cam_a_list, cam_a, fixed_folder_path, 'ilids-vid-image', '_a.')
+    standardize(proper_cam_b_list, cam_b, fixed_folder_path, 'ilids-vid-image', '_b.')
+
+
+def fix_prid2011_image():
+    """
+    Assuming the PRID2011 image data is already downloaded and extracted, standardizes images to 128x64.
+    """
+    folder_path = '/home/gabi/Documents/datasets/prid2011-image'
+    cam_a = os.path.join(folder_path, 'cam_a')
+    cam_b = os.path.join(folder_path, 'cam_b')
+
+    proper_cam_a_list = os.listdir(cam_a)
+    proper_cam_b_list = os.listdir(cam_b)
+
+    fixed_folder_path = os.path.join(os.path.dirname(cam_a), 'fixed_prid2011-image')
     if not os.path.exists(fixed_folder_path):
         os.mkdir(fixed_folder_path)
 
@@ -301,14 +364,14 @@ def fix_prid2011():
     """ turn into
         prid2011-fixed / cam_x / person_xxx / sequence_xxx / xxx.png
     """
-    fix_video_dataset('prid2011', 20)
+    fix_video_dataset('prid2011-vid', 20)
 
 
 def fix_ilids():
     """ turn into
         ilids-vid-fixed / cam_x / person_xxx / sequence_xxx / xxx.png
     """
-    fix_video_dataset('ilids-vid', 22)
+    fix_video_dataset('ilids-vid', 20)
 
 
 def fix_ilids_for_mixing_20():
@@ -382,3 +445,31 @@ def fix_inria():
             flipped_image = cropped_image.transpose(Image.FLIP_LEFT_RIGHT)
             flipped_image.save(flipped_path)
 
+
+def augment_image_data(fixed_folder_path):
+    image_list = os.listdir(fixed_folder_path)
+    for item in image_list:
+        item_path = os.path.join(fixed_folder_path, item)
+        image = Image.open(item_path)
+        name_bare = item.strip().split('/')[-1].split('.')[0]
+        app = item.strip().split('/')[-1].split('.')[-1]
+
+        image_zoom = pu.zoom(image)
+        name_zoom = os.path.join(fixed_folder_path, name_bare + '_zoom.' + app)
+        image_zoom.save(name_zoom)
+
+        image_rotate = pu.rotate(image)
+        name_rotate = os.path.join(fixed_folder_path, name_bare + '_rotate.' + app)
+        image_rotate.save(name_rotate)
+
+        image_vertical_flip = pu.flip(image)
+        name_flip = os.path.join(fixed_folder_path, name_bare + '_flip.' + app)
+        image_vertical_flip.save(name_flip)
+
+        image_flip_zoom = pu.flip_zoom(image)
+        name_flip_zoom = os.path.join(fixed_folder_path, name_bare + '_flip_zoom.' + app)
+        image_flip_zoom.save(name_flip_zoom)
+
+        image_flip_rotate = pu.flip_rotate(image)
+        name_flip_rotate = os.path.join(fixed_folder_path, name_bare + '_flip_rotate.' + app)
+        image_flip_rotate.save(name_flip_rotate)

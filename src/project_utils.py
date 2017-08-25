@@ -12,6 +12,9 @@ from random import shuffle
 # from tensorflow.contrib import keras
 import keras
 # from keras import optimizers, models
+from scipy import ndimage
+from PIL import Image
+from skimage.util import random_noise
 
 # unused
 # recursively transform list into tuple
@@ -681,9 +684,54 @@ def swap_for(the_thing, a, b):
 def write_to_file(filepath, data):
     """
     Writes data to file
-    :param filepath:    string path to file
+    :param filepath:    string, path to file
     :param data:        a list with the data to write. list must be one-dimensional
     """
     with open(filepath, 'w') as myfile:
         for i in range(len(data)):
             myfile.write(str(data[i]) + '\n')
+
+
+def zoom(image):
+    the_image = image
+    image_2 = the_image.crop((5, 5, 59, 123))
+    image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+    return image_2
+
+
+def rotate(image):
+    the_image = image
+    image_2 = the_image.rotate(4)
+    image_2 = image_2.crop((5, 5, 59, 123))
+    image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+    return image_2
+
+
+def flip(image):
+    the_image = image
+    image_2 = the_image.transpose(Image.FLIP_LEFT_RIGHT)
+    return image_2
+
+
+def flip_zoom(image):
+    the_image = image
+    image_2 = the_image.transpose(Image.FLIP_LEFT_RIGHT)
+    image_2 = image_2.crop((5, 5, 59, 123))
+    image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+    return image_2
+
+
+def flip_rotate(image):
+    the_image = image
+    image_2 = the_image.transpose(Image.FLIP_LEFT_RIGHT)
+    image_2 = image_2.rotate(4)
+    image_2 = image_2.crop((5, 5, 59, 123))
+    image_2 = image_2.resize((pc.IMAGE_WIDTH, pc.IMAGE_HEIGHT), Image.ANTIALIAS)
+    return image_2
+
+
+# unused
+def noise(path):
+    the_image = ndimage.imread(path)
+    image_2 = random_noise(the_image)
+    return image_2

@@ -61,6 +61,9 @@ RANKING_CUHK02_PARTS = {'P1': 485,
 VIPER_DATA_STORAGE = '../data/VIPER'
 VIPER_FIXED = '/home/gabi/Documents/datasets/VIPeR/padded'
 
+VIPER_AUGMENTED_DATA_STORAGE = '../data/VIPER_augmented'
+VIPER_AUGMENTED_FIXED = '/home/gabi/Documents/datasets/VIPeR/padded_augmented'
+
 CUHK01_DATA_STORAGE = '../data/CUHK'
 CUHK01_FIXED = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK1/images'
 
@@ -73,8 +76,14 @@ CAVIAR_FIXED = '/home/gabi/Documents/datasets/CAVIAR4REID/fixed_caviar'
 GRID_DATA_STORAGE = '../data/GRID'
 GRID_FIXED = '/home/gabi/Documents/datasets/GRID/fixed_grid'
 
+GRID_AUGMENTED_DATA_STORAGE = '../data/GRID_augmented'
+GRID_AUGMENTED_FIXED = '/home/gabi/Documents/datasets/GRID/fixed_grid_augmented'
+
 PRID450_DATA_STORAGE = '../data/prid450'
-PRID450_FIXED = '/home/gabi/Documents/datasets/PRID450/fixed_prid'
+PRID450_FIXED = '/home/gabi/Documents/datasets/prid450/fixed_prid'
+
+PRID450_AUGMENTED_DATA_STORAGE = '../data/prid450_augmented'
+PRID450_AUGMENTED_FIXED = '/home/gabi/Documents/datasets/prid450/fixed_prid_augmented'
 
 PRID2011_DATA_STORAGE = '../data/prid2011'
 PRID2011_FIXED = '/home/gabi/Documents/datasets/prid2011-fixed'
@@ -86,3 +95,15 @@ ILIDS_20_DATA_STORAGE = '../data/ilids-vid-20'
 ILIDS_20_FIXED = '/home/gabi/Documents/datasets/ilids-vid-fixed-20'
 
 PRID2011_450_DATA_STORAGE = '../data/prid2011_450'
+
+ILIDS_IMAGE_DATA_STORAGE = '../data/ilids-vid-image'
+ILIDS_IMAGE_FIXED = '/home/gabi/Documents/datasets/ilids-vid-image/fixed_ilids-vid-image'
+
+PRID2011_IMAGE_DATA_STORAGE = '../data/prid2011-image'
+PRID2011_IMAGE_FIXED = '/home/gabi/Documents/datasets/prid2011-image/fixed_prid2011-image'
+
+ILIDS_IMAGE_AUGMENTED_DATA_STORAGE = '../data/ilids-vid-image_augmented'
+ILIDS_IMAGE_AUGMENTED_FIXED = '/home/gabi/Documents/datasets/ilids-vid-image/fixed_ilids-vid-image_augmented'
+
+PRID2011_IMAGE_AUGMENTED_DATA_STORAGE = '../data/prid2011-image_augmented'
+PRID2011_IMAGE_AUGMENTED_FIXED = '/home/gabi/Documents/datasets/prid2011-image/fixed_prid2011-image_augmented'

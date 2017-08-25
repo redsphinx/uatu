@@ -13,15 +13,17 @@ import project_constants as pc
 import data_pipeline as dp
 
 
-def save_image_data_as_hdf5(file_list_of_paths, h5_path):
+def save_image_data_as_hdf5(file_list_of_paths, h5_path, swapped_list_of_paths):
     """
     Saves image data as HDF5 (h5) file.
     :param file_list_of_paths:  string of path to 'fullpath_image_names_file.txt'
     :param h5_path:             string path to save location of h5 file
     """
     list_of_paths = list(np.genfromtxt(file_list_of_paths, dtype=None).tolist())
-    swapped_list_of_paths = list(np.genfromtxt(os.path.join(os.path.dirname(file_list_of_paths),
-                                                            'swapped_list_of_paths.txt')))
+    swapped_list_of_paths = list(np.genfromtxt(swapped_list_of_paths, dtype=None).tolist())
+
+    # swapped_list_of_paths = list(np.genfromtxt(os.path.join(os.path.dirname(file_list_of_paths),
+    #                                                         'swapped_list_of_paths.txt')))
 
     action = 'a' if os.path.exists(h5_path) else 'w'
 
@@ -35,31 +37,57 @@ def save_all_image_datasets_as_hdf5():
     Saves all image datasets as HDF5 (h5) files.
     Run this method when you don't have the image data h5 files
     """
-    save_image_data_as_hdf5('../data/GRID/fullpath_image_names_file.txt', '../data/GRID/grid.h5')
+    save_image_data_as_hdf5('../data/GRID/fullpath_image_names_file.txt', '../data/GRID/grid_augmented.h5',
+                            '../data/GRID/swapped_list_of_paths.txt')
     print('saved grid')
 
-    save_image_data_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450.h5')
+    save_image_data_as_hdf5('../data/prid450/fullpath_image_names_file.txt', '../data/prid450/prid450_augmented.h5',
+                            '../data/prid450/swapped_list_of_paths.txt')
     print('saved prid450')
 
-    save_image_data_as_hdf5('../data/caviar/fullpath_image_names_file.txt', '../data/caviar/caviar.h5')
-    print('saved caviar')
+    # save_image_data_as_hdf5('../data/caviar/fullpath_image_names_file.txt', '../data/caviar/caviar.h5')
+    # print('saved caviar')
 
-    save_image_data_as_hdf5('../data/VIPER/fullpath_image_names_file.txt', '../data/VIPER/viper.h5')
+    save_image_data_as_hdf5('../data/VIPER/fullpath_image_names_file.txt', '../data/VIPER/viper_augmented.h5',
+                            '../data/VIPER/swapped_list_of_paths.txt')
     print('saved viper')
 
-    subdirs = [item for item in os.listdir('../data/CUHK02') if not item.split('.')[-1] == 'txt']
-    cuhk2_path = '../data/CUHK02'
-    for a_dir in subdirs:
-        the_full = os.path.join(cuhk2_path, a_dir, 'fullpath_image_names_file.txt')
-        the_h5 = os.path.join(cuhk2_path, 'cuhk02.h5')
-        save_image_data_as_hdf5(the_full, the_h5)
-    print('saved cuhk02')
+    # subdirs = [item for item in os.listdir('../data/CUHK02') if not item.split('.')[-1] == 'txt']
+    # cuhk2_path = '../data/CUHK02'
+    # for a_dir in subdirs:
+    #     the_full = os.path.join(cuhk2_path, a_dir, 'fullpath_image_names_file.txt')
+    #     the_h5 = os.path.join(cuhk2_path, 'cuhk02.h5')
+    #     save_image_data_as_hdf5(the_full, the_h5)
+    # print('saved cuhk02')
+    #
+    # save_image_data_as_hdf5('../data/CUHK/fullpath_image_names_file.txt', '../data/CUHK/cuhk01.h5')
+    # print('saved cuhk01')
+    #
+    # save_image_data_as_hdf5('../data/market/fullpath_image_names_file.txt', '../data/market/market.h5')
+    # print('saved market')
 
-    save_image_data_as_hdf5('../data/CUHK/fullpath_image_names_file.txt', '../data/CUHK/cuhk01.h5')
-    print('saved cuhk01')
+    save_image_data_as_hdf5('../data/ilids-vid-image/fullpath_image_names_file.txt',
+                            '../data/ilids-vid-image/ilids-vid-image.h5',
+                            '../data/ilids-vid-image/swapped_list_of_paths.txt')
+    print('saved ilids-vid-image')
 
-    save_image_data_as_hdf5('../data/market/fullpath_image_names_file.txt', '../data/market/market.h5')
-    print('saved market')
+    save_image_data_as_hdf5('../data/ilids-vid-image_augmented/fullpath_image_names_file.txt',
+                            '../data/ilids-vid-image_augmented/ilids-vid-image_augmented.h5',
+                            '../data/ilids-vid-image_augmented/swapped_list_of_paths.txt')
+    print('saved ilids-vid-image_augmented')
+
+    save_image_data_as_hdf5('../data/prid2011-image/fullpath_image_names_file.txt',
+                            '../data/prid2011-image/prid2011-image.h5',
+                            '../data/prid2011-image/swapped_list_of_paths.txt')
+    print('saved prid2011-image')
+
+    save_image_data_as_hdf5('../data/prid2011-image_augmented/fullpath_image_names_file.txt',
+                            '../data/prid2011-image_augmented/prid2011-image_augmented.h5',
+                            '../data/prid2011-image_augmented/swapped_list_of_paths.txt')
+    print('saved prid2011-image_augmented')
+
+
+save_all_image_datasets_as_hdf5()
 
 
 def save_video_as_hdf5(swapped_list, original_list,  h5_path):
@@ -131,5 +159,4 @@ def save_inria_data_as_hdf5():
     with h5py.File(h5_path, 'w') as myfile:
         for item in range(len_files):
             myfile.create_dataset(name=swapped_list[item], data=ndimage.imread(fullpath_list[item]))
-
 

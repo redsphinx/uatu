@@ -4675,6 +4675,88 @@ def ex_23_2_11():
     scn.super_main(a)
 
 
+
+def gab_ex_0():
+    a = ProjectVariable()
+    a.experiment_name = 'train + test, on 1 dataset, then save model and weights'
+    a.iterations = 1
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 50
+    a.save_inbetween = [100]
+    a.name_of_saved_file = 'viper'
+    # files saved:
+    # viper_epoch_100_model.h5
+    # viper_epoch_100_weights.h5
+    scn.super_main(a)
+
+
+def gab_ex_1():
+    a = ProjectVariable()
+    a.experiment_name = 'train + test, on 3 dataset, then save model and weights'
+    a.iterations = 1
+    a.dataset_test = 'prid450'
+    a.ranking_number_test = 50
+
+    a.datasets_train = ['grid', 'viper']
+    a.ranking_number_train = [5, 5]
+
+    # save model + weights
+    a.save_inbetween = [100]
+    a.name_of_saved_file = 'viper'
+    scn.super_main(a)
+
+
+def gab_ex_3():
+    a = ProjectVariable()
+    a.experiment_name = 'load model + test on some datase'
+    a.iterations = 1
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 50
+
+    a.only_test = True
+    # assuming the naming convention
+    a.load_model_name = 'viper_epoch_100'
+    scn.super_main(a)
+
+
+def gab_ex_4():
+    a = ProjectVariable()
+    a.experiment_name = 'only train + save model and weights'
+    a.iterations = 1
+
+    a.datasets_train = ['viper']
+    a.save_inbetween = [100]
+    a.name_of_saved_file = 'viper'
+
+    scn.super_main(a)
+
+
+def gab_ex_5():
+    a = ProjectVariable()
+    a.experiment_name = 'load weights + test on some datase'
+    a.iterations = 1
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 50
+
+    a.only_test = True
+    # assuming the naming convention
+    a.load_weights_name = 'viper_epoch_100'
+    scn.super_main(a)
+
+
+def gab_ex_6():
+    a = ProjectVariable()
+    a.experiment_name = 'train model with video data'
+    a.iterations = 1
+    a.datasets_test = 'prid2011'
+    a.ranking_number_test = 100
+    a.sequence_length = 20
+    a.kernel = (3, 3, 3)
+    a.pooling_size = [[1, 4, 2], [1, 2, 2]]
+    srcn.super_main(a)
+
+
+
 def main():
     num = sys.argv[1]
     print(sys.argv)

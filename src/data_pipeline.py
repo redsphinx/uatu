@@ -34,6 +34,10 @@ def make_image_data_files(fixed_dataset_path, project_data_storage):
     :param project_data_storage:    string path where the image data gets stored
     """
     folder_path = fixed_dataset_path
+
+    if not os.path.exists(project_data_storage):
+        os.mkdir(project_data_storage)
+
     id_all = sorted([item.split('/')[-1][0:4] for item in os.listdir(folder_path)])
     unique_id = sorted(set(id_all))
     short_image_names = sorted(os.listdir(folder_path))
@@ -55,9 +59,14 @@ def make_image_data_files(fixed_dataset_path, project_data_storage):
             myfile.write(item_name + '\n')
 
 
-def make_image_data_prid400():
-    pass
-
+def make_all_image_meta_data():
+    make_image_data_files(pc.VIPER_FIXED, pc.VIPER_DATA_STORAGE)
+    make_image_data_files(pc.GRID_FIXED, pc.GRID_DATA_STORAGE)
+    make_image_data_files(pc.PRID450_FIXED, pc.PRID450_DATA_STORAGE)
+    make_image_data_files(pc.PRID2011_IMAGE_FIXED, pc.PRID2011_IMAGE_DATA_STORAGE)
+    make_image_data_files(pc.ILIDS_IMAGE_FIXED, pc.ILIDS_IMAGE_DATA_STORAGE)
+    make_image_data_files(pc.PRID2011_IMAGE_AUGMENTED_FIXED, pc.PRID2011_IMAGE_AUGMENTED_DATA_STORAGE)
+    make_image_data_files(pc.ILIDS_IMAGE_AUGMENTED_FIXED, pc.ILIDS_IMAGE_AUGMENTED_DATA_STORAGE)
 
 
 def make_image_data_cuhk2():
@@ -178,7 +187,9 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
 
         # update min_id_group_size
         # if dataset is large and has a lot of large id groups(>num) then ignore the id groups that are smaller than num
-        if dataset_name in {'market', 'cuhk02', 'caviar', 'prid2011', 'ilids-vid', 'ilids-vid-20', 'prid2011_450'}:
+        if dataset_name in {'market', 'cuhk02', 'caviar', 'prid2011', 'ilids-vid', 'ilids-vid-20', 'prid2011_450',
+                            'prid450_augmented', 'viper_augmented', 'grid_augmented', 'prid2011_image_augmented',
+                            'ilids-vid-image_augmented'}:
             if len(id_group) >= num:
                 # print('length id group: %d, num: %d' % (len(id_group), num))
                 if min_id_group_size > len(id_group):
@@ -311,7 +322,6 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
     # -- Create combinations and store the positive matches for training
     # You could increase this but then you'll get a lot more data
     upper_bound = 3
-    # FIXME: remember we changed this to make prid2011_450 have the same amount of trianing instances
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
 
@@ -453,7 +463,6 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
     num_subdirs = len(subdirs)
     name = 'cuhk02'
 
-    # DONE TODO: fix adjustable.ranking_number
     # check if ranking_number is alright else fix it
     if ranking_variable == 'half':
         adapted_ranking_number = pc.RANKING_DICT['cuhk02'] / len(subdirs)
@@ -962,6 +971,20 @@ def get_dataset(name):
         dataset_h5 = h5py.File('../data/INRIA/inria.h5', 'r')
     elif name == 'prid2011_450':
         dataset_h5 = h5py.File('../data/prid2011_450/prid2011_450.h5', 'r')
+    elif name == 'prid450_augmented':
+        dataset_h5 = h5py.File('../data/prid450_augmented/prid450_augmented.h5')
+    elif name == 'viper_augmented':
+        dataset_h5 = h5py.File('../data/VIPERaugmented/viper_augmented.h5')
+    elif name == 'grid_augmented':
+        dataset_h5 = h5py.File('../data/GRID_augmented/grid_augmented.h5')
+    elif name == 'prid2011-image':
+        dataset_h5 = h5py.File('../data/prid2011-image/prid2011-image.h5')
+    elif name == 'prid2011-image_augmented':
+        dataset_h5 = h5py.File('../data/prid2011-image_augmented/prid2011-image_augmented.h5')
+    elif name == 'ilids-vid-image':
+        dataset_h5 = h5py.File('../data/ilids-vid-image/ilids-vid-image.h5')
+    elif name == 'ilids-vid-image_augmented':
+        dataset_h5 = h5py.File('../data/ilids-vid-image_augmented/ilids-vid-image_augmented.h5')
     else:
         dataset_h5 = None
 
@@ -1022,7 +1045,34 @@ def create_training_and_ranking_set(name, adjustable, ranking_variable, do_ranki
         ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.PRID2011_450_DATA_STORAGE,
                                                                pc.PRID2011_FIXED, do_ranking, do_training, name,
                                                                ranking_variable)
-
+    elif name == 'prid450_augmented':
+        ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.PRID450_AUGMENTED_DATA_STORAGE,
+                                                               pc.PRID450_AUGMENTED_FIXED,
+                                                               do_ranking, do_training, name, ranking_variable)
+    elif name == 'viper_augmented':
+        ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.VIPER_AUGMENTED_DATA_STORAGE,
+                                                               pc.VIPER_AUGMENTED_FIXED,
+                                                               do_ranking, do_training, name, ranking_variable)
+    elif name == 'grid_augmented':
+        ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.GRID_AUGMENTED_DATA_STORAGE,
+                                                               pc.GRID_AUGMENTED_FIXED,
+                                                               do_ranking, do_training, name, ranking_variable)
+    elif name == 'prid2011-image':
+        ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.PRID2011_IMAGE_DATA_STORAGE,
+                                                               pc.PRID2011_IMAGE_FIXED, do_ranking, do_training, name,
+                                                               ranking_variable)
+    elif name == 'prid2011-image_augmented':
+        ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.PRID2011_IMAGE_AUGMENTED_DATA_STORAGE,
+                                                               pc.PRID2011_IMAGE_AUGMENTED_FIXED, do_ranking,
+                                                               do_training, name, ranking_variable)
+    elif name == 'ilids-vid-image':
+        ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.ILIDS_IMAGE_DATA_STORAGE,
+                                                               pc.ILIDS_IMAGE_FIXED,
+                                                               do_ranking, do_training, name, ranking_variable)
+    elif name == 'ilids-vid-image_augmented':
+        ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.ILIDS_IMAGE_AUGMENTED_DATA_STORAGE,
+                                                               pc.ILIDS_IMAGE_AUGMENTED_FIXED,
+                                                               do_ranking, do_training, name, ranking_variable)
     else:
         ranking, training_pos, training_neg = None, None, None
 
@@ -1166,6 +1216,20 @@ def get_dataset_to_map(name, data_list, data_names, name_extra):
         dataset = 'ilids-vid-20'
     elif name == 'prid2011-fixed' and name_extra == 'prid2011_450':
         dataset = 'prid2011_450'
+    elif name == 'fixed_prid_augmented':
+        dataset = 'prid450_augmented'
+    elif name == 'padded_augmented':
+        dataset = 'VIPER_augmented'
+    elif name == 'fixed_grid_augmented':
+        dataset = 'GRID_augmented'
+    elif name == 'fixed_prid2011-image':
+        dataset = 'prid2011-image'
+    elif name == 'fixed_prid2011-image_augmented':
+        dataset = 'prid2011-image_augmented'
+    elif name == 'fixed_ilids-vid-image':
+        dataset = 'ilids-vid-image'
+    elif name == 'fixed_ilids-vid-image_augmented':
+        dataset = 'ilids-vid-image_augmented'
     else:
         print("sorry, we don't serve '%s'. would you like some fries with that?" % name)
         dataset = None

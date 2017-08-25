@@ -48,6 +48,7 @@ class ProjectVariable(object):
         self._experiment_name = 'no name'  # string
         # the base learning rate
         self._learning_rate = 0.00001  # float
+        # unused
         # the number of convolutional layers in the siamese head
         self._number_of_conv_layers = None  # int
         # the number of units in each dense layer for the 'neural_network' type of cost module
@@ -92,7 +93,7 @@ class ProjectVariable(object):
         # size of kernel in conv2D
         # self._kernel = (3, 3, 3) # tuple for video
         self._kernel = (3, 3)  # tuple for image
-        # wether or not to save inbetween
+        # wether or not to save inbetween model and weights
         self._save_inbetween = False  # bool
         # at which epoch to save
         self._save_points = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]  # list
