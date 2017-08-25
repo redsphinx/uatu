@@ -526,7 +526,7 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
             make_image_data_cuhk2()
 
         if do_ranking is True and do_training is True:
-            ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths,
+            ranking_pos, training_pos = make_positive_pairs(adjustable, id_all_file, unique_id_file, swapped_list_of_paths,
                                                             'cuhk02',
                                                             adapted_ranking_number)
 
@@ -541,7 +541,7 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
             return
         elif do_ranking is False and do_training is True:
             # only train, only make the training files using all the data
-            training_pos = make_positive_pairs_training(id_all_file, unique_id_file, swapped_list_of_paths, name)
+            training_pos = make_positive_pairs_training(adjustable, id_all_file, unique_id_file, swapped_list_of_paths, name)
             training_neg = make_negative_pairs(training_pos, 'training')
             training_pos_all += training_pos
             training_neg_all += training_neg

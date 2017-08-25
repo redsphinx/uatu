@@ -4761,9 +4761,9 @@ def debug():
     a.experiment_name = 'debug'
     a.iterations = 1
     a.epochs = 1
-    a.dataset_test = 'viper_augmented'
-    a.ranking_number_test = 10
-    a.upper_bound_pos_pairs_per_id = 6
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 20
+    a.upper_bound_pos_pairs_per_id = 4
     scn.super_main(a)
 
 
