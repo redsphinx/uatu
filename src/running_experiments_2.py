@@ -4761,10 +4761,9 @@ def debug():
     a.experiment_name = 'debug'
     a.iterations = 1
     a.epochs = 1
-    a.dataset_test = 'viper'
+    a.dataset_test = 'viper_augmented'
     a.ranking_number_test = 10
-    a.cost_module_type = 'euclidean'
-    a.use_cyclical_learning_rate = False
+    a.upper_bound_pos_pairs_per_id = 6
     scn.super_main(a)
 
 

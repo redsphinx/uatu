@@ -126,32 +126,50 @@ def make_positive_combinations(fullpath, unique_ids, num, smallest_id_group, typ
     combo_list = []
     num_ids = len(unique_ids)
 
-    if num == 3:
+
+    if num == 2:
+        for item in range(num_ids):
+            thing = str(fullpath[num * item] + ',' + fullpath[num * item + 1] + ',1\n')
+            combo_list.append(thing)
+    elif num == 3:
         for item in range(num_ids):
             thing = str(fullpath[num * item] + ',' + fullpath[num * item + 1] + ',1\n')
             combo_list.append(thing)
             thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 2] + ',1\n')
             combo_list.append(thing)
-
-            # make augmented data to increase the number of positives in the dataset
-            if augment_equal == True:
-                thing = str(fullpath[num * item] + ',' + fullpath[num * item] + ',1\n')
-                combo_list.append(thing)
-                thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 1] + ',1\n')
-                combo_list.append(thing)
-                thing = str(fullpath[num * item + 2] + ',' + fullpath[num * item + 2] + ',1\n')
-                combo_list.append(thing)
-
-    elif num == 2:
+    elif num == 4:
         for item in range(num_ids):
             thing = str(fullpath[num * item] + ',' + fullpath[num * item + 1] + ',1\n')
             combo_list.append(thing)
+            thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 2] + ',1\n')
+            combo_list.append(thing)
+            thing = str(fullpath[num * item + 2] + ',' + fullpath[num * item + 3] + ',1\n')
+            combo_list.append(thing)
+    elif num == 5:
+        for item in range(num_ids):
+            thing = str(fullpath[num * item] + ',' + fullpath[num * item + 1] + ',1\n')
+            combo_list.append(thing)
+            thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 2] + ',1\n')
+            combo_list.append(thing)
+            thing = str(fullpath[num * item + 2] + ',' + fullpath[num * item + 3] + ',1\n')
+            combo_list.append(thing)
+            thing = str(fullpath[num * item + 3] + ',' + fullpath[num * item + 4] + ',1\n')
+            combo_list.append(thing)
+    elif num == 6:
+        for item in range(num_ids):
+            thing = str(fullpath[num * item] + ',' + fullpath[num * item + 1] + ',1\n')
+            combo_list.append(thing)
+            thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 2] + ',1\n')
+            combo_list.append(thing)
+            thing = str(fullpath[num * item + 2] + ',' + fullpath[num * item + 3] + ',1\n')
+            combo_list.append(thing)
+            thing = str(fullpath[num * item + 3] + ',' + fullpath[num * item + 4] + ',1\n')
+            combo_list.append(thing)
+            thing = str(fullpath[num * item + 4] + ',' + fullpath[num * item + 5] + ',1\n')
+            combo_list.append(thing)
 
-            if type == 'train' and augment_equal == True:
-                thing = str(fullpath[num * item] + ',' + fullpath[num * item] + ',1\n')
-                combo_list.append(thing)
-                thing = str(fullpath[num * item + 1] + ',' + fullpath[num * item + 1] + ',1\n')
-                combo_list.append(thing)
+
+
 
     return combo_list
 
@@ -223,7 +241,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     return selection, min_id_group_size, unique_ids
 
 
-def make_positive_pairs_training(id_all_file, unique_id_file, swapped_list_of_paths, dataset_name):
+def make_positive_pairs_training(adjustable, id_all_file, unique_id_file, swapped_list_of_paths, dataset_name):
     # load the image data from saved txt files
     train_ids = list(np.genfromtxt(unique_id_file, dtype=None))
     all_train_ids = list(np.genfromtxt(id_all_file, dtype=None))
@@ -231,7 +249,7 @@ def make_positive_pairs_training(id_all_file, unique_id_file, swapped_list_of_pa
 
     # -- Create combinations and store the positive matches for training
     # You could increase this but then you'll get a lot more data
-    upper_bound = 3
+    upper_bound = adjustable.upper_bound_pos_pairs_per_id
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
     training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train,
@@ -276,7 +294,7 @@ def make_positive_pairs_ranking(id_all_file, unique_id_file, swapped_list_of_pat
     return ranking_ids_pos
 
 
-def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, dataset_name, ranking_number):
+def make_positive_pairs(adjustable, id_all_file, unique_id_file, swapped_list_of_paths, dataset_name, ranking_number):
     """
     Creates positive labeled pairs for training and ranking set.
     This needs to be done once at the beginning of the iteration.
@@ -321,7 +339,7 @@ def make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths, data
 
     # -- Create combinations and store the positive matches for training
     # You could increase this but then you'll get a lot more data
-    upper_bound = 3
+    upper_bound = adjustable.upper_bound_pos_pairs_per_id
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
 
@@ -403,7 +421,7 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
         ranking_number = None
 
     if do_ranking is True and do_training is True:
-        ranking_pos, training_pos = make_positive_pairs(id_all_file, unique_id_file, swapped_list_of_paths,
+        ranking_pos, training_pos = make_positive_pairs(adjustable, id_all_file, unique_id_file, swapped_list_of_paths,
                                                         name, ranking_number)
 
         ranking = make_negative_pairs(ranking_pos, 'ranking')
@@ -420,7 +438,7 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
         return
     elif do_ranking is False and do_training is True:
         # only train, only make the training files using all the data
-        training_pos = make_positive_pairs_training(id_all_file, unique_id_file, swapped_list_of_paths, name)
+        training_pos = make_positive_pairs_training(adjustable, id_all_file, unique_id_file, swapped_list_of_paths, name)
         training_neg = make_negative_pairs(training_pos, 'training')
 
         ranking = None
@@ -974,7 +992,7 @@ def get_dataset(name):
     elif name == 'prid450_augmented':
         dataset_h5 = h5py.File('../data/prid450_augmented/prid450_augmented.h5')
     elif name == 'viper_augmented':
-        dataset_h5 = h5py.File('../data/VIPERaugmented/viper_augmented.h5')
+        dataset_h5 = h5py.File('../data/VIPER_augmented/viper_augmented.h5')
     elif name == 'grid_augmented':
         dataset_h5 = h5py.File('../data/GRID_augmented/grid_augmented.h5')
     elif name == 'prid2011-image':
@@ -1058,19 +1076,19 @@ def create_training_and_ranking_set(name, adjustable, ranking_variable, do_ranki
                                                                pc.GRID_AUGMENTED_FIXED,
                                                                do_ranking, do_training, name, ranking_variable)
     elif name == 'prid2011-image':
-        ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.PRID2011_IMAGE_DATA_STORAGE,
+        ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.PRID2011_IMAGE_DATA_STORAGE,
                                                                pc.PRID2011_IMAGE_FIXED, do_ranking, do_training, name,
                                                                ranking_variable)
     elif name == 'prid2011-image_augmented':
-        ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.PRID2011_IMAGE_AUGMENTED_DATA_STORAGE,
+        ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.PRID2011_IMAGE_AUGMENTED_DATA_STORAGE,
                                                                pc.PRID2011_IMAGE_AUGMENTED_FIXED, do_ranking,
                                                                do_training, name, ranking_variable)
     elif name == 'ilids-vid-image':
-        ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.ILIDS_IMAGE_DATA_STORAGE,
+        ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.ILIDS_IMAGE_DATA_STORAGE,
                                                                pc.ILIDS_IMAGE_FIXED,
                                                                do_ranking, do_training, name, ranking_variable)
     elif name == 'ilids-vid-image_augmented':
-        ranking, training_pos, training_neg = make_pairs_video(adjustable, pc.ILIDS_IMAGE_AUGMENTED_DATA_STORAGE,
+        ranking, training_pos, training_neg = make_pairs_image(adjustable, pc.ILIDS_IMAGE_AUGMENTED_DATA_STORAGE,
                                                                pc.ILIDS_IMAGE_AUGMENTED_FIXED,
                                                                do_ranking, do_training, name, ranking_variable)
     else:

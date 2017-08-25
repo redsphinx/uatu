@@ -2935,3 +2935,115 @@ viper std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 viper G mean tp,fp,tn,fn:    [0.0, 0.0, 90.0, 10.0]
 viper G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
 
+
+name_of_experiment:         debug
+file_name:                  siamese_cnn_image.py
+date:                       25/08/2017   13:23:13
+duration:                   11.561627
+viper mean tp,fp,tn,fn:    [8.0, 56.0, 34.0, 2.0]
+viper std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper detection rate (TP/(TP+FN)):      0.8
+viper false alarm (FP/(FP+TN)):        0.622222222222
+viper mean ranking:        [0.1, 0.2, 0.4, 0.7, 0.7, 0.8, 0.8, 0.9, 0.9, 1.0]
+viper std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+viper G mean tp,fp,tn,fn:    [8.0, 56.0, 34.0, 2.0]
+viper G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         debug
+file_name:                  siamese_cnn_image.pyc
+date:                       25/08/2017   13:24:44
+duration:                   17.609545
+viper_augmented mean tp,fp,tn,fn:    [1.0, 1.0, 89.0, 9.0]
+viper_augmented std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper_augmented detection rate (TP/(TP+FN)):      0.1
+viper_augmented false alarm (FP/(FP+TN)):        0.0111111111111
+viper_augmented mean ranking:        [0.4, 0.5, 0.6, 0.7, 0.7, 0.7, 0.7, 0.9, 0.9, 1.0]
+viper_augmented std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+viper_augmented G mean tp,fp,tn,fn:    [1.0, 1.0, 89.0, 9.0]
+viper_augmented G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         debug
+file_name:                  siamese_cnn_image.pyc
+date:                       25/08/2017   13:25:59
+duration:                   10.741418
+grid_augmented mean tp,fp,tn,fn:    [7.0, 23.0, 67.0, 3.0]
+grid_augmented std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+grid_augmented detection rate (TP/(TP+FN)):      0.7
+grid_augmented false alarm (FP/(FP+TN)):        0.255555555556
+grid_augmented mean ranking:        [0.4, 0.4, 0.6, 0.7, 0.8, 0.8, 0.8, 0.9, 0.9, 1.0]
+grid_augmented std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+grid_augmented G mean tp,fp,tn,fn:    [7.0, 23.0, 67.0, 3.0]
+grid_augmented G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         debug
+file_name:                  siamese_cnn_image.pyc
+date:                       25/08/2017   13:26:24
+duration:                   13.691965
+prid450_augmented mean tp,fp,tn,fn:    [8.0, 28.0, 62.0, 2.0]
+prid450_augmented std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+prid450_augmented detection rate (TP/(TP+FN)):      0.8
+prid450_augmented false alarm (FP/(FP+TN)):        0.311111111111
+prid450_augmented mean ranking:        [0.3, 0.5, 0.7, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+prid450_augmented std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+prid450_augmented G mean tp,fp,tn,fn:    [8.0, 28.0, 62.0, 2.0]
+prid450_augmented G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         debug
+file_name:                  siamese_cnn_image.pyc
+date:                       25/08/2017   13:44:59
+duration:                   20.292669
+prid2011-image_augmented mean tp,fp,tn,fn:    [9.0, 59.0, 31.0, 1.0]
+prid2011-image_augmented std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+prid2011-image_augmented detection rate (TP/(TP+FN)):      0.9
+prid2011-image_augmented false alarm (FP/(FP+TN)):        0.655555555556
+prid2011-image_augmented mean ranking:        [0.0, 0.2, 0.5, 0.6, 0.7, 0.9, 0.9, 0.9, 1.0, 1.0]
+prid2011-image_augmented std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+prid2011-image_augmented G mean tp,fp,tn,fn:    [9.0, 59.0, 31.0, 1.0]
+prid2011-image_augmented G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         debug
+file_name:                  siamese_cnn_image.pyc
+date:                       25/08/2017   13:46:04
+duration:                   9.532336
+ilids-vid-image mean tp,fp,tn,fn:    [4.0, 33.0, 57.0, 6.0]
+ilids-vid-image std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+ilids-vid-image detection rate (TP/(TP+FN)):      0.4
+ilids-vid-image false alarm (FP/(FP+TN)):        0.366666666667
+ilids-vid-image mean ranking:        [0.0, 0.1, 0.3, 0.5, 0.7, 0.8, 0.8, 0.9, 1.0, 1.0]
+ilids-vid-image std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+ilids-vid-image G mean tp,fp,tn,fn:    [4.0, 33.0, 57.0, 6.0]
+ilids-vid-image G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         debug
+file_name:                  siamese_cnn_image.pyc
+date:                       25/08/2017   13:58:26
+duration:                   24.425369
+viper_augmented mean tp,fp,tn,fn:    [10.0, 82.0, 8.0, 0.0]
+viper_augmented std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper_augmented detection rate (TP/(TP+FN)):      1.0
+viper_augmented false alarm (FP/(FP+TN)):        0.911111111111
+viper_augmented mean ranking:        [0.3, 0.5, 0.5, 0.7, 0.7, 0.7, 0.9, 0.9, 0.9, 1.0]
+viper_augmented std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+viper_augmented G mean tp,fp,tn,fn:    [10.0, 82.0, 8.0, 0.0]
+viper_augmented G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+
+
+name_of_experiment:         debug
+file_name:                  siamese_cnn_image.pyc
+date:                       25/08/2017   13:59:35
+duration:                   43.894923
+viper_augmented mean tp,fp,tn,fn:    [7.0, 32.0, 58.0, 3.0]
+viper_augmented std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+viper_augmented detection rate (TP/(TP+FN)):      0.7
+viper_augmented false alarm (FP/(FP+TN)):        0.355555555556
+viper_augmented mean ranking:        [0.3, 0.4, 0.5, 0.8, 0.8, 0.9, 0.9, 1.0, 1.0, 1.0]
+viper_augmented std ranking:         [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+viper_augmented G mean tp,fp,tn,fn:    [7.0, 32.0, 58.0, 3.0]
+viper_augmented G std tp,fp,tn,fn:     [0.0, 0.0, 0.0, 0.0]
+

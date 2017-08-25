@@ -145,6 +145,8 @@ class ProjectVariable(object):
         self._decay = 0.004 # float
         # have this many times negative as there are positive primings
         self.negative_priming_ratio = 1
+        # upper bound for positive pairs per ID
+        self.upper_bound_pos_pairs_per_id = 3
 
 
 
@@ -705,3 +707,12 @@ class ProjectVariable(object):
     @negative_priming_ratio.setter
     def negative_priming_ratio(self, value):
         self._negative_priming_ratio = value
+
+    # upper bound for positive pairs per ID
+    @property
+    def upper_bound_pos_pairs_per_id(self):
+        return self._upper_bound_pos_pairs_per_id
+
+    @upper_bound_pos_pairs_per_id.setter
+    def upper_bound_pos_pairs_per_id(self, value):
+        self._upper_bound_pos_pairs_per_id = value

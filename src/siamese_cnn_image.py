@@ -682,7 +682,8 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
                 final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
             predictions = model.predict([test_data[0, :], test_data[1, :]])
-            predictions = predictions.ravel()
+            if adjustable.cost_module_type in ['euclidean', 'cosine']:
+                predictions = predictions.ravel()
             total_predictions[b:e] = predictions
             total_final_labels[b:e] = final_testing_labels
             # if adjustable.cost_module_type in ['euclidean', 'cosine']:
