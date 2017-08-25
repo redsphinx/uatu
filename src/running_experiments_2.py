@@ -4756,28 +4756,40 @@ def gab_ex_6():
     srcn.super_main(a)
 
 
+def debug():
+    a = ProjectVariable()
+    a.experiment_name = 'debug'
+    a.iterations = 1
+    a.epochs = 1
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 10
+    a.cost_module_type = 'euclidean'
+    a.use_cyclical_learning_rate = False
+    scn.super_main(a)
+
+
+debug()
+
 
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '23_0_0': ex_23_0_0()
-    if num == '23_0_1': ex_23_0_1()
-    if num == '23_1_0': ex_23_1_0()
-    if num == '23_1_1': ex_23_1_1()
-    if num == '23_2_0': ex_23_2_0()
-    if num == '23_2_1': ex_23_2_1()
-    if num == '23_2_2': ex_23_2_2()
-    if num == '23_2_3': ex_23_2_3()
-    if num == '23_2_4': ex_23_2_4()
-    if num == '23_2_5': ex_23_2_5()
-    if num == '23_2_6': ex_23_2_6()
-    if num == '23_2_7': ex_23_2_7()
-    if num == '23_2_8': ex_23_2_8()
-    if num == '23_2_9': ex_23_2_9()
-    if num == '23_2_10': ex_23_2_10()
-    if num == '23_2_11': ex_23_2_11()
-    # if num == '22_1': ex_22_1()
-    # if num == '22_2': ex_22_2()
+    # if num == '23_0_0': ex_23_0_0() # rerun
+    # if num == '23_0_1': ex_23_0_1() # rerun
+    # if num == '23_1_0': ex_23_1_0() # rerun
+    # if num == '23_1_1': ex_23_1_1() # rerun
+    # if num == '23_2_0': ex_23_2_0() # done
+    # if num == '23_2_1': ex_23_2_1() # done
+    # if num == '23_2_2': ex_23_2_2() # done
+    # if num == '23_2_3': ex_23_2_3() # run
+    # if num == '23_2_4': ex_23_2_4() # run
+    # if num == '23_2_5': ex_23_2_5() # run
+    # if num == '23_2_6': ex_23_2_6() # run
+    # if num == '23_2_7': ex_23_2_7() # run
+    # if num == '23_2_8': ex_23_2_8() # run
+    # if num == '23_2_9': ex_23_2_9() # run
+    # if num == '23_2_10': ex_23_2_10() # run
+    # if num == '23_2_11': ex_23_2_11() # run
 
-main()
+# main()

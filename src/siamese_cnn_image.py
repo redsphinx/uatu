@@ -656,12 +656,12 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
 
         # FIXME: issue when euclidean and cosine.
         if adjustable.cost_module_type in ['euclidean', 'cosine']:
-            width = 1
+            total_predictions = np.zeros(len_test_data)
+            total_final_labels = np.zeros(len_test_data)
         else:
-            width = 2
+            total_predictions = np.zeros((len_test_data, 2))
+            total_final_labels = np.zeros((len_test_data, 2))
 
-        total_predictions = np.zeros((len_test_data, width))
-        total_final_labels = np.zeros((len_test_data, width))
 
         for part in range(partitions):
             b = part * max_list_size
@@ -682,10 +682,16 @@ def main(adjustable, training_h5, testing_h5, all_ranking, merged_training_pos, 
                 final_testing_labels = keras.utils.to_categorical(final_testing_labels, pc.NUM_CLASSES)
 
             predictions = model.predict([test_data[0, :], test_data[1, :]])
+            predictions = predictions.ravel()
             total_predictions[b:e] = predictions
             total_final_labels[b:e] = final_testing_labels
-            # total_predictions.append(predictions)
-            # total_final_labels.append(final_testing_labels)
+            # if adjustable.cost_module_type in ['euclidean', 'cosine']:
+            #     total_predictions.append(predictions)
+            #     total_final_labels.append(final_testing_labels)
+            # else:
+            #     total_predictions[b:e] = predictions
+            #     total_final_labels[b:e] = final_testing_labels
+
 
         predictions = total_predictions
         final_testing_labels = total_final_labels
