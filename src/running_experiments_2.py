@@ -4767,28 +4767,100 @@ def debug():
     scn.super_main(a)
 
 
-debug()
+def ex_31_0():
+    a = ProjectVariable()
+    a.experiment_name = 'ex_31_0: viper data augment + euclidean'
+    a.iterations = 10
+    a.dataset_test = 'viper_augmented'
+    a.ranking_number_test = 100
+    a.upper_bound_pos_pairs_per_id = 6
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.cost_module_type = 'euclidean'
+    a.log_file = 'thesis_results_0.txt'
+    scn.super_main(a)
+
+
+def ex_31_1():
+    a = ProjectVariable()
+    a.experiment_name = 'ex_31_1: grid data augment + euclidean'
+    a.iterations = 10
+    a.dataset_test = 'grid_augmented'
+    a.ranking_number_test = 100
+    a.upper_bound_pos_pairs_per_id = 6
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.cost_module_type = 'euclidean'
+    a.log_file = 'thesis_results_0.txt'
+    scn.super_main(a)
+    
+    
+def ex_31_2():
+    a = ProjectVariable()
+    a.experiment_name = 'ex_31_2: grid data augment + euclidean'
+    a.iterations = 10
+    a.dataset_test = 'prid450_augmented'
+    a.ranking_number_test = 100
+    a.upper_bound_pos_pairs_per_id = 6
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.cost_module_type = 'euclidean'
+    a.log_file = 'thesis_results_0.txt'
+    scn.super_main(a)
+
+
+def ex_31_3():
+    a = ProjectVariable()
+    a.experiment_name = 'ex_31_3: viper data augment + euclidean'
+    a.iterations = 10
+    a.dataset_test = 'viper_augmented'
+    a.ranking_number_test = 316
+    a.upper_bound_pos_pairs_per_id = 6
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.cost_module_type = 'euclidean'
+    a.log_file = 'thesis_results_0.txt'
+    scn.super_main(a)
+
+
+def ex_31_4():
+    a = ProjectVariable()
+    a.experiment_name = 'ex_31_4: grid data augment + euclidean'
+    a.iterations = 10
+    a.dataset_test = 'grid_augmented'
+    a.ranking_number_test = 125
+    a.upper_bound_pos_pairs_per_id = 6
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.cost_module_type = 'euclidean'
+    a.log_file = 'thesis_results_0.txt'
+    scn.super_main(a)
+
+
+def ex_31_5():
+    a = ProjectVariable()
+    a.experiment_name = 'ex_31_5: grid data augment + euclidean'
+    a.iterations = 10
+    a.dataset_test = 'prid450_augmented'
+    a.ranking_number_test = 225
+    a.upper_bound_pos_pairs_per_id = 6
+    a.use_cyclical_learning_rate = False
+    a.optimizer = 'rms'
+    a.cost_module_type = 'euclidean'
+    a.log_file = 'thesis_results_0.txt'
+    scn.super_main(a)
+
 
 
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    # if num == '23_0_0': ex_23_0_0() # rerun
-    # if num == '23_0_1': ex_23_0_1() # rerun
-    # if num == '23_1_0': ex_23_1_0() # rerun
-    # if num == '23_1_1': ex_23_1_1() # rerun
-    # if num == '23_2_0': ex_23_2_0() # done
-    # if num == '23_2_1': ex_23_2_1() # done
-    # if num == '23_2_2': ex_23_2_2() # done
-    # if num == '23_2_3': ex_23_2_3() # run
-    # if num == '23_2_4': ex_23_2_4() # run
-    # if num == '23_2_5': ex_23_2_5() # run
-    # if num == '23_2_6': ex_23_2_6() # run
-    # if num == '23_2_7': ex_23_2_7() # run
-    # if num == '23_2_8': ex_23_2_8() # run
-    # if num == '23_2_9': ex_23_2_9() # run
-    # if num == '23_2_10': ex_23_2_10() # run
-    # if num == '23_2_11': ex_23_2_11() # run
+    if num == '31_0': ex_31_0()
+    if num == '31_1': ex_31_1()
+    if num == '31_2': ex_31_2()
+    if num == '31_3': ex_31_3()
+    if num == '31_4': ex_31_4()
+    if num == '31_5': ex_31_5()
 
-# main()
+main()
