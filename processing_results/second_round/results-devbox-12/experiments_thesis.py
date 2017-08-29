@@ -5762,7 +5762,6 @@ def ex_16_3_2():
                                 ranking_means_base, ranking_std_base, matrix_means_primed, matrix_std_primed,
                                 ranking_means_primed, ranking_std_primed, total_time)
 
-
 # 17, numfil=2
 
 # ex_17_0, train various networks and save them for priming.
@@ -7856,22 +7855,22 @@ def ex_21_0():
     total_time = 0
     all_confusion_primed_5_clr_same = []
     all_cmc_primed_5_clr_same = []
-
+    
     all_confusion_primed_10_clr_same = []
     all_cmc_primed_10_clr_same = []
-
+    
     all_confusion_primed_5_clr_diff = []
     all_cmc_primed_5_clr_diff = []
-
+    
     all_confusion_primed_10_clr_diff = []
     all_cmc_primed_10_clr_diff = []
-
+    
     all_confusion_primed_5_lr_00001 = []
     all_cmc_primed_5_lr_00001 = []
 
     all_confusion_primed_10_lr_00001 = []
     all_cmc_primed_10_lr_00001 = []
-
+    
     all_confusion_primed_5_lr_000001 = []
     all_cmc_primed_5_lr_000001 = []
 
@@ -8067,10 +8066,10 @@ def ex_21_0():
     ranking_means_base = np.mean(all_cmc_base, axis=0)
     ranking_std_base = np.std(all_cmc_base, axis=0)
     # get the means and std for primed 5 epochs CLR same
-    matrix_means_primed_5_clr_same = np.mean(all_confusion_primed_5_clr_same, axis=0)
-    matrix_std_primed_5_clr_same = np.std(all_confusion_primed_5_clr_same, axis=0)
-    ranking_means_primed_5_clr_same = np.mean(all_cmc_primed_5_clr_same, axis=0)
-    ranking_std_primed_5_clr_same = np.std(all_cmc_primed_5_clr_same, axis=0)
+    matrix_means_primed_5_clr_same= np.mean(all_confusion_primed_5_clr_same, axis=0)
+    matrix_std_primed_5_clr_same= np.std(all_confusion_primed_5_clr_same, axis=0)
+    ranking_means_primed_5_clr_same= np.mean(all_cmc_primed_5_clr_same, axis=0)
+    ranking_std_primed_5_clr_same= np.std(all_cmc_primed_5_clr_same, axis=0)
     # get the means and std for primed 10 epochs CLR same
     matrix_means_primed_10_clr_same = np.mean(all_confusion_primed_10_clr_same, axis=0)
     matrix_std_primed_10_clr_same = np.std(all_confusion_primed_10_clr_same, axis=0)
@@ -8086,7 +8085,7 @@ def ex_21_0():
     matrix_std_primed_10_clr_diff = np.std(all_confusion_primed_10_clr_diff, axis=0)
     ranking_means_primed_10_clr_diff = np.mean(all_cmc_primed_10_clr_diff, axis=0)
     ranking_std_primed_10_clr_diff = np.std(all_cmc_primed_10_clr_diff, axis=0)
-
+    
     # get the means and std for primed 5 epochs Lr 0.00001
     matrix_means_primed_5_lr_00001 = np.mean(all_confusion_primed_5_lr_00001, axis=0)
     matrix_std_primed_5_lr_00001 = np.std(all_confusion_primed_5_lr_00001, axis=0)
@@ -8108,9 +8107,10 @@ def ex_21_0():
     ranking_means_primed_10_lr_000001 = np.mean(all_cmc_primed_10_lr_000001, axis=0)
     ranking_std_primed_10_lr_000001 = np.std(all_cmc_primed_10_lr_000001, axis=0)
 
+
     if a.log_experiment:
         file_name = os.path.basename(__file__)
-        pu.enter_in_log_priming_augment(a, a.experiment_name, file_name, name,
+        pu.enter_in_log_priming_augment(a, a.experiment_name, file_name, name, 
                                         matrix_means_base, matrix_std_base, ranking_means_base, ranking_std_base,
                                         matrix_means_primed_5_clr_same, matrix_std_primed_5_clr_same,
                                         ranking_means_primed_5_clr_same, ranking_std_primed_5_clr_same,
@@ -8410,7 +8410,6 @@ def ex_21_1():
                                         matrix_means_primed_10_lr_000001, matrix_std_primed_10_lr_000001,
                                         ranking_means_primed_10_lr_000001, ranking_std_primed_10_lr_000001,
                                         total_time)
-
 
 def ex_21_2():
     all_confusion_base = []
@@ -8745,7 +8744,7 @@ def ex_24_0():
     a.neural_distance = 'concatenate'
     a.upper_bound_pos_pairs_per_id = 6
     scn.super_main(a)
-
+    
 
 def ex_24_1():
     a = ProjectVariable()
@@ -8759,7 +8758,7 @@ def ex_24_1():
     a.neural_distance = 'concatenate'
     a.upper_bound_pos_pairs_per_id = 6
     scn.super_main(a)
-
+    
 
 def ex_24_2():
     a = ProjectVariable()
@@ -8774,7 +8773,7 @@ def ex_24_2():
     a.upper_bound_pos_pairs_per_id = 6
     scn.super_main(a)
 
-
+    
 # effect training on mix of augmented datasets
 def ex_25_0():
     a = ProjectVariable()
@@ -8901,7 +8900,7 @@ def ex_26_3():
     a.mix = True
     a.mix_with_test = True
     scn.super_main(a)
-
+    
 
 def ex_26_4():
     a = ProjectVariable()
@@ -8969,7 +8968,7 @@ def ex_27_2():
 
 def ex_27_3():
     a = ProjectVariable()
-    a.experiment_name = 'experiment 27_3: [benchmark] ilids-vid, neural_distance=concatenate'  # (in previous BM we used 20)
+    a.experiment_name = 'experiment 27_3: [benchmark] ilids-vid, neural_distance=concatenate' # (in previous BM we used 20)
     a.use_gpu = '3'
     a.log_file = 'thesis_results_%s.txt' % a.use_gpu
     a.epochs = 100
@@ -8997,8 +8996,8 @@ def ex_23_0_0():
     a.cost_module_type = 'euclidean'
     a.upper_bound_pos_pairs_per_id = 3
     a.use_cyclical_learning_rate = False
-    a.decay = 0  # new
-    a.optimizer = 'rms'  # new
+    a.decay = 0 # new
+    a.optimizer = 'rms' # new
     scn.super_main(a)
 
 
@@ -9265,8 +9264,6 @@ def ex_28_0_2():
     a.neural_distance = 'concatenate'
     a.upper_bound_pos_pairs_per_id = 6
     scn.super_main(a)
-
-
 ##
 
 
@@ -9310,7 +9307,6 @@ def ex_29_0_2():
     a.neural_distance = 'absolute'
     a.upper_bound_pos_pairs_per_id = 6
     scn.super_main(a)
-
 
 ###
 
@@ -9482,27 +9478,28 @@ def ex_26_6():
     scn.super_main(a)
 
 
+
 def main():
     num = sys.argv[1]
     print(sys.argv)
-
+    
     # gpu ?
-    if num == '23_0_0': ex_23_0_0()  # rerun
-    if num == '23_0_1': ex_23_0_1()  # rerun
-    if num == '23_1_0': ex_23_1_0()  # rerun
-    if num == '23_1_1': ex_23_1_1()  # rerun
+    if num == '23_0_0': ex_23_0_0() # rerun
+    if num == '23_0_1': ex_23_0_1() # rerun
+    if num == '23_1_0': ex_23_1_0() # rerun
+    if num == '23_1_1': ex_23_1_1() # rerun
     # if num == '23_2_0': ex_23_2_0() # done
     # if num == '23_2_1': ex_23_2_1() # done
     # if num == '23_2_2': ex_23_2_2() # done
-    if num == '23_2_3': ex_23_2_3()  # run
-    if num == '23_2_4': ex_23_2_4()  # run
-    if num == '23_2_5': ex_23_2_5()  # run
-    if num == '23_2_6': ex_23_2_6()  # run
-    if num == '23_2_7': ex_23_2_7()  # run
-    if num == '23_2_8': ex_23_2_8()  # run
-    if num == '23_2_9': ex_23_2_9()  # run
-    if num == '23_2_10': ex_23_2_10()  # run
-    if num == '23_2_11': ex_23_2_11()  # run
+    if num == '23_2_3': ex_23_2_3() # run
+    if num == '23_2_4': ex_23_2_4() # run
+    if num == '23_2_5': ex_23_2_5() # run
+    if num == '23_2_6': ex_23_2_6() # run
+    if num == '23_2_7': ex_23_2_7() # run
+    if num == '23_2_8': ex_23_2_8() # run
+    if num == '23_2_9': ex_23_2_9() # run
+    if num == '23_2_10': ex_23_2_10() # run
+    if num == '23_2_11': ex_23_2_11() # run
     if num == '24_0': ex_24_0()
     if num == '24_1': ex_24_1()
     if num == '24_2': ex_24_2()
@@ -9524,6 +9521,8 @@ def main():
     if num == '29_0_0': ex_29_0_0()
     if num == '29_0_1': ex_29_0_1()
     if num == '29_0_2': ex_29_0_2()
+    
+    
 
     # gpu 0
     if num == '10_0_0': ex_10_0_0()
@@ -9662,6 +9661,7 @@ def main():
     if num == '19_3_2': ex_19_3_2()
     if num == '21_2': ex_21_2()
     if num == '22_1': ex_22_1()
+
 
     # gpu 3
     if num == '4_0_0': ex_4_0_0()
