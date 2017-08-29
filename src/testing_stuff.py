@@ -670,7 +670,7 @@ def dataset_mean():
 
     # Access all PNG files in directory
     # allfiles = os.listdir(os.getcwd())
-    the_path = '/home/gabi/PycharmProjects/uatu/src/dataset_averages'
+    the_path = '//home/gabi/PycharmProjects/uatu/src/dataset_averages/cuhk02'
     allfiles = os.listdir(the_path)
     imlist = [os.path.join(the_path, item) for item in allfiles]
 
@@ -694,9 +694,10 @@ def dataset_mean():
 
     # Generate, save and preview final image
     out = Image.fromarray(arr, mode="RGB")
-    out.save("Average_all.png")
+    out.save("Average_cuhk02.png")
     out.show()
 
+dataset_mean()
 
 def find_matches(file_1, file_2):
     f1 = list(np.genfromtxt(file_1, dtype=None))
