@@ -1,3 +1,11 @@
+"""
+Author:     Gabrielle Ras
+E-mail:     flambuyan@gmail.com
+
+Defines a network to train on human datasets.
+
+"""
+
 import keras
 from keras import models
 from keras import layers
