@@ -447,6 +447,10 @@ def fix_inria():
 
 
 def augment_image_data(fixed_folder_path):
+    """
+    For all images in the folder, apply 5 transformations to get augmented data
+    :param fixed_folder_path:       string path to the fixed folder
+    """
     image_list = os.listdir(fixed_folder_path)
     for item in image_list:
         item_path = os.path.join(fixed_folder_path, item)
