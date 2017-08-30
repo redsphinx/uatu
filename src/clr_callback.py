@@ -1,12 +1,6 @@
-# from keras.callbacks import *
-# from tensorflow.contrib.keras import callbacks
-# from tensorflow.contrib.keras import backend as K
-
 from keras import callbacks
 import keras.backend as K
 import numpy as np
-
-
 
 
 class CyclicLR(callbacks.Callback):

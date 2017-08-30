@@ -2,21 +2,10 @@ import keras
 from keras import models
 from keras import layers
 from keras import optimizers
-
-# from tensorflow.contrib import keras
-# from tensorflow.contrib.keras import models
-# from tensorflow.contrib.keras import layers
-# from tensorflow.contrib.keras import optimizers
-# from tensorflow.contrib.keras import backend as K
-# from tensorflow.contrib.keras import initializers
-# import tensorflow as tf
-
 import project_constants as pc
 import project_utils as pu
 import data_pipeline as dp
-# import dynamic_data_loading as ddl
 from clr_callback import *
-
 import time
 import os
 import numpy as np
@@ -53,6 +42,7 @@ def add_activation_and_max_pooling(adjustable, model, use_batch_norm, batch_norm
 
 def create_cnn_model(adjustable):
     """Implements a convolutional neural network
+    :param adjustable:          object of class ProjectVariable
     :return:                    a keras models.Sequential model
     """
     if adjustable.head_type == 'batch_normalized':
@@ -133,7 +123,8 @@ def get_model(adjustable):
 
     # case 1
     if adjustable.load_model_name is not None:
-        model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
+        the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, '%s_model.h5' % adjustable.load_model_name)
+        model = models.load_model(the_path)
 
     else:
         # case 3
@@ -141,7 +132,7 @@ def get_model(adjustable):
 
         # case 2
         if adjustable.load_weights_name is not None:
-            the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_weights_name)
+            the_path = os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, '%s_weights.h5' % adjustable.load_weights_name)
             model.load_weights(the_path, by_name=True)
 
         # compile
@@ -152,11 +143,12 @@ def get_model(adjustable):
 
 def main(adjustable, test_data, train_data, h5_dataset):
     """
-    Does stuff
+    Runs the main loop
     :param adjustable:      object of class ProjectVariable
     :param test_data:       list of keys for test data
     :param train_data:      list of keys for train data
-    :param h5_dataset:      hdf5 dataset file in 'r' mode
+    :param h5_dataset:      hdf5 dataset file
+    :returns:               confusion matrix
     """
 
     model = get_model(adjustable)
@@ -212,6 +204,11 @@ def main(adjustable, test_data, train_data, h5_dataset):
 
 
 def super_main(adjustable):
+    """
+    Runs the main loop a number of times and saves the results of the experiments.
+    :param adjustable:      object of class ProjectVariable
+    """
+
     h5_datasets = dp.load_datasets_from_h5(adjustable.datasets)
     if adjustable.datasets[0] == 'inria':
         data_list = list(np.genfromtxt('../data/INRIA/swapped.txt', dtype=None))

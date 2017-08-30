@@ -4701,7 +4701,8 @@ def gab_ex_1():
     a.ranking_number_train = [5, 5]
 
     # save model + weights
-    a.save_inbetween = [100]
+    a.save_inbetween = True
+    a.save_points = [100]
     a.name_of_saved_file = 'viper'
     scn.super_main(a)
 
