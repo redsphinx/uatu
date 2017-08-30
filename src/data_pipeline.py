@@ -7,18 +7,16 @@ File has multiple functions:
 1) Creates pairs of images and videos and stored as text data
 2) Performs manipulations with data pairs (image and video)
 """
+
 import numpy as np
 import os
 import random as rd
 import h5py
 import matplotlib.pyplot as plt
-from scipy import ndimage
-from PIL import Image
 from random import randint
 import random
 import project_constants as pc
 import project_utils as pu
-import time
 
 
 def make_image_data_files(fixed_dataset_path, project_data_storage):
@@ -60,6 +58,10 @@ def make_image_data_files(fixed_dataset_path, project_data_storage):
 
 
 def make_all_image_meta_data():
+    """
+    Makes the meta data for all the image datasets
+    """
+
     make_image_data_files(pc.VIPER_FIXED, pc.VIPER_DATA_STORAGE)
     make_image_data_files(pc.GRID_FIXED, pc.GRID_DATA_STORAGE)
     make_image_data_files(pc.PRID450_FIXED, pc.PRID450_DATA_STORAGE)
@@ -78,6 +80,7 @@ def make_image_data_cuhk2():
     fullpath_image_names_file.txt   short_image_names_file.txt with full path
     swapped_list_of_paths.txt       fullpath_image_names_file.txt but with '+' instead of '/'
     """
+
     top_path = '/home/gabi/Documents/datasets/CUHK/cropped_CUHK2'
 
     subdirs = os.listdir(top_path)
@@ -110,22 +113,21 @@ def make_image_data_cuhk2():
                 myfile.write(item_name + '\n')
 
 
-def make_positive_combinations(fullpath, unique_ids, num, smallest_id_group, type='rank', augment_equal=False):
+def make_positive_combinations(fullpath, unique_ids, num, smallest_id_group, augment_equal=False):
     """
     Makes positive pairs for images (or sequences in the case of video data)
     :param fullpath:            list of fullpath names
     :param unique_ids:          list of unique IDs
     :param num:                 int number of image per unique ID (sets a boundary)
     :param smallest_id_group:   int size of the smallest set of images per ID
-    :param type:                string 'train' or 'rank'. indicates making combos for training or ranking
     :param augment_equal:       bool. indicates to augment with pairs of the same images
     :return:                    a list of matching pairs with label 'item_a,item_b,1'
     """
+
     if num > smallest_id_group:
         num = smallest_id_group
     combo_list = []
     num_ids = len(unique_ids)
-
 
     if num == 2:
         for item in range(num_ids):
@@ -168,15 +170,13 @@ def make_positive_combinations(fullpath, unique_ids, num, smallest_id_group, typ
             thing = str(fullpath[num * item + 4] + ',' + fullpath[num * item + 5] + ',1\n')
             combo_list.append(thing)
 
-
-
-
     return combo_list
 
 
 def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
-    """ Prevents there from being a HUGE number of combinations of pairs by setting an upper bound on allowed images per
-        unique ID
+    """
+    Prevents there from being a HUGE number of combinations of pairs by setting an upper bound on allowed images per
+    unique ID
     :param the_list:        list containing full path to images of the set of IDs. an ID can have multiple images
     :param unique_ids:      list of unique IDs. every ID appears only once
     :param all_ids:         the_list, but then only the IDs
@@ -184,6 +184,7 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
     :param dataset_name     string name of the datasaet
     :return:                truncated selection of the_list
     """
+
     selection = []
     min_id_group_size = 10000000
     # keep track of which ids we ignore.
@@ -191,14 +192,12 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
 
     for the_id in unique_ids:
         # get the indices for the matching IDs
-        # id_group = [i for i, x in enumerate(all_ids) if x == the_id]
         id_group = []
         for i, x in enumerate(all_ids):
             if x == the_id:
                 id_group.append((i))
 
         # get the fullpaths for each matching ID at the indices
-        # full_path_group = [the_list[i] for i in id_group]
         full_path_group = []
         for i in id_group:
             full_path_group.append(the_list[i])
@@ -209,7 +208,6 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
                             'prid450_augmented', 'viper_augmented', 'grid_augmented', 'prid2011_image_augmented',
                             'ilids-vid-image_augmented'}:
             if len(id_group) >= num:
-                # print('length id group: %d, num: %d' % (len(id_group), num))
                 if min_id_group_size > len(id_group):
                     min_id_group_size = len(id_group)
                 # if there are more matching ID images than allowed images,
@@ -242,18 +240,26 @@ def pre_selection(the_list, unique_ids, all_ids, num, dataset_name):
 
 
 def make_positive_pairs_training(adjustable, id_all_file, unique_id_file, swapped_list_of_paths, dataset_name):
+    """
+    Creates positive labeled pairs for training. This needs to be done once at the beginning of the iteration.
+    :param id_all_file:                 string of path to id_all_file.txt
+    :param unique_id_file:              string of path to unique_id_file.txt
+    :param swapped_list_of_paths:       string of path to swapped_list_of_paths.txt
+    :param dataset_name:                string name of the dataset
+    :return:                            two lists, containing labeled pairs for training and ranking respectively
+    """
+
     # load the image data from saved txt files
     train_ids = list(np.genfromtxt(unique_id_file, dtype=None))
     all_train_ids = list(np.genfromtxt(id_all_file, dtype=None))
     training_ids_pos = list(np.genfromtxt(swapped_list_of_paths, dtype=None))
 
     # -- Create combinations and store the positive matches for training
-    # You could increase this but then you'll get a lot more data
+    # You could increase this and then you'll get a lot more data
     upper_bound = adjustable.upper_bound_pos_pairs_per_id
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
-    training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train,
-                                                  type='train')
+    training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
 
     # shuffle so that each time we get different first occurences for when making negative pairs
     rd.shuffle(training_ids_pos)
@@ -262,6 +268,18 @@ def make_positive_pairs_training(adjustable, id_all_file, unique_id_file, swappe
 
 
 def make_positive_pairs_ranking(id_all_file, unique_id_file, swapped_list_of_paths, dataset_name, ranking_number):
+    """
+    Creates positive labeled pairs for training and ranking set.
+    This needs to be done once at the beginning of the iteration.
+
+    :param id_all_file:                 string of path to id_all_file.txt
+    :param unique_id_file:              string of path to unique_id_file.txt
+    :param swapped_list_of_paths:       string of path to swapped_list_of_paths.txt
+    :param dataset_name:                string name of the dataset
+    :param ranking_number:              int the ranking number
+    :return:                            two lists, containing labeled pairs for training and ranking respectively
+    """
+
     # load the image data from saved txt files
     unique_id = list(np.genfromtxt(unique_id_file, dtype=None))
     id_all = list(np.genfromtxt(id_all_file, dtype=None))
@@ -343,8 +361,7 @@ def make_positive_pairs(adjustable, id_all_file, unique_id_file, swapped_list_of
     training_ids_pos, min_group_size_train, train_ids = pre_selection(training_ids_pos, train_ids, all_train_ids,
                                                                       upper_bound, dataset_name)
 
-    training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train,
-                                                  type='train')
+    training_ids_pos = make_positive_combinations(training_ids_pos, train_ids, upper_bound, min_group_size_train)
 
     # shuffle so that each time we get different first occurences for when making negative pairs
     rd.shuffle(ranking_ids_pos)
@@ -361,20 +378,18 @@ def make_negative_pairs(pos_list, the_type):
     :return:            if ranking, return list with both positive and negative ranking pairs
                         elif training, return list with negative pairs
     """
+
     # split the positive list into its first 2 columns
     list_0 = [pos_list[index].split(',')[0] for index in range(len(pos_list))]
     list_1 = [pos_list[index].split(',')[1] for index in range(len(pos_list))]
 
     if the_type == 'ranking':
         ranking_list = []
-        # ranking_neg = []
         for img0 in range(len(list_0)):
             for img1 in range(len(list_1)):
                 num = 1 if img0 == img1 else 0
                 line = list_0[img0] + ',' + list_1[img1] + ',%d\n' % num
                 ranking_list.append(line)
-                # if num == 0:
-                #     ranking_neg.append(line)
         return ranking_list
 
     elif the_type == 'training':
@@ -396,13 +411,14 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
     :param adjustable:              object of class ProjectVariable
     :param project_data_storage:    string path to dataset processed data
     :param fixed_path:              string path to fixed dataset
-    :param do_ranking:              bool
-    :param do_training:             bool
+    :param do_ranking:              bool, to do ranking or not
+    :param do_training:             bool, to do training or not
     :param name:                    string name of the dataset
     :param ranking_variable:        the variable from which to read the ranking number.
                                     can be adjustable.ranking_number_train or adjustable.ranking_number_test
     :return:                        3 lists containing labeled pairs, one list for ranking and two for training
     """
+
     if not os.path.exists(project_data_storage):
         os.mkdir(project_data_storage)
 
@@ -427,7 +443,7 @@ def make_pairs_image(adjustable, project_data_storage, fixed_path, do_ranking, d
         ranking = make_negative_pairs(ranking_pos, 'ranking')
         training_neg = make_negative_pairs(training_pos, 'training')
 
-        # save if specified
+        # save the ranking files if saving specified
         if adjustable.save_inbetween and adjustable.iterations == 1:
             file_name = '%s_ranking_%s.txt' % (name, adjustable.use_gpu)
             file_name = os.path.join(pc.SAVE_LOCATION_RANKING_FILES, file_name)
@@ -476,6 +492,7 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
     :param adjustable:      object of class ProjectVariable
     :return:                3 lists contianing labeled pairs, one list for ranking and two for training
     """
+
     top_project_data_storage = '../data/CUHK02'
     subdirs = ['P1', 'P2', 'P3', 'P4', 'P5']
     num_subdirs = len(subdirs)
@@ -509,7 +526,6 @@ def make_pairs_cuhk2(adjustable, do_ranking, do_training, ranking_variable):
 
     # for each subdirectory make positive and negative pairs
     for a_dir in subdirs:
-        # DONE TODO: fix adjustable.ranking_number
         if ranking_variable == 'half':
             adapted_ranking_number = pc.RANKING_CUHK02_PARTS[a_dir]
 
@@ -764,7 +780,9 @@ def make_video_data_files(name):
 
 
 def make_prid2011_450_data():
-    # from prid2011 make a subset with 450 identities
+    """
+    From prid2011 make a subset with 450 identities
+    """
 
     path_prid2011_450 = '../data/prid2011_450'
     if not os.path.exists(path_prid2011_450):
@@ -813,7 +831,6 @@ def make_prid2011_450_data():
             myfile.write(line + '\n')
 
 
-# DONE TODO: adjustable.datasets
 def make_pairs_video(adjustable, project_data_storage, fixed_path, do_ranking, do_training, name, ranking_variable):
     """
     Makes pairs for the specified video dataset.
@@ -827,6 +844,7 @@ def make_pairs_video(adjustable, project_data_storage, fixed_path, do_ranking, d
                                     can be adjustable.ranking_number_train or adjustable.ranking_number_test
     :return:                        3 lists containing labeled pairs, one list for ranking and two for training
     """
+
     if not os.path.exists(project_data_storage):
         os.mkdir(project_data_storage)
 
@@ -837,9 +855,7 @@ def make_pairs_video(adjustable, project_data_storage, fixed_path, do_ranking, d
     if not os.path.exists(id_all_file):
         make_video_data_files(fixed_path)
 
-    # DONE TODO: fix adjustable.ranking_number
     if ranking_variable == 'half':
-        # TODO: implement this for video data
         ranking_number = pc.RANKING_DICT[name]
     elif isinstance(ranking_variable, int):
         ranking_number = ranking_variable
@@ -891,6 +907,13 @@ def make_pairs_video(adjustable, project_data_storage, fixed_path, do_ranking, d
 
 
 def make_human_data(fixed_path, label, storage_path):
+    """
+    Makes meta data for the human datasets
+    :param fixed_path:          string path to the fixed image folder
+    :param label:               int, 1 or 0, 0 if we are making negative pairs, 1 if we are making positive pairs
+    :param storage_path:        string path to store meta data
+    """
+
     if not os.path.exists(storage_path):
         os.mkdir(storage_path)
 
@@ -919,6 +942,7 @@ def make_inria_data():
     make_human_data('/home/gabi/Documents/datasets/INRIAPerson/fixed-neg', 0, '../data/INRIA')
 
 
+# unused
 def find_matching_angles():
     # viper
     # path_a = '/home/gabi/Documents/datasets/VIPeR/cam_a'
@@ -957,9 +981,6 @@ def find_matching_angles():
     print('Number of matching angles: %d' % count)
 
 
-# text_file = '../data/reid_all_negatives.txt'
-# h5_name = 'reid_all_negatives_uncompressed.h5'
-# txt_to_hdf5(text_file, h5_name)
 def get_dataset(name):
     """ Given the name of a dataset it returns that dataset as a h5 file
         note that you cannot learn on cuhk01 and cuhk02 at the same time
@@ -1010,7 +1031,8 @@ def get_dataset(name):
 
 
 def load_datasets_from_h5(list_of_datasets):
-    """ Do this at the beginning of the experiment
+    """
+    Do this at the beginning of the experiment
     """
     if list_of_datasets is None:
         return None
@@ -1179,7 +1201,6 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
                         random.shuffle(merged_training_pos)
                         random.shuffle(merged_training_neg)
 
-                        # note: make this a 2 dimensional list because the order matters
                         merged_training_pos = [merged_training_pos]
                         merged_training_neg = [merged_training_neg]
 
@@ -1190,15 +1211,10 @@ def merge_datasets(adjustable, list_training_pos, list_training_neg):
                 # number of datasets don't matter
                 merged_training_pos = list_training_pos
                 merged_training_neg = list_training_neg
-                # for index in range(number_of_datasets):
-                #     # note: make this a 2 dimensional list because the order matters
-                #     merged_training_pos.append(list_training_pos[index])
-                #     merged_training_neg.append(list_training_neg[index])
 
     return merged_training_pos, merged_training_neg
 
 
-# TODO: fix for mixing video data
 def get_dataset_to_map(name, data_list, data_names, name_extra):
     """
     Get the dataset
@@ -1266,6 +1282,7 @@ def create_key_dataset_mapping(key_list, h5_dataset_list):
     :param h5_dataset_list:     list of the h5 datasets to search in
     :return:                    dictionary, a mapping from the keys to the datasets
     """
+
     key_dataset_mapping = {}
 
     if len(h5_dataset_list) == 1:
@@ -1397,8 +1414,6 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
         all_partition_keys_in_order = list(
             np.genfromtxt('../data/CUHK02/%s/fullpath_image_names_file.txt' % partition, dtype=None))
         keys = [all_partition_keys_in_order[item] for item in updated_indices]
-        # TODO switch back
-        # keys = [all_partition_keys_in_order[item] for item in indices_seen_image]
     elif name_dataset == 'market':
         all_ids_in_order = list(np.genfromtxt('../data/market/id_all_file.txt', dtype=str))
         indices_matching_id = [item for item in range(len(all_ids_in_order)) if all_ids_in_order[item] == the_id]
@@ -1414,42 +1429,30 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
         # truncate list to 4 images -- for faster testing
         # add the probe
         probe = all_image_names.index(seen_list[0])
-        # FIXME why is this set to 2?
         updated_indices = updated_indices[0:2]
         updated_indices += [probe]
 
         all_keys_in_order = list(np.genfromtxt('../data/market/fullpath_image_names_file.txt', dtype=None))
         keys = [all_keys_in_order[item] for item in updated_indices]
-        # TODO switch back
-        # keys = [all_keys_in_order[item] for item in indices_seen_image]
     elif name_dataset == 'grid':
         all_ids_in_order = list(np.genfromtxt('../data/GRID/id_all_file.txt', dtype=str))
         indices_matching_id = [item for item in range(len(all_ids_in_order)) if all_ids_in_order[item] == the_id]
 
         all_image_names = list(np.genfromtxt('../data/GRID/short_image_names_file.txt', dtype=None))
         image_names_matching_id = [all_image_names[item] for item in indices_matching_id]
-        # print('image names matching id: %s' % str(image_names_matching_id))
         indices_seen_image = [image_names_matching_id.index(im) for im in seen_list for name in image_names_matching_id
                               if im == name]
-        # print('indices seen image: %s' % str(indices_seen_image))
 
         updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
                            item not in indices_seen_image]
-        # print('updated indices: %s' % str(updated_indices))
 
-        # truncate list to 4 images -- for faster testing
         # add the probe
         probe = all_image_names.index(seen_list[0])
-        # print('probe: %s' % str(probe))
         updated_indices = updated_indices[0:2]
-        # print('updated indices: %s' % str(updated_indices))
         updated_indices += [probe]
-        # print('updated indices: %s' % str(updated_indices))
 
         all_keys_in_order = list(np.genfromtxt('../data/GRID/fullpath_image_names_file.txt', dtype=None))
         keys = [all_keys_in_order[item] for item in updated_indices]
-        # TODO switch back
-        # keys = [all_keys_in_order[item] for item in indices_seen_image]
     elif name_dataset == 'prid450':
 
         all_ids_in_order = list(np.genfromtxt('../data/prid450/id_all_file.txt', dtype=str))
@@ -1463,7 +1466,6 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
         updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
                            item not in indices_seen_image]
 
-        # truncate list to 4 images -- for faster testing
         # add the probe
         probe = all_image_names.index(seen_list[0])
         updated_indices = updated_indices[0:2]
@@ -1471,8 +1473,6 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
 
         all_keys_in_order = list(np.genfromtxt('../data/prid450/fullpath_image_names_file.txt', dtype=None))
         keys = [all_keys_in_order[item] for item in updated_indices]
-        # TODO switch back
-        # keys = [all_keys_in_order[item] for item in indices_seen_image]
     elif name_dataset == 'viper':
 
         all_ids_in_order = list(np.genfromtxt('../data/VIPER/id_all_file.txt', dtype=str))
@@ -1486,7 +1486,6 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
         updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
                            item not in indices_seen_image]
 
-        # truncate list to 4 images -- for faster testing
         # add the probe
         probe = all_image_names.index(seen_list[0])
         updated_indices = updated_indices[0:2]
@@ -1494,8 +1493,6 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
 
         all_keys_in_order = list(np.genfromtxt('../data/VIPER/fullpath_image_names_file.txt', dtype=None))
         keys = [all_keys_in_order[item] for item in updated_indices]
-        # TODO switch back
-        # keys = [all_keys_in_order[item] for item in indices_seen_image]
     elif name_dataset == 'caviar':
 
         all_ids_in_order = list(np.genfromtxt('../data/caviar/id_all_file.txt', dtype=str))
@@ -1509,7 +1506,6 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
         updated_indices = [indices_matching_id[item] for item in range(len(indices_matching_id)) if
                            item not in indices_seen_image]
 
-        # truncate list to 4 images -- for faster testing
         # add the probe
         probe = all_image_names.index(seen_list[0])
         updated_indices = updated_indices[0:2]
@@ -1517,8 +1513,6 @@ def get_positive_keys(name_dataset, partition, the_id, seen_list):
 
         all_keys_in_order = list(np.genfromtxt('../data/caviar/fullpath_image_names_file.txt', dtype=None))
         keys = [all_keys_in_order[item] for item in updated_indices]
-        # TODO switch back
-        # keys = [all_keys_in_order[item] for item in indices_seen_image]
     else:
         keys = None
 
@@ -1577,21 +1571,11 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
             print("ranking_number_test must be 'half' or an int")
             return
 
-            # print('ranking number: %s' % str(ranking_number))
-
-            # rank_ordered_ids = [
-            # dp.my_join(list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])[0:4])
-            # for item in range(ranking_number)]
         rank_ordered_ids = []
-
-        # for thingy in this_ranking:
-        #     print(thingy)
 
         for item in range(ranking_number):
             a = list(this_ranking[item * ranking_number + item].strip().split(',')[0].split('+')[-1])
-            # print('a: %s' % str(a))
             b = pu.my_join(a[0:4])
-            # print('b: %s' % str(b))
             rank_ordered_ids.append(b)
 
         negative_keys = []
@@ -1635,6 +1619,7 @@ def get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranki
 
 
 def get_related_keys(adjustable, name_dataset, partition, seen_list, this_ranking, the_id):
+    # for priming, get keys belonging to the same ID
     pos_keys = get_positive_keys(name_dataset, partition, the_id, seen_list)
     neg_keys = get_negative_keys(adjustable, name_dataset, partition, seen_list, this_ranking, pos_keys)
     keys = pos_keys + neg_keys
@@ -1643,6 +1628,7 @@ def get_related_keys(adjustable, name_dataset, partition, seen_list, this_rankin
 
 
 def get_human_data(keys, h5data):
+    # for cnn_human_detection
     h5data = h5data[0]
     len_keys = len(keys)
 
