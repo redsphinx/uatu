@@ -1,5 +1,8 @@
 """
-Useful utilities
+Author:     Gabrielle Ras
+E-mail:     flambuyan@gmail.com
+
+Useful, miscellaneous utilities
 """
 
 import numpy as np
@@ -9,9 +12,7 @@ from shutil import copyfile
 import shutil
 import time
 from random import shuffle
-# from tensorflow.contrib import keras
 import keras
-# from keras import optimizers, models
 from scipy import ndimage
 from PIL import Image
 from skimage.util import random_noise
@@ -81,17 +82,6 @@ def threshold_predictions(adjustable, predictions):
 
         new_predictions = np.asarray(new_predictions)
         return new_predictions
-    # elif adjustable.cost_module_type == 'cosine':
-    #     predictions = predictions.ravel()
-    #     new_predictions = [0] * num_pred
-    #     for item in range(num_pred):
-    #         if predictions[item] < 0:
-    #             new_predictions[item] = -1
-    #         else:
-    #             new_predictions[item] = 1
-    #
-    #     new_predictions = np.asarray(new_predictions)
-    #     return new_predictions
 
 
 # unused
@@ -618,19 +608,6 @@ def zero_to_min_one_labels(data_list):
 
     return data_list
 
-# def assign_experiments():
-#     import running_experiments as re
-#     list_of_experiments = []
-#     list_of_experiments = ['experishit']
-#     # for i in range(57, 69 + 1):
-#     #     list_of_experiments.append('experiment_%d' % i)
-#     number_of_gpus = len(os.environ["CUDA_VISIBLE_DEVICES"])
-#     for gpu in range(number_of_gpus):
-#         if gpu_in_use(gpu) == False:
-#             the_experiment = getattr(re, list_of_experiments.pop(0))
-#             the_experiment(gpu)
-#
-# assign_experiments()
 
 def get_data(pairs, dataset, number_of_data=100):
     pairs = list(np.genfromtxt(pairs, dtype=str))

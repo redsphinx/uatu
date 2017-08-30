@@ -1,6 +1,11 @@
-import tensorflow as tf
-import numpy as np
+"""
+Author:     Gabrielle Ras
+E-mail:     flambuyan@gmail.com
 
+Holds project constants
+"""
+
+import tensorflow as tf
 
 IMAGE_HEIGHT = 128
 IMAGE_WIDTH = 64
@@ -8,8 +13,7 @@ IMAGE_WIDTH = 64
 NUM_CHANNELS = 3
 DATA_TYPE = tf.float32
 NUM_CLASSES = 2
-# DECAY_RATE = 0.95
-DECAY_RATE = 0.004
+DECAY_RATE = 0.95
 MOMENTUM = 0.9
 LOAD_WEIGHTS = False
 
@@ -28,7 +32,6 @@ SAVE_CNN_WEIGHTS = True
 SAVE_CNN_MODEL = False
 
 SAVE_LOCATION_MODEL_WEIGHTS = '../model_weights'
-# SAVE_LOCATION_MODEL_WEIGHTS = '/home/gabi/PycharmProjects/uatu/model_weights'
 SAVE_LOCATION_RANKING_FILES = '../ranking_files'
 
 SAVE_LOCATION_VIPER_CUHK = '../data/VIPeR_CUHK'

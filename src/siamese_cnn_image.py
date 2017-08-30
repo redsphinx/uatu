@@ -1,3 +1,10 @@
+"""
+Author:     Gabrielle Ras
+E-mail:     flambuyan@gmail.com
+
+Defines network structure for the siamese convolutional neural network and more stuff to actually make it work
+"""
+
 import keras
 from keras import models
 from keras import layers
@@ -6,16 +13,6 @@ import keras.backend as K
 from keras import initializers
 import tensorflow as tf
 import math
-
-# from tensorflow.contrib import keras
-# from tensorflow.contrib.keras import models
-# from tensorflow.contrib.keras import layers
-# from tensorflow.contrib.keras import optimizers
-# from tensorflow.contrib.keras import backend as K
-# from tensorflow.contrib.keras import initializers
-# import tensorflow as tf
-
-# import dynamic_data_loading as ddl
 import data_pipeline as dp
 import project_constants as pc
 import project_utils as pu

@@ -1,3 +1,10 @@
+"""
+Author:     Gabrielle Ras
+E-mail:     flambuyan@gmail.com
+
+Defines class ProjectVariable. With these variables we control many experimental settings.
+"""
+
 class ProjectVariable(object):
     def __init__(self):
         """

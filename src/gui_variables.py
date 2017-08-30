@@ -1,6 +1,9 @@
-'''
-Holds variables for the gui
-'''
+"""
+Author:     Gabrielle Ras
+E-mail:     flambuyan@gmail.com
+
+Variables for the GUI
+"""
 from Tkinter import Tk, Label, PhotoImage, Button
 
 

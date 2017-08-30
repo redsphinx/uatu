@@ -1,3 +1,9 @@
+"""
+Author:     Gabrielle Ras
+E-mail:     flambuyan@gmail.com
+
+GUI interface to load model and test file
+"""
 from gui_variables import GuiVariable
 from Tkinter import Button, Label, PhotoImage
 import tkFileDialog as filedialog

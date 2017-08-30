@@ -1,5 +1,8 @@
-# from tensorflow.contrib.keras import models
-# import tensorflow.contrib.keras as keras
+"""
+Author:     Gabrielle Ras
+E-mail:     flambuyan@gmail.com
+
+"""
 
 from keras import models, optimizers
 import keras
