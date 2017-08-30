@@ -1,10 +1,9 @@
 # from tensorflow.contrib.keras import models
 # import tensorflow.contrib.keras as keras
 
-from keras import models, layers, optimizers, losses
+from keras import models, optimizers
 import keras
 import numpy as np
-# import dynamic_data_loading as ddl
 import project_constants as pc
 import data_pipeline as dp
 import project_utils as pu
@@ -114,8 +113,6 @@ def create_and_save_augmented_images(keys, the_id, name):
         # imsave(name_noise, image_noise)
 
 
-
-
 def is_match(comb):
     i1 = comb[0]
     i2 = comb[1]
@@ -217,12 +214,6 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
 
         create_and_save_augmented_images(list_related_keys, the_id, name)
 
-        # if os.path.exists(path):
-        #     if len(os.listdir(path)) == 0:
-        #         create_and_save_augmented_images(list_related_keys, the_id, name)
-        # else:
-        #     create_and_save_augmented_images(list_related_keys, the_id, name)
-
         list_augmented_images_short = os.listdir(path)
         list_augmented_images_long = [os.path.join(path, item) for item in list_augmented_images_short]
 
@@ -252,7 +243,6 @@ def train_and_test(adjustable, name, this_ranking, model, h5_dataset):
                       batch_size=adjustable.batch_size,
                       epochs=adjustable.prime_epochs,
                       verbose=0)
-
 
         # testing
         part_ranking = this_ranking[an_id * ranking_number:(an_id + 1) * ranking_number]
@@ -308,10 +298,7 @@ def main(adjustable, all_ranking, names, model):
         gregor_matrix = pu.make_gregor_matrix(adjustable, full_predictions, final_testing_labels)
         gregor_matrices.append(gregor_matrix)
 
-        # detection_rate = (gregor_matrix[0] * 1.0 / (gregor_matrix[0] * 1.0 + gregor_matrix[3] * 1.0))
         detection_rate, false_alarm = pu.calculate_TPR_FPR(matrix)
-        # false_alarm = (gregor_matrix[1] * 1.0 / (gregor_matrix[1] * 1.0 + gregor_matrix[2] * 1.0))
-
 
         ranking = pu.calculate_CMC(adjustable, full_predictions)
         ranking_matrices.append(ranking)
@@ -388,36 +375,9 @@ def super_main(adjustable, get_data=False):
     names = [name]
 
     os.environ["CUDA_VISIBLE_DEVICES"] = adjustable.use_gpu
-
-    '''
-    '''
     model = get_model(adjustable)
-    # if adjustable.load_model_name is not None:
-    #     model = models.load_model(os.path.join(pc.SAVE_LOCATION_MODEL_WEIGHTS, adjustable.load_model_name))
-    # elif adjustable.load_weights_name is not None and adjustable.load_model_name is None:
-    #     model = scn.create_siamese_network(adjustable)
-    # 
-    #     the_path = os.path.join('../model_weights', adjustable.load_weights_name)
-    #     model.load_weights(the_path, by_name=True)
-    # 
-    #     if adjustable.cost_module_type == 'neural_network' or adjustable.cost_module_type == 'euclidean_fc':
-    #         nadam = optimizers.Nadam(lr=adjustable.learning_rate, schedule_decay=pc.DECAY_RATE)
-    #         model.compile(loss=adjustable.loss_function, optimizer=nadam, metrics=['accuracy'])
-    #     elif adjustable.cost_module_type == 'euclidean' or adjustable.cost_module_type == 'cosine':
-    #         rms = keras.optimizers.RMSprop()
-    #         model.compile(loss=scn.contrastive_loss, optimizer=rms, metrics=[scn.absolute_distance_difference])
-    # else:
-    #     model = None
-    '''
-    '''
-
-    # number_of_datasets = len(names)
     number_of_datasets = 1
 
-    # if adjustable.ranking_number == 'half':
-    #     ranking_number = pc.RANKING_DICT[name]
-    # elif isinstance(adjustable.ranking_number, int):
-    #     ranking_number = adjustable.ranking_number
     if adjustable.ranking_number_test == 'half':
         ranking_number = pc.RANKING_DICT[name]
     elif isinstance(adjustable.ranking_number_test, int):
