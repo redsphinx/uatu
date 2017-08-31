@@ -4852,16 +4852,93 @@ def ex_31_5():
     scn.super_main(a)
 
 
+def save_0():
+    a = ProjectVariable()
+    a.experiment_name = 'save_0: saving viper_augmented model + weights, euclidean, rms'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.dataset_test = 'viper_augmented'
+    a.ranking_number_test = 100
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.upper_bound_pos_pairs_per_id = 6
+    a.name_of_saved_file = 'viper_4gui'
+    a.log_experiment = False
+    scn.super_main(a)
+
+
+def save_1():
+    a = ProjectVariable()
+    a.experiment_name = 'save_1: saving grid_augmented model + weights, euclidean, rms'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.dataset_test = 'grid_augmented'
+    a.ranking_number_test = 100
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.upper_bound_pos_pairs_per_id = 6
+    a.name_of_saved_file = 'grid_4gui'
+    a.log_experiment = False
+    scn.super_main(a)
+
+
+def save_2():
+    a = ProjectVariable()
+    a.experiment_name = 'save_2: saving prid450_augmented model + weights, euclidean, rms'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.dataset_test = 'prid450_augmented'
+    a.ranking_number_test = 100
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.upper_bound_pos_pairs_per_id = 6
+    a.name_of_saved_file = 'prid450_4gui'
+    a.log_experiment = False
+    scn.super_main(a)
+
+
+def save_3():
+    a = ProjectVariable()
+    a.experiment_name = 'save_3: saving market model + weights, euclidean, rms'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.dataset_test = 'market'
+    a.ranking_number_test = 100
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.name_of_saved_file = 'market_4gui'
+    a.log_experiment = False
+    scn.super_main(a)
+
+
+def save_4():
+    a = ProjectVariable()
+    a.experiment_name = 'save_4: saving cuhk02 model + weights, euclidean, rms'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 100
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.name_of_saved_file = 'cuhk02_4gui'
+    a.log_experiment = False
+    scn.super_main(a)
+
 
 def main():
     num = sys.argv[1]
     print(sys.argv)
 
-    if num == '31_0': ex_31_0()
-    if num == '31_1': ex_31_1()
-    if num == '31_2': ex_31_2()
-    if num == '31_3': ex_31_3()
-    if num == '31_4': ex_31_4()
-    if num == '31_5': ex_31_5()
+    if num == '0': save_0()
+    if num == '1': save_1()
+    if num == '2': save_2()
+    if num == '3': save_3()
+    if num == '4': save_4()
+
 
 main()
