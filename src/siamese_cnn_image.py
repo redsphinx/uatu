@@ -829,7 +829,6 @@ def super_main(adjustable, get_data=False):
                 print('Error: no training data specified.')
                 return
         else:
-            # TODO: fix issue where it can be datasets_train != none + only_test == true
             if adjustable.only_test == True:
                 print('Testing only using ranking set based on dataset_test.')
 

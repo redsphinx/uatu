@@ -609,11 +609,18 @@ def zero_to_min_one_labels(data_list):
     return data_list
 
 
-def get_data(pairs, dataset, number_of_data=100):
+def get_data(pairs, dataset, number_of_data=100, euclidean=False, shuf=False):
+    # for the GUI
     pairs = list(np.genfromtxt(pairs, dtype=str))
 
     refs = np.zeros((len(pairs), 2, pc.IMAGE_HEIGHT, pc.IMAGE_WIDTH, pc.NUM_CHANNELS))
     labs = np.zeros(len(pairs))
+
+    if euclidean:
+        pairs = flip_labels(pairs)
+
+    if shuf:
+        shuffle(pairs)
 
     if number_of_data > len(pairs):
         number_of_data = len(pairs)
@@ -623,7 +630,8 @@ def get_data(pairs, dataset, number_of_data=100):
         refs[item] = dataset[p1], dataset[p2]
         labs[item] = int(l)
 
-    labs = keras.utils.to_categorical(labs, 2)
+    if not euclidean:
+        labs = keras.utils.to_categorical(labs, 2)
 
     return refs, labs
 

@@ -8,13 +8,16 @@ from gui_variables import GuiVariable
 from Tkinter import Button, Label, PhotoImage
 import tkFileDialog as filedialog
 # from tensorflow.contrib.keras import models
-from keras import models
+from keras import models, optimizers
+from keras import backend as K
 import numpy as np
 import h5py as h5
 import os
 import project_utils as pu
 from PIL import Image
 from PIL import ImageTk
+from project_variables import ProjectVariable
+import siamese_cnn_image as scn
 import time
 
 
@@ -55,12 +58,46 @@ def initialize(b):
     b.truth_text = Label(b.root, text='Truth:   Match')
 
 
-def load_model(gv):
+def contrastive_loss(y_true, y_pred):
+    """Contrastive loss from Hadsell-et-al.'06
+    http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+
+    y = 0 if image is similar
+    y = 1 if image is different
+
+    according to Tokukawa: https://github.com/fchollet/keras/issues/4980 it has to be:
+    return K.mean((1 - y_true) * K.square(y_pred) + y_true * K.square(K.maximum(margin - y_pred, 0)))
+    instead of:
+    return K.mean(y_true * K.square(y_pred) + (1 - y_true) * K.square(K.maximum(margin - y_pred, 0)))
+    """
+    margin = 1
+    loss = K.mean((1 - y_true) * K.square(y_pred) + y_true * K.square(K.maximum(margin - y_pred, 0)))
+    return loss
+
+
+def create_siamese_network():
+    adjustable = ProjectVariable()
+    adjustable.ranking_number_test = 100
+    adjustable.cost_module_type = 'euclidean'
+    model = scn.create_siamese_network(adjustable)
+    return model
+
+
+# FIXME
+def load_model(gv, load_weights=True):
     os.environ["CUDA_VISIBLE_DEVICES"] = '0'
     model_path = filedialog.askopenfilename(initialdir='../model_weights')
-    # model_path = filedialog.askopenfilename(initialdir='/home/gabi/PycharmProjects/testhings/models_weights')
     model_name = model_path.strip().split('/')[-1]
-    gv.model = models.load_model(model_path)
+    # model_path = filedialog.askopenfilename(initialdir='/home/gabi/PycharmProjects/testhings/models_weights')
+    if load_weights:
+        model = create_siamese_network()
+        model.load_weights(model_path, by_name=True)
+        print('model name: ', model_name)
+        model.compile(loss=contrastive_loss, optimizer=optimizers.RMSprop())
+        gv.model = model
+    else:
+        gv.model = models.load_model(model_path)
+
     gv.loaded_model_text.config(text='Model loaded: %s' % (model_name))
     gv.is_model_loaded = True
     set_run_possible(gv)
@@ -93,7 +130,7 @@ def load_test(gv):
     test_name = test_path.strip().split('/')[-1]
     dataset = get_dataset(test_name)
 
-    gv.test, gv.all_truth = pu.get_data(test_path, dataset, gv.number_of_data)
+    gv.test, gv.all_truth = pu.get_data(test_path, dataset, gv.number_of_data, euclidean=True, shuf=True)
 
     print(np.shape(gv.test))
 
@@ -107,7 +144,7 @@ def load_test(gv):
     set_run_possible(gv)
 
 
-def do_prediction_1(gv):
+def do_prediction_1(gv, euclidean=True):
     pil_image = Image.fromarray(np.uint8(gv.test[gv.step_position, 0]), 'RGB')
     image_left = ImageTk.PhotoImage(pil_image)
     gv.tk_bb_image_1 = image_left
@@ -131,25 +168,42 @@ def do_prediction_1(gv):
 
 
     prediction = gv.model.predict([test_pair[:, 0], test_pair[:, 1]])
-    prediction = reduce_float_length([prediction[0][1]], '.2f')
+    print('prediction: ', prediction, prediction[0], prediction[0][0])
+    if euclidean:
+        prediction = reduce_float_length([prediction[0][0]], '.2f')
+    else:
+        prediction = reduce_float_length([prediction[0][1]], '.2f')
     prediction = prediction[0]
     gv.certainty_text.config(text=str(prediction))
-    if prediction >= 0.5:
-        gv.prediction_text.config(text='Predict:    Match')
+
+    if euclidean:
+        greater_05 = 'Mismatch'
+        less_05 = 'Match'
     else:
-        gv.prediction_text.config(text='Predict:    Mismatch')
+        greater_05 = 'Match'
+        less_05 = 'Mismatch'
+
+    if prediction >= 0.5:
+        gv.prediction_text.config(text='Predict:    %s' % greater_05)
+    else:
+        gv.prediction_text.config(text='Predict:    %s' % less_05)
 
     truth = gv.all_truth[gv.step_position]
-    print(truth)
-    if truth[1] >= 0.5:
-        gv.truth_text.config(text='Truth:    Match')
-    else:
-        gv.truth_text.config(text='Truth:    Mismatch')
 
-    if truth[1] >= 0.5 and prediction >= 0.5:
+    if not euclidean:
+        truth = truth[1]
+
+
+    if truth >= 0.5:
+        gv.truth_text.config(text='Truth:    %s' % greater_05)
+    else:
+        gv.truth_text.config(text='Truth:    %s' % less_05)
+
+
+    if truth >= 0.5 and prediction >= 0.5:
         gv.truth_text.config(fg='green')
         gv.prediction_text.config(fg='green')
-    elif truth[1] < 0.5 and prediction < 0.5:
+    elif truth < 0.5 and prediction < 0.5:
         gv.truth_text.config(fg='green')
         gv.prediction_text.config(fg='green')
     else:
@@ -273,6 +327,7 @@ def create_window(gv):
 
 
 def main():
+
     b = GuiVariable()
     initialize(b)
     # root = create_window(b)

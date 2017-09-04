@@ -39,7 +39,7 @@ class GuiVariable(object):
         self._pred = 0
         self._truth_text = None
         self._all_truth = None
-        self._number_of_data = 100
+        self._number_of_data = 200
         self._run_speed = 50
 
 

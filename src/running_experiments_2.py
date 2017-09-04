@@ -4852,6 +4852,87 @@ def ex_31_5():
     scn.super_main(a)
 
 
+#
+
+def save_5():
+    a = ProjectVariable()
+    a.experiment_name = 'save_5: saving viper_augmented model + weights, euclidean, rms'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.datasets_train = ['viper_augmented']
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
+    a.upper_bound_pos_pairs_per_id = 6
+    a.name_of_saved_file = 'viper_ready4use'
+    a.log_experiment = False
+    scn.super_main(a)
+
+
+def save_6():
+    a = ProjectVariable()
+    a.experiment_name = 'save_6: saving grid_augmented model + weights, euclidean, rms'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.datasets_train = ['grid_augmented']
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
+    a.upper_bound_pos_pairs_per_id = 6
+    a.name_of_saved_file = 'grid_ready4use'
+    a.log_experiment = False
+    scn.super_main(a)
+
+
+def save_7():
+    a = ProjectVariable()
+    a.experiment_name = 'save_7: saving prid450_augmented model + weights, euclidean, rms'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.datasets_train = ['prid450_augmented']
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
+    a.upper_bound_pos_pairs_per_id = 6
+    a.name_of_saved_file = 'prid450_ready4use'
+    a.log_experiment = False
+    scn.super_main(a)
+
+
+def save_8():
+    a = ProjectVariable()
+    a.experiment_name = 'save_8: saving market model + weights, euclidean, rms'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.datasets_train = ['market']
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
+    a.name_of_saved_file = 'market_ready4use'
+    a.log_experiment = False
+    scn.super_main(a)
+
+
+def save_9():
+    a = ProjectVariable()
+    a.experiment_name = 'save_9: saving cuhk02 model + weights, euclidean, rms'
+    a.iterations = 1
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.datasets_train = ['cuhk02']
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
+    a.name_of_saved_file = 'cuhk02_ready4use'
+    a.log_experiment = False
+    scn.super_main(a)
+
+# 
+
 def save_0():
     a = ProjectVariable()
     a.experiment_name = 'save_0: saving viper_augmented model + weights, euclidean, rms'
@@ -4862,9 +4943,10 @@ def save_0():
     a.ranking_number_test = 100
     a.cost_module_type = 'euclidean'
     a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
     a.upper_bound_pos_pairs_per_id = 6
     a.name_of_saved_file = 'viper_4gui'
-    a.log_experiment = False
+    a.log_experiment = True
     scn.super_main(a)
 
 
@@ -4878,9 +4960,10 @@ def save_1():
     a.ranking_number_test = 100
     a.cost_module_type = 'euclidean'
     a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
     a.upper_bound_pos_pairs_per_id = 6
     a.name_of_saved_file = 'grid_4gui'
-    a.log_experiment = False
+    # a.log_experiment = True
     scn.super_main(a)
 
 
@@ -4894,9 +4977,10 @@ def save_2():
     a.ranking_number_test = 100
     a.cost_module_type = 'euclidean'
     a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
     a.upper_bound_pos_pairs_per_id = 6
     a.name_of_saved_file = 'prid450_4gui'
-    a.log_experiment = False
+    a.log_experiment = True
     scn.super_main(a)
 
 
@@ -4910,8 +4994,9 @@ def save_3():
     a.ranking_number_test = 100
     a.cost_module_type = 'euclidean'
     a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
     a.name_of_saved_file = 'market_4gui'
-    a.log_experiment = False
+    a.log_experiment = True
     scn.super_main(a)
 
 
@@ -4925,20 +5010,41 @@ def save_4():
     a.ranking_number_test = 100
     a.cost_module_type = 'euclidean'
     a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
     a.name_of_saved_file = 'cuhk02_4gui'
-    a.log_experiment = False
+    a.log_experiment = True
+    scn.super_main(a)
+
+##
+
+def test_eucl():
+    a = ProjectVariable()
+    a.load_weights_name = 'cuhk02_4gui_epoch_100'
+    a.only_test = True
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 100
+    a.cost_module_type = 'euclidean'
+    a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
     scn.super_main(a)
 
 
 def main():
-    num = sys.argv[1]
-    print(sys.argv)
-
-    if num == '0': save_0()
-    if num == '1': save_1()
-    if num == '2': save_2()
-    if num == '3': save_3()
-    if num == '4': save_4()
+    # num = sys.argv[1]
+    # print(sys.argv)
+    #
+    # if num == '5': save_5()
+    # if num == '6': save_6()
+    # if num == '7': save_7()
+    # if num == '8': save_8()
+    # if num == '9': save_9()
+    #
+    # if num == '0': save_0()
+    # if num == '1': save_1()
+    # if num == '2': save_2()
+    # if num == '3': save_3()
+    # if num == '4': save_4()
+    test_eucl()
 
 
 main()
