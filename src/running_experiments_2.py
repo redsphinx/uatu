@@ -5029,6 +5029,100 @@ def test_eucl():
     scn.super_main(a)
 
 
+def experiment_gab_1():
+    a = ProjectVariable()
+    a.experiment_name = 'First experiment Gabriele does'
+    a.iterations = 1
+    a.epochs = 100
+    a.datasets_train = ['viper']
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_of_saved_file = 'gabriele_viper'
+    scn.super_main(a)
+
+
+def experiment_gab_2():
+    a = ProjectVariable()
+    a.experiment_name = 'Second experiment Gabriele does'
+    a.iterations = 1
+    a.epochs = 100
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 50
+    a.save_inbetween = True
+    a.save_points = [100]
+    a.name_of_saved_file = 'gabriele_viper_test'
+    scn.super_main(a)
+
+
+def experiment_gab_3():
+    a = ProjectVariable()
+    a.experiment_name = 'Third experiment Gabriele does'
+    a.iterations = 1
+    a.epochs = 10
+    a.dataset_test = 'viper'
+    a.datasets_train = ['grid']
+
+    '''
+    -----------------------------------
+    EXPLANATION FOR THE 2 RANKING FILES
+    -----------------------------------
+    You told me that 2 files are saved, which is correct. This is not a bug but it is a feature.
+    It happens because you need to specify a ranking number for the training sets, and when the ranking number is
+    specified for the training datasets their ranking file is saved. This happens in `data_pipeline.py` in the
+    `make_pairs_image()` method.
+
+    Yeah.
+
+    '''
+
+    a.ranking_number_train = [5]
+    a.ranking_number_test = 50
+    a.save_inbetween = True
+    a.save_points = [10]
+    a.name_of_saved_file = 'gabriele_viper_grid_mixed_test'
+    scn.super_main(a)
+
+
+
+def experiment_gab_4():
+    a = ProjectVariable()
+    a.experiment_name = 'Fourth experiment Gabriele does'
+    a.iterations = 1
+    a.dataset_test = 'viper'
+    a.ranking_number_test = 50
+    a.only_test = True
+    a.load_model_name = 'gabriele_viper_grid_mixed_test_epoch_10'
+    scn.super_main(a)
+
+
+def ex_24_1():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 24_1: prid450_augmented, neural_distance=concatenate for experiments 3 in thesis'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'prid450_augmented'
+    a.ranking_number_test = 100
+    a.neural_distance = 'concatenate'
+    a.upper_bound_pos_pairs_per_id = 3
+    scn.super_main(a)
+
+
+def ex_24_2():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 24_2: prid450_augmented, neural_distance=concatenate for experiments 3 in thesis'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 10
+    a.dataset_test = 'prid450_augmented'
+    a.ranking_number_test = 100
+    a.neural_distance = 'concatenate'
+    a.upper_bound_pos_pairs_per_id = 2
+    scn.super_main(a)
+
+
 def main():
     # num = sys.argv[1]
     # print(sys.argv)
@@ -5044,7 +5138,9 @@ def main():
     # if num == '2': save_2()
     # if num == '3': save_3()
     # if num == '4': save_4()
-    test_eucl()
+    # test_eucl()
+    ex_24_2()
+    # experiment_gab_4()
 
 
 main()
