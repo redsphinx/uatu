@@ -149,7 +149,7 @@ class ProjectVariable(object):
         # if true, swaps the order of half of the pairs in the training set
         self._sideways_shuffle = True
         # decay for the optimizers. set to 0 for RMSprop
-        self._decay = 0.004 # float
+        self._decay = 0.95 # float
         # have this many times negative as there are positive primings
         self.negative_priming_ratio = 1
         # upper bound for positive pairs per ID
