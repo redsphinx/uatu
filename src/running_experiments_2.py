@@ -5123,9 +5123,106 @@ def ex_24_2():
     scn.super_main(a)
 
 
+def ex_24_3():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 24_3: market, concatenate, benchmark'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'market'
+    a.ranking_number_test = 'half'
+    a.neural_distance = 'concatenate'
+    a.upper_bound_pos_pairs_per_id = 3
+    scn.super_main(a)
+
+
+def ex_24_4():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 24_4: market, absolute, benchmark'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'market'
+    a.ranking_number_test = 'half'
+    a.neural_distance = 'absolute'
+    a.upper_bound_pos_pairs_per_id = 3
+    scn.super_main(a)
+
+
+def ex_24_5():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 24_5: cuhk02, concatenate, benchmark'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 'half'
+    a.neural_distance = 'concatenate'
+    a.upper_bound_pos_pairs_per_id = 3
+    scn.super_main(a)
+
+
+def ex_24_6():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 24_6: cuhk02, absolute, benchmark'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 'half'
+    a.neural_distance = 'absolute'
+    a.upper_bound_pos_pairs_per_id = 3
+    scn.super_main(a)
+
+
+def ex_24_7():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 24_7: market, euclidean, benchmark'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'market'
+    a.ranking_number_test = 'half'
+    a.cost_module_type = 'euclidean'
+    # a.neural_distance = 'euclidean'
+    a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
+    a.upper_bound_pos_pairs_per_id = 6
+    scn.super_main(a)
+
+
+def ex_24_8():
+    a = ProjectVariable()
+    a.experiment_name = 'experiment 24_7: cuhk02, euclidean, benchmark'
+    a.use_gpu = '0'
+    a.log_file = 'thesis_results_%s.txt' % a.use_gpu
+    a.epochs = 100
+    a.iterations = 5
+    a.dataset_test = 'cuhk02'
+    a.ranking_number_test = 'half'
+    a.cost_module_type = 'euclidean'
+    # a.neural_distance = 'euclidean'
+    a.optimizer = 'rms'
+    a.use_cyclical_learning_rate = False
+    a.upper_bound_pos_pairs_per_id = 4
+    scn.super_main(a)
+
+
 def main():
-    # num = sys.argv[1]
-    # print(sys.argv)
+    num = sys.argv[1]
+    print(sys.argv)
+
+    # if num == '3': ex_24_3()
+    # if num == '4': ex_24_4()
+    # if num == '5': ex_24_5()
+    # if num == '6': ex_24_6()
+    if num == '7': ex_24_7()
+    if num == '8': ex_24_8()
     #
     # if num == '5': save_5()
     # if num == '6': save_6()
@@ -5139,7 +5236,7 @@ def main():
     # if num == '3': save_3()
     # if num == '4': save_4()
     # test_eucl()
-    ex_24_2()
+    # ex_24_2()
     # experiment_gab_4()
 
 

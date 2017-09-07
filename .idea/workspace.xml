@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4d7e2c3-88ec-4fcf-a19f-e64e87ff4369" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/log_0.txt" afterPath="$PROJECT_DIR$/src/log_0.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/bash_run_experiments.sh" afterPath="$PROJECT_DIR$/src/bash_run_experiments.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/project_variables.py" afterPath="$PROJECT_DIR$/src/project_variables.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/running_experiments_2.py" afterPath="$PROJECT_DIR$/src/running_experiments_2.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/thesis_results_0.txt" afterPath="$PROJECT_DIR$/src/thesis_results_0.txt" />
     </list>
@@ -86,11 +87,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thesis_results_0.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="thesis_results_0.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/thesis_results_0.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
-              <caret line="158" column="0" lean-forward="true" selection-start-line="158" selection-start-column="0" selection-end-line="158" selection-end-column="0" />
+            <state relative-caret-position="823">
+              <caret line="261" column="61" lean-forward="true" selection-start-line="261" selection-start-column="61" selection-end-line="261" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -101,16 +102,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="196">
               <caret line="407" column="20" lean-forward="false" selection-start-line="407" selection-start-column="4" selection-end-line="407" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gui.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/gui.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="135" column="0" lean-forward="true" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -148,11 +139,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="running_experiments_2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="5129" column="29" lean-forward="true" selection-start-line="5129" selection-start-column="29" selection-end-line="5129" selection-end-column="29" />
+            <state relative-caret-position="424">
+              <caret line="5189" column="34" lean-forward="true" selection-start-line="5189" selection-start-column="34" selection-end-line="5189" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bash_run_experiments.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -275,7 +276,6 @@
         <option value="$PROJECT_DIR$/processing_results/second_round/processed/24_augment_concatenate.txt" />
         <option value="$PROJECT_DIR$/processing_results/second_round/processed/25_mixing_all_data.txt" />
         <option value="$PROJECT_DIR$/src/testing_stuff.py" />
-        <option value="$PROJECT_DIR$/src/thesis_results_0.txt" />
         <option value="$PROJECT_DIR$/processing_results/second_round/raw/23_0_cuhk02_market_euclidean.txt" />
         <option value="$PROJECT_DIR$/processing_results/second_round/raw/30_cuhk02_market.txt" />
         <option value="$PROJECT_DIR$/processing_results/second_round/raw/31_augmented_euclidean_w_benchmark.txt" />
@@ -292,13 +292,14 @@
         <option value="$PROJECT_DIR$/processing_results/second_round/processed/30_train_test_non_target.txt" />
         <option value="$PROJECT_DIR$/processing_results/second_round/processed/32_market_cuhk02_euclidean_benchmark.txt" />
         <option value="$PROJECT_DIR$/src/siamese_cnn_video.py" />
-        <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
         <option value="$PROJECT_DIR$/src/siamese_cnn_image.py" />
         <option value="$PROJECT_DIR$/src/gui.py" />
         <option value="$PROJECT_DIR$/src/project_utils.py" />
         <option value="$PROJECT_DIR$/src/gui_variables.py" />
         <option value="$PROJECT_DIR$/src/project_variables.py" />
         <option value="$PROJECT_DIR$/src/experiments_thesis.py" />
+        <option value="$PROJECT_DIR$/src/thesis_results_0.txt" />
+        <option value="$PROJECT_DIR$/src/bash_run_experiments.sh" />
         <option value="$PROJECT_DIR$/src/running_experiments_2.py" />
       </list>
     </option>
@@ -356,34 +357,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ranking_files" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="uatu" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="model_weights" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -784,7 +757,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32931355" sideWeight="0.49573106" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32931355" sideWeight="0.49573106" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.035218783" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33580706" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -1177,14 +1150,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="11" column="30" lean-forward="false" selection-start-line="9" selection-start-column="31" selection-end-line="11" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/processing_results/second_round/raw/31_augmented_euclidean_w_benchmark.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -1269,14 +1234,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="105" column="25" lean-forward="false" selection-start-line="105" selection-start-column="14" selection-end-line="105" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/project_constants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-75">
@@ -1301,18 +1258,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/thesis_results_0.txt">
+    <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="158" column="0" lean-forward="true" selection-start-line="158" selection-start-column="0" selection-end-line="158" selection-end-column="0" />
+        <state relative-caret-position="424">
+          <caret line="5189" column="34" lean-forward="true" selection-start-line="5189" selection-start-column="34" selection-end-line="5189" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/running_experiments_2.py">
+    <entry file="file://$PROJECT_DIR$/src/project_variables.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="5129" column="29" lean-forward="true" selection-start-line="5129" selection-start-column="29" selection-end-line="5129" selection-end-column="29" />
+        <state relative-caret-position="390">
+          <caret line="105" column="25" lean-forward="false" selection-start-line="105" selection-start-column="14" selection-end-line="105" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/bash_run_experiments.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/thesis_results_0.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="823">
+          <caret line="261" column="61" lean-forward="true" selection-start-line="261" selection-start-column="61" selection-end-line="261" selection-end-column="61" />
           <folding />
         </state>
       </provider>
